@@ -1,0 +1,33 @@
+---
+title: Welcome to LA
+---
+
+# Contents of this submodule
+
+- floating point numbers
+
+  - rounding errors
+  - top tips for working with floating point numbers
+  
+- linear systems of equations
+
+    - motivation
+    - Gaussian-elimination
+    - practicalities
+    - iterative schemes
+
+- transforming matrices
+
+    - what is a basis? and what does it mean?
+    - eigenvectors and eigenvalues
+      - definitions
+      - small matrix solutions
+    - large matrix solutions
+
+# Motivations
+
+# Learning outcomes
+
+# Programming
+
+

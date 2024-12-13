@@ -1,0 +1,36 @@
+project:
+  output-dir: "_output"
+  type: book
+
+book:
+  title: "COMP2860 Theoretical Foundations: Linear Algebra"
+  author: "Thomas Ranner"
+  chapters:
+    - index.qmd
+    - src/lec01.qmd
+    - src/lec02.qmd
+    - src/lec03.qmd
+    - src/lec04.qmd
+    - src/lec05.qmd
+
+website:
+  title: "COMP2860 Theoretical Foundations: Linear Algebra"
+  page-navigation: true
+  search: true
+  page-footer: "Copyright 2024, Thomas Ranner and University of Leeds"
+  repo-url: "https://github.com/TODO"
+  repo-actions: [edit, source, issue]
+
+  sidebar:
+    contents: src/*
+
+toc: true
+number-sections: true
+
+format:
+  html:
+    navbar: true
+  pdf: default
+
+execute:
+  freeze: auto

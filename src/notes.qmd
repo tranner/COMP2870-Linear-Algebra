@@ -1,0 +1,54 @@
+---
+title: Sample lecture
+format: live-revealjs
+
+pyodide:
+    packages:
+        - matplotlib
+        - numpy
+---
+
+```{pyodide}
+#| caption: imports
+#| autorun: true
+import numpy as np
+from matplotlib import pyplot as plt
+```
+
+# Implement the algorithm
+
+```{pyodide}
+#| caption: sample code
+#| autorun: true
+#| runbutton: false
+def f(t, y):
+    return -y
+
+def euler(y0, t0, T, n):
+  dt = (T - t0) / n
+  y = np.empty(n)
+  t = np.empty(n)
+
+  y[0] = y0
+  t[0] = t0
+
+  for i in range(1, n):
+    # TODO implement
+    True
+    #y[i] = y[i-1] + dt * f(t[i-1], y[i-1])
+    #t[i] = t[i-1] + dt
+  
+  return t, y
+  
+euler(y0=1.0, t0=0.0, T=1.0, n=4)
+```
+
+# Plot the results
+
+```{pyodide}
+#| caption: run the code
+#| autorun: true
+t, y = euler(y0=1.0, t0=0.0, T=1.0, n=100)
+plt.plot(t, y)
+plt.show()
+```
