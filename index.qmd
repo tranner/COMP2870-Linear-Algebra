@@ -2,7 +2,7 @@
 title: Welcome to LA
 ---
 
-# Contents of this submodule
+## Contents of this submodule
 
 - floating point numbers
 
@@ -26,10 +26,10 @@ title: Welcome to LA
     
 TODO add recap of matrices terminology - inverse, transpose, coefficients, size
 
-# Motivations
+## Motivations
 
-# Learning outcomes
+## Learning outcomes
 
-# Programming
+## Programming
 
 
