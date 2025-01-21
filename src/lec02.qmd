@@ -48,8 +48,9 @@ It is therefore important that this problem can be solved
 One way to solve a system of linear equations is to compute the inverse of $A$, $A^{-1}$, directly, then the solution is found through matrix multiplication: $\vec{x} = A^{-1} \vec{b}$. This turns out to be an inefficient approach and we can do better with specialised algorithms.
 
 ```{python}
-import numpy as np
 import time
+
+import numpy as np
 
 for size in [100, 10000]:
     print(f"\n\nTrying different approaches for problem size {size}")
@@ -108,8 +109,8 @@ Suppose we wish to estimate the temperature distribution inside an object:
 
 ```{python}
 # | fig-cap: Image showing temperature sample points and relations in a room.
-from matplotlib import pyplot as plt
 import numpy as np
+from matplotlib import pyplot as plt
 
 R = np.sqrt(0.5)
 c = np.array([0.5, 0.5])
@@ -219,7 +220,7 @@ for j, pt in enumerate(interior_pts):
     axs[1].text(
         pt[0] + 0.06,
         pt[1] + 0.06,
-        f"$x_{{{j+1}}}$",
+        f"$x_{{{j + 1}}}$",
         ha="center",
         bbox={"facecolor": "white", "boxstyle": "round,pad=0.2"},
     )
