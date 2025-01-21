@@ -30,6 +30,9 @@ number-sections: true
 format:
   html:
     navbar: true
+    theme:
+      light: flatly
+      dark: darkly
   pdf: default
 
 execute:
