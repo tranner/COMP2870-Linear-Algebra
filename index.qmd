@@ -23,6 +23,8 @@ title: Welcome to LA
       - definitions
       - small matrix solutions
     - large matrix solutions
+    
+TODO add recap of matrices terminology - inverse, transpose, coefficients, size
 
 # Motivations
 

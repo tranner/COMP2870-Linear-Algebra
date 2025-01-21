@@ -34,3 +34,4 @@ format:
 
 execute:
   freeze: auto
+code-fold: true
