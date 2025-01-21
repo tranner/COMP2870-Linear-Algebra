@@ -1,4 +1,4 @@
-# Lecture 03: Solving triangular systems
+# Solving triangular systems
 
 A general *lower triangular* system of equations has $a_{ij} = 0$ for $j > i$ and takes the form:
 
@@ -24,7 +24,7 @@ $$
 a_{11} x_1 = b_1.
 $$
 
-The $x_i$ can be found by calculating
+Then $x_i$ can be found by calculating
 
 $$
 x_i = \frac{1}{a_{ii}} \left(b_i - \sum_{j=1}^{i-1} a_{ij} x_j \right)

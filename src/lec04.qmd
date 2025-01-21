@@ -1,6 +1,6 @@
-# Lecture 04: Gaussian elimination
+# Gaussian elimination
 
-## Elementary row operations
+This is the first method we will use to solve systems of linear equations. We will see that by using the approach of Gaussian elimination (and variations of that method) we can solve any system of linear equations that have a solution.
 
 Recall the problem is to solve a set of $n$ **linear** equations for $n$ unknown values $x_j$, for $j=1, 2, \ldots, n$.
 
@@ -17,7 +17,28 @@ $$
 \end{aligned}
 $$
 
-### Elementary row operations
+We can also write the system of linear equations in *general matrix-vector* form:
+
+$$
+ \begin{pmatrix}
+ a_{11} & a_{12} & a_{13} & \cdots & a_{1n} \\
+ a_{21} & a_{22} & a_{23} & \cdots & a_{2n} \\
+ a_{31} & a_{32} & a_{33} & \cdots & a_{3n} \\
+ \vdots & \vdots & \vdots & & \vdots \\
+ a_{n1} & a_{n2} & a_{n3} & \cdots & a_{nn}
+ \end{pmatrix}
+ \begin{pmatrix}
+ x_1 \\ x_2 \\ x_3 \\ \vdots \\ x_n
+ \end{pmatrix} =
+ \begin{pmatrix}
+ b_1 \\ b_2 \\ b_3 \\ \vdots \\ b_n
+ \end{pmatrix}.
+$$
+
+Recall the $n \times n$ matrix $A$ represents the coefficients that multiply the unknowns in each equation (row), while the $n$-vector $\vec{b}$ represents the right-hand-side values.
+
+
+## Elementary row operations
 
 Consider equation $p$ of the above system:
 
@@ -59,6 +80,7 @@ Note three things...
     (k a_{p1} + a_{q1}) x_1 + (k a_{p2} + a_{q2}) x_2 + \cdots + (k a_{pn} + a_{qn}) x_n = k b_p + b_q.
     $$
 
+::: {.callout-tip}
 ### Example 1
 
 Consider the system
@@ -74,7 +96,9 @@ $$
 -   $-1.5 \times (2)$ $\rightarrow$ $4.5 x_1 - 3 x_2 = -10.5$.
 -   $(2) + (1)$ $\rightarrow$ $-x_1 + 5 x_2 = 11$.
 -   $(2) + 1.5 \times (1)$ $\rightarrow$ $0 + 6.5 x_2 = 13$.
+:::
 
+::: {.callout-tip}
 ### Example 2 (homework)
 
 Consider the system
@@ -90,30 +114,7 @@ $$
 -   $0.25 \times (4)$ $\rightarrow$
 -   $(4) + (-1) \times (3)$ $\rightarrow$
 -   $(4) + (-4) \times (3)$ $\rightarrow$
-
-### General matrix-vector form
-
-What does this mean when we write the equations as a single matrix equation?
-
-$$
- \begin{pmatrix}
- a_{11} & a_{12} & a_{13} & \cdots & a_{1n} \\
- a_{21} & a_{22} & a_{23} & \cdots & a_{2n} \\
- a_{31} & a_{32} & a_{33} & \cdots & a_{3n} \\
- \vdots & \vdots & \vdots & & \vdots \\
- a_{n1} & a_{n2} & a_{n3} & \cdots & a_{nn}
- \end{pmatrix}
- \begin{pmatrix}
- x_1 \\ x_2 \\ x_3 \\ \vdots \\ x_n
- \end{pmatrix} =
- \begin{pmatrix}
- b_1 \\ b_2 \\ b_3 \\ \vdots \\ b_n
- \end{pmatrix}.
-$$
-
-Recall the $n \times n$ matrix $A$ represents the coefficients that multiply the unknowns in each equation (row), while the $n$-vector $\vec{b}$ represents the right-hand-side values.
-
-### Application to matrix equations
+:::
 
 For a system written in matrix form our three observations mean the following:
 
@@ -214,64 +215,14 @@ For a system written in matrix form our three observations mean the following:
     $$
 
 	(here we replaced row $2$ by row $2 + (-4) \times$ row $1$)
-
-### Triangular systems
-
-Recall that we can easily solve a lower triangular system:
-
-$$
- \begin{pmatrix}
- a_{11} & 0 & 0 & \cdots & 0 \\
- a_{21} & a_{22} & 0 & \cdots & 0 \\
- a_{31} & a_{32} & a_{33} & \cdots & 0 \\
- \vdots & \vdots & \vdots & \ddots & \vdots \\
- a_{n1} & a_{n2} & a_{n3} & \cdots & a_{nn}
- \end{pmatrix}
- \begin{pmatrix}
- x_1 \\ x_2 \\ x_3 \\ \vdots \\ x_n
- \end{pmatrix} =
- \begin{pmatrix}
- b_1 \\ b_2 \\ b_3 \\ \vdots \\ b_n
- \end{pmatrix}.
-$$
-
--   $A$ is a lower triangular matrix if every entry above the leading diagonal is zero
-
-    $$
-    a_{ij} = 0 \text{ for } j > i.
-    $$
-
-Similarly, we can easily solve an upper triangular system:
-
-$$
- \begin{pmatrix}
- a_{11} & a_{12} & a_{13} & \cdots & a_{1n} \\
- 0 & a_{22} & a_{23} & \cdots & a_{2n} \\
- 0 & 0 & a_{33} & \cdots & a_{3n} \\
- \vdots & \vdots & \vdots & \ddots & \vdots \\
- 0 & 0 & 0 & \cdots & a_{nn}
- \end{pmatrix}
- \begin{pmatrix}
- x_1 \\ x_2 \\ x_3 \\ \vdots \\ x_n
- \end{pmatrix} =
- \begin{pmatrix}
- b_1 \\ b_2 \\ b_3 \\ \vdots \\ b_n
- \end{pmatrix}.
-$$
-
--   $A$ is an upper triangular matrix if every entry below the leading diagonal is zero
-
-    $$
-    a_{ij} = 0 \text{ for } i > j.
-    $$
-
-### Strategy
+  
+Our strategy for solving systems of linear equations using Gaussian elimination is based on the following ideas:
 
 -   Three types of operation described above are called **elementary row operations** (ERO).
 
--   We know that an upper triangular system can be easily solved... so, can we systematically apply a sequence of ERO to reduce an arbitrary system to triangular form?
+-   We will applying a sequence of ERO to reduce an arbitrary system to a triangular form, which, we will see, can be easily solved.
 
--   The answer is "yes"... and the algorithm for doing this is known as **forward elimination** or (more commonly) as **Gaussian elimination** (GE).
+-   The algorithm for reducing a general matrix to upper triangulat form is known as **forward elimination** or (more commonly) as **Gaussian elimination**.
 
 ## Gaussian elimination
 
@@ -283,9 +234,7 @@ From [Wikipedia](https://en.wikipedia.org/wiki/Gaussian_elimination):
 >
 > The method in Europe stems from the notes of Isaac Newton. In 1670, he wrote that all the algebra books known to him lacked a lesson for solving simultaneous equations, which Newton then supplied. Carl Friedrich Gauss in 1810 devised a notation for symmetric elimination that was adopted in the 19th century by professional hand computers to solve the normal equations of least-squares problems. The algorithm that is taught in high school was named for Gauss only in the 1950s as a result of confusion over the history of the subject.
 
-```{figure} ../img/lec06/NineChapters.jpg
-Image from Nine Chapter of the Mathematical art
-```
+![Image from Nine Chapter of the Mathematical art. By Yang Hui(1238－1298) - mybook, Public Domain, https://commons.wikimedia.org/w/index.php?curid=10317744](https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Yanghui_Yongle_Dadian.JPG/1024px-Yanghui_Yongle_Dadian.JPG)
 
 ### The algorithm
 
@@ -297,9 +246,10 @@ The following algorithm systematically introduces zeros into the system of equat
 
 After row $n-1$ all entities below the diagonal have been eliminated, so $A$ is now upper triangular and the resulting system can be solved by backward substitution.
 
+::: {.callout-tip}
 ### Example 1
 
-Use Gaussian eliminate to solve the linear system of equations given by
+Use Gaussian eliminate to reduce the following system of equations to upper triangular form:
 
 $$
 \begin{pmatrix}
@@ -358,12 +308,12 @@ Now use the second row to eliminate the second column below the diagonal.
     12 \\ 3 \\ 4
     \end{pmatrix}
     $$
+:::
 
-The system is now in upper triangular form and can be solved using backward substitution to give $\vec{x} = (1, 2, 2)^T$ (see the [final example from previous lecture](lec05.md)).
-
+::: {.callout-tip}
 ### Example 2 (homework)
 
-Use Gaussian elimination to solve the linear system of equations given by
+Use Gaussian elimination to reduce the following system of linear equations to upper triangular form.
 
 $$
 \begin{pmatrix}
@@ -376,9 +326,10 @@ x_1 \\ x_2 \\ x_3
 9 \\ -6 \\ 3
 \end{pmatrix}.
 $$
+:::
 
-### Notes
 
+::: {.remark}
 -   Each row $i$ is used to eliminate the entries in column $i$ below $a_{ii}$, i.e. it forces $a_{ji} = 0$ for $j > i$.
 
 -   This is done by subtracting a multiple of row $i$ from row $j$:
@@ -392,7 +343,9 @@ $$
     $$
     a_{ji} \leftarrow a_{ji} - \frac{a_{ji}}{a_{ii}} a_{ii} = a_{ji} - a_{ji} = 0.
     $$
+:::
 
+::: {.callout-tip}
 ### Example 3 (homework)
 
 Solve the system
@@ -409,25 +362,387 @@ x_1 \\ x_2 \\ x_3 \\ x_4
  10 \\ 7 \\ 5 \\ 8
 \end{pmatrix}.
 $$
-
 The solution is $\vec{x} = (1, 1, 1, 1)^T$.
+:::
 
-## Final Notes
+### Python version
 
-GE can be used to solve linear systems of equations...
+We start with some helper code which determines the size of the system we are working with:
 
--   The computational cost is $O(n^3)$ -- which can be quite high for large values of $n$.
+```{python}
+def system_size(A, b):
+    """
+    for a system of linear equations, returns the size and errors if sizes are not compatible
+    """
+    n, m = A.shape
+    nb = b.shape[0]
+    
+    assert n == m and n == nb
+    return n
+```
 
--   Problems can occur if $\,a_{ii} = 0\,$ for any $i$ in a row that is being used to do the elimination;
+Then we can implement the elementary row operations
 
--   Can overcome by swapping row $i$ with any row beneath (more later).
+```{python}
+def row_swap(A, b, p, q):
+    """
+    swap the rows p and q for the system of linear equations given by Ax = b.
+    updates entries in place
+    """
+    n = system_size(A, b)
+    # swap rows of A
+    for j in range(n):
+      A[p, j], A[q, j] = A[q, j], A[p, j]
+    # swap rows of b
+    b[p, 0], b[q, 0] = b[q, 0], b[p, 0]
+    
+def row_scale(A, b, p, k):
+    """
+    scale the entries in row p by k for the system of linear equations given by Ax = b.
+    updates entries in place
+    """
+    n = system_size(A, b)
+    
+    # scale row p of A
+    for j in range(n):
+      A[p, j] = k * A[p, j]
+    # scale row p of b
+    b[p, 0] = b[p, 0] * k
 
--   If $\,a_{ii} = 0\,$ for a row that is being used to do the elimination, and all rows beneath have a zero in column $i$, then the GE algorithm breaks down.
+def row_add(A, b, p, k, q):
+    """
+    add rows for the system of linear equations given by Ax = b
+    this operation is row p |-> row p + k * row q
+    updates entries in place
+    """
+    n = system_size(A, b)
+    
+    for j in range(n):
+      A[p, j] = A[p, j] + k * A[q, j]
+    b[p, 0] = b[p, 0] + k * b[q, 0]
+```
 
-- The GE algorithm will only break down if the system is **singular**  (so no solution exists or no unique solution).
+Let's test we are ok so far:
 
-- If the unique solution does exist the GE algorithm (with row swapping if needed)  will find it!
+First we test swapping rows:
+```{python}
+import numpy as np
 
+A = np.array([[2.0, 3.0], [-3.0, 2.0]])
+b = np.array([[4.0], [7.0]])
+
+print("A =", A)
+print("b =", b)
+
+print("swapping rows 0 and 1")
+row_swap(A, b, 0, 1) # remember numpy arrays are indexed started from zero!
+
+print("A =", A)
+print("b =", b)
+```
+
+
+then we test scaling one row:
+```{python}
+A = np.array([[2.0, 3.0], [-3.0, 2.0]])
+b = np.array([[4.0], [7.0]])
+
+print("A =", A)
+print("b =", b)
+
+print("row 0 |-> 0.5 * row 0")
+row_scale(A, b, 0, 0.5) # remember numpy arrays are indexed started from zero!
+
+print("A =", A)
+print("b =", b)
+```
+
+and finally, we can test replacing a row by that adding a multiple of another row
+```{python}
+A = np.array([[2.0, 3.0], [-3.0, 2.0]])
+b = np.array([[4.0], [7.0]])
+
+print("A =", A)
+print("b =", b)
+
+print("row 1 |-> row 1 + 1.5 * row 0")
+row_add(A, b, 1, 1.5, 0) # remember numpy arrays are indexed started from zero!
+
+print("A =", A)
+print("b =", b)
+```
+
+Now we can define our Gaussian elimination function:
+```{python}
+def gaussian_elimination(A, b, verbose=False):
+    """
+    perform Gaussian elimnation to reduce the system of linear equations Ax=b to upper triangular form
+    use verbose to print out intermediate representations
+    """
+    # find shape of system
+    n, m = A.shape
+    nb = b.shape[0]
+    assert n == m and n == nb
+    
+    # peform forwards elimination
+    for i in range(n - 1):
+        # eliminate column i
+        if verbose:
+            print(f"\neliminating column {i}")
+        for j in range(i + 1, n):
+            # row j 
+            factor = A[j, i] / A[i, i]
+            if verbose:
+                print(f"row {j} |-> row {j} - {factor} * row {i}")
+            row_add(A, b, j, -factor, i)
+            
+        if verbose:
+            print("\n\nnew system")
+            print("A = ", A)
+            print("b = ", b)
+      
+```
+
+We can try our code on Example 1:
+```{python}
+A = np.array([[2.0, 1.0, 4.0], [1.0, 2.0, 2.0], [2.0, 4.0, 6.0]])
+b = np.array([[12.0], [9.0], [22.0]])
+
+print("\n\nstarting system:")
+print("A = ", A)
+print("b = ", b)
+
+gaussian_elimination(A, b, verbose=True)
+
+print("\n\nfinal system:")
+print("A = ", A)
+print("b = ", b)
+
+```
+
+## Solving triangular systems of equations
+
+A general *lower triangular* system of equations has $a_{ij} = 0$ for $j > i$ and takes the form:
+
+$$
+ \begin{pmatrix}
+ a_{11} & 0 & 0 & \cdots & 0 \\
+ a_{21} & a_{22} & 0 & \cdots & 0 \\
+ a_{31} & a_{32} & a_{33} & \cdots & 0 \\
+ \vdots & \vdots & \vdots & \ddots & \vdots \\
+a_{n1} & a_{n2} & a_{n3} & \cdots & a_{nn}
+ \end{pmatrix}
+ \begin{pmatrix}
+ x_1 \\ x_2 \\ x_3 \\ \vdots \\ x_n
+ \end{pmatrix} =
+ \begin{pmatrix}
+ b_1 \\ b_2 \\ b_3 \\ \vdots \\ b_n
+ \end{pmatrix}.
+$$
+
+Note the first equation is
+
+$$
+a_{11} x_1 = b_1.
+$$
+
+Then $x_i$ can be found by calculating
+
+$$
+x_i = \frac{1}{a_{ii}} \left(b_i - \sum_{j=1}^{i-1} a_{ij} x_j \right)
+$$
+
+for each row $i = 1, 2, \ldots, n$ in turn.
+
+-   Each calculation requires only previously computed values $x_j$ (and the sum gives a loop for $j < i$.
+-   The matrix $A$ **must** have nonzero diagonal entries\
+    i.e. $a_{ii} \neq 0$ for $i = 1, 2, \ldots, n$.
+-   **Upper triangular** systems of equations can be solved in a similar manner.
+
+::: {.callout-tip}
+### Example 1
+
+Solve the lower triangular system of equations given by
+
+$$
+\begin{aligned}
+ 2 x_1 && && &= 2 \\
+ x_1 &+& 2 x_2 && &= 7 \\
+ 2 x_1 &+& 4 x_2 &+& 6 x_3 &= 26
+\end{aligned}
+$$
+
+or, equivalently,
+
+$$
+\begin{pmatrix}
+2 & 0 & 0 \\
+1 & 2 & 0 \\
+2 & 4 & 6
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\ x_2 \\ x_3
+\end{pmatrix} =
+\begin{pmatrix}
+2 \\ 7 \\ 26
+\end{pmatrix}.
+$$
+
+The solution can be calculated systematically from
+
+$$
+\begin{aligned}
+x_1 &= \frac{b_1}{a_{11}} = \frac{2}{2} = 1 \\
+x_2 &= \frac{b_2 - a_{21} x_1}{a_{22}}
+= \frac{7 - 1 \times 1}{2} = \frac{6}{2} = 3 \\
+x_3 &= \frac{b_3 - a_{31} x_1 - a_{32} x_2}{a_33}
+= \frac{26 - 2 \times 1 - 4 \times 3}{6}  = \frac{12}{6}
+= 2
+\end{aligned}
+$$
+
+which gives the solution $\vec{x} = (1, 3, 2)^T$.
+:::
+
+::: {.callout-tip}
+## Example 2 (homework)
+
+Solve the upper triangular linear system given by
+
+$$
+\begin{aligned}
+2 x_1 &+& x_2 &+& 4 x_3 &=& 12 \\
+&& 1.5 x_2 && &=& 3 \\
+&& && 2 x_3 &=& 4
+\end{aligned}.
+$$
+:::
+
+::: {.remark}
+-   It is simple to solve a lower (upper) triangular system of equations (provided the diagonal is nonzero).
+
+-   This process is often referred to as **forward** (**backward**) **substitution**.
+
+-   A general system of equations (i.e. a full matrix $A$) can be solved rapidly once it has been reduced to upper triangular form. This is the idea of using Gaussian elimination with backward subsitution.
+:::
+
+We can define functions to solve both upper or lower triangular form systems of linear equations:
+
+```{python}
+def forward_substitution(A, b):
+    """
+    solves the system of linear equationa Ax = b assuming that A is lower triangular
+    returns the solution x
+    """
+    # get size of system
+    n, m = A.shape
+    nb = b.shape[0]
+    assert n == m and n == nb
+
+    # check is lower triangular
+    assert np.allclose(A, np.tril(A))
+
+    # create solution variable
+    x = np.empty_like(b)
+
+    # perform forwards solve
+    for i in range(n):
+        partial_sum = 0.0
+        for j in range(0, i):
+            partial_sum += A[i, j] * x[j]
+        x[i] = 1.0 / A[i, i] * (b[i] - partial_sum)
+
+    return x
+    
+    
+def backward_substitution(A, b):
+    """
+    solves the system of linear equationa Ax = b assuming that A is upper triangular
+    returns the solution x
+    """
+    # get size of system
+    n, m = A.shape
+    nb = b.shape[0]
+    assert n == m and n == nb
+
+    # check is upper triangular
+    assert np.allclose(A, np.triu(A))
+
+    # create solution variable
+    x = np.empty_like(b)
+
+    # perform backwards solve
+    for i in range(n-1, -1, -1): # iterate over rows backwards
+        partial_sum = 0.0
+        for j in range(i+1, n):
+            partial_sum += A[i, j] * x[j]
+        x[i] = 1.0 / A[i, i] * (b[i] - partial_sum)
+
+    return x
+```
+
+And we can then test it out!
+
+```{python}
+A = np.array([[2.0, 0.0, 0.0], [1.0, 2.0, 0.0], [2.0, 4.0, 6.0]])
+b = np.array([[2.0], [7.0], [26.0]])
+
+print("The system is given by:")
+print("A =", A)
+print("b =", b)
+
+x = forward_substitution(A, b)
+
+print("The solution using forward substitution is:")
+print("x =", x)
+```
+
+We can also do a backward substitution test:
+
+```{python}
+A = np.array([[2.0, 1.0, 4.0], [0.0, 1.5, 0.0], [0.0, 0.0, 2.0]])
+b = np.array([[12.0], [3.0], [4.0]])
+
+print("The system is given by:")
+print("A =", A)
+print("b =", b)
+
+x = backward_substitution(A, b)
+
+print("The solution using backward substitution is:")
+print("x =", x)
+```
+
+## Combining Gaussian elimination and backward substitution
+
+Our grant strategy can now come together so we have a method to solve systems of linear equations:
+
+Given a system of linear equations $A\vec{x} = \vec{b}$;
+
+- First perform Gaussian elimination to give an equivalent system of equations in upper triangular form;
+- Then use backward substitution to produce a solution $\vec{x}$
+
+We can use our code to test this:
+
+```{python}
+A = np.array([[2.0, 1.0, 4.0], [1.0, 2.0, 2.0], [2.0, 4.0, 6.0]])
+b = np.array([[12.0], [9.0], [22.0]])
+
+print("\n\nstarting system:")
+print("A = ", A)
+print("b = ", b)
+
+gaussian_elimination(A, b, verbose=True)
+
+print("\n\nupper triangular system:")
+print("A = ", A)
+print("b = ", b)
+
+x = backward_substitution(A, b)
+
+print("\n\nsolution using backward substitution:")
+print("x = ", x)
+```
 
 ##  The cost of Gaussian Elimination
 
@@ -438,9 +753,58 @@ GE can be used to solve linear systems of equations...
 
 -   We can use this information to improve the way in which we solve multiple systems of equations with the same matrix $A$ but different right-hand sides $\vec{b}$.
 
-### Elementary row operations (EROs)
+```{python}
+import time
+from matplotlib import pyplot as plt
 
-Note that the EROs discussed in the last lecture can be produced by left multiplication with a suitable matrix:
+sizes = [2**j for j in range(1, 10)]
+times_GE, times_BS = [], []
+
+for n in sizes:
+    A_part = np.random.rand(n, n)
+    A = np.dot(A_part, A_part.T)
+    b = np.random.rand(n, 1)
+    
+    # perform Gaussian elimination
+    start_time = time.time()
+    gaussian_elimination(A, b)
+    end_time = time.time()
+    times_GE.append(end_time - start_time)
+    
+    # perform backward subsitution
+    start_time = time.time()
+    backward_substitution(A, b)
+    end_time = time.time()
+    times_BS.append(end_time - start_time)
+```
+
+```{python}
+plt.loglog(sizes, times_GE, 'C0o', label="GE")
+plt.loglog(sizes, times_BS, 'C1o', label="BS")
+
+coefficients_GE = np.polyfit(sizes, times_GE, 3)
+coefficients_BS = np.polyfit(sizes, times_BS, 2)
+polynomial_GE = np.poly1d([coefficients_GE[0], 0, 0, 0])
+polynomial_BS = np.poly1d([coefficients_BS[0], 0, 0])
+
+# Generate x values for plotting the polynomial line
+GE_poly = polynomial_GE(np.array(sizes, dtype=np.double))
+plt.loglog(sizes, GE_poly, "C0--", label="$O(n^3)$")
+BS_poly = polynomial_BS(np.array(sizes, dtype=np.double))
+plt.loglog(sizes, BS_poly, "C1--", label="$O(n^2)$")
+
+plt.xlabel("$n$")
+plt.ylabel("time (s)")
+plt.legend()
+plt.show()
+```
+
+## LU factorisation
+
+Our next algorithm, called LU factorisation, is a way to try to speed up Gaussian elimination by reusing information. This can be used when we solve systems of equations with the same matrix $A$ but different right hand sides $\vec{b}$ - this is more common than you would think!
+
+Recall the elementary row operations (EROs) from above.
+Note that the EROs can be produced by left multiplication with a suitable matrix:
 
 -   Row swap:
 
@@ -502,38 +866,29 @@ Note that the EROs discussed in the last lecture can be produced by left multipl
     \end{pmatrix}
     $$
 
-## LU factorisation
-
--   Recall from the last lecture that Gaussian elimination (GE) is just a sequence of EROs.
-
--   Each of these EROs is equivalent to (left) multiplication by a suitable matrix, $E$ say.
-
--   Hence, forward elimination applied to the system $A \vec{x} = \vec{b}$ can be expressed as
-
-    $$
-    (1) \qquad
-    (E_m \cdots E_1) A \vec{x} = (E_m \cdots E_1) \vec{b},
-    $$
-
-	where $m$ is the number of EROs required to reduce the upper triangular form.
+Since Gaussian elimination (GE) is just a sequence of EROs and each ERO just multiplication by a suitable matrix, say $E_k$,
+forward elimination applied to the system $A \vec{x} = \vec{b}$ can be expressed as
+$$
+(E_m \cdots E_1) A \vec{x} = (E_m \cdots E_1) \vec{b},
+$$ {#eq-EmA}
+here $m$ is the number of EROs required to reduce the upper triangular form.
 
 -   Let $U = (E_m \cdots E_1) A$ and $L = (E_m \cdots E_1)^{-1}$.
 
 -   Now the original system $A \vec{x} = \vec{b}$ is equivalent to
 
-    $$
-    (2) \qquad
-    L U \vec{x} = \vec{b}
-    $$
+$$
+L U \vec{x} = \vec{b}
+$$ {#eq-LU}
 
-	where $U$ is *upper triangular* (by construction) and $L$ may be shown to be lower triangular (provided the EROs do not include any row swaps).
+where $U$ is *upper triangular* (by construction) and $L$ may be shown to be lower triangular (provided the EROs do not include any row swaps).
 
--   Once $L$ and $U$ are known it is easy to solve $(2)$:
+Once $L$ and $U$ are known it is easy to solve (@eq-LU)
 
-    -   Solve $L \vec{z} = \vec{b}$ in $O(n^2)$ operations.
-    -   Solve $U \vec{x} = \vec{z}$ in $O(n^2)$ operations.
+-   Solve $L \vec{z} = \vec{b}$ in $O(n^2)$ operations.
+-   Solve $U \vec{x} = \vec{z}$ in $O(n^2)$ operations.
 
--   $L$ and $U$ may be found in $O(n^3)$ operations by performing GE and saving the $E_i$ matrices, however it is more convenient to find them directly (also $O(n^3)$ operations).
+$L$ and $U$ may be found in $O(n^3)$ operations by performing GE and saving the $E_i$ matrices, however it is more convenient to find them directly (also $O(n^3)$ operations).
 
 ### Computing $L$ and $U$
 
@@ -578,8 +933,7 @@ $$
 
 The second, third and fourth columns follow in a similar manner, giving all the entries in $L$ and $U$.
 
-### Notes
-
+::: {.remark}
 -   $L$ is assumed to have 1's on the diagonal, to ensure that the factorisation is unique.
 
 -   The process involves division by the diagonal entries $u_{11}, u_{22}$, etc., so they **must** be non-zero.
@@ -595,7 +949,9 @@ The second, third and fourth columns follow in a similar manner, giving all the 
           # Compute factors l_{ij}
           ...
     ```
+:::
 
+::: {.callout-tip}
 ### Example 1
 
 Use $LU$ factorisation to solve the linear system of equations given by
@@ -714,7 +1070,9 @@ x_1 \\ x_2 \\ x_3
 1 \\ 2 \\ 2
 \end{pmatrix}.
 $$
+:::
 
+::: {.callout-tip}
 ### Example 2 (homework)
 
 Rewrite the matrix $A$ as the product of lower and upper triangular matrices where
@@ -727,9 +1085,9 @@ A =
 0 & 1 & 2.5
 \end{pmatrix}.
 $$
+:::
 
-### The link
-
+::: {.remark}
 The first example gives
 
 $$
@@ -756,11 +1114,102 @@ Note that
 -   the matrix $U$ is the same as the fully eliminated upper triangular form produced by Gaussian elimination;
 
 -   $L$ contains the multipliers that were used at each stage to eliminate the rows.
+:::
 
-# Lecture 10: Effects of finite precision arithmetic
+### Python code
 
-## The need for row swapping in GE
+We can implement computation of the LU factorisation:
 
+```{python}
+def lu_factorisation(A):
+    """
+    compute the LU factorisation of A
+    returns the factors L and U
+    """
+    n, m = A.shape
+    assert n == m
+
+    # construct arrays
+    L, U = np.zeros_like(A), np.zeros_like(A)
+
+    # fill entries
+    for i in range(n):
+        L[i, i] = 1
+        # compute entries in U
+        for j in range(i, n):
+            U[i, j] = A[i, j] - sum(L[i, k] * U[k, j] for k in range(i))
+        # compute entries in L
+        for j in range(i + 1, n):
+            L[j, i] = (A[j, i] - sum(L[j, k] * U[k, i] for k in range(i))) / U[i, i]
+
+    return L, U
+```
+
+and test our implementation:
+
+```{python}
+A = np.array([[2.0, 1.0, 4.0], [1.0, 2.0, 2.0], [2.0, 4.0, 6.0]])
+
+print("matrix:")
+print("A =", A)
+
+L, U = lu_factorisation(A)
+assert np.allclose(L @ U, A)
+
+print("factorisation:")
+print("L =", L)
+print("U =", U)
+```
+
+and then add LU factorisation times to our plot:
+
+```{python}
+times_LU = []
+
+for n in sizes:
+    A_part = np.random.rand(n, n)
+    A = np.dot(A_part, A_part.T)
+    b = np.random.rand(n, 1)
+    
+    # perform LU factorisation
+    start_time = time.time()
+    lu_factorisation(A)
+    end_time = time.time()
+    times_LU.append(end_time - start_time)
+```
+
+```{python}
+plt.loglog(sizes, times_GE, 'C0o', label="GE")
+plt.loglog(sizes, times_BS, 'C1o', label="BS")
+plt.loglog(sizes, times_LU, 'C2o', label="LU")
+
+coefficients_GE = np.polyfit(sizes, times_GE, 3)
+coefficients_BS = np.polyfit(sizes, times_BS, 2)
+coefficients_LU = np.polyfit(sizes, times_LU, 3)
+polynomial_GE = np.poly1d([coefficients_GE[0], 0, 0, 0])
+polynomial_BS = np.poly1d([coefficients_BS[0], 0, 0])
+polynomial_LU = np.poly1d([coefficients_LU[0], 0, 0, 0])
+
+# Generate x values for plotting the polynomial line
+GE_poly = polynomial_GE(np.array(sizes, dtype=np.double))
+plt.loglog(sizes, GE_poly, "C0--", label="$O(n^3)$")
+BS_poly = polynomial_BS(np.array(sizes, dtype=np.double))
+plt.loglog(sizes, BS_poly, "C1--", label="$O(n^2)$")
+LU_poly = polynomial_LU(np.array(sizes, dtype=np.double))
+plt.loglog(sizes, LU_poly, "C2--")
+
+plt.xlabel("$n$")
+plt.ylabel("time (s)")
+plt.legend()
+plt.show()
+```
+
+We see that LU factorisation is still $O(n^3)$ but is a little bit faster than Gaussian elimination.
+
+## Effects of finite precision arithmetic
+
+::: {.callout-tip}
+### Example 1
 Consider the following linear system of equations
 
 $$
@@ -779,8 +1228,6 @@ x_1 \\ x_2 \\ x_3
 $$
 
 *Problem*. We cannot eliminate the first column by the diagonal by adding multiples of row 1 to rows 2 and 3 respectively.
-
-### Row swapping
 
 *Solution*. Swap the order of the equations!
 
@@ -830,8 +1277,10 @@ $$
   4 \\ 7 \\ -2.25
   \end{pmatrix}.
   $$
+:::
 
-### Another example
+::: {.callout-tip}
+### Example 2
 
 Consider another system of equations
 
@@ -880,7 +1329,7 @@ $$
   \end{pmatrix}
   $$
 
-- *Problem*. We cannot eliminate the second column below the diagonal by adding a multiple of row 2 to row3.
+- *Problem*. We cannot eliminate the second column below the diagonal by adding a multiple of row 2 to row 3.
 
 - Again this problem may be overcome simply by swapping the order of the equations - this time swapping rows 2 and 3:
 
@@ -900,10 +1349,13 @@ $$
   $$
 
 - We can now continue the Gaussian elimination process as usual.
+:::
 
 *In general*. Gaussian elimination requires row swaps to avoid breaking down when there is a zero in the "pivot" position.
 
-## Problems with finite precision
+
+::: {.callout-tip}
+### Example 3
 
 Consider using Gaussian elimination to solve the linear system of equations given by
 
@@ -943,8 +1395,6 @@ where $\varepsilon \neq 1$.
 
 - Problems occur not only when $\varepsilon = 0$ but also when it is very small, i.e. when $\frac{1}{\varepsilon}$ is very large, this will introduce very significant rounding errors into the computation.
 
-### Removing the problem
-
 Use Gaussian elimination to solve the linear system of equations given by
 
 $$
@@ -983,15 +1433,38 @@ where $\varepsilon \neq 1$.
 
 - The problems due to small values of $\varepsilon$ have disappeared.
 
-### Notes
+This is a genuine problem we see in the code versions too!
+```{python}
+print("without row swapping:")
+for eps in [1.0e-2, 1.0e-4, 1.0e-6, 1.0e-8, 1.0e-10, 1.0e-12, 1.0e-14]:
+    A = np.array([[eps, 1.0], [1.0, 1.0]])
+    b = np.array([[2.0 + eps], [3.0]])
 
+    gaussian_elimination(A, b)
+    x = backward_substitution(A, b)
+    print(f"{eps=}, {x.T=}")
+
+print("with row swapping:")
+for eps in [1.0e-2, 1.0e-4, 1.0e-6, 1.0e-8, 1.0e-10, 1.0e-12, 1.0e-14]:
+    A = np.array([[1.0, 1.0], [eps, 1.0]])
+    b = np.array([[3.0], [2.0 + eps]])
+
+    gaussian_elimination(A, b)
+    x = backward_substitution(A, b)
+    print(f"{eps=}, {x.T=}")
+```
+
+:::
+
+::: {.remark}
 - Writing the equations in a different order has removed the previous problem.
 
 - The diagonal entries are now always *relatively* larger.
 
 - The interchange of the order of equations is a simple example of **row pivoting**. This strategy avoids excessive rounding errors in the computations.
+:::
 
-## Gaussian elimination with pivoting
+### Gaussian elimination with pivoting
 
 - Before eliminating entries in column $j$:
 
@@ -1000,8 +1473,7 @@ where $\varepsilon \neq 1$.
 
 - Then eliminate column $j$ as before.
 
-### Notes
-
+::: {.remark}
 - This algorithm will always work when the matrix $A$ is invertible/non-singular.
 
 - Conversely, if all of the possible pivot values are zero this implies that the matrix is singular and a unique solution does not exist.
@@ -1017,13 +1489,9 @@ where $\varepsilon \neq 1$.
 - The sequence of pivots is independent of the vector $\vec{b}$ and can be recorded and reused.
 
 - The constraint imposed on the row multipliers means that for LU factorisation every entry in $L$ satisfies $| l_{ij} | \le 1$.
+:::
 
-In python, the function call
-```python
-P, L, U = scipy.linalg.lu(A, permute_l=0)
-```
-factorises $A$ and returns $L$, $U$ and the **pivot matrix** $P$.
-
+::: {.callout-tip}
 ### Example
 
 Consider the linear system of equations given by
@@ -1157,6 +1625,98 @@ x_3 = \frac{12 + 4\varepsilon}{6 + 2 \varepsilon} = 2 \qquad
 x_2 = \frac{7.5 - 5x_3}{2.5} = -1 \qquad
 x_1 = \frac{7 + 7 x_2}{10} = 0.
 $$
+:::
+
+### Python code
+
+```{python}
+def gaussian_elimination_with_pivoting(A, b, verbose=False):
+    """
+    perform Gaussian elimnation with pivoting to reduce the system of linear equations Ax=b to upper triangular form
+    use verbose to print out intermediate representations
+    """
+    # find shape of system
+    n, m = A.shape
+    nb = b.shape[0]
+    assert n == m and n == nb
+    
+    # peform forwards elimination
+    for i in range(n - 1):
+        # eliminate column i
+        if verbose:
+            print(f"\neliminating column {i}")
+            
+        # find largest entry in column i
+        largest = abs(A[i, i])
+        j_max = i
+        for j in range(i + 1, n):
+            if abs(A[j, i]) > largest:
+                largest, j_max = abs(A[j, i]), j
+                
+        # swap rows j_max and i
+        row_swap(A, b, i, j_max)
+        if verbose:
+            print(f"\nswapped system ({i} <-> {j_max})")
+            print("A =", A)
+            print("b =", b)
+        
+        for j in range(i + 1, n):
+            # row j 
+            factor = A[j, i] / A[i, i]
+            if verbose:
+                print(f"row {j} |-> row {j} - {factor} * row {i}")
+            row_add(A, b, j, -factor, i)
+            
+        if verbose:
+            print("\n\nnew system")
+            print("A = ", A)
+            print("b = ", b)
+      
+```
+
+Gaussian elimination without pivoting following by back subsitution:
+```{python}
+eps = 1.0e-8
+A = np.array([[10.0, -7.0, 0.0], [-3.0, 2.1 - eps, 6.0], [5.0, -1.0, 5.0]])
+b = np.array([[7.0], [9.9 + eps], [11.0]])
+
+print("\n\nstarting system:")
+print("A = ", A)
+print("b = ", b)
+
+gaussian_elimination(A, b, verbose=True)
+
+print("\n\nupper triangular system:")
+print("A = ", A)
+print("b = ", b)
+
+x = backward_substitution(A, b)
+
+print("\n\nsolution using backward substitution:")
+print("x = ", x)
+```
+
+Gaussian elimination with pivoting following by back subsitution:
+```{python}
+eps = 1.0e-8
+A = np.array([[10.0, -7.0, 0.0], [-3.0, 2.1 - eps, 6.0], [5.0, -1.0, 5.0]])
+b = np.array([[7.0], [9.9 + eps], [11.0]])
+
+print("\n\nstarting system:")
+print("A = ", A)
+print("b = ", b)
+
+gaussian_elimination_with_pivoting(A, b, verbose=True)
+
+print("\n\nupper triangular system:")
+print("A = ", A)
+print("b = ", b)
+
+x = backward_substitution(A, b)
+
+print("\n\nsolution using backward substitution:")
+print("x = ", x)
+```
 
 ## Further reading
 
