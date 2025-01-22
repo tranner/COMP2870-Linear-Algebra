@@ -1,0 +1,10 @@
+/.quarto/
+/_extensions/
+/_freeze/
+index.aux
+index.log
+index.pdf
+index.tex
+index.toc
+notes.html
+/src/*files/
