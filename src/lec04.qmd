@@ -99,22 +99,20 @@ Note three things...
 
 Consider the system
 
-$$
 \begin{align}
 2 x_1 + 3 x_2 & = 4  \label{eq:eg1a} \\
 -3 x_1 + 2 x_2 & = 7 \label{eq:eg1b}.
 \end{align}
-$$
 
 Then we have:
 
 $$
-\begin{align*}
+\begin{aligned}
 4 \times \text{\eqref{eq:eg1a}} & \rightarrow & 8 x_1 + 12 x_2 & = 16 \\
 -15. \times \text{\eqref{eq:eg1b}} & \rightarrow & 4.5 x_2 - 3 x_2 & = -10.5 \\
 \text{\eqref{eq:eg1a}} + \text{\eqref{eq:eg1b}} & \rightarrow & -x_1 + 5 x_2 & = 11 \\
 \text{\eqref{eq:eg1b}} + 1.5 \times \text{\eqref{eq:eg1a}} & \rightarrow & 0 + 6.5 x_2 & = 13.
-\end{align*}
+\end{aligned}
 $$
 :::
 
@@ -123,22 +121,20 @@ $$
 
 Consider the system
 
-$$
 \begin{align}
 x_1 + 2 x_2 & = 1 \label{eq:eg2a} \\
 4 x_1 + x_2 & = -3 \label{eq:eg2b}.
 \end{align}
-$$
 
 Work out the result of these elementary row operations:
 
 $$
-\begin{align*}
+\begin{aligned}
 2 \times \text{\eqref{eq:eg2a}} & \rightarrow \\
 0.25 \times \text{\eqref{eq:eg2b}} & \rightarrow \\
 \text{\eqref{eq:eg2b}} + (-1) \times \text{\eqref{eq:eg2a}} & \rightarrow \\
 \text{\eqref{eq:eg2b}} + (-4) \times \text{\eqref{eq:eg2a}} & \rightarrow
-\end{align*}
+\end{aligned}
 $$
 :::
 
@@ -995,12 +991,10 @@ here $m$ is the number of EROs required to reduce the upper triangular form.
 
 Let $U = (E_m \cdots E_1) A$ and $L = (E_m \cdots E_1)^{-1}$. Now the original system $A \vec{x} = \vec{b}$ is equivalent to
 
-$$
 \begin{equation}
 \label{eq:LU}
 L U \vec{x} = \vec{b}
 \end{equation}
-$$
 
 where $U$ is *upper triangular* (by construction) and $L$ may be shown to be lower triangular (provided the EROs do not include any row swaps).
 
