@@ -1,10 +1,12 @@
 /.quarto/
 /_extensions/
 /_freeze/
+/_output/
+/src/*files/
+/src/.jupyter_cache/
 index.aux
 index.log
 index.pdf
 index.tex
 index.toc
 notes.html
-/src/*files/
