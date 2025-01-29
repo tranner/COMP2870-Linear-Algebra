@@ -1,4 +1,13 @@
+---
+echo: false
+---
 # Introduction to systems of linear equations
+```{python}
+import time
+
+import numpy as np
+
+```
 
 ## Introduction
 
@@ -48,9 +57,7 @@ It is therefore important that this problem can be solved
 One way to solve a system of linear equations is to compute the inverse of $A$, $A^{-1}$, directly, then the solution is found through matrix multiplication: $\vec{x} = A^{-1} \vec{b}$. This turns out to be an inefficient approach and we can do better with specialised algorithms.
 
 ```{python}
-import time
-
-import numpy as np
+from IPython.display import Markdown, display
 
 for size in [100, 10000]:
     print(f"\n\nTrying different approaches for problem size {size}")
@@ -65,14 +72,14 @@ for size in [100, 10000]:
     x = A_inv @ b
     end_time = time.time()
     time_1 = end_time - start_time
-    print("Approach 1\n- inverting the matrix and applying the inverse takes ", time_1)
+    print("Approach 1 - inverting the matrix and applying the inverse. Time =", time_1)
 
     # approach 2 - solve the system of linear equations
     start_time = time.time()
     x = np.linalg.solve(A, b)
     end_time = time.time()
     time_2 = end_time - start_time
-    print("Approach 2\n- solving the system of linear equations takes ", time_2)
+    print("Approach 2 - solving the system of linear equations. Time =", time_2)
 
     print("Approach 2 is faster by a factor of ", time_1 / time_2)
 ```
@@ -436,7 +443,7 @@ $$
 
 What is the significance of these special examples?
 
--   In the next lecture we will discuss a general numerical algorithm for the solution of linear systems of equations.
+-   In the next section we will discuss a general numerical algorithm for the solution of linear systems of equations.
 
 -   This will involve **reducing** the problem to one involving a **triangular matrix** which, as we show below, is relatively easy to solve.
 

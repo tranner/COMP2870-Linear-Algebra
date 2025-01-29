@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run python
 
 import os
 import subprocess
@@ -6,12 +6,12 @@ import sys
 
 NO_CODE_PREFIX = "###--no code--###"
 
-def qmd_to_py(infile, outfile):
 
+def qmd_to_py(infile, outfile):
     with open(infile, "r") as f:
         inlines = f.readlines()
 
-    with open(outfile, 'w') as f:
+    with open(outfile, "w") as f:
         incode = False
 
         for line in inlines:
@@ -28,27 +28,29 @@ def qmd_to_py(infile, outfile):
 
                 f.write(NO_CODE_PREFIX + line)
 
-def py_to_qmd(infile, outfile):
 
+def py_to_qmd(infile, outfile):
     with open(infile, "r") as f:
         inlines = f.readlines()
 
-    with open(outfile, 'w') as f:
+    with open(outfile, "w") as f:
         for line in inlines:
             if NO_CODE_PREFIX in line:
                 line = line.removeprefix(NO_CODE_PREFIX)
             f.write(line)
 
+
 def run_ruff_format(file_path):
     try:
-        subprocess.run(['ruff', 'format', file_path], check=True)
+        subprocess.run(["ruff", "format", file_path], check=True)
         print(f"Formatted {file_path} successfully.")
     except subprocess.CalledProcessError as e:
         print(f"Error formatting {file_path}: {e}")
 
+
 def run_ruff_check(file_path):
     try:
-        subprocess.run(['ruff', 'check', file_path], check=True)
+        subprocess.run(["ruff", "check", file_path], check=True)
         print(f"Checked {file_path} successfully.")
     except subprocess.CalledProcessError as e:
         print(f"Error checking {file_path}: {e}")
@@ -56,7 +58,9 @@ def run_ruff_check(file_path):
 
 def run_ruff_sort_imports(file_path):
     try:
-        subprocess.run(['ruff', 'check', file_path, '--select', 'I', '--fix'], check=True)
+        subprocess.run(
+            ["ruff", "check", file_path, "--select", "I", "--fix"], check=True
+        )
         print(f"Sorted imports in {file_path} successfully.")
     except subprocess.CalledProcessError as e:
         print(f"Error sorting imports in {file_path}: {e}")
@@ -74,9 +78,7 @@ def delete_file(file_path):
         print(f"Error deleting {file_path}: {e}")
 
 
-if __name__ == "__main__":
-    # read filename
-    infile = sys.argv[1]
+def main(infile):
     infile_py = infile + ".py"
 
     # convert to python code with comments for other lines
@@ -92,3 +94,10 @@ if __name__ == "__main__":
 
     # delete temporary file
     delete_file(infile_py)
+
+
+if __name__ == "__main__":
+    # read filename
+    infiles = sys.argv[1:]
+    for infile in infiles:
+        main(infile)

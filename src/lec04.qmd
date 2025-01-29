@@ -1,4 +1,11 @@
+---
+echo: true
+---
+# Direct solvers for systems of linear equtaions
+
 ```{python}
+# | echo: false
+import inspect
 import time
 
 import numpy as np
@@ -6,8 +13,6 @@ from matplotlib import pyplot as plt
 
 
 ```
-
-# Direct solvers
 
 This is the first method we will use to solve systems of linear equations. We will see that by using the approach of Gaussian elimination (and variations of that method) we can solve any system of linear equations that have a solution.
 
@@ -95,16 +100,22 @@ Note three things...
 Consider the system
 
 $$
-\begin{aligned}
-2 x_1 + 3 x_2 & = 4 && (1) \\
--3 x_1 + 2 x_2 & = 7 && (2).
-\end{aligned}
+\begin{align}
+2 x_1 + 3 x_2 & = 4  \label{eq:eg1a} \\
+-3 x_1 + 2 x_2 & = 7 \label{eq:eg1b}.
+\end{align}
 $$
 
--   $4 \times (1)$ $\rightarrow$ $8 x_1 + 12 x_2 = 16$.
--   $-1.5 \times (2)$ $\rightarrow$ $4.5 x_1 - 3 x_2 = -10.5$.
--   $(2) + (1)$ $\rightarrow$ $-x_1 + 5 x_2 = 11$.
--   $(2) + 1.5 \times (1)$ $\rightarrow$ $0 + 6.5 x_2 = 13$.
+Then we have:
+
+$$
+\begin{align*}
+4 \times \text{\eqref{eq:eg1a}} & \rightarrow & 8 x_1 + 12 x_2 & = 16 \\
+-15. \times \text{\eqref{eq:eg1b}} & \rightarrow & 4.5 x_2 - 3 x_2 & = -10.5 \\
+\text{\eqref{eq:eg1a}} + \text{\eqref{eq:eg1b}} & \rightarrow & -x_1 + 5 x_2 & = 11 \\
+\text{\eqref{eq:eg1b}} + 1.5 \times \text{\eqref{eq:eg1a}} & \rightarrow & 0 + 6.5 x_2 & = 13.
+\end{align*}
+$$
 :::
 
 ::: {.callout-tip}
@@ -113,16 +124,22 @@ $$
 Consider the system
 
 $$
-\begin{aligned}
-x_1 + 2 x_2 & = 1 && (3) \\
-4 x_1 + x_2 & = -3 && (4).
-\end{aligned}
+\begin{align}
+x_1 + 2 x_2 & = 1 \label{eq:eg2a} \\
+4 x_1 + x_2 & = -3 \label{eq:eg2b}.
+\end{align}
 $$
 
--   $2 \times (3)$ $\rightarrow$
--   $0.25 \times (4)$ $\rightarrow$
--   $(4) + (-1) \times (3)$ $\rightarrow$
--   $(4) + (-4) \times (3)$ $\rightarrow$
+Work out the result of these elementary row operations:
+
+$$
+\begin{align*}
+2 \times \text{\eqref{eq:eg2a}} & \rightarrow \\
+0.25 \times \text{\eqref{eq:eg2b}} & \rightarrow \\
+\text{\eqref{eq:eg2b}} + (-1) \times \text{\eqref{eq:eg2a}} & \rightarrow \\
+\text{\eqref{eq:eg2b}} + (-4) \times \text{\eqref{eq:eg2a}} & \rightarrow
+\end{align*}
+$$
 :::
 
 For a system written in matrix form our three observations mean the following:
@@ -231,13 +248,13 @@ Our strategy for solving systems of linear equations using Gaussian elimination 
 
 -   We will applying a sequence of ERO to reduce an arbitrary system to a triangular form, which, we will see, can be easily solved.
 
--   The algorithm for reducing a general matrix to upper triangulat form is known as **forward elimination** or (more commonly) as **Gaussian elimination**.
+-   The algorithm for reducing a general matrix to upper triangular form is known as **forward elimination** or (more commonly) as **Gaussian elimination**.
 
 ## Gaussian elimination
 
-**First appeared in China...**
+The algorithm of Gaussian elimination is a very old method that you may have already met at school - perhaps by a different name. The details of the method may seem quite confusing at first. Really we are following the ideas of eliminating systems of simultaneous equations, but in a way a computer understands. This is an important point in this section. You will have seen different ideas of how to solve systems of simulations equations where the first step is to "look at the equations to decide the easiest first step". When there are $10^9$ equations, its not effective for a computer to try and find an easy way through the problem. It must instead of a simple set of instructions to follow: this will be our algorithm.
 
-From [Wikipedia](https://en.wikipedia.org/wiki/Gaussian_elimination):
+The method is so old, in fact we have evidence of Chinese mathematicians using Gaussian elimination in 179CE (From [Wikipedia](https://en.wikipedia.org/wiki/Gaussian_elimination)):
 
 > The method of Gaussian elimination appears in the Chinese mathematical text Chapter Eight: Rectangular Arrays of The Nine Chapters on the Mathematical Art. Its use is illustrated in eighteen problems, with two to five equations. The first reference to the book by this title is dated to 179 CE, but parts of it were written as early as approximately 150 BCE. It was commented on by Liu Hui in the 3rd century.
 >
@@ -392,6 +409,47 @@ def system_size(A, b):
 
 ```
 
+
+```{python}
+# | echo: false
+def print_array(array, array_name=None, end=None):
+    """
+    print the array nicely
+    """
+    # find array_name
+    if array_name is None:
+        frame = inspect.currentframe().f_back
+        for name, value in frame.f_locals.items():
+            if value is array:
+                array_name = name
+                break
+    if array_name is None:
+        array_name = "array"
+
+    array_name_length = len(array_name)
+
+    # determine precision
+    precision = 1
+    while not np.allclose(array, np.round(array, precision)):
+        precision = precision + 1
+        if precision == 16:
+            break
+    format_str = f"{{:{precision + 3}.{precision}f}}"
+
+    n, m = array.shape
+
+    for i in range(n):
+        if i == 0:
+            print(f"{array_name} = [ ", end="")
+        else:
+            print(" " * len(array_name) + "   [ ", end="")
+
+        print(", ".join([format_str.format(v) for v in array[i]]), end=" ]")
+        print(end=end)
+
+
+```
+
 Then we can implement the elementary row operations
 
 ```{python}
@@ -439,55 +497,70 @@ def row_add(A, b, p, k, q):
 
 Let's test we are ok so far:
 
-First we test swapping rows:
+Test 1: swapping rows
 ```{python}
 A = np.array([[2.0, 3.0], [-3.0, 2.0]])
 b = np.array([[4.0], [7.0]])
 
-print("A =", A)
-print("b =", b)
+print("starting arrays:")
+print_array(A)
+print_array(b)
+print()
 
 print("swapping rows 0 and 1")
-row_swap(A, b, 0, 1)  # remember numpy arrays are indexed started from zero!
+row_swap(A, b, 0, 1)  # remember numpy arrays are indexed starting from zero!
+print()
 
-print("A =", A)
-print("b =", b)
+print("new arrays:")
+print_array(A)
+print_array(b)
+print()
 ```
 
 
-then we test scaling one row:
+Test 2: scaling one row
 ```{python}
 A = np.array([[2.0, 3.0], [-3.0, 2.0]])
 b = np.array([[4.0], [7.0]])
 
-print("A =", A)
-print("b =", b)
+print("starting arrays:")
+print_array(A)
+print_array(b)
+print()
 
 print("row 0 |-> 0.5 * row 0")
 row_scale(A, b, 0, 0.5)  # remember numpy arrays are indexed started from zero!
+print()
 
-print("A =", A)
-print("b =", b)
+print("new arrays:")
+print_array(A)
+print_array(b)
+print()
 ```
 
-and finally, we can test replacing a row by that adding a multiple of another row
+Test 3: replacing a row by that adding a multiple of another row
 ```{python}
 A = np.array([[2.0, 3.0], [-3.0, 2.0]])
 b = np.array([[4.0], [7.0]])
 
-print("A =", A)
-print("b =", b)
+print("starting arrays:")
+print_array(A)
+print_array(b)
+print()
 
 print("row 1 |-> row 1 + 1.5 * row 0")
 row_add(A, b, 1, 1.5, 0)  # remember numpy arrays are indexed started from zero!
+print()
 
-print("A =", A)
-print("b =", b)
+print("new arrays:")
+print_array(A)
+print_array(b)
+print()
 
 
 ```
 
-Now we can define our Gaussian elimination function:
+Now we can define our Gaussian elimination function. We update the values in-place to avoid extra memory allocations.
 ```{python}
 def gaussian_elimination(A, b, verbose=False):
     """
@@ -495,26 +568,26 @@ def gaussian_elimination(A, b, verbose=False):
     use verbose to print out intermediate representations
     """
     # find shape of system
-    n, m = A.shape
-    nb = b.shape[0]
-    assert n == m and n == nb
+    n = system_size(A, b)
 
-    # peform forwards elimination
+    # perform forwards elimination
     for i in range(n - 1):
         # eliminate column i
         if verbose:
-            print(f"\neliminating column {i}")
+            print(f"eliminating column {i}")
         for j in range(i + 1, n):
             # row j
             factor = A[j, i] / A[i, i]
             if verbose:
-                print(f"row {j} |-> row {j} - {factor} * row {i}")
+                print(f"  row {j} |-> row {j} - {factor} * row {i}")
             row_add(A, b, j, -factor, i)
 
         if verbose:
-            print("\n\nnew system")
-            print("A = ", A)
-            print("b = ", b)
+            print()
+            print("new system")
+            print_array(A)
+            print_array(b)
+            print()
 
 
 ```
@@ -524,15 +597,22 @@ We can try our code on Example 1:
 A = np.array([[2.0, 1.0, 4.0], [1.0, 2.0, 2.0], [2.0, 4.0, 6.0]])
 b = np.array([[12.0], [9.0], [22.0]])
 
-print("\n\nstarting system:")
-print("A = ", A)
-print("b = ", b)
+print("starting system:")
+print_array(A)
+print_array(b)
+print()
 
+print("performing Gaussian Elimination")
 gaussian_elimination(A, b, verbose=True)
+print()
 
-print("\n\nfinal system:")
-print("A = ", A)
-print("b = ", b)
+print("final system:")
+print_array(A)
+print_array(b)
+print()
+
+# test that A is really upper triangular
+print("Is A really upper triangular?", np.allclose(A, np.triu(A)))
 
 
 ```
@@ -652,9 +732,7 @@ def forward_substitution(A, b):
     returns the solution x
     """
     # get size of system
-    n, m = A.shape
-    nb = b.shape[0]
-    assert n == m and n == nb
+    n = system_size(A, b)
 
     # check is lower triangular
     assert np.allclose(A, np.tril(A))
@@ -678,9 +756,7 @@ def backward_substitution(A, b):
     returns the solution x
     """
     # get size of system
-    n, m = A.shape
-    nb = b.shape[0]
-    assert n == m and n == nb
+    n = system_size(A, b)
 
     # check is upper triangular
     assert np.allclose(A, np.triu(A))
@@ -707,13 +783,19 @@ A = np.array([[2.0, 0.0, 0.0], [1.0, 2.0, 0.0], [2.0, 4.0, 6.0]])
 b = np.array([[2.0], [7.0], [26.0]])
 
 print("The system is given by:")
-print("A =", A)
-print("b =", b)
+print_array(A)
+print_array(b)
+print()
 
+print("Solving the system using forward substitution")
 x = forward_substitution(A, b)
+print()
 
 print("The solution using forward substitution is:")
-print("x =", x)
+print_array(x)
+print()
+
+print("Does x really solve the system?", np.allclose(A @ x, b))
 ```
 
 We can also do a backward substitution test:
@@ -723,13 +805,20 @@ A = np.array([[2.0, 1.0, 4.0], [0.0, 1.5, 0.0], [0.0, 0.0, 2.0]])
 b = np.array([[12.0], [3.0], [4.0]])
 
 print("The system is given by:")
-print("A =", A)
-print("b =", b)
+print_array(A)
+print_array(b)
+print()
 
+print("Solving the system using backward substitution")
 x = backward_substitution(A, b)
+print()
 
 print("The solution using backward substitution is:")
-print("x =", x)
+print_array(x)
+print()
+
+
+print("Does x really solve the system?", np.allclose(A @ x, b))
 ```
 
 ## Combining Gaussian elimination and backward substitution
@@ -747,32 +836,42 @@ We can use our code to test this:
 A = np.array([[2.0, 1.0, 4.0], [1.0, 2.0, 2.0], [2.0, 4.0, 6.0]])
 b = np.array([[12.0], [9.0], [22.0]])
 
-print("\n\nstarting system:")
-print("A = ", A)
-print("b = ", b)
+print("starting system:")
+print_array(A)
+print_array(b)
+print()
 
+print("performing Gaussian Elimination")
 gaussian_elimination(A, b, verbose=True)
+print()
 
-print("\n\nupper triangular system:")
-print("A = ", A)
-print("b = ", b)
+print("upper triangular system:")
+print_array(A)
+print_array(b)
+print()
 
+print("Solving the system using backward substitution")
 x = backward_substitution(A, b)
+print()
 
-print("\n\nsolution using backward substitution:")
-print("x = ", x)
+print("solution using backward substitution:")
+print_array(x)
+print()
+
+A = np.array([[2.0, 1.0, 4.0], [1.0, 2.0, 2.0], [2.0, 4.0, 6.0]])
+b = np.array([[12.0], [9.0], [22.0]])
+print("Does x really solve the original system?", np.allclose(A @ x, b))
 ```
 
 ##  The cost of Gaussian Elimination
 
--   Gaussian elimination (GE) is unnecessarily expensive when it is applied to many systems of equations with the same matrix $A$ but different right-hand sides $\vec{b}$.
+Gaussian elimination (GE) is unnecessarily expensive when it is applied to many systems of equations with the same matrix $A$ but different right-hand sides $\vec{b}$.
 
-    -   The forward elimination process is the most computationally expensive part at $O(n^3)$ but is exactly the same for any choice of $\vec{b}$.
-    -   In contrast, the solution of the resulting upper triangular system only requires $O(n^2)$ operations.
-
--   We can use this information to improve the way in which we solve multiple systems of equations with the same matrix $A$ but different right-hand sides $\vec{b}$.
+-   The forward elimination process is the most computationally expensive part at $O(n^3)$ but is exactly the same for any choice of $\vec{b}$.
+-   In contrast, the solution of the resulting upper triangular system only requires $O(n^2)$ operations.
 
 ```{python}
+# | echo: false
 sizes = [2**j for j in range(1, 10)]
 times_GE, times_BS = [], []
 
@@ -795,6 +894,7 @@ for n in sizes:
 ```
 
 ```{python}
+# | echo: false
 plt.loglog(sizes, times_GE, "C0o", label="GE")
 plt.loglog(sizes, times_BS, "C1o", label="BS")
 
@@ -816,6 +916,8 @@ plt.show()
 
 
 ```
+
+We can use this information to improve the way in which we solve multiple systems of equations with the same matrix $A$ but different right-hand sides $\vec{b}$.
 
 ## LU factorisation
 
@@ -888,20 +990,21 @@ Since Gaussian elimination (GE) is just a sequence of EROs and each ERO just mul
 forward elimination applied to the system $A \vec{x} = \vec{b}$ can be expressed as
 $$
 (E_m \cdots E_1) A \vec{x} = (E_m \cdots E_1) \vec{b},
-$$ {#eq-EmA}
+$$
 here $m$ is the number of EROs required to reduce the upper triangular form.
 
--   Let $U = (E_m \cdots E_1) A$ and $L = (E_m \cdots E_1)^{-1}$.
-
--   Now the original system $A \vec{x} = \vec{b}$ is equivalent to
+Let $U = (E_m \cdots E_1) A$ and $L = (E_m \cdots E_1)^{-1}$. Now the original system $A \vec{x} = \vec{b}$ is equivalent to
 
 $$
+\begin{equation}
+\label{eq:LU}
 L U \vec{x} = \vec{b}
-$$ {#eq-LU}
+\end{equation}
+$$
 
 where $U$ is *upper triangular* (by construction) and $L$ may be shown to be lower triangular (provided the EROs do not include any row swaps).
 
-Once $L$ and $U$ are known it is easy to solve (@eq-LU)
+Once $L$ and $U$ are known it is easy to solve \eqref{eq:LU}
 
 -   Solve $L \vec{z} = \vec{b}$ in $O(n^2)$ operations.
 -   Solve $U \vec{x} = \vec{z}$ in $O(n^2)$ operations.
@@ -1147,7 +1250,7 @@ def lu_factorisation(A):
     n, m = A.shape
     assert n == m
 
-    # construct arrays
+    # construct arrays of zeros
     L, U = np.zeros_like(A), np.zeros_like(A)
 
     # fill entries
@@ -1171,19 +1274,27 @@ and test our implementation:
 A = np.array([[2.0, 1.0, 4.0], [1.0, 2.0, 2.0], [2.0, 4.0, 6.0]])
 
 print("matrix:")
-print("A =", A)
+print_array(A)
+print()
 
+print("performing factorisation")
 L, U = lu_factorisation(A)
-assert np.allclose(L @ U, A)
+print()
 
 print("factorisation:")
-print("L =", L)
-print("U =", U)
+print_array(L)
+print_array(U)
+print()
+
+print("Is L lower triangular?", np.allclose(L, np.tril(L)))
+print("Is U lower triangular?", np.allclose(U, np.triu(U)))
+print("Is LU a factorisation of A?", np.allclose(L @ U, A))
 ```
 
 and then add LU factorisation times to our plot:
 
 ```{python}
+# | echo: false
 times_LU = []
 
 for n in sizes:
@@ -1199,6 +1310,7 @@ for n in sizes:
 ```
 
 ```{python}
+# | echo: false
 plt.loglog(sizes, times_GE, "C0o", label="GE")
 plt.loglog(sizes, times_BS, "C1o", label="BS")
 plt.loglog(sizes, times_LU, "C2o", label="LU")
@@ -1224,7 +1336,7 @@ plt.legend()
 plt.show()
 ```
 
-We see that LU factorisation is still $O(n^3)$ but is a little bit faster than Gaussian elimination.
+We see that LU factorisation is still $O(n^3)$ and that the run times are similar to Gaussian elimination. But, importantly, we can reuse this factorisation more cheaply for different right-hand sides $\vec{b}$.
 
 ## Effects of finite precision arithmetic
 
@@ -1372,6 +1484,7 @@ $$
 :::
 
 *In general*. Gaussian elimination requires row swaps to avoid breaking down when there is a zero in the "pivot" position.
+This might be a familiar aspect of Gaussian elimination, but there is an additional reason to apply pivoting when working with floating point numbers:
 
 
 ::: {.callout-tip}
@@ -1462,7 +1575,13 @@ for eps in [1.0e-2, 1.0e-4, 1.0e-6, 1.0e-8, 1.0e-10, 1.0e-12, 1.0e-14]:
 
     gaussian_elimination(A, b)
     x = backward_substitution(A, b)
-    print(f"{eps=}, {x.T=}")
+    print(f"{eps=:.1e}", end=", ")
+    print_array(x.T, "x.T", end=", ")
+
+    A = np.array([[eps, 1.0], [1.0, 1.0]])
+    b = np.array([[2.0 + eps], [3.0]])
+    print("Solution?", np.allclose(A @ x, b))
+print()
 
 print("with row swapping:")
 for eps in [1.0e-2, 1.0e-4, 1.0e-6, 1.0e-8, 1.0e-10, 1.0e-12, 1.0e-14]:
@@ -1471,7 +1590,13 @@ for eps in [1.0e-2, 1.0e-4, 1.0e-6, 1.0e-8, 1.0e-10, 1.0e-12, 1.0e-14]:
 
     gaussian_elimination(A, b)
     x = backward_substitution(A, b)
-    print(f"{eps=}, {x.T=}")
+    print(f"{eps=:.1e}", end=", ")
+    print_array(x.T, "x.T", end=", ")
+
+    A = np.array([[1.0, 1.0], [eps, 1.0]])
+    b = np.array([[3.0], [2.0 + eps]])
+    print("Solution?", np.allclose(A @ x, b))
+print()
 
 
 ```
@@ -1495,23 +1620,14 @@ for eps in [1.0e-2, 1.0e-4, 1.0e-6, 1.0e-8, 1.0e-10, 1.0e-12, 1.0e-14]:
 
 - Then eliminate column $j$ as before.
 
-::: {.remark}
-- This algorithm will always work when the matrix $A$ is invertible/non-singular.
-
-- Conversely, if all of the possible pivot values are zero this implies that the matrix is singular and a unique solution does not exist.
-
-- At each elimination step the row multiplies used are guaranteed to be at most one in magnitude...
-
-- ... so any errors in the representation of the system cannot be amplified by the elimination process.
-
-- As always, solving $A \vec{x} = \vec{b}$ requires that the entries in $\vec{b}$ are also swapped in the appropriate way.
-
-- Pivoting can be applied in an equivalent way to LU factorisation.
-
-- The sequence of pivots is independent of the vector $\vec{b}$ and can be recorded and reused.
-
-- The constraint imposed on the row multipliers means that for LU factorisation every entry in $L$ satisfies $| l_{ij} | \le 1$.
-:::
+This algorithm will always work when the matrix $A$ is invertible/non-singular.
+Conversely, if all of the possible pivot values are zero this implies that the matrix is singular and a unique solution does not exist.
+At each elimination step the row multiplies used are guaranteed to be at most one in magnitude
+so any errors in the representation of the system cannot be amplified by the elimination process.
+As always, solving $A \vec{x} = \vec{b}$ requires that the entries in $\vec{b}$ are also swapped in the appropriate way.
+Pivoting can be applied in an equivalent way to LU factorisation.
+The sequence of pivots is independent of the vector $\vec{b}$ and can be recorded and reused.
+The constraint imposed on the row multipliers means that for LU factorisation every entry in $L$ satisfies $| l_{ij} | \le 1$.
 
 ::: {.callout-tip}
 ### Example
@@ -1541,7 +1657,7 @@ where $0 \le \varepsilon \ll 1$, and solve it using
 
 The exact solution is $\vec{x} = (0, -1, 2)^T$ for any $\varepsilon$ in the given range.
 
-#### 1. Solve the system using Gaussian elimination with no pivoting.
+**1. Solve the system using Gaussian elimination with no pivoting.**
 
 Eliminating the first column gives
 
@@ -1585,9 +1701,9 @@ x_2 = \frac{(12 + \varepsilon) - 6x_3}{-\varepsilon} \qquad
 x_1 = \frac{7+ 7x_2}{10}.
 $$
 
-There are many divisions by $\varepsilon$, so we will have problems if $\varepsilon$ is small.
+There are many divisions by $\varepsilon$, so we will have problems if $\varepsilon$ is (very) small.
 
-#### 2. Solve the system using Gaussian elimination with pivoting.
+**2. Solve the system using Gaussian elimination with pivoting.**
 
 The first stage is identical (because $a_{11} = 10$ is largest).
 
@@ -1658,15 +1774,13 @@ def gaussian_elimination_with_pivoting(A, b, verbose=False):
     use verbose to print out intermediate representations
     """
     # find shape of system
-    n, m = A.shape
-    nb = b.shape[0]
-    assert n == m and n == nb
+    n = system_size(A, b)
 
-    # peform forwards elimination
+    # perform forwards elimination
     for i in range(n - 1):
         # eliminate column i
         if verbose:
-            print(f"\neliminating column {i}")
+            print(f"eliminating column {i}")
 
         # find largest entry in column i
         largest = abs(A[i, i])
@@ -1678,9 +1792,10 @@ def gaussian_elimination_with_pivoting(A, b, verbose=False):
         # swap rows j_max and i
         row_swap(A, b, i, j_max)
         if verbose:
-            print(f"\nswapped system ({i} <-> {j_max})")
-            print("A =", A)
-            print("b =", b)
+            print(f"swapped system ({i} <-> {j_max})")
+            print_array(A)
+            print_array(b)
+            print()
 
         for j in range(i + 1, n):
             # row j
@@ -1690,83 +1805,107 @@ def gaussian_elimination_with_pivoting(A, b, verbose=False):
             row_add(A, b, j, -factor, i)
 
         if verbose:
-            print("\n\nnew system")
-            print("A = ", A)
-            print("b = ", b)
+            print("new system")
+            print_array(A)
+            print_array(b)
+            print()
 
 
 ```
 
 Gaussian elimination without pivoting following by back subsitution:
 ```{python}
-eps = 1.0e-8
+eps = 1.0e-14
 A = np.array([[10.0, -7.0, 0.0], [-3.0, 2.1 - eps, 6.0], [5.0, -1.0, 5.0]])
 b = np.array([[7.0], [9.9 + eps], [11.0]])
 
-print("\n\nstarting system:")
-print("A = ", A)
-print("b = ", b)
+print("starting system:")
+print_array(A)
+print_array(b)
+print()
 
+print("performing Gaussian elimination without pivoting")
 gaussian_elimination(A, b, verbose=True)
+print()
 
-print("\n\nupper triangular system:")
-print("A = ", A)
-print("b = ", b)
+print("upper triangular system:")
+print_array(A)
+print_array(b)
+print()
 
+print("performing backward substitution")
 x = backward_substitution(A, b)
+print()
 
-print("\n\nsolution using backward substitution:")
-print("x = ", x)
+print("solution using backward substitution:")
+print_array(x)
+print()
+
+A = np.array([[10.0, -7.0, 0.0], [-3.0, 2.1 - eps, 6.0], [5.0, -1.0, 5.0]])
+b = np.array([[7.0], [9.9 + eps], [11.0]])
+print("Does x solve the original system?", np.allclose(A @ x, b))
 ```
 
 Gaussian elimination with pivoting following by back subsitution:
 ```{python}
-eps = 1.0e-8
+eps = 1.0e-14
 A = np.array([[10.0, -7.0, 0.0], [-3.0, 2.1 - eps, 6.0], [5.0, -1.0, 5.0]])
 b = np.array([[7.0], [9.9 + eps], [11.0]])
 
-print("\n\nstarting system:")
-print("A = ", A)
-print("b = ", b)
+print("starting system:")
+print_array(A)
+print_array(b)
+print()
 
+print("performing Gaussian elimination with pivoting")
 gaussian_elimination_with_pivoting(A, b, verbose=True)
+print()
 
-print("\n\nupper triangular system:")
-print("A = ", A)
-print("b = ", b)
+print("upper triangular system:")
+print_array(A)
+print_array(b)
+print()
 
+print("performing backward substitution")
 x = backward_substitution(A, b)
+print()
 
-print("\n\nsolution using backward substitution:")
-print("x = ", x)
+print("solution using backward substitution:")
+print_array(x)
+print()
+
+A = np.array([[10.0, -7.0, 0.0], [-3.0, 2.1 - eps, 6.0], [5.0, -1.0, 5.0]])
+b = np.array([[7.0], [9.9 + eps], [11.0]])
+print("Does x solve the original system?", np.allclose(A @ x, b))
 ```
 
 ## Further reading
 
-- Mathematics stackexchange: [what are pivot numbers in LU decomposition? please explain me in an example](https://math.stackexchange.com/questions/485513/what-are-pivot-numbers-in-lu-decomposition-please-explain-me-in-an-example)
+Some basic reading:
 
-- [Gaussian elimination with Partial Pivoting](http://www.math.iitb.ac.in/~neela/partialpivot.pdf) [pdf]
-- [Gaussian elimination with partial pivoting example](http://www.math.sjsu.edu/~foster/m143m/partial_pivoting_example1.pdf) [pdf]
+- Wikipedia: [Gaussian elimination](https://en.wikipedia.org/wiki/Gaussian_elimination)
+- Joseph F. Grcar. [How ordinary elimination became Gaussian elimination](https://doi.org/10.1016/j.hm.2010.06.003). Historia Mathematica. Volume 38, Issue 2, May 2011. (More history)
+
+
+Some reading on LU factorisation:
+
 - [$A = LU$ and solving systems](http://staff.imsa.edu/~fogel/LinAlg/PDF/14%20Solving%20Factored%20Systems.pdf) [pdf]
-
-- Trefethen, Lloyd N.; Bau, David (1997), Numerical linear algebra, Philadelphia: Society for Industrial and Applied Mathematics, ISBN 978-0-89871-361-9.
-
-
-## Further reading
-
 - Wikipedia: [LU decomposition](https://en.wikipedia.org/wiki/LU_decomposition)
 - Wikipedia: [Matrix decomposition](https://en.wikipedia.org/wiki/Matrix_decomposition) (Other examples of decompositions).
 - Nick Higham: [What is an LU factorization?](https://nhigham.com/2021/04/20/what-is-an-lu-factorization/) (a very mathematical treatment with additional references)
 
-Note that these implementation use additional pivoting to achieve better results. We tackle this in the next section.
+Some reading on using Gaussian elimination with pivoting:
 
-- LAPACK: [`dgetrf()`](http://www.netlib.org/lapack/explore-html/dd/d9a/group__double_g_ecomputational_ga0019443faea08275ca60a734d0593e60.html). (Implementation of LU factorisation from LAPACK).
+- [Gaussian elimination with Partial Pivoting](http://www.math.iitb.ac.in/~neela/partialpivot.pdf) [pdf]
+- [Gaussian elimination with partial pivoting example](http://www.math.sjsu.edu/~foster/m143m/partial_pivoting_example1.pdf) [pdf]
+
+A good general reference for this area:
+
+- Trefethen, Lloyd N.; Bau, David (1997), Numerical linear algebra, Philadelphia: Society for Industrial and Applied Mathematics, ISBN 978-0-89871-361-9.
+
+Some implementations:
+
+- Numpy [`numpy.linalg.solve`](https://numpy.org/doc/stable/reference/generated/numpy.linalg.solve.html)
 - Scipy [`scipy.linalg.lu`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.lu.html)
-
-
-## Further reading
-
-- Wikipedia: [Gaussian elimination](https://en.wikipedia.org/wiki/Gaussian_elimination)
-- Joseph F. Grcar. [How ordinary elimination became Gaussian elimination](https://doi.org/10.1016/j.hm.2010.06.003). Historia Mathematica. Volume 38, Issue 2, May 2011. (More history)
-- The method is usually implemented via the LU factorisation method we learn next!
-
+- LAPACK Gaussian elimination (uses LU factorisation): [`dgesv()`](https://netlib.org/lapack/explore-html-3.6.1/d7/d3b/group__double_g_esolve_ga5ee879032a8365897c3ba91e3dc8d512.html)
+- LAPACK LU Factorisation: [`dgetrf()`](http://www.netlib.org/lapack/explore-html/dd/d9a/group__double_g_ecomputational_ga0019443faea08275ca60a734d0593e60.html).

@@ -9,7 +9,6 @@ book:
     - index.qmd
     - src/lec01.qmd
     - src/lec02.qmd
-    - src/lec03.qmd
     - src/lec04.qmd
     - src/lec05.qmd
 
@@ -33,8 +32,9 @@ format:
     theme:
       light: flatly
       dark: darkly
+    include-in-header: mathjax.html
   pdf: default
 
 execute:
   freeze: auto
-code-fold: true
+  cache: true

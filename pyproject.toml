@@ -1,0 +1,20 @@
+[project]
+name = "notes"
+author = "Thomas Ranner"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "jupyter>=1.1.1",
+    "jupyter-cache>=1.0.1",
+    "matplotlib>=3.10.0",
+    "numpy>=2.2.2",
+    "pandas>=2.2.3",
+    "quarto>=0.1.0",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.9.3",
+]
