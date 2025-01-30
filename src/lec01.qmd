@@ -134,7 +134,7 @@ $$
 
 Alternatively, we can brute force search for this:
 ```{python}
-#| echo: false
+# | echo: false
 from itertools import combinations, product
 
 # system is product of sign, b1, b2, e
