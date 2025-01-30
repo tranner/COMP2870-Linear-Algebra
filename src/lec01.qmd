@@ -1,5 +1,5 @@
 ---
-title: Floating point number systems
+title: (Preliminary topic) Floating point number systems
 jupyter: python3
 ---
 
@@ -134,6 +134,7 @@ $$
 
 Alternatively, we can brute force search for this:
 ```{python}
+#| echo: false
 from itertools import combinations, product
 
 # system is product of sign, b1, b2, e
@@ -201,13 +202,11 @@ print("Is a = 1?", a == 1.0)
 
 > Why is this output not a surprise?
 
-TODO fix this example
-
 We also see that even adding up numbers can have different results depending on what order we add them:
 ```{python}
-x = np.double(10.0)
-y = np.double(1.0e-8)
-z = np.double(1.0e-16)
+x = np.double(1e30)
+y = np.double(-1e30)
+z = np.double(1.0)
 
 print(f"{(x + y) + z=:.16f}")
 ```

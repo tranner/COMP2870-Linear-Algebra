@@ -11,6 +11,9 @@ book:
     - src/lec02.qmd
     - src/lec04.qmd
     - src/lec05.qmd
+    - src/lec06.qmd
+    - src/lec07.qmd
+    - src/lec08.qmd
 
 website:
   title: "COMP2860 Theoretical Foundations: Linear Algebra"

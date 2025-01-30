@@ -1,0 +1,4 @@
+---
+title: Linear independence, span, basis
+jupyter: python3
+---
