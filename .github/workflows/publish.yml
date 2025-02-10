@@ -28,7 +28,11 @@ jobs:
       - name: Install the project
         run: uv sync --all-extras --dev
 
-      - name: Render and Publish
+      - name: Build the book
+        run: |
+          uv run quarto render --to html
+
+      - name: Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
