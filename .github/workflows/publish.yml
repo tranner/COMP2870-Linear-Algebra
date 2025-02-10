@@ -28,9 +28,10 @@ jobs:
       - name: Install the project
         run: uv sync --all-extras --dev
 
-      - name: Build the book
+      - name: Activate virtualenv
         run: |
-          uv run quarto render --to html
+          . .venv/bin/activate
+          echo PATH=$PATH >> $GITHUB_ENV
 
       - name: Publish
         uses: quarto-dev/quarto-actions/publish@v2
