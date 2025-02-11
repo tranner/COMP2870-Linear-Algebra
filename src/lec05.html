@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>COMP2860 Theoretical Foundations: Linear Algebra</title>
+<title>lec05 – COMP2860 Theoretical Foundations: Linear Algebra</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -71,12 +71,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ea72dc5fed832574809a9c94082fbbb.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-df418981c34360f9120995b3f214f13a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-dec82d7d67ffaf4cc5ad31c049d979b1.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -112,7 +112,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   };
 </script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -150,13 +150,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../src/lec05.html">Iterative solutions of linear equations</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -239,30 +239,41 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#iterative-solutions-of-linear-equations" id="toc-iterative-solutions-of-linear-equations" class="nav-link active" data-scroll-target="#iterative-solutions-of-linear-equations"><span class="header-section-number">1</span> Iterative solutions of linear equations</a>
+  <li><a href="#jacobi-iteration" id="toc-jacobi-iteration" class="nav-link active" data-scroll-target="#jacobi-iteration"><span class="header-section-number">1</span> Jacobi iteration</a></li>
+  <li><a href="#gauss-seidel-iteration" id="toc-gauss-seidel-iteration" class="nav-link" data-scroll-target="#gauss-seidel-iteration"><span class="header-section-number">2</span> Gauss-Seidel iteration</a></li>
+  <li><a href="#python-version-of-iterative-methods" id="toc-python-version-of-iterative-methods" class="nav-link" data-scroll-target="#python-version-of-iterative-methods"><span class="header-section-number">3</span> Python version of iterative methods</a></li>
+  <li><a href="#sparse-matrices" id="toc-sparse-matrices" class="nav-link" data-scroll-target="#sparse-matrices"><span class="header-section-number">4</span> Sparse Matrices</a>
   <ul class="collapse">
-  <li><a href="#jacobi-iteration" id="toc-jacobi-iteration" class="nav-link" data-scroll-target="#jacobi-iteration"><span class="header-section-number">1.1</span> Jacobi iteration</a></li>
-  <li><a href="#gauss-seidel-iteration" id="toc-gauss-seidel-iteration" class="nav-link" data-scroll-target="#gauss-seidel-iteration"><span class="header-section-number">1.2</span> Gauss-Seidel iteration</a></li>
-  <li><a href="#python-version-of-iterative-methods" id="toc-python-version-of-iterative-methods" class="nav-link" data-scroll-target="#python-version-of-iterative-methods"><span class="header-section-number">1.3</span> Python version of iterative methods</a></li>
-  <li><a href="#sparse-matrices" id="toc-sparse-matrices" class="nav-link" data-scroll-target="#sparse-matrices"><span class="header-section-number">1.4</span> Sparse Matrices</a>
-  <ul class="collapse">
-  <li><a href="#python-experiments" id="toc-python-experiments" class="nav-link" data-scroll-target="#python-experiments"><span class="header-section-number">1.4.1</span> Python experiments</a></li>
+  <li><a href="#python-experiments" id="toc-python-experiments" class="nav-link" data-scroll-target="#python-experiments"><span class="header-section-number">4.1</span> Python experiments</a></li>
   </ul></li>
-  <li><a href="#convergence-of-an-iterative-method" id="toc-convergence-of-an-iterative-method" class="nav-link" data-scroll-target="#convergence-of-an-iterative-method"><span class="header-section-number">1.5</span> Convergence of an iterative method</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">1.6</span> Summary</a></li>
-  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">1.7</span> Further reading</a></li>
-  </ul></li>
+  <li><a href="#convergence-of-an-iterative-method" id="toc-convergence-of-an-iterative-method" class="nav-link" data-scroll-target="#convergence-of-an-iterative-method"><span class="header-section-number">5</span> Convergence of an iterative method</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">6</span> Summary</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">7</span> Further reading</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/TODO/edit/main/src/lec05.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/TODO/blob/main/src/lec05.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/TODO/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Iterative solutions of linear equations</h1>
+</div>
 
 
 
-<section id="iterative-solutions-of-linear-equations" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Iterative solutions of linear equations</h1>
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
 <p>In the previous section we looked at what are known as <em>direct</em> methods for solving systems of linear equations. They are guaranteed to produce a solution with a fixed amount of work (we can even prove this in exact arithmetic!), but this fixed amount of work may be <strong>very</strong> large.</p>
 <p>For a general <span class="math inline">\(n \times n\)</span> system of linear equations <span class="math inline">\(A \vec{x} = \vec{b}\)</span>, the computation expense of all direct methods if <span class="math inline">\(O(n^3)\)</span>. The amount of storage required for these approaches is <span class="math inline">\(O(n^2)\)</span> which is dominated by the cost of storing the matrix <span class="math inline">\(A\)</span>. As <span class="math inline">\(n\)</span> becomes larger the storage and computation work required limit the practicality of direct approaches.</p>
 <p>As an alternative, we will propose some <strong>iterative methods</strong>. Iterative methods produce a sequence <span class="math inline">\((\vec{x}^{(k)})\)</span> of approximations to the solution of the linear system of equations <span class="math inline">\(A \vec{x} = \vec{b}\)</span>. The iteration is defined recursively and is typically of the form: <span class="math display">\[
@@ -311,8 +322,8 @@ A \vec{x}^{(k+1)} &amp; = A \vec{x}^{(k)} + A A^{-1} (\vec{b} - A \vec{x}^{(k)})
 <li><span class="math inline">\(P\)</span> approximates <span class="math inline">\(A^{-1}\)</span> well enough that the algorithm converges in few iterations.</li>
 </ul>
 <p>We call <span class="math inline">\(\vec{b} - A \vec{x}^{(k)} = \vec{r}\)</span> the <strong>residual</strong>. Note in the above examples we would have <span class="math inline">\(P = O\)</span> (the zero matrix) or <span class="math inline">\(P = A^{-1}\)</span>.</p>
-<section id="jacobi-iteration" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="jacobi-iteration"><span class="header-section-number">1.1</span> Jacobi iteration</h2>
+<section id="jacobi-iteration" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="jacobi-iteration"><span class="header-section-number">1</span> Jacobi iteration</h2>
 <p>One simple choice for <span class="math inline">\(P\)</span> is given by the Jacobi method where we take <span class="math inline">\(P = D^{-1}\)</span> where <span class="math inline">\(D\)</span> is the diagonal of <span class="math inline">\(A\)</span>: <span class="math display">\[
 D_{ii} = A_{ii} \quad \text{and} \quad D_{ij} = 0 \text{ for } i \neq j.
 \]</span></p>
@@ -409,8 +420,8 @@ A_{ij} &amp;\quad \text{if } i &gt; j \\
 \end{aligned}
 \]</span> In this formulation, we do not explicitly form the residual as part of the computations. In practical situations, this may be a simpler formulation we can use if we have knowledge of the coefficients of <span class="math inline">\(A\)</span>, but this is not always true!</p>
 </section>
-<section id="gauss-seidel-iteration" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="gauss-seidel-iteration"><span class="header-section-number">1.2</span> Gauss-Seidel iteration</h2>
+<section id="gauss-seidel-iteration" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="gauss-seidel-iteration"><span class="header-section-number">2</span> Gauss-Seidel iteration</h2>
 <p>As an alternative to Jacobi iteration, the iteration might use <span class="math inline">\(x_i^{(k+1)}\)</span> as soon as it is calculated (rather than using the previous iteration), giving</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -543,9 +554,9 @@ x_1 \\ x_2 \\ x_3
 </ul>
 </div>
 </section>
-<section id="python-version-of-iterative-methods" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="python-version-of-iterative-methods"><span class="header-section-number">1.3</span> Python version of iterative methods</h2>
-<div id="e9150bb9" class="cell" data-execution_count="3">
+<section id="python-version-of-iterative-methods" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="python-version-of-iterative-methods"><span class="header-section-number">3</span> Python version of iterative methods</h2>
+<div id="0a6b345d" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> jacobi_iteration(A, b, x0, max_iter, verbose<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">    </span><span class="al">TODO</span></span>
@@ -603,7 +614,7 @@ x_1 \\ x_2 \\ x_3
 <span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="8bf12858" class="cell" data-execution_count="4">
+<div id="53074347" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">2.0</span>, <span class="fl">1.0</span>], [<span class="op">-</span><span class="fl">1.0</span>, <span class="fl">4.0</span>]])</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.array([[<span class="fl">3.5</span>], [<span class="fl">0.5</span>]])</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> np.array([[<span class="fl">1.0</span>], [<span class="fl">1.0</span>]])</span>
@@ -635,8 +646,8 @@ after iter=4: x.T = [  1.49994,  0.49998 ]
 </div>
 </div>
 </section>
-<section id="sparse-matrices" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="sparse-matrices"><span class="header-section-number">1.4</span> Sparse Matrices</h2>
+<section id="sparse-matrices" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="sparse-matrices"><span class="header-section-number">4</span> Sparse Matrices</h2>
 <p>We met sparse matrices as an example of a special matrix format when we first thought about systems of linear equations. Sparse matrices are very common in applications and have a structure which is very useful when used with iterative methods. There are two main ways in which sparse matrices can be exploited in order to obtain benefits within iterative methods.</p>
 <ul>
 <li><p>The storage can be reduced from <span class="math inline">\(O(n^2)\)</span>.</p></li>
@@ -658,9 +669,9 @@ after iter=4: x.T = [  1.49994,  0.49998 ]
 <li>Here <code>nonzero</code> is the number of non-zero entries in the matrix.</li>
 <li>Note that the cost of this operation is <span class="math inline">\(O(n)\)</span> as required.</li>
 </ul>
-<section id="python-experiments" class="level3" data-number="1.4.1">
-<h3 data-number="1.4.1" class="anchored" data-anchor-id="python-experiments"><span class="header-section-number">1.4.1</span> Python experiments</h3>
-<div id="33cbdfe6" class="cell" data-execution_count="5">
+<section id="python-experiments" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="python-experiments"><span class="header-section-number">4.1</span> Python experiments</h3>
+<div id="92b874d1" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> system_size_sparse(A_real, I_row, I_col, b):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(b)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    nonzero <span class="op">=</span> <span class="bu">len</span>(A_real)</span>
@@ -670,7 +681,7 @@ after iter=4: x.T = [  1.49994,  0.49998 ]
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> n, nonzero</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>First let’s adapt our implementations to use this sparse matrix format:</p>
-<div id="0f902900" class="cell" data-execution_count="6">
+<div id="1b862f0f" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> jacobi_iteration_sparse(A_real, I_row, I_col, b, x0, max_iter, verbose<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">    </span><span class="al">TODO</span></span>
@@ -741,7 +752,7 @@ after iter=4: x.T = [  1.49994,  0.49998 ]
 <span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then we can test the two different implementations of the methods:</p>
-<div id="a92d48de" class="cell" data-execution_count="8">
+<div id="735a8e3b" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># random matrix</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">4</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>nonzero <span class="op">=</span> <span class="dv">10</span></span>
@@ -770,37 +781,37 @@ after iter=4: x.T = [  1.49994,  0.49998 ]
 <span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>sparse matrix:
-A_real = [11.25 -3.   21.25  6.25 11.25  3.   31.5  -3.    4.    3.  ]
-I_row =  [0 0 0 1 1 2 2 2 3 3]
-I_col =  [1 2 0 1 0 3 2 0 3 2]
+A_real = [ 6.   11.25 36.25  6.25  8.5   2.25  6.    6.25 12.5  11.25]
+I_row =  [0 0 0 1 1 2 2 3 3 3]
+I_col =  [2 3 0 3 1 2 0 1 3 0]
 
 dense matrix:
-A_dense = [ 21.25, 11.25, -3.00,  0.00 ]
-          [ 11.25,  6.25,  0.00,  0.00 ]
-          [ -3.00,  0.00, 31.50,  3.00 ]
-          [  0.00,  0.00,  3.00,  4.00 ]
+A_dense = [ 36.25,  0.00,  6.00, 11.25 ]
+          [  0.00,  8.50,  0.00,  6.25 ]
+          [  6.00,  0.00,  2.25,  0.00 ]
+          [ 11.25,  6.25,  0.00, 12.50 ]
 
 jacobi with sparse matrix
 starting value: x.T = [  0.0,  0.0,  0.0,  0.0 ]
-after iter=0: x.T = [  1.38824,  2.80000,  1.00000,  1.75000 ]
-after iter=1: x.T = [  0.047059,  0.301176,  0.965546,  1.000000 ]
-after iter=2: x.T = [  1.36510,  2.71529,  0.90924,  1.02584 ]
-after iter=3: x.T = [  0.07909,  0.34282,  1.03231,  1.06807 ]
-after iter=4: x.T = [  1.35248,  2.65764,  0.90581,  0.97577 ]
+after iter=0: x.T = [  1.47586,  1.73529,  3.66667,  2.40000 ]
+after iter=1: x.T = [  0.124138, -0.029412, -0.268966,  0.204077 ]
+after iter=2: x.T = [  1.45705,  1.58524,  3.33563,  2.30298 ]
+after iter=3: x.T = [  0.209039,  0.041925, -0.218790,  0.296040 ]
+after iter=4: x.T = [  1.42020,  1.51762,  3.10923,  2.19090 ]
 
 jacobi with dense matrix
 starting value: x.T = [  0.0,  0.0,  0.0,  0.0 ]
-after iter=0: x.T = [  1.38824,  2.80000,  1.00000,  1.75000 ]
-after iter=1: x.T = [  0.047059,  0.301176,  0.965546,  1.000000 ]
-after iter=2: x.T = [  1.36510,  2.71529,  0.90924,  1.02584 ]
-after iter=3: x.T = [  0.07909,  0.34282,  1.03231,  1.06807 ]
-after iter=4: x.T = [  1.35248,  2.65764,  0.90581,  0.97577 ]
+after iter=0: x.T = [  1.47586,  1.73529,  3.66667,  2.40000 ]
+after iter=1: x.T = [  0.124138, -0.029412, -0.268966,  0.204077 ]
+after iter=2: x.T = [  1.45705,  1.58524,  3.33563,  2.30298 ]
+after iter=3: x.T = [  0.209039,  0.041925, -0.218790,  0.296040 ]
+after iter=4: x.T = [  1.42020,  1.51762,  3.10923,  2.19090 ]
 </code></pre>
 </div>
 </div>
 <p>We see that we get the same results!</p>
 <p>Now let’s see how long it takes to get a solution. The following plot shows the run times of using the two different implementations of the Jacobi method. We see that, as expected, the run time of the dense formulation is <span class="math inline">\(O(n^2)\)</span> and the run time of the sparse formulation is <span class="math inline">\(O(n)\)</span>.</p>
-<div id="00ed9342" class="cell" data-execution_count="10">
+<div id="c7e0adbb" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -812,8 +823,8 @@ after iter=4: x.T = [  1.35248,  2.65764,  0.90581,  0.97577 ]
 <p>We say “as expected” because we have already counted the number of operations per iteration and these implementations compute for a fixed number of iterations. In the next section, we look at alternative stopping criteria.</p>
 </section>
 </section>
-<section id="convergence-of-an-iterative-method" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="convergence-of-an-iterative-method"><span class="header-section-number">1.5</span> Convergence of an iterative method</h2>
+<section id="convergence-of-an-iterative-method" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="convergence-of-an-iterative-method"><span class="header-section-number">5</span> Convergence of an iterative method</h2>
 <p>We have discussed the construction of <strong>iterations</strong> which aim to find the solution of the equations <span class="math inline">\(A \vec{x} = \vec{b}\)</span> through a sequence of better and better approximations <span class="math inline">\(\vec{x}^{(k)}\)</span>.</p>
 <p>In general the iteration takes the form <span class="math display">\[
 \vec{x}^{(k+1)} = \vec{F}(\vec{x}^{(k)})
@@ -945,14 +956,14 @@ Discussion
 <li><p>Impose a maximum number of iterations to ensure that the loop is not repeated forever!</p></li>
 </ul>
 </section>
-<section id="summary" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">1.6</span> Summary</h2>
+<section id="summary" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="summary"><span class="header-section-number">6</span> Summary</h2>
 <p>Many complex computational problems simply cannot be solved with today’s computers using direct methods. Iterative methods are used instead since they can massively reduce the computational cost and storage required to get a “good enough” solution.</p>
 <p>These basic iterative methods are simple to describe and program but generally slow to converge to an accurate answer - typically <span class="math inline">\(O(n)\)</span> iterations are required! Their usefulness for general matrix systems is very limited therefore - but we have shown their value in the solution of sparse systems however.</p>
 <p>More advanced iterative methods do exist but are beyond the scope of this module - see Final year projects, MSc projects, PhD, and beyond!</p>
 </section>
-<section id="further-reading" class="level2" data-number="1.7">
-<h2 data-number="1.7" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">1.7</span> Further reading</h2>
+<section id="further-reading" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">7</span> Further reading</h2>
 <p>More details on these basic (and related) methods:</p>
 <ul>
 <li>Wikipedia: <a href="https://en.wikipedia.org/wiki/Jacobi_method">Jacobi method</a></li>
@@ -984,7 +995,6 @@ Discussion
 </ul>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -1167,18 +1177,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1210,7 +1209,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/tranner\.github\.io\/COMP2860-Linear-Algebra\/");
@@ -1218,7 +1237,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
@@ -1315,7 +1334,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
