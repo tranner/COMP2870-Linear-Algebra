@@ -1,19 +1,19 @@
 project:
   output-dir: "_output"
-  type: book
+  type: website
 
-book:
-  title: "COMP2860 Theoretical Foundations: Linear Algebra"
-  author: "Thomas Ranner"
-  chapters:
-    - index.qmd
-    - src/lec01.qmd
-    - src/lec02.qmd
-    - src/lec04.qmd
-    - src/lec05.qmd
-    - src/lec06.qmd
-    - src/lec07.qmd
-    - src/lec08.qmd
+#book:
+#  title: "COMP2860 Theoretical Foundations: Linear Algebra"
+#  author: "Thomas Ranner"
+#  chapters:
+#    - index.qmd
+#    - src/lec01.qmd
+#    - src/lec02.qmd
+#    - src/lec04.qmd
+#    - src/lec05.qmd
+#    - src/lec06.qmd
+#    - src/lec07.qmd
+#    - src/lec08.qmd
 
 website:
   title: "COMP2860 Theoretical Foundations: Linear Algebra"
@@ -36,7 +36,7 @@ format:
       light: flatly
       dark: darkly
     include-in-header: mathjax.html
-  pdf: default
+  # pdf: default
 
 execute:
   freeze: auto
