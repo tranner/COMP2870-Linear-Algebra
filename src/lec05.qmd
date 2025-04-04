@@ -5,8 +5,8 @@
 import inspect
 import time
 
-from matplotlib import pyplot as plt
 import numpy as np
+from matplotlib import pyplot as plt
 
 
 def system_size(A, b):
@@ -579,7 +579,7 @@ def gauss_seidel_iteration_sparse(A_real, I_row, I_col, b, x0, max_iter, verbose
 
 Then we can test the two different implementations of the methods:
 ```{python}
-#| echo: false
+# | echo: false
 import scipy as sp
 
 
@@ -657,8 +657,10 @@ print()
 x0 = np.zeros((n, 1))
 
 print("jacobi with sparse matrix")
-x_sparse = jacobi_iteration_sparse(A_real, I_row, I_col, b, x0, max_iter=5, verbose=True)
-print() 
+x_sparse = jacobi_iteration_sparse(
+    A_real, I_row, I_col, b, x0, max_iter=5, verbose=True
+)
+print()
 
 print("jacobi with dense matrix")
 x_dense = jacobi_iteration(A_dense, b, x0, max_iter=5, verbose=True)
@@ -669,38 +671,42 @@ We see that we get the same results!
 
 Now let's see how long it takes to get a solution. The following plot shows the run times of using the two different implementations of the Jacobi method. We see that, as expected, the run time of the dense formulation is $O(n^2)$ and the run time of the sparse formulation is $O(n)$.
 ```{python}
-#| echo: false
+# | echo: false
 ns = [4, 8, 16, 32, 64, 128]
 timing_sparse = []
 timing_dense = []
 
 for n in ns:
     # generate random nonzero matrix
-    nonzero = 3*n
+    nonzero = 3 * n
     A_real, I_row, I_col, b = random_sparse_system(n, nonzero)
     x0 = np.zeros((n, 1))
-    
+
     start_time = time.time()
     jacobi_iteration_sparse(A_real, I_row, I_col, b, x0, max_iter=10, verbose=False)
     end_time = time.time()
-    
+
     timing_sparse.append(end_time - start_time)
-    
+
     A_dense = to_dense(A_real, I_row, I_col)
     start_time = time.time()
     jacobi_iteration(A_dense, b, x0, max_iter=10, verbose=False)
     end_time = time.time()
-    
+
     timing_dense.append(end_time - start_time)
 ```
 
 ```{python}
-#| echo: false
+# | echo: false
 plt.loglog(ns, timing_sparse, "C1o", label="sparse")
 plt.loglog(ns, timing_dense, "C0o", label="dense")
 
-poly_sparse = np.poly1d([np.polyfit(ns, timing_sparse, 1)[0], 0])(np.array(ns, dtype=np.double))
-poly_dense = np.poly1d([np.polyfit(ns, timing_dense, 2)[0], 0, 0])(np.array(ns, dtype=np.double))
+poly_sparse = np.poly1d([np.polyfit(ns, timing_sparse, 1)[0], 0])(
+    np.array(ns, dtype=np.double)
+)
+poly_dense = np.poly1d([np.polyfit(ns, timing_dense, 2)[0], 0, 0])(
+    np.array(ns, dtype=np.double)
+)
 
 plt.loglog(ns, poly_sparse, "C1--", label="$O(n)$")
 plt.loglog(ns, poly_dense, "C0--", label="$O(n^2)$")

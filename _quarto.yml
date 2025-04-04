@@ -28,6 +28,7 @@ website:
 
 toc: true
 number-sections: true
+callout-icon: false
 
 format:
   html:

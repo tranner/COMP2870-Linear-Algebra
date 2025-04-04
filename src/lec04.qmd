@@ -51,6 +51,7 @@ $$
 
 Recall the $n \times n$ matrix $A$ represents the coefficients that multiply the unknowns in each equation (row), while the $n$-vector $\vec{b}$ represents the right-hand-side values.
 
+Our strategy will be to reduce the system to a triangular system of matrices which is then easy to solve!
 
 ## Elementary row operations
 
