@@ -1,39 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://tranner.github.io/COMP2860-Linear-Algebra/index.html</loc>
-    <lastmod>2025-02-11T09:23:03.464Z</lastmod>
-  </url>
-  <url>
-    <loc>https://tranner.github.io/COMP2860-Linear-Algebra/src/lec08.html</loc>
-    <lastmod>2025-02-11T09:23:03.465Z</lastmod>
-  </url>
-  <url>
-    <loc>https://tranner.github.io/COMP2860-Linear-Algebra/src/lec06.html</loc>
-    <lastmod>2025-02-11T09:23:03.465Z</lastmod>
+    <loc>https://tranner.github.io/COMP2860-Linear-Algebra/src/lec01.html</loc>
+    <lastmod>2025-04-04T15:23:25.146Z</lastmod>
   </url>
   <url>
     <loc>https://tranner.github.io/COMP2860-Linear-Algebra/src/notes.html</loc>
-    <lastmod>2025-02-11T09:23:03.466Z</lastmod>
+    <lastmod>2025-04-04T15:23:25.147Z</lastmod>
   </url>
   <url>
-    <loc>https://tranner.github.io/COMP2860-Linear-Algebra/src/lec04.html</loc>
-    <lastmod>2025-02-11T09:23:03.465Z</lastmod>
+    <loc>https://tranner.github.io/COMP2860-Linear-Algebra/src/lec02a.html</loc>
+    <lastmod>2025-04-04T15:23:25.146Z</lastmod>
   </url>
   <url>
     <loc>https://tranner.github.io/COMP2860-Linear-Algebra/src/lec07.html</loc>
-    <lastmod>2025-02-11T09:23:03.465Z</lastmod>
+    <lastmod>2025-04-04T15:23:25.147Z</lastmod>
+  </url>
+  <url>
+    <loc>https://tranner.github.io/COMP2860-Linear-Algebra/src/lec08.html</loc>
+    <lastmod>2025-04-04T15:23:25.147Z</lastmod>
+  </url>
+  <url>
+    <loc>https://tranner.github.io/COMP2860-Linear-Algebra/index.html</loc>
+    <lastmod>2025-04-04T15:23:25.146Z</lastmod>
   </url>
   <url>
     <loc>https://tranner.github.io/COMP2860-Linear-Algebra/src/lec05.html</loc>
-    <lastmod>2025-02-11T09:23:03.465Z</lastmod>
+    <lastmod>2025-04-04T15:23:25.147Z</lastmod>
   </url>
   <url>
-    <loc>https://tranner.github.io/COMP2860-Linear-Algebra/src/lec01.html</loc>
-    <lastmod>2025-02-11T09:23:03.465Z</lastmod>
+    <loc>https://tranner.github.io/COMP2860-Linear-Algebra/src/lec04.html</loc>
+    <lastmod>2025-04-04T15:23:25.147Z</lastmod>
+  </url>
+  <url>
+    <loc>https://tranner.github.io/COMP2860-Linear-Algebra/src/lec06.html</loc>
+    <lastmod>2025-04-04T15:23:25.147Z</lastmod>
   </url>
   <url>
     <loc>https://tranner.github.io/COMP2860-Linear-Algebra/src/lec02.html</loc>
-    <lastmod>2025-02-11T09:23:03.465Z</lastmod>
+    <lastmod>2025-04-04T15:23:25.146Z</lastmod>
   </url>
 </urlset>

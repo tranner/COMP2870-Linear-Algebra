@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.6.43">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -65,18 +65,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../src/lec05.html" rel="next">
-<link href="../src/lec02.html" rel="prev">
+<link href="../src/lec02a.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ea72dc5fed832574809a9c94082fbbb.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-4379b0ccadffce622b03caf4c46266b3.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-df418981c34360f9120995b3f214f13a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-dec82d7d67ffaf4cc5ad31c049d979b1.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-d75320580429fd03ccc14abf5aea7e44.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-03cff2e87a80ce85282700c0d3d2a4d3.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -195,6 +195,12 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../src/lec02a.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to systems of linear equations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../src/lec04.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Direct solvers for systems of linear equtaions</span></a>
   </div>
@@ -303,6 +309,7 @@ b_1 \\ b_2 \\ b_3 \\ \vdots \\ b_n
 \end{pmatrix}.
 \]</span></p>
 <p>Recall the <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(A\)</span> represents the coefficients that multiply the unknowns in each equation (row), while the <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\vec{b}\)</span> represents the right-hand-side values.</p>
+<p>Our strategy will be to reduce the system to a triangular system of matrices which is then easy to solve!</p>
 <section id="elementary-row-operations" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="elementary-row-operations"><span class="header-section-number">1.1</span> Elementary row operations</h2>
 <p>Consider equation <span class="math inline">\(p\)</span> of the above system:</p>
@@ -333,10 +340,10 @@ a_{q1} x_1 + a_{q2} x_2 + a_{q3} x_3 + \cdots + a_{qn} x_n = b_q
 (k a_{p1} + a_{q1}) x_1 + (k a_{p2} + a_{q2}) x_2 + \cdots + (k a_{pn} + a_{qn}) x_n = k b_p + b_q.
 \]</span></p></li>
 </ul>
-<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Example 1
@@ -359,10 +366,10 @@ Example 1
 \]</span></p>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Example 2 (homework)
@@ -507,10 +514,10 @@ x_1 \\ x_2
 <li>Repeat for row <span class="math inline">\(3, 4, \ldots, n-1\)</span>.</li>
 </ol>
 <p>After row <span class="math inline">\(n-1\)</span> all entities below the diagonal have been eliminated, so <span class="math inline">\(A\)</span> is now upper triangular and the resulting system can be solved by backward substitution.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Example 1
@@ -573,10 +580,10 @@ x_1 \\ x_2 \\ x_3
 </ul>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Example 2 (homework)
@@ -611,10 +618,10 @@ a_{ji} \leftarrow a_{ji} - \frac{a_{ji}}{a_{ii}} a_{ii} = a_{ji} - a_{ji} = 0.
 \]</span></p></li>
 </ul>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Example 3 (homework)
@@ -640,7 +647,7 @@ x_1 \\ x_2 \\ x_3 \\ x_4
 <section id="python-version" class="level3" data-number="1.2.2">
 <h3 data-number="1.2.2" class="anchored" data-anchor-id="python-version"><span class="header-section-number">1.2.2</span> Python version</h3>
 <p>We start with some helper code which determines the size of the system we are working with:</p>
-<div id="806f99c9" class="cell" data-execution_count="2">
+<div id="4f38c44e" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> system_size(A, b):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">    for a system of linear equations, returns the size and errors if sizes are not compatible</span></span>
@@ -652,7 +659,7 @@ x_1 \\ x_2 \\ x_3 \\ x_4
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> n</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then we can implement the elementary row operations</p>
-<div id="d20b69f0" class="cell" data-execution_count="4">
+<div id="21d1da5a" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> row_swap(A, b, p, q):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">    swap the rows p and q for the system of linear equations given by Ax = b.</span></span>
@@ -694,7 +701,7 @@ x_1 \\ x_2 \\ x_3 \\ x_4
 </div>
 <p>Let’s test we are ok so far:</p>
 <p>Test 1: swapping rows</p>
-<div id="e741b283" class="cell" data-execution_count="5">
+<div id="6b376b8d" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">2.0</span>, <span class="fl">3.0</span>], [<span class="op">-</span><span class="fl">3.0</span>, <span class="fl">2.0</span>]])</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.array([[<span class="fl">4.0</span>], [<span class="fl">7.0</span>]])</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -729,7 +736,7 @@ b = [  7.0 ]
 </div>
 </div>
 <p>Test 2: scaling one row</p>
-<div id="0ed31de6" class="cell" data-execution_count="6">
+<div id="9b1fbf36" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">2.0</span>, <span class="fl">3.0</span>], [<span class="op">-</span><span class="fl">3.0</span>, <span class="fl">2.0</span>]])</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.array([[<span class="fl">4.0</span>], [<span class="fl">7.0</span>]])</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -764,7 +771,7 @@ b = [  2.0 ]
 </div>
 </div>
 <p>Test 3: replacing a row by that adding a multiple of another row</p>
-<div id="34b3fcaf" class="cell" data-execution_count="7">
+<div id="615fc106" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">2.0</span>, <span class="fl">3.0</span>], [<span class="op">-</span><span class="fl">3.0</span>, <span class="fl">2.0</span>]])</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.array([[<span class="fl">4.0</span>], [<span class="fl">7.0</span>]])</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -799,7 +806,7 @@ b = [  4.0 ]
 </div>
 </div>
 <p>Now we can define our Gaussian elimination function. We update the values in-place to avoid extra memory allocations.</p>
-<div id="b4835421" class="cell" data-execution_count="8">
+<div id="9ced470f" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gaussian_elimination(A, b, verbose<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">    perform Gaussian elimnation to reduce the system of linear equations Ax=b to upper triangular form</span></span>
@@ -828,7 +835,7 @@ b = [  4.0 ]
 <span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can try our code on Example 1:</p>
-<div id="82454bc5" class="cell" data-execution_count="9">
+<div id="6d6c9530" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">2.0</span>, <span class="fl">1.0</span>, <span class="fl">4.0</span>], [<span class="fl">1.0</span>, <span class="fl">2.0</span>, <span class="fl">2.0</span>], [<span class="fl">2.0</span>, <span class="fl">4.0</span>, <span class="fl">6.0</span>]])</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.array([[<span class="fl">12.0</span>], [<span class="fl">9.0</span>], [<span class="fl">22.0</span>]])</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -928,10 +935,10 @@ x_i = \frac{1}{a_{ii}} \left(b_i - \sum_{j=1}^{i-1} a_{ij} x_j \right)
 i.e.&nbsp;<span class="math inline">\(a_{ii} \neq 0\)</span> for <span class="math inline">\(i = 1, 2, \ldots, n\)</span>.</li>
 <li><strong>Upper triangular</strong> systems of equations can be solved in a similar manner.</li>
 </ul>
-<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Example 1
@@ -974,10 +981,10 @@ x_3 &amp;= \frac{b_3 - a_{31} x_1 - a_{32} x_2}{a_33}
 <p>which gives the solution <span class="math inline">\(\vec{x} = (1, 3, 2)^T\)</span>.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Example 2 (homework)
@@ -1003,7 +1010,7 @@ Example 2 (homework)
 </ul>
 </div>
 <p>We can define functions to solve both upper or lower triangular form systems of linear equations:</p>
-<div id="4f916699" class="cell" data-execution_count="10">
+<div id="01a62c9c" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> forward_substitution(A, b):</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">    solves the system of linear equationa Ax = b assuming that A is lower triangular</span></span>
@@ -1052,7 +1059,7 @@ Example 2 (homework)
 <span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And we can then test it out!</p>
-<div id="a51e5d82" class="cell" data-execution_count="11">
+<div id="75dbaa11" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">2.0</span>, <span class="fl">0.0</span>, <span class="fl">0.0</span>], [<span class="fl">1.0</span>, <span class="fl">2.0</span>, <span class="fl">0.0</span>], [<span class="fl">2.0</span>, <span class="fl">4.0</span>, <span class="fl">6.0</span>]])</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.array([[<span class="fl">2.0</span>], [<span class="fl">7.0</span>], [<span class="fl">26.0</span>]])</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1090,7 +1097,7 @@ Does x really solve the system? True</code></pre>
 </div>
 </div>
 <p>We can also do a backward substitution test:</p>
-<div id="fb474815" class="cell" data-execution_count="12">
+<div id="ea644aae" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">2.0</span>, <span class="fl">1.0</span>, <span class="fl">4.0</span>], [<span class="fl">0.0</span>, <span class="fl">1.5</span>, <span class="fl">0.0</span>], [<span class="fl">0.0</span>, <span class="fl">0.0</span>, <span class="fl">2.0</span>]])</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.array([[<span class="fl">12.0</span>], [<span class="fl">3.0</span>], [<span class="fl">4.0</span>]])</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1138,7 +1145,7 @@ Does x really solve the system? True</code></pre>
 <li>Then use backward substitution to produce a solution <span class="math inline">\(\vec{x}\)</span></li>
 </ul>
 <p>We can use our code to test this:</p>
-<div id="3e8b99fd" class="cell" data-execution_count="13">
+<div id="bea3ad02" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">2.0</span>, <span class="fl">1.0</span>, <span class="fl">4.0</span>], [<span class="fl">1.0</span>, <span class="fl">2.0</span>, <span class="fl">2.0</span>], [<span class="fl">2.0</span>, <span class="fl">4.0</span>, <span class="fl">6.0</span>]])</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.array([[<span class="fl">12.0</span>], [<span class="fl">9.0</span>], [<span class="fl">22.0</span>]])</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1227,7 +1234,7 @@ Does x really solve the original system? True</code></pre>
 <li>The forward elimination process is the most computationally expensive part at <span class="math inline">\(O(n^3)\)</span> but is exactly the same for any choice of <span class="math inline">\(\vec{b}\)</span>.</li>
 <li>In contrast, the solution of the resulting upper triangular system only requires <span class="math inline">\(O(n^2)\)</span> operations.</li>
 </ul>
-<div id="a9cbefac" class="cell" data-execution_count="15">
+<div id="65b9abef" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1364,10 +1371,10 @@ a_{41} &amp; = (l_{41}, l_{42}, l_{43}, 1)(u_{11}, 0, 0, 0)^T &amp;&amp; = l_{41
 <span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>      ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 </ul>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Example 1
@@ -1479,10 +1486,10 @@ x_1 \\ x_2 \\ x_3
 \]</span></p>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Example 2 (homework)
@@ -1530,7 +1537,7 @@ A =
 <section id="python-code" class="level3" data-number="1.6.2">
 <h3 data-number="1.6.2" class="anchored" data-anchor-id="python-code"><span class="header-section-number">1.6.2</span> Python code</h3>
 <p>We can implement computation of the LU factorisation:</p>
-<div id="6230a41a" class="cell" data-execution_count="16">
+<div id="1a98220e" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> lu_factorisation(A):</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co">    compute the LU factorisation of A</span></span>
@@ -1555,7 +1562,7 @@ A =
 <span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> L, U</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>and test our implementation:</p>
-<div id="567c424f" class="cell" data-execution_count="17">
+<div id="b631a605" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">2.0</span>, <span class="fl">1.0</span>, <span class="fl">4.0</span>], [<span class="fl">1.0</span>, <span class="fl">2.0</span>, <span class="fl">2.0</span>], [<span class="fl">2.0</span>, <span class="fl">4.0</span>, <span class="fl">6.0</span>]])</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"matrix:"</span>)</span>
@@ -1596,7 +1603,7 @@ Is LU a factorisation of A? True</code></pre>
 </div>
 </div>
 <p>and then add LU factorisation times to our plot:</p>
-<div id="f2e4f1a7" class="cell" data-execution_count="19">
+<div id="30303f9c" class="cell" data-execution_count="19">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1610,10 +1617,10 @@ Is LU a factorisation of A? True</code></pre>
 </section>
 <section id="effects-of-finite-precision-arithmetic" class="level2" data-number="1.7">
 <h2 data-number="1.7" class="anchored" data-anchor-id="effects-of-finite-precision-arithmetic"><span class="header-section-number">1.7</span> Effects of finite precision arithmetic</h2>
-<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Example 1
@@ -1684,10 +1691,10 @@ x_1 \\ x_2 \\ x_3
 </ul>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Example 2
@@ -1759,10 +1766,10 @@ x_1 \\ x_2 \\ x_3
 </div>
 </div>
 <p><em>In general</em>. Gaussian elimination requires row swaps to avoid breaking down when there is a zero in the “pivot” position. This might be a familiar aspect of Gaussian elimination, but there is an additional reason to apply pivoting when working with floating point numbers:</p>
-<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Example 3
@@ -1836,7 +1843,7 @@ x_1 \\ x_2
 <li><p>The problems due to small values of <span class="math inline">\(\varepsilon\)</span> have disappeared.</p></li>
 </ul>
 <p>This is a genuine problem we see in the code versions too!</p>
-<div id="ee4b85f9" class="cell" data-execution_count="20">
+<div id="7524ad83" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"without row swapping:"</span>)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> eps <span class="kw">in</span> [<span class="fl">1.0e-2</span>, <span class="fl">1.0e-4</span>, <span class="fl">1.0e-6</span>, <span class="fl">1.0e-8</span>, <span class="fl">1.0e-10</span>, <span class="fl">1.0e-12</span>, <span class="fl">1.0e-14</span>]:</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> np.array([[eps, <span class="fl">1.0</span>], [<span class="fl">1.0</span>, <span class="fl">1.0</span>]])</span>
@@ -1908,10 +1915,10 @@ eps=1.0e-14, x.T = [  1.0,  2.0 ], Solution? True
 <li><p>Then eliminate column <span class="math inline">\(j\)</span> as before.</p></li>
 </ul>
 <p>This algorithm will always work when the matrix <span class="math inline">\(A\)</span> is invertible/non-singular. Conversely, if all of the possible pivot values are zero this implies that the matrix is singular and a unique solution does not exist. At each elimination step the row multiplies used are guaranteed to be at most one in magnitude so any errors in the representation of the system cannot be amplified by the elimination process. As always, solving <span class="math inline">\(A \vec{x} = \vec{b}\)</span> requires that the entries in <span class="math inline">\(\vec{b}\)</span> are also swapped in the appropriate way. Pivoting can be applied in an equivalent way to LU factorisation. The sequence of pivots is independent of the vector <span class="math inline">\(\vec{b}\)</span> and can be recorded and reused. The constraint imposed on the row multipliers means that for LU factorisation every entry in <span class="math inline">\(L\)</span> satisfies <span class="math inline">\(| l_{ij} | \le 1\)</span>.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Example
@@ -2034,7 +2041,7 @@ x_1 = \frac{7 + 7 x_2}{10} = 0.
 </section>
 <section id="python-code-1" class="level3" data-number="1.7.2">
 <h3 data-number="1.7.2" class="anchored" data-anchor-id="python-code-1"><span class="header-section-number">1.7.2</span> Python code</h3>
-<div id="77d1e2c6" class="cell" data-execution_count="21">
+<div id="6fdbf259" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gaussian_elimination_with_pivoting(A, b, verbose<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co">    perform Gaussian elimnation with pivoting to reduce the system of linear equations Ax=b to upper triangular form</span></span>
@@ -2078,7 +2085,7 @@ x_1 = \frac{7 + 7 x_2}{10} = 0.
 <span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Gaussian elimination without pivoting following by back subsitution:</p>
-<div id="7c7ef4c8" class="cell" data-execution_count="22">
+<div id="3fafdf38" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>eps <span class="op">=</span> <span class="fl">1.0e-14</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">10.0</span>, <span class="op">-</span><span class="fl">7.0</span>, <span class="fl">0.0</span>], [<span class="op">-</span><span class="fl">3.0</span>, <span class="fl">2.1</span> <span class="op">-</span> eps, <span class="fl">6.0</span>], [<span class="fl">5.0</span>, <span class="op">-</span><span class="fl">1.0</span>, <span class="fl">5.0</span>]])</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.array([[<span class="fl">7.0</span>], [<span class="fl">9.9</span> <span class="op">+</span> eps], [<span class="fl">11.0</span>]])</span>
@@ -2161,7 +2168,7 @@ Does x solve the original system? False</code></pre>
 </div>
 </div>
 <p>Gaussian elimination with pivoting following by back subsitution:</p>
-<div id="dd96e39a" class="cell" data-execution_count="23">
+<div id="bdd309c7" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>eps <span class="op">=</span> <span class="fl">1.0e-14</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">10.0</span>, <span class="op">-</span><span class="fl">7.0</span>, <span class="fl">0.0</span>], [<span class="op">-</span><span class="fl">3.0</span>, <span class="fl">2.1</span> <span class="op">-</span> eps, <span class="fl">6.0</span>], [<span class="fl">5.0</span>, <span class="op">-</span><span class="fl">1.0</span>, <span class="fl">5.0</span>]])</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.array([[<span class="fl">7.0</span>], [<span class="fl">9.9</span> <span class="op">+</span> eps], [<span class="fl">11.0</span>]])</span>
@@ -2858,7 +2865,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../src/lec02.html" class="pagination-link" aria-label="Introduction to systems of linear equations">
+      <a href="../src/lec02a.html" class="pagination-link" aria-label="Introduction to systems of linear equations">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Introduction to systems of linear equations</span>
       </a>          
   </div>
