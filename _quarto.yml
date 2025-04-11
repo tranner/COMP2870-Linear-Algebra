@@ -2,6 +2,11 @@ project:
   output-dir: "_output"
   type: website
 
+author:
+  - name: Thomas Ranner
+    email: T.Ranner@leeds.ac.uk
+    affiliation: School of Computer Science, University of Leeds
+
 #book:
 #  title: "COMP2860 Theoretical Foundations: Linear Algebra"
 #  author: "Thomas Ranner"
