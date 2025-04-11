@@ -34,8 +34,12 @@ format:
   html:
     navbar: true
     theme:
-      light: flatly
-      dark: darkly
+      light:
+        - flatly
+        - theorem.scss
+      dark:
+        - darkly
+        - theorem.scss
     include-in-header: mathjax.html
   # pdf: default
 
