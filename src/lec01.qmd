@@ -80,9 +80,7 @@ c = np.half(1.3)
 print(type(c))
 ```
 
-::: {.callout-tip}
-### Example 1
-
+::: {#exm-number-system}
 Consider the number system given by $(\beta, t, L, U) = (10, 2, -1, 2)$ which gives
 
 $$
@@ -164,9 +162,7 @@ print(f"The minimum difference {min_diff=:.4f}\nat x={min_x} y={min_y}.")
 ```
 :::
 
-::: {.callout-tip}
-### Example 2 (homework)
-
+::: {#exr-number-system}
 Consider the number system given by $(\beta, t, L, U) = (10, 3, -3, 3)$ which gives
 
 $$
@@ -185,8 +181,8 @@ e.  What is the smallest possible difference in this system, $x$ and $y$, for wh
 :::
 
 
-::: {.callout-tip}
-### Example 3 - what about in python
+::: {#exm-python}
+### What about in python
 
 We find that even with double-precision floating point numbers, we see sum funniness when working with decimals:
 
@@ -264,9 +260,7 @@ The last term is known as **machine precision** or **unit roundoff** and is ofte
 np.finfo(np.double).eps
 ```
 
-::: {.callout-tip}
-### Examples
-
+::: {#exm-eps}
 1.  The number system $(\beta, t, L, U) = (10, 2, -1, 2)$ gives
 
     $$
@@ -285,23 +279,25 @@ np.finfo(np.double).eps
     $$
 
 
-For some common types in python, we see the following values:
+4. For some common types in python, we see the following values:
 ```{python}
 for dtype in [np.half, np.single, np.double]:
     print(dtype.__name__, np.finfo(dtype).eps)
 ```
 :::
 
-::: {.callout-warning}
-### Remark
+::: {#rmk-eps}
 Machine precision epsilon ($eps$) gives us an upper bound for the error in the representation of a floating point number in a particular system.
 We note that this is different to the smallest possible numbers that we are able to store!
 
 ```{python}
-a = np.finfo(np.double).eps
+eps = np.finfo(np.double).eps
+print(f"{eps=}")
 
-a = a / 10.0
-a
+smaller = eps
+for i in range(5):
+    smaller = smaller / 10.0
+    print(f"{smaller=}")
 
 
 ```
@@ -316,9 +312,7 @@ e.g. $x + y = ?$,
 and the usual rules don't necessarily apply\
 e.g. $x + (y+z) = (x+y) + z$?
 
-::: {.callout-tip}
-### Example 1
-
+::: {#exm-calculations}
 Consider the number system $(\beta, t, L, U) = (10, 2, -1, 2)$ and take
 
 $$
@@ -350,8 +344,8 @@ $$
 (Also note the benefits of adding the *smallest* terms first!)
 :::
 
-::: {.callout-tip}
-### Example - computing derivatives with floating point numbers
+::: {#exm-derivatives}
+### Computing derivatives with floating point numbers
 
 Suppose we want to compute the derivative of $f(x) = x^3$ at $x = 1$ using the definition of limits and floating point numbers:
 $$
@@ -380,9 +374,8 @@ for j in range(20):
 We see that if `Delta_x` is not too small, we do an okay job. But if `Delta_x` is too small we start to have problems!
 :::
 
-::: {.callout-tip}
-### More examples (homework)
-
+::: {#exr-calculations}
+### More examples
 1.  Verify that a similar problem arises for the numbers
 
     $$
