@@ -18,10 +18,12 @@ $remark-bg-color: var(--bs-yellow-bg-subtle);
 
 /*-- scss:rules --*/
 .amsthm {
- border: 1px solid $default-border-color;
- border-left-width: 5px;
+ // border: 1px solid $default-border-color;
+ // border-left-width: 5px;
  border-radius: 4px;
  margin-bottom: 1rem;
+ display: block;
+ background-color: color-mix(in srgb, var(--bs-body-bg) 92%, var(--bs-body-color));
 }
 
 .amsthm p {
@@ -59,6 +61,9 @@ $remark-bg-color: var(--bs-yellow-bg-subtle);
 }
 
 .exercise {
+ border: 1px solid;
+ border-left-width: 5px;
+ border-radius: 4px;
  border-color: $exercise-color;
  margin: $default-padding;
 }
