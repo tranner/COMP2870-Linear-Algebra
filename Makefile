@@ -1,3 +1,7 @@
+all:
+	./qmd_ruff.py src/*.qmd
+	uv run quarto render
+
 formatlint:
 	./qmd_ruff.py src/*.qmd
 
