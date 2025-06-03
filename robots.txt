@@ -1,1 +1,0 @@
-Sitemap: https://tranner.github.io/COMP2860-Linear-Algebra/sitemap.xml
