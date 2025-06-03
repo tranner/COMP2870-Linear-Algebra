@@ -32,6 +32,9 @@ jobs:
       - name: 'Install the project'
         run: uv sync --all-extras --dev --locked
 
+      - name: 'Install tinytex'
+        run: uv run quarto install tinytex
+
       - name: 'Build site'
         run: uv run quarto render
 
