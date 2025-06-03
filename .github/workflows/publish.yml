@@ -10,8 +10,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # permissions:
-    #   contents: write
     outputs:
       site-dir: "_output"
     steps:
@@ -39,6 +37,12 @@ jobs:
       - name: 'Build site'
         run: uv run quarto render
 
+      - name: Upload site as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: _output
+
   deploy:
     needs: build
     if: github.ref == 'refs/heads/main'
@@ -46,6 +50,12 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+
+      - name: Download site artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: _output
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
