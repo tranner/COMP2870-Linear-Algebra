@@ -1,21 +1,22 @@
+name: Quarto build and deploy
+
 on:
   workflow_dispatch:
   push:
     branches: main
+  pull_request:
 
-name: Quarto Publish
 
 jobs:
-  build-deploy:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    # permissions:
+    #   contents: write
+    outputs:
+      site-dir: "_output"
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-
-      - name: Set up Quarto
-        uses: quarto-dev/quarto-actions/setup@v2
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
@@ -25,11 +26,23 @@ jobs:
         with:
           python-version-file: "pyproject.toml"
 
-      - name: Install the project
-        run: uv sync --all-extras --dev
+      - name: 'Install the project'
+        run: uv sync --all-extras --dev --locked
 
-      - name: 'Publish Quarto project'
+      - name: 'Build site'
         run: |
-          git config --global user.email "quarto-github-actions-publish@example.com"
-          git config --global user.name "Quarto GHA Workflow Runner"
-          uv run quarto publish gh-pages --no-browser
+          uv run quarto render
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_output
