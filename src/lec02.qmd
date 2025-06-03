@@ -48,6 +48,8 @@ $A$ is a $4 \times 4$ matrix and $B$ is a $3 \times 4$ matrix:
 :::
 :::
 
+TODO add example of 2d rotation matrix.
+
 When considering systems of linear equations the entries of the matrix will always be real numbers.
 
 ::: {#def-vector}
@@ -411,7 +413,6 @@ We know a few simple cases where we can answer this question very quickly:
 3. If $A$ is *invertible*, with inverse $A^{-1}$, then we *can* solve this problem: $$\vec{x} = A^{-1} \vec{b}.$$ But, in general, this is a *very bad* idea and we will see algorithms that are more efficient than finding the inverse of $A$.
 
 ::: {#rem-inverse}
-### Remark
 
 One way to solve a system of linear equations is to compute the inverse of $A$, $A^{-1}$, directly, then the solution is found through matrix multiplication: $\vec{x} = A^{-1} \vec{b}$. This turns out to be an inefficient approach and we can do better with specialised algorithms.
 
