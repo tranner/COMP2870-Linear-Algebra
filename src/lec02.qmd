@@ -58,7 +58,7 @@ A vector with $n$-rows is called an $n$-vector.
 :::
 
 ::: {#exm-vector}
-$\vec{a}$ is a row vector. $\vec{b}$ and $\vec{c}$ are (column) vectors.
+$\vec{a}$ is a row vector, $\vec{b}$ and $\vec{c}$ are (column) vectors.
 \begin{align*}
     \vec{a} = \begin{pmatrix}
     0 & 1 & 7

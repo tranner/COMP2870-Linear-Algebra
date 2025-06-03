@@ -1,30 +1,30 @@
 project:
   output-dir: "_output"
-  type: website
+  type: book
 
 author:
   - name: Thomas Ranner
     email: T.Ranner@leeds.ac.uk
     affiliation: School of Computer Science, University of Leeds
 
-#book:
-#  title: "COMP2860 Theoretical Foundations: Linear Algebra"
-#  author: "Thomas Ranner"
-#  chapters:
-#    - index.qmd
-#    - src/lec01.qmd
-#    - src/lec02.qmd
-#    - src/lec04.qmd
-#    - src/lec05.qmd
-#    - src/lec06.qmd
-#    - src/lec07.qmd
-#    - src/lec08.qmd
+book:
+  title: "COMP2860 Theoretical Foundations: Linear Algebra"
+  author: "Thomas Ranner"
+  chapters:
+    - index.qmd
+    - src/lec01.qmd
+    - src/lec02.qmd
+    - src/lec04.qmd
+    - src/lec05.qmd
+    - src/lec06.qmd
+    - src/lec07.qmd
+    - src/lec08.qmd
 
 website:
   title: "COMP2860 Theoretical Foundations: Linear Algebra"
   page-navigation: true
   search: true
-  page-footer: "Copyright 2024, Thomas Ranner and University of Leeds"
+  page-footer: "Copyright 2024-2025, Thomas Ranner and University of Leeds"
   repo-url: "https://github.com/TODO"
   repo-actions: [edit, source, issue]
 
@@ -46,7 +46,7 @@ format:
         - darkly
         - theorem.scss
     include-in-header: mathjax.html
-  # pdf: default
+  pdf: default
 
 execute:
   freeze: auto

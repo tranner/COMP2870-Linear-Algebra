@@ -1,4 +1,7 @@
----
-title: (Preliminary topic) Complex numbers
-jupyter: python3
----
+# (Preliminary topic) Complex numbers
+
+## Solving polynomial equations
+
+solving quadratic equations in familiar from school
+face method
+

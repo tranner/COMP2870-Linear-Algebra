@@ -57,6 +57,7 @@ def print_array(array, array_name=None, end=None):
 
 
 ```
+## Iterative methods
 
 In the previous section we looked at what are known as *direct* methods for solving systems of linear equations.
 They are guaranteed to produce a solution with a fixed amount of work (we can even prove this in exact arithmetic!), but this fixed amount of work may be **very** large.

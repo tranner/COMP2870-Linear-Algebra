@@ -18,12 +18,13 @@ $remark-bg-color: var(--bs-yellow-bg-subtle);
 
 /*-- scss:rules --*/
 .amsthm {
- // border: 1px solid $default-border-color;
- // border-left-width: 5px;
+ border: 1px solid;
+ border-left-width: 5px;
  border-radius: 4px;
+ border-color: color-mix(in srgb, var(--bs-body-bg) 90%, var(--bs-body-color));
  margin-bottom: 1rem;
  display: block;
- background-color: color-mix(in srgb, var(--bs-body-bg) 92%, var(--bs-body-color));
+ background-color: color-mix(in srgb, var(--bs-body-bg) 95%, var(--bs-body-color));
 }
 
 .amsthm p {
@@ -33,7 +34,6 @@ $remark-bg-color: var(--bs-yellow-bg-subtle);
 // Base styles for definition
 .theorem {
  @extend .amsthm;
- border-color: $theorem-color;
 }
 
 .theorem-title {
@@ -52,13 +52,13 @@ $remark-bg-color: var(--bs-yellow-bg-subtle);
  padding-top: 0;
 }
 
-.definition {
- border-color: $definition-color;
-}
+// .definition {
+//  border-color: $definition-color;
+// }
 
-.example {
- border-color: $example-color;
-}
+// .example {
+//  border-color: $example-color;
+// }
 
 .exercise {
  border: 1px solid;
@@ -68,9 +68,9 @@ $remark-bg-color: var(--bs-yellow-bg-subtle);
  margin: $default-padding;
 }
 
-.remark {
- border-color: $remark-color;
-}
+// .remark {
+//  border-color: $remark-color;
+// }
 
 .remark::after {
  display: none;
