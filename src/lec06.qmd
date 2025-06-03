@@ -4,6 +4,7 @@
 # | echo: false
 import re
 
+import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -187,8 +188,8 @@ zz = {
 }
 
 for txt, z in zz.items():
-    l = plt.plot(np.real(z), np.imag(z), "o")
-    plt.text(np.real(z) + 0.1, np.imag(z) + 0.05, txt, color=l[0].get_color())
+    line = plt.plot(np.real(z), np.imag(z), "o")
+    plt.text(np.real(z) + 0.1, np.imag(z) + 0.05, txt, color=line[0].get_color())
 
 plt.xlabel("Real part")
 plt.ylabel("Imaginary part")
@@ -246,8 +247,8 @@ for key, z in zz.items():
     mod = abs(z)
     arg = np.arctan2(b, a)
 
-    l = plt.plot(a, b, "o")
-    color = l[0].get_color()
+    line = plt.plot(a, b, "o")
+    color = line[0].get_color()
     ax.arrow(
         0,
         0,
@@ -271,7 +272,7 @@ for key, z in zz.items():
         txt += re_txt
     if im_txt != "0":
         txt += f"{im_txt}i"
-    plt.text(np.real(z) + 0.1, np.imag(z) + 0.05, f"${txt}$", color=l[0].get_color())
+    plt.text(np.real(z) + 0.1, np.imag(z) + 0.05, f"${txt}$", color=color)
 
     label = f"$|{txt}| = \\sqrt{{{a**2 + b**2}}}$"
     ax.text(
@@ -383,8 +384,8 @@ for key, z in zz.items():
     arg = np.angle(z)
     arg_deg = np.degrees(arg)
 
-    l = plt.plot(a, b, "o")
-    color = l[0].get_color()
+    line = plt.plot(a, b, "o")
+    color = line[0].get_color()
     ax.plot([0, a], [0, b], "--", color=color)
 
     t = np.linspace(0, arg)
@@ -449,7 +450,6 @@ We saw before that this equation has no solution over the real numbers, but the 
 
 ```{python}
 # | echo: false
-import matplotlib.colors as mcolors
 
 
 # Define the complex function f(z) = z^2 + 1

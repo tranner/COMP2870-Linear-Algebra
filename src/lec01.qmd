@@ -5,6 +5,12 @@ jupyter: python3
 
 ## Finite precision number systems
 
+```{python}
+# | echo: false
+from itertools import combinations, product
+
+```
+
 Computers store numbers with **finite precision**, i.e. using a finite set of bits (binary digits), typically 32 or 64 of them. You met how to store numbers as floating point numbers last year in the module COMP18XX??.
 
 You will recall that many numbers cannot be stored exactly.
@@ -133,7 +139,6 @@ $$
 Alternatively, we can brute force search for this:
 ```{python}
 # | echo: false
-from itertools import combinations, product
 
 # system is product of sign, b1, b2, e
 system = product([1, -1], range(1, 10), range(0, 10), range(-1, 3))

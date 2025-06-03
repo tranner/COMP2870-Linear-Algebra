@@ -6,6 +6,7 @@ import inspect
 import time
 
 import numpy as np
+import scipy as sp
 from matplotlib import pyplot as plt
 
 
@@ -33,8 +34,6 @@ def print_array(array, array_name=None, end=None):
                 break
     if array_name is None:
         array_name = "array"
-
-    array_name_length = len(array_name)
 
     # determine precision
     precision = 1
@@ -581,7 +580,6 @@ def gauss_seidel_iteration_sparse(A_real, I_row, I_col, b, x0, max_iter, verbose
 Then we can test the two different implementations of the methods:
 ```{python}
 # | echo: false
-import scipy as sp
 
 
 def random_sparse_system(n, nonzero):

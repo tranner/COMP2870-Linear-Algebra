@@ -7,10 +7,12 @@ echo: true
 # | echo: false
 import inspect
 import time
+from io import BytesIO
 
 import numpy as np
+import requests
 from matplotlib import pyplot as plt
-
+from PIL import Image
 
 ```
 
@@ -255,7 +257,27 @@ The method is so old, in fact we have evidence of Chinese mathematicians using G
 >
 > The method in Europe stems from the notes of Isaac Newton. In 1670, he wrote that all the algebra books known to him lacked a lesson for solving simultaneous equations, which Newton then supplied. Carl Friedrich Gauss in 1810 devised a notation for symmetric elimination that was adopted in the 19th century by professional hand computers to solve the normal equations of least-squares problems. The algorithm that is taught in high school was named for Gauss only in the 1950s as a result of confusion over the history of the subject.
 
-![Image from Nine Chapter of the Mathematical art. By Yang Hui(1238－1298) - mybook, Public Domain, https://commons.wikimedia.org/w/index.php?curid=10317744](https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Yanghui_Yongle_Dadian.JPG/1024px-Yanghui_Yongle_Dadian.JPG)
+```{python}
+# | echo: false
+# | fig-cap: "Image from Nine Chapter of the Mathematical art. By Yang Hui(1238-1298) - mybook, Public Domain, <https://commons.wikimedia.org/w/index.php?curid=10317744>"
+headers = {
+    "User-Agent": "Mozilla/5.0 (compatible; MyQuartoImageBot/1.0; +https://example.com/bot-info)"
+}
+
+image_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Yanghui_Yongle_Dadian.JPG/1024px-Yanghui_Yongle_Dadian.JPG"
+response = requests.get(image_url, headers=headers)
+response.raise_for_status()
+
+image = Image.open(BytesIO(response.content))
+
+plt.imshow(image, cmap="grey")
+plt.axis("off")
+
+plt.tight_layout()
+plt.show()
+
+
+```
 
 ### The algorithm
 
@@ -414,8 +436,6 @@ def print_array(array, array_name=None, end=None):
                 break
     if array_name is None:
         array_name = "array"
-
-    array_name_length = len(array_name)
 
     # determine precision
     precision = 1
