@@ -30,8 +30,7 @@ jobs:
         run: uv sync --all-extras --dev --locked
 
       - name: 'Build site'
-        run: |
-          uv run quarto render
+        run: uvx quarto render
 
   deploy:
     needs: build
