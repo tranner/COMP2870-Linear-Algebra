@@ -1,0 +1,1630 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Thomas Ranner">
+
+<title>5&nbsp; Iterative solutions of linear equations – COMP2860 Theoretical Foundations: Linear Algebra</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../src/lec06.html" rel="next">
+<link href="../src/lec04.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-2f6d29f9f94f55da286944756da9211d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-18d081f514c576145803a6470058a168.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-2f6d29f9f94f55da286944756da9211d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script>
+  MathJax = {
+    tex: {
+      tags: 'ams'  // should be 'ams', 'none', or 'all'
+    }
+  };
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../src/lec05.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Iterative solutions of linear equations</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">COMP2860 Theoretical Foundations: Linear Algebra</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to LA</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../src/lec01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">(Preliminary topic) Floating point number systems</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../src/lec02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introduction to systems of linear equations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../src/lec04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Direct solvers for systems of linear equtaions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../src/lec05.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Iterative solutions of linear equations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../src/lec06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">(Preliminary topic) Complex numbers</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../src/lec07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Linear independence, span, basis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../src/lec08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#iterative-methods" id="toc-iterative-methods" class="nav-link active" data-scroll-target="#iterative-methods"><span class="header-section-number">5.1</span> Iterative methods</a></li>
+  <li><a href="#jacobi-iteration" id="toc-jacobi-iteration" class="nav-link" data-scroll-target="#jacobi-iteration"><span class="header-section-number">5.2</span> Jacobi iteration</a></li>
+  <li><a href="#gauss-seidel-iteration" id="toc-gauss-seidel-iteration" class="nav-link" data-scroll-target="#gauss-seidel-iteration"><span class="header-section-number">5.3</span> Gauss-Seidel iteration</a></li>
+  <li><a href="#python-version-of-iterative-methods" id="toc-python-version-of-iterative-methods" class="nav-link" data-scroll-target="#python-version-of-iterative-methods"><span class="header-section-number">5.4</span> Python version of iterative methods</a></li>
+  <li><a href="#sparse-matrices" id="toc-sparse-matrices" class="nav-link" data-scroll-target="#sparse-matrices"><span class="header-section-number">5.5</span> Sparse Matrices</a>
+  <ul class="collapse">
+  <li><a href="#python-experiments" id="toc-python-experiments" class="nav-link" data-scroll-target="#python-experiments"><span class="header-section-number">5.5.1</span> Python experiments</a></li>
+  </ul></li>
+  <li><a href="#convergence-of-an-iterative-method" id="toc-convergence-of-an-iterative-method" class="nav-link" data-scroll-target="#convergence-of-an-iterative-method"><span class="header-section-number">5.6</span> Convergence of an iterative method</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">5.7</span> Summary</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">5.8</span> Further reading</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Iterative solutions of linear equations</span></h1>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Thomas Ranner <a href="mailto:T.Ranner@leeds.ac.uk" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            School of Computer Science, University of Leeds
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="iterative-methods" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="iterative-methods"><span class="header-section-number">5.1</span> Iterative methods</h2>
+<p>In the previous section we looked at what are known as <em>direct</em> methods for solving systems of linear equations. They are guaranteed to produce a solution with a fixed amount of work (we can even prove this in exact arithmetic!), but this fixed amount of work may be <strong>very</strong> large.</p>
+<p>For a general <span class="math inline">\(n \times n\)</span> system of linear equations <span class="math inline">\(A \vec{x} = \vec{b}\)</span>, the computation expense of all direct methods if <span class="math inline">\(O(n^3)\)</span>. The amount of storage required for these approaches is <span class="math inline">\(O(n^2)\)</span> which is dominated by the cost of storing the matrix <span class="math inline">\(A\)</span>. As <span class="math inline">\(n\)</span> becomes larger the storage and computation work required limit the practicality of direct approaches.</p>
+<p>As an alternative, we will propose some <strong>iterative methods</strong>. Iterative methods produce a sequence <span class="math inline">\((\vec{x}^{(k)})\)</span> of approximations to the solution of the linear system of equations <span class="math inline">\(A \vec{x} = \vec{b}\)</span>. The iteration is defined recursively and is typically of the form: <span class="math display">\[
+\vec{x}^{(k+1)} = \vec{F}(\vec{x}^{(k)}),
+\]</span> where <span class="math inline">\(\vec{x}^{(k)}\)</span> is now a vector of values and <span class="math inline">\(\vec{F}\)</span> is some vector function (which needs to be defined to define the method). We will need to choose a starting value <span class="math inline">\(\vec{x}^{(k)}\)</span> but there is often a reasonable approximation which can be used. Once all this is defined, we still need to decide when we need to stop!</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Some very bad examples
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Example 1</strong></p>
+<p>Consider</p>
+<p><span class="math display">\[
+\vec{F}(\vec{x}^{(k)}) = \vec{x}^{(k)}.
+\]</span></p>
+<p>Each iteration is very cheap to compute but very inaccurate - it never converges!</p>
+<p><strong>Example 2</strong></p>
+<p>Consider</p>
+<p><span class="math display">\[
+\vec{F}(\vec{x}^{(k)}) = \vec{x}^{(k)} + A^{-1} (\vec{b} - A \vec{x}^{(k)}).
+\]</span></p>
+<p>Each iteration is very expensive to compute - you have to invert <span class="math inline">\(A\)</span>! - but it converges in just one step since</p>
+<p><span class="math display">\[
+\begin{aligned}
+A \vec{x}^{(k+1)} &amp; = A \vec{x}^{(k)} + A A^{-1} (\vec{b} - A \vec{x}^{(k)}) \\
+&amp; = A \vec{x}^{(k)} + \vec{b} - A \vec{x}^{(k)} \\
+&amp; = \vec{b}.
+\end{aligned}
+\]</span></p>
+</div>
+</div>
+<p><strong>Key idea</strong></p>
+<p>The key point here is we want a method which is both cheap to compute but converges quickly to the solution. One way to do this is to construct iteration given by</p>
+<p><span class="math display">\[\begin{equation}
+\label{eq:general-iteration}
+\vec{F}(\vec{x}^{(k)}) = \vec{x}^{(k)} + P (\vec{b} - A \vec{x}^{(k)}).
+\end{equation}\]</span></p>
+<p>for some matrix <span class="math inline">\(P\)</span> such that</p>
+<ul>
+<li><span class="math inline">\(P\)</span> is easy to compute, or the matrix vector product <span class="math inline">\(P \vec{r}\)</span> is easy to compute,</li>
+<li><span class="math inline">\(P\)</span> approximates <span class="math inline">\(A^{-1}\)</span> well enough that the algorithm converges in few iterations.</li>
+</ul>
+<p>We call <span class="math inline">\(\vec{b} - A \vec{x}^{(k)} = \vec{r}\)</span> the <strong>residual</strong>. Note in the above examples we would have <span class="math inline">\(P = O\)</span> (the zero matrix) or <span class="math inline">\(P = A^{-1}\)</span>.</p>
+</section>
+<section id="jacobi-iteration" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="jacobi-iteration"><span class="header-section-number">5.2</span> Jacobi iteration</h2>
+<p>One simple choice for <span class="math inline">\(P\)</span> is given by the Jacobi method where we take <span class="math inline">\(P = D^{-1}\)</span> where <span class="math inline">\(D\)</span> is the diagonal of <span class="math inline">\(A\)</span>: <span class="math display">\[
+D_{ii} = A_{ii} \quad \text{and} \quad D_{ij} = 0 \text{ for } i \neq j.
+\]</span></p>
+<p>The <strong>Jacobi iteration</strong> is given by</p>
+<p><span class="math display">\[
+\vec{x}^{(k+1)} = \vec{x}^{(k)} + D^{-1}(\vec{b} - A \vec{x}^{(k)})
+\]</span></p>
+<p><span class="math inline">\(D\)</span> is a <em>diagonal matrix</em>, so <span class="math inline">\(D^{-1}\)</span> is trivial to form (as long as the diagonal entries are all nonzero): <span class="math display">\[
+(D^{-1})_{ii} = \frac{1}{D_{ii}}
+\quad \text{and} \quad
+(D^{-1})_{ij} = 0 \text{ for } i \neq j.
+\]</span></p>
+<div class="proof remark">
+<p><span class="proof-title"><em>Remark</em>. </span></p>
+<ul>
+<li><p>The cost of one iteration is <span class="math inline">\(O(n^2)\)</span> for a full matrix, and this is dominated by the matrix-vector product <span class="math inline">\(A \vec{x}^{(k)}\)</span>.</p></li>
+<li><p>This cost can be reduced to <span class="math inline">\(O(n)\)</span> if the matrix <span class="math inline">\(A\)</span> is sparse - this is when iterative methods are especially attractive (TODO add future ref).</p></li>
+<li><p>The amount of work also depends on the number of iterations required to get a “satisfactory” solution.</p>
+<ul>
+<li>The number of iterations depends on the matrix;</li>
+<li>Fewer iterations are needed for a less accurate solution;</li>
+<li>A good initial estimate <span class="math inline">\(\vec{x}^{(0)}\)</span> reduces the required number of iterations.</li>
+</ul></li>
+<li><p>Unfortunately, the iteration might not converge!</p></li>
+</ul>
+</div>
+<p>The Jacobi iteration updates all elements of <span class="math inline">\(\vec{x}^{(k)}\)</span> <em>simultaneously</em> to get <span class="math inline">\(\vec{x}^{(k+1)}\)</span>. Writing the method out component by component gives</p>
+<p><span class="math display">\[
+\begin{aligned}
+x_1^{(k+1)} &amp;= x_1^{(k)} + \frac{1}{A_{11}} \left( b_1 - \sum_{j=1}^n A_{1j} x_j^{(k)} \right) \\
+x_2^{(k+1)} &amp;= x_2^{(k)} + \frac{1}{A_{22}} \left( b_2 - \sum_{j=1}^n A_{2j} x_j^{(k)} \right) \\
+\vdots \quad &amp; \hphantom{=} \quad \vdots \\
+x_n^{(k+1)} &amp;= x_n^{(k)} + \frac{1}{A_{nn}} \left( b_n - \sum_{j=1}^n A_{nj} x_j^{(k)} \right).
+\end{aligned}
+\]</span></p>
+<p>Note that once the first step has been taken, <span class="math inline">\(x_1^{(k+1)}\)</span> is already known, but the Jacobi iteration does not make use of this information!</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Example 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Take two iterations of Jacobi iteration to approximate the solution of the following system using the initial guess <span class="math inline">\(\vec{x}^{(0)} = (1, 1)^T\)</span>: <span class="math display">\[
+\begin{pmatrix}
+2 &amp; 1 \\ -1 &amp; 4
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\ x_2
+\end{pmatrix}
+=
+\begin{pmatrix}
+3.5 \\ 0.5
+\end{pmatrix}
+\]</span></p>
+<p>Starting from <span class="math inline">\(\vec{x}^{(0)} = (1, 1)^T\)</span>, the first iteration is <span class="math display">\[
+\begin{aligned}
+x_1^{(1)} &amp;= x_1^{(0)} + \frac{1}{A_{11}} \left( b_1 - A_{11} x_1^{(0)} - A_{12} x_2^{(0)} \right) \\
+&amp;= 1 + \frac{1}{2} (3.5 - 2 \times 1 - 1 \times 1) = 1.25 \\
+x_2^{(1)} &amp;= x_2^{(0)} + \frac{1}{A_{22}} \left( b_2 - A_{21} x_1^{(0)} - A_{22} x_2^{(0)} \right) \\
+&amp;= 1 + \frac{1}{4} (0.5 - (-1) \times 1 - 4 \times 1) = 0.375. \\
+\end{aligned}
+\]</span> So we have <span class="math inline">\(\vec{x}^{(1)} = (1.25, 0.375)^T\)</span>. Then the second iteration is <span class="math display">\[
+\begin{aligned}
+x_1^{(2)} &amp;= x_1^{(1)} + \frac{1}{A_{11}} \left( b_1 - A_{11} x_1^{(1)} - A_{12} x_2^{(1)} \right) \\
+&amp;= 1.25 + \frac{1}{2} (3.5 - 2 \times 1.25 - 1 \times 0.375) = 1.5625 \\
+x_2^{(2)} &amp;= x_2^{(1)} + \frac{1}{A_{22}} \left( b_2 - A_{21} x_1^{(1)} - A_{22} x_2^{(1)} \right) \\
+&amp;= 0.375 + \frac{1}{4} (0.5 - (-1) \times 1.25 - 4 \times 0.375) = 0.4375. \\
+\end{aligned}
+\]</span> So we have <span class="math inline">\(\vec{x}^{(2)} = (1.5625, 0.4375)\)</span>.</p>
+<p>Note the only difference between the formulae for Iteration 1 and 2 is the iteration number, the superscript in brackets. The exact solution is given by <span class="math inline">\(\vec{x} = (1.5, 0.5)^T\)</span>.</p>
+</div>
+</div>
+<p>We note that we can also slightly simplify the way the Jacobi iteration is written. We can expand <span class="math inline">\(A\)</span> into <span class="math inline">\(A = L + D + U\)</span>, where <span class="math inline">\(L\)</span> and <span class="math inline">\(U\)</span> are the parts of the matrix from below and above the diagonal respectively: <span class="math display">\[
+L_{ij} = \begin{cases}
+A_{ij} &amp;\quad \text{if } i &lt; j \\
+0 &amp;\quad \text{if } i \ge j,
+\end{cases}
+\qquad
+U_{ij} = \begin{cases}
+A_{ij} &amp;\quad \text{if } i &gt; j \\
+0 &amp;\quad \text{if } i \le j.
+\end{cases}
+\]</span> The we can calculate that: <span class="math display">\[
+\begin{aligned}
+\vec{x}^{(k+1)} &amp; = \vec{x}^{(k)} + D^{-1}(\vec{b} - A \vec{x}^{(k)}) \\
+&amp; = \vec{x}^{(k)} + D^{-1}(\vec{b} - (L + D + U) \vec{x}^{(k)}) \\
+&amp; = \vec{x}^{(k)} - D^{-1} D \vec{x}^{(k)} + D^{-1}(\vec{b} - (L + U) \vec{x}^{(k)}) \\
+&amp; = \vec{x}^{(k)} - \vec{x}^{(k)} + D^{-1}(\vec{b} - (L + U) \vec{x}^{(k)}) \\
+&amp; = D^{-1}(\vec{b} - (L + U) \vec{x}^{(k)}).
+\end{aligned}
+\]</span> In this formulation, we do not explicitly form the residual as part of the computations. In practical situations, this may be a simpler formulation we can use if we have knowledge of the coefficients of <span class="math inline">\(A\)</span>, but this is not always true!</p>
+</section>
+<section id="gauss-seidel-iteration" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="gauss-seidel-iteration"><span class="header-section-number">5.3</span> Gauss-Seidel iteration</h2>
+<p>As an alternative to Jacobi iteration, the iteration might use <span class="math inline">\(x_i^{(k+1)}\)</span> as soon as it is calculated (rather than using the previous iteration), giving</p>
+<p><span class="math display">\[
+\begin{aligned}
+x_1^{(k+1)}
+&amp; = x_1^{(k)} + \frac{1}{A_{11}} \left(
+b_1 - \sum_{j=1}^n A_{1j} x_j^{(k)}
+\right) \\
+x_2^{(k+1)}
+&amp; = x_2^{(k)} + \frac{1}{A_{22}} \left(
+b_2 - A_{21} x_1^{(k+1)} - \sum_{j=2}^n A_{2j} x_j^{(k)}
+\right) \\
+x_3^{(k+1)}
+&amp; = x_3^{(k)} + \frac{1}{A_{33}} \left(
+b_3 - \sum_{j=1}^2 A_{3j} x_j^{(k+1)} - \sum_{j=3}^n A_{3j} x_j^{(k)}
+\right) \\
+\vdots \quad &amp; \hphantom{=} \quad \vdots \\
+x_i^{(k+1)}
+&amp; = x_i^{(k)} + \frac{1}{A_{ii}} \left(
+b_i - \sum_{j=1}^{i-1} A_{ij} x_j^{(k+1)} - \sum_{j=i}^n A_{ij} x_j^{(k)}
+\right) \\
+\vdots \quad &amp; \hphantom{=} \quad \vdots \\
+x_n^{(k+1)}
+&amp; = x_n^{(k)} + \frac{1}{A_{nn}} \left(
+b_n - \sum_{j=1}^{n-1} A_{nj} x_j^{(k+1)} - A_{nn} x_n^{(k)}
+\right).
+\end{aligned}
+\]</span></p>
+<p>Consider the system <span class="math inline">\(A \vec{x}= b\)</span> with the matrix <span class="math inline">\(A\)</span> split as <span class="math inline">\(A = L + D + U\)</span> where <span class="math inline">\(D\)</span> is the diagonal of <span class="math inline">\(A\)</span>, <span class="math inline">\(L\)</span> contains the elements below the diagonal and <span class="math inline">\(U\)</span> contains the elements above the diagonal. The componentwise iteration above can be written in matrix form as <span class="math display">\[
+\begin{aligned}
+\vec{x}^{(k+1)} &amp; = \vec{x}^{(k)} + D^{-1} (\vec{b} - L \vec{x}^{(k+1)} - (D + U) \vec{x}^{(k)}) \\
+&amp; = \vec{x}^{(k)} - D^{-1} L \vec{x}^{(k+1)} + D^{-1} (\vec{b} - (D + U) \vec{x}^{(k)}) \\
+&amp; = \vec{x}^{(k)} - D^{-1} L \vec{x}^{(k+1)} + D^{-1} L \vec{x}^{(k)} + D^{-1} (\vec{b} - (L + D + U) \vec{x}^{(k)}) \\
+\vec{x}^{(k+1)} + D^{-1} L \vec{x}^{(k+1)} &amp; = \vec{x}^{(k)} + D^{-1} L \vec{x}^{(k)} + D^{-1} (\vec{b} - (L + D + U) \vec{x}^{(k)}) \\
+D^{-1} (D + L) \vec{x}^{(k+1)}  &amp; = D^{-1} (D + L) \vec{x}^{(k)} + D^{-1} (\vec{b} - A \vec{x}^{(k)}) \\
+(D + L) \vec{x}^{(k+1)} &amp;= D D^{-1} (D + L) \vec{x}^{(k)} + D D^{-1} (\vec{b} - A \vec{x}^{(k)}) \\
+&amp; = (D + L) \vec{x}^{(k)} + (\vec{b} - A \vec{x}^{(k)}) \\
+\vec{x}^{(k+1)} &amp;= (D + L)^{-1} (D + L) \vec{x}^{(k)} + (D + L)^{-1} (\vec{b} - A \vec{x}^{(k)}) \\
+&amp; = \vec{x}^{(k)} + (D + L)^{-1} (\vec{b} - A \vec{x}^{(k)}).
+\end{aligned}
+\]</span></p>
+<p>…and hence the <strong>Gauss-Seidel</strong> iteration</p>
+<p><span class="math display">\[
+\vec{x}^{(k+1)} = \vec{x}^{(k)} + (D + L)^{-1} (\vec{b} - A \vec{x}^{(k)}).
+\]</span> That is, we use <span class="math inline">\(P = (D+L)^{-1}\)</span> in <span class="math inline">\(\eqref{eq:general-iteration}\)</span>.</p>
+<p>In general, we don’t form the inverse of <span class="math inline">\(D + L\)</span> explicitly here since it is more complicated to do so than for simply computing the inverse of <span class="math inline">\(D\)</span>.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Example 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Take two iterations of Gauss-Seidel iteration to approximate the solution of the following system using the initial guess <span class="math inline">\(\vec{x}^{(0)} = (1, 1)^T\)</span>:</p>
+<p><span class="math display">\[
+\begin{pmatrix}
+2 &amp; 1 \\ -1 &amp; 4
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\ x_2
+\end{pmatrix}
+=
+\begin{pmatrix}
+3.5 \\ 0.5
+\end{pmatrix}
+\]</span></p>
+<p>Starting from <span class="math inline">\(\vec{x}^{(0)} = (1, 1)^T\)</span> we have</p>
+<p>Iteration 1:</p>
+<p><span class="math display">\[
+\begin{aligned}
+x^{(1)}_1 &amp; = x^{(0)}_1 + \frac{1}{A_{11}} (b_1 - A_{11} x^{(0)}_1 - A_{12} x^{(0)}_2) \\
+          &amp; = 2 + \frac{1}{2} (3.5 - 1 \times 2 - 1 \times 1) = 2.25 \\
+x^{(1)}_2 &amp; = x^{(0)}_2 + \frac{1}{A_{22}} (b_2 - A_{21} x^{(1)}_1 - A_{22} x^{(0)}_2) \\
+          &amp; = 1 + \frac{1}{4} (0.5 - (-1) \times 2.25 - 4 \times 1) = 0.6875.
+\end{aligned}
+\]</span></p>
+<p>Iteration 2:</p>
+<p><span class="math display">\[
+\begin{aligned}
+x^{(2)}_1 &amp; = x^{(1)}_1 + \frac{1}{A_{11}} (b_1 - A_{11} x^{(1)}_1 - A_{12} x^{(1)}_2) \\
+          &amp; = 1.25 + \frac{1}{2} (3.5 - 2 \times 1.25 - 1 \times 0.4375) = 1.53125 \\
+x^{(2)}_2 &amp; = x^{(1)}_2 + \frac{1}{A_{22}} (b_2 - A_{21} x^{(2)}_1 - A_{22} x^{(1)}_2) \\
+          &amp; = 0.4375 + \frac{1}{4} (0.5 - (-1) \times 1.53125 - 4 \times 0.4375) = 0.5078125.
+\end{aligned}
+\]</span></p>
+<p>Again, note the changes in the iteration number on the right hand side of these equations, especially the differences against the Jacobi method.</p>
+<ul>
+<li>What happens if the initial estimate is altered to <span class="math inline">\(\vec{x}^{(0)} = (2, 1)^T\)</span> (homework).</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Example 2 (homework)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Take one iteration of (i) Jacobi iteration; (ii) Gauss-Seidel iteration to approximate the solution of the following system using the initial guess <span class="math inline">\(\vec{x}^{(0)} = (1, 2, 3)^T\)</span>:</p>
+<p><span class="math display">\[
+\begin{pmatrix}
+2 &amp; 1 &amp; 0 \\
+1 &amp; 3 &amp; 1 \\
+0 &amp; 1 &amp; 2
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\ x_2 \\ x_3
+\end{pmatrix}
+=
+\begin{pmatrix}
+6 \\ 10 \\ 6
+\end{pmatrix}.
+\]</span></p>
+<p>Note that the exact solution to this system is <span class="math inline">\(x_1 = 2, x_2 = 2, x_3 = 2\)</span>.</p>
+</div>
+</div>
+<div class="proof remark">
+<p><span class="proof-title"><em>Remark</em>. </span></p>
+<ul>
+<li><p>Here both methods converge, but fairly slowly. They might not converge at all!</p></li>
+<li><p>We will discuss convergence and stopping criteria in the next lecture.</p></li>
+<li><p>The Gauss-Seidel iteration generally out-performs the Jacobi iteration.</p></li>
+<li><p>Performance can depend on the order in which the equations are written.</p></li>
+<li><p>Both iterative algorithms can be made faster and more efficient for sparse systems of equations (far more than direct methods).</p></li>
+</ul>
+</div>
+</section>
+<section id="python-version-of-iterative-methods" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="python-version-of-iterative-methods"><span class="header-section-number">5.4</span> Python version of iterative methods</h2>
+<div id="5c03ed15" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> jacobi_iteration(A, b, x0, max_iter, verbose<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">    </span><span class="al">TODO</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> system_size(A, b)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> x0.copy()</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    xnew <span class="op">=</span> np.empty_like(x)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> verbose:</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"starting value: "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        print_array(x.T, <span class="st">"x.T"</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="bu">iter</span> <span class="kw">in</span> <span class="bu">range</span>(max_iter):</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>            Axi <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>                Axi <span class="op">+=</span> A[i, j] <span class="op">*</span> x[j]</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>            xnew[i] <span class="op">=</span> x[i] <span class="op">+</span> <span class="fl">1.0</span> <span class="op">/</span> (A[i, i]) <span class="op">*</span> (b[i] <span class="op">-</span> Axi)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> xnew.copy()</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> verbose:</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"after </span><span class="sc">{</span><span class="bu">iter</span><span class="op">=</span><span class="sc">}</span><span class="ss">: "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>            print_array(x.T, <span class="st">"x.T"</span>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gauss_seidel_iteration(A, b, x0, max_iter, verbose<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co">    </span><span class="al">TODO</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> system_size(A, b)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> x0.copy()</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    xnew <span class="op">=</span> np.empty_like(x)</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> verbose:</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"starting value: "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>        print_array(x.T, <span class="st">"x.T"</span>)</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="bu">iter</span> <span class="kw">in</span> <span class="bu">range</span>(max_iter):</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>            Axi <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i):</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>                Axi <span class="op">+=</span> A[i, j] <span class="op">*</span> xnew[j]</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i, n):</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>                Axi <span class="op">+=</span> A[i, j] <span class="op">*</span> x[j]</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>            xnew[i] <span class="op">=</span> x[i] <span class="op">+</span> <span class="fl">1.0</span> <span class="op">/</span> (A[i, i]) <span class="op">*</span> (b[i] <span class="op">-</span> Axi)</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> xnew.copy()</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> verbose:</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"after </span><span class="sc">{</span><span class="bu">iter</span><span class="op">=</span><span class="sc">}</span><span class="ss">: "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>            print_array(x.T, <span class="st">"x.T"</span>)</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="80a9a00b" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">2.0</span>, <span class="fl">1.0</span>], [<span class="op">-</span><span class="fl">1.0</span>, <span class="fl">4.0</span>]])</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.array([[<span class="fl">3.5</span>], [<span class="fl">0.5</span>]])</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> np.array([[<span class="fl">1.0</span>], [<span class="fl">1.0</span>]])</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"jacobi iteration"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> jacobi_iteration(A, b, x0, <span class="dv">5</span>, verbose<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"gauss seidel iteration"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> gauss_seidel_iteration(A, b, x0, <span class="dv">5</span>, verbose<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>jacobi iteration
+starting value: x.T = [  1.0,  1.0 ]
+after iter=0: x.T = [  1.250,  0.375 ]
+after iter=1: x.T = [  1.5625,  0.4375 ]
+after iter=2: x.T = [  1.53125,  0.51562 ]
+after iter=3: x.T = [  1.49219,  0.50781 ]
+after iter=4: x.T = [  1.49609,  0.49805 ]
+
+gauss seidel iteration
+starting value: x.T = [  1.0,  1.0 ]
+after iter=0: x.T = [  1.2500,  0.4375 ]
+after iter=1: x.T = [  1.53125,  0.50781 ]
+after iter=2: x.T = [  1.49609,  0.49902 ]
+after iter=3: x.T = [  1.50049,  0.50012 ]
+after iter=4: x.T = [  1.49994,  0.49998 ]
+</code></pre>
+</div>
+</div>
+</section>
+<section id="sparse-matrices" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="sparse-matrices"><span class="header-section-number">5.5</span> Sparse Matrices</h2>
+<p>We met sparse matrices as an example of a special matrix format when we first thought about systems of linear equations. Sparse matrices are very common in applications and have a structure which is very useful when used with iterative methods. There are two main ways in which sparse matrices can be exploited in order to obtain benefits within iterative methods.</p>
+<ul>
+<li><p>The storage can be reduced from <span class="math inline">\(O(n^2)\)</span>.</p></li>
+<li><p>The cost per iteration can be reduced from <span class="math inline">\(O(n^2)\)</span>.</p></li>
+</ul>
+<p>Recall that a sparse matrix is defined to be such that it has at most <span class="math inline">\(\alpha n\)</span> non-zero entries (where <span class="math inline">\(\alpha\)</span> is independent of <span class="math inline">\(n\)</span>). Typically this happens when we know there are at most <span class="math inline">\(\alpha\)</span> non-zero entries in any row.</p>
+<p>The simplest way in which a sparse matrix is stored is using three arrays:</p>
+<ul>
+<li>an array of floating point numbers (<code>A_real</code> say) that stores the non-zero entries;</li>
+<li>an array of integers (<code>I_row</code> say) that stores the row number of the corresponding entry in the real array;</li>
+<li>an array of integers (<code>I_col</code> say) that stores the column numbers of the corresponding entry in the real array.</li>
+</ul>
+<p>This requires just <span class="math inline">\(3 \alpha n\)</span> units of storage - i.e.&nbsp;<span class="math inline">\(O(n)\)</span>.</p>
+<p>Given the above storage pattern, the following algorithm will execute a sparse matrix-vector multiplication (<span class="math inline">\(\vec{z} = A \vec{y}\)</span>) in <span class="math inline">\(O(n)\)</span> operations:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> np.zeros((n, <span class="dv">1</span>))</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(nonzero):</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    z[I_row[k]] <span class="op">=</span> z[I_row[k]] <span class="op">+</span> A_real[k] <span class="op">*</span> y[I_col[k]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Here <code>nonzero</code> is the number of non-zero entries in the matrix.</li>
+<li>Note that the cost of this operation is <span class="math inline">\(O(n)\)</span> as required.</li>
+</ul>
+<section id="python-experiments" class="level3" data-number="5.5.1">
+<h3 data-number="5.5.1" class="anchored" data-anchor-id="python-experiments"><span class="header-section-number">5.5.1</span> Python experiments</h3>
+<div id="50a6f6ce" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> system_size_sparse(A_real, I_row, I_col, b):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(b)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    nonzero <span class="op">=</span> <span class="bu">len</span>(A_real)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> nonzero <span class="op">==</span> <span class="bu">len</span>(I_row)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> nonzero <span class="op">==</span> <span class="bu">len</span>(I_col)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> n, nonzero</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>First let’s adapt our implementations to use this sparse matrix format:</p>
+<div id="9d5b362c" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> jacobi_iteration_sparse(A_real, I_row, I_col, b, x0, max_iter, verbose<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">    </span><span class="al">TODO</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    n, nonzero <span class="op">=</span> system_size_sparse(A_real, I_row, I_col, b)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> x0.copy()</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    xnew <span class="op">=</span> np.empty_like(x)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> verbose:</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"starting value: "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        print_array(x.T, <span class="st">"x.T"</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># determine diagonal</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># D[i] should be A_{ii}</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    D <span class="op">=</span> np.zeros_like(x)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(nonzero):</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> I_row[k] <span class="op">==</span> I_col[k]:</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>            D[I_row[k]] <span class="op">=</span> A_real[k]</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="bu">iter</span> <span class="kw">in</span> <span class="bu">range</span>(max_iter):</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>        <span class="co"># precompute Ax</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>        Ax <span class="op">=</span> np.zeros_like(x)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(nonzero):</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>            Ax[I_row[k]] <span class="op">=</span> Ax[I_row[k]] <span class="op">+</span> A_real[k] <span class="op">*</span> x[I_col[k]]</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>            xnew[i] <span class="op">=</span> x[i] <span class="op">+</span> <span class="fl">1.0</span> <span class="op">/</span> D[i] <span class="op">*</span> (b[i] <span class="op">-</span> Ax[i])</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> xnew.copy()</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> verbose:</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"after </span><span class="sc">{</span><span class="bu">iter</span><span class="op">=</span><span class="sc">}</span><span class="ss">: "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>            print_array(x.T, <span class="st">"x.T"</span>)</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gauss_seidel_iteration_sparse(A_real, I_row, I_col, b, x0, max_iter, verbose<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a><span class="co">    </span><span class="al">TODO</span></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>    n, nonzero <span class="op">=</span> system_size_sparse(A_real, I_row, I_col, b)</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> x0.copy()</span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>    xnew <span class="op">=</span> np.empty_like(x)</span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> verbose:</span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"starting value: "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>        print_array(x.T, <span class="st">"x.T"</span>)</span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="bu">iter</span> <span class="kw">in</span> <span class="bu">range</span>(max_iter):</span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>        <span class="co"># precompute Ax using xnew if i &lt; j</span></span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>        Ax <span class="op">=</span> np.zeros_like(x)</span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(nonzero):</span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> I_row[k] <span class="op">&lt;</span> I_col[k]:</span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>                Ax[I_row[k]] <span class="op">=</span> Ax[I_row[k]] <span class="op">+</span> A_real[k] <span class="op">*</span> xnew[I_col[k]]</span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>                Ax[I_row[k]] <span class="op">=</span> Ax[I_row[k]] <span class="op">+</span> A_real[k] <span class="op">*</span> x[I_col[k]]</span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>            xnew[i] <span class="op">=</span> x[i] <span class="op">+</span> <span class="fl">1.0</span> <span class="op">/</span> (A[i, i]) <span class="op">*</span> (b[i] <span class="op">-</span> Ax[i])</span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> xnew.copy()</span>
+<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> verbose:</span>
+<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"after </span><span class="sc">{</span><span class="bu">iter</span><span class="op">=</span><span class="sc">}</span><span class="ss">: "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a>            print_array(x.T, <span class="st">"x.T"</span>)</span>
+<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then we can test the two different implementations of the methods:</p>
+<div id="e00b643c" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># random matrix</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">4</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>nonzero <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>A_real, I_row, I_col, b <span class="op">=</span> random_sparse_system(n, nonzero)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"sparse matrix:"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"A_real ="</span>, A_real)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"I_row = "</span>, I_row)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"I_col = "</span>, I_col)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># convert to dense for comparison</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>A_dense <span class="op">=</span> to_dense(A_real, I_row, I_col)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"dense matrix:"</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>print_array(A_dense)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co"># starting guess</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> np.zeros((n, <span class="dv">1</span>))</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"jacobi with sparse matrix"</span>)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>x_sparse <span class="op">=</span> jacobi_iteration_sparse(</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    A_real, I_row, I_col, b, x0, max_iter<span class="op">=</span><span class="dv">5</span>, verbose<span class="op">=</span><span class="va">True</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"jacobi with dense matrix"</span>)</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>x_dense <span class="op">=</span> jacobi_iteration(A_dense, b, x0, max_iter<span class="op">=</span><span class="dv">5</span>, verbose<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>sparse matrix:
+A_real = [-11.25   9.    32.5   -5.     6.25 -11.25  -5.    24.25   9.     0.25]
+I_row =  [0 0 0 1 1 1 2 2 2 3]
+I_col =  [1 2 0 2 1 0 1 2 0 3]
+
+dense matrix:
+A_dense = [ 32.50, -11.25,  9.00,  0.00 ]
+          [ -11.25,  6.25, -5.00,  0.00 ]
+          [  9.00, -5.00, 24.25,  0.00 ]
+          [  0.00,  0.00,  0.00,  0.25 ]
+
+jacobi with sparse matrix
+starting value: x.T = [  0.0,  0.0,  0.0,  0.0 ]
+after iter=0: x.T = [  0.93077, -1.60000,  1.16495,  1.00000 ]
+after iter=1: x.T = [  0.054322,  1.007343,  0.489611,  1.000000 ]
+after iter=2: x.T = [  1.14388, -1.11053,  1.35249,  1.00000 ]
+after iter=3: x.T = [  0.17182,  1.54097,  0.51144,  1.00000 ]
+after iter=4: x.T = [  1.32255, -0.88157,  1.41891,  1.00000 ]
+
+jacobi with dense matrix
+starting value: x.T = [  0.0,  0.0,  0.0,  0.0 ]
+after iter=0: x.T = [  0.93077, -1.60000,  1.16495,  1.00000 ]
+after iter=1: x.T = [  0.054322,  1.007343,  0.489611,  1.000000 ]
+after iter=2: x.T = [  1.14388, -1.11053,  1.35249,  1.00000 ]
+after iter=3: x.T = [  0.17182,  1.54097,  0.51144,  1.00000 ]
+after iter=4: x.T = [  1.32255, -0.88157,  1.41891,  1.00000 ]
+</code></pre>
+</div>
+</div>
+<p>We see that we get the same results!</p>
+<p>Now let’s see how long it takes to get a solution. The following plot shows the run times of using the two different implementations of the Jacobi method. We see that, as expected, the run time of the dense formulation is <span class="math inline">\(O(n^2)\)</span> and the run time of the sparse formulation is <span class="math inline">\(O(n)\)</span>.</p>
+<div id="94225586" class="cell" data-execution_count="9">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec05_files/figure-html/cell-10-output-1.png" width="599" height="431" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We say “as expected” because we have already counted the number of operations per iteration and these implementations compute for a fixed number of iterations. In the next section, we look at alternative stopping criteria.</p>
+</section>
+</section>
+<section id="convergence-of-an-iterative-method" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="convergence-of-an-iterative-method"><span class="header-section-number">5.6</span> Convergence of an iterative method</h2>
+<p>We have discussed the construction of <strong>iterations</strong> which aim to find the solution of the equations <span class="math inline">\(A \vec{x} = \vec{b}\)</span> through a sequence of better and better approximations <span class="math inline">\(\vec{x}^{(k)}\)</span>.</p>
+<p>In general the iteration takes the form <span class="math display">\[
+\vec{x}^{(k+1)} = \vec{F}(\vec{x}^{(k)})
+\]</span> here <span class="math inline">\(\vec{x}^{(k)}\)</span> is a vector of values and <span class="math inline">\(\vec{F}\)</span> is some vector-valued function which we have defined.</p>
+<p>How can we decide if this iteration has converged? We need <span class="math inline">\(\vec{x} - \vec{x}^{(k)}\)</span> to be small, but we don’t have access to the exact solution <span class="math inline">\(\vec{x}\)</span> so we have to do something else!</p>
+<p>How do we decide that a vector/array is small? The most common measure is to use the “Euclidean norm” of an array (which you met last year!). This is defined to be the square root of the sum of squares of the entries of the array: <span class="math display">\[
+\| \vec{r} \| = \sqrt{ \sum_{i=1}^n r_i^2 }.
+\]</span> where <span class="math inline">\(\vec{r}\)</span> is a vector with <span class="math inline">\(n\)</span> entries.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Examples
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Consider the following sequence <span class="math inline">\(\vec{x}^{(k)}\)</span>:</p>
+<p><span class="math display">\[
+\begin{pmatrix}
+1 \\ -1
+\end{pmatrix},
+\begin{pmatrix}
+1.5 \\ 0.5
+\end{pmatrix},
+\begin{pmatrix}
+1.75 \\ 0.25
+\end{pmatrix},
+\begin{pmatrix}
+1.875 \\ 0.125
+\end{pmatrix},
+\begin{pmatrix}
+1.9375 \\ -0.0625
+\end{pmatrix},
+\begin{pmatrix}
+1.96875 \\ -0.03125
+\end{pmatrix},
+\ldots
+\]</span></p>
+<ul>
+<li>What is <span class="math inline">\(\|\vec{x}^{(1)} - \vec{x}^{(0)}\|\)</span>?</li>
+<li>What is <span class="math inline">\(\|\vec{x}^{(5)} - \vec{x}^{(4)}\|\)</span>?</li>
+</ul>
+<p>Let <span class="math inline">\(\vec{x} = \begin{pmatrix} 2 \\ 0 \end{pmatrix}\)</span>.</p>
+<ul>
+<li>What is <span class="math inline">\(\|\vec{x} - \vec{x}^{(3)}\|\)</span>?</li>
+<li>What is <span class="math inline">\(\|\vec{x} - \vec{x}^{(4)}\|\)</span>?</li>
+<li>What is <span class="math inline">\(\|\vec{x} - \vec{x}^{(5)}\|\)</span>?</li>
+</ul>
+</div>
+</div>
+<p>Rather than decide in advance how many iterations (of the Jacobi or Gauss-Seidel methods) to use stopping criteria:</p>
+<ul>
+<li><p>This could be a maximum number of iterations.</p></li>
+<li><p>This could be the <em>change</em> in values is small enough:</p>
+<p><span class="math display">\[
+\|x^{(k+1)} - \vec{x}^{(k)}\| &lt; tol,
+\]</span></p></li>
+<li><p>This could be the <em>norm of the residual</em> is small enough:</p>
+<p><span class="math display">\[
+\| \vec{r} \| = \| \vec{b} - A \vec{x}^{(k)} \| &lt; tol
+\]</span></p></li>
+</ul>
+<p>In both cases, we call <span class="math inline">\(tol\)</span> the <strong>convergence tolerance</strong> and the choice of <span class="math inline">\(tol\)</span> will control the accuracy of the solution.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Discussion
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>What is a good convergence tolerance?</p>
+</div>
+</div>
+<p>In general there are two possible reasons that an iteration may fail to converge.</p>
+<ul>
+<li><p>It may <strong>diverge</strong> - this means that <span class="math inline">\(\|\vec{x}^{(k)}\| \to \infty\)</span> as <span class="math inline">\(k\)</span> (the number of iterations) increases, e.g.:</p>
+<p><span class="math display">\[
+\begin{pmatrix}
+1 \\ 1
+\end{pmatrix},
+\begin{pmatrix}
+4 \\ 2
+\end{pmatrix},
+\begin{pmatrix}
+16 \\ 4
+\end{pmatrix},
+\begin{pmatrix}
+64 \\ 8
+\end{pmatrix},
+\begin{pmatrix}
+256 \\ 16
+\end{pmatrix},
+\begin{pmatrix}
+1024 \\ 32
+\end{pmatrix},
+\ldots
+\]</span></p></li>
+<li><p>It may <em>neither</em> converge nor diverge, e.g.:</p>
+<p><span class="math display">\[
+\begin{pmatrix}
+1 \\ 1
+\end{pmatrix},
+\begin{pmatrix}
+2 \\ 0
+\end{pmatrix},
+\begin{pmatrix}
+3 \\ 1
+\end{pmatrix},
+\begin{pmatrix}
+1 \\ 0
+\end{pmatrix},
+\begin{pmatrix}
+2 \\ 1
+\end{pmatrix},
+\begin{pmatrix}
+3 \\ 0
+\end{pmatrix},
+\ldots
+\]</span></p></li>
+</ul>
+<p>In addition to testing for convergence it is also necessary to include tests for failure to converge.</p>
+<ul>
+<li><p>Divergence may be detected by monitoring <span class="math inline">\(\|\vec{x}^{(k)}\|\)</span>.</p></li>
+<li><p>Impose a maximum number of iterations to ensure that the loop is not repeated forever!</p></li>
+</ul>
+</section>
+<section id="summary" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="summary"><span class="header-section-number">5.7</span> Summary</h2>
+<p>Many complex computational problems simply cannot be solved with today’s computers using direct methods. Iterative methods are used instead since they can massively reduce the computational cost and storage required to get a “good enough” solution.</p>
+<p>These basic iterative methods are simple to describe and program but generally slow to converge to an accurate answer - typically <span class="math inline">\(O(n)\)</span> iterations are required! Their usefulness for general matrix systems is very limited therefore - but we have shown their value in the solution of sparse systems however.</p>
+<p>More advanced iterative methods do exist but are beyond the scope of this module - see Final year projects, MSc projects, PhD, and beyond!</p>
+</section>
+<section id="further-reading" class="level2" data-number="5.8">
+<h2 data-number="5.8" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">5.8</span> Further reading</h2>
+<p>More details on these basic (and related) methods:</p>
+<ul>
+<li>Wikipedia: <a href="https://en.wikipedia.org/wiki/Jacobi_method">Jacobi method</a></li>
+<li>Wikipedia: <a href="https://en.wikipedia.org/wiki/Gauss%E2%80%93Seidel_method">Gauss-Seidel method</a></li>
+<li>Wikipedia: <a href="https://en.wikipedia.org/wiki/Iterative_method">Iterative methods</a>
+<ul>
+<li>see also Richardson method, Damped Jacobi method, Successive over-relaxation method (SOR), Symmetric successive over-relaxation method (SSOR) and <a href="https://en.wikipedia.org/wiki/Iterative_method#Krylov_subspace_methods">Krylov subspace methods</a></li>
+</ul></li>
+</ul>
+<p>More details on sparse matrices:</p>
+<ul>
+<li>Wikipedia <a href="https://en.wikipedia.org/wiki/Sparse_matrix">Sparse matrix</a> - including a long detailed list of software libraries support sparse matrices.</li>
+<li>Stackoverflow: <a href="https://stackoverflow.com/questions/36969886/using-a-sparse-matrix-versus-numpy-array">Using a sparse matrix vs numpy array</a></li>
+<li>Jason Brownlee: <a href="https://machinelearningmastery.com/sparse-matrices-for-machine-learning/">A gentle introduction to sparse matrices for machine learning</a>, Machine learning mastery</li>
+</ul>
+<p>Some related textbooks:</p>
+<ul>
+<li>Jack Dongarra <a href="http://www.netlib.org/linalg/html_templates/node83.html">Templates for the solution of linear systems: Stopping criteria</a></li>
+<li>Jack Dongarra <a href="http://www.netlib.org/linalg/html_templates/node11.html#SECTION00720000000000000000">Templates for the solution of linear systems: Stationary iterative methods</a></li>
+<li>Golub, Gene H.; Van Loan, Charles F. (1996), Matrix Computations (3rd ed.), Baltimore: Johns Hopkins, ISBN 978-0-8018-5414-9.</li>
+<li>Saad, Yousef (2003). Iterative Methods for Sparse Linear Systems (2nd ed.). SIAM. p.&nbsp;414. ISBN 0898715342.</li>
+</ul>
+<p>Some software implementations:</p>
+<ul>
+<li><a href="https://docs.scipy.org/doc/scipy/reference/sparse.html"><code>scipy.sparse</code></a> custom routines specialised to sparse matrices</li>
+<li><a href="http://faculty.cse.tamu.edu/davis/suitesparse.html">SuiteSparse</a>, a suite of sparse matrix algorithms, geared toward the direct solution of sparse linear systems</li>
+<li><code>scipy.sparse</code> iterative solvers: <a href="https://docs.scipy.org/doc/scipy/reference/sparse.linalg.html#solving-linear-problems">Solving linear problems</a></li>
+<li>PETSc: <a href="https://petsc.org/release/docs/manual/ksp/">Linear system solvers</a> - a high performance linear algebra toolkit</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../src/lec04.html" class="pagination-link" aria-label="Direct solvers for systems of linear equtaions">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Direct solvers for systems of linear equtaions</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../src/lec06.html" class="pagination-link" aria-label="(Preliminary topic) Complex numbers">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">(Preliminary topic) Complex numbers</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Copyright 2024-2025, Thomas Ranner and University of Leeds</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
