@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.7.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -74,14 +74,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-2fef5ea3f8957b3e4ecc936fc74692ca.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-2f6d29f9f94f55da286944756da9211d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-18d081f514c576145803a6470058a168.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-2f6d29f9f94f55da286944756da9211d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e6991f6fb445b6bf3a4bff6b69c9af17.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-a4e1765ac18cbbee544c0487cb449ad2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e6991f6fb445b6bf3a4bff6b69c9af17.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -511,7 +511,7 @@ b_1 \neq 0 \quad (0 &lt; b_1 \le \beta -1).
 <li><p>The <a href="https://en.wikipedia.org/wiki/IEEE_754">IEEE single precision standard</a> is <span class="math inline">\((\beta, t, L, U) = (2, 23, -127, 128)\)</span>. This is available via <code>numpy.single</code>.</p></li>
 <li><p>The <a href="https://en.wikipedia.org/wiki/IEEE_754">IEEE double precision standard</a> is <span class="math inline">\((\beta, t, L, U) = (2, 52, -1023, 1024)\)</span>. This is available via <code>numpy.double</code>.</p></li>
 </ol>
-<div id="b448cb40" class="cell" data-execution_count="2">
+<div id="fd25f9c7" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> np.double(<span class="fl">1.1</span>)</span>
@@ -576,7 +576,7 @@ x = \pm .b_1 b_2 \times 10^e \text{ where } -1 \le e \le 2.
 0.11 \times 10^{-1} - 0.10 \times 10^{-1} = 0.011 - 0.010 = 0.001.
 \]</span></p>
 <p>Alternatively, we can brute force search for this:</p>
-<div id="a8e56a32" class="cell" data-execution_count="3">
+<div id="1fb118c9" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-stdout">
 <pre><code>The minimum difference min_diff=0.0010
 at x=+0.57 x 10^{-1} y=+0.58 x 10^{-1}.</code></pre>
@@ -598,7 +598,7 @@ x = \pm .b_1 b_2 b_3 \times 10^e \text{ where } -3 \le e \le 3.
 </div>
 <div id="exm-python" class="theorem example">
 <p><span class="theorem-title"><strong>Example 2.2 (What about in python)</strong></span> We find that even with double-precision floating point numbers, we see sum funniness when working with decimals:</p>
-<div id="af36abcc" class="cell" data-execution_count="4">
+<div id="4156b838" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> np.double(<span class="fl">0.0</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
@@ -624,7 +624,7 @@ Is a = 1? False</code></pre>
 <p>Why is this output not a surprise?</p>
 </blockquote>
 <p>We also see that even adding up numbers can have different results depending on what order we add them:</p>
-<div id="b87deaed" class="cell" data-execution_count="5">
+<div id="49357531" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.double(<span class="fl">1e30</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.double(<span class="op">-</span><span class="fl">1e30</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> np.double(<span class="fl">1.0</span>)</span>
@@ -634,7 +634,7 @@ Is a = 1? False</code></pre>
 <pre><code>(x + y) + z=1.0000000000000000</code></pre>
 </div>
 </div>
-<div id="f6faaa46" class="cell" data-execution_count="6">
+<div id="dec5b8b5" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>x <span class="op">+</span> (y <span class="op">+</span> z)<span class="op">=</span><span class="sc">:.16f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>x + (y + z)=0.0000000000000000</code></pre>
@@ -674,7 +674,7 @@ Is a = 1? False</code></pre>
 \frac{|y - fl(y)|}{|y|} &lt; \frac{1}{2} \beta^{1-t}.
 \]</span></p>
 <p>The last term is known as <strong>machine precision</strong> or <strong>unit roundoff</strong> and is often called <span class="math inline">\(eps\)</span>. This is obtained in Python with</p>
-<div id="e63e55d8" class="cell" data-execution_count="7">
+<div id="0e72f5e6" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>np.finfo(np.double).eps</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>np.float64(2.220446049250313e-16)</code></pre>
@@ -697,7 +697,7 @@ eps = \frac{1}{2} \beta^{1-t} = \frac{1}{2} 10^{1-7} = 0.000005.
 \]</span></p></li>
 <li><p>For some common types in python, we see the following values:</p></li>
 </ol>
-<div id="6d13c278" class="cell" data-execution_count="8">
+<div id="71733c3d" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> dtype <span class="kw">in</span> [np.half, np.single, np.double]:</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(dtype.<span class="va">__name__</span>, np.finfo(dtype).eps)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -709,7 +709,7 @@ float64 2.220446049250313e-16</code></pre>
 </div>
 <div id="rmk-eps">
 <p>Machine precision epsilon (<span class="math inline">\(eps\)</span>) gives us an upper bound for the error in the representation of a floating point number in a particular system. We note that this is different to the smallest possible numbers that we are able to store!</p>
-<div id="78ebfe3d" class="cell" data-execution_count="9">
+<div id="753c3b9f" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>eps <span class="op">=</span> np.finfo(np.double).eps</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>eps<span class="op">=</span><span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -761,7 +761,7 @@ x+(z+z), \quad
 <p><span class="theorem-title"><strong>Example 2.5 (Computing derivatives with floating point numbers)</strong></span> Suppose we want to compute the derivative of <span class="math inline">\(f(x) = x^3\)</span> at <span class="math inline">\(x = 1\)</span> using the definition of limits and floating point numbers: <span class="math display">\[
 f'(x) = \lim_{\Delta x \to 0} \frac{f(x + \Delta x) - f(x)}{\Delta x}.
 \]</span> We know that <span class="math inline">\(f'(x) = 3 x^2\)</span> so <span class="math inline">\(f'(1) = 3\)</span>. We hope that using floating point numbers gives something similar:</p>
-<div id="955b4366" class="cell" data-execution_count="10">
+<div id="3afb9340" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x<span class="op">**</span><span class="dv">3</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
