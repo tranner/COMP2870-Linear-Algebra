@@ -4,14 +4,13 @@
 lint:
 	./qmd_ruff.py src/*.qmd
 
-server:
+serve:
 	uv run quarto preview
 
-build:
-	_build html
-	_build pdf
+build: lint
+	uv run quarto render
 
-_build output:
+_build output: lint
 	uv run quarto render --to {{output}}
 
 clean:

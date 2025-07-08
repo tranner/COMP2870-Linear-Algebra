@@ -1,5 +1,9 @@
 ---
-title: Eigenvectors and eigenvalues
+title: "Eigenvectors and eigenvalues: practical solutions"
 jupyter: python3
 ---
 
+QR iteration?
+
+Gram-Schmidt?
+Householder transformation?
