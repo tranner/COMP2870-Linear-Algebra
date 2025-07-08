@@ -8,7 +8,7 @@
 
 <meta name="author" content="Thomas Ranner">
 
-<title>7&nbsp; Linear independence, span, basis – COMP2860 Theoretical Foundations: Linear Algebra</title>
+<title>7&nbsp; Eigenvectors and eigenvalues – COMP2860 Theoretical Foundations: Linear Algebra</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -82,6 +82,35 @@ ul.task-list li input[type="checkbox"] {
   };
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -256,7 +285,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../src/lec07.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Linear independence, span, basis</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../src/lec07.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -323,13 +352,13 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../src/lec07.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Linear independence, span, basis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../src/lec08.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues: practical solutions</span></span></a>
   </div>
 </li>
     </ul>
@@ -337,8 +366,17 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#key-definitions" id="toc-key-definitions" class="nav-link active" data-scroll-target="#key-definitions"><span class="header-section-number">7.1</span> Key definitions</a></li>
+  <li><a href="#properties-of-eigenvalues-and-eigenvectors" id="toc-properties-of-eigenvalues-and-eigenvectors" class="nav-link" data-scroll-target="#properties-of-eigenvalues-and-eigenvectors"><span class="header-section-number">7.2</span> Properties of eigenvalues and eigenvectors</a></li>
+  <li><a href="#how-to-find-eigenvalues-and-eigenvectors" id="toc-how-to-find-eigenvalues-and-eigenvectors" class="nav-link" data-scroll-target="#how-to-find-eigenvalues-and-eigenvectors"><span class="header-section-number">7.3</span> How to find eigenvalues and eigenvectors</a></li>
+  <li><a href="#important-theory" id="toc-important-theory" class="nav-link" data-scroll-target="#important-theory"><span class="header-section-number">7.4</span> Important theory</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -346,7 +384,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Linear independence, span, basis</span></h1>
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues</span></h1>
 </div>
 
 
@@ -376,8 +414,175 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>This section of the notes will introduce our second big linear algebra problem. Throughout, we will be considering a square (<span class="math inline">\(n\times n\)</span>) matrix.</p>
+<section id="key-definitions" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="key-definitions"><span class="header-section-number">7.1</span> Key definitions</h2>
+<p>For this problem, we will think of a matrix <span class="math inline">\(A\)</span> as representing a <em>function</em> which takes in a vector <span class="math inline">\(\vec{x}\)</span> and gives us back another vector. <span class="math display">\[\begin{equation*}
+\vec{x} \mapsto A \vec{x}.
+\end{equation*}\]</span> We are interested in when is the output vector <span class="math inline">\(A \vec{x}\)</span> is <em>parallel</em> to <span class="math inline">\(\vec{x}\)</span>.</p>
+<div id="def-evalues" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 7.1</strong></span> We say that any vector <span class="math inline">\(\vec{x}\)</span> where <span class="math inline">\(A \vec{x}\)</span> is parallel is <span class="math inline">\(\vec{x}\)</span> is called an <em>eigenvector</em> of <span class="math inline">\(A\)</span>. Here by parallel, we mean that there exists a number <span class="math inline">\(\lambda\)</span> (can be positive, negative or zero) such that <span class="math display">\[\begin{equation}
+\label{eq:evalues}
+A \vec{x} = \lambda \vec{x}.
+\end{equation}\]</span> We call the associated number <span class="math inline">\(\lambda\)</span> an <em>eigenvalue</em> of <span class="math inline">\(A\)</span>.</p>
+<p>We will later see that an <span class="math inline">\(n \times n\)</span> square matrix always has <span class="math inline">\(n\)</span> eigenvalues (which may not always be distinct).</p>
+</div>
+<p>If <span class="math inline">\(A \vec{x} = \vec{0}\)</span>, then <span class="math inline">\(\vec{x}\)</span> is an eigenvector associated to the eigenvalue <span class="math inline">\(0\)</span>. In fact, we know that <span class="math inline">\(0\)</span> is an eigenvalue of <span class="math inline">\(A\)</span> if, and only if, <span class="math inline">\(A\)</span> is singular.</p>
+<div id="exm-projection" class="theorem example">
+<p><span class="theorem-title"><strong>Example 7.1</strong></span> Let <span class="math inline">\(P\)</span> be the 3x3 matrix that represents projection on to a plane <span class="math inline">\(\pi\)</span>. what are the eigenvalues and eigenvectors of <span class="math inline">\(p\)</span>?</p>
+<div id="fbba5cdc" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec07_files/figure-html/cell-2-output-1.png" width="450" height="470" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>if <span class="math inline">\(\vec{x}\)</span> is in the plane <span class="math inline">\(\pi\)</span>, then <span class="math inline">\(P \vec{x} = \vec{x}\)</span>. This means that <span class="math inline">\(\vec{x}\)</span> is an eigenvector and the associated eigenvalue is <span class="math inline">\(1\)</span>.</li>
+<li>if <span class="math inline">\(\vec{y}\)</span> is perpendicular to the plane <span class="math inline">\(\pi\)</span>, then <span class="math inline">\(P \vec{y} = \vec{0}\)</span>. this means that <span class="math inline">\(\vec{y}\)</span> is an eigenvector and the associated eigenvalue is <span class="math inline">\(0\)</span>.</li>
+</ul>
+<p>Let <span class="math inline">\(\vec{y}\)</span> be perpendicular to <span class="math inline">\(\Pi\)</span> (so that <span class="math inline">\(P \vec{y} = \vec{0}\)</span> and <span class="math inline">\(\vec{y}\)</span> is an eigenvector of <span class="math inline">\(P\)</span>), then for any number <span class="math inline">\(s\)</span>, we can compute <span class="math display">\[\begin{equation*}
+P (s \vec{y}) = s P \vec{y} = s \vec{0} = \vec{0}.
+\end{equation*}\]</span> This means that <span class="math inline">\(s \vec{y}\)</span> is also an eigenvector of <span class="math inline">\(P\)</span> associated to the eigenvalue <span class="math inline">\(0\)</span>. As a consequence when we compute eigenvectors, we need to take care to <em>normalise</em> the vector to ensure we get a unique answer.</p>
+<p>We see we end up with a two-dimensional space of eigenvectors (i.e., the plane <span class="math inline">\(\Pi\)</span>) associated to eigenvalue <span class="math inline">\(1\)</span> and a one-dimensional space of eigenvectors (i.e., the line perpendicular to <span class="math inline">\(\Pi\)</span>) eigenvalue <span class="math inline">\(0\)</span>. We use the term <em>eigenspace</em> the space of eigenvectors associated to a particular eigenvalue.</p>
+</div>
+<div id="exm-permuatation" class="theorem example">
+<p><span class="theorem-title"><strong>Example 7.2</strong></span> Let <span class="math inline">\(A\)</span> be the permuatation matrix which takes an input two-vector and outputs a two-vector with the components swapped. The matrix is given by <span class="math display">\[\begin{equation*}
+A = \begin{pmatrix}
+0 &amp; 1 \\ 1 &amp; 0 \\
+\end{pmatrix}.
+\end{equation*}\]</span> What are the eigenvectors and eigenvalues of <span class="math inline">\(A\)</span>?</p>
+<ul>
+<li>Let <span class="math inline">\(\vec{x} = (1, 1)^T\)</span>, the swapping the components of <span class="math inline">\(\vec{x}\)</span> gives back the same vector <span class="math inline">\(\vec{x}\)</span>. In equations, we can write <span class="math inline">\(A \vec{x} = \vec{x}\)</span>. This means that <span class="math inline">\(\vec{x}\)</span> is an eigenvector and the eigenvalue is <span class="math inline">\(1\)</span>.</li>
+<li>Let <span class="math inline">\(\vec{x} = (-1, 1)^T\)</span>, the swapping the components of <span class="math inline">\(\vec{x}\)</span> gives back <span class="math inline">\((1, -1)^T\)</span> which we can see is <span class="math inline">\(-\vec{x}\)</span>. In equations, we can write <span class="math inline">\(A \vec{x} = -\vec{x}\)</span>. This means that <span class="math inline">\(\vec{x}\)</span> is an eigenvector of <span class="math inline">\(A\)</span> and the associated eigenvalue is <span class="math inline">\(-1\)</span>.</li>
+</ul>
+<p>Here we see that again we actually have two one-dimensional eigenspaces.</p>
+</div>
+</section>
+<section id="properties-of-eigenvalues-and-eigenvectors" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="properties-of-eigenvalues-and-eigenvectors"><span class="header-section-number">7.2</span> Properties of eigenvalues and eigenvectors</h2>
+<p>Eigenvalues and eigenvectors can be used to completely describe the transformation described by <span class="math inline">\(A\)</span>.</p>
+<p>Let <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> be two <span class="math inline">\(n \times n\)</span> matrices. Then, we cannot use the eigenvalues of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> to work out the eigenvalues of <span class="math inline">\(A + B\)</span> or the eigenvalues of <span class="math inline">\(A B\)</span>, in general.</p>
+<p>Sum of eigenvalues is trace Product of eigenvalues is determinant</p>
+<div id="rem-trace" class="proof remark">
+<p><span class="proof-title"><em>Remark 7.1</em>. </span>If we add up all the eigenvalues of a <span class="math inline">\(n \times n\)</span> matrix, we get the <em>trace</em> of the matrix <span class="math inline">\(A\)</span>. We can also find the trace by adding up the diagonal components of the matrix: <span class="math display">\[\begin{equation*}
+\lambda_1 + \cdots + \lambda_n = a_{11} + a_{22} + \cdots + a_{nn} = \mathrm{trace}(A).
+\end{equation*}\]</span></p>
+</div>
+</section>
+<section id="how-to-find-eigenvalues-and-eigenvectors" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="how-to-find-eigenvalues-and-eigenvectors"><span class="header-section-number">7.3</span> How to find eigenvalues and eigenvectors</h2>
+<p>To compute eigenvalues and eigenvectors, we start from <span class="math inline">\(\eqref{eq:evalues}\)</span> and move everything to the left-hand side and use the identity matrix <span class="math inline">\((I_n)\)</span>: <span class="math display">\[\begin{equation*}
+(A - \lambda I_n) \vec{x} = \vec{0}.
+\end{equation*}\]</span> This tells us that if we want to find an eigenvalue of <span class="math inline">\(A\)</span>, then we need to find a number <span class="math inline">\(\lambda\)</span> such that <span class="math inline">\((A - \lambda I_n)\)</span> can multiply a matrix and give us back the zero-vector. This happens when <span class="math inline">\((A - \lambda I)\)</span> is <em>singular</em>.</p>
+<p>One way to test if a matrix is singular, is if the determinant is 0. This gives us a test we can use to determine eigenvalues: <span class="math display">\[\begin{equation}
+\label{eq:char}
+\det( A - \lambda I_n ) = 0.
+\end{equation}\]</span> In fact, this equation no longer depends on the eigenvector <span class="math inline">\(\vec{x}\)</span>, and if we can find solutions <span class="math inline">\(\lambda\)</span> to this equation then <span class="math inline">\(\lambda\)</span> is an eigenvalue of <span class="math inline">\(A\)</span>.</p>
+<p>We call <span class="math inline">\(\eqref{eq:char}\)</span> the <em>characteristic equation</em> or <em>eigenvalue equation</em>. We will see that <span class="math inline">\(\eqref{eq:char}\)</span> gives us a degree <span class="math inline">\(n\)</span> polynomial equation in <span class="math inline">\(\lambda\)</span>.</p>
+<p>Once we have found an eigenvalue by solving the characteristic equation for a value <span class="math inline">\(\lambda^*\)</span>, we need to find a vector <span class="math inline">\(\vec{x}\)</span> such that <span class="math display">\[\begin{equation*}
+(A - \lambda^*) \vec{x} = \vec{0}.
+\end{equation*}\]</span> In general, this is possible using a variation of Gaussian elimination with pivoting, but we do not explore this method in this module.</p>
+<div id="exm-char" class="theorem example">
+<p><span class="theorem-title"><strong>Example 7.3</strong></span> Let <span class="math inline">\(A\)</span> be the matrix given by <span class="math display">\[\begin{equation*}
+A = \begin{pmatrix}
+3 &amp; 1 \\ 1 &amp; 3 \\
+\end{pmatrix}.
+\end{equation*}\]</span></p>
+<p>Then, we can compute that <span class="math display">\[\begin{align*}
+\det(A - \lambda I_n)
+&amp; = \det \begin{pmatrix}
+3 - \lambda &amp; 1 \\ 1 &amp; 3 - \lambda
+\end{pmatrix} \\
+&amp; = (3 - \lambda)(3 - \lambda) - 1 \times 1 \\
+&amp; = \lambda^2 + 6 \lambda + 8.
+\end{align*}\]</span> So we want to find values <span class="math inline">\(\lambda\)</span> such that <span class="math display">\[\begin{equation*}
+\det(A - \lambda I_n) =\lambda^2 + 6 \lambda + 8 = 0.
+\end{equation*}\]</span> We can read off, by factorisation, that the values of <span class="math inline">\(\lambda\)</span> are <span class="math inline">\(4\)</span> and <span class="math inline">\(2\)</span>.</p>
+<p>We can now start computing the associated eigenvectors.</p>
+<p>To find the eigenvector associated with the eigenvalue <span class="math inline">\(4\)</span>. We see that <span class="math display">\[\begin{equation*}
+A - 4 I_n = \begin{pmatrix} -1 &amp; 1 \\ 1 &amp; -1 \end{pmatrix}.
+\end{equation*}\]</span> We can identify that <span class="math inline">\((A - 4I_n) (1, 1)^T = \vec{0}\)</span>. So <span class="math inline">\((1, 1)\)</span> is an eigenvector associated with <span class="math inline">\(4\)</span>.</p>
+<p>To find the eigenvector associated with the eigenvalue <span class="math inline">\(2\)</span>. We see that <span class="math display">\[\begin{equation*}
+A - 2I_n = \begin{pmatrix} 1 &amp; 1 \\ 1 &amp; 1 \end{pmatrix}.
+\end{equation*}\]</span> We can identify that <span class="math inline">\((A - 2 I_n) (-1, 1)^T = \vec{0}\)</span>. So <span class="math inline">\((-1, 1)\)</span> is an eigenvector associated with <span class="math inline">\(2\)</span>.</p>
+</div>
+<p>We want to note that this example is actually surprisingly similar to <a href="#exm-permuatation" class="quarto-xref">Example&nbsp;<span>7.2</span></a>. We see that the eigenvectors are actually the same! We can see that the matrices are related too: <span class="math display">\[\begin{equation*}
+\begin{pmatrix}
+0 &amp; 1 \\ 1 &amp; 0 \\
+\end{pmatrix}
++ 3 I
+=
+\begin{pmatrix}
+3 &amp; 1 \\ 1 &amp; 3
+\end{pmatrix}.
+\end{equation*}\]</span> So we can compute that if <span class="math inline">\(A \vec{x} = \lambda \vec{x}\)</span> then <span class="math display">\[\begin{equation*}
+(A + 3 I) \vec{x} = \lambda \vec{x} + 3 \vec{x} = (\lambda + 3) \vec{x}.
+\end{equation*}\]</span> So we see that <span class="math inline">\(\vec{x}\)</span> is also an eigenvector of <span class="math inline">\(A\)</span> and the associated eigenvector is <span class="math inline">\(\lambda + 3\)</span>. This will turn out to be useful later!</p>
+<p>Although this procedure is robust to finding eigenvalues there are cases where we have to be a bit careful. We have seen one example above with a two-dimensional eigenspace associated with one eigenvector (<a href="#exm-projection" class="quarto-xref">Example&nbsp;<span>7.1</span></a>). Here are two other cases we must be careful:</p>
+<div id="exm-rotation" class="theorem example">
+<p><span class="theorem-title"><strong>Example 7.4</strong></span> Let <span class="math inline">\(Q\)</span> denote the <span class="math inline">\(2 \times 2\)</span> matrix that rotates any vector by <span class="math inline">\(\pi/2\)</span> (<span class="math inline">\(=90^\circ\)</span>): <span class="math display">\[\begin{equation*}
+Q = \begin{pmatrix}
+0 &amp; -1 \\ 1 &amp; 0
+\end{pmatrix}.
+\end{equation*}\]</span> Our intuition says that there can be no vectors that when rotated by <span class="math inline">\(pi/2\)</span> give something parallel to the input vector, but we can still compute: <span class="math display">\[\begin{equation*}
+\det Q = \det \begin{pmatrix}
+-\lambda &amp; -1 \\ 1 &amp; -\lambda
+\end{pmatrix}
+= \lambda^2 + 1.
+\end{equation*}\]</span> So we can find eigenvalues by finding the values <span class="math inline">\(\lambda\)</span> such that <span class="math display">\[\begin{equation*}
+\lambda^2 + 1 = 0.
+\end{equation*}\]</span> We saw in the section on Complex Numbers that the solutions to this equation are <span class="math inline">\(\pm i\)</span>. This means our algorithms for finding eigenvalues and eigenvectors need to handle complex numbers too.</p>
+</div>
+<div id="exm-single-evec" class="theorem example">
+<p><span class="theorem-title"><strong>Example 7.5</strong></span> Let <span class="math inline">\(A\)</span> be the <span class="math inline">\(2 \times 2\)</span> matrix given by <span class="math display">\[\begin{equation*}
+A = \begin{pmatrix}
+3 &amp; 1 \\ 0 &amp; 3
+\end{pmatrix}.
+\end{equation*}\]</span> If we follow our procedure above we get a single repeated eigenvalue <span class="math inline">\(3\)</span>.</p>
+<p>Looking at the shifted matrix, <span class="math inline">\(A - 3 I_n\)</span>: <span class="math display">\[\begin{equation*}
+A - 3 I_n = \begin{pmatrix}
+0 &amp; 1 \\ 0 &amp; 0
+\end{pmatrix}.
+\end{equation*}\]</span> we can identify one eigenvector <span class="math inline">\((1, 0)^T\)</span>, but there is no other eigenvector (in a different direction)! Indeed, we can compute that: <span class="math display">\[\begin{align*}
+(A - 3 I_n) \begin{pmatrix}
+x \\ y
+\end{pmatrix}
+= \begin{pmatrix}
+0 &amp; 1 \\ 0 &amp; 0 \\
+\end{pmatrix}
+\begin{pmatrix}
+x \\ y
+\end{pmatrix}
+=
+\begin{pmatrix}
+y \\ 0
+\end{pmatrix}.
+\end{align*}\]</span> This tells us that if <span class="math inline">\((A - 3 I_n) (x, y)^T = \vec{0}\)</span> if, and only if, <span class="math inline">\(y = 0\)</span>. Thus all eigenvector have the form <span class="math inline">\((x, 0)^T\)</span> and point in the same direction as <span class="math inline">\((1, 0)^T\)</span>.</p>
+</div>
+<div id="exr-char" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 7.1</strong></span> Find the eigenvalues and eigenvectors for the matrices</p>
+<p><span class="math display">\[\begin{equation*}
+A = \begin{pmatrix} 9 &amp; -2 \\ -2 &amp; 6 \end{pmatrix}.
+\end{equation*}\]</span></p>
+<p>TODO add another complex example</p>
+</div>
+</section>
+<section id="important-theory" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="important-theory"><span class="header-section-number">7.4</span> Important theory</h2>
+<p>We have established a way to identify eigenvalues and eigenvectors for an arbitrary square matrix. It turns out this method can be used to prove the existance of eigenvalues.</p>
+<div id="thm-existence" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 7.1</strong></span> Any square <span class="math inline">\(n \times n\)</span> matrix has <span class="math inline">\(n\)</span> complex eigenvalues (possibly not distinct).</p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>For any matrix the characteristic equation <span class="math inline">\(\eqref{eq:char}\)</span> is a degree <span class="math inline">\(n\)</span> polynomial. The Fundamental Theorem of Algebra (<a href="lec06.html#thm-fund-alg" class="quarto-xref">Theorem&nbsp;<span>6.1</span></a>) tells us that any degree <span class="math inline">\(n\)</span> polynomial has <span class="math inline">\(n\)</span> roots over the complex numbers. The <span class="math inline">\(n\)</span> roots of the characteristic equation are the <span class="math inline">\(n\)</span> eigenvalues.</p>
+</div>
+<p>The Abel-Ruffini theorem states that there is no solution in the radicals for a general polynomial of degree 5 or higher with arbitrary coefficients. This implies that there is no ‘nice’ closed form for roots of polynomials of degree 5 or higher. So, if we want an algorithm to find eigenvalues and eigenvectors of larger matrices then we need to do something else!</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -799,8 +1004,8 @@ ul.task-list li input[type="checkbox"] {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../src/lec08.html" class="pagination-link" aria-label="Eigenvectors and eigenvalues">
-        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../src/lec08.html" class="pagination-link" aria-label="Eigenvectors and eigenvalues: practical solutions">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues: practical solutions</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
