@@ -430,7 +430,7 @@ A \vec{x} = \lambda \vec{x}.
 <p>If <span class="math inline">\(A \vec{x} = \vec{0}\)</span>, then <span class="math inline">\(\vec{x}\)</span> is an eigenvector associated to the eigenvalue <span class="math inline">\(0\)</span>. In fact, we know that <span class="math inline">\(0\)</span> is an eigenvalue of <span class="math inline">\(A\)</span> if, and only if, <span class="math inline">\(A\)</span> is singular.</p>
 <div id="exm-projection" class="theorem example">
 <p><span class="theorem-title"><strong>Example 7.1</strong></span> Let <span class="math inline">\(P\)</span> be the 3x3 matrix that represents projection on to a plane <span class="math inline">\(\pi\)</span>. what are the eigenvalues and eigenvectors of <span class="math inline">\(p\)</span>?</p>
-<div id="fbba5cdc" class="cell" data-execution_count="1">
+<div id="63a2b65d" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -440,8 +440,8 @@ A \vec{x} = \lambda \vec{x}.
 </div>
 </div>
 <ul>
-<li>if <span class="math inline">\(\vec{x}\)</span> is in the plane <span class="math inline">\(\pi\)</span>, then <span class="math inline">\(P \vec{x} = \vec{x}\)</span>. This means that <span class="math inline">\(\vec{x}\)</span> is an eigenvector and the associated eigenvalue is <span class="math inline">\(1\)</span>.</li>
-<li>if <span class="math inline">\(\vec{y}\)</span> is perpendicular to the plane <span class="math inline">\(\pi\)</span>, then <span class="math inline">\(P \vec{y} = \vec{0}\)</span>. this means that <span class="math inline">\(\vec{y}\)</span> is an eigenvector and the associated eigenvalue is <span class="math inline">\(0\)</span>.</li>
+<li>if <span class="math inline">\(\vec{x}\)</span> is in the plane <span class="math inline">\(\Pi\)</span>, then <span class="math inline">\(P \vec{x} = \vec{x}\)</span>. This means that <span class="math inline">\(\vec{x}\)</span> is an eigenvector and the associated eigenvalue is <span class="math inline">\(1\)</span>.</li>
+<li>if <span class="math inline">\(\vec{y}\)</span> is perpendicular to the plane <span class="math inline">\(\Pi\)</span>, then <span class="math inline">\(P \vec{y} = \vec{0}\)</span>. this means that <span class="math inline">\(\vec{y}\)</span> is an eigenvector and the associated eigenvalue is <span class="math inline">\(0\)</span>.</li>
 </ul>
 <p>Let <span class="math inline">\(\vec{y}\)</span> be perpendicular to <span class="math inline">\(\Pi\)</span> (so that <span class="math inline">\(P \vec{y} = \vec{0}\)</span> and <span class="math inline">\(\vec{y}\)</span> is an eigenvector of <span class="math inline">\(P\)</span>), then for any number <span class="math inline">\(s\)</span>, we can compute <span class="math display">\[\begin{equation*}
 P (s \vec{y}) = s P \vec{y} = s \vec{0} = \vec{0}.
@@ -463,6 +463,7 @@ A = \begin{pmatrix}
 </section>
 <section id="properties-of-eigenvalues-and-eigenvectors" class="level2" data-number="7.2">
 <h2 data-number="7.2" class="anchored" data-anchor-id="properties-of-eigenvalues-and-eigenvectors"><span class="header-section-number">7.2</span> Properties of eigenvalues and eigenvectors</h2>
+<p>TODO</p>
 <p>Eigenvalues and eigenvectors can be used to completely describe the transformation described by <span class="math inline">\(A\)</span>.</p>
 <p>Let <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> be two <span class="math inline">\(n \times n\)</span> matrices. Then, we cannot use the eigenvalues of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> to work out the eigenvalues of <span class="math inline">\(A + B\)</span> or the eigenvalues of <span class="math inline">\(A B\)</span>, in general.</p>
 <p>Sum of eigenvalues is trace Product of eigenvalues is determinant</p>
@@ -527,7 +528,7 @@ A - 2I_n = \begin{pmatrix} 1 &amp; 1 \\ 1 &amp; 1 \end{pmatrix}.
 Q = \begin{pmatrix}
 0 &amp; -1 \\ 1 &amp; 0
 \end{pmatrix}.
-\end{equation*}\]</span> Our intuition says that there can be no vectors that when rotated by <span class="math inline">\(pi/2\)</span> give something parallel to the input vector, but we can still compute: <span class="math display">\[\begin{equation*}
+\end{equation*}\]</span> Our intuition says that there can be no vectors that when rotated by <span class="math inline">\(\pi/2\)</span> give something parallel to the input vector, but we can still compute: <span class="math display">\[\begin{equation*}
 \det Q = \det \begin{pmatrix}
 -\lambda &amp; -1 \\ 1 &amp; -\lambda
 \end{pmatrix}
