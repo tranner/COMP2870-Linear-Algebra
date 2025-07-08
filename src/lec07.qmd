@@ -89,8 +89,8 @@ def plot_3d_plane_and_vectors():
 plot_3d_plane_and_vectors()
 ```
 
-- if $\vec{x}$ is in the plane $\pi$, then $P \vec{x} = \vec{x}$. This means that $\vec{x}$ is an eigenvector and the associated eigenvalue is $1$.
-- if $\vec{y}$ is perpendicular to the plane $\pi$, then $P \vec{y} = \vec{0}$. this means that $\vec{y}$ is an eigenvector and the associated eigenvalue is $0$.
+- if $\vec{x}$ is in the plane $\Pi$, then $P \vec{x} = \vec{x}$. This means that $\vec{x}$ is an eigenvector and the associated eigenvalue is $1$.
+- if $\vec{y}$ is perpendicular to the plane $\Pi$, then $P \vec{y} = \vec{0}$. this means that $\vec{y}$ is an eigenvector and the associated eigenvalue is $0$.
 
 Let $\vec{y}$ be perpendicular to $\Pi$ (so that $P \vec{y} = \vec{0}$ and $\vec{y}$ is an eigenvector of $P$), then for any number $s$, we can compute
 \begin{equation*}
@@ -119,6 +119,8 @@ Here we see that again we actually have two one-dimensional eigenspaces.
 
 
 ## Properties of eigenvalues and eigenvectors
+
+TODO
 
 Eigenvalues and eigenvectors can be used to completely describe the transformation described by $A$.
 
@@ -227,7 +229,7 @@ Q = \begin{pmatrix}
 0 & -1 \\ 1 & 0
 \end{pmatrix}.
 \end{equation*}
-Our intuition says that there can be no vectors that when rotated by $pi/2$ give something parallel to the input vector, but we can still compute:
+Our intuition says that there can be no vectors that when rotated by $\pi/2$ give something parallel to the input vector, but we can still compute:
 \begin{equation*}
 \det Q = \det \begin{pmatrix}
 -\lambda & -1 \\ 1 & -\lambda
