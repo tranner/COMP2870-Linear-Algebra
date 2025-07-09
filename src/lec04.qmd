@@ -1,7 +1,7 @@
 ---
 echo: true
 ---
-# Direct solvers for systems of linear equtaions
+# Direct solvers for systems of linear equations
 
 ```{python}
 # | echo: false
