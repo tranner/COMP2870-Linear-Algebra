@@ -3,6 +3,9 @@ title: "Eigenvectors and eigenvalues: practical solutions"
 jupyter: python3
 ---
 
+similarity transforms preserve spectra
+
+
 QR iteration?
 
 Gram-Schmidt?
