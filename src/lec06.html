@@ -257,7 +257,8 @@ window.Quarto = {
       }
     };
     const authorPrefersDark = false;
-    const darkModeDefault = authorPrefersDark;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
       document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
       document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
     let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
@@ -270,6 +271,14 @@ window.Quarto = {
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
     };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
     // Switch to dark mode if need be
     if (hasAlternateSentinel()) {
       toggleColorMode(true);
@@ -334,7 +343,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../src/lec04.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Direct solvers for systems of linear equtaions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Direct solvers for systems of linear equations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -421,7 +430,7 @@ window.Quarto = {
 <p><span class="theorem-title"><strong>Example 6.1</strong></span> Consider the polynomial equation <span class="math display">\[\begin{equation}
 x^2 + 1 = 0.
 \end{equation}\]</span></p>
-<div id="22379642" class="cell" data-execution_count="2">
+<div id="17a686fa" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -536,7 +545,7 @@ i^2 = (\sqrt{-1})^2 = \sqrt{-1} \sqrt{-1} \neq \sqrt{(-1) \times (-1)} = \sqrt{1
 <p>The complex plane is the two dimensional space formed by considering the real and imaginary parts of a complex number as two different coordinate axes.</p>
 <div id="exm-plane" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.5</strong></span> &nbsp;</p>
-<div id="fdaacfcf" class="cell" data-caption="Examples of complex numbers as points in the complex plane." data-execution_count="3">
+<div id="8c0ed32d" class="cell" data-caption="Examples of complex numbers as points in the complex plane." data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -566,7 +575,7 @@ i^2 = (\sqrt{-1})^2 = \sqrt{-1} \sqrt{-1} \neq \sqrt{(-1) \times (-1)} = \sqrt{1
 \end{equation*}\]</span></p>
 <div id="exm-modulus" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.7</strong></span> &nbsp;</p>
-<div id="1dfefd2f" class="cell" data-caption="Examples of moduli of complex numbers as points in the complex plane." data-execution_count="4">
+<div id="ed2a5ecb" class="cell" data-caption="Examples of moduli of complex numbers as points in the complex plane." data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -618,7 +627,7 @@ z y
 </div>
 <div id="exm-arg" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.9</strong></span> &nbsp;</p>
-<div id="b9114fe7" class="cell" data-caption="Examples of arguments of complex numbers as points in the complex plane." data-execution_count="5">
+<div id="5c1ef656" class="cell" data-caption="Examples of arguments of complex numbers as points in the complex plane." data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -650,7 +659,7 @@ x^2 + 1 = 0.
 &amp; i^2 + 1 = 0 \\
 &amp; (-i)^2 + 1 = (-1)^2 i^2 + 1 = i^2 + 1 = 0.
 \end{align*}\]</span></p>
-<div id="2994891a" class="cell" data-execution_count="6">
+<div id="83cbcdb6" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">

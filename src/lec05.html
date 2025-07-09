@@ -292,7 +292,8 @@ window.Quarto = {
       }
     };
     const authorPrefersDark = false;
-    const darkModeDefault = authorPrefersDark;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
       document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
       document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
     let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
@@ -305,6 +306,14 @@ window.Quarto = {
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
     };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
     // Switch to dark mode if need be
     if (hasAlternateSentinel()) {
       toggleColorMode(true);
@@ -369,7 +378,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../src/lec04.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Direct solvers for systems of linear equtaions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Direct solvers for systems of linear equations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -741,7 +750,7 @@ x_1 \\ x_2 \\ x_3
 </section>
 <section id="python-version-of-iterative-methods" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="python-version-of-iterative-methods"><span class="header-section-number">5.4</span> Python version of iterative methods</h2>
-<div id="f5c328e6" class="cell" data-execution_count="2">
+<div id="088e65a9" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> jacobi_iteration(A, b, x0, max_iter, verbose<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">    </span><span class="al">TODO</span></span>
@@ -799,7 +808,7 @@ x_1 \\ x_2 \\ x_3
 <span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="a8a2fd87" class="cell" data-execution_count="3">
+<div id="08a9ba5a" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">2.0</span>, <span class="fl">1.0</span>], [<span class="op">-</span><span class="fl">1.0</span>, <span class="fl">4.0</span>]])</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.array([[<span class="fl">3.5</span>], [<span class="fl">0.5</span>]])</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> np.array([[<span class="fl">1.0</span>], [<span class="fl">1.0</span>]])</span>
@@ -856,7 +865,7 @@ after iter=4: x.T = [  1.49994,  0.49998 ]
 </ul>
 <section id="python-experiments" class="level3" data-number="5.5.1">
 <h3 data-number="5.5.1" class="anchored" data-anchor-id="python-experiments"><span class="header-section-number">5.5.1</span> Python experiments</h3>
-<div id="741a88f7" class="cell" data-execution_count="4">
+<div id="6799a582" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> system_size_sparse(A_real, I_row, I_col, b):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(b)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    nonzero <span class="op">=</span> <span class="bu">len</span>(A_real)</span>
@@ -866,7 +875,7 @@ after iter=4: x.T = [  1.49994,  0.49998 ]
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> n, nonzero</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>First let’s adapt our implementations to use this sparse matrix format:</p>
-<div id="dd657aa2" class="cell" data-execution_count="5">
+<div id="927c4289" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> jacobi_iteration_sparse(A_real, I_row, I_col, b, x0, max_iter, verbose<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">    </span><span class="al">TODO</span></span>
@@ -937,7 +946,7 @@ after iter=4: x.T = [  1.49994,  0.49998 ]
 <span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then we can test the two different implementations of the methods:</p>
-<div id="ab66bfe1" class="cell" data-execution_count="7">
+<div id="b76c3f30" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># random matrix</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">4</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>nonzero <span class="op">=</span> <span class="dv">10</span></span>
@@ -968,37 +977,38 @@ after iter=4: x.T = [  1.49994,  0.49998 ]
 <span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>sparse matrix:
-A_real = [20.25 -4.5   2.25 -7.    4.   -7.   21.5  -4.5 ]
-I_row =  [0 1 1 2 2 3 3 3]
-I_col =  [0 3 1 3 2 2 3 1]
+A_real = [-22.5   31.25  -6.    13.5    9.    -9.    26.5   13.5  -22.5   24.25
+  -9.    -6.  ]
+I_row =  [0 0 1 1 1 2 2 2 3 3 3 3]
+I_col =  [3 0 3 2 1 3 2 1 0 3 2 1]
 
 dense matrix:
-A_dense = [ 20.25,  0.00,  0.00,  0.00 ]
-          [  0.00,  2.25,  0.00, -4.50 ]
-          [  0.00,  0.00,  4.00, -7.00 ]
-          [  0.00, -4.50, -7.00, 21.50 ]
+A_dense = [ 31.25,  0.00,  0.00, -22.50 ]
+          [  0.00,  9.00, 13.50, -6.00 ]
+          [  0.00, 13.50, 26.50, -9.00 ]
+          [ -22.50, -6.00, -9.00, 24.25 ]
 
 jacobi with sparse matrix
 starting value: x.T = [  0.0,  0.0,  0.0,  0.0 ]
-after iter=0: x.T = [  1.00000, -1.00000, -0.75000,  0.46512 ]
-after iter=1: x.T = [  1.000000, -0.069767,  0.063953,  0.011628 ]
-after iter=2: x.T = [  1.00000, -0.97674, -0.72965,  0.47134 ]
-after iter=3: x.T = [  1.0000000, -0.0573283,  0.0748378,  0.0231206 ]
-after iter=4: x.T = [  1.00000, -0.95376, -0.70954,  0.47748 ]
+after iter=0: x.T = [  0.28000,  1.83333,  1.16981, -0.54639 ]
+after iter=1: x.T = [ -0.113402, -0.285645,  0.050282,  0.601167 ]
+after iter=2: x.T = [  0.71284,  2.15869,  1.51950, -0.70362 ]
+after iter=3: x.T = [ -0.226609, -0.914997, -0.168864,  1.213052 ]
+after iter=4: x.T = [  1.15340,  2.89533,  2.04792, -1.04571 ]
 
 jacobi with dense matrix
 starting value: x.T = [  0.0,  0.0,  0.0,  0.0 ]
-after iter=0: x.T = [  1.00000, -1.00000, -0.75000,  0.46512 ]
-after iter=1: x.T = [  1.000000, -0.069767,  0.063953,  0.011628 ]
-after iter=2: x.T = [  1.00000, -0.97674, -0.72965,  0.47134 ]
-after iter=3: x.T = [  1.0000000, -0.0573283,  0.0748378,  0.0231206 ]
-after iter=4: x.T = [  1.00000, -0.95376, -0.70954,  0.47748 ]
+after iter=0: x.T = [  0.28000,  1.83333,  1.16981, -0.54639 ]
+after iter=1: x.T = [ -0.113402, -0.285645,  0.050282,  0.601167 ]
+after iter=2: x.T = [  0.71284,  2.15869,  1.51950, -0.70362 ]
+after iter=3: x.T = [ -0.226609, -0.914997, -0.168864,  1.213052 ]
+after iter=4: x.T = [  1.15340,  2.89533,  2.04792, -1.04571 ]
 </code></pre>
 </div>
 </div>
 <p>We see that we get the same results!</p>
 <p>Now let’s see how long it takes to get a solution. The following plot shows the run times of using the two different implementations of the Jacobi method. We see that, as expected, the run time of the dense formulation is <span class="math inline">\(O(n^2)\)</span> and the run time of the sparse formulation is <span class="math inline">\(O(n)\)</span>.</p>
-<div id="d488ffbe" class="cell" data-execution_count="9">
+<div id="8560adef" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1599,8 +1609,8 @@ Discussion
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../src/lec04.html" class="pagination-link" aria-label="Direct solvers for systems of linear equtaions">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Direct solvers for systems of linear equtaions</span></span>
+      <a href="../src/lec04.html" class="pagination-link" aria-label="Direct solvers for systems of linear equations">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Direct solvers for systems of linear equations</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
