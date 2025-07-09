@@ -38,6 +38,7 @@ callout-icon: false
 format:
   html:
     navbar: true
+    respect-user-color-scheme: true
     theme:
       light:
         - flatly
