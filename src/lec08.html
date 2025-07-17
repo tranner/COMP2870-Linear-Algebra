@@ -43,9 +43,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-e6991f6fb445b6bf3a4bff6b69c9af17.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-a4e1765ac18cbbee544c0487cb449ad2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-e6991f6fb445b6bf3a4bff6b69c9af17.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-cd77d2e2c272fd92c85b08b9b571e0ad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-d18a424f302dbf51e51688c2950cc529.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-cd77d2e2c272fd92c85b08b9b571e0ad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -81,6 +81,35 @@ ul.task-list li input[type="checkbox"] {
   };
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -345,8 +374,14 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#jacobi-transformations-of-a-symmetric-matrix" id="toc-jacobi-transformations-of-a-symmetric-matrix" class="nav-link active" data-scroll-target="#jacobi-transformations-of-a-symmetric-matrix"><span class="header-section-number">8.1</span> Jacobi transformations of a symmetric matrix</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -384,11 +419,94 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>similarity transforms preserve spectra</p>
-<p>QR iteration?</p>
-<p>Gram-Schmidt? Householder transformation?</p>
+<p>In the previous lecture, we defined the eigenvalue problem for a matrix <span class="math inline">\(A\)</span>: Finding numbers <span class="math inline">\(\lambda\)</span> (eigenvalues) and vectors <span class="math inline">\(\vec{x}\)</span> (eigenvectors) which satisfy the equation: <span class="math display">\[\begin{equation}
+A \vec{x} = \lambda \vec{x}.
+\end{equation}\]</span> We saw one starting point for finding eigenvalues is to find the roots of the characteristic equation: a polynomial of degree <span class="math inline">\(n\)</span> for an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(A\)</span>. But we already have seen that this approach will be infeasible for large matrices. Instead, we will find a sequence of similar matrices to <span class="math inline">\(A\)</span> such that we can read off the eigenvalues from the final matrix.</p>
+<p>In equations, we can say our “grand strategy” is to find a sequence of matrices <span class="math inline">\(P_1, P_2, \ldots\)</span> to form a sequence of matrices: <span class="math display">\[\begin{equation}
+\label{eq:similarity_transform}
+A, P_1^{-1} A P, P_2^{-1} P_1^{-1} A P_1 P_2, P_3^{-1} P_2^{-1} P_1^{-1} A P_1 P_2 P_3, \ldots
+\end{equation}\]</span> If we get all the way to a diagonal matrix, at level <span class="math inline">\(m\)</span> say, then the eigenvalues are the diagonal of the matrix <span class="math display">\[\begin{equation*}
+P_m^{-1} P_{m-1}^{-1} \cdots P_2^{-1} P_1^{-1} A P_1 P_2 \cdots P_{m-1} P_m,
+\end{equation*}\]</span> and the eigenvectors are the columns of the matrix <span class="math display">\[\begin{equation*}
+S_m = P_1 P_2 \cdots P_{m-1} P_m.
+\end{equation*}\]</span> Sometimes, we only want to compute eigenvalues, and not eigenvectors, then it is sufficient to transform the matrix to be triangular (either upper or lower triangular). Then, we can read off that the eigenvalues are the diagonal entries (see <span class="quarto-unresolved-ref">?exm-eigenvalue-triangular</span>).</p>
+<section id="jacobi-transformations-of-a-symmetric-matrix" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="jacobi-transformations-of-a-symmetric-matrix"><span class="header-section-number">8.1</span> Jacobi transformations of a symmetric matrix</h2>
+<p>The Jacobi method forms a sequence of similarity transforms similar to <span class="math inline">\(\eqref{eq:similarity_transform}\)</span>. It is a foolproof approach for real, symmetric matrices (TODO ref section).</p>
+<p>The key idea is to use the matrix <span class="math inline">\(P_{pq}\)</span> which is the matrix of the form <span class="math display">\[\begin{equation}
+\label{eq:Pmatrix}
+P_{pq} = \begin{pmatrix}
+  1 &amp;&amp;&amp;&amp;&amp;&amp;&amp; \\
+  &amp; \ddots &amp;&amp;&amp;&amp;&amp;&amp; \\
+  &amp;&amp; c &amp; \cdots &amp; s &amp;&amp;&amp; \\
+  &amp;&amp; \vdots &amp; 1 &amp; \vdots &amp;&amp;&amp; \\
+  &amp;&amp; -s &amp; \cdots &amp; c &amp;&amp;&amp; \\
+  &amp;&amp;&amp;&amp;&amp;&amp; \ddots &amp; \\
+  &amp;&amp;&amp;&amp;&amp;&amp;&amp; 1
+\end{pmatrix}
+\end{equation}\]</span> That is a matrix where all diagonal elements are one except for the two elements <span class="math inline">\(c\)</span> is rows <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span>. All off-diagonal elements are zero except the two elements <span class="math inline">\(s\)</span> and <span class="math inline">\(-s\)</span> in positions <span class="math inline">\((p, q)\)</span> and <span class="math inline">\((q, p)\)</span>. We will choose <span class="math inline">\(c, s\)</span> to be the cosine and sine of a particular angle (so that <span class="math inline">\(c^2 + s^2 = 1\)</span>) which we specify later. Handily this means that <span class="math inline">\(P_{pq}^{-1} = P_{pq}^T\)</span>.</p>
+<p>We will apply the matrix <span class="math inline">\(P_{pq}\)</span> as a similarity transformation: <span class="math display">\[\begin{equation*}
+A' = P_{pq}^{T} A P.
+\end{equation*}\]</span></p>
+<div id="exm-one-jacobi-rotation" class="theorem example">
+<p><span class="theorem-title"><strong>Example 8.1</strong></span> Let <span class="math inline">\(A\)</span> be the <span class="math inline">\(3 \times 3\)</span> matrix given by <span class="math display">\[\begin{equation*}
+A = \begin{pmatrix}
+1 &amp; 2 &amp; \frac{3 \sqrt{2 - \sqrt{2}}}{4}\\2 &amp; 5 &amp; \frac{3 \sqrt{\sqrt{2} + 2}}{4}\\\frac{3 \sqrt{2 - \sqrt{2}}}{4} &amp; \frac{3 \sqrt{\sqrt{2} + 2}}{4} &amp; 2 \sqrt{2}
+\end{pmatrix}.
+\end{equation*}\]</span></p>
+<p>Let’s apply the matrix as a similarity transform with <span class="math inline">\(p=1, q=2\)</span>. Then we have <span class="math display">\[\begin{equation*}
+P_{1,2} = \begin{pmatrix}
+c &amp; s &amp; 0\\- s &amp; c &amp; 0\\0 &amp; 0 &amp;
+\end{pmatrix},
+\end{equation*}\]</span> where <span class="math inline">\(c = \cos(\theta)\)</span> and <span class="math inline">\(s = \sin(\theta)\)</span> and <span class="math inline">\(\theta\)</span> is still to be determined.</p>
+<p>We can compute that <span class="math display">\[\begin{equation*}
+A P_{1,2} =
+\begin{pmatrix}
+c - 2 s &amp; 2 c + s &amp; \frac{3 \sqrt{2 - \sqrt{2}}}{4}\\2 c - 5 s &amp; 5 c + 2 s &amp; \frac{3 \sqrt{\sqrt{2} + 2}}{4}\\\frac{3 c \sqrt{2 - \sqrt{2}}}{4} - \frac{3 s \sqrt{\sqrt{2} + 2}}{4} &amp; \frac{3 c \sqrt{\sqrt{2} + 2}}{4} + \frac{3 s \sqrt{2 - \sqrt{2}}}{4} &amp; 2 \sqrt{2}
+\end{pmatrix}
+\end{equation*}\]</span> and <span class="math display">\[\begin{equation*}
+A' = P_{1, 2}^T A P_{1,2} = \begin{pmatrix}
+c^{2} - 4 c s + 5 s^{2} &amp; 2 c^{2} - 4 c s - 2 s^{2} &amp; \frac{3 c \sqrt{2 - \sqrt{2}}}{4} - \frac{3 s \sqrt{\sqrt{2} + 2}}{4}\\2 c^{2} - 4 c s - 2 s^{2} &amp; 5 c^{2} + 4 c s + s^{2} &amp; \frac{3 c \sqrt{\sqrt{2} + 2}}{4} + \frac{3 s \sqrt{2 - \sqrt{2}}}{4}\\\frac{3 c \sqrt{2 - \sqrt{2}}}{4} - \frac{3 s \sqrt{\sqrt{2} + 2}}{4} &amp; \frac{3 c \sqrt{\sqrt{2} + 2}}{4} + \frac{3 s \sqrt{2 - \sqrt{2}}}{4} &amp; 2 \sqrt{2}
+\end{pmatrix}
+\end{equation*}\]</span> Our grant aim is to nudge <span class="math inline">\(A\)</span> towards being diagonal. Since, we’ve started with the <span class="math inline">\((1, 2)\)</span> entry we might hope that we can make <span class="math inline">\(A'_{1,2}\)</span> to be zero. To do this we need <span class="math inline">\(\theta\)</span> such that <span class="math display">\[\begin{equation*}
+2 \cos^{2}\theta - 4 \cos\theta \sin\theta - 2 \sin^2 \theta = 0
+\end{equation*}\]</span> We can see that if <span class="math inline">\(\theta = \pi/2 + m \pi\)</span> (for some <span class="math inline">\(m \in \mathbb{Z}\)</span>), <span class="math inline">\(\cos\theta = 0\)</span> but <span class="math inline">\(\sin\theta = \pm 1\)</span> and we don’t have a solution. Otherwise, <span class="math inline">\(\cos\theta \neq 0\)</span> so we can divide by <span class="math inline">\(- 2 \cos^2\theta\)</span> to get <span class="math display">\[\begin{equation*}
+\tan^2\theta + 2 \tan(\theta) - 1 = 0.
+\end{equation*}\]</span> This is a quadratic equation in <span class="math inline">\(\tan\theta\)</span> with roots: <span class="math display">\[\begin{equation*}
+\tan\theta = -1 \pm \sqrt{2}.
+\end{equation*}\]</span> Taking the smaller root (with <span class="math inline">\(+\)</span> sign), we get <span class="math display">\[\begin{align*}
+\tan\theta &amp; = -1 + \sqrt{2} \\
+\cos\theta &amp; = 1 / \sqrt{\tan^2\theta +1} = \sqrt{\sqrt{2}/4 + 1/2} \\
+\sin\theta &amp; = \tan\theta \cos\theta
+=  \sqrt{1/2 - \sqrt{2}/4}.
+\end{align*}\]</span></p>
+<p>Applying these substitutions, we arrive at <span class="math display">\[\begin{equation*}
+A' = \begin{pmatrix}
+3 - 2 \sqrt{2} &amp; 0 &amp; 0\\0 &amp; 2 \sqrt{2} + 3 &amp; \frac{3}{2}\\0 &amp; \frac{3}{2} &amp; 2 \sqrt{2}
+\end{pmatrix}
+\end{equation*}\]</span></p>
+<div id="exr-sim-trans" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 8.1</strong></span> Continue this exercise with <span class="math inline">\(P_{2, 3}\)</span>. Show that <span class="math inline">\(\theta\)</span> can be chosen so that <span class="math display">\[\begin{align*}
+A'' = P_{2, 3}^{-1} A' P_{2, 3}
+= \begin{pmatrix}
+3 - 2 \sqrt{2} &amp; 0 &amp; 0\\0 &amp; \frac{3}{2} + \frac{7 \sqrt{2}}{2} &amp; 0\\0 &amp; 0 &amp; \frac{\sqrt{2}}{2} + \frac{3}{2}
+\end{pmatrix} \\
+\approx
+\begin{pmatrix}
+0.17157287525381 &amp; 0 &amp; 0\\0 &amp; 6.44974746830583 &amp; 0\\0 &amp; 0 &amp; 2.20710678118655
+\end{pmatrix}.
+\end{align*}\]</span></p>
+</div>
+</div>
+<p>TODO</p>
+<ul>
+<li>add general equations and code</li>
+<li>show scaling</li>
+</ul>
+<p>space for another method - QR iteration? - Gram-Schmidt? - Householder transformation?</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
