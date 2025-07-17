@@ -3,10 +3,133 @@ title: "Eigenvectors and eigenvalues: practical solutions"
 jupyter: python3
 ---
 
-similarity transforms preserve spectra
+In the previous lecture, we defined the eigenvalue problem for a matrix $A$: Finding numbers $\lambda$ (eigenvalues) and vectors $\vec{x}$ (eigenvectors) which satisfy the equation:
+\begin{equation}
+A \vec{x} = \lambda \vec{x}.
+\end{equation}
+We saw one starting point for finding eigenvalues is to find the roots of the characteristic equation: a polynomial of degree $n$ for an $n \times n$ matrix $A$. But we already have seen that this approach will be infeasible for large matrices. Instead, we will find a sequence of similar matrices to $A$ such that we can read off the eigenvalues from the final matrix.
 
+In equations, we can say our "grand strategy" is to find a sequence of matrices $P_1, P_2, \ldots$ to form a sequence of matrices:
+\begin{equation}
+\label{eq:similarity_transform}
+A, P_1^{-1} A P, P_2^{-1} P_1^{-1} A P_1 P_2, P_3^{-1} P_2^{-1} P_1^{-1} A P_1 P_2 P_3, \ldots
+\end{equation}
+If we get all the way to a diagonal matrix, at level $m$ say, then the eigenvalues are the diagonal of the matrix
+\begin{equation*}
+P_m^{-1} P_{m-1}^{-1} \cdots P_2^{-1} P_1^{-1} A P_1 P_2 \cdots P_{m-1} P_m,
+\end{equation*}
+and the eigenvectors are the columns of the matrix
+\begin{equation*}
+S_m = P_1 P_2 \cdots P_{m-1} P_m.
+\end{equation*}
+Sometimes, we only want to compute eigenvalues, and not eigenvectors, then it is sufficient to transform the matrix to be triangular (either upper or lower triangular). Then, we can read off that the eigenvalues are the diagonal entries (see @exm-eigenvalue-triangular).
 
-QR iteration?
+## Jacobi transformations of a symmetric matrix
 
-Gram-Schmidt?
-Householder transformation?
+The Jacobi method forms a sequence of similarity transforms similar to \eqref{eq:similarity_transform}.
+It is a foolproof approach for real, symmetric matrices (TODO ref section).
+
+The key idea is to use the matrix $P_{pq}$ which is the matrix of the form
+\begin{equation}
+\label{eq:Pmatrix}
+ P_{pq} = \begin{pmatrix}
+  1 &&&&&&& \\
+  & \ddots &&&&&& \\
+  && c & \cdots & s &&& \\
+  && \vdots & 1 & \vdots &&& \\
+  && -s & \cdots & c &&& \\
+  &&&&&& \ddots & \\
+  &&&&&&& 1
+ \end{pmatrix}
+\end{equation}
+That is a matrix where all diagonal elements are one except for the two elements $c$ is rows $p$ and $q$. All off-diagonal elements are zero except the two elements $s$ and $-s$ in positions $(p, q)$ and $(q, p)$.
+We will choose $c, s$ to be the cosine and sine of a particular angle (so that $c^2 + s^2 = 1$) which we specify later.
+Handily this means that $P_{pq}^{-1} = P_{pq}^T$.
+
+We will apply the matrix $P_{pq}$ as a similarity transformation:
+\begin{equation*}
+A' = P_{pq}^{T} A P.
+\end{equation*}
+
+::: {#exm-one-jacobi-rotation}
+Let $A$ be the $3 \times 3$ matrix given by
+\begin{equation*}
+ A = \begin{pmatrix}
+ 1 & 2 & \frac{3 \sqrt{2 - \sqrt{2}}}{4}\\2 & 5 & \frac{3 \sqrt{\sqrt{2} + 2}}{4}\\\frac{3 \sqrt{2 - \sqrt{2}}}{4} & \frac{3 \sqrt{\sqrt{2} + 2}}{4} & 2 \sqrt{2}
+ \end{pmatrix}.
+\end{equation*}
+
+Let's apply the matrix as a similarity transform with $p=1, q=2$. Then we have
+\begin{equation*}
+ P_{1,2} = \begin{pmatrix}
+ c & s & 0\\- s & c & 0\\0 & 0 & 
+ \end{pmatrix},
+\end{equation*}
+where $c = \cos(\theta)$ and $s = \sin(\theta)$ and $\theta$ is still to be determined.
+
+We can compute that
+\begin{equation*}
+ A P_{1,2} =
+ \begin{pmatrix}
+ c - 2 s & 2 c + s & \frac{3 \sqrt{2 - \sqrt{2}}}{4}\\2 c - 5 s & 5 c + 2 s & \frac{3 \sqrt{\sqrt{2} + 2}}{4}\\\frac{3 c \sqrt{2 - \sqrt{2}}}{4} - \frac{3 s \sqrt{\sqrt{2} + 2}}{4} & \frac{3 c \sqrt{\sqrt{2} + 2}}{4} + \frac{3 s \sqrt{2 - \sqrt{2}}}{4} & 2 \sqrt{2}
+ \end{pmatrix}
+ \end{equation*}
+ and
+\begin{equation*}
+ A' = P_{1, 2}^T A P_{1,2} = \begin{pmatrix}
+ c^{2} - 4 c s + 5 s^{2} & 2 c^{2} - 4 c s - 2 s^{2} & \frac{3 c \sqrt{2 - \sqrt{2}}}{4} - \frac{3 s \sqrt{\sqrt{2} + 2}}{4}\\2 c^{2} - 4 c s - 2 s^{2} & 5 c^{2} + 4 c s + s^{2} & \frac{3 c \sqrt{\sqrt{2} + 2}}{4} + \frac{3 s \sqrt{2 - \sqrt{2}}}{4}\\\frac{3 c \sqrt{2 - \sqrt{2}}}{4} - \frac{3 s \sqrt{\sqrt{2} + 2}}{4} & \frac{3 c \sqrt{\sqrt{2} + 2}}{4} + \frac{3 s \sqrt{2 - \sqrt{2}}}{4} & 2 \sqrt{2}
+ \end{pmatrix}
+ \end{equation*}
+Our grant aim is to nudge $A$ towards being diagonal.
+Since, we've started with the $(1, 2)$ entry we might hope that we can make $A'_{1,2}$ to be zero. To do this we need $\theta$ such that
+\begin{equation*}
+2 \cos^{2}\theta - 4 \cos\theta \sin\theta - 2 \sin^2 \theta = 0
+\end{equation*}
+We can see that if $\theta = \pi/2 + m \pi$ (for some $m \in \mathbb{Z}$), $\cos\theta = 0$ but $\sin\theta = \pm 1$ and we don't have a solution. Otherwise, $\cos\theta \neq 0$ so we can divide by $- 2 \cos^2\theta$ to get
+\begin{equation*}
+\tan^2\theta + 2 \tan(\theta) - 1 = 0.
+\end{equation*}
+This is a quadratic equation in $\tan\theta$ with roots:
+\begin{equation*}
+\tan\theta = -1 \pm \sqrt{2}.
+\end{equation*}
+Taking the smaller root (with $+$ sign), we get
+\begin{align*}
+\tan\theta & = -1 + \sqrt{2} \\
+\cos\theta & = 1 / \sqrt{\tan^2\theta +1} = \sqrt{\sqrt{2}/4 + 1/2} \\
+\sin\theta & = \tan\theta \cos\theta
+=  \sqrt{1/2 - \sqrt{2}/4}.
+\end{align*}
+
+Applying these substitutions, we arrive at
+\begin{equation*}
+A' = \begin{pmatrix}
+3 - 2 \sqrt{2} & 0 & 0\\0 & 2 \sqrt{2} + 3 & \frac{3}{2}\\0 & \frac{3}{2} & 2 \sqrt{2}
+\end{pmatrix}
+\end{equation*}
+
+::: {#exr-sim-trans}
+Continue this exercise with $P_{2, 3}$.
+Show that $\theta$ can be chosen so that
+\begin{align*}
+A'' = P_{2, 3}^{-1} A' P_{2, 3}
+= \begin{pmatrix}
+3 - 2 \sqrt{2} & 0 & 0\\0 & \frac{3}{2} + \frac{7 \sqrt{2}}{2} & 0\\0 & 0 & \frac{\sqrt{2}}{2} + \frac{3}{2}
+\end{pmatrix} \\
+\approx
+\begin{pmatrix}
+0.17157287525381 & 0 & 0\\0 & 6.44974746830583 & 0\\0 & 0 & 2.20710678118655
+\end{pmatrix}.
+\end{align*}
+:::
+:::
+
+TODO
+
+- add general equations and code
+- show scaling
+
+space for another method
+- QR iteration?
+- Gram-Schmidt?
+- Householder transformation?
