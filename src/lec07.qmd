@@ -34,13 +34,14 @@ In fact, we know that $0$ is an eigenvalue of $A$ if, and only if, $A$ is singul
 Let $P$ be the 3x3 matrix that represents projection on to a plane $\pi$. what are the eigenvalues and eigenvectors of $p$?
 
 ```{python}
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
+
 
 def plot_3d_plane_and_vectors():
     fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
+    ax = fig.add_subplot(111, projection="3d")
 
     # Define a plane with a point and a normal vector
     point_on_plane = np.array([0, 0, 0])
@@ -50,41 +51,50 @@ def plot_3d_plane_and_vectors():
     x = np.linspace(-2, 2, 10)
     y = np.linspace(-2, 2, 10)
     X, Y = np.meshgrid(x, y)
-    Z = (-normal_vector[0] * (X - point_on_plane[0]) -
-         normal_vector[1] * (Y - point_on_plane[1])) / normal_vector[2] + point_on_plane[2]
+    Z = (
+        -normal_vector[0] * (X - point_on_plane[0])
+        - normal_vector[1] * (Y - point_on_plane[1])
+    ) / normal_vector[2] + point_on_plane[2]
 
-    ax.plot_surface(X, Y, Z, alpha=0.5, color='lightblue', rstride=1, cstride=1, edgecolor='none')
+    ax.plot_surface(
+        X, Y, Z, alpha=0.5, color="lightblue", rstride=1, cstride=1, edgecolor="none"
+    )
 
     # Vector in the plane
     in_plane_vector = np.array([1, -1, 0])
-    in_plane_vector = in_plane_vector - np.dot(in_plane_vector, normal_vector) * normal_vector
+    in_plane_vector = (
+        in_plane_vector - np.dot(in_plane_vector, normal_vector) * normal_vector
+    )
     # Vector orthogonal to the plane (same as normal)
     orthogonal_vector = normal_vector
     # Arbitrary vector
     arbitrary_vector = np.array([0.5, 0.5, 0.5])
 
     # Project the arbitrary vector onto the plane
-    projection = arbitrary_vector - np.dot(arbitrary_vector, normal_vector) * normal_vector
+    projection = (
+        arbitrary_vector - np.dot(arbitrary_vector, normal_vector) * normal_vector
+    )
 
     # Plot vectors
     def draw_vector(v, color, label):
         ax.quiver(0, 0, 0, v[0], v[1], v[2], color=color, label=label, linewidth=2)
 
-    draw_vector(in_plane_vector, 'green', 'In-plane Vector')
-    draw_vector(orthogonal_vector, 'red', 'Normal Vector')
+    draw_vector(in_plane_vector, "green", "In-plane Vector")
+    draw_vector(orthogonal_vector, "red", "Normal Vector")
 
     ax.set_xlim([-2.5, 2.5])
     ax.set_ylim([-2.5, 2.5])
     ax.set_zlim([-0.5, 1])
     ax.axis("off")
     ax.legend()
-    ax.set_title('Sample plane and normal vector')
-    
+    ax.set_title("Sample plane and normal vector")
+
     ax.set_facecolor((0, 0, 0, 0))  # Transparent axis background
-    fig.patch.set_alpha(0)         # Transparent figure background
+    fig.patch.set_alpha(0)  # Transparent figure background
 
     plt.tight_layout()
     plt.show()
+
 
 plot_3d_plane_and_vectors()
 ```
@@ -303,3 +313,137 @@ For any matrix the characteristic equation \eqref{eq:char} is a degree $n$ polyn
 
 The Abel-Ruffini theorem states that there is no solution in the radicals for a general polynomial of degree 5 or higher with arbitrary coefficients. This implies that there is no 'nice' closed form for roots of polynomials of degree 5 or higher. So, if we want an algorithm to find eigenvalues and eigenvectors of larger matrices then we need to do something else!
 
+
+Let's suppose that we have an $n \times n$ matrix $A$ and we have found $n$ eigenvectors and $n$ eigenvalues (all distinct). Let's call the eigenvectors by $\vec{x}_{1}, \ldots \vec{x}_{n}$ and the eigenvalues $\lambda_1, \ldots \lambda_n$ then we have the equation:
+\begin{equation*}
+A \vec{x}_j = \lambda_j \vec{x}_j.
+\end{equation*}
+So if we form the matrices $S$ to have columns equal to each eigenvector in turn and $\Lambda$ (pronounced lambda) to be the diagonal matrix with the eigenvalues listed along the diagonal we see that we have:
+\begin{equation*}
+A S = S \Lambda.
+\end{equation*}
+If $S$ is invertible, we can multiply on the right by $S^{-1}$ to see that we have
+\begin{equation}
+\label{eq:SLamSinv}
+A = S \Lambda S^{-1}.
+\end{equation}
+This formula shows another factorisation of the matrix $A$ into simpler matrices, very much like we had when we computed the LU-factorisation matrix (TODO REF).
+
+The equation \eqref{eq:SLamSinv} is an example of a more general idea of *similar matrices*. We say that two matrices $A$ and $B$ are similar if there exists an invertible $n \times n$ matrix $P$ such that
+\begin{equation*}
+B = P^{-1} A P.
+\end{equation*}
+Since $P$ is invertible, we can pre-multiply this equation by $P$ and post-multiply by $P^{-1}$ and see that being similar is a symmetric property.
+
+::: {#lem-eigenvalue-sim}
+The matrix $A$ is similar to the diagonal matrix $\Lambda$ formed by the eigenvalues of $A$.
+:::
+
+::: {.proof}
+From \eqref{eq:SLamSinv}, we have that
+\begin{equation*}
+\Lambda = S^{-1} A S.
+\end{equation*}
+:::
+
+This leads to a nice theorem which we will use to help compute eigenvectors and eigenvalues of larger matrices:
+
+::: {#thm-similar}
+If $A$ and $B$ are similar matrices then $A$ and $B$ have the same eigenvalues.
+:::
+
+::: {.proof}
+We start by writing $B = P^{-1} A P$.
+Then we can compute that
+\begin{equation}
+\label{eq:Bsim-alt}
+B P^{-1} = P^{-1} A.
+\end{equation}
+Let $\lambda$ be an eigenvalue of $A$ with eigenvector $\vec{x}$ and write $\vec{y} = P^{-1} \vec{x}$.
+Then we have that
+\begin{align*}
+B \vec{y} & = B P^{-1} \vec{x} && \text{(definition of $\vec{y}$)} \\
+& = P^{-1} A \vec{x}  && \text{(from \eqref{eq:Bsim-alt})} \\
+& = P^{-1} (\lambda \vec{x}) && \text{(since $\vec{x}$ is an eigenvector)} \\
+& = \lambda P^{-1} \vec{x} && \text{(rearranging)} \\
+& = \lambda \vec{y} && \text{(definition of $\vec{y}$)}.
+\end{align*}
+This shows that any eigenvalue of $A$ is an eigenvalue of $B$. It also gives a formula for how eigenvectors change between $A$ and $B$.
+
+To show any eigenvalue of $B$ is an eigenvalue of $A$, we simply repeat the calculation with $A$ and $B$ swapped.
+:::
+
+The key idea of the methods we will use to compute eigenvalues to apply a sequence of matrices to convert a matrix $A$ into a form similar to $A$ for which reading off the eigenvalues is easier. However, the quality of the algorithms we apply depend heavily on properties of the matrix $A$.
+
+## Why symmetric matrices are nice
+
+For the inner product of two complex vectors, we additionally take the complex conjugate of the entries of $\vec{b}$. We call this the Hermitian product and write  $\langle \vec{a}, \vec{b} \rangle = \vec{a} \cdot \bar{\vec{b}} = \sum_{i=1}^n a_i \bar{b_i}$.
+We denote the conjugate transform of a matrix $A$ by $A^H = \bar{A}^T$. We say that $A$ is *Hermitian* if $A^H = A$ and say that if $\langle \vec{a}, \vec{b} \rangle = 0$ that $\vec{a}, \vec{b}$ are *orthogonal*.
+
+We notice that for any matrix $A$
+\begin{equation}
+\label{eq:orthog}
+\begin{aligned}
+\langle A \vec{a}, \vec{b} \rangle
+& = \sum_{i=1}^n (A \vec{a})_i \bar{b}_i \\
+& = \sum_{i, j=1}^n (A_{ij} a_j) \bar{b}_i \\
+& = \sum_{i, j=1}^n a_j (A_{ij} \bar{b}_i) \\
+& = \sum_{i, j=1}^n a_j \bar{((A^H)_{ji} b_i)} \\
+& = \sum_{i=1}^n a_i \bar{(A^H \vec{b})_i} \\
+& = \langle \vec{a}, A^H \vec{b} \rangle
+\end{aligned}
+\end{equation}
+In particular this means that if $A = A^H$ then $\langle A \vec{a}, \vec{b} \rangle = \langle \vec{a}, A \vec{b} \rangle$.
+We call a matrix *Hermitian* if $A = A^H$.
+
+For any complex vector $\vec{a}$, we see that
+\begin{align*}
+\langle \vec{a}, \vec{a} \rangle = \sum_{i=1}^n a_i \bar{a_i} = \sum_{i=1}^n |a_i|^2.
+\end{align*}
+Since $|a_i|$ is always a non-negative real number, we have that $\langle \vec{a}, \vec{a} \rangle \ge 0$. Furthermore, we see that $\langle \vec{a}, \vec{a} \rangle = 0$ if, and only if, $\vec{a} = 0$.
+
+::: {#thm-symmetric}
+Let $A$ be a symmetric matrix ($A^T = A$) with real entries. Then $A$ has $n$ real eigenvalues (zero imaginary part) and its eigenvectors are orthogonal.
+:::
+
+::: {.proof}
+Let $\lambda$ be an eigenvalue of $A$ with eigenvector $\vec{x}$. Recall that $\vec{x} \neq 0$. Then, since $A$ has real values, we can compute that:
+\begin{equation*}
+\bar{(A \vec{x})_i} = \bar{\sum_{j=1}^n A_{ji} x_i} = \sum_{j=1}^n A_{ji} \bar{x_i} = (A \bar{\vec{x}})_i.
+\end{equation*}
+We also note that any real, symmetric matrix is automatically Hermitian.
+
+Then we see that
+\begin{align*}
+\lambda \langle \vec{x}, \vec{x} \rangle
+& = \langle (\lambda \vec{x}), \vec{x} \rangle \\
+& = \langle (A \vec{x}), \vec{x} \rangle \\
+& = \langle \vec{x}, A^H \vec{x} \rangle \\
+& = \langle \vec{x}, A \vec{x} \rangle \\
+& = \langle \vec{x}, \lambda \vec{x} \rangle \\
+& = \bar{\lambda} \langle \vec{x}, \vec{x} \rangle.
+\end{align*}
+Since, $\langle \vec{x}, \vec{x} \rangle > 0$ (reccall $\vec{x} \neq 0$), we can divide by $\langle \vec{x}, \vec{x} \rangle$ so infer that
+\begin{equation*}
+\lambda = \bar{\lambda}.
+\end{equation*}
+
+Next, let $\vec{x}$ and $\vec{y}$ be eigenvectors of $A$ with distinct, eigenvalues $\lambda$ and $\mu$, respectively.
+From the first part of the proof, we know that $\lambda$ and $\mu$ are real.
+We compute that
+\begin{align*}
+\lambda \langle \vec{x}, \vec{y} \rangle
+& = \langle \lambda \vec{x}, \vec{y} \rangle \\
+& = \langle A \vec{x}, \vec{y} \rangle \\
+& = \langle \vec{x}, A^H \vec{y} \rangle \\
+& = \langle \vec{x}, A \vec{y} \rangle \\
+& = \langle \vec{x}, \mu \vec{y} \rangle \\
+& = \bar{\mu} \langle \vec{x}, \vec{y} \rangle \\
+& = \mu \langle \vec{x}, \vec{y} \rangle.
+\end{align*}
+Subtracting the right-hand side from the left hand side we see that
+\begin{equation*}
+(\lambda - \mu) \langle \vec{x}, \vec{y} \rangle = 0.
+\end{equation*}
+This implies that if $\lambda$ and $\mu$ are distinct, that $\langle \vec{x}, \vec{y} \rangle = 0$.
+:::
