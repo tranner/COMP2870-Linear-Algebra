@@ -62,7 +62,7 @@ Let $A$ be the $3 \times 3$ matrix given by
 Let's apply the matrix as a similarity transform with $p=1, q=2$. Then we have
 \begin{equation*}
  P_{1,2} = \begin{pmatrix}
- c & s & 0\\- s & c & 0\\0 & 0 & 
+ c & s & 0\\- s & c & 0\\0 & 0 &
  \end{pmatrix},
 \end{equation*}
 where $c = \cos(\theta)$ and $s = \sin(\theta)$ and $\theta$ is still to be determined.
@@ -93,13 +93,16 @@ This is a quadratic equation in $\tan\theta$ with roots:
 \begin{equation*}
 \tan\theta = -1 \pm \sqrt{2}.
 \end{equation*}
-Taking the smaller root (with $+$ sign), we get
-\begin{align*}
+Taking the smaller root (with $+$ sign), we get (using some trigonometric identities):
+\begin{equation}
+\label{eq:trig_id}
+\begin{aligned}
 \tan\theta & = -1 + \sqrt{2} \\
 \cos\theta & = 1 / \sqrt{\tan^2\theta +1} = \sqrt{\sqrt{2}/4 + 1/2} \\
 \sin\theta & = \tan\theta \cos\theta
 =  \sqrt{1/2 - \sqrt{2}/4}.
-\end{align*}
+\end{aligned}
+\end{equation}
 
 Applying these substitutions, we arrive at
 \begin{equation*}
@@ -124,12 +127,163 @@ A'' = P_{2, 3}^{-1} A' P_{2, 3}
 :::
 :::
 
+The general case follows in a similar way.
+Multiplying out $A' = P_{pq}^{T} A P_{pq}$ for a general $n \times n$ matrix gives us the update formulae:
+\begin{align*}
+A'_{r, p} & = c A_{r, p} - s A_{r, q}
+&& \text{for} \quad r \in \{1, \ldots n\} \setminus \{p, q\} \\
+A'_{r, q} & = c A_{r, q} + s A_{r, p}
+&& \text{for} \quad r \in \{1, \ldots n\} \setminus \{p, q\} \\
+A'_{q, r} & = c A_{p, r} - s A_{q, r}
+&& \text{for} \quad r \in \{1, \ldots n\} \setminus \{p, q\} \\
+A'_{q, r} & = c A_{q, r} + s A_{p, r}
+&& \text{for} \quad r \in \{1, \ldots n\} \setminus \{p, q\} \\
+A'_{p, p} & = c^2 A_{p, p} + s^2 A_{q, q} - 2 c s A_{p, q} \\
+A'_{q, q} & = s^2 A_{p, p} + c^2 A_{q, q} + 2 c s A_{p, q} \\
+A'_{p, q} & = (c^2 - s^2) A_{p, q} + c s (A_{p, p} - A_{q, q}) \\
+A'_{q, p} & = (c^2 - s^2) A_{q, p} + c s (A_{p, p} - A_{q, q}) \\
+\end{align*}
+The equation we need to solve is to find $\theta$ such that
+\begin{equation*}
+A'_{p, q} = (\cos^2\theta - \sin^2\theta) A_{p, q} + \cos\theta \sin\theta (A_{p, p} - A_{q, q}) = 0
+\end{equation*}
+As in the example, we see that $\pi/2 + m \pi$ is not a solution, so we are safe to assume that $\cos\theta \neq 0$. Further, since we want to set $A'_{p, q}$ to zero, we can assume that $A_{p, q} \neq 0$ (otherwise we don't need to address this pair of $p$ and $q$).
+So we will divide by $-\cos^2\theta A_{p, q}$ to get a quadratic equation in $\tan\theta$:
+\begin{equation*}
+-1 + \tan^2\theta - \tan\theta \frac{A_{p, p} - A_{q, q}}{A_{p, q}} = 0
+\end{equation*}
+We follow the example above and take the smallest root using the quadratic formula and apply the same trigonometric identities in order to compute $c$ and $s$ \eqref{eq:trig_id}.
+
+The only remaining step is to decide which order to cover $p$ and $q$. The update formula only needs to be applied to the upper triangular part of the matrix away from the diagonal.
+In Jacobi's original algorithm from 1846, he proposed to eliminate each of the largest possible values in turn. This turns out to be computationally expensive and not necessary. Instead we simply iterate through all possible nonzero values until we have eliminated all off-diagonal values.
+
+## Python code
+
+```{python}
+def jacobi_rotation(A, p, q):
+    """
+    Computes one iteration of P_{pq}^T A P_{pq}.
+    Inputs: symmetric matrix A, indices p, q
+    Output: symmetric matrix A' with A'_{p, q} = 0 (and A'_{q, p} = 0).
+    """
+
+    # copy matrix to new holder
+    A_new = A.copy()
+
+    # solve quadratic equation
+    b = (A[q, q] - A[p, p]) / A[p, q]
+    roots = (-b + np.sqrt(b * b + 4)) / 2, (-b - np.sqrt(b * b + 4)) / 2
+    t = min(roots, key=abs)  # take smallest in absolute value root
+
+    # determine c, s
+    c = 1.0 / np.sqrt(t * t + 1.0)
+    s = c * t
+
+    # do updates
+    A_new[:, p] = c * A[:, p] - s * A[:, q]
+    A_new[:, q] = c * A[:, q] + s * A[:, p]
+    A_new[p, :] = c * A[p, :] - s * A[q, :]
+    A_new[q, :] = c * A[q, :] + s * A[p, :]
+
+    A_new[p, p] = c**2 * A[p, p] + s**2 * A[q, q] - 2 * c * s * A[p, q]
+    A_new[q, q] = s**2 * A[p, p] + c**2 * A[q, q] + 2 * c * s * A[p, q]
+
+    A_new[p, q] = 0.0  # replace update formula with exact value
+    A_new[q, p] = 0.0  # replace update formula with exact value
+
+    return A_new
+
+
+```
+
+Let's try it out!
+
+```{python}
+import numpy as np
+
+A = np.array(
+    [
+        [1, 2, 3 * np.sqrt(2 - np.sqrt(2)) / 4],
+        [2, 5, 3 * np.sqrt(2 + np.sqrt(2)) / 4],
+        [
+            3 * np.sqrt(2 - np.sqrt(2)) / 4,
+            3 * np.sqrt(2 + np.sqrt(2)) / 4,
+            2 * np.sqrt(2),
+        ],
+    ]
+)
+np_ev, _ = np.linalg.eig(A)
+
+print("initial matrix")
+print(A)
+
+A = jacobi_rotation(A, 0, 1)
+
+print("after one rotation (0, 1)")
+print(A)
+
+A = jacobi_rotation(A, 1, 2)
+
+print("after second rotation (1, 2)")
+print(A)
+
+print("Our estimate of the eigenvalues is")
+print(np.diag(A))
+print("Numpy's estimate of the eigenvalues is")
+print(np_ev)
+```
+
+Let's try again with a harder problem
+
+```{python}
+from scipy.stats import special_ortho_group
+
+n = 10
+tol = 1.0e-12
+
+# generate a random matrix
+S = special_ortho_group.rvs(n)
+D = np.diag(np.random.randint(-5, 5, (n,)))
+A = S.T @ D @ S
+
+print("initial matrix A")
+print(A)
+
+# sweep over matrix several times
+for sweep in range(10):
+    for i in range(n):
+        for j in range(i+1, n):
+            if abs(A[i, j]) < tol:
+                continue
+                
+            A = jacobi_rotation(A, i, j)
+            
+    non_diag_nonzeros = 0
+    non_diag_zeros = 0
+    for i in range(n):
+        for j in range(n):
+            if i == j:
+                continue
+            if abs(A[i, j]) < tol:
+                non_diag_zeros += 1
+            else:
+                non_diag_nonzeros +=1
+                
+    print(f"end of sweep {sweep}: {non_diag_zeros=} {non_diag_nonzeros=}")
+    if non_diag_nonzeros == 0:
+        break
+        
+print("our estimate of the eigenvalues is")
+print(np.diag(A))
+```
+We see that it takes 10 sweeps to find all the eigenvalues!
+
 TODO
 
-- add general equations and code
+- compute eigenvectors too
 - show scaling
 
 space for another method
 - QR iteration?
 - Gram-Schmidt?
-- Householder transformation?
+Householder transformation?
