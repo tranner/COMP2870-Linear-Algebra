@@ -21,6 +21,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -380,6 +415,7 @@ window.Quarto = {
    
   <ul>
   <li><a href="#jacobi-transformations-of-a-symmetric-matrix" id="toc-jacobi-transformations-of-a-symmetric-matrix" class="nav-link active" data-scroll-target="#jacobi-transformations-of-a-symmetric-matrix"><span class="header-section-number">8.1</span> Jacobi transformations of a symmetric matrix</a></li>
+  <li><a href="#python-code" id="toc-python-code" class="nav-link" data-scroll-target="#python-code"><span class="header-section-number">8.2</span> Python code</a></li>
   </ul>
 </nav>
     </div>
@@ -474,12 +510,15 @@ c^{2} - 4 c s + 5 s^{2} &amp; 2 c^{2} - 4 c s - 2 s^{2} &amp; \frac{3 c \sqrt{2 
 \tan^2\theta + 2 \tan(\theta) - 1 = 0.
 \end{equation*}\]</span> This is a quadratic equation in <span class="math inline">\(\tan\theta\)</span> with roots: <span class="math display">\[\begin{equation*}
 \tan\theta = -1 \pm \sqrt{2}.
-\end{equation*}\]</span> Taking the smaller root (with <span class="math inline">\(+\)</span> sign), we get <span class="math display">\[\begin{align*}
+\end{equation*}\]</span> Taking the smaller root (with <span class="math inline">\(+\)</span> sign), we get (using some trigonometric identities): <span class="math display">\[\begin{equation}
+\label{eq:trig_id}
+\begin{aligned}
 \tan\theta &amp; = -1 + \sqrt{2} \\
 \cos\theta &amp; = 1 / \sqrt{\tan^2\theta +1} = \sqrt{\sqrt{2}/4 + 1/2} \\
 \sin\theta &amp; = \tan\theta \cos\theta
 =  \sqrt{1/2 - \sqrt{2}/4}.
-\end{align*}\]</span></p>
+\end{aligned}
+\end{equation}\]</span></p>
 <p>Applying these substitutions, we arrive at <span class="math display">\[\begin{equation*}
 A' = \begin{pmatrix}
 3 - 2 \sqrt{2} &amp; 0 &amp; 0\\0 &amp; 2 \sqrt{2} + 3 &amp; \frac{3}{2}\\0 &amp; \frac{3}{2} &amp; 2 \sqrt{2}
@@ -498,12 +537,196 @@ A'' = P_{2, 3}^{-1} A' P_{2, 3}
 \end{align*}\]</span></p>
 </div>
 </div>
+<p>The general case follows in a similar way. Multiplying out <span class="math inline">\(A' = P_{pq}^{T} A P_{pq}\)</span> for a general <span class="math inline">\(n \times n\)</span> matrix gives us the update formulae: <span class="math display">\[\begin{align*}
+A'_{r, p} &amp; = c A_{r, p} - s A_{r, q}
+&amp;&amp; \text{for} \quad r \in \{1, \ldots n\} \setminus \{p, q\} \\
+A'_{r, q} &amp; = c A_{r, q} + s A_{r, p}
+&amp;&amp; \text{for} \quad r \in \{1, \ldots n\} \setminus \{p, q\} \\
+A'_{q, r} &amp; = c A_{p, r} - s A_{q, r}
+&amp;&amp; \text{for} \quad r \in \{1, \ldots n\} \setminus \{p, q\} \\
+A'_{q, r} &amp; = c A_{q, r} + s A_{p, r}
+&amp;&amp; \text{for} \quad r \in \{1, \ldots n\} \setminus \{p, q\} \\
+A'_{p, p} &amp; = c^2 A_{p, p} + s^2 A_{q, q} - 2 c s A_{p, q} \\
+A'_{q, q} &amp; = s^2 A_{p, p} + c^2 A_{q, q} + 2 c s A_{p, q} \\
+A'_{p, q} &amp; = (c^2 - s^2) A_{p, q} + c s (A_{p, p} - A_{q, q}) \\
+A'_{q, p} &amp; = (c^2 - s^2) A_{q, p} + c s (A_{p, p} - A_{q, q}) \\
+\end{align*}\]</span> The equation we need to solve is to find <span class="math inline">\(\theta\)</span> such that <span class="math display">\[\begin{equation*}
+A'_{p, q} = (\cos^2\theta - \sin^2\theta) A_{p, q} + \cos\theta \sin\theta (A_{p, p} - A_{q, q}) = 0
+\end{equation*}\]</span> As in the example, we see that <span class="math inline">\(\pi/2 + m \pi\)</span> is not a solution, so we are safe to assume that <span class="math inline">\(\cos\theta \neq 0\)</span>. Further, since we want to set <span class="math inline">\(A'_{p, q}\)</span> to zero, we can assume that <span class="math inline">\(A_{p, q} \neq 0\)</span> (otherwise we don’t need to address this pair of <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span>). So we will divide by <span class="math inline">\(-\cos^2\theta A_{p, q}\)</span> to get a quadratic equation in <span class="math inline">\(\tan\theta\)</span>: <span class="math display">\[\begin{equation*}
+-1 + \tan^2\theta - \tan\theta \frac{A_{p, p} - A_{q, q}}{A_{p, q}} = 0
+\end{equation*}\]</span> We follow the example above and take the smallest root using the quadratic formula and apply the same trigonometric identities in order to compute <span class="math inline">\(c\)</span> and <span class="math inline">\(s\)</span> <span class="math inline">\(\eqref{eq:trig_id}\)</span>.</p>
+<p>The only remaining step is to decide which order to cover <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span>. The update formula only needs to be applied to the upper triangular part of the matrix away from the diagonal. In Jacobi’s original algorithm from 1846, he proposed to eliminate each of the largest possible values in turn. This turns out to be computationally expensive and not necessary. Instead we simply iterate through all possible nonzero values until we have eliminated all off-diagonal values.</p>
+</section>
+<section id="python-code" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="python-code"><span class="header-section-number">8.2</span> Python code</h2>
+<div id="d0089b5d" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> jacobi_rotation(A, p, q):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Computes one iteration of P_{pq}^T A P_{pq}.</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Inputs: symmetric matrix A, indices p, q</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Output: symmetric matrix A' with A'_{p, q} = 0 (and A'_{q, p} = 0).</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># copy matrix to new holder</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    A_new <span class="op">=</span> A.copy()</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># solve quadratic equation</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> (A[q, q] <span class="op">-</span> A[p, p]) <span class="op">/</span> A[p, q]</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    roots <span class="op">=</span> (<span class="op">-</span>b <span class="op">+</span> np.sqrt(b <span class="op">*</span> b <span class="op">+</span> <span class="dv">4</span>)) <span class="op">/</span> <span class="dv">2</span>, (<span class="op">-</span>b <span class="op">-</span> np.sqrt(b <span class="op">*</span> b <span class="op">+</span> <span class="dv">4</span>)) <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> <span class="bu">min</span>(roots, key<span class="op">=</span><span class="bu">abs</span>)  <span class="co"># take smallest in absolute value root</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># determine c, s</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> <span class="fl">1.0</span> <span class="op">/</span> np.sqrt(t <span class="op">*</span> t <span class="op">+</span> <span class="fl">1.0</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> c <span class="op">*</span> t</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># do updates</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    A_new[:, p] <span class="op">=</span> c <span class="op">*</span> A[:, p] <span class="op">-</span> s <span class="op">*</span> A[:, q]</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    A_new[:, q] <span class="op">=</span> c <span class="op">*</span> A[:, q] <span class="op">+</span> s <span class="op">*</span> A[:, p]</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    A_new[p, :] <span class="op">=</span> c <span class="op">*</span> A[p, :] <span class="op">-</span> s <span class="op">*</span> A[q, :]</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    A_new[q, :] <span class="op">=</span> c <span class="op">*</span> A[q, :] <span class="op">+</span> s <span class="op">*</span> A[p, :]</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    A_new[p, p] <span class="op">=</span> c<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> A[p, p] <span class="op">+</span> s<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> A[q, q] <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> c <span class="op">*</span> s <span class="op">*</span> A[p, q]</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    A_new[q, q] <span class="op">=</span> s<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> A[p, p] <span class="op">+</span> c<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> A[q, q] <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> c <span class="op">*</span> s <span class="op">*</span> A[p, q]</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    A_new[p, q] <span class="op">=</span> <span class="fl">0.0</span>  <span class="co"># replace update formula with exact value</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    A_new[q, p] <span class="op">=</span> <span class="fl">0.0</span>  <span class="co"># replace update formula with exact value</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> A_new</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s try it out!</p>
+<div id="8492ad6c" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    [</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">-</span> np.sqrt(<span class="dv">2</span>)) <span class="op">/</span> <span class="dv">4</span>],</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">3</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">+</span> np.sqrt(<span class="dv">2</span>)) <span class="op">/</span> <span class="dv">4</span>],</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        [</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>            <span class="dv">3</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">-</span> np.sqrt(<span class="dv">2</span>)) <span class="op">/</span> <span class="dv">4</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>            <span class="dv">3</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">+</span> np.sqrt(<span class="dv">2</span>)) <span class="op">/</span> <span class="dv">4</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>            <span class="dv">2</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span>),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        ],</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>np_ev, _ <span class="op">=</span> np.linalg.eig(A)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"initial matrix"</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> jacobi_rotation(A, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"after one rotation (0, 1)"</span>)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> jacobi_rotation(A, <span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"after second rotation (1, 2)"</span>)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Our estimate of the eigenvalues is"</span>)</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.diag(A))</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Numpy's estimate of the eigenvalues is"</span>)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np_ev)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>initial matrix
+[[1.         2.         0.57402515]
+ [2.         5.         1.3858193 ]
+ [0.57402515 1.3858193  2.82842712]]
+after one rotation (0, 1)
+[[ 1.71572875e-01  0.00000000e+00 -1.11022302e-16]
+ [ 0.00000000e+00  5.82842712e+00  1.50000000e+00]
+ [-1.11022302e-16  1.50000000e+00  2.82842712e+00]]
+after second rotation (1, 2)
+[[ 1.71572875e-01 -4.24863958e-17 -1.02571233e-16]
+ [-4.24863958e-17  6.44974747e+00  0.00000000e+00]
+ [-1.02571233e-16  0.00000000e+00  2.20710678e+00]]
+Our estimate of the eigenvalues is
+[0.17157288 6.44974747 2.20710678]
+Numpy's estimate of the eigenvalues is
+[6.44974747 0.17157288 2.20710678]</code></pre>
+</div>
+</div>
+<p>Let’s try again with a harder problem</p>
+<div id="0712b292" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> special_ortho_group</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>tol <span class="op">=</span> <span class="fl">1.0e-12</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># generate a random matrix</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>S <span class="op">=</span> special_ortho_group.rvs(n)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> np.diag(np.random.randint(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>, (n,)))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> S.T <span class="op">@</span> D <span class="op">@</span> S</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"initial matrix A"</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># sweep over matrix several times</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> sweep <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i<span class="op">+</span><span class="dv">1</span>, n):</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">abs</span>(A[i, j]) <span class="op">&lt;</span> tol:</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>                <span class="cf">continue</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>            A <span class="op">=</span> jacobi_rotation(A, i, j)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    non_diag_nonzeros <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    non_diag_zeros <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> i <span class="op">==</span> j:</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>                <span class="cf">continue</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">abs</span>(A[i, j]) <span class="op">&lt;</span> tol:</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>                non_diag_zeros <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>                non_diag_nonzeros <span class="op">+=</span><span class="dv">1</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"end of sweep </span><span class="sc">{</span>sweep<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>non_diag_zeros<span class="op">=</span><span class="sc">}</span><span class="ss"> </span><span class="sc">{</span>non_diag_nonzeros<span class="op">=</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> non_diag_nonzeros <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"our estimate of the eigenvalues is"</span>)</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.diag(A))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>initial matrix A
+[[-1.70406828 -0.04580283 -0.71627489  1.41920636  0.36955621  1.93368088
+   0.66775334 -0.16434526 -0.47518909  0.2724697 ]
+ [-0.04580283 -0.03958108 -0.18562273 -0.36796145 -0.43504142  0.46141059
+  -0.23126409  0.00458146  0.18640426 -0.17060127]
+ [-0.71627489 -0.18562273  0.42695345 -0.47202249  0.31744566 -1.41227769
+  -0.26044751  0.6067861   0.903001   -0.17520764]
+ [ 1.41920636 -0.36796145 -0.47202249 -2.18812066  0.98170665  0.25983512
+  -1.20391261 -0.30740351 -0.36780115 -0.89276377]
+ [ 0.36955621 -0.43504142  0.31744566  0.98170665  2.60616598 -0.47761733
+  -1.31926237 -0.04729303 -0.73821674 -1.27813142]
+ [ 1.93368088  0.46141059 -1.41227769  0.25983512 -0.47761733  1.57126804
+  -1.28100815  1.20192235  0.50215743 -0.12844899]
+ [ 0.66775334 -0.23126409 -0.26044751 -1.20391261 -1.31926237 -1.28100815
+  -2.21100333 -1.23462186 -0.14077089 -0.08495632]
+ [-0.16434526  0.00458146  0.6067861  -0.30740351 -0.04729303  1.20192235
+  -1.23462186  1.34558386  0.99176357 -0.55534052]
+ [-0.47518909  0.18640426  0.903001   -0.36780115 -0.73821674  0.50215743
+  -0.14077089  0.99176357  0.90567411  0.30976195]
+ [ 0.2724697  -0.17060127 -0.17520764 -0.89276377 -1.27813142 -0.12844899
+  -0.08495632 -0.55534052  0.30976195 -0.71287209]]
+end of sweep 0: non_diag_zeros=2 non_diag_nonzeros=88
+end of sweep 1: non_diag_zeros=2 non_diag_nonzeros=88
+end of sweep 2: non_diag_zeros=2 non_diag_nonzeros=88
+end of sweep 3: non_diag_zeros=56 non_diag_nonzeros=34
+end of sweep 4: non_diag_zeros=90 non_diag_nonzeros=0
+our estimate of the eigenvalues is
+[-2.00000000e+00 -4.66211466e-16 -1.00000000e+00 -5.00000000e+00
+  4.00000000e+00  4.00000000e+00 -2.00000000e+00  3.00000000e+00
+ -2.14058562e-16 -1.00000000e+00]</code></pre>
+</div>
+</div>
+<p>We see that it takes 10 sweeps to find all the eigenvalues!</p>
 <p>TODO</p>
 <ul>
-<li>add general equations and code</li>
+<li>compute eigenvectors too</li>
 <li>show scaling</li>
 </ul>
-<p>space for another method - QR iteration? - Gram-Schmidt? - Householder transformation?</p>
+<p>space for another method - QR iteration? - Gram-Schmidt? Householder transformation?</p>
 
 
 </section>
