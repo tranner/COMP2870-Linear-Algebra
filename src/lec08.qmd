@@ -62,7 +62,7 @@ Let $A$ be the $3 \times 3$ matrix given by
 Let's apply the matrix as a similarity transform with $p=1, q=2$. Then we have
 \begin{equation*}
  P_{1,2} = \begin{pmatrix}
- c & s & 0\\- s & c & 0\\0 & 0 &
+ c & s & 0\\- s & c & 0\\0 & 0 & 1
  \end{pmatrix},
 \end{equation*}
 where $c = \cos(\theta)$ and $s = \sin(\theta)$ and $\theta$ is still to be determined.
@@ -242,12 +242,15 @@ n = 10
 tol = 1.0e-12
 
 # generate a random matrix
+np.random.seed(42)
 S = special_ortho_group.rvs(n)
 D = np.diag(np.random.randint(-5, 5, (n,)))
 A = S.T @ D @ S
 
 print("initial matrix A")
 print(A)
+
+np_ev, _ = np.linalg.eig(A)
 
 # sweep over matrix several times
 for sweep in range(10):
@@ -275,15 +278,303 @@ for sweep in range(10):
         
 print("our estimate of the eigenvalues is")
 print(np.diag(A))
+print("Numpy's estimate of the eigenvalues is")
+print(np_ev)
 ```
 We see that it takes 10 sweeps to find all the eigenvalues!
 
-TODO
+## Computing eigenvectors
 
-- compute eigenvectors too
-- show scaling
+After enough sweeps, we end up with a diagonal matrix (at least to machine precision), let's call it $D$. But indeed, we have computed a factorisation:
+\begin{equation*}
+D = V^T A V,
+\end{equation*}
+where $V = P_1 P_2 \cdots$ and each $P_j$ is a Jacobi rotation matrix. We can immediately identify the matrix $V$ as having columns which correspond to the eigenvectors of $A$.
 
-space for another method
-- QR iteration?
-- Gram-Schmidt?
-Householder transformation?
+The eigenvector matrix can be computed by successively computing:
+\begin{equation*}
+V' = V P_{pq},
+\end{equation*}
+starting from $V$ is the identity matrix.
+We can see that componentwise, we have the update formulae:
+\begin{align*}
+v'_{rs} &= v_{rs} && s \neq p, s \neq q \\
+v'_{rp} &= c v_{rp} - s v_{rq} && ?? \\
+v'_{rq} &= s v_{rp} + c v_{rq} && ??.
+\end{align*}
+
+::: {#exm-one-jacobi-rotation2}
+Continuing @exm-one-jacobi-rotation. We computed that in the first iteration
+\begin{align*}
+\cos\theta & = 1 / \sqrt{\tan^2\theta +1} = \sqrt{\sqrt{2}/4 + 1/2} \\
+\sin\theta & = \tan\theta \cos\theta
+=  \sqrt{1/2 - \sqrt{2}/4}.
+\end{align*}
+
+Starting from
+$$
+V = \begin{pmatrix}
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 1 \\
+\end{pmatrix},
+$$
+we can compute $V'$ as
+$$
+V' = \begin{pmatrix}
+c & s & 0 \\
+-s & c & 0 \\
+0 & 0 & 1 \\
+\end{pmatrix}
+= \begin{pmatrix}
+\sqrt{\sqrt{2}/4 + 1/2} & \sqrt{1/2 - \sqrt{2}/4} & 0 \\
+-\sqrt{1/2 - \sqrt{2}/4} & \sqrt{\sqrt{2}/4 + 1/2} & 0 \\
+0 & 0 & 1 \\
+\end{pmatrix}.
+$$
+
+:::: {#exr-sim-trans2}
+Continue this exercise with $P_{2, 3}$ to show
+\begin{align*}
+& V'' = V' P_{2, 3}
+= \begin{pmatrix}
+\frac{\sqrt{\sqrt{2} + 2}}{2} & - \frac{\sqrt{2}}{4} & \frac{1}{2} - \frac{\sqrt{2}}{4}\\- \frac{\sqrt{2 - \sqrt{2}}}{2} & - \frac{1}{2} - \frac{\sqrt{2}}{4} & \frac{\sqrt{2}}{4}\\0 & - \frac{\sqrt{2 - \sqrt{2}}}{2} & - \frac{\sqrt{\sqrt{2} + 2}}{2}
+\end{pmatrix} \\
+& \approx
+\begin{pmatrix}
+0.923879532511287 & -0.353553390593274 & 0.146446609406726\\-0.38268343236509 & -0.853553390593274 & 0.353553390593274\\0 & -0.38268343236509 & -0.923879532511287\end{pmatrix}.
+\end{align*}
+:::
+:::
+
+## Python code (again)
+
+We can try our methods on 
+```{python}
+import time
+
+def jacobi_rotation_with_V(A, V, p, q):
+    """
+    Computes one iteration of P_{pq}^T A P_{pq} and V P_{pq}
+    Inputs: symmetric matrix A, matrix V, indices p, q
+    Output: symmetric matrix A' with A'_{p, q} = 0 (and A'_{q, p} = 0), updated corresponding eigenvector matrix V
+    """
+
+    # copy matrix to new holder
+    A_new = A.copy()
+    V_new = V.copy()
+
+    # solve quadratic equation
+    b = (A[q, q] - A[p, p]) / A[p, q]
+    roots = (-b + np.sqrt(b * b + 4)) / 2, (-b - np.sqrt(b * b + 4)) / 2
+    t = min(roots, key=abs)  # take smallest in absolute value root
+
+    # determine c, s
+    c = 1.0 / np.sqrt(t * t + 1.0)
+    s = c * t
+
+    # do updates
+    A_new[:, p] = c * A[:, p] - s * A[:, q]
+    A_new[:, q] = c * A[:, q] + s * A[:, p]
+    A_new[p, :] = c * A[p, :] - s * A[q, :]
+    A_new[q, :] = c * A[q, :] + s * A[p, :]
+
+    A_new[p, p] = c**2 * A[p, p] + s**2 * A[q, q] - 2 * c * s * A[p, q]
+    A_new[q, q] = s**2 * A[p, p] + c**2 * A[q, q] + 2 * c * s * A[p, q]
+
+    A_new[p, q] = 0.0  # replace update formula with exact value
+    A_new[q, p] = 0.0  # replace update formula with exact value
+    
+    V_new[:, p] = c * V[:, p] - s * V[:, q]
+    V_new[:, q] = s * V[:, p] + c * V[:, q]
+
+    return A_new, V_new
+
+
+```
+
+Let's try it out!
+
+```{python}
+import numpy as np
+
+A = np.array(
+    [
+        [1, 2, 3 * np.sqrt(2 - np.sqrt(2)) / 4],
+        [2, 5, 3 * np.sqrt(2 + np.sqrt(2)) / 4],
+        [
+            3 * np.sqrt(2 - np.sqrt(2)) / 4,
+            3 * np.sqrt(2 + np.sqrt(2)) / 4,
+            2 * np.sqrt(2),
+        ],
+    ]
+)
+np_eval, np_evec = np.linalg.eig(A)
+
+V = np.eye(A.shape[0])
+
+print("initial matrices")
+print(A)
+print(V)
+
+A, V = jacobi_rotation_with_V(A, V, 0, 1)
+
+print("after one rotation (0, 1)")
+print(A)
+print(V)
+
+A, V = jacobi_rotation_with_V(A, V, 1, 2)
+
+print("after second rotation (1, 2)")
+print(A)
+print(V)
+
+print("Our estimate of the eigenvalues is")
+print(np.diag(A))
+print("Numpy's estimate of the eigenvalues is")
+print(np_eval)
+
+print("Our estimate of eigenvectors is")
+print(V)
+print("Numpy's estimate of the eigenvalues is")
+print(np_evec)
+```
+
+Success! We have the same values (up to reordering).
+
+We can also apply the same code to the larger problem size:
+
+```{python}
+n = 10
+tol = 1.0e-12
+
+# generate a random matrix
+np.random.seed(42)
+S = special_ortho_group.rvs(n)
+D = np.diag(np.random.randint(-5, 5, (n,)))
+A = S.T @ D @ S
+V = np.eye(n)
+
+print("initial matrix A")
+print(A)
+
+np_eval, np_evec = np.linalg.eig(A)
+
+# sweep over matrix several times
+for sweep in range(10):
+    for i in range(n):
+        for j in range(i+1, n):
+            if abs(A[i, j]) < tol:
+                continue
+                
+            A, V = jacobi_rotation_with_V(A, V, i, j)
+            
+    non_diag_nonzeros = 0
+    non_diag_zeros = 0
+    for i in range(n):
+        for j in range(n):
+            if i == j:
+                continue
+            if abs(A[i, j]) < tol:
+                non_diag_zeros += 1
+            else:
+                non_diag_nonzeros +=1
+                
+    print(f"end of sweep {sweep}: {non_diag_zeros=} {non_diag_nonzeros=}")
+    if non_diag_nonzeros == 0:
+        break
+        
+print("our estimate of the eigenvalues is")
+print(np.diag(A))
+print("Numpy's estimate of the eigenvalues is")
+print(np_ev)
+
+print("Our estimate of eigenvectors is")
+print(V)
+print("Numpy's estimate of the eigenvalues is")
+print(np_evec)
+```
+
+## Computational cost
+
+A quick look at the cost of each rotation shows that the main cost is in updating all the entries. For a matrix of size $n$, we must update $4n-4$ entries (two rows and two columns) in $A$ and $2n$ entries in (two rows) in $V$. We say that each rotation costs $O(n)$.
+
+One sweep corresponds to trying to eliminate all off diagonal entries (i.e. the strictly upper triangular portion of the matrix). So each sweep corresponds to $n (n-1)/2$ rotations or $(6n - 4) n (n-1) / 2$. So each sweep is $O(n^3)$.
+
+The remaining question is how many sweeps are required? Let's test this using our code.
+
+```{python}
+tol = 1e-12
+max_sweeps = 100
+
+n_values = []
+sweep_values = []
+times = []
+
+for n in range(10, 100, 10):
+    S = special_ortho_group.rvs(n)
+    D = np.diag(np.random.randint(-5, 5, (n,)))
+    A = S.T @ D @ S
+    V = np.eye(n)
+
+    start = time.time()
+    
+    # sweep over matrix several times
+    for sweep in range(max_sweeps):
+        for i in range(n):
+            for j in range(i+1, n):
+                if abs(A[i, j]) < tol:
+                    continue
+
+                A, V = jacobi_rotation_with_V(A, V, i, j)
+
+        non_diag_nonzeros = 0
+        non_diag_zeros = 0
+        for i in range(n):
+            for j in range(n):
+                if i == j:
+                    continue
+                if abs(A[i, j]) < tol:
+                    non_diag_zeros += 1
+                else:
+                    non_diag_nonzeros +=1
+
+        if non_diag_nonzeros == 0:
+            n_sweeps = sweep + 1
+            break
+
+    end = time.time()
+    
+    n_values.append(n)
+    sweep_values.append(sweep)
+    times.append(end - start)
+```
+
+```{python}
+from matplotlib import pyplot as plt
+
+from scipy.optimize import curve_fit
+opt, cov = curve_fit(lambda x, a: a*np.sqrt(x), n_values, sweep_values, 1)
+
+plt.semilogx(n_values, sweep_values)
+plt.semilogx(n_values, opt[0]*np.sqrt(n_values), label="sqrt fit")
+
+plt.xlabel("$n$")
+plt.ylabel("no. of sweeps")
+
+plt.grid(True)
+plt.show()
+```
+
+```{python}
+opt, cov = curve_fit(lambda x, a: a*x**3.5, n_values, times, 1)
+
+plt.loglog(n_values, sweep_values)
+plt.loglog(n_values, opt[0]*np.array(n_values)**3.5, label="sqrt fit")
+
+plt.xlabel("$n$")
+plt.ylabel("time")
+
+plt.grid(True)
+plt.show()
+```
