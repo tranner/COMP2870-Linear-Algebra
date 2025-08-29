@@ -8,7 +8,7 @@ author:
     affiliation: School of Computer Science, University of Leeds
 
 book:
-  title: "COMP2860 Theoretical Foundations: Linear Algebra"
+  title: "COMP2870 Theoretical Foundations: Linear Algebra"
   author: "Thomas Ranner"
   chapters:
     - index.qmd
@@ -21,7 +21,7 @@ book:
     - src/lec08.qmd
 
 website:
-  title: "COMP2860 Theoretical Foundations: Linear Algebra"
+  title: "COMP2870 Theoretical Foundations: Linear Algebra"
   page-navigation: true
   search: true
   page-footer: "Copyright 2024-2025, Thomas Ranner and University of Leeds"

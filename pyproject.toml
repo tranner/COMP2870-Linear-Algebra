@@ -1,8 +1,8 @@
 [project]
-name = "notes"
+name = "COMP2870-Linear-Algebra-notes"
 author = "Thomas Ranner"
 version = "0.1.0"
-description = "Add your description here"
+description = "Notes for Linear Algebra part of COMP2870. School of Computer Science, University of Leeds"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
