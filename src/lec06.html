@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.7.34">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Thomas Ranner">
 
-<title>6&nbsp; (Preliminary topic) Complex numbers – COMP2860 Theoretical Foundations: Linear Algebra</title>
+<title>6&nbsp; Complex numbers – COMP2870 Theoretical Foundations: Linear Algebra</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -39,14 +39,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-bc185b5c5bdbcb35c2eb49d8a876ef70.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-befe23ebd2f54d8af2c8a89d1a1611f1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-d8e115a44479f0200f9218f34455deac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-92bc1b8d687d0ada63d078189200d14b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-d8e115a44479f0200f9218f34455deac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-2478dfaf21121e4abc1bf4c5fc5acc12.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-57a138f0bb470e46bebdddd77a7e3455.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-2478dfaf21121e4abc1bf4c5fc5acc12.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -294,7 +294,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../src/lec06.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">(Preliminary topic) Complex numbers</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../src/lec06.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Complex numbers</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -309,7 +309,7 @@ window.Quarto = {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">COMP2860 Theoretical Foundations: Linear Algebra</a> 
+      <a href="../">COMP2870 Theoretical Foundations: Linear Algebra</a> 
         <div class="sidebar-tools-main">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
@@ -325,13 +325,13 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to LA</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to Linear Algebra</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../src/lec01.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">(Preliminary topic) Floating point number systems</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Floating point number systems</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -355,7 +355,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../src/lec06.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">(Preliminary topic) Complex numbers</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Complex numbers</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -393,7 +393,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">(Preliminary topic) Complex numbers</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Complex numbers</span></h1>
 </div>
 
 
@@ -430,7 +430,7 @@ window.Quarto = {
 <p><span class="theorem-title"><strong>Example 6.1</strong></span> Consider the polynomial equation <span class="math display">\[\begin{equation}
 x^2 + 1 = 0.
 \end{equation}\]</span></p>
-<div id="667799e4" class="cell" data-execution_count="2">
+<div id="10a5d12d" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -545,7 +545,7 @@ i^2 = (\sqrt{-1})^2 = \sqrt{-1} \sqrt{-1} \neq \sqrt{(-1) \times (-1)} = \sqrt{1
 <p>The complex plane is the two dimensional space formed by considering the real and imaginary parts of a complex number as two different coordinate axes.</p>
 <div id="exm-plane" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.5</strong></span> &nbsp;</p>
-<div id="653dfa5c" class="cell" data-caption="Examples of complex numbers as points in the complex plane." data-execution_count="3">
+<div id="5e522004" class="cell" data-caption="Examples of complex numbers as points in the complex plane." data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -575,7 +575,7 @@ i^2 = (\sqrt{-1})^2 = \sqrt{-1} \sqrt{-1} \neq \sqrt{(-1) \times (-1)} = \sqrt{1
 \end{equation*}\]</span></p>
 <div id="exm-modulus" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.7</strong></span> &nbsp;</p>
-<div id="eee5f328" class="cell" data-caption="Examples of moduli of complex numbers as points in the complex plane." data-execution_count="4">
+<div id="5dd65a0e" class="cell" data-caption="Examples of moduli of complex numbers as points in the complex plane." data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -627,7 +627,7 @@ z y
 </div>
 <div id="exm-arg" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.9</strong></span> &nbsp;</p>
-<div id="4e17ec45" class="cell" data-caption="Examples of arguments of complex numbers as points in the complex plane." data-execution_count="5">
+<div id="cd0fd395" class="cell" data-caption="Examples of arguments of complex numbers as points in the complex plane." data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -659,7 +659,7 @@ x^2 + 1 = 0.
 &amp; i^2 + 1 = 0 \\
 &amp; (-i)^2 + 1 = (-1)^2 i^2 + 1 = i^2 + 1 = 0.
 \end{align*}\]</span></p>
-<div id="5262cbf8" class="cell" data-execution_count="6">
+<div id="34f748a3" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">

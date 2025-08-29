@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.7.34">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Thomas Ranner">
 
-<title>COMP2860 Theoretical Foundations: Linear Algebra</title>
+<title>COMP2870 Theoretical Foundations: Linear Algebra</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -38,14 +38,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-bc185b5c5bdbcb35c2eb49d8a876ef70.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-befe23ebd2f54d8af2c8a89d1a1611f1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-d8e115a44479f0200f9218f34455deac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-92bc1b8d687d0ada63d078189200d14b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-d8e115a44479f0200f9218f34455deac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-2478dfaf21121e4abc1bf4c5fc5acc12.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-57a138f0bb470e46bebdddd77a7e3455.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-2478dfaf21121e4abc1bf4c5fc5acc12.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -264,7 +264,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to LA</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to Linear Algebra</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -279,7 +279,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">COMP2860 Theoretical Foundations: Linear Algebra</a> 
+      <a href="./">COMP2870 Theoretical Foundations: Linear Algebra</a> 
         <div class="sidebar-tools-main">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
@@ -295,13 +295,13 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to LA</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to Linear Algebra</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./src/lec01.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">(Preliminary topic) Floating point number systems</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Floating point number systems</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -325,7 +325,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./src/lec06.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">(Preliminary topic) Complex numbers</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Complex numbers</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -350,10 +350,13 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#contents-of-this-submodule" id="toc-contents-of-this-submodule" class="nav-link active" data-scroll-target="#contents-of-this-submodule"><span class="header-section-number">0.1</span> Contents of this submodule</a></li>
-  <li><a href="#motivations" id="toc-motivations" class="nav-link" data-scroll-target="#motivations"><span class="header-section-number">0.2</span> Motivations</a></li>
-  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link" data-scroll-target="#learning-outcomes"><span class="header-section-number">0.3</span> Learning outcomes</a></li>
-  <li><a href="#programming" id="toc-programming" class="nav-link" data-scroll-target="#programming"><span class="header-section-number">0.4</span> Programming</a></li>
+  <li><a href="#contents-of-this-submodule" id="toc-contents-of-this-submodule" class="nav-link active" data-scroll-target="#contents-of-this-submodule"><span class="header-section-number">0.1</span> Contents of this submodule</a>
+  <ul class="collapse">
+  <li><a href="#topics" id="toc-topics" class="nav-link" data-scroll-target="#topics"><span class="header-section-number">0.1.1</span> Topics</a></li>
+  </ul></li>
+  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link" data-scroll-target="#learning-outcomes"><span class="header-section-number">0.2</span> Learning outcomes</a></li>
+  <li><a href="#programming" id="toc-programming" class="nav-link" data-scroll-target="#programming"><span class="header-section-number">0.3</span> Programming</a></li>
+  <li><a href="#motivations" id="toc-motivations" class="nav-link" data-scroll-target="#motivations"><span class="header-section-number">0.4</span> Motivations</a></li>
   </ul>
 </nav>
     </div>
@@ -363,7 +366,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">COMP2860 Theoretical Foundations: Linear Algebra</h1>
+<h1 class="title">COMP2870 Theoretical Foundations: Linear Algebra</h1>
 </div>
 
 
@@ -388,40 +391,44 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="contents-of-this-submodule" class="level2" data-number="0.1">
 <h2 data-number="0.1" class="anchored" data-anchor-id="contents-of-this-submodule"><span class="header-section-number">0.1</span> Contents of this submodule</h2>
-<ul>
-<li><p>floating point numbers</p>
-<ul>
-<li>rounding errors</li>
-<li>top tips for working with floating point numbers</li>
-</ul></li>
-<li><p>linear systems of equations</p>
-<ul>
-<li>motivation</li>
-<li>Gaussian-elimination</li>
-<li>practicalities</li>
-<li>iterative schemes</li>
-</ul></li>
-<li><p>transforming matrices</p>
-<ul>
-<li>what is a basis? and what does it mean?</li>
-<li>eigenvectors and eigenvalues
-<ul>
-<li>definitions</li>
-<li>small matrix solutions</li>
-</ul></li>
-<li>large matrix solutions</li>
-</ul></li>
-</ul>
-<p>TODO add recap of matrices terminology - inverse, transpose, coefficients, size</p>
+<p>This part of the module will deal with numerical algorithms that involve matrices. The study of this type of problem is called <em>linear algebra</em>. We will approach these problems using a mix of theoretical ideas thinking through the lens of practical solutions. This means that you will do some programming (usin gPython) and some pen and paper theoretical work too.</p>
+<section id="topics" class="level3" data-number="0.1.1">
+<h3 data-number="0.1.1" class="anchored" data-anchor-id="topics"><span class="header-section-number">0.1.1</span> Topics</h3>
+<p>We will have 7 double-lectures, 3/4 tutorials and 3/4 labs. We break up the topics as follows:</p>
+<p>Lectures</p>
+<ol type="1">
+<li>Introduction and motivation, key problem statements</li>
+<li>When can we solve systems of linear equations?</li>
+<li>Direct methods for systems of linear equations</li>
+<li>Iterative solution of linear equations</li>
+<li>Complex numbers</li>
+<li>Eigenvalues and eigenvectors</li>
+<li>Practical solutions for eigenvalues and eigenvectors / Summary</li>
+</ol>
+<p>Labs</p>
+<ol type="1">
+<li>Floating point numbers</li>
+<li>When can we solve systems of linear equations?</li>
+<li>Systems of linear equations</li>
+<li>Eigenvalues and eigenvectors</li>
+</ol>
+<p>Tutorials</p>
+<ol type="1">
+<li>Direct methods for systems of linear equations</li>
+<li>Indirect methods for systems of linear equations</li>
+<li>Complex numbers</li>
+<li>Eigenvalues and eigenvectors</li>
+</ol>
 </section>
-<section id="motivations" class="level2" data-number="0.2">
-<h2 data-number="0.2" class="anchored" data-anchor-id="motivations"><span class="header-section-number">0.2</span> Motivations</h2>
 </section>
-<section id="learning-outcomes" class="level2" data-number="0.3">
-<h2 data-number="0.3" class="anchored" data-anchor-id="learning-outcomes"><span class="header-section-number">0.3</span> Learning outcomes</h2>
+<section id="learning-outcomes" class="level2" data-number="0.2">
+<h2 data-number="0.2" class="anchored" data-anchor-id="learning-outcomes"><span class="header-section-number">0.2</span> Learning outcomes</h2>
 </section>
-<section id="programming" class="level2" data-number="0.4">
-<h2 data-number="0.4" class="anchored" data-anchor-id="programming"><span class="header-section-number">0.4</span> Programming</h2>
+<section id="programming" class="level2" data-number="0.3">
+<h2 data-number="0.3" class="anchored" data-anchor-id="programming"><span class="header-section-number">0.3</span> Programming</h2>
+</section>
+<section id="motivations" class="level2" data-number="0.4">
+<h2 data-number="0.4" class="anchored" data-anchor-id="motivations"><span class="header-section-number">0.4</span> Motivations</h2>
 
 
 </section>
@@ -843,8 +850,8 @@ ul.task-list li input[type="checkbox"] {
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./src/lec01.html" class="pagination-link" aria-label="(Preliminary topic) Floating point number systems">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">(Preliminary topic) Floating point number systems</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./src/lec01.html" class="pagination-link" aria-label="Floating point number systems">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Floating point number systems</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

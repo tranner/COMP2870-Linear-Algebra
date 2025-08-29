@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.7.34">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Thomas Ranner">
 
-<title>8&nbsp; Eigenvectors and eigenvalues: practical solutions – COMP2860 Theoretical Foundations: Linear Algebra</title>
+<title>8&nbsp; Eigenvectors and eigenvalues: practical solutions – COMP2870 Theoretical Foundations: Linear Algebra</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -73,14 +73,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-bc185b5c5bdbcb35c2eb49d8a876ef70.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-befe23ebd2f54d8af2c8a89d1a1611f1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-d8e115a44479f0200f9218f34455deac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-92bc1b8d687d0ada63d078189200d14b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-d8e115a44479f0200f9218f34455deac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-2478dfaf21121e4abc1bf4c5fc5acc12.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-57a138f0bb470e46bebdddd77a7e3455.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-2478dfaf21121e4abc1bf4c5fc5acc12.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -343,7 +343,7 @@ window.Quarto = {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">COMP2860 Theoretical Foundations: Linear Algebra</a> 
+      <a href="../">COMP2870 Theoretical Foundations: Linear Algebra</a> 
         <div class="sidebar-tools-main">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
@@ -359,13 +359,13 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to LA</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to Linear Algebra</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../src/lec01.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">(Preliminary topic) Floating point number systems</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Floating point number systems</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -389,7 +389,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../src/lec06.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">(Preliminary topic) Complex numbers</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Complex numbers</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -419,6 +419,7 @@ window.Quarto = {
   <li><a href="#computing-eigenvectors" id="toc-computing-eigenvectors" class="nav-link" data-scroll-target="#computing-eigenvectors"><span class="header-section-number">8.3</span> Computing eigenvectors</a></li>
   <li><a href="#python-code-again" id="toc-python-code-again" class="nav-link" data-scroll-target="#python-code-again"><span class="header-section-number">8.4</span> Python code (again)</a></li>
   <li><a href="#computational-cost" id="toc-computational-cost" class="nav-link" data-scroll-target="#computational-cost"><span class="header-section-number">8.5</span> Computational cost</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">8.6</span> References</a></li>
   </ul>
 </nav>
     </div>
@@ -562,7 +563,7 @@ A'_{p, q} = (\cos^2\theta - \sin^2\theta) A_{p, q} + \cos\theta \sin\theta (A_{p
 </section>
 <section id="python-code" class="level2" data-number="8.2">
 <h2 data-number="8.2" class="anchored" data-anchor-id="python-code"><span class="header-section-number">8.2</span> Python code</h2>
-<div id="6cb3a2a1" class="cell" data-execution_count="1">
+<div id="19d77835" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> jacobi_rotation(A, p, q):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Computes one iteration of P_{pq}^T A P_{pq}.</span></span>
@@ -597,39 +598,37 @@ A'_{p, q} = (\cos^2\theta - \sin^2\theta) A_{p, q} + \cos\theta \sin\theta (A_{p
 <span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> A_new</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s try it out!</p>
-<div id="cd44b224" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array(</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    [</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">-</span> np.sqrt(<span class="dv">2</span>)) <span class="op">/</span> <span class="dv">4</span>],</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">3</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">+</span> np.sqrt(<span class="dv">2</span>)) <span class="op">/</span> <span class="dv">4</span>],</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        [</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>            <span class="dv">3</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">-</span> np.sqrt(<span class="dv">2</span>)) <span class="op">/</span> <span class="dv">4</span>,</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>            <span class="dv">3</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">+</span> np.sqrt(<span class="dv">2</span>)) <span class="op">/</span> <span class="dv">4</span>,</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>            <span class="dv">2</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span>),</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        ],</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>np_ev, _ <span class="op">=</span> np.linalg.eig(A)</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"initial matrix"</span>)</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span>
+<div id="fd2f69ec" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    [</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">-</span> np.sqrt(<span class="dv">2</span>)) <span class="op">/</span> <span class="dv">4</span>],</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">3</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">+</span> np.sqrt(<span class="dv">2</span>)) <span class="op">/</span> <span class="dv">4</span>],</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        [</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>            <span class="dv">3</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">-</span> np.sqrt(<span class="dv">2</span>)) <span class="op">/</span> <span class="dv">4</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>            <span class="dv">3</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">+</span> np.sqrt(<span class="dv">2</span>)) <span class="op">/</span> <span class="dv">4</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>            <span class="dv">2</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span>),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        ],</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>np_ev, _ <span class="op">=</span> np.linalg.eig(A)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"initial matrix"</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> jacobi_rotation(A, <span class="dv">0</span>, <span class="dv">1</span>)</span>
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> jacobi_rotation(A, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"after one rotation (0, 1)"</span>)</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"after one rotation (0, 1)"</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> jacobi_rotation(A, <span class="dv">1</span>, <span class="dv">2</span>)</span>
 <span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> jacobi_rotation(A, <span class="dv">1</span>, <span class="dv">2</span>)</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"after second rotation (1, 2)"</span>)</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Our estimate of the eigenvalues is"</span>)</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.diag(A))</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Numpy's estimate of the eigenvalues is"</span>)</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np_ev)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"after second rotation (1, 2)"</span>)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Our estimate of the eigenvalues is"</span>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.diag(A))</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Numpy's estimate of the eigenvalues is"</span>)</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np_ev)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>initial matrix
 [[1.         2.         0.57402515]
@@ -650,51 +649,49 @@ Numpy's estimate of the eigenvalues is
 </div>
 </div>
 <p>Let’s try again with a harder problem</p>
-<div id="515bf4f1" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> special_ortho_group</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">10</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>tol <span class="op">=</span> <span class="fl">1.0e-12</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># generate a random matrix</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>S <span class="op">=</span> special_ortho_group.rvs(n)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> np.diag(np.random.randint(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>, (n,)))</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> S.T <span class="op">@</span> D <span class="op">@</span> S</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"initial matrix A"</span>)</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span>
+<div id="1c87a307" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>tol <span class="op">=</span> <span class="fl">1.0e-12</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># generate a random matrix</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>S <span class="op">=</span> special_ortho_group.rvs(n)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>D <span class="op">=</span> np.diag(np.random.randint(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>, (n,)))</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> S.T <span class="op">@</span> D <span class="op">@</span> S</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"initial matrix A"</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>np_ev, _ <span class="op">=</span> np.linalg.eig(A)</span>
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>np_ev, _ <span class="op">=</span> np.linalg.eig(A)</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co"># sweep over matrix several times</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> sweep <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i<span class="op">+</span><span class="dv">1</span>, n):</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">abs</span>(A[i, j]) <span class="op">&lt;</span> tol:</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>                <span class="cf">continue</span></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>                </span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>            A <span class="op">=</span> jacobi_rotation(A, i, j)</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    non_diag_nonzeros <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    non_diag_zeros <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n):</span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> i <span class="op">==</span> j:</span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>                <span class="cf">continue</span></span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">abs</span>(A[i, j]) <span class="op">&lt;</span> tol:</span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>                non_diag_zeros <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>                non_diag_nonzeros <span class="op">+=</span><span class="dv">1</span></span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>                </span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"end of sweep </span><span class="sc">{</span>sweep<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>non_diag_zeros<span class="op">=</span><span class="sc">}</span><span class="ss"> </span><span class="sc">{</span>non_diag_nonzeros<span class="op">=</span><span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> non_diag_nonzeros <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"our estimate of the eigenvalues is"</span>)</span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.diag(A))</span>
-<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Numpy's estimate of the eigenvalues is"</span>)</span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np_ev)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co"># sweep over matrix several times</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> sweep <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i <span class="op">+</span> <span class="dv">1</span>, n):</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">abs</span>(A[i, j]) <span class="op">&lt;</span> tol:</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>                <span class="cf">continue</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>            A <span class="op">=</span> jacobi_rotation(A, i, j)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    non_diag_nonzeros <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    non_diag_zeros <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> i <span class="op">==</span> j:</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>                <span class="cf">continue</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">abs</span>(A[i, j]) <span class="op">&lt;</span> tol:</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>                non_diag_zeros <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>                non_diag_nonzeros <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"end of sweep </span><span class="sc">{</span>sweep<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>non_diag_zeros<span class="op">=</span><span class="sc">}</span><span class="ss"> </span><span class="sc">{</span>non_diag_nonzeros<span class="op">=</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> non_diag_nonzeros <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"our estimate of the eigenvalues is"</span>)</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.diag(A))</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Numpy's estimate of the eigenvalues is"</span>)</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np_ev)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>initial matrix A
 [[-1.37563753 -0.31873229 -2.41518457  0.00758962  0.43535083 -1.10245202
@@ -783,90 +780,86 @@ c &amp; s &amp; 0 \\
 <section id="python-code-again" class="level2" data-number="8.4">
 <h2 data-number="8.4" class="anchored" data-anchor-id="python-code-again"><span class="header-section-number">8.4</span> Python code (again)</h2>
 <p>We can try our methods on</p>
-<div id="7880aa60" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> jacobi_rotation_with_V(A, V, p, q):</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Computes one iteration of P_{pq}^T A P_{pq} and V P_{pq}</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">    Inputs: symmetric matrix A, matrix V, indices p, q</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">    Output: symmetric matrix A' with A'_{p, q} = 0 (and A'_{q, p} = 0), updated corresponding eigenvector matrix V</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># copy matrix to new holder</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    A_new <span class="op">=</span> A.copy()</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    V_new <span class="op">=</span> V.copy()</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># solve quadratic equation</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> (A[q, q] <span class="op">-</span> A[p, p]) <span class="op">/</span> A[p, q]</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    roots <span class="op">=</span> (<span class="op">-</span>b <span class="op">+</span> np.sqrt(b <span class="op">*</span> b <span class="op">+</span> <span class="dv">4</span>)) <span class="op">/</span> <span class="dv">2</span>, (<span class="op">-</span>b <span class="op">-</span> np.sqrt(b <span class="op">*</span> b <span class="op">+</span> <span class="dv">4</span>)) <span class="op">/</span> <span class="dv">2</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> <span class="bu">min</span>(roots, key<span class="op">=</span><span class="bu">abs</span>)  <span class="co"># take smallest in absolute value root</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># determine c, s</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> <span class="fl">1.0</span> <span class="op">/</span> np.sqrt(t <span class="op">*</span> t <span class="op">+</span> <span class="fl">1.0</span>)</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> c <span class="op">*</span> t</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># do updates</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    A_new[:, p] <span class="op">=</span> c <span class="op">*</span> A[:, p] <span class="op">-</span> s <span class="op">*</span> A[:, q]</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    A_new[:, q] <span class="op">=</span> c <span class="op">*</span> A[:, q] <span class="op">+</span> s <span class="op">*</span> A[:, p]</span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    A_new[p, :] <span class="op">=</span> c <span class="op">*</span> A[p, :] <span class="op">-</span> s <span class="op">*</span> A[q, :]</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    A_new[q, :] <span class="op">=</span> c <span class="op">*</span> A[q, :] <span class="op">+</span> s <span class="op">*</span> A[p, :]</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    A_new[p, p] <span class="op">=</span> c<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> A[p, p] <span class="op">+</span> s<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> A[q, q] <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> c <span class="op">*</span> s <span class="op">*</span> A[p, q]</span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    A_new[q, q] <span class="op">=</span> s<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> A[p, p] <span class="op">+</span> c<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> A[q, q] <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> c <span class="op">*</span> s <span class="op">*</span> A[p, q]</span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    A_new[p, q] <span class="op">=</span> <span class="fl">0.0</span>  <span class="co"># replace update formula with exact value</span></span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>    A_new[q, p] <span class="op">=</span> <span class="fl">0.0</span>  <span class="co"># replace update formula with exact value</span></span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>    V_new[:, p] <span class="op">=</span> c <span class="op">*</span> V[:, p] <span class="op">-</span> s <span class="op">*</span> V[:, q]</span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>    V_new[:, q] <span class="op">=</span> s <span class="op">*</span> V[:, p] <span class="op">+</span> c <span class="op">*</span> V[:, q]</span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> A_new, V_new</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="4b6fde6e" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> jacobi_rotation_with_V(A, V, p, q):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Computes one iteration of P_{pq}^T A P_{pq} and V P_{pq}</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Inputs: symmetric matrix A, matrix V, indices p, q</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Output: symmetric matrix A' with A'_{p, q} = 0 (and A'_{q, p} = 0), updated corresponding eigenvector matrix V</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># copy matrix to new holder</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    A_new <span class="op">=</span> A.copy()</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    V_new <span class="op">=</span> V.copy()</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># solve quadratic equation</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> (A[q, q] <span class="op">-</span> A[p, p]) <span class="op">/</span> A[p, q]</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    roots <span class="op">=</span> (<span class="op">-</span>b <span class="op">+</span> np.sqrt(b <span class="op">*</span> b <span class="op">+</span> <span class="dv">4</span>)) <span class="op">/</span> <span class="dv">2</span>, (<span class="op">-</span>b <span class="op">-</span> np.sqrt(b <span class="op">*</span> b <span class="op">+</span> <span class="dv">4</span>)) <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> <span class="bu">min</span>(roots, key<span class="op">=</span><span class="bu">abs</span>)  <span class="co"># take smallest in absolute value root</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># determine c, s</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> <span class="fl">1.0</span> <span class="op">/</span> np.sqrt(t <span class="op">*</span> t <span class="op">+</span> <span class="fl">1.0</span>)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> c <span class="op">*</span> t</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># do updates</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    A_new[:, p] <span class="op">=</span> c <span class="op">*</span> A[:, p] <span class="op">-</span> s <span class="op">*</span> A[:, q]</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    A_new[:, q] <span class="op">=</span> c <span class="op">*</span> A[:, q] <span class="op">+</span> s <span class="op">*</span> A[:, p]</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    A_new[p, :] <span class="op">=</span> c <span class="op">*</span> A[p, :] <span class="op">-</span> s <span class="op">*</span> A[q, :]</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    A_new[q, :] <span class="op">=</span> c <span class="op">*</span> A[q, :] <span class="op">+</span> s <span class="op">*</span> A[p, :]</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    A_new[p, p] <span class="op">=</span> c<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> A[p, p] <span class="op">+</span> s<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> A[q, q] <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> c <span class="op">*</span> s <span class="op">*</span> A[p, q]</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    A_new[q, q] <span class="op">=</span> s<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> A[p, p] <span class="op">+</span> c<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> A[q, q] <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> c <span class="op">*</span> s <span class="op">*</span> A[p, q]</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    A_new[p, q] <span class="op">=</span> <span class="fl">0.0</span>  <span class="co"># replace update formula with exact value</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    A_new[q, p] <span class="op">=</span> <span class="fl">0.0</span>  <span class="co"># replace update formula with exact value</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>    V_new[:, p] <span class="op">=</span> c <span class="op">*</span> V[:, p] <span class="op">-</span> s <span class="op">*</span> V[:, q]</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    V_new[:, q] <span class="op">=</span> s <span class="op">*</span> V[:, p] <span class="op">+</span> c <span class="op">*</span> V[:, q]</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> A_new, V_new</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s try it out!</p>
-<div id="7109cbab" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array(</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    [</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">-</span> np.sqrt(<span class="dv">2</span>)) <span class="op">/</span> <span class="dv">4</span>],</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">3</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">+</span> np.sqrt(<span class="dv">2</span>)) <span class="op">/</span> <span class="dv">4</span>],</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        [</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>            <span class="dv">3</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">-</span> np.sqrt(<span class="dv">2</span>)) <span class="op">/</span> <span class="dv">4</span>,</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>            <span class="dv">3</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">+</span> np.sqrt(<span class="dv">2</span>)) <span class="op">/</span> <span class="dv">4</span>,</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>            <span class="dv">2</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span>),</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        ],</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>np_eval, np_evec <span class="op">=</span> np.linalg.eig(A)</span>
+<div id="cf0c7670" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    [</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">-</span> np.sqrt(<span class="dv">2</span>)) <span class="op">/</span> <span class="dv">4</span>],</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">3</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">+</span> np.sqrt(<span class="dv">2</span>)) <span class="op">/</span> <span class="dv">4</span>],</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>        [</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>            <span class="dv">3</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">-</span> np.sqrt(<span class="dv">2</span>)) <span class="op">/</span> <span class="dv">4</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>            <span class="dv">3</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">+</span> np.sqrt(<span class="dv">2</span>)) <span class="op">/</span> <span class="dv">4</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>            <span class="dv">2</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span>),</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        ],</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>np_eval, np_evec <span class="op">=</span> np.linalg.eig(A)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>V <span class="op">=</span> np.eye(A.shape[<span class="dv">0</span>])</span>
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>V <span class="op">=</span> np.eye(A.shape[<span class="dv">0</span>])</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"initial matrices"</span>)</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(V)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"initial matrices"</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(V)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>A, V <span class="op">=</span> jacobi_rotation_with_V(A, V, <span class="dv">0</span>, <span class="dv">1</span>)</span>
 <span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>A, V <span class="op">=</span> jacobi_rotation_with_V(A, V, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"after one rotation (0, 1)"</span>)</span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(V)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"after one rotation (0, 1)"</span>)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(V)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>A, V <span class="op">=</span> jacobi_rotation_with_V(A, V, <span class="dv">1</span>, <span class="dv">2</span>)</span>
 <span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>A, V <span class="op">=</span> jacobi_rotation_with_V(A, V, <span class="dv">1</span>, <span class="dv">2</span>)</span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"after second rotation (1, 2)"</span>)</span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(V)</span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Our estimate of the eigenvalues is"</span>)</span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.diag(A))</span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Numpy's estimate of the eigenvalues is"</span>)</span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np_eval)</span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Our estimate of eigenvectors is"</span>)</span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(V)</span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Numpy's estimate of the eigenvalues is"</span>)</span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np_evec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"after second rotation (1, 2)"</span>)</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(V)</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Our estimate of the eigenvalues is"</span>)</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.diag(A))</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Numpy's estimate of the eigenvalues is"</span>)</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np_eval)</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Our estimate of eigenvectors is"</span>)</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(V)</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Numpy's estimate of the eigenvalues is"</span>)</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np_evec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>initial matrices
 [[1.         2.         0.57402515]
@@ -905,7 +898,7 @@ Numpy's estimate of the eigenvalues is
 </div>
 <p>Success! We have the same values (up to reordering).</p>
 <p>We can also apply the same code to the larger problem size:</p>
-<div id="45807bad" class="cell" data-execution_count="6">
+<div id="5c713b2b" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">10</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>tol <span class="op">=</span> <span class="fl">1.0e-12</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -924,12 +917,12 @@ Numpy's estimate of the eigenvalues is
 <span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co"># sweep over matrix several times</span></span>
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> sweep <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
 <span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i<span class="op">+</span><span class="dv">1</span>, n):</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i <span class="op">+</span> <span class="dv">1</span>, n):</span>
 <span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">abs</span>(A[i, j]) <span class="op">&lt;</span> tol:</span>
 <span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>                <span class="cf">continue</span></span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>            A, V <span class="op">=</span> jacobi_rotation_with_V(A, V, i, j)</span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    non_diag_nonzeros <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    non_diag_zeros <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
@@ -939,12 +932,12 @@ Numpy's estimate of the eigenvalues is
 <span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">abs</span>(A[i, j]) <span class="op">&lt;</span> tol:</span>
 <span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>                non_diag_zeros <span class="op">+=</span> <span class="dv">1</span></span>
 <span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>                non_diag_nonzeros <span class="op">+=</span><span class="dv">1</span></span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>                non_diag_nonzeros <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"end of sweep </span><span class="sc">{</span>sweep<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>non_diag_zeros<span class="op">=</span><span class="sc">}</span><span class="ss"> </span><span class="sc">{</span>non_diag_nonzeros<span class="op">=</span><span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> non_diag_nonzeros <span class="op">==</span> <span class="dv">0</span>:</span>
 <span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
-<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"our estimate of the eigenvalues is"</span>)</span>
 <span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.diag(A))</span>
 <span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Numpy's estimate of the eigenvalues is"</span>)</span>
@@ -1036,93 +1029,29 @@ Numpy's estimate of the eigenvalues is
 <p>A quick look at the cost of each rotation shows that the main cost is in updating all the entries. For a matrix of size <span class="math inline">\(n\)</span>, we must update <span class="math inline">\(4n-4\)</span> entries (two rows and two columns) in <span class="math inline">\(A\)</span> and <span class="math inline">\(2n\)</span> entries in (two rows) in <span class="math inline">\(V\)</span>. We say that each rotation costs <span class="math inline">\(O(n)\)</span>.</p>
 <p>One sweep corresponds to trying to eliminate all off diagonal entries (i.e.&nbsp;the strictly upper triangular portion of the matrix). So each sweep corresponds to <span class="math inline">\(n (n-1)/2\)</span> rotations or <span class="math inline">\((6n - 4) n (n-1) / 2\)</span>. So each sweep is <span class="math inline">\(O(n^3)\)</span>.</p>
 <p>The remaining question is how many sweeps are required? Let’s test this using our code.</p>
-<div id="7ce90aca" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>tol <span class="op">=</span> <span class="fl">1e-12</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>max_sweeps <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>n_values <span class="op">=</span> []</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>sweep_values <span class="op">=</span> []</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>times <span class="op">=</span> []</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">10</span>):</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    S <span class="op">=</span> special_ortho_group.rvs(n)</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    D <span class="op">=</span> np.diag(np.random.randint(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>, (n,)))</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> S.T <span class="op">@</span> D <span class="op">@</span> S</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    V <span class="op">=</span> np.eye(n)</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    start <span class="op">=</span> time.time()</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># sweep over matrix several times</span></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> sweep <span class="kw">in</span> <span class="bu">range</span>(max_sweeps):</span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i<span class="op">+</span><span class="dv">1</span>, n):</span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> <span class="bu">abs</span>(A[i, j]) <span class="op">&lt;</span> tol:</span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">continue</span></span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>                A, V <span class="op">=</span> jacobi_rotation_with_V(A, V, i, j)</span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>        non_diag_nonzeros <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>        non_diag_zeros <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n):</span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> i <span class="op">==</span> j:</span>
-<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">continue</span></span>
-<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> <span class="bu">abs</span>(A[i, j]) <span class="op">&lt;</span> tol:</span>
-<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>                    non_diag_zeros <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>:</span>
-<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>                    non_diag_nonzeros <span class="op">+=</span><span class="dv">1</span></span>
-<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> non_diag_nonzeros <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>            n_sweeps <span class="op">=</span> sweep <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
-<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>    end <span class="op">=</span> time.time()</span>
-<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>    n_values.append(n)</span>
-<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>    sweep_values.append(sweep)</span>
-<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>    times.append(end <span class="op">-</span> start)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="45a111d5" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> curve_fit</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>opt, cov <span class="op">=</span> curve_fit(<span class="kw">lambda</span> x, a: a<span class="op">*</span>np.sqrt(x), n_values, sweep_values, <span class="dv">1</span>)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>plt.semilogx(n_values, sweep_values)</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>plt.semilogx(n_values, opt[<span class="dv">0</span>]<span class="op">*</span>np.sqrt(n_values), label<span class="op">=</span><span class="st">"sqrt fit"</span>)</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"$n$"</span>)</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"no. of sweeps"</span>)</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="92f6296b" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="lec08_files/figure-html/cell-9-output-1.png" width="595" height="431" class="figure-img"></p>
+<p><img src="lec08_files/figure-html/cell-10-output-1.png" width="585" height="429" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="cef97fe6" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>opt, cov <span class="op">=</span> curve_fit(<span class="kw">lambda</span> x, a: a<span class="op">*</span>x<span class="op">**</span><span class="fl">3.5</span>, n_values, times, <span class="dv">1</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>plt.loglog(n_values, sweep_values)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>plt.loglog(n_values, opt[<span class="dv">0</span>]<span class="op">*</span>np.array(n_values)<span class="op">**</span><span class="fl">3.5</span>, label<span class="op">=</span><span class="st">"sqrt fit"</span>)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"$n$"</span>)</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"time"</span>)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This gives us an estimate that the number of sweeps is <span class="math inline">\(O(n^{1/2})\)</span>. So we would expect the time to run the algorithm to scale like <span class="math inline">\(n^{7/2}\)</span>. However, in practical situations, we see that the growth is closer to <span class="math inline">\(n^{5/2}\)</span>:</p>
+<div id="8b80b169" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="lec08_files/figure-html/cell-10-output-1.png" width="609" height="431" class="figure-img"></p>
+<p><img src="lec08_files/figure-html/cell-11-output-1.png" width="599" height="431" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
+</section>
+<section id="references" class="level2" data-number="8.6">
+<h2 data-number="8.6" class="anchored" data-anchor-id="references"><span class="header-section-number">8.6</span> References</h2>
+<p>Numerical recipes, chapter XX?</p>
 
 
 </section>
