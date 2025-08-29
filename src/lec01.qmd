@@ -1,7 +1,9 @@
 ---
-title: (Preliminary topic) Floating point number systems
+title: Floating point number systems
 jupyter: python3
 ---
+
+This topic will not be presented in lectures explicitly instead you will study the material yourself in Lab session 1.
 
 ## Finite precision number systems
 

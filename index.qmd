@@ -1,35 +1,42 @@
 ---
-title: Welcome to LA
+title: Welcome to Linear Algebra
 ---
 
 ## Contents of this submodule
 
-- floating point numbers
+This part of the module will deal with numerical algorithms that involve matrices. The study of this type of problem is called *linear algebra*. We will approach these problems using a mix of theoretical ideas thinking through the lens of practical solutions. This means that you will do some programming (usin gPython) and some pen and paper theoretical work too.
 
-  - rounding errors
-  - top tips for working with floating point numbers
-  
-- linear systems of equations
+### Topics
 
-    - motivation
-    - Gaussian-elimination
-    - practicalities
-    - iterative schemes
+We will have 7 double-lectures, 3/4 tutorials and 3/4 labs. We break up the topics as follows:
 
-- transforming matrices
+Lectures
 
-    - what is a basis? and what does it mean?
-    - eigenvectors and eigenvalues
-      - definitions
-      - small matrix solutions
-    - large matrix solutions
-    
-TODO add recap of matrices terminology - inverse, transpose, coefficients, size
+1. Introduction and motivation, key problem statements
+2. When can we solve systems of linear equations?
+3. Direct methods for systems of linear equations
+4. Iterative solution of linear equations
+5. Complex numbers
+6. Eigenvalues and eigenvectors
+7. Practical solutions for eigenvalues and eigenvectors / Summary
 
-## Motivations
+Labs
+
+1. Floating point numbers
+2. When can we solve systems of linear equations?
+3. Systems of linear equations
+4. Eigenvalues and eigenvectors
+
+Tutorials
+
+1. Direct methods for systems of linear equations
+2. Indirect methods for systems of linear equations
+3. Complex numbers
+4. Eigenvalues and eigenvectors
 
 ## Learning outcomes
 
 ## Programming
 
+## Motivations
 
