@@ -3,6 +3,18 @@ title: "Eigenvectors and eigenvalues: practical solutions"
 jupyter: python3
 ---
 
+```{python}
+# | echo: false
+import time
+
+import numpy as np
+from matplotlib import pyplot as plt
+from scipy.optimize import curve_fit
+from scipy.stats import special_ortho_group
+
+
+```
+
 In the previous lecture, we defined the eigenvalue problem for a matrix $A$: Finding numbers $\lambda$ (eigenvalues) and vectors $\vec{x}$ (eigenvectors) which satisfy the equation:
 \begin{equation}
 A \vec{x} = \lambda \vec{x}.
@@ -199,7 +211,6 @@ def jacobi_rotation(A, p, q):
 Let's try it out!
 
 ```{python}
-import numpy as np
 
 A = np.array(
     [
@@ -236,7 +247,6 @@ print(np_ev)
 Let's try again with a harder problem
 
 ```{python}
-from scipy.stats import special_ortho_group
 
 n = 10
 tol = 1.0e-12
@@ -255,12 +265,12 @@ np_ev, _ = np.linalg.eig(A)
 # sweep over matrix several times
 for sweep in range(10):
     for i in range(n):
-        for j in range(i+1, n):
+        for j in range(i + 1, n):
             if abs(A[i, j]) < tol:
                 continue
-                
+
             A = jacobi_rotation(A, i, j)
-            
+
     non_diag_nonzeros = 0
     non_diag_zeros = 0
     for i in range(n):
@@ -270,12 +280,12 @@ for sweep in range(10):
             if abs(A[i, j]) < tol:
                 non_diag_zeros += 1
             else:
-                non_diag_nonzeros +=1
-                
+                non_diag_nonzeros += 1
+
     print(f"end of sweep {sweep}: {non_diag_zeros=} {non_diag_nonzeros=}")
     if non_diag_nonzeros == 0:
         break
-        
+
 print("our estimate of the eigenvalues is")
 print(np.diag(A))
 print("Numpy's estimate of the eigenvalues is")
@@ -349,9 +359,9 @@ Continue this exercise with $P_{2, 3}$ to show
 
 ## Python code (again)
 
-We can try our methods on 
+We can try our methods on
 ```{python}
-import time
+
 
 def jacobi_rotation_with_V(A, V, p, q):
     """
@@ -384,7 +394,7 @@ def jacobi_rotation_with_V(A, V, p, q):
 
     A_new[p, q] = 0.0  # replace update formula with exact value
     A_new[q, p] = 0.0  # replace update formula with exact value
-    
+
     V_new[:, p] = c * V[:, p] - s * V[:, q]
     V_new[:, q] = s * V[:, p] + c * V[:, q]
 
@@ -396,8 +406,6 @@ def jacobi_rotation_with_V(A, V, p, q):
 Let's try it out!
 
 ```{python}
-import numpy as np
-
 A = np.array(
     [
         [1, 2, 3 * np.sqrt(2 - np.sqrt(2)) / 4],
@@ -463,12 +471,12 @@ np_eval, np_evec = np.linalg.eig(A)
 # sweep over matrix several times
 for sweep in range(10):
     for i in range(n):
-        for j in range(i+1, n):
+        for j in range(i + 1, n):
             if abs(A[i, j]) < tol:
                 continue
-                
+
             A, V = jacobi_rotation_with_V(A, V, i, j)
-            
+
     non_diag_nonzeros = 0
     non_diag_zeros = 0
     for i in range(n):
@@ -478,12 +486,12 @@ for sweep in range(10):
             if abs(A[i, j]) < tol:
                 non_diag_zeros += 1
             else:
-                non_diag_nonzeros +=1
-                
+                non_diag_nonzeros += 1
+
     print(f"end of sweep {sweep}: {non_diag_zeros=} {non_diag_nonzeros=}")
     if non_diag_nonzeros == 0:
         break
-        
+
 print("our estimate of the eigenvalues is")
 print(np.diag(A))
 print("Numpy's estimate of the eigenvalues is")
@@ -504,6 +512,8 @@ One sweep corresponds to trying to eliminate all off diagonal entries (i.e. the 
 The remaining question is how many sweeps are required? Let's test this using our code.
 
 ```{python}
+# | echo: false
+
 tol = 1e-12
 max_sweeps = 100
 
@@ -511,70 +521,119 @@ n_values = []
 sweep_values = []
 times = []
 
-for n in range(10, 100, 10):
-    S = special_ortho_group.rvs(n)
-    D = np.diag(np.random.randint(-5, 5, (n,)))
-    A = S.T @ D @ S
-    V = np.eye(n)
+for n in range(10, 100, 5):
+    times_holder_n = []
+    sweeps_holder_n = []
 
-    start = time.time()
-    
-    # sweep over matrix several times
-    for sweep in range(max_sweeps):
-        for i in range(n):
-            for j in range(i+1, n):
-                if abs(A[i, j]) < tol:
-                    continue
+    for _ in range(5):
+        S = special_ortho_group.rvs(n)
+        D = np.diag(np.random.randint(-5, 5, (n,)))
+        A = S.T @ D @ S
+        V = np.eye(n)
 
-                A, V = jacobi_rotation_with_V(A, V, i, j)
+        my_time = 0.0
 
-        non_diag_nonzeros = 0
-        non_diag_zeros = 0
-        for i in range(n):
-            for j in range(n):
-                if i == j:
-                    continue
-                if abs(A[i, j]) < tol:
-                    non_diag_zeros += 1
-                else:
-                    non_diag_nonzeros +=1
+        # sweep over matrix several times
+        for sweep in range(max_sweeps):
+            start = time.time()
+            for i in range(n):
+                for j in range(i + 1, n):
+                    if abs(A[i, j]) < tol:
+                        continue
 
-        if non_diag_nonzeros == 0:
-            n_sweeps = sweep + 1
-            break
+                    A, V = jacobi_rotation_with_V(A, V, i, j)
 
-    end = time.time()
-    
+            end = time.time()
+            my_time += end - start
+
+            non_diag_nonzeros = 0
+            non_diag_zeros = 0
+            for i in range(n):
+                for j in range(n):
+                    if i == j:
+                        continue
+                    if abs(A[i, j]) < tol:
+                        non_diag_zeros += 1
+                    else:
+                        non_diag_nonzeros += 1
+
+            if non_diag_nonzeros == 0:
+                n_sweeps = sweep + 1
+                break
+
+        times_holder_n.append(my_time)
+        sweeps_holder_n.append(n_sweeps)
+
     n_values.append(n)
-    sweep_values.append(sweep)
-    times.append(end - start)
+    sweep_values.append(np.average(sweeps_holder_n))
+    times.append(np.average(times_holder_n))
 ```
 
 ```{python}
-from matplotlib import pyplot as plt
+# | echo: false
 
-from scipy.optimize import curve_fit
-opt, cov = curve_fit(lambda x, a: a*np.sqrt(x), n_values, sweep_values, 1)
+n_values = np.array(n_values)
 
-plt.semilogx(n_values, sweep_values)
-plt.semilogx(n_values, opt[0]*np.sqrt(n_values), label="sqrt fit")
+
+def sweep_fit_func(n, *params):
+    a, b = params
+    return a * n**0.5 + b
+
+
+opt, cov = curve_fit(sweep_fit_func, n_values, sweep_values, (1, 0))
+
+plt.plot(n_values, sweep_values, "o", label="samples")
+if len(opt) == 1:
+    raise Exception(opt)
+plt.plot(
+    n_values,
+    sweep_fit_func(n_values, *opt),
+    label=f"fit  ({opt[0]:.2f} $n^{{1/2}}$ + {opt[1]:.2f})",
+)
 
 plt.xlabel("$n$")
 plt.ylabel("no. of sweeps")
+plt.legend()
 
 plt.grid(True)
 plt.show()
 ```
 
-```{python}
-opt, cov = curve_fit(lambda x, a: a*x**3.5, n_values, times, 1)
+This gives us an estimate that the number of sweeps is $O(n^{1/2})$.
+So we would expect the time to run the algorithm to scale like $n^{7/2}$.
+However, in practical situations, we see that the growth is closer to $n^{5/2}$:
 
-plt.loglog(n_values, sweep_values)
-plt.loglog(n_values, opt[0]*np.array(n_values)**3.5, label="sqrt fit")
+```{python}
+# | echo: false
+
+
+def time_fit_func(log_n, *params):
+    a, b = params
+    return a * log_n + b
+
+
+def time_fit_func_rescale(n, *params):
+    a, b = params
+    return np.exp(b) * n**a
+
+
+opt, cov = curve_fit(time_fit_func, np.log(n_values), np.log(times), p0=(1, 0))
+
+plt.loglog(n_values, times, "o", label="samples")
+plt.loglog(
+    n_values,
+    time_fit_func_rescale(n_values, *opt),
+    label=f"fit ($({np.exp(opt[1]):.2e}) n^{{{opt[0]:.2f}}})$",
+)
 
 plt.xlabel("$n$")
 plt.ylabel("time")
+plt.legend()
 
 plt.grid(True)
 plt.show()
 ```
+
+## References
+
+Numerical recipes, chapter XX?
