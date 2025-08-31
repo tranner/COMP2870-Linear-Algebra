@@ -896,4 +896,3 @@ Some software implementations:
 - [SuiteSparse](http://faculty.cse.tamu.edu/davis/suitesparse.html), a suite of sparse matrix algorithms, geared toward the direct solution of sparse linear systems
 - `scipy.sparse` iterative solvers: [Solving linear problems](https://docs.scipy.org/doc/scipy/reference/sparse.linalg.html#solving-linear-problems)
 - PETSc: [Linear system solvers](https://petsc.org/release/docs/manual/ksp/) - a high performance linear algebra toolkit
-
