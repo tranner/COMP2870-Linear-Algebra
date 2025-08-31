@@ -499,7 +499,7 @@ z = \frac{+2 \pm \sqrt{(-2)^2 - 4 \times 1 \times 2}}{2} = \frac{2 \pm \sqrt{-4}
 \end{align*}
 
 ::: {#exr-polynomial}
-Find the value of $z$ which satisfy $z^2 - 4z + 20$.
+Find the value of $z$ which satisfy $z^2 - 4z + 20 = 0$.
 :::
 :::
 

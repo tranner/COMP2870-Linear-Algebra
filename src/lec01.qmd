@@ -313,11 +313,7 @@ for i in range(5):
 
 Arithmetic operations are usually carried out as though infinite precision is available, after which the result is rounded to the nearest representable number.
 
-This means that arithmetic cannot be completely trusted\
-e.g. $x + y = ?$,
-
-and the usual rules don't necessarily apply\
-e.g. $x + (y+z) = (x+y) + z$?
+This means that arithmetic cannot be completely trusted and the usual rules don't necessarily apply!
 
 ::: {#exm-calculations}
 Consider the number system $(\beta, t, L, U) = (10, 2, -1, 2)$ and take
@@ -367,15 +363,16 @@ def f(x):
 
 x0 = np.double(1.0)
 
-print("Delta_x   Approx  Abs Error")
+print("Delta_x   Approx  Abs Error  Rel Error")
 
 for j in range(20):
     Delta_x = 10 ** (-j)
 
     deriv_approx = (f(x0 + Delta_x) - f(x0)) / Delta_x
     abs_error = abs(3.0 - deriv_approx)
+    rel_error = abs_error / 3.0
 
-    print(f" {Delta_x:.1e}   {deriv_approx:.4f}  {abs_error:.4e}")
+    print(f" {Delta_x:.1e}   {deriv_approx:.4f}  {abs_error:.4e}  {rel_error:.4e}")
 ```
 
 We see that if `Delta_x` is not too small, we do an okay job. But if `Delta_x` is too small we start to have problems!

@@ -228,7 +228,6 @@ So we can compute that if $A \vec{x} = \lambda \vec{x}$ then
 (A + 3 I) \vec{x} = \lambda \vec{x} + 3 \vec{x} = (\lambda + 3) \vec{x}.
 \end{equation*}
 So we see that $\vec{x}$ is also an eigenvector of $A$ and the associated eigenvector is $\lambda + 3$.
-This will turn out to be useful later!
 
 Although this procedure is robust to finding eigenvalues there are cases where we have to be a bit careful. We have seen one example above with a two-dimensional eigenspace associated with one eigenvector (@exm-projection). Here are two other cases we must be careful:
 
