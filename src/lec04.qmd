@@ -877,6 +877,7 @@ Gaussian elimination (GE) is unnecessarily expensive when it is applied to many 
 
 ```{python}
 # | echo: false
+
 sizes = [2**j for j in range(1, 10)]
 times_GE, times_BS = [], []
 
@@ -900,6 +901,8 @@ for n in sizes:
 
 ```{python}
 # | echo: false
+# | fig-cap: Runtime cost of applying Gaussian elimination (GE) and backwards solution (BS).
+
 plt.loglog(sizes, times_GE, "C0o", label="GE")
 plt.loglog(sizes, times_BS, "C1o", label="BS")
 
@@ -916,7 +919,10 @@ plt.loglog(sizes, BS_poly, "C1--", label="$O(n^2)$")
 
 plt.xlabel("$n$")
 plt.ylabel("time (s)")
+
 plt.legend()
+plt.grid(True)
+
 plt.show()
 
 
@@ -1057,7 +1063,7 @@ $$
 
 The second, third and fourth columns follow in a similar manner, giving all the entries in $L$ and $U$.
 
-::: {.remark}
+::: {#rem-how-to-LU}
 -   $L$ is assumed to have 1's on the diagonal, to ensure that the factorisation is unique.
 
 -   The process involves division by the diagonal entries $u_{11}, u_{22}$, etc., so they **must** be non-zero.
@@ -1310,6 +1316,8 @@ for n in sizes:
 
 ```{python}
 # | echo: false
+# | fig-cap: Runtime cost of applying Gaussian elimination (GE) and backwards solving (BS) equations as well as LU factorisation..
+
 plt.loglog(sizes, times_GE, "C0o", label="GE")
 plt.loglog(sizes, times_BS, "C1o", label="BS")
 plt.loglog(sizes, times_LU, "C2o", label="LU")

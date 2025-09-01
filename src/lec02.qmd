@@ -512,6 +512,7 @@ Consider three new vectors
 
 ```{python}
 # | echo: false
+# | fig-cap: Three example vectors in a plane.
 
 # Define the vectors
 a = np.array([2, 3])
