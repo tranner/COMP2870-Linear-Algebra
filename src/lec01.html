@@ -418,12 +418,6 @@ window.Quarto = {
   <li><a href="#finite-precision-number-systems" id="toc-finite-precision-number-systems" class="nav-link active" data-scroll-target="#finite-precision-number-systems"><span class="header-section-number">2.1</span> Finite precision number systems</a></li>
   <li><a href="#normalised-systems" id="toc-normalised-systems" class="nav-link" data-scroll-target="#normalised-systems"><span class="header-section-number">2.2</span> Normalised systems</a></li>
   <li><a href="#errors-and-machine-precision" id="toc-errors-and-machine-precision" class="nav-link" data-scroll-target="#errors-and-machine-precision"><span class="header-section-number">2.3</span> Errors and machine precision</a></li>
-  <li><a href="#other-features-of-finite-precision" id="toc-other-features-of-finite-precision" class="nav-link" data-scroll-target="#other-features-of-finite-precision"><span class="header-section-number">2.4</span> Other “Features” of finite precision</a></li>
-  <li><a href="#is-this-all-academic" id="toc-is-this-all-academic" class="nav-link" data-scroll-target="#is-this-all-academic"><span class="header-section-number">2.5</span> Is this all academic?</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">2.6</span> Summary</a>
-  <ul class="collapse">
-  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">2.6.1</span> Further reading</a></li>
-  </ul></li>
   </ul>
 </nav>
     </div>
@@ -469,10 +463,10 @@ window.Quarto = {
 <p>Computers store numbers with <strong>finite precision</strong>, i.e.&nbsp;using a finite set of bits (binary digits), typically 32 or 64 of them. You met how to store numbers as floating point numbers last year in the module COMP18XX??.</p>
 <p>You will recall that many numbers cannot be stored exactly.</p>
 <ul>
-<li>Some numbers cannot be represented precisely using <strong>any</strong> finite set of digits:<br>
-e.g.&nbsp;<span class="math inline">\(\sqrt{2} = 1.141 42\ldots\)</span>, <span class="math inline">\(\pi = 3.141 59\ldots\)</span>, etc.</li>
+<li>Some numbers cannot be represented precisely using <strong>any</strong> finite set of digits:&nbsp;e.g.&nbsp;<span class="math inline">\(\sqrt{2} = 1.141 42\ldots\)</span>, <span class="math inline">\(\pi = 3.141 59\ldots\)</span>, etc.</li>
 <li>Some cannot be represented precisely in a given number base:<br>
-e.g.&nbsp;<span class="math inline">\(\frac{1}{9} = 0.111\ldots\)</span> (decimal), <span class="math inline">\(\frac{1}{5} = 0.0011 0011 \ldots\)</span> (binary).</li>
+e.g.&nbsp;<span class="math inline">\(\frac{1}{9} = 0.111\ldots\)</span> (decimal), <span class="math inline">\(\frac{1}{5} = 0.0011 0011
+  \ldots\)</span> (binary).</li>
 <li>Others can be represented by a finite number of digits but only using more than are available: e.g.&nbsp;<span class="math inline">\(1.526 374 856 437\)</span> cannot be stored exactly using 10 decimal digits.</li>
 </ul>
 <p>The inaccuracies inherent in finite precision arithmetic must be modelled in order to understand:</p>
@@ -499,30 +493,25 @@ x = \pm 0.b_1 b_2 b_3 \ldots b_{t-1} b_t \times \beta^e.
 </ul>
 <p><span class="math inline">\((\beta, t, L, U)\)</span> fully defines a finite precision number system.</p>
 <p><strong>Normalised</strong> finite precision systems will be considered here for which</p>
-<p><span class="math display">\[
-b_1 \neq 0 \quad (0 &lt; b_1 \le \beta -1).
-\]</span></p>
+<p><span class="math display">\[ b_1 \neq 0 \quad (0 &lt; b_1 \le \beta -1). \]</span></p>
 <div id="exm-normalised-sytems" class="theorem example">
 <p><span class="theorem-title"><strong>Example 2.1</strong></span> &nbsp;</p>
 <ol type="1">
-<li>In the case <span class="math inline">\((\beta, t, L, U) = (10, 4, -49, 50)\)</span> (base 10), <span class="math display">\[
-10 000 = .1000 \times 10^5, \quad
-22.64 = .2264 \times 10^2, \quad
-0.000 056 7 = .5670 \times 10^{-4}
-\]</span></li>
-<li>In the case <span class="math inline">\((\beta, t, L, U) = (2, 6, -7, 8)\)</span> (binary), <span class="math display">\[
-1 0000 = .1000 00 \times 2^5, \quad
-1011.11 = .1011 11 \times 2^4,\]</span> <span class="math display">\[
-0.0000 11 = .1100 00 \times 2^{-4}.
-\]</span></li>
-<li><strong>Zero</strong> is always taken to be a special case e.g., <span class="math inline">\(0 = \pm .00\ldots 0 \times \beta^0\)</span>.</li>
+<li>In the case <span class="math inline">\((\beta, t, L, U) = (10, 4, -49, 50)\)</span> (base 10), <span class="math display">\[ 10 000 =
+.1000 \times 10^5, \quad 22.64 = .2264 \times 10^2, \quad 0.000 056 7 =
+.5670 \times 10^{-4} \]</span></li>
+<li>In the case <span class="math inline">\((\beta, t, L, U) = (2, 6, -7, 8)\)</span> (binary), <span class="math display">\[ 1 0000 = .1000 00
+\times 2^5, \quad 1011.11 = .1011 11 \times 2^4,\]</span> <span class="math display">\[ 0.0000 11 = .1100 00
+\times 2^{-4}. \]</span></li>
+<li><strong>Zero</strong> is always taken to be a special case e.g., <span class="math inline">\(0 = \pm .00\ldots 0
+\times \beta^0\)</span>.</li>
 </ol>
 <p>Our familiar floating point numbers can be representing using this format too:</p>
 <ol type="1">
 <li><p>The <a href="https://en.wikipedia.org/wiki/IEEE_754">IEEE single precision standard</a> is <span class="math inline">\((\beta, t, L, U) = (2, 23, -127, 128)\)</span>. This is available via <code>numpy.single</code>.</p></li>
 <li><p>The <a href="https://en.wikipedia.org/wiki/IEEE_754">IEEE double precision standard</a> is <span class="math inline">\((\beta, t, L, U) = (2, 52, -1023, 1024)\)</span>. This is available via <code>numpy.double</code>.</p></li>
 </ol>
-<div id="32eed32e" class="cell" data-execution_count="2">
+<div id="6477f9aa" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> np.double(<span class="fl">1.1</span>)</span>
@@ -539,10 +528,9 @@ b_1 \neq 0 \quad (0 &lt; b_1 \le \beta -1).
 </div>
 </div>
 <div id="exm-number-system" class="theorem example">
-<p><span class="theorem-title"><strong>Example 2.2</strong></span> Consider the number system given by <span class="math inline">\((\beta, t, L, U) = (10, 2, -1, 2)\)</span> which gives</p>
-<p><span class="math display">\[
-x = \pm .b_1 b_2 \times 10^e \text{ where } -1 \le e \le 2.
-\]</span></p>
+<p><span class="theorem-title"><strong>Example 2.2</strong></span> Consider the number system given by <span class="math inline">\((\beta, t, L, U) =
+(10, 2, -1, 2)\)</span> which gives</p>
+<p><span class="math display">\[ x = \pm .b_1 b_2 \times 10^e \text{ where } -1 \le e \le 2. \]</span></p>
 <blockquote class="blockquote">
 <ol type="a">
 <li>How many numbers can be represented by this normalised system?</li>
@@ -554,41 +542,33 @@ x = \pm .b_1 b_2 \times 10^e \text{ where } -1 \le e \le 2.
 <li><span class="math inline">\(b_2\)</span> can take on the values <span class="math inline">\(0\)</span> to <span class="math inline">\(9\)</span> (10 options)</li>
 <li><span class="math inline">\(e\)</span> can take on the values <span class="math inline">\(-1, 0, 1, 2\)</span> (4 options)</li>
 </ul>
-<p>Overall this gives us: <span class="math display">\[
-2 \times 9 \times 10 \times 4 \text{ options } = 720 \text{ options}.
-\]</span></p>
+<p>Overall this gives us: <span class="math display">\[ 2 \times 9 \times 10 \times 4 \text{ options } = 720
+\text{ options}. \]</span></p>
 <blockquote class="blockquote">
 <ol start="2" type="a">
 <li>What are the two largest positive numbers in this system?</li>
 </ol>
 </blockquote>
-<p>The largest value uses <span class="math inline">\(+\)</span> as a sign, <span class="math inline">\(b_1 = 9\)</span>, <span class="math inline">\(b_2 = 9\)</span> and <span class="math inline">\(e = 2\)</span> which gives <span class="math display">\[
-+ 0.99 \times 10^{2} = 99.
-\]</span></p>
-<p>The second largest value uses <span class="math inline">\(+\)</span> as a sign, <span class="math inline">\(b_1 = 9\)</span>, <span class="math inline">\(b_2 = 8\)</span> and <span class="math inline">\(e = 2\)</span> which gives <span class="math display">\[
-+ 0.98 \times 10^{2} = 98.
-\]</span></p>
+<p>The largest value uses <span class="math inline">\(+\)</span> as a sign, <span class="math inline">\(b_1 = 9\)</span>, <span class="math inline">\(b_2 = 9\)</span> and <span class="math inline">\(e = 2\)</span> which gives <span class="math display">\[+ 0.99 \times 10^{2} = 99. \]</span></p>
+<p>The second largest value uses <span class="math inline">\(+\)</span> as a sign, <span class="math inline">\(b_1 = 9\)</span>, <span class="math inline">\(b_2 = 8\)</span> and <span class="math inline">\(e = 2\)</span> which gives <span class="math display">\[+ 0.98 \times 10^{2} = 98. \]</span></p>
 <blockquote class="blockquote">
 <ol start="3" type="a">
 <li>What are the two smallest positive numbers?</li>
 </ol>
 </blockquote>
-<p>The smallest positive number has <span class="math inline">\(+\)</span> sign, <span class="math inline">\(b_1 = 1\)</span>, <span class="math inline">\(b_2 =0\)</span> and <span class="math inline">\(e=-1\)</span> which gives <span class="math display">\[
-+ 0.10 \times 10^{-1} = 0.01.
-\]</span></p>
-<p>The second smallest positive number has <span class="math inline">\(+\)</span> sign, <span class="math inline">\(b_1 = 1\)</span>, <span class="math inline">\(b_2 = 1\)</span> and <span class="math inline">\(e = -1\)</span> which gives <span class="math display">\[
-+ 0.11 \times 10^{-1} = 0.011.
-\]</span></p>
+<p>The smallest positive number has <span class="math inline">\(+\)</span> sign, <span class="math inline">\(b_1 = 1\)</span>, <span class="math inline">\(b_2 =0\)</span> and <span class="math inline">\(e=-1\)</span> which gives <span class="math display">\[+ 0.10 \times 10^{-1} = 0.01. \]</span></p>
+<p>The second smallest positive number has <span class="math inline">\(+\)</span> sign, <span class="math inline">\(b_1 = 1\)</span>, <span class="math inline">\(b_2 = 1\)</span> and <span class="math inline">\(e =
+-1\)</span> which gives <span class="math display">\[+ 0.11 \times 10^{-1} = 0.011. \]</span></p>
 <blockquote class="blockquote">
 <ol start="4" type="a">
 <li>What is the smallest possible difference between two numbers in this system?</li>
 </ol>
 </blockquote>
-<p>The smallest different will be between numbers of the form <span class="math inline">\(+0.10 \ times 10^{-1}\)</span> and <span class="math inline">\(+0.11 \times 10^{-1}\)</span> which gives <span class="math display">\[
-0.11 \times 10^{-1} - 0.10 \times 10^{-1} = 0.011 - 0.010 = 0.001.
-\]</span></p>
+<p>The smallest different will be between numbers of the form <span class="math inline">\(+0.10 \ times
+10^{-1}\)</span> and <span class="math inline">\(+0.11 \times 10^{-1}\)</span> which gives <span class="math display">\[ 0.11 \times 10^{-1} - 0.10
+\times 10^{-1} = 0.011 - 0.010 = 0.001. \]</span></p>
 <p>Alternatively, we can brute force search for this:</p>
-<div id="930ef102" class="cell" data-execution_count="3">
+<div id="2eb6a1db" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-stdout">
 <pre><code>The minimum difference min_diff=0.0010
 at x=+0.57 x 10^{-1} y=+0.58 x 10^{-1}.</code></pre>
@@ -596,10 +576,9 @@ at x=+0.57 x 10^{-1} y=+0.58 x 10^{-1}.</code></pre>
 </div>
 </div>
 <div id="exr-number-system" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 2.1</strong></span> Consider the number system given by <span class="math inline">\((\beta, t, L, U) = (10, 3, -3, 3)\)</span> which gives</p>
-<p><span class="math display">\[
-x = \pm .b_1 b_2 b_3 \times 10^e \text{ where } -3 \le e \le 3.
-\]</span></p>
+<p><span class="theorem-title"><strong>Exercise 2.1</strong></span> Consider the number system given by <span class="math inline">\((\beta, t, L, U) =
+(10, 3, -3, 3)\)</span> which gives</p>
+<p><span class="math display">\[ x = \pm .b_1 b_2 b_3 \times 10^e \text{ where } -3 \le e \le 3. \]</span></p>
 <ol type="a">
 <li><p>How many numbers can be represented by this normalised system?</p></li>
 <li><p>What are the two largest positive numbers in this system?</p></li>
@@ -610,7 +589,7 @@ x = \pm .b_1 b_2 b_3 \times 10^e \text{ where } -3 \le e \le 3.
 </div>
 <div id="exm-python" class="theorem example">
 <p><span class="theorem-title"><strong>Example 2.3 (What about in python)</strong></span> We find that even with double-precision floating point numbers, we see sum funniness when working with decimals:</p>
-<div id="5aa3d8c3" class="cell" data-execution_count="4">
+<div id="39e8a153" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> np.double(<span class="fl">0.0</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># add 0.1 ten times to get 1?</span></span>
@@ -637,7 +616,7 @@ Is a = 1? False</code></pre>
 <p>Why is this output not a surprise?</p>
 </blockquote>
 <p>We also see that even adding up numbers can have different results depending on what order we add them:</p>
-<div id="e8780991" class="cell" data-execution_count="5">
+<div id="2526eba7" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.double(<span class="fl">1e30</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.double(<span class="op">-</span><span class="fl">1e30</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> np.double(<span class="fl">1.0</span>)</span>
@@ -647,7 +626,7 @@ Is a = 1? False</code></pre>
 <pre><code>(x + y) + z=1.0000000000000000</code></pre>
 </div>
 </div>
-<div id="6ab201b7" class="cell" data-execution_count="6">
+<div id="5ca9ead6" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>x <span class="op">+</span> (y <span class="op">+</span> z)<span class="op">=</span><span class="sc">:.16f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>x + (y + z)=0.0000000000000000</code></pre>
@@ -658,36 +637,26 @@ Is a = 1? False</code></pre>
 <section id="errors-and-machine-precision" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="errors-and-machine-precision"><span class="header-section-number">2.3</span> Errors and machine precision</h2>
 <p>From now on <span class="math inline">\(fl(x)\)</span> will be used to represent the (approximate) stored value of <span class="math inline">\(x\)</span>. The error in this representation can be expressed in two ways.</p>
-<p><span class="math display">\[
-\begin{aligned}
-\text{Absolute error} &amp;= | fl(x) - x | \\
-\text{Relative error} &amp;= \frac{| fl(x) - x |}{|x|}.
-\end{aligned}
-\]</span></p>
+<p><span class="math display">\[ \begin{aligned} \text{Absolute error} &amp;= | fl(x) - x | \\ \text{Relative
+error} &amp;= \frac{| fl(x) - x |}{|x|}. \end{aligned} \]</span></p>
 <p>The number <span class="math inline">\(fl(x)\)</span> is said to approximate <span class="math inline">\(x\)</span> to <span class="math inline">\(t\)</span> <strong>significant digits</strong> (or figures) if <span class="math inline">\(t\)</span> is the largest non-negative integer for which</p>
-<p><span class="math display">\[
-\text{Relative error} &lt; 0.5 \times \beta^{1-t}.
-\]</span></p>
+<p><span class="math display">\[ \text{Relative error} &lt; 0.5 \times \beta^{1-t}. \]</span></p>
 <p>It can be proved that if the relative error is equal to <span class="math inline">\(\beta^{-d}\)</span> then <span class="math inline">\(fl(x)\)</span> has <span class="math inline">\(d\)</span> correct significant digits.</p>
 <p>In the number system given by <span class="math inline">\((\beta, t, L, U)\)</span>, the nearest (larger) representable number to <span class="math inline">\(x = 0.b_1 b_2 b_3 \ldots b_{t-1} b_t \times \beta^e\)</span> is</p>
-<p><span class="math display">\[
-\tilde{x} = x + .\underbrace{000\ldots01}_{t \text{ digits}} \times \beta^e = x + \beta^{e-t}
-\]</span></p>
+<p><span class="math display">\[ \tilde{x} = x + .\underbrace{000\ldots01}_{t \text{ digits}} \times \beta^e =
+x + \beta^{e-t} \]</span></p>
 <p>Any number <span class="math inline">\(y \in (x, \tilde{x})\)</span> is stored as either <span class="math inline">\(x\)</span> or <span class="math inline">\(\tilde{x}\)</span> by <strong>rounding</strong> to the nearest representable number, so</p>
 <ul>
 <li>the largest possible error is <span class="math inline">\(\frac{1}{2} \beta^{e-t}\)</span>,</li>
 <li>which means that <span class="math inline">\(| y - fl(y) | \le \frac{1}{2} \beta^{e-t}\)</span>.</li>
 </ul>
 <p>It follow from <span class="math inline">\(y &gt; x \ge .100 \ldots 00 \times \beta^e = \beta^{e-1}\)</span> that</p>
-<p><span class="math display">\[
-\frac{|y - fl(y)|}{|y|} &lt; \frac{1}{2} \frac{\beta^{e-t}}{\beta^{e-1}} = \frac{1}{2} \beta^{1-t},
-\]</span></p>
+<p><span class="math display">\[ \frac{|y - fl(y)|}{|y|} &lt; \frac{1}{2} \frac{\beta^{e-t}}{\beta^{e-1}} =
+\frac{1}{2} \beta^{1-t}, \]</span></p>
 <p>and this provides a bound on the <strong>relative error</strong>: for any <span class="math inline">\(y\)</span></p>
-<p><span class="math display">\[
-\frac{|y - fl(y)|}{|y|} &lt; \frac{1}{2} \beta^{1-t}.
-\]</span></p>
+<p><span class="math display">\[ \frac{|y - fl(y)|}{|y|} &lt; \frac{1}{2} \beta^{1-t}. \]</span></p>
 <p>The last term is known as <strong>machine precision</strong> or <strong>unit roundoff</strong> and is often called <span class="math inline">\(eps\)</span>. This is obtained in Python with</p>
-<div id="db61e365" class="cell" data-execution_count="7">
+<div id="b6bd8a1c" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>np.finfo(np.double).eps</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>np.float64(2.220446049250313e-16)</code></pre>
@@ -697,20 +666,14 @@ Is a = 1? False</code></pre>
 <p><span class="theorem-title"><strong>Example 2.4</strong></span> &nbsp;</p>
 <ol type="1">
 <li><p>The number system <span class="math inline">\((\beta, t, L, U) = (10, 2, -1, 2)\)</span> gives</p>
-<p><span class="math display">\[
-eps = \frac{1}{2} \beta^{1-t} = \frac{1}{2} 10^{1-2} = 0.05.
-\]</span></p></li>
+<p><span class="math display">\[ eps = \frac{1}{2} \beta^{1-t} = \frac{1}{2} 10^{1-2} = 0.05. \]</span></p></li>
 <li><p>The number system <span class="math inline">\((\beta, t, L, U) = (10, 3, -3, 3)\)</span> gives</p>
-<p><span class="math display">\[
-eps = \frac{1}{2} \beta^{1-t} = \frac{1}{2} 10^{1-3} = 0.005.
-\]</span></p></li>
+<p><span class="math display">\[ eps = \frac{1}{2} \beta^{1-t} = \frac{1}{2} 10^{1-3} = 0.005. \]</span></p></li>
 <li><p>The number system <span class="math inline">\((\beta, t, L, U) = (10, 7, 2, 10)\)</span> gives</p>
-<p><span class="math display">\[
-eps = \frac{1}{2} \beta^{1-t} = \frac{1}{2} 10^{1-7} = 0.000005.
-\]</span></p></li>
+<p><span class="math display">\[ eps = \frac{1}{2} \beta^{1-t} = \frac{1}{2} 10^{1-7} = 0.000005. \]</span></p></li>
 <li><p>For some common types in python, we see the following values:</p></li>
 </ol>
-<div id="050006ed" class="cell" data-execution_count="8">
+<div id="ad9ba5df" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> dtype <span class="kw">in</span> [np.half, np.single, np.double]:</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(dtype.<span class="va">__name__</span>, np.finfo(dtype).eps)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -722,7 +685,7 @@ float64 2.220446049250313e-16</code></pre>
 </div>
 <div id="rmk-eps">
 <p>Machine precision epsilon (<span class="math inline">\(eps\)</span>) gives us an upper bound for the error in the representation of a floating point number in a particular system. We note that this is different to the smallest possible numbers that we are able to store!</p>
-<div id="df2d7777" class="cell" data-execution_count="9">
+<div id="6c194555" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>eps <span class="op">=</span> np.finfo(np.double).eps</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>eps<span class="op">=</span><span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -743,35 +706,25 @@ smaller=np.float64(2.2204460492503133e-21)</code></pre>
 <p>Arithmetic operations are usually carried out as though infinite precision is available, after which the result is rounded to the nearest representable number.</p>
 <p>This means that arithmetic cannot be completely trusted and the usual rules don’t necessarily apply!</p>
 <div id="exm-calculations" class="theorem example">
-<p><span class="theorem-title"><strong>Example 2.5</strong></span> Consider the number system <span class="math inline">\((\beta, t, L, U) = (10, 2, -1, 2)\)</span> and take</p>
-<p><span class="math display">\[
-x = .10 \times 10^2, \quad
-y = .49 \times 10^0, \quad
-z = .51 \times 10^0.
-\]</span></p>
+<p><span class="theorem-title"><strong>Example 2.5</strong></span> Consider the number system <span class="math inline">\((\beta, t, L, U) = (10, 2,
+-1, 2)\)</span> and take</p>
+<p><span class="math display">\[ x = .10 \times 10^2, \quad y = .49 \times 10^0, \quad z = .51 \times 10^0. \]</span></p>
 <ul>
-<li><p>In exact arithmetic <span class="math inline">\(x + y = 10 + 0.49 = 10.49\)</span> and <span class="math inline">\(x + z = 10 + 0.51 = 10.51\)</span>.</p></li>
+<li><p>In exact arithmetic <span class="math inline">\(x + y = 10 + 0.49 = 10.49\)</span> and <span class="math inline">\(x + z = 10 + 0.51 =
+10.51\)</span>.</p></li>
 <li><p>In this number system rounding gives</p>
-<p><span class="math display">\[
-fl(x+y) = .10 \times 10^2 = x, \qquad
-fl(x+z) = .11 \times 10^2 \neq x.
-\]</span></p></li>
+<p><span class="math display">\[ fl(x+y) = .10 \times 10^2 = x, \qquad fl(x+z) = .11 \times 10^2 \neq x.
+  \]</span></p></li>
 </ul>
 <p>(Note that <span class="math inline">\(\frac{y}{x} &lt; eps\)</span> but <span class="math inline">\(\frac{z}{x} &gt; eps\)</span>.)</p>
 <p>Evaluate the following expression in this number system.</p>
-<p><span class="math display">\[
-x+(y+y), \quad
-(x+y)+y, \quad
-x+(z+z), \quad
-(x+z) +z.
-\]</span></p>
+<p><span class="math display">\[ x+(y+y), \quad (x+y)+y, \quad x+(z+z), \quad (x+z) +z. \]</span></p>
 <p>(Also note the benefits of adding the <em>smallest</em> terms first!)</p>
 </div>
 <div id="exm-derivatives" class="theorem example">
-<p><span class="theorem-title"><strong>Example 2.6 (Computing derivatives with floating point numbers)</strong></span> Suppose we want to compute the derivative of <span class="math inline">\(f(x) = x^3\)</span> at <span class="math inline">\(x = 1\)</span> using the definition of limits and floating point numbers: <span class="math display">\[
-f'(x) = \lim_{\Delta x \to 0} \frac{f(x + \Delta x) - f(x)}{\Delta x}.
-\]</span> We know that <span class="math inline">\(f'(x) = 3 x^2\)</span> so <span class="math inline">\(f'(1) = 3\)</span>. We hope that using floating point numbers gives something similar:</p>
-<div id="0185ae6d" class="cell" data-execution_count="10">
+<p><span class="theorem-title"><strong>Example 2.6 (Computing derivatives with floating point numbers)</strong></span> Suppose we want to compute the derivative of <span class="math inline">\(f(x) = x^3\)</span> at <span class="math inline">\(x = 1\)</span> using the definition of limits and floating point numbers: <span class="math display">\[ f'(x) = \lim_{\Delta x \to
+0} \frac{f(x + \Delta x) - f(x)}{\Delta x}. \]</span> We know that <span class="math inline">\(f'(x) = 3 x^2\)</span> so <span class="math inline">\(f'(1) = 3\)</span>. We hope that using floating point numbers gives something similar:</p>
+<div id="291619a7" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x<span class="op">**</span><span class="dv">3</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -787,7 +740,9 @@ f'(x) = \lim_{\Delta x \to 0} \frac{f(x + \Delta x) - f(x)}{\Delta x}.
 <span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    abs_error <span class="op">=</span> <span class="bu">abs</span>(<span class="fl">3.0</span> <span class="op">-</span> deriv_approx)</span>
 <span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    rel_error <span class="op">=</span> abs_error <span class="op">/</span> <span class="fl">3.0</span></span>
 <span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f" </span><span class="sc">{</span>Delta_x<span class="sc">:.1e}</span><span class="ss">   </span><span class="sc">{</span>deriv_approx<span class="sc">:.4f}</span><span class="ss">  </span><span class="sc">{</span>abs_error<span class="sc">:.4e}</span><span class="ss">  </span><span class="sc">{</span>rel_error<span class="sc">:.4e}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f" </span><span class="sc">{</span>Delta_x<span class="sc">:.1e}</span><span class="ss">   </span><span class="sc">{</span>deriv_approx<span class="sc">:.4f}</span><span class="ss">  </span><span class="sc">{</span>abs_error<span class="sc">:.4e}</span><span class="ss">  </span><span class="sc">{</span>rel_error<span class="sc">:.4e}</span><span class="ss">"</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Delta_x   Approx  Abs Error  Rel Error
  1.0e+00   7.0000  4.0000e+00  1.3333e+00
@@ -812,36 +767,32 @@ f'(x) = \lim_{\Delta x \to 0} \frac{f(x + \Delta x) - f(x)}{\Delta x}.
  1.0e-19   0.0000  3.0000e+00  1.0000e+00</code></pre>
 </div>
 </div>
-<p>We see that if <code>Delta_x</code> is not too small, we do an okay job. But if <code>Delta_x</code> is too small we start to have problems!</p>
-</div>
+<p>We see that if <code>Delta_x</code> is not too small, we do an okay job. But if <code>Delta_x</code> is too small we start to have problems! :::</p>
 <div id="exr-calculations" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 2.2 (More examples)</strong></span> &nbsp;</p>
 <ol type="1">
 <li><p>Verify that a similar problem arises for the numbers</p>
-<p><span class="math display">\[
-x = .85 \times 10^0, \quad
-y = .3 \times 10^{-2}, \quad
-z = .6 \times 10^{-2},
-\]</span></p>
-<p>in the system <span class="math inline">\((\beta, t, L, U) = (10, 2, -3, 3)\)</span>.</p></li>
-<li><p>Given the number system <span class="math inline">\((\beta, t, L, U) = (10, 3, -3, 3)\)</span> and <span class="math inline">\(x = .100\times 10^3\)</span>, find nonzero numbers <span class="math inline">\(y\)</span> and <span class="math inline">\(z\)</span> from this system for which <span class="math inline">\(fl(x+y) = x\)</span> and <span class="math inline">\(fl(x+z) &gt; x\)</span>.</p></li>
+<p><span class="math display">\[ x = .85 \times 10^0, \quad y = .3 \times 10^{-2}, \quad z = .6 \times
+  10^{-2}, \]</span></p></li>
 </ol>
-</div>
+<p>in the system <span class="math inline">\((\beta, t, L, U) = (10, 2, -3, 3)\)</span>.</p>
+<ol start="2" type="1">
+<li>Given the number system <span class="math inline">\((\beta, t, L, U) = (10, 3, -3, 3)\)</span> and <span class="math inline">\(x =
+.100\times 10^3\)</span>, find nonzero numbers <span class="math inline">\(y\)</span> and <span class="math inline">\(z\)</span> from this system for which <span class="math inline">\(fl(x+y) = x\)</span> and <span class="math inline">\(fl(x+z) &gt; x\)</span>. :::</li>
+</ol>
 <p>It is sometimes helpful to think of another machine precision epsilon in other way: <strong>Machine precision epsilon</strong> is the smallest positive number <span class="math inline">\(eps\)</span> such that <span class="math inline">\(1 + eps &gt; 1\)</span>, i.e.&nbsp;it is half the difference between <span class="math inline">\(1\)</span> and the next largest representable number.</p>
 <p>Examples:</p>
 <ol type="1">
 <li><p>For the number system <span class="math inline">\((\beta, t, L, U) = (10, 2, -1, 2)\)</span>,</p>
-<p><span class="math display">\[
-\begin{array}{ccl}
-    &amp; .11 \times 10^1 &amp; \qquad \leftarrow {\text{next number}} \\
-  - &amp; .10 \times 10^1 &amp; \qquad \leftarrow 1   \\ \hline
-    &amp; .01 \times 10^1 &amp; \qquad \leftarrow 0.1
-\end{array}
-\]</span></p>
-<p>so <span class="math inline">\(eps = \frac{1}{2}(0.1) = 0.05\)</span>.</p></li>
-<li><p>Verify that this approaches gives the previously calculated value for <span class="math inline">\(eps\)</span> in the number system given by <span class="math inline">\((\beta, t, L, U) = (10, 3, -3, 3)\)</span>.</p></li>
+<p><span class="math display">\[ \begin{array}{ccl} &amp; .11 \times 10^1 &amp; \qquad \leftarrow {\text{next
+  number}} \\
+   - &amp; .10 \times 10^1 &amp; \qquad \leftarrow 1 \\ \hline &amp; .01 \times 10^1 &amp;
+     \qquad \leftarrow 0.1 \end{array} \]</span></p></li>
 </ol>
-</section>
+<p>so <span class="math inline">\(eps = \frac{1}{2}(0.1) = 0.05\)</span>.</p>
+<ol start="2" type="1">
+<li>Verify that this approaches gives the previously calculated value for <span class="math inline">\(eps\)</span> in the number system given by <span class="math inline">\((\beta, t, L, U) = (10, 3, -3, 3)\)</span>.</li>
+</ol>
 <section id="other-features-of-finite-precision" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="other-features-of-finite-precision"><span class="header-section-number">2.4</span> Other “Features” of finite precision</h2>
 <p>When working with floating point numbers there are other things we need to worry about too!</p>
@@ -896,6 +847,9 @@ gives <span class="math inline">\(0.0\)</span> with no warning
 
 
 </section>
+</section>
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->

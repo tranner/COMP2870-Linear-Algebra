@@ -437,23 +437,12 @@ window.Quarto = {
 </div>
 <div id="exm-matrix" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.1</strong></span> <span class="math inline">\(A\)</span> is a <span class="math inline">\(4 \times 4\)</span> matrix and <span class="math inline">\(B\)</span> is a <span class="math inline">\(3 \times 4\)</span> matrix: <span class="math display">\[\begin{align*}
-    A = \begin{pmatrix}
-    10 &amp; 1 &amp; 0 &amp; 9 \\
-    12.4 &amp; 6 &amp; 1 &amp; 0 \\
-    1 &amp; 3.14 &amp; 1 &amp; 0
-    \end{pmatrix}
-    \quad
-    B = \begin{pmatrix}
-    0 &amp; 6 &amp; 3 &amp; 1 \\
-    1 &amp; 4 &amp; 1 &amp; 0 \\
-    7 &amp; 0 &amp; 10 &amp; 20
-    \end{pmatrix}
-    \quad
-    C = \begin{pmatrix}
-    4 &amp; 1 &amp; 8 &amp; -1 \\
-    1.5 &amp; 1 &amp; 3 &amp; 4 \\
-    6 &amp; -4 &amp; 2 &amp; 8
-    \end{pmatrix}
+A = \begin{pmatrix} 10 &amp; 1 &amp; 0 &amp; 9 \\ 12.4 &amp; 6 &amp; 1 &amp; 0 \\ 1 &amp;
+3.14 &amp; 1 &amp; 0 \end{pmatrix}
+\quad
+B = \begin{pmatrix} 0 &amp; 6 &amp; 3 &amp; 1 \\ 1 &amp; 4 &amp; 1
+&amp; 0 \\ 7 &amp; 0 &amp; 10 &amp; 20 \end{pmatrix} \quad C = \begin{pmatrix} 4 &amp; 1 &amp; 8 &amp; -1 \\
+1.5 &amp; 1 &amp; 3 &amp; 4 \\ 6 &amp; -4 &amp; 2 &amp; 8 \end{pmatrix}
 \end{align*}\]</span></p>
 <div id="exr-matrix" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 3.1</strong></span> &nbsp;</p>
@@ -463,25 +452,19 @@ window.Quarto = {
 </ol>
 </div>
 </div>
-<p>When considering systems of linear equations the entries of the matrix will always be real numbers (later we will explore using <a href="../src/lec06.html">complex numbers</a> too)</p>
-<p>TODO how to do this as a proper internal ref?</p>
+<p>When considering systems of linear equations the entries of the matrix will always be real numbers (later we will explore using complex numbers (<a href="lec06.html" class="quarto-xref"><span>Chapter 6</span></a>) too)</p>
 <div id="def-vector" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 3.2</strong></span> A <em>column vector</em>, often just called a <em>vector</em>, is a matrix with a single column. A matrix with a single row is a <em>row vector</em>. The entries of a vector are called <em>components</em>. A vector with <span class="math inline">\(n\)</span>-rows is called an <span class="math inline">\(n\)</span>-vector.</p>
 </div>
 <div id="exm-vector" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.2</strong></span> <span class="math inline">\(\vec{a}\)</span> is a row vector, <span class="math inline">\(\vec{b}\)</span> and <span class="math inline">\(\vec{c}\)</span> are (column) vectors. <span class="math display">\[\begin{align*}
-    \vec{a} = \begin{pmatrix}
-    0 &amp; 1 &amp; 7
-    \end{pmatrix}
-    \quad
-    \vec{b} = \begin{pmatrix}
-    0 \\ 1 \\ 3.1 \\ 7
-    \end{pmatrix}
-    \quad
-    \vec{c} = \begin{pmatrix}
-    4 \\ 6 \\ -4 \\ 0
-    \end{pmatrix}.
-\end{align*}\]</span></p>
+\vec{a} =
+\begin{pmatrix} 0 &amp; 1 &amp; 7 \end{pmatrix}
+\quad
+\vec{b} =
+\begin{pmatrix} 0 \\ 1 \\ 3.1 \\ 7 \end{pmatrix}
+\quad
+\vec{c} = \begin{pmatrix} 4 \\ 6 \\ -4 \\ 0 \end{pmatrix}. \end{align*}\]</span></p>
 <div id="exr-vector" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 3.2</strong></span> &nbsp;</p>
 <ol type="1">
@@ -495,16 +478,20 @@ window.Quarto = {
 <section id="definition-of-systems-of-linear-equations" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="definition-of-systems-of-linear-equations"><span class="header-section-number">3.2</span> Definition of systems of linear equations</h2>
 <p>Given an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(A\)</span> and an <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\vec{b}\)</span>, find the <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\vec{x}\)</span> which satisfies: <span class="math display">\[\begin{equation}
-    \label{eq:sle}
-    A \vec{x} = \vec{b}.
+\label{eq:sle}
+A \vec{x} = \vec{b}.
 \end{equation}\]</span></p>
 <p>We can also write <span class="math inline">\(\eqref{eq:sle}\)</span> as a system of linear equations: <span class="math display">\[\begin{align*}
-\text{Equation 1:} &amp;&amp; a_{11} x_1 + a_{12} x_2 + a_{13} x_3 + \cdots + a_{1n} x_n &amp; = b_1 \\
-\text{Equation 2:} &amp;&amp; a_{21} x_1 + a_{22} x_2 + a_{23} x_3 + \cdots + a_{2n} x_n &amp; = b_2 \\
+\text{Equation 1:} &amp;&amp;
+a_{11} x_1 + a_{12} x_2 + a_{13} x_3 + \cdots + a_{1n} x_n &amp; = b_1 \\
+\text{Equation 2:} &amp;&amp;
+a_{21} x_1 + a_{22} x_2 + a_{23} x_3 + \cdots + a_{2n} x_n &amp; = b_2 \\
 \vdots \\
-\text{Equation i:} &amp;&amp; a_{i1} x_1 + a_{i2} x_2 + a_{i3} x_3 + \cdots + a_{in} x_n &amp; = b_i \\
+\text{Equation i:} &amp;&amp;
+a_{i1} x_1 + a_{i2} x_2 + a_{i3} x_3 + \cdots + a_{in} x_n &amp; = b_i \\
 \vdots \\
-\text{Equation n:} &amp;&amp; a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n &amp; = b_n.
+\text{Equation n:} &amp;&amp;
+a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n &amp; = b_n.
 \end{align*}\]</span></p>
 <p><strong>Notes</strong>:</p>
 <ul>
@@ -529,7 +516,7 @@ window.Quarto = {
 </ul>
 <div id="exm-temperature" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.3 (Temperature in a sealed room)</strong></span> Suppose we wish to estimate the temperature distribution inside an object:</p>
-<div id="1cf8dcd6" class="cell" data-execution_count="2">
+<div id="1c268a1f" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -543,17 +530,18 @@ window.Quarto = {
 <p>This example leads to the system:</p>
 <p><span class="math display">\[
 \begin{pmatrix}
-  1   &amp; -1/6 &amp; -1/6 &amp;  0   &amp; -1/6 &amp;  0   &amp; 0 \\
--1/6 &amp;  1   &amp; -1/6 &amp; -1/6 &amp;  0   &amp; -1/6 &amp; 0 \\
--1/4 &amp; -1/4 &amp;  1   &amp;  0   &amp; -1/4 &amp; -1/4 &amp; 0 \\
-  0   &amp; -1/5 &amp;  0   &amp;  1   &amp;  0   &amp; -1/5 &amp; 0 \\
--1/6 &amp;  0   &amp; -1/6 &amp;  0   &amp;  1   &amp; -1/6 &amp; -1/6 \\
-  0   &amp; -1/8 &amp; -1/8 &amp; -1/8 &amp; -1/8 &amp; 1 &amp; -1/8 \\
-  0   &amp;  0   &amp;  0   &amp;  0   &amp; -1/5 &amp; -1/5 &amp;   1
+1 &amp; -1/6 &amp; -1/6 &amp; 0 &amp; -1/6 &amp; 0 &amp; 0 \\
+-1/6 &amp; 1 &amp; -1/6 &amp; -1/6 &amp; 0 &amp; -1/6 &amp; 0 \\
+-1/4 &amp; -1/4 &amp; 1 &amp; 0 &amp; -1/4 &amp; -1/4 &amp; 0 \\
+0 &amp; -1/5 &amp; 0 &amp; 1 &amp; 0 &amp; -1/5 &amp; 0 \\
+-1/6 &amp; 0 &amp; -1/6 &amp; 0 &amp; 1 &amp; -1/6 &amp; -1/6 \\
+0 &amp; -1/8 &amp; -1/8 &amp; -1/8 &amp; -1/8 &amp; 1 &amp; -1/8 \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; -1/5 &amp; -1/5 &amp; 1
 \end{pmatrix}
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6 \\ x_7
-\end{pmatrix} =
+\end{pmatrix}
+=
 \begin{pmatrix}
 400/6 \\ 100/6 \\ 0 \\ 0 \\ 100/6 \\ 0 \\ 0
 \end{pmatrix}.
@@ -561,7 +549,7 @@ x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6 \\ x_7
 </div>
 <div id="exm-traffic" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.4 (Traffic network)</strong></span> Suppose we wish to monitor the flow of traffic in a city centre:</p>
-<div id="25ecf694" class="cell" data-execution_count="3">
+<div id="2a3fafa4" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -586,7 +574,8 @@ x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6 \\ x_7
 \end{pmatrix}
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6 \\ x_7 \\ x_8
-\end{pmatrix} =
+\end{pmatrix}
+=
 \begin{pmatrix}
 y_5 \\ y_{12} - y_6 \\ y_8 - y_7 \\ y_{11} - y_4 \\
 y_{11} + y_{12} - y_{10} \\ y_9 \\ y_2 - y_3 \\ y_1
@@ -600,57 +589,60 @@ y_{11} + y_{12} - y_{10} \\ y_9 \\ y_2 - y_3 \\ y_1
 <p>We know a few simple cases where we can answer this question very quickly:</p>
 <ol type="1">
 <li>If <span class="math inline">\(A = I_n\)</span>, the <span class="math inline">\(n \times n\)</span> <em>identity matrix</em>, then we <em>can</em> solve this problem: <span class="math display">\[\vec{x} = \vec{b}.\]</span></li>
-<li>If <span class="math inline">\(A = O\)</span>, the <span class="math inline">\(n \times n\)</span> <em>zero matrix</em>, and <span class="math inline">\(\vec{b} \neq \vec{0}\)</span>, the zero vector, then we cannot solve this problem: <span class="math display">\[O \vec{x} = \vec{0} \neq \vec{b} \quad \text{for any vector} \quad \vec{x}.\]</span></li>
+<li>If <span class="math inline">\(A = O\)</span>, the <span class="math inline">\(n \times n\)</span> <em>zero matrix</em>, and <span class="math inline">\(\vec{b} \neq \vec{0}\)</span>, the zero vector, then we cannot solve this problem: <span class="math display">\[O \vec{x} = \vec{0} \neq
+\vec{b} \quad \text{for any vector} \quad \vec{x}.\]</span></li>
 <li>If <span class="math inline">\(A\)</span> is <em>invertible</em>, with inverse <span class="math inline">\(A^{-1}\)</span>, then we <em>can</em> solve this problem: <span class="math display">\[\vec{x} = A^{-1} \vec{b}.\]</span> But, in general, this is a <em>very bad</em> idea and we will see algorithms that are more efficient than finding the inverse of <span class="math inline">\(A\)</span>.</li>
 </ol>
 <div id="rem-inverse" class="proof remark">
 <p><span class="proof-title"><em>Remark 3.1</em>. </span>One way to solve a system of linear equations is to compute the inverse of <span class="math inline">\(A\)</span>, <span class="math inline">\(A^{-1}\)</span>, directly, then the solution is found through matrix multiplication: <span class="math inline">\(\vec{x} = A^{-1} \vec{b}\)</span>. This turns out to be an inefficient approach and we can do better with specialised algorithms.</p>
-<div id="d54be0a9" class="cell" data-execution_count="4">
+<div id="fad2fc4a" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-stdout">
 <pre><code>
 
 Trying different approaches for problem size 100
-Approach 1 - inverting the matrix and applying the inverse. Time = 0.0003249645233154297
-Approach 2 - solving the system of linear equations. Time = 0.0001475811004638672
-Approach 2 is faster by a factor of  2.2019386106623586
+Approach 1 - inverting the matrix and applying the inverse. Time = 0.0003077983856201172
+Approach 2 - solving the system of linear equations. Time = 0.0001399517059326172
+Approach 2 is faster by a factor of  2.1993185689948893
 
 
 Trying different approaches for problem size 10000
-Approach 1 - inverting the matrix and applying the inverse. Time = 31.300297498703003
-Approach 2 - solving the system of linear equations. Time = 8.052523612976074
-Approach 2 is faster by a factor of  3.88701716419245</code></pre>
+Approach 1 - inverting the matrix and applying the inverse. Time = 31.40844178199768
+Approach 2 - solving the system of linear equations. Time = 8.08825397491455
+Approach 2 is faster by a factor of  3.8832165606334708</code></pre>
 </div>
 </div>
 </div>
 <p>There are tools to help us answer when a matrix is invertible which arise naturally when thinking about what <span class="math inline">\(A \vec{x} = \vec{b}\)</span> means! We have to go back to the basic operations on vectors.</p>
 <p>There are two fundamental operations you can do on vectors: addition and scalar multiplication. Consider the vectors: <span class="math display">\[\begin{align*}
-    \vec{a} = \begin{pmatrix} 2 \\ 1 \\ 2 \end{pmatrix},
-    \quad
-    \vec{b} = \begin{pmatrix} 1 \\ 2 \\ 4 \end{pmatrix},
-    \quad
-    \vec{c} =  \begin{pmatrix} 4 \\ 2 \\ 6 \end{pmatrix}.
+\vec{a} = \begin{pmatrix} 2 \\ 1 \\ 2 \end{pmatrix}, \quad
+\vec{b} = \begin{pmatrix} 1 \\ 2 \\ 4 \end{pmatrix}, \quad
+\vec{c} = \begin{pmatrix} 4 \\ 2 \\ 6 \end{pmatrix}.
 \end{align*}\]</span> Then, we can easily compute the following <em>linear combinations</em> <span class="math display">\[\begin{align}
-    \label{eq:vector-linear-comb-a}
-    \vec{a} + \vec{b} &amp; = \begin{pmatrix} 3 \\ 3 \\ 6 \end{pmatrix} \\
-    \label{eq:vector-linear-comb-b}
-    \vec{c} - 2 \vec{a} &amp; = \begin{pmatrix} 0 \\ 0 \\ 2 \end{pmatrix} \\
-    \label{eq:vector-linear-comb-c}
-    \vec{a} + 2 \vec{b} + 2 \vec{c} &amp;= \begin{pmatrix} 12 \\ 9 \\ 22 \end{pmatrix}.
-\end{align}\]</span> Now if we write <span class="math inline">\(A\)</span> for the <span class="math inline">\(3 \times 3\)</span>-matrix whose columns are <span class="math inline">\(\vec{a}, \vec{b}, \vec{c}\)</span>: <span class="math display">\[\begin{align*}
-    A = \begin{pmatrix}
-    &amp;&amp; \\
-    \vec{a} &amp; \vec{b} &amp; \vec{c} \\
-    &amp;&amp;
-    \end{pmatrix}
-    = \begin{pmatrix}
-    2 &amp; 1 &amp; 4 \\
-    1 &amp; 2 &amp; 2 \\
-    2 &amp; 4 &amp; 6
-    \end{pmatrix},
+\label{eq:vector-linear-comb-a}
+\vec{a} + \vec{b} &amp; = \begin{pmatrix} 3 \\ 3 \\ 6 \end{pmatrix} \\
+\label{eq:vector-linear-comb-b}
+\vec{c} - 2 \vec{a} &amp; = \begin{pmatrix} 0 \\ 0 \\ 2 \end{pmatrix} \\
+\label{eq:vector-linear-comb-c}
+\vec{a} + 2 \vec{b} + 2 \vec{c} &amp;= \begin{pmatrix} 12 \\ 9 \\ 22 \end{pmatrix}.
+\end{align}\]</span> Now if we write <span class="math inline">\(A\)</span> for the <span class="math inline">\(3 \times 3\)</span>-matrix whose columns are <span class="math inline">\(\vec{a},
+\vec{b}, \vec{c}\)</span>: <span class="math display">\[\begin{align*}
+A =
+\begin{pmatrix}
+&amp;&amp; \\ \vec{a} &amp; \vec{b} &amp; \vec{c} \\ &amp;&amp;
+\end{pmatrix}
+= \begin{pmatrix}
+2 &amp; 1 &amp; 4 \\
+1 &amp; 2 &amp; 2 \\
+2 &amp; 4 &amp; 6
+\end{pmatrix},
 \end{align*}\]</span> then the three equations <span class="math inline">\(\eqref{eq:vector-linear-comb-a}\)</span>, <span class="math inline">\(\eqref{eq:vector-linear-comb-b}\)</span>, <span class="math inline">\(\eqref{eq:vector-linear-comb-c}\)</span>, can be written as <span class="math display">\[\begin{align*}
-    \vec{a} + \vec{b} &amp; = 1 \vec{a} + 1 \vec{b} + 0 \vec{c} = A \begin{pmatrix} 1 \\ 1 \\ 0 \end{pmatrix}, \\
-    \vec{c} - 2\vec{a} &amp; = -2 \vec{a} + 0 \vec{b} - 2 \vec{c} = A \begin{pmatrix} -2 \\ 0 \\ 1 \end{pmatrix}, \\
-    \vec{a} + 2 \vec{b} + 2 \vec{c} &amp; = 1 \vec{a} + 2 \vec{b} + 2 \vec{c} = A \begin{pmatrix} 1 \\ 2 \\ 2 \end{pmatrix}.
+\vec{a} + \vec{b} &amp; = 1 \vec{a} + 1 \vec{b} + 0 \vec{c}
+= A \begin{pmatrix} 1 \\ 1 \\ 0 \end{pmatrix}, \\
+\vec{c} - 2\vec{a} &amp; = -2 \vec{a} + 0 \vec{b} - 2 \vec{c}
+= A \begin{pmatrix} -2 \\ 0 \\ 1 \end{pmatrix}, \\
+\vec{a} + 2 \vec{b} + 2 \vec{c} &amp; = 1 \vec{a} + 2 \vec{b} + 2 \vec{c}
+= A \begin{pmatrix} 1 \\ 2 \\ 2
+\end{pmatrix}.
 \end{align*}\]</span> In other words,</p>
 <blockquote class="blockquote">
 <p>We can write any linear combination of vectors as a matrix-vector multiply,</p>
@@ -663,17 +655,19 @@ Approach 2 is faster by a factor of  3.88701716419245</code></pre>
 <section id="the-span-of-a-set-of-vectors" class="level3" data-number="3.3.1">
 <h3 data-number="3.3.1" class="anchored" data-anchor-id="the-span-of-a-set-of-vectors"><span class="header-section-number">3.3.1</span> The span of a set of vectors</h3>
 <div id="def-span" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 3.3</strong></span> Given a set of vectors of the same size, <span class="math inline">\(S = \{ \vec{v}_1, \ldots, \vec{v}_k \}\)</span>, we say the <em>span</em> of <span class="math inline">\(S\)</span> is the set of all vectors which are linear combinations of vectors in <span class="math inline">\(S\)</span>: <span class="math display">\[\begin{equation}
-  \mathrm{span}(S) = \left\{ \sum_{i=1}^k x_i \vec{v}_i : x_i \in \mathbb{R} \text{ for } i = 1, \ldots, k \right\}.
+<p><span class="theorem-title"><strong>Definition 3.3</strong></span> Given a set of vectors of the same size, <span class="math inline">\(S = \{ \vec{v}_1,
+\ldots, \vec{v}_k \}\)</span>, we say the <em>span</em> of <span class="math inline">\(S\)</span> is the set of all vectors which are linear combinations of vectors in <span class="math inline">\(S\)</span>: <span class="math display">\[\begin{equation}
+\mathrm{span}(S) = \left\{ \sum_{i=1}^k x_i \vec{v}_i : x_i \in \mathbb{R}
+\text{ for } i = 1, \ldots, k \right\}.
 \end{equation}\]</span></p>
 </div>
 <div id="exm-span" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.5</strong></span> Consider three new vectors <span class="math display">\[\begin{align*}
-    \vec{a} = \begin{pmatrix} 2 \\ 3 \end{pmatrix} \quad
-    \vec{b} = \begin{pmatrix} -1 \\ 2 \end{pmatrix} \quad
-    \vec{c} = \begin{pmatrix} 1 \\ -1 \end{pmatrix}
+\vec{a} = \begin{pmatrix} 2 \\ 3 \end{pmatrix} \quad
+\vec{b} = \begin{pmatrix} -1 \\ 2 \end{pmatrix} \quad
+\vec{c} = \begin{pmatrix} 1 \\ -1 \end{pmatrix}
 \end{align*}\]</span></p>
-<div id="f407dda3" class="cell" data-execution_count="5">
+<div id="120a27d1" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -684,30 +678,35 @@ Approach 2 is faster by a factor of  3.88701716419245</code></pre>
 </div>
 </div>
 <ol type="1">
-<li><p>Let <span class="math inline">\(S = \{ \vec{a} \}\)</span>, then <span class="math inline">\(\mathrm{span}(S) = \{ x \vec{a} : x \in \mathbb{R} \}\)</span>. Geometrically, we can think of the span of a single vector to be an infinite straight line which passes through the origin and <span class="math inline">\(\vec{a}\)</span>.</p></li>
-<li><p>Let <span class="math inline">\(S = \{ \vec{a}, \vec{b} \}\)</span>, then <span class="math inline">\(\mathrm{span}(S) = \mathbb{R}^2\)</span>. To see this is true, we first see that <span class="math inline">\(\mathrm{span}(S)\)</span> is contained in <span class="math inline">\(\mathbb{R}^2\)</span> since any <span class="math inline">\(2\)</span>-vectors added together and the scalar multiplication of a <span class="math inline">\(2\)</span>-vector also form a <span class="math inline">\(2\)</span>-vector. For the opposite inclusion, consider an arbitrary point <span class="math inline">\(\vec{y} = \begin{pmatrix} y_1 \\ y_2 \end{pmatrix} \in \mathbb{R}^2\)</span> then <span class="math display">\[\begin{align}
+<li><p>Let <span class="math inline">\(S = \{ \vec{a} \}\)</span>, then <span class="math inline">\(\mathrm{span}(S) = \{ x \vec{a} : x \in
+\mathbb{R} \}\)</span>. Geometrically, we can think of the span of a single vector to be an infinite straight line which passes through the origin and <span class="math inline">\(\vec{a}\)</span>.</p></li>
+<li><p>Let <span class="math inline">\(S = \{ \vec{a}, \vec{b} \}\)</span>, then <span class="math inline">\(\mathrm{span}(S) = \mathbb{R}^2\)</span>. To see this is true, we first see that <span class="math inline">\(\mathrm{span}(S)\)</span> is contained in <span class="math inline">\(\mathbb{R}^2\)</span> since any <span class="math inline">\(2\)</span>-vectors added together and the scalar multiplication of a <span class="math inline">\(2\)</span>-vector also form a <span class="math inline">\(2\)</span>-vector. For the opposite inclusion, consider an arbitrary point <span class="math inline">\(\vec{y} = \begin{pmatrix} y_1 \\ y_2
+\end{pmatrix} \in \mathbb{R}^2\)</span> then <span class="math display">\[\begin{align}
 \nonumber
 \frac{2 y_1 + y_2}{7} \vec{a} + \frac{-3 y_1 + 2 y_2}{7} \vec{b}
-=
-\frac{2 y_1 + y_2}{7} \begin{pmatrix} 2 \\ 3 \end{pmatrix}
-+ \frac{-3 y_1 + 2 y_2}{7} \begin{pmatrix} -1 \\ 2 \end{pmatrix} \\
+= \frac{2 y_1 + y_2}{7} \begin{pmatrix} 2 \\ 3 \end{pmatrix}
+- \frac{-3 y_1 + 2 y_2}{7} \begin{pmatrix} -1 \\ 2 \end{pmatrix} \\
 = \begin{pmatrix}
 \frac{4 y_1 + 2 y_2}{7} + \frac{3 y_1 - 2 y_2}{7} \\
 \label{eq:y-combo}
 \frac{6 y_1 + 3 y_2}{7} + \frac{-6 y_1 + 4 y_2}{7}
 \end{pmatrix}
-= \begin{pmatrix} y_1 \\ y_2 \end{pmatrix}
-= \vec{y}.
+= \begin{pmatrix} y_1 \\ y_2 \end{pmatrix} = \vec{y}.
 \end{align}\]</span> This calculation shows, that we can always form a linear combination of <span class="math inline">\(\vec{a}\)</span> and <span class="math inline">\(\vec{b}\)</span> which results in <span class="math inline">\(\vec{y}\)</span>.</p></li>
-<li><p>Let <span class="math inline">\(S = \{ \vec{a}, \vec{b}, \vec{c} \}\)</span>, then <span class="math inline">\(\mathrm{span}(S) = \mathbb{R}^2\)</span>. Since <span class="math inline">\(\vec{c} \in \mathrm{span}(\{\vec{a}, \vec{b}\})\)</span>, any linear combination of <span class="math inline">\(\vec{a}, \vec{b}, \vec{c}\)</span> has an equivalent combination of just <span class="math inline">\(\vec{a}\)</span> and <span class="math inline">\(\vec{b}\)</span>. In formulae, we can see that by applying the formula from Example 2 (TODO make ref), we have <span class="math display">\[\begin{align*}
+<li><p>Let <span class="math inline">\(S = \{ \vec{a}, \vec{b}, \vec{c} \}\)</span>, then <span class="math inline">\(\mathrm{span}(S) =
+\mathbb{R}^2\)</span>. Since <span class="math inline">\(\vec{c} \in \mathrm{span}(\{\vec{a}, \vec{b}\})\)</span>, any linear combination of <span class="math inline">\(\vec{a}, \vec{b}, \vec{c}\)</span> has an equivalent combination of just <span class="math inline">\(\vec{a}\)</span> and <span class="math inline">\(\vec{b}\)</span>. In formulae, we can see that by applying the formula from Example 2 (TODO make ref), we have <span class="math display">\[\begin{align*}
 \vec{c} = \frac{1}{7} \vec{a} - \frac{5}{7} \vec{b}.
 \end{align*}\]</span> So we have, if <span class="math inline">\(\vec{y} \in \mathrm{span}(S)\)</span>, then <span class="math display">\[\begin{align*}
-    \vec{y} = x_1 \vec{a} + x_2 \vec{b} + x_3 \vec{c} &amp; \Rightarrow
-    \vec{y} = (x_1 + \frac{1}{7} x_3) \vec{a} + (x_2 - \frac{5}{7} x_3) \vec{b},
-\end{align*}\]</span> so <span class="math inline">\(\vec{y} \in \mathrm{span}(\{\vec{a}, \vec{b}\})\)</span>. Conversely, if <span class="math inline">\(\vec{y} \in \mathrm{span}(\{\vec{a}, \vec{b}\})\)</span>, then <span class="math display">\[\begin{align*}
-    \vec{y} = x_1 \vec{a} + x_2 \vec{b} &amp; \Rightarrow
-    \vec{y} = x_1 \vec{a} + x_2 \vec{b} + 0 \vec{c}.
-\end{align*}\]</span> So the span of <span class="math inline">\(S = \mathrm{span}(\{\vec{a}, \vec{b}\}) = \mathbb{R}^2\)</span>. Notice that we this final linear combination of <span class="math inline">\(\vec{a}, \vec{b}\)</span> and <span class="math inline">\(\vec{c}\)</span> to form <span class="math inline">\(\vec{y}\)</span> is not unique.</p></li>
+\vec{y} = x_1 \vec{a} + x_2 \vec{b} + x_3 \vec{c} &amp; \Rightarrow \vec{y}
+= (x_1 + \frac{1}{7} x_3) \vec{a} + (x_2 - \frac{5}{7} x_3) \vec{b},
+\end{align*}\]</span> so <span class="math inline">\(\vec{y} \in \mathrm{span}(\{\vec{a}, \vec{b}\})\)</span>. Conversely, if <span class="math inline">\(\vec{y}
+\in \mathrm{span}(\{\vec{a}, \vec{b}\})\)</span>, then <span class="math display">\[\begin{align*}
+\vec{y} = x_1 \vec{a} + x_2 \vec{b} &amp; \Rightarrow \vec{y}
+= x_1 \vec{a} + x_2 \vec{b} + 0
+\vec{c}.
+\end{align*}\]</span> So the span of <span class="math inline">\(S = \mathrm{span}(\{\vec{a}, \vec{b}\})
+= \mathbb{R}^2\)</span>. Notice that we this final linear combination of <span class="math inline">\(\vec{a},
+\vec{b}\)</span> and <span class="math inline">\(\vec{c}\)</span> to form <span class="math inline">\(\vec{y}\)</span> is not unique.</p></li>
 </ol>
 </div>
 <p>So our first statement is that <span class="math inline">\(\eqref{eq:sle}\)</span> has a solution if <span class="math inline">\(\vec{b}\)</span> is in the span of the columns of <span class="math inline">\(A\)</span>. However, as we saw with <a href="#exm-span" class="quarto-xref">Example&nbsp;<span>3.5</span></a>, Part 3, we are not guaranteed that the linear combination is unique! For this we need a further condition.</p>
@@ -715,7 +714,9 @@ Approach 2 is faster by a factor of  3.88701716419245</code></pre>
 <section id="linear-independence" class="level3" data-number="3.3.2">
 <h3 data-number="3.3.2" class="anchored" data-anchor-id="linear-independence"><span class="header-section-number">3.3.2</span> Linear independence</h3>
 <div id="def-linear-indep" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 3.4</strong></span> Given a set of vectors of the same size, <span class="math inline">\(S = \{ \vec{v}_1, \ldots, \vec{v}_k \}\)</span>, we say that <span class="math inline">\(S\)</span> is <em>linearly dependent</em>, if there exists numbers <span class="math inline">\(x_1, x_2, \ldots x_k\)</span>, not all zero, such that <span class="math display">\[\begin{align*}
+<p><span class="theorem-title"><strong>Definition 3.4</strong></span> Given a set of vectors of the same size, <span class="math inline">\(S = \{\vec{v}_1, \ldots, \vec{v}_k
+\}\)</span>, we say that <span class="math inline">\(S\)</span> is <em>linearly dependent</em>, if there exists numbers <span class="math inline">\(x_1, x_2,
+\ldots x_k\)</span>, not all zero, such that <span class="math display">\[\begin{align*}
 \sum_{i=1}^k x_i \vec{v}_i = \vec{0}.
 \end{align*}\]</span> The set <span class="math inline">\(S\)</span> is <em>linearly independent</em> if it is not linearly dependent.</p>
 <div id="exr-linear-indep-def" class="theorem exercise">
@@ -728,8 +729,7 @@ Approach 2 is faster by a factor of  3.88701716419245</code></pre>
 <li><p>Let <span class="math inline">\(S = \{ \vec{a}, \vec{b} \}\)</span>, then <span class="math inline">\(S\)</span> is linearly independent. Indeed, let <span class="math inline">\(x_1, x_2\)</span> be real numbers such that <span class="math display">\[\begin{align*}
 x_1 \vec{a} + x_2 \vec{b} = \vec{0},
 \end{align*}\]</span> then, <span class="math display">\[\begin{align*}
-2 x_1 - x_2 &amp; = 0 &amp;&amp;
-3 x_1 + 2 x_2 &amp; = 0
+2 x_1 - x_2 &amp; = 0 &amp;&amp; 3 x_1 + 2 x_2 &amp; = 0
 \end{align*}\]</span> The first equation says that <span class="math inline">\(x_2 = 2 x_1\)</span>, which when substituted into the second equation gives <span class="math inline">\(3 x_1 + 4 x_1 = 7 x_1 = 0\)</span>. Together this implies that <span class="math inline">\(x_1 = x_2 = 0\)</span>. Put simply this means that if we do have a linear combination of <span class="math inline">\(\vec{a}\)</span> and <span class="math inline">\(\vec{b}\)</span> which is equal zero, then the corresponding scalar multiples are all zero.</p></li>
 <li><p>Let <span class="math inline">\(S = \{ \vec{a}, \vec{b}, \vec{c} \}\)</span>, then <span class="math inline">\(S\)</span> is linearly dependent. We have previously seen that: <span class="math display">\[\begin{align*}
 \vec{c} = \frac{1}{7} \vec{a} - \frac{5}{7} \vec{b},
@@ -743,16 +743,17 @@ x_1 \vec{a} + x_2 \vec{b} = \vec{0},
 <section id="when-vectors-form-a-basis" class="level3" data-number="3.3.3">
 <h3 data-number="3.3.3" class="anchored" data-anchor-id="when-vectors-form-a-basis"><span class="header-section-number">3.3.3</span> When vectors form a basis</h3>
 <div id="def-basis" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 3.5 (Definition)</strong></span> We say that a set of <span class="math inline">\(n\)</span>-vectors <span class="math inline">\(S\)</span> is a <em>basis</em> of a set of <span class="math inline">\(n\)</span>-vectors <span class="math inline">\(V\)</span> if the span of <span class="math inline">\(S\)</span> is <span class="math inline">\(V\)</span> and <span class="math inline">\(S\)</span> is linearly independent.</p>
+<p><span class="theorem-title"><strong>Definition 3.5</strong></span> We say that a set of <span class="math inline">\(n\)</span>-vectors <span class="math inline">\(S\)</span> is a <em>basis</em> of a set of <span class="math inline">\(n\)</span>-vectors <span class="math inline">\(V\)</span> if the span of <span class="math inline">\(S\)</span> is <span class="math inline">\(V\)</span> and <span class="math inline">\(S\)</span> is linearly independent.</p>
 </div>
 <div id="exm-basis" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.7</strong></span> &nbsp;</p>
 <ol type="1">
 <li><p>From <a href="#exm-span" class="quarto-xref">Example&nbsp;<span>3.5</span></a>, we have that <span class="math inline">\(S = \{ \vec{a}, \vec{b} \}\)</span> is a basis of <span class="math inline">\(\mathbb{R}^2\)</span>.</p></li>
 <li><p>Another (perhaps simpler) basis of <span class="math inline">\(\mathbb{R}^2\)</span> are the coordinate axes: <span class="math display">\[\begin{align*}
-\vec{e}_1 = \begin{pmatrix} 1 \\ 0 \end{pmatrix} \quad \text{and} \quad \vec{e}_2 = \begin{pmatrix} 0 \\ 1 \end{pmatrix}.
+\vec{e}_1 = \begin{pmatrix} 1 \\ 0 \end{pmatrix} \quad
+\text{and} \quad \vec{e}_2 = \begin{pmatrix} 0 \\ 1 \end{pmatrix}.
 \end{align*}\]</span></p></li>
-<li><p>When we look at eigenvectors and eigenvalues we will see that there are other convienient bases (plural of basis) to work with.</p></li>
+<li><p>When we look at eigenvectors and eigenvalues we will see that there are other convenient bases (plural of basis) to work with.</p></li>
 </ol>
 </div>
 <p>We phrase the idea that the existence and uniqueness of linear combinations together depend on the underlying set being a basis mathematically in the following Theorem:</p>
@@ -762,26 +763,26 @@ x_1 \vec{a} + x_2 \vec{b} = \vec{0},
 <div id="exm-basis-expansion" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.8</strong></span> &nbsp;</p>
 <ol type="1">
-<li><p>From the main examples in this section, we have that <span class="math inline">\(S = \{ \vec{a}, \vec{b} \}\)</span> is a basis of <span class="math inline">\(\mathbb{R}^2\)</span> and we already know the formula for how to write <span class="math inline">\(\vec{y}\)</span> as a unique combination of <span class="math inline">\(\vec{a}\)</span> and <span class="math inline">\(\vec{b}\)</span>: it’s given in <span class="math inline">\(\eqref{eq:y-combo}\)</span>.</p></li>
+<li><p>From the main examples in this section, we have that <span class="math inline">\(S = \{ \vec{a}, \vec{b}
+\}\)</span> is a basis of <span class="math inline">\(\mathbb{R}^2\)</span> and we already know the formula for how to write <span class="math inline">\(\vec{y}\)</span> as a unique combination of <span class="math inline">\(\vec{a}\)</span> and <span class="math inline">\(\vec{b}\)</span>: it’s given in <span class="math inline">\(\eqref{eq:y-combo}\)</span>.</p></li>
 <li><p>For the simpler example of the coordinate axes: <span class="math display">\[\begin{align*}
-\vec{e}_1 = \begin{pmatrix} 1 \\ 0 \end{pmatrix} \quad \text{and} \quad \vec{e}_2 = \begin{pmatrix} 0 \\ 1 \end{pmatrix},
-\end{align*}\]</span> we have that for any <span class="math inline">\(\vec{y} = \begin{pmatrix} y_1 // y_2 \end{pmatrix} \in \mathbb{R}^2\)</span> <span class="math display">\[\begin{align*}
+\vec{e}_1 =
+\begin{pmatrix} 1 \\ 0 \end{pmatrix} \quad \text{and} \quad
+\vec{e}_2 =
+\begin{pmatrix} 0 \\ 1 \end{pmatrix},
+\end{align*}\]</span> we have that for any <span class="math inline">\(\vec{y} = \begin{pmatrix} y_1 \\ y_2 \end{pmatrix} \in \mathbb{R}^2\)</span> <span class="math display">\[\begin{align*}
 \vec{y} = \begin{pmatrix} y_1 \\ y_2 \end{pmatrix}
-= y_1 \begin{pmatrix} 1 \\ 0 \end{pmatrix} + y_2 \begin{pmatrix} 0 \\ 1 \end{pmatrix}
-= y_1 \vec{e}_1 + y_2 \vec{e}_2.
+= y_1 \begin{pmatrix} 1 \\ 0 \end{pmatrix} +
+y_2 \begin{pmatrix} 0 \\ 1 \end{pmatrix} = y_1 \vec{e}_1 + y_2 \vec{e}_2.
 \end{align*}\]</span></p></li>
 </ol>
 </div>
 <div class="proof">
-<p><span class="proof-title"><em>Proof</em> (Proof of <a href="#thm-basis-expansion" class="quarto-xref">Theorem&nbsp;<span>3.1</span></a>). </span>Let <span class="math inline">\(\vec{y}\)</span> be a vector in <span class="math inline">\(V\)</span> and label <span class="math inline">\(S = \{ \vec{v}_1, \ldots \vec{v}_k \}\)</span>. Since <span class="math inline">\(S\)</span> forms a basis of <span class="math inline">\(V\)</span>, <span class="math inline">\(\vec{y} \in \mathrm{span}(S)\)</span> so there exists numbers <span class="math inline">\(x_1, \ldots, x_k\)</span> such that <span class="math display">\[\begin{align}
-\label{eq:basis_pf_x}
-\vec{y} = \sum_{i=1}^k x_i \vec{v}_i.
-\end{align}\]</span> Suppose that there exists another set of number <span class="math inline">\(z_1, \ldots z_k\)</span> such that <span class="math display">\[\begin{align}
-\label{eq:basis_pf_z}
-\vec{y} = \sum_{i=1}^k z_i \vec{v}_i.
-\end{align}\]</span> Taking the difference of <span class="math inline">\(\eqref{eq:basis_pf_x}\)</span> and <span class="math inline">\(\eqref{eq:basis_pf_z}\)</span>, we see that <span class="math display">\[\begin{align}
-\vec{0} = \sum_{i=1}^k (x_i - z_i) \vec{v}_i.
-\end{align}\]</span> Since <span class="math inline">\(S\)</span> is linearly independent, this implies <span class="math inline">\(x_i = z_i\)</span> for <span class="math inline">\(i = 1, \ldots, k\)</span>, and we have shown that there is only one linear combination of the vectors <span class="math inline">\(\{ \vec{v}_i \}\)</span> to form <span class="math inline">\(\vec{y}\)</span>.</p>
+<p><span class="proof-title"><em>Proof</em> (Proof of <a href="#thm-basis-expansion" class="quarto-xref">Theorem&nbsp;<span>3.1</span></a>). </span>Let <span class="math inline">\(\vec{y}\)</span> be a vector in <span class="math inline">\(V\)</span> and label <span class="math inline">\(S = \{ \vec{v}_1, \ldots \vec{v}_k
+\}\)</span>. Since <span class="math inline">\(S\)</span> forms a basis of <span class="math inline">\(V\)</span>, <span class="math inline">\(\vec{y} \in \mathrm{span}(S)\)</span> so there exists numbers <span class="math inline">\(x_1, \ldots, x_k\)</span> such that <span class="math display">\[\begin{align} \label{eq:basis_pf_x}
+\vec{y} = \sum_{i=1}^k x_i \vec{v}*i. \end{align}\]</span> Suppose that there exists another set of number <span class="math inline">\(z_1, \ldots z_k\)</span> such that <span class="math display">\[\begin{align}
+\label{eq:basis_pf_z} \vec{y} = \sum*{i=1}^k z_i \vec{v}*i. \end{align}\]</span> Taking the difference of <span class="math inline">\(\eqref{eq:basis_pf_x}\)</span> and <span class="math inline">\(\eqref{eq:basis_pf_z}\)</span>, we see that <span class="math display">\[\begin{align} \vec{0} = \sum*{i=1}^k (x_i - z_i) \vec{v}_i. \end{align}\]</span> Since <span class="math inline">\(S\)</span> is linearly independent, this implies <span class="math inline">\(x_i = z_i\)</span> for <span class="math inline">\(i = 1, \ldots, k\)</span>, and we have shown that there is only one linear combination of the vectors <span class="math inline">\(\{
+\vec{v}_i \}\)</span> to form <span class="math inline">\(\vec{y}\)</span>.</p>
 </div>
 <p>There is a theorem that says that the number of vectors in any basis of a given ‘nice’ set of vectors <span class="math inline">\(V\)</span> is the same but is beyond the scope of this module!</p>
 <div id="thm-uniq-solution" class="theorem">
@@ -797,25 +798,14 @@ x_1 \vec{a} + x_2 \vec{b} = \vec{0},
 <div id="exm-triangular-matrix" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.9 (Triangular matrix)</strong></span> One common (and important) structure takes the form</p>
 <p><span class="math display">\[
-\begin{pmatrix}
-a_{11} &amp; 0 &amp; 0 &amp; \cdots &amp; 0 \\
-a_{21} &amp; a_{22} &amp; 0 &amp; \cdots &amp; 0 \\
-a_{31} &amp; a_{32} &amp; a_{33} &amp; \cdots &amp; 0 \\
-\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
-a_{n1} &amp; a_{n2} &amp; a_{n3} &amp; \cdots &amp; a_{nn}
-\end{pmatrix}
-\begin{pmatrix}
-x_1 \\ x_2 \\ x_3 \\ \vdots \\ x_n
-\end{pmatrix} =
-\begin{pmatrix}
-b_1 \\ b_2 \\ b_3 \\ \vdots \\ b_n
-\end{pmatrix}.
+A = \begin{pmatrix}
+a_{11} &amp; 0 &amp; 0 &amp; \cdots &amp; 0 \\ a_{21} &amp; a_{22} &amp; 0 &amp; \cdots &amp;
+0 \\ a_{31} &amp; a_{32} &amp; a_{33} &amp; \cdots &amp; 0 \\ \vdots &amp; \vdots &amp; \vdots &amp; \ddots
+&amp; \vdots \\ a_{n1} &amp; a_{n2} &amp; a_{n3} &amp; \cdots &amp; a_{nn} \end{pmatrix}.
 \]</span></p>
 <ul>
 <li><p>A is a <strong>lower triangular</strong> matrix. Every entry above the leading diagonal is zero:</p>
-<p><span class="math display">\[
-a_{ij} = 0 \quad \text{ for } \quad j &gt; i.
-\]</span></p></li>
+<p><span class="math display">\[ a_{ij} = 0 \quad \text{ for } \quad j &gt; i. \]</span></p></li>
 <li><p>The <em>transpose</em> of this matrix is an <strong>upper triangular</strong> matrix and can be treated in a very similar manner.</p></li>
 </ul>
 </div>
@@ -828,7 +818,8 @@ a_{ij} = 0 \quad \text{ for } \quad j &gt; i.
 <li><p>A “large” portion of the matrix is zero.</p>
 <ul>
 <li>A full <span class="math inline">\(n \times n\)</span> matrix has <span class="math inline">\(n^2\)</span> nonzero entries.</li>
-<li>A sparse <span class="math inline">\(n \times n\)</span> has <span class="math inline">\(\alpha n\)</span> nonzero entries, where <span class="math inline">\(\alpha \ll n\)</span>.</li>
+<li>A sparse <span class="math inline">\(n \times n\)</span> has <span class="math inline">\(\alpha n\)</span> nonzero entries, where <span class="math inline">\(\alpha \ll
+    n\)</span>.</li>
 </ul></li>
 <li><p>Many special techniques exist for handling sparse matrices, some of which can be used automatically within Python (<a href="https://docs.scipy.org/doc/scipy/reference/sparse.html"><code>scipy.sparse</code> documentation</a>)</p></li>
 </ul>
