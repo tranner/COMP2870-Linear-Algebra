@@ -1,4 +1,4 @@
-# Complex numbers
+# Complex numbers {#sec-complex-numbers}
 
 ```{python}
 # | echo: false
@@ -176,6 +176,7 @@ The idea of adding complex numbers by considering real and imaginary parts separ
 The complex plane is the two dimensional space formed by considering the real and imaginary parts of a complex number as two different coordinate axes.
 
 ::: {#exm-plane}
+
 ```{python}
 # | echo: false
 # | caption: Examples of complex numbers as points in the complex plane.
@@ -196,6 +197,7 @@ plt.ylabel("Imaginary part")
 plt.grid()
 plt.show()
 ```
+
 :::
 
 We can see that adding complex numbers looks just like adding two dimensional vectors! We can also use this geometric picture to help with some further operations.
@@ -226,6 +228,7 @@ In fact, we use this same calculation to define the **absolute value** (sometime
 \end{equation*}
 
 ::: {#exm-modulus}
+
 ```{python}
 # | echo: false
 # | caption: Examples of moduli of complex numbers as points in the complex plane.
@@ -295,6 +298,7 @@ ax.set_aspect("equal", adjustable="box")
 
 plt.show()
 ```
+
 ::: {#exr-modulus}
 Find the value of
 \begin{equation}
@@ -359,6 +363,7 @@ Compute the modulus and argument of $2$, $3i$ and $4 + 4i$.
 :::
 
 ::: {#exm-arg}
+
 ```{python}
 # | echo: false
 # | caption: Examples of arguments of complex numbers as points in the complex plane.
@@ -412,6 +417,7 @@ ax.set_aspect("equal", adjustable="box")
 
 plt.show()
 ```
+
 :::
 
 The polar representation of complex numbers then gives us a nice way to understand multiplication of complex numbers.
@@ -421,13 +427,14 @@ If $y \neq 0$, then we can check that $\left| \frac{y}{|y|} \right| = 1$ and $\a
 Check that for any non-zero complex number $y$, that $\left| \frac{y}{|y|} \right| = 1$ and $\arg{y} = \arg{\frac{y}{|y|}}$.
 :::
 
-
 ## Solving polynomial equations
 
 As we have mentioned above, we will be using complex numbers when solving polynomial equations to work out eigenvalues and eigenvectors of matrices later in the section. The reason complex numbers are useful here is this very important Theorem:
 
 ::: {#thm-fund-alg}
+
 ### The Fundamental Theorem of Algebra
+
 For any complex numbers $a_0, \ldots, a_n$ not all zero, there is at least one complex number $z$ which satisfies:
 \begin{equation*}
 a_n z^n + \cdots + a_1 z + a_0 = 0

@@ -5,3 +5,21 @@ repos:
     -   id: check-yaml
     -   id: end-of-file-fixer
     -   id: trailing-whitespace
+
+- repo: https://github.com/igorshubovych/markdownlint-cli
+  rev: v0.45.0
+  hooks:
+  - id: markdownlint
+    files: ".*qmd$"
+    types: [text]
+    args: ["-f","--ignore","MD012"]
+    # TODO MD012 needs to be ignored better
+
+-   repo: local
+    hooks:
+    - id: qmd-ruff-check
+      name: qmd-ruff-check
+      entry: ./qmd_ruff.py
+      language: script
+      files: ".*qmd$"
+      pass_filenames: true
