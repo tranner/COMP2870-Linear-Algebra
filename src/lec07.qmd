@@ -254,17 +254,15 @@ We can identify that $(A - 2 I_n) (-1, 1)^T = \vec{0}$.
 So $(-1, 1)$ is an eigenvector associated with $2$.
 :::
 
-We want to note that this example is actually surprisingly similar to
-@exm-permuatation. We see that the eigenvectors are actually the same!
-We can see that the matrices are related too:
+We note that this example is actually surprisingly similar to @exm-permuatation.
+We see that the eigenvectors are actually the same! We can see that the matrices
+are related too:
 \begin{equation*}
 \begin{pmatrix}
 0 & 1 \\ 1 & 0 \\
 \end{pmatrix}
-
-- 3 I
-=
-\begin{pmatrix}
+-3 I
+= \begin{pmatrix}
 3 & 1 \\ 1 & 3
 \end{pmatrix}.
 \end{equation*}

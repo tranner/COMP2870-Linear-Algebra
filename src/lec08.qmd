@@ -401,11 +401,9 @@ Continue this exercise with $P_{2, 3}$ to show
 \begin{align*}
 & V'' = V' P_{2, 3}
 = \begin{pmatrix}
-\frac{\sqrt{\sqrt{2} + 2}}{2} & - \frac{\sqrt{2}}{4} &
-\frac{1}{2} - \frac{\sqrt{2}}{4}\\
-
-- \frac{\sqrt{2 - \sqrt{2}}}{2} & - \frac{1}{2} - \frac{\sqrt{2}}{4} &
-\frac{\sqrt{2}}{4}\\
+\frac{\sqrt{\sqrt{2} + 2}}{2} & - \frac{\sqrt{2}}{4}
+& \frac{1}{2} - \frac{\sqrt{2}}{4} \\ - \frac{\sqrt{2 - \sqrt{2}}}{2} &
+-\frac{1}{2} - \frac{\sqrt{2}}{4} & \frac{\sqrt{2}}{4} \\
 0 & - \frac{\sqrt{2 - \sqrt{2}}}{2} & - \frac{\sqrt{\sqrt{2} + 2}}{2}
 \end{pmatrix} \\
 & \approx

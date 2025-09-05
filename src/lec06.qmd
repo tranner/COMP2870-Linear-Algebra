@@ -433,7 +433,7 @@ Compute the modulus and argument of $2$, $3i$ and $4 + 4i$.
 ```{python}
 # | echo: false
 # | caption: "Examples of arguments of complex numbers as points in the complex
-#  plane."
+# |            plane."
 
 zz = {
     "3 + 6i": complex(3, 6),

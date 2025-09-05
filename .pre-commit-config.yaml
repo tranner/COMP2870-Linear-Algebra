@@ -12,8 +12,8 @@ repos:
   - id: markdownlint
     files: ".*qmd$"
     types: [text]
-    args: ["-f","--ignore","MD012"]
-    # TODO MD012 needs to be ignored better?
+    args: ["-f","--disable","MD012"]
+    exclude: ^_extensions/
 
 -   repo: local
     hooks:

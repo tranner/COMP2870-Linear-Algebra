@@ -3,7 +3,7 @@
 
 # lint all files
 lint:
-	./qmd_ruff.py src/*.qmd
+	uv run pre-commit run --all-files
 
 # serve a preview of the output
 serve:

@@ -198,7 +198,7 @@ For a system written in matrix form our three observations mean the following:
   \end{pmatrix}
   $$
 
-- We can replace row $q$ by row $q + k \times$ row $p$. For example:
+- [ ] We can replace row $q$ by row $q + k \times$ row $p$. For example:
 
   $$
   \begin{pmatrix}
@@ -302,17 +302,20 @@ headers = {
     "User-Agent": "Mozilla/5.0 (compatible; MyQuartoImageBot/1.0; +https://example.com/bot-info)"
 }
 
-image_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Yanghui_Yongle_Dadian.JPG/1024px-Yanghui_Yongle_Dadian.JPG"
-response = requests.get(image_url, headers=headers)
-response.raise_for_status()
+try:
+    image_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Yanghui_Yongle_Dadian.JPG/1024px-Yanghui_Yongle_Dadian.JPG"
+    response = requests.get(image_url, headers=headers)
+    response.raise_for_status()
 
-image = Image.open(BytesIO(response.content))
+    image = Image.open(BytesIO(response.content))
 
-plt.imshow(image, cmap="grey")
-plt.axis("off")
+    plt.imshow(image, cmap="grey")
+    plt.axis("off")
 
-plt.tight_layout()
-plt.show()
+    plt.tight_layout()
+    plt.show()
+except requests.ConnectionError:
+    print("Connection error, try again later")
 
 
 ```
@@ -1023,8 +1026,7 @@ be produced by left multiplication with a suitable matrix:
   \begin{pmatrix}
   a & b & c \\ d & e & f \\ g & h & i
   \end{pmatrix}
-  =
-  \begin{pmatrix}
+  = \begin{pmatrix}
   a & b & c \\ g & h & i \\ d & e & f
   \end{pmatrix}
   $$
@@ -1038,8 +1040,7 @@ be produced by left multiplication with a suitable matrix:
   \begin{pmatrix}
   a & b & c & d \\ e & f & g & h \\ i & j & k & l \\ m & n & o & p
   \end{pmatrix}
-  =
-  \begin{pmatrix}
+  = \begin{pmatrix}
   a & b & c & d \\ i & j & k & l \\ e & f & g & h \\ m & n & o & p
   \end{pmatrix}
   $$
@@ -1053,8 +1054,7 @@ be produced by left multiplication with a suitable matrix:
   \begin{pmatrix}
   a & b & c \\ d & e & f \\ g & h & i
   \end{pmatrix}
-  =
-  \begin{pmatrix}
+  = \begin{pmatrix}
   \alpha a & \alpha b & \alpha c \\ d & e & f \\ g & h & i
   \end{pmatrix}
   $$
@@ -1068,8 +1068,7 @@ be produced by left multiplication with a suitable matrix:
   \begin{pmatrix}
   a & b & c \\ d & e & f \\ g & h & i
   \end{pmatrix}
-  =
-  \begin{pmatrix}
+  = \begin{pmatrix}
   a & b & c \\ d & e & f \\ \alpha a + g & \alpha b + h & \alpha c + i
   \end{pmatrix}
   $$
@@ -1113,8 +1112,7 @@ a_{21} & a_{22} & a_{23} & a_{24} \\
 a_{31} & a_{32} & a_{33} & a_{34} \\
 a_{41} & a_{42} & a_{43} & a_{44}
 \end{pmatrix}
- =
-\begin{pmatrix}
+= \begin{pmatrix}
 1 & 0 & 0 & 0 \\
 l_{21} & 1 & 0 & 0 \\
 l_{31} & l_{32} & 1 & 0 \\
@@ -1727,7 +1725,6 @@ entry in $L$ satisfies $| l_{ij} | \le 1$.
 Consider the linear system of equations given by
 
 $$
-
 \begin{pmatrix}
 10 & -7 & 0 \\
 -3 & 2.1 - \varepsilon & 6 \\
@@ -1736,9 +1733,7 @@ $$
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
- =
-
-\begin{pmatrix}
+= \begin{pmatrix}
 7 \\ 9.9 + \varepsilon \\ 11
 \end{pmatrix}
 $$

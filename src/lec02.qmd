@@ -70,7 +70,8 @@ $\vec{a}$ is a row vector, $\vec{b}$ and $\vec{c}$ are
 \vec{b} =
 \begin{pmatrix} 0 \\ 1 \\ 3.1 \\ 7 \end{pmatrix}
 \quad
-\vec{c} = \begin{pmatrix} 4 \\ 6 \\ -4 \\ 0 \end{pmatrix}. \end{align*}
+\vec{c} = \begin{pmatrix} 4 \\ 6 \\ -4 \\ 0 \end{pmatrix}.
+\end{align*}
 
 ::: {#exr-vector}
 
@@ -292,8 +293,7 @@ $$
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6 \\ x_7
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 400/6 \\ 100/6 \\ 0 \\ 0 \\ 100/6 \\ 0 \\ 0
 \end{pmatrix}.
 $$
@@ -410,8 +410,7 @@ $$
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6 \\ x_7 \\ x_8
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 y_5 \\ y_{12} - y_6 \\ y_8 - y_7 \\ y_{11} - y_4 \\
 y_{11} + y_{12} - y_{10} \\ y_9 \\ y_2 - y_3 \\ y_1
 \end{pmatrix}.
@@ -495,8 +494,7 @@ Then, we can easily compute the following *linear combinations*
 Now if we write $A$ for the $3 \times 3$-matrix whose columns are $\vec{a},
 \vec{b}, \vec{c}$:
 \begin{align*}
-A =
-\begin{pmatrix}
+A = \begin{pmatrix}
 && \\ \vec{a} & \vec{b} & \vec{c} \\ &&
 \end{pmatrix}
 = \begin{pmatrix}
