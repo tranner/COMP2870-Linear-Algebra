@@ -278,7 +278,7 @@ In fact, we use this same calculation to define the **absolute value**
 ```{python}
 # | echo: false
 # | caption: "Examples of moduli of complex numbers as points in the complex
-#   plane."
+# |           plane."
 
 zz = {
     "3 + 6i": complex(3, 6),
