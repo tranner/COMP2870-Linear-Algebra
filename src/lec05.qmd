@@ -816,9 +816,7 @@ $$
 $$
 where $\vec{r}$ is a vector with $n$ entries.
 
-::: {.callout-tip}
-
-### Examples
+::: {#exm-norms}
 
 Consider the following sequence $\vec{x}^{(k)}$:
 
@@ -874,7 +872,7 @@ methods) to use stopping criteria:
 In both cases, we call $tol$ the **convergence tolerance** and the choice of
 $tol$ will control the accuracy of the solution.
 
-::: {.callout-tip}
+::: {#exr-stopping-discussion}
 
 ### Discussion
 
