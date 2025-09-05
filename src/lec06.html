@@ -325,7 +325,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to Linear Algebra</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to linear algebra</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -423,6 +423,7 @@ window.Quarto = {
 </header>
 
 
+<p>This section of the notes supports the final learning outcome around eigenvalues and eigenvectors.</p>
 <section id="basic-definitions" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="basic-definitions"><span class="header-section-number">6.1</span> Basic definitions</h2>
 <p>A complex number is an element of a number system which extends our familiar real number system. Our motivation will be for finding eigenvalues and eigenvectors which is the next topic in this module. In order to find eigenvalues, we will need to find solutions of polynomial equations and it will turn out to be useful to <em>always</em> be able to get a solution to any polynomial equation.</p>
@@ -430,7 +431,7 @@ window.Quarto = {
 <p><span class="theorem-title"><strong>Example 6.1</strong></span> Consider the polynomial equation <span class="math display">\[\begin{equation}
 x^2 + 1 = 0.
 \end{equation}\]</span></p>
-<div id="40be4006" class="cell" data-execution_count="2">
+<div id="6dedbc67" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -444,11 +445,13 @@ x^2 + 1 = 0.
 <p>The key idea of complex numbers is to create a new symbol, that we will call <span class="math inline">\(i\)</span>, or the <strong>imaginary unit</strong> which satisfies: <span class="math display">\[\begin{equation*}
 i^2 = -1 \qquad \sqrt{-1} = i.
 \end{equation*}\]</span> By taking multiples of this imaginary unit, we can create many more new numbers, like <span class="math inline">\(3i, \sqrt{5} i\)</span> or <span class="math inline">\(-12 i\)</span>. These are examples of <strong>imaginary numbers</strong>.</p>
-<p>We form <strong>complex numbers</strong> by adding real and imaginary numbers whilst keeping each part separate. For example, <span class="math inline">\(2 + 3i\)</span>, <span class="math inline">\(\frac{1}{2} + \sqrt{5} i\)</span> or <span class="math inline">\(12 - 12i\)</span>.</p>
+<p>We form <strong>complex numbers</strong> by adding real and imaginary numbers whilst keeping each part separate. For example, <span class="math inline">\(2 + 3i\)</span>, <span class="math inline">\(\frac{1}{2} + \sqrt{5} i\)</span> or <span class="math inline">\(12 -
+12i\)</span>.</p>
 <div id="def-complex" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 6.1</strong></span> Any number that can be written as <span class="math inline">\(z = a + bi\)</span> with <span class="math inline">\(a, b\)</span> real numbers and <span class="math inline">\(i\)</span> the imaginary unit are called <em>complex numbers</em>. In this format, we call <span class="math inline">\(a\)</span> the <strong>real part</strong> of <span class="math inline">\(z\)</span> and <span class="math inline">\(b\)</span> the <strong>imaginary part</strong> of <span class="math inline">\(z\)</span>.</p>
 </div>
-<p>We notice that all real numbers <span class="math inline">\(x\)</span> must also be complex numbers since <span class="math inline">\(x = x + 0 i\)</span>.</p>
+<p>We notice that all real numbers <span class="math inline">\(x\)</span> must also be complex numbers since <span class="math inline">\(x = x +
+0 i\)</span>.</p>
 <div id="rem-history" class="proof remark">
 <p><span class="proof-title"><em>Remark 6.1</em>. </span>Among the first recorded use of complex numbers in European mathematics is by an Italian mathematician Gerolamo Cardano in around 1545. He later described complex numbers as being “as subtle as they are useless” and “mental torture”.</p>
 <p>The term imaginary was coined by Rene Descartes in 1637:</p>
@@ -487,8 +490,10 @@ i^2 = -1 \qquad \sqrt{-1} = i.
 <div id="exm-mult" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.3</strong></span> <span class="math display">\[\begin{align*}
 &amp; (2 + 3i) \times (12 - 12i)  \\
-&amp; = 2 \times 12 + 3i \times 12 + 2 \times - 12 i + 3i \times - 12 i &amp;&amp; \text{(expand brackets)} \\
-&amp; = 2 \times 12 + (12 \times 3) i + (2 \times - 12) i + (3 \times - 12) \times i^2 &amp;&amp; \text{(rearrange)} \\
+&amp; = 2 \times 12 + 3i \times 12 + 2 \times - 12 i + 3i \times - 12 i
+&amp;&amp; \text{(expand brackets)} \\
+&amp; = 2 \times 12 + (12 \times 3) i + (2 \times - 12) i + (3 \times - 12) \times
+i^2 &amp;&amp; \text{(rearrange)} \\
 &amp; = 24 + 36 i - 24 i - 36 \times i^2 &amp;&amp; \text{(compute products)} \\
 &amp; = 24 + 36 i - 24 i + 36 &amp;&amp; \text{(use $i^2 = -1$)} \\
 &amp; = 60 + 12 i &amp;&amp; \text{(collect terms)}.
@@ -503,12 +508,15 @@ i^2 = -1 \qquad \sqrt{-1} = i.
 <p>Division is harder - you may want to skip this on first reading since it is not so important for what follows in these notes. When we divide complex numbers, we try to rewrite the fraction to have a real denominator by “rationalising the denominator”.</p>
 <div id="exm-division" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.4</strong></span> Suppose we want to find <span class="math inline">\((2 + 3i) / (12 - 12i)\)</span>. Our idea is to find a numbers so that we can write <span class="math display">\[\begin{equation*}
-\frac{2 + 3i}{12 - 12i} = \frac{2 + 3i}{12 - 12i} \times \frac{z}{z} = \frac{(2 + 3i)z}{(12 - 12i)z} = \frac{\text{something}}{\text{something real}}.
+\frac{2 + 3i}{12 - 12i} = \frac{2 + 3i}{12 - 12i} \times \frac{z}{z}
+= frac{(2 + 3i)z}{(12 - 12i)z} = \frac{\text{something}}{\text{something real}}.
 \end{equation*}\]</span> The answer is to use <span class="math inline">\(z = 12 + 12 i\)</span> - that is the denominator with the sign of the imaginary part flipped (we will give this a name later on).</p>
 <p>We can compute that <span class="math display">\[\begin{align*}
 &amp; (12 - 12i) \times (12 + 12i) \\
-&amp; = (12 \times 12) + (12 \times 12i) + (-12i \times 12) + (-12i \times 12i) &amp;&amp; \text{(expand bracket)}\\
-&amp; = 12 \times 12 + (12 \times 12) i + (-12 \times 12) i + (-12 \times 12) i^2 &amp;&amp; \text{(rearrange)} \\
+&amp; = (12 \times 12) + (12 \times 12i) + (-12i \times 12) + (-12i \times 12i)
+&amp;&amp; \text{(expand bracket)}\\
+&amp; = 12 \times 12 + (12 \times 12) i + (-12 \times 12) i + (-12 \times 12) i^2
+&amp;&amp; \text{(rearrange)} \\
 &amp; = 144 + 144i - 144i -144 i^2 &amp;&amp; \text{(compute products)} \\
 &amp; = 144 + 144i - 144i + 144 &amp;&amp; \text{(use $i^2 = -1$)} \\
 &amp; = 288 + 0 i &amp;&amp; \text{(collect terms)}.
@@ -522,20 +530,24 @@ i^2 = -1 \qquad \sqrt{-1} = i.
 &amp; = -12 + 60i.
 \end{align*}\]</span></p>
 <p>Thus we infer that <span class="math display">\[\begin{align*}
-\frac{2 + 3i}{12 - 12i} &amp;= \frac{2 + 3i}{12 - 12i} \times \frac{12 + 12i}{12 + 12i} \\
+\frac{2 + 3i}{12 - 12i} &amp;= \frac{2 + 3i}{12 - 12i} \times
+\frac{12 + 12i}{12 + 12i} \\
 &amp; = \frac{(2 + 3i)(12 + 12i)}{(12 - 12i)(12 + 12i)} \\
 &amp; = \frac{-12 + 60i}{288} \\
 &amp; = \frac{-12}{288} + \frac{60}{288} i \\
 &amp; = -\frac{1}{24} + \frac{5}{24} i.
 \end{align*}\]</span></p>
-<p>To check we have not done anything silly, we should also check that <span class="math inline">\((12 + 12i) / (12 + 12i) = 1\)</span>. This is left as an exercise.</p>
+<p>To check we have not done anything silly, we should also check that <span class="math inline">\((12 + 12i)
+/ (12 + 12i) = 1\)</span>. This is left as an exercise.</p>
 </div>
 <div id="exr-division" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 6.4</strong></span> Find <span class="math inline">\((3 + 6i) / (-3.5 + 2i)\)</span> and <span class="math inline">\((12 + 12i) / (12 + 12i)\)</span>.</p>
 </div>
 <div id="rem-product" class="proof remark">
-<p><span class="proof-title"><em>Remark 6.2</em>. </span>One thing to be careful of when considering products is that the identity <span class="math inline">\(i^2 = -1\)</span> appears to break one rule of arithmetic of square roots: <span class="math display">\[\begin{equation*}
-i^2 = (\sqrt{-1})^2 = \sqrt{-1} \sqrt{-1} \neq \sqrt{(-1) \times (-1)} = \sqrt{1} = 1.
+<p><span class="proof-title"><em>Remark 6.2</em>. </span>One thing to be careful of when considering products is that the identity <span class="math inline">\(i^2
+= -1\)</span> appears to break one rule of arithmetic of square roots: <span class="math display">\[\begin{equation*}
+i^2 = (\sqrt{-1})^2 = \sqrt{-1} \sqrt{-1} \neq \sqrt{(-1) \times (-1)} = \sqrt{1}
+= 1.
 \end{equation*}\]</span> In fact, we have that <span class="math inline">\(\sqrt{x} \sqrt{y} = \sqrt{xy}\)</span> only if <span class="math inline">\(x, y &gt; 0\)</span>.</p>
 </div>
 </section>
@@ -545,7 +557,7 @@ i^2 = (\sqrt{-1})^2 = \sqrt{-1} \sqrt{-1} \neq \sqrt{(-1) \times (-1)} = \sqrt{1
 <p>The complex plane is the two dimensional space formed by considering the real and imaginary parts of a complex number as two different coordinate axes.</p>
 <div id="exm-plane" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.5</strong></span> &nbsp;</p>
-<div id="3a8c8a4c" class="cell" data-caption="Examples of complex numbers as points in the complex plane." data-execution_count="3">
+<div id="73926f4a" class="cell" data-caption="Examples of complex numbers as points in the complex plane." data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -556,7 +568,8 @@ i^2 = (\sqrt{-1})^2 = \sqrt{-1} \sqrt{-1} \neq \sqrt{(-1) \times (-1)} = \sqrt{1
 </div>
 </div>
 <p>We can see that adding complex numbers looks just like adding two dimensional vectors! We can also use this geometric picture to help with some further operations.</p>
-<p>The complex conjugate of a complex number <span class="math inline">\(z = a + bi\)</span> is given by <span class="math inline">\(\bar{z} = a - bi\)</span>. (The complex conjugate is that number we used before when working out how to divide complex numbers).</p>
+<p>The complex conjugate of a complex number <span class="math inline">\(z = a + bi\)</span> is given by <span class="math inline">\(\bar{z} =
+a - bi\)</span>. (The complex conjugate is that number we used before when working out how to divide complex numbers).</p>
 <div id="exm-conjugate" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.6</strong></span> The complex conjugate of <span class="math inline">\(2 + 3i\)</span> is <span class="math inline">\(2 - 3i\)</span>. The complex conjugate of <span class="math inline">\(12 - 12i\)</span> is <span class="math inline">\(12 + 12i\)</span>.</p>
 <div id="exr-conjugate" class="theorem exercise">
@@ -575,7 +588,7 @@ i^2 = (\sqrt{-1})^2 = \sqrt{-1} \sqrt{-1} \neq \sqrt{(-1) \times (-1)} = \sqrt{1
 \end{equation*}\]</span></p>
 <div id="exm-modulus" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.7</strong></span> &nbsp;</p>
-<div id="a6803178" class="cell" data-caption="Examples of moduli of complex numbers as points in the complex plane." data-execution_count="4">
+<div id="1ba386aa" class="cell" data-caption="Examples of moduli of complex numbers as points in the complex plane." data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -600,21 +613,25 @@ z y
 &amp; = a^2 c^2 + b^2 d^2 + a^2 d^2 + b^2 c^2 \\
 &amp; = (a^2 + b^2) (c^2 + d^2),
 \end{align*}\]</span> and we have computed that <span class="math inline">\(|zy|= |z| |y|\)</span>.</p>
-<p>In particular, if <span class="math inline">\(y\)</span> has modulus 1, then <span class="math inline">\(|zy| = |z|\)</span>. This means that <span class="math inline">\(zy\)</span> and <span class="math inline">\(z\)</span> are the same distance from the origin but ‘point’ in different directions. We can write the real and imaginary parts as <span class="math inline">\(y = c + di = \cos(\theta) + i \sin(\theta)\)</span>, where <span class="math inline">\(\theta\)</span> is the angle between the positive real axis and the line between <span class="math inline">\(0\)</span> and <span class="math inline">\(y\)</span>. Then <span class="math display">\[\begin{align*}
+<p>In particular, if <span class="math inline">\(y\)</span> has modulus 1, then <span class="math inline">\(|zy| = |z|\)</span>. This means that <span class="math inline">\(zy\)</span> and <span class="math inline">\(z\)</span> are the same distance from the origin but ‘point’ in different directions. We can write the real and imaginary parts as <span class="math inline">\(y = c + di = \cos(\theta) + i
+\sin(\theta)\)</span>, where <span class="math inline">\(\theta\)</span> is the angle between the positive real axis and the line between <span class="math inline">\(0\)</span> and <span class="math inline">\(y\)</span>. Then <span class="math display">\[\begin{align*}
 z y
 &amp; = (ac - bd) + (ad + bc)i \\
 &amp; = (a \cos(\theta) - b \sin(\theta)) + (a \sin(\theta) + b\cos(\theta)) i.
-\end{align*}\]</span> Recalling the example of a rotation matrix from <a href="../src/lec02.html">Lecture ??</a>, we see that multiplying by <span class="math inline">\(y\)</span> is the same as rotating the complex point (<span class="math inline">\(z\)</span>) by an angle of <span class="math inline">\(\theta\)</span> radians in the anticlockwise direction.</p>
+\end{align*}\]</span> Recalling the example of a rotation matrix from (TODO is it there?), we see that multiplying by <span class="math inline">\(y\)</span> is the same as rotating the complex point (<span class="math inline">\(z\)</span>) by an angle of <span class="math inline">\(\theta\)</span> radians in the anticlockwise direction.</p>
 <p>This leads us to thinking <em>polar coordinates</em> for the complex plane. Polar coordinates are a different form of coordinates that replace the usual <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>-directions (up and across) by two values which represent the distance to the origin (that we call radius) and angle to the positive <span class="math inline">\(x\)</span>-axis (that we call the angle). When talking about a complex numbers <span class="math inline">\(z\)</span> represented in the complex plane, we know that the modulus <span class="math inline">\(|z|\)</span> represents the radius. The idea of <span class="math inline">\(\theta\)</span> above represents the angle of a complex number that we know call the <strong>argument</strong>.</p>
 <div id="def-polar-rep" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 6.2</strong></span> Let <span class="math inline">\(z\)</span> be a complex number. The <strong>polar form</strong> of <span class="math inline">\(z\)</span> is <span class="math inline">\(R (cos \theta + i \sin \theta)\)</span>. We call <span class="math inline">\(R\)</span> the modulus of <span class="math inline">\(z\)</span> and <span class="math inline">\(\theta\)</span> is the argument of <span class="math inline">\(z\)</span>.</p>
+<p><span class="theorem-title"><strong>Definition 6.2</strong></span> Let <span class="math inline">\(z\)</span> be a complex number. The <strong>polar form</strong> of <span class="math inline">\(z\)</span> is <span class="math inline">\(R (cos \theta + i
+\sin \theta)\)</span>. We call <span class="math inline">\(R\)</span> the modulus of <span class="math inline">\(z\)</span> and <span class="math inline">\(\theta\)</span> is the argument of <span class="math inline">\(z\)</span>.</p>
 </div>
-<p>The representation of the angle only unique up to adding integer multiples of <span class="math inline">\(2 \pi\)</span>, since rotating a point by <span class="math inline">\(2 \pi\)</span> about the origin leaves it unchanged.</p>
+<p>The representation of the angle only unique up to adding integer multiples of <span class="math inline">\(2
+\pi\)</span>, since rotating a point by <span class="math inline">\(2 \pi\)</span> about the origin leaves it unchanged.</p>
 <div id="exm-polar-rep" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.8</strong></span> Let <span class="math inline">\(z = 12 -12i\)</span>. Then <span class="math display">\[\begin{align*}
 |z| = |12 - 12i| = \sqrt{12^2 + 12^2} = \sqrt{2 \times 144} = 12 \sqrt{2}.
 \end{align*}\]</span> We have <span class="math inline">\(\arg{z} = -\pi / 4\)</span> since <span class="math display">\[\begin{equation*}
-\cos(-\pi/4) = \frac{1}{\sqrt{2}}, \quad \text{and} \quad \sin(-\pi/4) = \frac{-1}{\sqrt{2}},
+\cos(-\pi/4) = \frac{1}{\sqrt{2}}, \quad \text{and} \quad \sin(-\pi/4)
+= \frac{-1}{\sqrt{2}},
 \end{equation*}\]</span> so</p>
 <p><span class="math display">\[\begin{equation*}
 12 \sqrt{2} (\cos(-\pi/4) + i \sin(-\pi/4))
@@ -627,7 +644,7 @@ z y
 </div>
 <div id="exm-arg" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.9</strong></span> &nbsp;</p>
-<div id="0937f477" class="cell" data-caption="Examples of arguments of complex numbers as points in the complex plane." data-execution_count="5">
+<div id="10116519" class="cell" data-caption="Examples of arguments of complex numbers as points in the complex plane." data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -639,7 +656,8 @@ z y
 </div>
 <p>The polar representation of complex numbers then gives us a nice way to understand multiplication of complex numbers. If <span class="math inline">\(y \neq 0\)</span>, then we can check that <span class="math inline">\(\left| \frac{y}{|y|} \right| = 1\)</span> and <span class="math inline">\(\arg{y} = \arg{\frac{y}{|y|}}\)</span>. Then writing <span class="math inline">\(zy = z \frac{y}{|y|} |y|\)</span>, we can use our calculations above to infer that multiplying by <span class="math inline">\(y\)</span> corresponds to a anti-clockwise rotation by <span class="math inline">\(\arg{y}\)</span> then scaling by <span class="math inline">\(|y|\)</span>.</p>
 <div id="exr-check" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 6.8</strong></span> Check that for any non-zero complex number <span class="math inline">\(y\)</span>, that <span class="math inline">\(\left| \frac{y}{|y|} \right| = 1\)</span> and <span class="math inline">\(\arg{y} = \arg{\frac{y}{|y|}}\)</span>.</p>
+<p><span class="theorem-title"><strong>Exercise 6.8</strong></span> Check that for any non-zero complex number <span class="math inline">\(y\)</span>, that <span class="math inline">\(\left| \frac{y}{|y|}
+\right| = 1\)</span> and <span class="math inline">\(\arg{y} = \arg{\frac{y}{|y|}}\)</span>.</p>
 </div>
 </section>
 <section id="solving-polynomial-equations" class="level2" data-number="6.4">
@@ -659,7 +677,7 @@ x^2 + 1 = 0.
 &amp; i^2 + 1 = 0 \\
 &amp; (-i)^2 + 1 = (-1)^2 i^2 + 1 = i^2 + 1 = 0.
 \end{align*}\]</span></p>
-<div id="67fab2f4" class="cell" data-execution_count="6">
+<div id="b1b2325c" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -670,10 +688,11 @@ x^2 + 1 = 0.
 </div>
 <p>Notice that along the real line (Imaginary part <span class="math inline">\(=0\)</span>), the value of the function is always above 1.</p>
 </div>
-<p>To find complex roots of other quadratic equations, we can apply the quadratic formula:</p>
+<p>In general, to find complex roots of other quadratic equations, we can apply the quadratic formula:</p>
 <div id="exm-polynomial1" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.11</strong></span> To find the values of <span class="math inline">\(z\)</span> which satisfy <span class="math inline">\(z^2 - 2z + 2 = 0\)</span>, we see: <span class="math display">\[\begin{align*}
-z = \frac{+2 \pm \sqrt{(-2)^2 - 4 \times 1 \times 2}}{2} = \frac{2 \pm \sqrt{-4}}{2} = \frac{2 \pm 2 \sqrt{-1}}{2} = 1 \pm i.
+z = \frac{+2 \pm \sqrt{(-2)^2 - 4 \times 1 \times 2}}{2} =
+\frac{2 \pm \sqrt{-4}}{2} = \frac{2 \pm 2 \sqrt{-1}}{2} = 1 \pm i.
 \end{align*}\]</span></p>
 <div id="exr-polynomial" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 6.9</strong></span> Find the value of <span class="math inline">\(z\)</span> which satisfy <span class="math inline">\(z^2 - 4z + 20 = 0\)</span>.</p>

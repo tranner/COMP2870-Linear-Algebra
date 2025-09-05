@@ -360,7 +360,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to Linear Algebra</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to linear algebra</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -425,15 +425,15 @@ window.Quarto = {
   <li><a href="#solving-triangular-systems-of-equations" id="toc-solving-triangular-systems-of-equations" class="nav-link" data-scroll-target="#solving-triangular-systems-of-equations"><span class="header-section-number">4.4</span> Solving triangular systems of equations</a></li>
   <li><a href="#combining-gaussian-elimination-and-backward-substitution" id="toc-combining-gaussian-elimination-and-backward-substitution" class="nav-link" data-scroll-target="#combining-gaussian-elimination-and-backward-substitution"><span class="header-section-number">4.5</span> Combining Gaussian elimination and backward substitution</a></li>
   <li><a href="#the-cost-of-gaussian-elimination" id="toc-the-cost-of-gaussian-elimination" class="nav-link" data-scroll-target="#the-cost-of-gaussian-elimination"><span class="header-section-number">4.6</span> The cost of Gaussian Elimination</a></li>
-  <li><a href="#lu-factorisation" id="toc-lu-factorisation" class="nav-link" data-scroll-target="#lu-factorisation"><span class="header-section-number">4.7</span> LU factorisation</a>
+  <li><a href="#sec-LU-factorisation" id="toc-sec-LU-factorisation" class="nav-link" data-scroll-target="#sec-LU-factorisation"><span class="header-section-number">4.7</span> LU factorisation</a>
   <ul class="collapse">
   <li><a href="#computing-l-and-u" id="toc-computing-l-and-u" class="nav-link" data-scroll-target="#computing-l-and-u"><span class="header-section-number">4.7.1</span> Computing <span class="math inline">\(L\)</span> and <span class="math inline">\(U\)</span></a></li>
-  <li><a href="#python-code" id="toc-python-code" class="nav-link" data-scroll-target="#python-code"><span class="header-section-number">4.7.2</span> Python code</a></li>
+  <li><a href="#python-code-for-lu-factorisation" id="toc-python-code-for-lu-factorisation" class="nav-link" data-scroll-target="#python-code-for-lu-factorisation"><span class="header-section-number">4.7.2</span> Python code for LU factorisation</a></li>
   </ul></li>
   <li><a href="#effects-of-finite-precision-arithmetic" id="toc-effects-of-finite-precision-arithmetic" class="nav-link" data-scroll-target="#effects-of-finite-precision-arithmetic"><span class="header-section-number">4.8</span> Effects of finite precision arithmetic</a>
   <ul class="collapse">
   <li><a href="#gaussian-elimination-with-pivoting" id="toc-gaussian-elimination-with-pivoting" class="nav-link" data-scroll-target="#gaussian-elimination-with-pivoting"><span class="header-section-number">4.8.1</span> Gaussian elimination with pivoting</a></li>
-  <li><a href="#python-code-1" id="toc-python-code-1" class="nav-link" data-scroll-target="#python-code-1"><span class="header-section-number">4.8.2</span> Python code</a></li>
+  <li><a href="#python-code-for-gaussian-elimination-with-pivoting" id="toc-python-code-for-gaussian-elimination-with-pivoting" class="nav-link" data-scroll-target="#python-code-for-gaussian-elimination-with-pivoting"><span class="header-section-number">4.8.2</span> Python code for Gaussian elimination with pivoting</a></li>
   </ul></li>
   <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">4.9</span> Further reading</a></li>
   </ul>
@@ -475,21 +475,36 @@ window.Quarto = {
 </header>
 
 
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Module learning objective
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Apply direct and iterative solvers to solve systems of linear equations; implement methods using floating point numbers and investigate computational cost using computer experiments.</p>
+</div>
+</div>
 <section id="reminder-of-the-problem" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="reminder-of-the-problem"><span class="header-section-number">4.1</span> Reminder of the problem</h2>
 <p>This is the first method we will use to solve systems of linear equations. We will see that by using the approach of Gaussian elimination (and variations of that method) we can solve any system of linear equations that have a solution.</p>
 <p>Recall the problem is to solve a set of <span class="math inline">\(n\)</span> <strong>linear</strong> equations for <span class="math inline">\(n\)</span> unknown values <span class="math inline">\(x_j\)</span>, for <span class="math inline">\(j=1, 2, \ldots, n\)</span>.</p>
 <p><strong>Notation</strong>:</p>
-<p><span class="math display">\[
-\begin{aligned}
-\text{Equation } 1: &amp;&amp; a_{11} x_1 + a_{12} x_2 + a_{13} x_3 + \cdots + a_{1n} x_n &amp; = b_1 \\
-\text{Equation } 2: &amp;&amp; a_{21} x_1 + a_{22} x_2 + a_{23} x_3 + \cdots + a_{2n} x_n &amp; = b_2 \\
+<p><span class="math display">\[\begin{align*}
+\text{Equation } 1:
+&amp;&amp; a_{11} x_1 + a_{12} x_2 + a_{13} x_3 + \cdots + a_{1n} x_n &amp; = b_1 \\
+\text{Equation } 2:
+&amp;&amp; a_{21} x_1 + a_{22} x_2 + a_{23} x_3 + \cdots + a_{2n} x_n &amp; = b_2 \\
 \vdots \\
-\text{Equation } i: &amp;&amp; a_{i1} x_1 + a_{i2} x_2 + a_{i3} x_3 + \cdots + a_{in} x_n &amp; = b_i \\
+\text{Equation } i:
+&amp;&amp; a_{i1} x_1 + a_{i2} x_2 + a_{i3} x_3 + \cdots + a_{in} x_n &amp; = b_i \\
 \vdots \\
-\text{Equation } n: &amp;&amp; a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n &amp; = b_n.
-\end{aligned}
-\]</span></p>
+\text{Equation } n:
+&amp;&amp; a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n &amp; = b_n.
+\end{align*}\]</span></p>
 <p>We can also write the system of linear equations in <em>general matrix-vector</em> form:</p>
 <p><span class="math display">\[
 \begin{pmatrix}
@@ -529,47 +544,40 @@ k a_{p1} x_1 + k a_{p2} x_2 + k a_{p3} x_3 + \cdots + k a_{pn} x_n = k b_p.
 <li><p>We can add any two equations:</p>
 <p><span class="math display">\[
 k a_{p1} x_1 + k a_{p2} x_2 + k a_{p3} x_3 + \cdots + k a_{pn} x_n = k b_p
-\]</span></p>
+\]</span></p></li>
+</ul>
 <p>added to</p>
 <p><span class="math display">\[
 a_{q1} x_1 + a_{q2} x_2 + a_{q3} x_3 + \cdots + a_{qn} x_n = b_q
 \]</span></p>
 <p>yields</p>
 <p><span class="math display">\[
-(k a_{p1} + a_{q1}) x_1 + (k a_{p2} + a_{q2}) x_2 + \cdots + (k a_{pn} + a_{qn}) x_n = k b_p + b_q.
-\]</span></p></li>
-</ul>
+(k a_{p1} + a_{q1}) x_1 + (k a_{p2} + a_{q2}) x_2 + \cdots + (k a_{pn} +
+a_{qn}) x_n = k b_p + b_q.
+\]</span></p>
 <div id="exm-ero" class="theorem example">
-<p><span class="theorem-title"><strong>Example 4.1</strong></span> Consider the system</p>
-<p><span class="math display">\[\begin{align}
+<p><span class="theorem-title"><strong>Example 4.1</strong></span> Consider the system <span class="math display">\[\begin{align}
 2 x_1 + 3 x_2 &amp; = 4  \label{eq:eg1a} \\
 -3 x_1 + 2 x_2 &amp; = 7 \label{eq:eg1b}.
-\end{align}\]</span></p>
-<p>Then we have:</p>
-<p><span class="math display">\[
-\begin{aligned}
+\end{align}\]</span> Then we have: <span class="math display">\[\begin{align*}
 4 \times \text{\eqref{eq:eg1a}} &amp; \rightarrow &amp; 8 x_1 + 12 x_2 &amp; = 16 \\
 -15. \times \text{\eqref{eq:eg1b}} &amp; \rightarrow &amp; 4.5 x_2 - 3 x_2 &amp; = -10.5 \\
-\text{\eqref{eq:eg1a}} + \text{\eqref{eq:eg1b}} &amp; \rightarrow &amp; -x_1 + 5 x_2 &amp; = 11 \\
-\text{\eqref{eq:eg1b}} + 1.5 \times \text{\eqref{eq:eg1a}} &amp; \rightarrow &amp; 0 + 6.5 x_2 &amp; = 13.
-\end{aligned}
-\]</span></p>
+\text{\eqref{eq:eg1a}} + \text{\eqref{eq:eg1b}} &amp; \rightarrow &amp;
+-x_1 + 5 x_2 &amp; = 11 \\
+\text{\eqref{eq:eg1b}} + 1.5 \times \text{\eqref{eq:eg1a}} &amp; \rightarrow &amp;
+0 + 6.5 x_2 &amp; = 13.
+\end{align*}\]</span></p>
 </div>
 <div id="exr-elo" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.1</strong></span> Consider the system</p>
-<p><span class="math display">\[\begin{align}
+<p><span class="theorem-title"><strong>Exercise 4.1</strong></span> Consider the system <span class="math display">\[\begin{align}
 x_1 + 2 x_2 &amp; = 1 \label{eq:eg2a} \\
 4 x_1 + x_2 &amp; = -3 \label{eq:eg2b}.
-\end{align}\]</span></p>
-<p>Work out the result of these elementary row operations:</p>
-<p><span class="math display">\[
-\begin{aligned}
+\end{align}\]</span> Work out the result of these elementary row operations: <span class="math display">\[\begin{align*}
 2 \times \text{\eqref{eq:eg2a}} &amp; \rightarrow \\
 0.25 \times \text{\eqref{eq:eg2b}} &amp; \rightarrow \\
 \text{\eqref{eq:eg2b}} + (-1) \times \text{\eqref{eq:eg2a}} &amp; \rightarrow \\
 \text{\eqref{eq:eg2b}} + (-4) \times \text{\eqref{eq:eg2a}} &amp; \rightarrow
-\end{aligned}
-\]</span></p>
+\end{align*}\]</span></p>
 </div>
 <p>For a system written in matrix form our three observations mean the following:</p>
 <ul>
@@ -617,7 +625,7 @@ x_1 \\ x_2
 2 \\ 7
 \end{pmatrix}
 \]</span></p></li>
-<li><p>We can replace row <span class="math inline">\(q\)</span> by row <span class="math inline">\(q + k \times\)</span> row <span class="math inline">\(p\)</span>. For example:</p>
+<li><p><label><input type="checkbox">We can replace row <span class="math inline">\(q\)</span> by row <span class="math inline">\(q + k \times\)</span> row <span class="math inline">\(p\)</span>. For example:</label></p>
 <p><span class="math display">\[
 \begin{pmatrix}
 2 &amp; 3 \\ -3 &amp; 2
@@ -660,9 +668,9 @@ x_1 \\ x_2
 \begin{pmatrix}
 1 \\ -7
 \end{pmatrix}
-\]</span></p>
-<p>(here we replaced row <span class="math inline">\(2\)</span> by row <span class="math inline">\(2 + (-4) \times\)</span> row <span class="math inline">\(1\)</span>)</p></li>
+\]</span></p></li>
 </ul>
+<p>(here we replaced row <span class="math inline">\(2\)</span> by row <span class="math inline">\(2 + (-4) \times\)</span> row <span class="math inline">\(1\)</span>)</p>
 <p>Our strategy for solving systems of linear equations using Gaussian elimination is based on the following ideas:</p>
 <ul>
 <li><p>Three types of operation described above are called <strong>elementary row operations</strong> (ERO).</p></li>
@@ -678,7 +686,7 @@ x_1 \\ x_2
 <p>The method of Gaussian elimination appears in the Chinese mathematical text Chapter Eight: Rectangular Arrays of The Nine Chapters on the Mathematical Art. Its use is illustrated in eighteen problems, with two to five equations. The first reference to the book by this title is dated to 179 CE, but parts of it were written as early as approximately 150 BCE. It was commented on by Liu Hui in the 3rd century.</p>
 <p>The method in Europe stems from the notes of Isaac Newton. In 1670, he wrote that all the algebra books known to him lacked a lesson for solving simultaneous equations, which Newton then supplied. Carl Friedrich Gauss in 1810 devised a notation for symmetric elimination that was adopted in the 19th century by professional hand computers to solve the normal equations of least-squares problems. The algorithm that is taught in high school was named for Gauss only in the 1950s as a result of confusion over the history of the subject.</p>
 </blockquote>
-<div id="db7fda43" class="cell" data-execution_count="2">
+<div id="527f301c" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -715,7 +723,7 @@ x_1 \\ x_2 \\ x_3
 <li><p>(row 2) <span class="math inline">\(- 0.5 \times\)</span> (row 1) gives</p>
 <p><span class="math display">\[
 \begin{pmatrix}
-2 &amp; 1 &amp; 4 \\ \mathbf{0} &amp; 1.5 &amp; 0 \\ 2 &amp; 4 &amp; 6
+  2 &amp; 1 &amp; 4 \\ \mathbf{0} &amp; 1.5 &amp; 0 \\ 2 &amp; 4 &amp; 6
 \end{pmatrix}
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
@@ -727,7 +735,7 @@ x_1 \\ x_2 \\ x_3
 <li><p>(row 3) <span class="math inline">\(-\)</span> (row 1) then gives</p>
 <p><span class="math display">\[
 \begin{pmatrix}
-2 &amp; 1 &amp; 4 \\ \mathbf{0} &amp; 1.5 &amp; 0 \\ \mathbf{0} &amp; 3 &amp; 2
+  2 &amp; 1 &amp; 4 \\ \mathbf{0} &amp; 1.5 &amp; 0 \\ \mathbf{0} &amp; 3 &amp; 2
 \end{pmatrix}
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
@@ -741,16 +749,16 @@ x_1 \\ x_2 \\ x_3
 <ul>
 <li><p>(row 3) <span class="math inline">\(- 2 \times\)</span> (row 2) gives</p>
 <p><span class="math display">\[
-\begin{pmatrix}
-2 &amp; 1 &amp; 4 \\ \mathbf{0} &amp; 1.5 &amp; 0 \\ \mathbf{0} &amp; \mathbf{0} &amp; 2
-\end{pmatrix}
-\begin{pmatrix}
-x_1 \\ x_2 \\ x_3
-\end{pmatrix} =
-\begin{pmatrix}
-12 \\ 3 \\ 4
-\end{pmatrix}
-\]</span></p></li>
+  \begin{pmatrix}
+   2 &amp; 1 &amp; 4 \\ \mathbf{0} &amp; 1.5 &amp; 0 \\ \mathbf{0} &amp; \mathbf{0} &amp; 2
+  \end{pmatrix}
+  \begin{pmatrix}
+  x_1 \\ x_2 \\ x_3
+  \end{pmatrix} =
+  \begin{pmatrix}
+  12 \\ 3 \\ 4
+  \end{pmatrix}
+  \]</span></p></li>
 </ul>
 </div>
 <div id="exr-ge" class="theorem exercise">
@@ -773,12 +781,14 @@ x_1 \\ x_2 \\ x_3
 <li><p>Each row <span class="math inline">\(i\)</span> is used to eliminate the entries in column <span class="math inline">\(i\)</span> below <span class="math inline">\(a_{ii}\)</span>, i.e.&nbsp;it forces <span class="math inline">\(a_{ji} = 0\)</span> for <span class="math inline">\(j &gt; i\)</span>.</p></li>
 <li><p>This is done by subtracting a multiple of row <span class="math inline">\(i\)</span> from row <span class="math inline">\(j\)</span>:</p>
 <p><span class="math display">\[
-(\text{row } j) \leftarrow (\text{row } j) - \frac{a_{ji}}{a_{ii}} (\text{row } i).
-\]</span></p></li>
+  (\text{row } j) \leftarrow (\text{row } j) - \frac{a_{ji}}{a_{ii}}
+  (\text{row } i).
+  \]</span></p></li>
 <li><p>This guarantees that <span class="math inline">\(a_{ji}\)</span> becomes zero because</p>
 <p><span class="math display">\[
-a_{ji} \leftarrow a_{ji} - \frac{a_{ji}}{a_{ii}} a_{ii} = a_{ji} - a_{ji} = 0.
-\]</span></p></li>
+  a_{ji} \leftarrow a_{ji} - \frac{a_{ji}}{a_{ii}} a_{ii} = a_{ji} - a_{ji} =
+  0.
+  \]</span></p></li>
 </ul>
 </div>
 <div id="exr-ge2" class="theorem exercise">
@@ -800,19 +810,22 @@ x_1 \\ x_2 \\ x_3 \\ x_4
 <section id="python-version" class="level3" data-number="4.3.2">
 <h3 data-number="4.3.2" class="anchored" data-anchor-id="python-version"><span class="header-section-number">4.3.2</span> Python version</h3>
 <p>We start with some helper code which determines the size of the system we are working with:</p>
-<div id="b239bd3e" class="cell" data-execution_count="3">
+<div id="ced8e041" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> system_size(A, b):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">    for a system of linear equations, returns the size and errors if sizes are not compatible</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    n, m <span class="op">=</span> A.shape</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    nb <span class="op">=</span> b.shape[<span class="dv">0</span>]</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> n <span class="op">==</span> m <span class="kw">and</span> n <span class="op">==</span> nb</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> n</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">    for a system of linear equations, returns the size and errors if sizes are</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">    not compatible</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    n, m <span class="op">=</span> A.shape</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    nb <span class="op">=</span> b.shape[<span class="dv">0</span>]</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> n <span class="op">==</span> m, <span class="ss">f"matrix A is not square </span><span class="sc">{</span>A<span class="sc">.</span>shape<span class="op">=</span><span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> n <span class="op">==</span> nb, <span class="ss">f"system shapes are not compatible </span><span class="sc">{</span>A<span class="sc">.</span>shape<span class="op">=</span><span class="sc">}</span><span class="ss"> </span><span class="sc">{</span>b<span class="sc">.</span>shape<span class="op">=</span><span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> n</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then we can implement the elementary row operations</p>
-<div id="070a2784" class="cell" data-execution_count="5">
+<div id="f4cfa295" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> row_swap(A, b, p, q):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">    swap the rows p and q for the system of linear equations given by Ax = b.</span></span>
@@ -828,8 +841,8 @@ x_1 \\ x_2 \\ x_3 \\ x_4
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> row_scale(A, b, p, k):</span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">    scale the entries in row p by k for the system of linear equations given by Ax = b.</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">    updates entries in place</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">    scale the entries in row p by k for the system of linear equations given by</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">    Ax = b. updates entries in place</span></span>
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> system_size(A, b)</span>
 <span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
@@ -854,7 +867,7 @@ x_1 \\ x_2 \\ x_3 \\ x_4
 </div>
 <p>Let’s test we are ok so far:</p>
 <p>Test 1: swapping rows</p>
-<div id="ab9a494e" class="cell" data-execution_count="6">
+<div id="b5beaaf2" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">2.0</span>, <span class="fl">3.0</span>], [<span class="op">-</span><span class="fl">3.0</span>, <span class="fl">2.0</span>]])</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.array([[<span class="fl">4.0</span>], [<span class="fl">7.0</span>]])</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -889,7 +902,7 @@ b = [  7.0 ]
 </div>
 </div>
 <p>Test 2: scaling one row</p>
-<div id="438e2ac6" class="cell" data-execution_count="7">
+<div id="27924356" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">2.0</span>, <span class="fl">3.0</span>], [<span class="op">-</span><span class="fl">3.0</span>, <span class="fl">2.0</span>]])</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.array([[<span class="fl">4.0</span>], [<span class="fl">7.0</span>]])</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -924,7 +937,7 @@ b = [  2.0 ]
 </div>
 </div>
 <p>Test 3: replacing a row by that adding a multiple of another row</p>
-<div id="a6ae1244" class="cell" data-execution_count="8">
+<div id="7319efc1" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">2.0</span>, <span class="fl">3.0</span>], [<span class="op">-</span><span class="fl">3.0</span>, <span class="fl">2.0</span>]])</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.array([[<span class="fl">4.0</span>], [<span class="fl">7.0</span>]])</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -959,11 +972,11 @@ b = [  4.0 ]
 </div>
 </div>
 <p>Now we can define our Gaussian elimination function. We update the values in-place to avoid extra memory allocations.</p>
-<div id="cdb5290d" class="cell" data-execution_count="9">
+<div id="ce459baa" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gaussian_elimination(A, b, verbose<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">    perform Gaussian elimnation to reduce the system of linear equations Ax=b to upper triangular form</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">    use verbose to print out intermediate representations</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">    perform Gaussian elimnation to reduce the system of linear equations Ax=b to</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">    upper triangular form. use verbose to print out intermediate representations</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># find shape of system</span></span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> system_size(A, b)</span>
@@ -988,7 +1001,7 @@ b = [  4.0 ]
 <span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can try our code on Example 1:</p>
-<div id="ef5c0089" class="cell" data-execution_count="10">
+<div id="8c4ced61" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">2.0</span>, <span class="fl">1.0</span>, <span class="fl">4.0</span>], [<span class="fl">1.0</span>, <span class="fl">2.0</span>, <span class="fl">2.0</span>], [<span class="fl">2.0</span>, <span class="fl">4.0</span>, <span class="fl">6.0</span>]])</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.array([[<span class="fl">12.0</span>], [<span class="fl">9.0</span>], [<span class="fl">22.0</span>]])</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1137,17 +1150,17 @@ x_3 &amp;= \frac{b_3 - a_{31} x_1 - a_{32} x_2}{a_33}
 <div id="rem-triangular" class="proof remark">
 <p><span class="proof-title"><em>Remark 4.1</em>. </span></p>
 <ul>
-<li><p>It is simple to solve a lower (upper) triangular system of equations (provided the diagonal is nonzero).</p></li>
+<li><p>It is simple to solve a lower (upper) triangular system of equations (provided the diagonal is non-zero).</p></li>
 <li><p>This process is often referred to as <strong>forward</strong> (<strong>backward</strong>) <strong>substitution</strong>.</p></li>
-<li><p>A general system of equations (i.e.&nbsp;a full matrix <span class="math inline">\(A\)</span>) can be solved rapidly once it has been reduced to upper triangular form. This is the idea of using Gaussian elimination with backward subsitution.</p></li>
+<li><p>A general system of equations (i.e.&nbsp;a full matrix <span class="math inline">\(A\)</span>) can be solved rapidly once it has been reduced to upper triangular form. This is the idea of using Gaussian elimination with backward substitution.</p></li>
 </ul>
 </div>
 <p>We can define functions to solve both upper or lower triangular form systems of linear equations:</p>
-<div id="3f815832" class="cell" data-execution_count="11">
+<div id="443b6876" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> forward_substitution(A, b):</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">    solves the system of linear equationa Ax = b assuming that A is lower triangular</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">    returns the solution x</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">    solves the system of linear equationa Ax = b assuming that A is lower</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">    triangular. returns the solution x</span></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># get size of system</span></span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> system_size(A, b)</span>
@@ -1170,8 +1183,8 @@ x_3 &amp;= \frac{b_3 - a_{31} x_1 - a_{32} x_2}{a_33}
 <span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> backward_substitution(A, b):</span>
 <span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="co">    solves the system of linear equationa Ax = b assuming that A is upper triangular</span></span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="co">    returns the solution x</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="co">    solves the system of linear equationa Ax = b assuming that A is upper</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="co">    triangular. returns the solution x</span></span>
 <span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
 <span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># get size of system</span></span>
 <span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> system_size(A, b)</span>
@@ -1192,7 +1205,7 @@ x_3 &amp;= \frac{b_3 - a_{31} x_1 - a_{32} x_2}{a_33}
 <span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And we can then test it out!</p>
-<div id="5a0e8c58" class="cell" data-execution_count="12">
+<div id="1b8cac29" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">2.0</span>, <span class="fl">0.0</span>, <span class="fl">0.0</span>], [<span class="fl">1.0</span>, <span class="fl">2.0</span>, <span class="fl">0.0</span>], [<span class="fl">2.0</span>, <span class="fl">4.0</span>, <span class="fl">6.0</span>]])</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.array([[<span class="fl">2.0</span>], [<span class="fl">7.0</span>], [<span class="fl">26.0</span>]])</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1230,7 +1243,7 @@ Does x really solve the system? True</code></pre>
 </div>
 </div>
 <p>We can also do a backward substitution test:</p>
-<div id="9d59f692" class="cell" data-execution_count="13">
+<div id="7550fa2b" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">2.0</span>, <span class="fl">1.0</span>, <span class="fl">4.0</span>], [<span class="fl">0.0</span>, <span class="fl">1.5</span>, <span class="fl">0.0</span>], [<span class="fl">0.0</span>, <span class="fl">0.0</span>, <span class="fl">2.0</span>]])</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.array([[<span class="fl">12.0</span>], [<span class="fl">3.0</span>], [<span class="fl">4.0</span>]])</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1247,8 +1260,7 @@ Does x really solve the system? True</code></pre>
 <span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>print_array(x)</span>
 <span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
 <span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Does x really solve the system?"</span>, np.allclose(A <span class="op">@</span> x, b))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Does x really solve the system?"</span>, np.allclose(A <span class="op">@</span> x, b))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>The system is given by:
 A = [  2.0,  1.0,  4.0 ]
@@ -1278,7 +1290,7 @@ Does x really solve the system? True</code></pre>
 <li>Then use backward substitution to produce a solution <span class="math inline">\(\vec{x}\)</span></li>
 </ul>
 <p>We can use our code to test this:</p>
-<div id="bdf46b2f" class="cell" data-execution_count="14">
+<div id="b740783d" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">2.0</span>, <span class="fl">1.0</span>, <span class="fl">4.0</span>], [<span class="fl">1.0</span>, <span class="fl">2.0</span>, <span class="fl">2.0</span>], [<span class="fl">2.0</span>, <span class="fl">4.0</span>, <span class="fl">6.0</span>]])</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.array([[<span class="fl">12.0</span>], [<span class="fl">9.0</span>], [<span class="fl">22.0</span>]])</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1367,7 +1379,7 @@ Does x really solve the original system? True</code></pre>
 <li>The forward elimination process is the most computationally expensive part at <span class="math inline">\(O(n^3)\)</span> but is exactly the same for any choice of <span class="math inline">\(\vec{b}\)</span>.</li>
 <li>In contrast, the solution of the resulting upper triangular system only requires <span class="math inline">\(O(n^2)\)</span> operations.</li>
 </ul>
-<div id="9188eac2" class="cell" data-execution_count="16">
+<div id="6c606376" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1379,8 +1391,8 @@ Does x really solve the original system? True</code></pre>
 </div>
 <p>We can use this information to improve the way in which we solve multiple systems of equations with the same matrix <span class="math inline">\(A\)</span> but different right-hand sides <span class="math inline">\(\vec{b}\)</span>.</p>
 </section>
-<section id="lu-factorisation" class="level2" data-number="4.7">
-<h2 data-number="4.7" class="anchored" data-anchor-id="lu-factorisation"><span class="header-section-number">4.7</span> LU factorisation</h2>
+<section id="sec-LU-factorisation" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="sec-LU-factorisation"><span class="header-section-number">4.7</span> LU factorisation</h2>
 <p>Our next algorithm, called LU factorisation, is a way to try to speed up Gaussian elimination by reusing information. This can be used when we solve systems of equations with the same matrix <span class="math inline">\(A\)</span> but different right hand sides <span class="math inline">\(\vec{b}\)</span> - this is more common than you would think!</p>
 <p>Recall the elementary row operations (EROs) from above. Note that the EROs can be produced by left multiplication with a suitable matrix:</p>
 <ul>
@@ -1392,8 +1404,7 @@ Does x really solve the original system? True</code></pre>
 \begin{pmatrix}
 a &amp; b &amp; c \\ d &amp; e &amp; f \\ g &amp; h &amp; i
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 a &amp; b &amp; c \\ g &amp; h &amp; i \\ d &amp; e &amp; f
 \end{pmatrix}
 \]</span></p></li>
@@ -1405,8 +1416,7 @@ a &amp; b &amp; c \\ g &amp; h &amp; i \\ d &amp; e &amp; f
 \begin{pmatrix}
 a &amp; b &amp; c &amp; d \\ e &amp; f &amp; g &amp; h \\ i &amp; j &amp; k &amp; l \\ m &amp; n &amp; o &amp; p
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 a &amp; b &amp; c &amp; d \\ i &amp; j &amp; k &amp; l \\ e &amp; f &amp; g &amp; h \\ m &amp; n &amp; o &amp; p
 \end{pmatrix}
 \]</span></p></li>
@@ -1418,8 +1428,7 @@ a &amp; b &amp; c &amp; d \\ i &amp; j &amp; k &amp; l \\ e &amp; f &amp; g &amp
 \begin{pmatrix}
 a &amp; b &amp; c \\ d &amp; e &amp; f \\ g &amp; h &amp; i
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 \alpha a &amp; \alpha b &amp; \alpha c \\ d &amp; e &amp; f \\ g &amp; h &amp; i
 \end{pmatrix}
 \]</span></p></li>
@@ -1431,8 +1440,7 @@ a &amp; b &amp; c \\ d &amp; e &amp; f \\ g &amp; h &amp; i
 \begin{pmatrix}
 a &amp; b &amp; c \\ d &amp; e &amp; f \\ g &amp; h &amp; i
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 a &amp; b &amp; c \\ d &amp; e &amp; f \\ \alpha a + g &amp; \alpha b + h &amp; \alpha c + i
 \end{pmatrix}
 \]</span></p></li>
@@ -1462,8 +1470,7 @@ a_{21} &amp; a_{22} &amp; a_{23} &amp; a_{24} \\
 a_{31} &amp; a_{32} &amp; a_{33} &amp; a_{34} \\
 a_{41} &amp; a_{42} &amp; a_{43} &amp; a_{44}
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 1 &amp; 0 &amp; 0 &amp; 0 \\
 l_{21} &amp; 1 &amp; 0 &amp; 0 \\
 l_{31} &amp; l_{32} &amp; 1 &amp; 0 \\
@@ -1516,8 +1523,7 @@ a_{41} &amp; = (l_{41}, l_{42}, l_{43}, 1)(u_{11}, 0, 0, 0)^T &amp;&amp; = l_{41
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 12 \\ 9 \\ 22
 \end{pmatrix}.
 \]</span></p>
@@ -1528,8 +1534,7 @@ x_1 \\ x_2 \\ x_3
 1 &amp; 2 &amp; 2 \\
 2 &amp; 4 &amp; 6
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 1 &amp; 0 &amp; 0 \\
 l_{21} &amp; 1 &amp; 0 \\
 l_{31} &amp; l_{32} &amp; 1
@@ -1574,16 +1579,14 @@ u_{11} &amp; u_{12} &amp; u_{13} \\
 \begin{pmatrix}
 z_1 \\ z_2 \\ z_3
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 12 \\ 9 \\ 22
 \end{pmatrix}
 \rightarrow
 \begin{pmatrix}
 z_1 \\ z_2 \\ z_3
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 12 \\ 3 \\ 4
 \end{pmatrix}
 \]</span></p>
@@ -1604,8 +1607,7 @@ x_1 \\ x_2 \\ x_3
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 1 \\ 2 \\ 2
 \end{pmatrix}.
 \]</span></p>
@@ -1629,8 +1631,7 @@ A =
 1 &amp; 2 &amp; 2 \\
 2 &amp; 4 &amp; 6
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 1 &amp; 0 &amp; 0 \\
 0.5 &amp; 1 &amp; 0 \\
 1 &amp; 2 &amp; 1
@@ -1648,17 +1649,17 @@ A =
 </ul>
 </div>
 </section>
-<section id="python-code" class="level3" data-number="4.7.2">
-<h3 data-number="4.7.2" class="anchored" data-anchor-id="python-code"><span class="header-section-number">4.7.2</span> Python code</h3>
+<section id="python-code-for-lu-factorisation" class="level3" data-number="4.7.2">
+<h3 data-number="4.7.2" class="anchored" data-anchor-id="python-code-for-lu-factorisation"><span class="header-section-number">4.7.2</span> Python code for LU factorisation</h3>
 <p>We can implement computation of the LU factorisation:</p>
-<div id="40ed4216" class="cell" data-execution_count="17">
+<div id="3b2adc01" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> lu_factorisation(A):</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co">    compute the LU factorisation of A</span></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co">    returns the factors L and U</span></span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    n, m <span class="op">=</span> A.shape</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> n <span class="op">==</span> m</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> n <span class="op">==</span> m, <span class="ss">f"Matrix A is not square </span><span class="sc">{</span>A<span class="sc">.</span>shape<span class="op">=</span><span class="sc">}</span><span class="ss">"</span></span>
 <span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># construct arrays of zeros</span></span>
 <span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    L, U <span class="op">=</span> np.zeros_like(A), np.zeros_like(A)</span>
@@ -1671,12 +1672,14 @@ A =
 <span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>            U[i, j] <span class="op">=</span> A[i, j] <span class="op">-</span> <span class="bu">sum</span>(L[i, k] <span class="op">*</span> U[k, j] <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(i))</span>
 <span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># compute entries in L</span></span>
 <span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i <span class="op">+</span> <span class="dv">1</span>, n):</span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>            L[j, i] <span class="op">=</span> (A[j, i] <span class="op">-</span> <span class="bu">sum</span>(L[j, k] <span class="op">*</span> U[k, i] <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(i))) <span class="op">/</span> U[i, i]</span>
-<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> L, U</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>            L[j, i] <span class="op">=</span> (A[j, i] <span class="op">-</span> <span class="bu">sum</span>(L[j, k] <span class="op">*</span> U[k, i] <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(i))) <span class="op">/</span> U[</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>                i, i</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>            ]</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> L, U</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>and test our implementation:</p>
-<div id="681c255b" class="cell" data-execution_count="18">
+<div id="02fb71d8" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">2.0</span>, <span class="fl">1.0</span>, <span class="fl">4.0</span>], [<span class="fl">1.0</span>, <span class="fl">2.0</span>, <span class="fl">2.0</span>], [<span class="fl">2.0</span>, <span class="fl">4.0</span>, <span class="fl">6.0</span>]])</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"matrix:"</span>)</span>
@@ -1717,12 +1720,12 @@ Is LU a factorisation of A? True</code></pre>
 </div>
 </div>
 <p>and then add LU factorisation times to our plot:</p>
-<div id="f435251a" class="cell" data-execution_count="20">
+<div id="2b2b7e99" class="cell" data-execution_count="20">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="lec04_files/figure-html/cell-21-output-1.png" width="599" height="431" class="figure-img"></p>
-<figcaption>Runtime cost of applying Gaussian elimination (GE) and backwards solving (BS) equations as well as LU factorisation..</figcaption>
+<figcaption>Runtime cost of applying Gaussian elimination (GE) and backwards solving (BS) equations as well as LU factorisation.</figcaption>
 </figure>
 </div>
 </div>
@@ -1743,8 +1746,7 @@ Is LU a factorisation of A? True</code></pre>
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 7 \\ 4 \\ 5
 \end{pmatrix}
 \]</span></p>
@@ -1761,13 +1763,12 @@ x_1 \\ x_2 \\ x_3
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 4 \\ 7 \\ 5
 \end{pmatrix}
 \]</span></p></li>
 <li><p>Now apply Gaussian elimination</p>
-<p><span class="math display">\[
+<p><span class="math display">\[\begin{align*}
 \begin{pmatrix}
 2 &amp; 1 &amp; 0 \\
 0 &amp; 2 &amp; 1 \\
@@ -1776,11 +1777,9 @@ x_1 \\ x_2 \\ x_3
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
-=
-\begin{pmatrix}
+&amp;= \begin{pmatrix}
 4 \\ 7 \\ 3
-\end{pmatrix}
-;
+\end{pmatrix} \\
 \begin{pmatrix}
 2 &amp; 1 &amp; 0 \\
 0 &amp; 2 &amp; 1 \\
@@ -1789,11 +1788,10 @@ x_1 \\ x_2 \\ x_3
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
-=
-\begin{pmatrix}
+&amp;= \begin{pmatrix}
 4 \\ 7 \\ -2.25
 \end{pmatrix}.
-\]</span></p></li>
+\end{align*}\]</span></p></li>
 </ul>
 </div>
 <div id="exm-finite-precision2" class="theorem example">
@@ -1807,14 +1805,13 @@ x_1 \\ x_2 \\ x_3
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 3 \\ 5 \\ 2
 \end{pmatrix}
 \]</span></p>
 <ul>
 <li><p>Apply Gaussian elimination as usual:</p>
-<p><span class="math display">\[
+<p><span class="math display">\[\begin{align*}
 \begin{pmatrix}
 2 &amp; 1 &amp; 1 \\
 0 &amp; 0 &amp; -1 \\
@@ -1823,11 +1820,10 @@ x_1 \\ x_2 \\ x_3
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 3 \\ -1 \\ 2
 \end{pmatrix}
-;
+\\
 \begin{pmatrix}
 2 &amp; 1 &amp; 1 \\
 0 &amp; 0 &amp; -1 \\
@@ -1836,11 +1832,10 @@ x_1 \\ x_2 \\ x_3
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 3 \\ -1 \\ -1
 \end{pmatrix}
-\]</span></p></li>
+\end{align*}\]</span></p></li>
 <li><p><em>Problem</em>. We cannot eliminate the second column below the diagonal by adding a multiple of row 2 to row 3.</p></li>
 <li><p>Again this problem may be overcome simply by swapping the order of the equations - this time swapping rows 2 and 3:</p>
 <p><span class="math display">\[
@@ -1852,8 +1847,7 @@ x_1 \\ x_2 \\ x_3
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 3 \\ -1 \\ -1
 \end{pmatrix}
 \]</span></p></li>
@@ -1871,8 +1865,7 @@ x_1 \\ x_2 \\ x_3
 \begin{pmatrix}
 x_1 \\ x_2
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 2 + \varepsilon \\ 3
 \end{pmatrix}
 \]</span></p>
@@ -1888,8 +1881,7 @@ x_1 \\ x_2
 \begin{pmatrix}
 x_1 \\ x_2
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 2 + \varepsilon \\ 3 - \frac{2 + \varepsilon}{\varepsilon}
 \end{pmatrix}
 \]</span></p></li>
@@ -1904,8 +1896,7 @@ x_1 \\ x_2
 \begin{pmatrix}
 x_1 \\ x_2
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 3 \\ 2 + \varepsilon
 \end{pmatrix}
 \]</span></p>
@@ -1921,15 +1912,14 @@ x_1 \\ x_2
 \begin{pmatrix}
 x_1 \\ x_2
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 3 \\ 2 - 2\varepsilon
 \end{pmatrix}
 \]</span></p></li>
 <li><p>The problems due to small values of <span class="math inline">\(\varepsilon\)</span> have disappeared.</p></li>
 </ul>
 <p>This is a genuine problem we see in the code versions too!</p>
-<div id="60e1d42f" class="cell" data-execution_count="21">
+<div id="d339af4d" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"without row swapping:"</span>)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> eps <span class="kw">in</span> [<span class="fl">1.0e-2</span>, <span class="fl">1.0e-4</span>, <span class="fl">1.0e-6</span>, <span class="fl">1.0e-8</span>, <span class="fl">1.0e-10</span>, <span class="fl">1.0e-12</span>, <span class="fl">1.0e-14</span>]:</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> np.array([[eps, <span class="fl">1.0</span>], [<span class="fl">1.0</span>, <span class="fl">1.0</span>]])</span>
@@ -2012,8 +2002,7 @@ eps=1.0e-14, x.T = [  1.0,  2.0 ], Solution? True
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 7 \\ 9.9 + \varepsilon \\ 11
 \end{pmatrix}
 \]</span></p>
@@ -2034,8 +2023,7 @@ x_1 \\ x_2 \\ x_3
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 7 \\ 12 + \varepsilon \\ 7.5
 \end{pmatrix}
 \]</span></p>
@@ -2049,14 +2037,14 @@ x_1 \\ x_2 \\ x_3
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 7 \\ 12 + \varepsilon \\ 7.5 + 2.5(12 + \varepsilon)/\varepsilon
 \end{pmatrix}
 \]</span></p>
 <p>which leads to</p>
 <p><span class="math display">\[
-x_3 = \frac{3 + \frac{12 + \varepsilon}{\varepsilon}}{2 + \frac{6}{\varepsilon}} \qquad
+x_3 = \frac{3 + \frac{12 + \varepsilon}{\varepsilon}}{2 + \frac{6}{\varepsilon}}
+\qquad
 x_2 = \frac{(12 + \varepsilon) - 6x_3}{-\varepsilon} \qquad
 x_1 = \frac{7+ 7x_2}{10}.
 \]</span></p>
@@ -2072,8 +2060,7 @@ x_1 = \frac{7+ 7x_2}{10}.
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 7 \\ 12 + \varepsilon \\ 7.5
 \end{pmatrix}
 \]</span></p>
@@ -2087,8 +2074,7 @@ x_1 \\ x_2 \\ x_3
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 7 \\ 7.5 \\ 12 + \varepsilon
 \end{pmatrix}
 \]</span></p>
@@ -2102,8 +2088,7 @@ x_1 \\ x_2 \\ x_3
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 7 \\ 7.5 \\ 12 + 4 \varepsilon
 \end{pmatrix}
 \]</span></p>
@@ -2115,53 +2100,54 @@ x_1 = \frac{7 + 7 x_2}{10} = 0.
 \]</span></p>
 </div>
 </section>
-<section id="python-code-1" class="level3" data-number="4.8.2">
-<h3 data-number="4.8.2" class="anchored" data-anchor-id="python-code-1"><span class="header-section-number">4.8.2</span> Python code</h3>
-<div id="1679b6dc" class="cell" data-execution_count="22">
+<section id="python-code-for-gaussian-elimination-with-pivoting" class="level3" data-number="4.8.2">
+<h3 data-number="4.8.2" class="anchored" data-anchor-id="python-code-for-gaussian-elimination-with-pivoting"><span class="header-section-number">4.8.2</span> Python code for Gaussian elimination with pivoting</h3>
+<div id="e5a7b34e" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gaussian_elimination_with_pivoting(A, b, verbose<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co">    perform Gaussian elimnation with pivoting to reduce the system of linear equations Ax=b to upper triangular form</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co">    use verbose to print out intermediate representations</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># find shape of system</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> system_size(A, b)</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># perform forwards elimination</span></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n <span class="op">-</span> <span class="dv">1</span>):</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># eliminate column i</span></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> verbose:</span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"eliminating column </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># find largest entry in column i</span></span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>        largest <span class="op">=</span> <span class="bu">abs</span>(A[i, i])</span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>        j_max <span class="op">=</span> i</span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i <span class="op">+</span> <span class="dv">1</span>, n):</span>
-<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">abs</span>(A[j, i]) <span class="op">&gt;</span> largest:</span>
-<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>                largest, j_max <span class="op">=</span> <span class="bu">abs</span>(A[j, i]), j</span>
-<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>        <span class="co"># swap rows j_max and i</span></span>
-<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>        row_swap(A, b, i, j_max)</span>
-<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> verbose:</span>
-<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"swapped system (</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss"> &lt;-&gt; </span><span class="sc">{</span>j_max<span class="sc">}</span><span class="ss">)"</span>)</span>
-<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>            print_array(A)</span>
-<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>            print_array(b)</span>
-<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>()</span>
-<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i <span class="op">+</span> <span class="dv">1</span>, n):</span>
-<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>            <span class="co"># row j</span></span>
-<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>            factor <span class="op">=</span> A[j, i] <span class="op">/</span> A[i, i]</span>
-<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> verbose:</span>
-<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>                <span class="bu">print</span>(<span class="ss">f"row </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss"> |-&gt; row </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>factor<span class="sc">}</span><span class="ss"> * row </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>            row_add(A, b, j, <span class="op">-</span>factor, i)</span>
-<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> verbose:</span>
-<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"new system"</span>)</span>
-<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a>            print_array(A)</span>
-<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a>            print_array(b)</span>
-<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co">    perform Gaussian elimnation with pivoting to reduce the system of linear</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co">    equations Ax=b to upper triangular form.</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co">    use verbose to print out intermediate representations</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># find shape of system</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> system_size(A, b)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># perform forwards elimination</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n <span class="op">-</span> <span class="dv">1</span>):</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># eliminate column i</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> verbose:</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"eliminating column </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># find largest entry in column i</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>        largest <span class="op">=</span> <span class="bu">abs</span>(A[i, i])</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>        j_max <span class="op">=</span> i</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i <span class="op">+</span> <span class="dv">1</span>, n):</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">abs</span>(A[j, i]) <span class="op">&gt;</span> largest:</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>                largest, j_max <span class="op">=</span> <span class="bu">abs</span>(A[j, i]), j</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># swap rows j_max and i</span></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>        row_swap(A, b, i, j_max)</span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> verbose:</span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"swapped system (</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss"> &lt;-&gt; </span><span class="sc">{</span>j_max<span class="sc">}</span><span class="ss">)"</span>)</span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>            print_array(A)</span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>            print_array(b)</span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>()</span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i <span class="op">+</span> <span class="dv">1</span>, n):</span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>            <span class="co"># row j</span></span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>            factor <span class="op">=</span> A[j, i] <span class="op">/</span> A[i, i]</span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> verbose:</span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>                <span class="bu">print</span>(<span class="ss">f"row </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss"> |-&gt; row </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>factor<span class="sc">}</span><span class="ss"> * row </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>            row_add(A, b, j, <span class="op">-</span>factor, i)</span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> verbose:</span>
+<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"new system"</span>)</span>
+<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a>            print_array(A)</span>
+<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a>            print_array(b)</span>
+<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Gaussian elimination without pivoting following by back subsitution:</p>
-<div id="5917b893" class="cell" data-execution_count="23">
+<div id="48845ac8" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>eps <span class="op">=</span> <span class="fl">1.0e-14</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">10.0</span>, <span class="op">-</span><span class="fl">7.0</span>, <span class="fl">0.0</span>], [<span class="op">-</span><span class="fl">3.0</span>, <span class="fl">2.1</span> <span class="op">-</span> eps, <span class="fl">6.0</span>], [<span class="fl">5.0</span>, <span class="op">-</span><span class="fl">1.0</span>, <span class="fl">5.0</span>]])</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.array([[<span class="fl">7.0</span>], [<span class="fl">9.9</span> <span class="op">+</span> eps], [<span class="fl">11.0</span>]])</span>
@@ -2244,7 +2230,7 @@ Does x solve the original system? False</code></pre>
 </div>
 </div>
 <p>Gaussian elimination with pivoting following by back subsitution:</p>
-<div id="95d3aa74" class="cell" data-execution_count="24">
+<div id="ef198a99" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>eps <span class="op">=</span> <span class="fl">1.0e-14</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">10.0</span>, <span class="op">-</span><span class="fl">7.0</span>, <span class="fl">0.0</span>], [<span class="op">-</span><span class="fl">3.0</span>, <span class="fl">2.1</span> <span class="op">-</span> eps, <span class="fl">6.0</span>], [<span class="fl">5.0</span>, <span class="op">-</span><span class="fl">1.0</span>, <span class="fl">5.0</span>]])</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.array([[<span class="fl">7.0</span>], [<span class="fl">9.9</span> <span class="op">+</span> eps], [<span class="fl">11.0</span>]])</span>

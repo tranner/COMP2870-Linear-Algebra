@@ -359,7 +359,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to Linear Algebra</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to linear algebra</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -459,12 +459,26 @@ window.Quarto = {
 </header>
 
 
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Module learning outcome:</strong> apply algorithms to compute eigenvectors and eigenvalues of large matrices.</p>
+</div>
+</div>
 <p>In the previous lecture, we defined the eigenvalue problem for a matrix <span class="math inline">\(A\)</span>: Finding numbers <span class="math inline">\(\lambda\)</span> (eigenvalues) and vectors <span class="math inline">\(\vec{x}\)</span> (eigenvectors) which satisfy the equation: <span class="math display">\[\begin{equation}
 A \vec{x} = \lambda \vec{x}.
 \end{equation}\]</span> We saw one starting point for finding eigenvalues is to find the roots of the characteristic equation: a polynomial of degree <span class="math inline">\(n\)</span> for an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(A\)</span>. But we already have seen that this approach will be infeasible for large matrices. Instead, we will find a sequence of similar matrices to <span class="math inline">\(A\)</span> such that we can read off the eigenvalues from the final matrix.</p>
 <p>In equations, we can say our “grand strategy” is to find a sequence of matrices <span class="math inline">\(P_1, P_2, \ldots\)</span> to form a sequence of matrices: <span class="math display">\[\begin{equation}
 \label{eq:similarity_transform}
-A, P_1^{-1} A P, P_2^{-1} P_1^{-1} A P_1 P_2, P_3^{-1} P_2^{-1} P_1^{-1} A P_1 P_2 P_3, \ldots
+A, P_1^{-1} A P, P_2^{-1} P_1^{-1} A P_1 P_2, P_3^{-1} P_2^{-1} P_1^{-1} A P_1
+P_2 P_3, \ldots
 \end{equation}\]</span> If we get all the way to a diagonal matrix, at level <span class="math inline">\(m\)</span> say, then the eigenvalues are the diagonal of the matrix <span class="math display">\[\begin{equation*}
 P_m^{-1} P_{m-1}^{-1} \cdots P_2^{-1} P_1^{-1} A P_1 P_2 \cdots P_{m-1} P_m,
 \end{equation*}\]</span> and the eigenvectors are the columns of the matrix <span class="math display">\[\begin{equation*}
@@ -472,7 +486,7 @@ S_m = P_1 P_2 \cdots P_{m-1} P_m.
 \end{equation*}\]</span> Sometimes, we only want to compute eigenvalues, and not eigenvectors, then it is sufficient to transform the matrix to be triangular (either upper or lower triangular). Then, we can read off that the eigenvalues are the diagonal entries (see <span class="quarto-unresolved-ref">?exm-eigenvalue-triangular</span>).</p>
 <section id="jacobi-transformations-of-a-symmetric-matrix" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="jacobi-transformations-of-a-symmetric-matrix"><span class="header-section-number">8.1</span> Jacobi transformations of a symmetric matrix</h2>
-<p>The Jacobi method forms a sequence of similarity transforms similar to <span class="math inline">\(\eqref{eq:similarity_transform}\)</span>. It is a foolproof approach for real, symmetric matrices (TODO ref section).</p>
+<p>The Jacobi method forms a sequence of similarity transforms similar to <span class="math inline">\(\eqref{eq:similarity_transform}\)</span>. It is a <em>foolproof</em> approach for real, symmetric matrices (<span class="citation" data-cites="sim-symmetric-nice">@sim-symmetric-nice</span>).</p>
 <p>The key idea is to use the matrix <span class="math inline">\(P_{pq}\)</span> which is the matrix of the form <span class="math display">\[\begin{equation}
 \label{eq:Pmatrix}
 P_{pq} = \begin{pmatrix}
@@ -491,7 +505,8 @@ A' = P_{pq}^{T} A P.
 <div id="exm-one-jacobi-rotation" class="theorem example">
 <p><span class="theorem-title"><strong>Example 8.1</strong></span> Let <span class="math inline">\(A\)</span> be the <span class="math inline">\(3 \times 3\)</span> matrix given by <span class="math display">\[\begin{equation*}
 A = \begin{pmatrix}
-1 &amp; 2 &amp; \frac{3 \sqrt{2 - \sqrt{2}}}{4}\\2 &amp; 5 &amp; \frac{3 \sqrt{\sqrt{2} + 2}}{4}\\\frac{3 \sqrt{2 - \sqrt{2}}}{4} &amp; \frac{3 \sqrt{\sqrt{2} + 2}}{4} &amp; 2 \sqrt{2}
+1 &amp; 2 &amp; \frac{3 \sqrt{2 - \sqrt{2}}}{4}\\2 &amp; 5 &amp; \frac{3 \sqrt{\sqrt{2} + 2}}{4}
+\\\frac{3 \sqrt{2 - \sqrt{2}}}{4} &amp; \frac{3 \sqrt{\sqrt{2} + 2}}{4} &amp; 2 \sqrt{2}
 \end{pmatrix}.
 \end{equation*}\]</span></p>
 <p>Let’s apply the matrix as a similarity transform with <span class="math inline">\(p=1, q=2\)</span>. Then we have <span class="math display">\[\begin{equation*}
@@ -502,11 +517,21 @@ c &amp; s &amp; 0\\- s &amp; c &amp; 0\\0 &amp; 0 &amp; 1
 <p>We can compute that <span class="math display">\[\begin{equation*}
 A P_{1,2} =
 \begin{pmatrix}
-c - 2 s &amp; 2 c + s &amp; \frac{3 \sqrt{2 - \sqrt{2}}}{4}\\2 c - 5 s &amp; 5 c + 2 s &amp; \frac{3 \sqrt{\sqrt{2} + 2}}{4}\\\frac{3 c \sqrt{2 - \sqrt{2}}}{4} - \frac{3 s \sqrt{\sqrt{2} + 2}}{4} &amp; \frac{3 c \sqrt{\sqrt{2} + 2}}{4} + \frac{3 s \sqrt{2 - \sqrt{2}}}{4} &amp; 2 \sqrt{2}
+c - 2 s &amp; 2 c + s &amp; \frac{3 \sqrt{2 - \sqrt{2}}}{4}\\
+2 c - 5 s &amp; 5 c + 2 s &amp; \frac{3 \sqrt{\sqrt{2} + 2}}{4}\\
+\frac{3 c \sqrt{2 - \sqrt{2}}}{4} - \frac{3 s \sqrt{\sqrt{2} + 2}}{4} &amp;
+\frac{3 c \sqrt{\sqrt{2} + 2}}{4} + \frac{3 s \sqrt{2 - \sqrt{2}}}{4} &amp;
+2 \sqrt{2}
 \end{pmatrix}
 \end{equation*}\]</span> and <span class="math display">\[\begin{equation*}
 A' = P_{1, 2}^T A P_{1,2} = \begin{pmatrix}
-c^{2} - 4 c s + 5 s^{2} &amp; 2 c^{2} - 4 c s - 2 s^{2} &amp; \frac{3 c \sqrt{2 - \sqrt{2}}}{4} - \frac{3 s \sqrt{\sqrt{2} + 2}}{4}\\2 c^{2} - 4 c s - 2 s^{2} &amp; 5 c^{2} + 4 c s + s^{2} &amp; \frac{3 c \sqrt{\sqrt{2} + 2}}{4} + \frac{3 s \sqrt{2 - \sqrt{2}}}{4}\\\frac{3 c \sqrt{2 - \sqrt{2}}}{4} - \frac{3 s \sqrt{\sqrt{2} + 2}}{4} &amp; \frac{3 c \sqrt{\sqrt{2} + 2}}{4} + \frac{3 s \sqrt{2 - \sqrt{2}}}{4} &amp; 2 \sqrt{2}
+c^{2} - 4 c s + 5 s^{2} &amp; 2 c^{2} - 4 c s - 2 s^{2} &amp;
+\frac{3 c \sqrt{2 - \sqrt{2}}}{4} - \frac{3 s \sqrt{\sqrt{2} + 2}}{4}\\
+2 c^{2} - 4 c s - 2 s^{2} &amp; 5 c^{2} + 4 c s + s^{2} &amp;
+\frac{3 c \sqrt{\sqrt{2} + 2}}{4} + \frac{3 s \sqrt{2 - \sqrt{2}}}{4}\\
+\frac{3 c \sqrt{2 - \sqrt{2}}}{4} - \frac{3 s \sqrt{\sqrt{2} + 2}}{4} &amp;
+\frac{3 c \sqrt{\sqrt{2} + 2}}{4} + \frac{3 s \sqrt{2 - \sqrt{2}}}{4} &amp;
+2 \sqrt{2}
 \end{pmatrix}
 \end{equation*}\]</span> Our grant aim is to nudge <span class="math inline">\(A\)</span> towards being diagonal. Since, we’ve started with the <span class="math inline">\((1, 2)\)</span> entry we might hope that we can make <span class="math inline">\(A'_{1,2}\)</span> to be zero. To do this we need <span class="math inline">\(\theta\)</span> such that <span class="math display">\[\begin{equation*}
 2 \cos^{2}\theta - 4 \cos\theta \sin\theta - 2 \sin^2 \theta = 0
@@ -525,14 +550,16 @@ c^{2} - 4 c s + 5 s^{2} &amp; 2 c^{2} - 4 c s - 2 s^{2} &amp; \frac{3 c \sqrt{2 
 \end{equation}\]</span></p>
 <p>Applying these substitutions, we arrive at <span class="math display">\[\begin{equation*}
 A' = \begin{pmatrix}
-3 - 2 \sqrt{2} &amp; 0 &amp; 0\\0 &amp; 2 \sqrt{2} + 3 &amp; \frac{3}{2}\\0 &amp; \frac{3}{2} &amp; 2 \sqrt{2}
+3 - 2 \sqrt{2} &amp; 0 &amp; 0\\0 &amp; 2 \sqrt{2} + 3 &amp; \frac{3}{2}\\0 &amp; \frac{3}{2} &amp;
+2 \sqrt{2}
 \end{pmatrix}
 \end{equation*}\]</span></p>
 <div id="exr-sim-trans" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 8.1</strong></span> Continue this exercise with <span class="math inline">\(P_{2, 3}\)</span>. Show that <span class="math inline">\(\theta\)</span> can be chosen so that <span class="math display">\[\begin{align*}
 A'' = P_{2, 3}^{-1} A' P_{2, 3}
 = \begin{pmatrix}
-3 - 2 \sqrt{2} &amp; 0 &amp; 0\\0 &amp; \frac{3}{2} + \frac{7 \sqrt{2}}{2} &amp; 0\\0 &amp; 0 &amp; \frac{\sqrt{2}}{2} + \frac{3}{2}
+3 - 2 \sqrt{2} &amp; 0 &amp; 0\\0 &amp; \frac{3}{2} + \frac{7 \sqrt{2}}{2} &amp; 0\\0 &amp; 0 &amp;
+\frac{\sqrt{2}}{2} + \frac{3}{2}
 \end{pmatrix} \\
 \approx
 \begin{pmatrix}
@@ -541,21 +568,23 @@ A'' = P_{2, 3}^{-1} A' P_{2, 3}
 \end{align*}\]</span></p>
 </div>
 </div>
-<p>The general case follows in a similar way. Multiplying out <span class="math inline">\(A' = P_{pq}^{T} A P_{pq}\)</span> for a general <span class="math inline">\(n \times n\)</span> matrix gives us the update formulae: <span class="math display">\[\begin{align*}
-A'_{r, p} &amp; = c A_{r, p} - s A_{r, q}
+<p>The general case follows in a similar way. Multiplying out <span class="math inline">\(A' = P_{pq}^{T} A
+P_{pq}\)</span> for a general <span class="math inline">\(n \times n\)</span> matrix gives us the update formulae: <span class="math display">\[\begin{align*}
+A'*{r, p} &amp; = c A*{r, p} - s A_{r, q}
 &amp;&amp; \text{for} \quad r \in \{1, \ldots n\} \setminus \{p, q\} \\
-A'_{r, q} &amp; = c A_{r, q} + s A_{r, p}
+A'*{r, q} &amp; = c A*{r, q} + s A_{r, p}
 &amp;&amp; \text{for} \quad r \in \{1, \ldots n\} \setminus \{p, q\} \\
-A'_{q, r} &amp; = c A_{p, r} - s A_{q, r}
+A'*{q, r} &amp; = c A*{p, r} - s A_{q, r}
 &amp;&amp; \text{for} \quad r \in \{1, \ldots n\} \setminus \{p, q\} \\
-A'_{q, r} &amp; = c A_{q, r} + s A_{p, r}
+A'*{q, r} &amp; = c A*{q, r} + s A_{p, r}
 &amp;&amp; \text{for} \quad r \in \{1, \ldots n\} \setminus \{p, q\} \\
-A'_{p, p} &amp; = c^2 A_{p, p} + s^2 A_{q, q} - 2 c s A_{p, q} \\
-A'_{q, q} &amp; = s^2 A_{p, p} + c^2 A_{q, q} + 2 c s A_{p, q} \\
-A'_{p, q} &amp; = (c^2 - s^2) A_{p, q} + c s (A_{p, p} - A_{q, q}) \\
-A'_{q, p} &amp; = (c^2 - s^2) A_{q, p} + c s (A_{p, p} - A_{q, q}) \\
+A'*{p, p} &amp; = c^2 A*{p, p} + s^2 A_{q, q} - 2 c s A_{p, q} \\
+A'*{q, q} &amp; = s^2 A*{p, p} + c^2 A_{q, q} + 2 c s A_{p, q} \\
+A'*{p, q} &amp; = (c^2 - s^2) A*{p, q} + c s (A_{p, p} - A_{q, q}) \\
+A'*{q, p} &amp; = (c^2 - s^2) A*{q, p} + c s (A_{p, p} - A_{q, q}) \\
 \end{align*}\]</span> The equation we need to solve is to find <span class="math inline">\(\theta\)</span> such that <span class="math display">\[\begin{equation*}
-A'_{p, q} = (\cos^2\theta - \sin^2\theta) A_{p, q} + \cos\theta \sin\theta (A_{p, p} - A_{q, q}) = 0
+A'*{p, q} = (\cos^2\theta - \sin^2\theta) A*{p, q} + \cos\theta \sin\theta
+(A_{p, p} - A_{q, q}) = 0
 \end{equation*}\]</span> As in the example, we see that <span class="math inline">\(\pi/2 + m \pi\)</span> is not a solution, so we are safe to assume that <span class="math inline">\(\cos\theta \neq 0\)</span>. Further, since we want to set <span class="math inline">\(A'_{p, q}\)</span> to zero, we can assume that <span class="math inline">\(A_{p, q} \neq 0\)</span> (otherwise we don’t need to address this pair of <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span>). So we will divide by <span class="math inline">\(-\cos^2\theta A_{p, q}\)</span> to get a quadratic equation in <span class="math inline">\(\tan\theta\)</span>: <span class="math display">\[\begin{equation*}
 -1 + \tan^2\theta - \tan\theta \frac{A_{p, p} - A_{q, q}}{A_{p, q}} = 0
 \end{equation*}\]</span> We follow the example above and take the smallest root using the quadratic formula and apply the same trigonometric identities in order to compute <span class="math inline">\(c\)</span> and <span class="math inline">\(s\)</span> <span class="math inline">\(\eqref{eq:trig_id}\)</span>.</p>
@@ -563,7 +592,7 @@ A'_{p, q} = (\cos^2\theta - \sin^2\theta) A_{p, q} + \cos\theta \sin\theta (A_{p
 </section>
 <section id="python-code" class="level2" data-number="8.2">
 <h2 data-number="8.2" class="anchored" data-anchor-id="python-code"><span class="header-section-number">8.2</span> Python code</h2>
-<div id="ca84da2e" class="cell" data-execution_count="2">
+<div id="c1b5810a" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> jacobi_rotation(A, p, q):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Computes one iteration of P_{pq}^T A P_{pq}.</span></span>
@@ -598,7 +627,7 @@ A'_{p, q} = (\cos^2\theta - \sin^2\theta) A_{p, q} + \cos\theta \sin\theta (A_{p
 <span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> A_new</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s try it out!</p>
-<div id="025dd6d1" class="cell" data-execution_count="3">
+<div id="fc5e9788" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array(</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    [</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">-</span> np.sqrt(<span class="dv">2</span>)) <span class="op">/</span> <span class="dv">4</span>],</span>
@@ -649,7 +678,7 @@ Numpy's estimate of the eigenvalues is
 </div>
 </div>
 <p>Let’s try again with a harder problem</p>
-<div id="948db236" class="cell" data-execution_count="4">
+<div id="3062931d" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">10</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>tol <span class="op">=</span> <span class="fl">1.0e-12</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -736,9 +765,9 @@ D = V^T A V,
 <p>The eigenvector matrix can be computed by successively computing: <span class="math display">\[\begin{equation*}
 V' = V P_{pq},
 \end{equation*}\]</span> starting from <span class="math inline">\(V\)</span> is the identity matrix. We can see that componentwise, we have the update formulae: <span class="math display">\[\begin{align*}
-v'_{rs} &amp;= v_{rs} &amp;&amp; s \neq p, s \neq q \\
-v'_{rp} &amp;= c v_{rp} - s v_{rq} &amp;&amp; ?? \\
-v'_{rq} &amp;= s v_{rp} + c v_{rq} &amp;&amp; ??.
+v'*{rs} &amp;= v*{rs} &amp;&amp; s \neq p, s \neq q \\
+v'*{rp} &amp;= c v*{rp} - s v_{rq} &amp;&amp; ?? \\
+v'*{rq} &amp;= s v*{rp} + c v_{rq} &amp;&amp; ??.
 \end{align*}\]</span></p>
 <div id="exm-one-jacobi-rotation2" class="theorem example">
 <p><span class="theorem-title"><strong>Example 8.2</strong></span> Continuing <a href="#exm-one-jacobi-rotation" class="quarto-xref">Example&nbsp;<span>8.1</span></a>. We computed that in the first iteration <span class="math display">\[\begin{align*}
@@ -768,11 +797,16 @@ c &amp; s &amp; 0 \\
 <p><span class="theorem-title"><strong>Exercise 8.2</strong></span> Continue this exercise with <span class="math inline">\(P_{2, 3}\)</span> to show <span class="math display">\[\begin{align*}
 &amp; V'' = V' P_{2, 3}
 = \begin{pmatrix}
-\frac{\sqrt{\sqrt{2} + 2}}{2} &amp; - \frac{\sqrt{2}}{4} &amp; \frac{1}{2} - \frac{\sqrt{2}}{4}\\- \frac{\sqrt{2 - \sqrt{2}}}{2} &amp; - \frac{1}{2} - \frac{\sqrt{2}}{4} &amp; \frac{\sqrt{2}}{4}\\0 &amp; - \frac{\sqrt{2 - \sqrt{2}}}{2} &amp; - \frac{\sqrt{\sqrt{2} + 2}}{2}
+\frac{\sqrt{\sqrt{2} + 2}}{2} &amp; - \frac{\sqrt{2}}{4}
+&amp; \frac{1}{2} - \frac{\sqrt{2}}{4} \\ - \frac{\sqrt{2 - \sqrt{2}}}{2} &amp;
+-\frac{1}{2} - \frac{\sqrt{2}}{4} &amp; \frac{\sqrt{2}}{4} \\
+0 &amp; - \frac{\sqrt{2 - \sqrt{2}}}{2} &amp; - \frac{\sqrt{\sqrt{2} + 2}}{2}
 \end{pmatrix} \\
 &amp; \approx
 \begin{pmatrix}
-0.923879532511287 &amp; -0.353553390593274 &amp; 0.146446609406726\\-0.38268343236509 &amp; -0.853553390593274 &amp; 0.353553390593274\\0 &amp; -0.38268343236509 &amp; -0.923879532511287\end{pmatrix}.
+0.923879532511287 &amp; -0.353553390593274 &amp; 0.146446609406726\\
+-0.38268343236509 &amp; -0.853553390593274 &amp; 0.353553390593274\\
+0 &amp; -0.38268343236509 &amp; -0.923879532511287\end{pmatrix}.
 \end{align*}\]</span></p>
 </div>
 </div>
@@ -780,46 +814,47 @@ c &amp; s &amp; 0 \\
 <section id="python-code-again" class="level2" data-number="8.4">
 <h2 data-number="8.4" class="anchored" data-anchor-id="python-code-again"><span class="header-section-number">8.4</span> Python code (again)</h2>
 <p>We can try our methods on</p>
-<div id="8413785d" class="cell" data-execution_count="5">
+<div id="f6504285" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> jacobi_rotation_with_V(A, V, p, q):</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Computes one iteration of P_{pq}^T A P_{pq} and V P_{pq}</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Inputs: symmetric matrix A, matrix V, indices p, q</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Output: symmetric matrix A' with A'_{p, q} = 0 (and A'_{q, p} = 0), updated corresponding eigenvector matrix V</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># copy matrix to new holder</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    A_new <span class="op">=</span> A.copy()</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    V_new <span class="op">=</span> V.copy()</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># solve quadratic equation</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> (A[q, q] <span class="op">-</span> A[p, p]) <span class="op">/</span> A[p, q]</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    roots <span class="op">=</span> (<span class="op">-</span>b <span class="op">+</span> np.sqrt(b <span class="op">*</span> b <span class="op">+</span> <span class="dv">4</span>)) <span class="op">/</span> <span class="dv">2</span>, (<span class="op">-</span>b <span class="op">-</span> np.sqrt(b <span class="op">*</span> b <span class="op">+</span> <span class="dv">4</span>)) <span class="op">/</span> <span class="dv">2</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> <span class="bu">min</span>(roots, key<span class="op">=</span><span class="bu">abs</span>)  <span class="co"># take smallest in absolute value root</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># determine c, s</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> <span class="fl">1.0</span> <span class="op">/</span> np.sqrt(t <span class="op">*</span> t <span class="op">+</span> <span class="fl">1.0</span>)</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> c <span class="op">*</span> t</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># do updates</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    A_new[:, p] <span class="op">=</span> c <span class="op">*</span> A[:, p] <span class="op">-</span> s <span class="op">*</span> A[:, q]</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    A_new[:, q] <span class="op">=</span> c <span class="op">*</span> A[:, q] <span class="op">+</span> s <span class="op">*</span> A[:, p]</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    A_new[p, :] <span class="op">=</span> c <span class="op">*</span> A[p, :] <span class="op">-</span> s <span class="op">*</span> A[q, :]</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    A_new[q, :] <span class="op">=</span> c <span class="op">*</span> A[q, :] <span class="op">+</span> s <span class="op">*</span> A[p, :]</span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    A_new[p, p] <span class="op">=</span> c<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> A[p, p] <span class="op">+</span> s<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> A[q, q] <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> c <span class="op">*</span> s <span class="op">*</span> A[p, q]</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    A_new[q, q] <span class="op">=</span> s<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> A[p, p] <span class="op">+</span> c<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> A[q, q] <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> c <span class="op">*</span> s <span class="op">*</span> A[p, q]</span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    A_new[p, q] <span class="op">=</span> <span class="fl">0.0</span>  <span class="co"># replace update formula with exact value</span></span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    A_new[q, p] <span class="op">=</span> <span class="fl">0.0</span>  <span class="co"># replace update formula with exact value</span></span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>    V_new[:, p] <span class="op">=</span> c <span class="op">*</span> V[:, p] <span class="op">-</span> s <span class="op">*</span> V[:, q]</span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    V_new[:, q] <span class="op">=</span> s <span class="op">*</span> V[:, p] <span class="op">+</span> c <span class="op">*</span> V[:, q]</span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> A_new, V_new</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Output: symmetric matrix A' with A'_{p, q} = 0 (and A'_{q, p} = 0),</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">            updated corresponding eigenvector matrix V</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># copy matrix to new holder</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    A_new <span class="op">=</span> A.copy()</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    V_new <span class="op">=</span> V.copy()</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># solve quadratic equation</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> (A[q, q] <span class="op">-</span> A[p, p]) <span class="op">/</span> A[p, q]</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    roots <span class="op">=</span> (<span class="op">-</span>b <span class="op">+</span> np.sqrt(b <span class="op">*</span> b <span class="op">+</span> <span class="dv">4</span>)) <span class="op">/</span> <span class="dv">2</span>, (<span class="op">-</span>b <span class="op">-</span> np.sqrt(b <span class="op">*</span> b <span class="op">+</span> <span class="dv">4</span>)) <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> <span class="bu">min</span>(roots, key<span class="op">=</span><span class="bu">abs</span>)  <span class="co"># take smallest in absolute value root</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># determine c, s</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> <span class="fl">1.0</span> <span class="op">/</span> np.sqrt(t <span class="op">*</span> t <span class="op">+</span> <span class="fl">1.0</span>)</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> c <span class="op">*</span> t</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># do updates</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    A_new[:, p] <span class="op">=</span> c <span class="op">*</span> A[:, p] <span class="op">-</span> s <span class="op">*</span> A[:, q]</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    A_new[:, q] <span class="op">=</span> c <span class="op">*</span> A[:, q] <span class="op">+</span> s <span class="op">*</span> A[:, p]</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    A_new[p, :] <span class="op">=</span> c <span class="op">*</span> A[p, :] <span class="op">-</span> s <span class="op">*</span> A[q, :]</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    A_new[q, :] <span class="op">=</span> c <span class="op">*</span> A[q, :] <span class="op">+</span> s <span class="op">*</span> A[p, :]</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    A_new[p, p] <span class="op">=</span> c<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> A[p, p] <span class="op">+</span> s<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> A[q, q] <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> c <span class="op">*</span> s <span class="op">*</span> A[p, q]</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    A_new[q, q] <span class="op">=</span> s<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> A[p, p] <span class="op">+</span> c<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> A[q, q] <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> c <span class="op">*</span> s <span class="op">*</span> A[p, q]</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    A_new[p, q] <span class="op">=</span> <span class="fl">0.0</span>  <span class="co"># replace update formula with exact value</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    A_new[q, p] <span class="op">=</span> <span class="fl">0.0</span>  <span class="co"># replace update formula with exact value</span></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    V_new[:, p] <span class="op">=</span> c <span class="op">*</span> V[:, p] <span class="op">-</span> s <span class="op">*</span> V[:, q]</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>    V_new[:, q] <span class="op">=</span> s <span class="op">*</span> V[:, p] <span class="op">+</span> c <span class="op">*</span> V[:, q]</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> A_new, V_new</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s try it out!</p>
-<div id="794a3419" class="cell" data-execution_count="6">
+<div id="bdacc483" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    [</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">-</span> np.sqrt(<span class="dv">2</span>)) <span class="op">/</span> <span class="dv">4</span>],</span>
@@ -898,7 +933,7 @@ Numpy's estimate of the eigenvalues is
 </div>
 <p>Success! We have the same values (up to reordering).</p>
 <p>We can also apply the same code to the larger problem size:</p>
-<div id="5e72ec95" class="cell" data-execution_count="7">
+<div id="fac72f2a" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">10</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>tol <span class="op">=</span> <span class="fl">1.0e-12</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1029,7 +1064,7 @@ Numpy's estimate of the eigenvalues is
 <p>A quick look at the cost of each rotation shows that the main cost is in updating all the entries. For a matrix of size <span class="math inline">\(n\)</span>, we must update <span class="math inline">\(4n-4\)</span> entries (two rows and two columns) in <span class="math inline">\(A\)</span> and <span class="math inline">\(2n\)</span> entries in (two rows) in <span class="math inline">\(V\)</span>. We say that each rotation costs <span class="math inline">\(O(n)\)</span>.</p>
 <p>One sweep corresponds to trying to eliminate all off diagonal entries (i.e.&nbsp;the strictly upper triangular portion of the matrix). So each sweep corresponds to <span class="math inline">\(n (n-1)/2\)</span> rotations or <span class="math inline">\((6n - 4) n (n-1) / 2\)</span>. So each sweep is <span class="math inline">\(O(n^3)\)</span>.</p>
 <p>The remaining question is how many sweeps are required? Let’s test this using our code.</p>
-<div id="520e76a1" class="cell" data-execution_count="9">
+<div id="8dd1aac2" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1039,7 +1074,7 @@ Numpy's estimate of the eigenvalues is
 </div>
 </div>
 <p>This gives us an estimate that the number of sweeps is <span class="math inline">\(O(n^{1/2})\)</span>. So we would expect the time to run the algorithm to scale like <span class="math inline">\(n^{7/2}\)</span>. However, in practical situations, we see that the growth is closer to <span class="math inline">\(n^{5/2}\)</span>:</p>
-<div id="e93e0707" class="cell" data-execution_count="10">
+<div id="f3222f82" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1052,6 +1087,7 @@ Numpy's estimate of the eigenvalues is
 <section id="references" class="level2" data-number="8.6">
 <h2 data-number="8.6" class="anchored" data-anchor-id="references"><span class="header-section-number">8.6</span> References</h2>
 <p>Numerical recipes, chapter XX?</p>
+<p><a href="https://arxiv.org/abs/2509.00495" class="uri">https://arxiv.org/abs/2509.00495</a></p>
 
 
 </section>

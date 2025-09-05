@@ -325,7 +325,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to Linear Algebra</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to linear algebra</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -384,7 +384,7 @@ window.Quarto = {
   <li><a href="#properties-of-eigenvalues-and-eigenvectors" id="toc-properties-of-eigenvalues-and-eigenvectors" class="nav-link" data-scroll-target="#properties-of-eigenvalues-and-eigenvectors"><span class="header-section-number">7.2</span> Properties of eigenvalues and eigenvectors</a></li>
   <li><a href="#how-to-find-eigenvalues-and-eigenvectors" id="toc-how-to-find-eigenvalues-and-eigenvectors" class="nav-link" data-scroll-target="#how-to-find-eigenvalues-and-eigenvectors"><span class="header-section-number">7.3</span> How to find eigenvalues and eigenvectors</a></li>
   <li><a href="#important-theory" id="toc-important-theory" class="nav-link" data-scroll-target="#important-theory"><span class="header-section-number">7.4</span> Important theory</a></li>
-  <li><a href="#why-symmetric-matrices-are-nice" id="toc-why-symmetric-matrices-are-nice" class="nav-link" data-scroll-target="#why-symmetric-matrices-are-nice"><span class="header-section-number">7.5</span> Why symmetric matrices are nice</a></li>
+  <li><a href="#sec-symmetric-nice" id="toc-sec-symmetric-nice" class="nav-link" data-scroll-target="#sec-symmetric-nice"><span class="header-section-number">7.5</span> Why symmetric matrices are nice</a></li>
   </ul>
 </nav>
     </div>
@@ -424,10 +424,23 @@ window.Quarto = {
 </header>
 
 
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Module learning outcome:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Apply algorithms to compute eigenvectors and eigenvalues of large matrices.</p>
+</div>
+</div>
 <p>This section of the notes will introduce our second big linear algebra problem. Throughout, we will be considering a square (<span class="math inline">\(n\times n\)</span>) matrix.</p>
 <section id="key-definitions" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="key-definitions"><span class="header-section-number">7.1</span> Key definitions</h2>
-<p>For this problem, we will think of a matrix <span class="math inline">\(A\)</span> as representing a <em>function</em> which takes in a vector <span class="math inline">\(\vec{x}\)</span> and gives us back another vector. <span class="math display">\[\begin{equation*}
+<p>For this problem, we will think of a matrix <span class="math inline">\(A\)</span> acting on functions <span class="math inline">\(\vec{x}\)</span>: <span class="math display">\[\begin{equation*}
 \vec{x} \mapsto A \vec{x}.
 \end{equation*}\]</span> We are interested in when is the output vector <span class="math inline">\(A \vec{x}\)</span> is <em>parallel</em> to <span class="math inline">\(\vec{x}\)</span>.</p>
 <div id="def-evalues" class="theorem definition">
@@ -439,12 +452,12 @@ A \vec{x} = \lambda \vec{x}.
 </div>
 <p>If <span class="math inline">\(A \vec{x} = \vec{0}\)</span>, then <span class="math inline">\(\vec{x}\)</span> is an eigenvector associated to the eigenvalue <span class="math inline">\(0\)</span>. In fact, we know that <span class="math inline">\(0\)</span> is an eigenvalue of <span class="math inline">\(A\)</span> if, and only if, <span class="math inline">\(A\)</span> is singular.</p>
 <div id="exm-projection" class="theorem example">
-<p><span class="theorem-title"><strong>Example 7.1</strong></span> Let <span class="math inline">\(P\)</span> be the 3x3 matrix that represents projection on to a plane <span class="math inline">\(\pi\)</span>. what are the eigenvalues and eigenvectors of <span class="math inline">\(p\)</span>?</p>
-<div id="219c75be" class="cell" data-execution_count="1">
+<p><span class="theorem-title"><strong>Example 7.1</strong></span> Let <span class="math inline">\(P\)</span> be the 3x3 matrix that represents projection on to a plane <span class="math inline">\(\pi\)</span>. What are the eigenvalues and eigenvectors of <span class="math inline">\(p\)</span>?</p>
+<div id="7557f7ba" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="lec07_files/figure-html/cell-2-output-1.png" width="450" height="470" class="figure-img"></p>
+<p><img src="lec07_files/figure-html/cell-3-output-1.png" width="450" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -466,7 +479,8 @@ A = \begin{pmatrix}
 \end{equation*}\]</span> What are the eigenvectors and eigenvalues of <span class="math inline">\(A\)</span>?</p>
 <ul>
 <li>Let <span class="math inline">\(\vec{x} = (1, 1)^T\)</span>, the swapping the components of <span class="math inline">\(\vec{x}\)</span> gives back the same vector <span class="math inline">\(\vec{x}\)</span>. In equations, we can write <span class="math inline">\(A \vec{x} = \vec{x}\)</span>. This means that <span class="math inline">\(\vec{x}\)</span> is an eigenvector and the eigenvalue is <span class="math inline">\(1\)</span>.</li>
-<li>Let <span class="math inline">\(\vec{x} = (-1, 1)^T\)</span>, the swapping the components of <span class="math inline">\(\vec{x}\)</span> gives back <span class="math inline">\((1, -1)^T\)</span> which we can see is <span class="math inline">\(-\vec{x}\)</span>. In equations, we can write <span class="math inline">\(A \vec{x} = -\vec{x}\)</span>. This means that <span class="math inline">\(\vec{x}\)</span> is an eigenvector of <span class="math inline">\(A\)</span> and the associated eigenvalue is <span class="math inline">\(-1\)</span>.</li>
+<li>Let <span class="math inline">\(\vec{x} = (-1, 1)^T\)</span>, the swapping the components of <span class="math inline">\(\vec{x}\)</span> gives back <span class="math inline">\((1, -1)^T\)</span> which we can see is <span class="math inline">\(-\vec{x}\)</span>. In equations, we can write <span class="math inline">\(A
+\vec{x} = -\vec{x}\)</span>. This means that <span class="math inline">\(\vec{x}\)</span> is an eigenvector of <span class="math inline">\(A\)</span> and the associated eigenvalue is <span class="math inline">\(-1\)</span>.</li>
 </ul>
 <p>Here we see that again we actually have two one-dimensional eigenspaces.</p>
 </div>
@@ -520,13 +534,12 @@ A - 4 I_n = \begin{pmatrix} -1 &amp; 1 \\ 1 &amp; -1 \end{pmatrix}.
 A - 2I_n = \begin{pmatrix} 1 &amp; 1 \\ 1 &amp; 1 \end{pmatrix}.
 \end{equation*}\]</span> We can identify that <span class="math inline">\((A - 2 I_n) (-1, 1)^T = \vec{0}\)</span>. So <span class="math inline">\((-1, 1)\)</span> is an eigenvector associated with <span class="math inline">\(2\)</span>.</p>
 </div>
-<p>We want to note that this example is actually surprisingly similar to <a href="#exm-permuatation" class="quarto-xref">Example&nbsp;<span>7.2</span></a>. We see that the eigenvectors are actually the same! We can see that the matrices are related too: <span class="math display">\[\begin{equation*}
+<p>We note that this example is actually surprisingly similar to <a href="#exm-permuatation" class="quarto-xref">Example&nbsp;<span>7.2</span></a>. We see that the eigenvectors are actually the same! We can see that the matrices are related too: <span class="math display">\[\begin{equation*}
 \begin{pmatrix}
 0 &amp; 1 \\ 1 &amp; 0 \\
 \end{pmatrix}
-+ 3 I
-=
-\begin{pmatrix}
+-3 I
+= \begin{pmatrix}
 3 &amp; 1 \\ 1 &amp; 3
 \end{pmatrix}.
 \end{equation*}\]</span> So we can compute that if <span class="math inline">\(A \vec{x} = \lambda \vec{x}\)</span> then <span class="math display">\[\begin{equation*}
@@ -545,7 +558,7 @@ Q = \begin{pmatrix}
 = \lambda^2 + 1.
 \end{equation*}\]</span> So we can find eigenvalues by finding the values <span class="math inline">\(\lambda\)</span> such that <span class="math display">\[\begin{equation*}
 \lambda^2 + 1 = 0.
-\end{equation*}\]</span> We saw in the section on Complex Numbers that the solutions to this equation are <span class="math inline">\(\pm i\)</span>. This means our algorithms for finding eigenvalues and eigenvectors need to handle complex numbers too.</p>
+\end{equation*}\]</span> We saw in the section on Complex Numbers (<span class="citation" data-cites="sec:complex-numbers">@sec:complex-numbers</span>) that the solutions to this equation are <span class="math inline">\(\pm i\)</span>. This means our algorithms for finding eigenvalues and eigenvectors need to handle complex numbers too.</p>
 </div>
 <div id="exm-single-evec" class="theorem example">
 <p><span class="theorem-title"><strong>Example 7.5</strong></span> Let <span class="math inline">\(A\)</span> be the <span class="math inline">\(2 \times 2\)</span> matrix given by <span class="math display">\[\begin{equation*}
@@ -567,8 +580,7 @@ x \\ y
 \begin{pmatrix}
 x \\ y
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 y \\ 0
 \end{pmatrix}.
 \end{align*}\]</span> This tells us that if <span class="math inline">\((A - 3 I_n) (x, y)^T = \vec{0}\)</span> if, and only if, <span class="math inline">\(y = 0\)</span>. Thus all eigenvector have the form <span class="math inline">\((x, 0)^T\)</span> and point in the same direction as <span class="math inline">\((1, 0)^T\)</span>.</p>
@@ -591,14 +603,15 @@ A = \begin{pmatrix} 9 &amp; -2 \\ -2 &amp; 6 \end{pmatrix}.
 <p><span class="proof-title"><em>Proof</em>. </span>For any matrix the characteristic equation <span class="math inline">\(\eqref{eq:char}\)</span> is a degree <span class="math inline">\(n\)</span> polynomial. The Fundamental Theorem of Algebra (<a href="lec06.html#thm-fund-alg" class="quarto-xref">Theorem&nbsp;<span>6.1</span></a>) tells us that any degree <span class="math inline">\(n\)</span> polynomial has <span class="math inline">\(n\)</span> roots over the complex numbers. The <span class="math inline">\(n\)</span> roots of the characteristic equation are the <span class="math inline">\(n\)</span> eigenvalues.</p>
 </div>
 <p>The Abel-Ruffini theorem states that there is no solution in the radicals for a general polynomial of degree 5 or higher with arbitrary coefficients. This implies that there is no ‘nice’ closed form for roots of polynomials of degree 5 or higher. So, if we want an algorithm to find eigenvalues and eigenvectors of larger matrices then we need to do something else!</p>
-<p>Let’s suppose that we have an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(A\)</span> and we have found <span class="math inline">\(n\)</span> eigenvectors and <span class="math inline">\(n\)</span> eigenvalues (all distinct). Let’s call the eigenvectors by <span class="math inline">\(\vec{x}_{1}, \ldots \vec{x}_{n}\)</span> and the eigenvalues <span class="math inline">\(\lambda_1, \ldots \lambda_n\)</span> then we have the equation: <span class="math display">\[\begin{equation*}
+<p>Let’s suppose that we have an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(A\)</span> and we have found <span class="math inline">\(n\)</span> eigenvectors and <span class="math inline">\(n\)</span> eigenvalues (all distinct). Let’s call the eigenvectors by <span class="math inline">\(\vec{x}_{1}, \ldots \vec{x}_{n}\)</span> and the eigenvalues <span class="math inline">\(\lambda_1, \ldots
+\lambda_n\)</span> then we have the equation: <span class="math display">\[\begin{equation*}
 A \vec{x}_j = \lambda_j \vec{x}_j.
 \end{equation*}\]</span> So if we form the matrices <span class="math inline">\(S\)</span> to have columns equal to each eigenvector in turn and <span class="math inline">\(\Lambda\)</span> (pronounced lambda) to be the diagonal matrix with the eigenvalues listed along the diagonal we see that we have: <span class="math display">\[\begin{equation*}
 A S = S \Lambda.
 \end{equation*}\]</span> If <span class="math inline">\(S\)</span> is invertible, we can multiply on the right by <span class="math inline">\(S^{-1}\)</span> to see that we have <span class="math display">\[\begin{equation}
 \label{eq:SLamSinv}
 A = S \Lambda S^{-1}.
-\end{equation}\]</span> This formula shows another factorisation of the matrix <span class="math inline">\(A\)</span> into simpler matrices, very much like we had when we computed the LU-factorisation matrix (TODO REF).</p>
+\end{equation}\]</span> This formula shows another factorisation of the matrix <span class="math inline">\(A\)</span> into simpler matrices, very much like we had when we computed the LU-factorisation matrix (<a href="lec04.html#sec-LU-factorisation" class="quarto-xref"><span>Section 4.7</span></a>).</p>
 <p>The equation <span class="math inline">\(\eqref{eq:SLamSinv}\)</span> is an example of a more general idea of <em>similar matrices</em>. We say that two matrices <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are similar if there exists an invertible <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(P\)</span> such that <span class="math display">\[\begin{equation*}
 B = P^{-1} A P.
 \end{equation*}\]</span> Since <span class="math inline">\(P\)</span> is invertible, we can pre-multiply this equation by <span class="math inline">\(P\)</span> and post-multiply by <span class="math inline">\(P^{-1}\)</span> and see that being similar is a symmetric property.</p>
@@ -629,30 +642,36 @@ B \vec{y} &amp; = B P^{-1} \vec{x} &amp;&amp; \text{(definition of $\vec{y}$)} \
 </div>
 <p>The key idea of the methods we will use to compute eigenvalues to apply a sequence of matrices to convert a matrix <span class="math inline">\(A\)</span> into a form similar to <span class="math inline">\(A\)</span> for which reading off the eigenvalues is easier. However, the quality of the algorithms we apply depend heavily on properties of the matrix <span class="math inline">\(A\)</span>.</p>
 </section>
-<section id="why-symmetric-matrices-are-nice" class="level2" data-number="7.5">
-<h2 data-number="7.5" class="anchored" data-anchor-id="why-symmetric-matrices-are-nice"><span class="header-section-number">7.5</span> Why symmetric matrices are nice</h2>
-<p>For the inner product of two complex vectors, we additionally take the complex conjugate of the entries of <span class="math inline">\(\vec{b}\)</span>. We call this the Hermitian product and write <span class="math inline">\(\langle \vec{a}, \vec{b} \rangle = \vec{a} \cdot \bar{\vec{b}} = \sum_{i=1}^n a_i \bar{b_i}\)</span>. We denote the conjugate transform of a matrix <span class="math inline">\(A\)</span> by <span class="math inline">\(A^H = \bar{A}^T\)</span>. We say that <span class="math inline">\(A\)</span> is <em>Hermitian</em> if <span class="math inline">\(A^H = A\)</span> and say that if <span class="math inline">\(\langle \vec{a}, \vec{b} \rangle = 0\)</span> that <span class="math inline">\(\vec{a}, \vec{b}\)</span> are <em>orthogonal</em>.</p>
+<section id="sec-symmetric-nice" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="sec-symmetric-nice"><span class="header-section-number">7.5</span> Why symmetric matrices are nice</h2>
+<p>For the inner product of two complex vectors, we additionally take the complex conjugate of the entries of <span class="math inline">\(\vec{b}\)</span>. We call this the Hermitian product and write <span class="math inline">\(\langle \vec{a}, \vec{b} \rangle = \vec{a} \cdot \bar{\vec{b}} =
+\sum_{i=1}^n a_i \bar{b_i}\)</span>. We denote the conjugate transform of a matrix <span class="math inline">\(A\)</span> by <span class="math inline">\(A^H = \bar{A}^T\)</span>. We say that <span class="math inline">\(A\)</span> is <em>Hermitian</em> if <span class="math inline">\(A^H = A\)</span> and say that if <span class="math inline">\(\langle \vec{a}, \vec{b} \rangle = 0\)</span> that <span class="math inline">\(\vec{a}, \vec{b}\)</span> are <em>orthogonal</em>.</p>
 <p>We notice that for any matrix <span class="math inline">\(A\)</span> <span class="math display">\[\begin{equation}
 \label{eq:orthog}
 \begin{aligned}
 \langle A \vec{a}, \vec{b} \rangle
-&amp; = \sum_{i=1}^n (A \vec{a})_i \bar{b}_i \\
-&amp; = \sum_{i, j=1}^n (A_{ij} a_j) \bar{b}_i \\
-&amp; = \sum_{i, j=1}^n a_j (A_{ij} \bar{b}_i) \\
-&amp; = \sum_{i, j=1}^n a_j \bar{((A^H)_{ji} b_i)} \\
-&amp; = \sum_{i=1}^n a_i \bar{(A^H \vec{b})_i} \\
+&amp; = \sum_{i=1}^n (A \vec{a})*i \bar{b}*i \\
+&amp; = \sum*{i, j=1}^n (A*{ij} a_j) \bar{b}*i \\
+&amp; = \sum*{i, j=1}^n a_j (A_{ij} \bar{b}*i) \\
+&amp; = \sum*{i, j=1}^n a_j \bar{((A^H)*{ji} b_i)} \\
+&amp; = \sum*{i=1}^n a_i \bar{(A^H \vec{b})_i} \\
 &amp; = \langle \vec{a}, A^H \vec{b} \rangle
 \end{aligned}
-\end{equation}\]</span> In particular this means that if <span class="math inline">\(A = A^H\)</span> then <span class="math inline">\(\langle A \vec{a}, \vec{b} \rangle = \langle \vec{a}, A \vec{b} \rangle\)</span>. We call a matrix <em>Hermitian</em> if <span class="math inline">\(A = A^H\)</span>.</p>
+\end{equation}\]</span> In particular this means that if <span class="math inline">\(A = A^H\)</span> then <span class="math inline">\(\langle A \vec{a}, \vec{b}
+\rangle = \langle \vec{a}, A \vec{b} \rangle\)</span>. We call a matrix <em>Hermitian</em> if <span class="math inline">\(A = A^H\)</span>.</p>
 <p>For any complex vector <span class="math inline">\(\vec{a}\)</span>, we see that <span class="math display">\[\begin{align*}
-\langle \vec{a}, \vec{a} \rangle = \sum_{i=1}^n a_i \bar{a_i} = \sum_{i=1}^n |a_i|^2.
-\end{align*}\]</span> Since <span class="math inline">\(|a_i|\)</span> is always a non-negative real number, we have that <span class="math inline">\(\langle \vec{a}, \vec{a} \rangle \ge 0\)</span>. Furthermore, we see that <span class="math inline">\(\langle \vec{a}, \vec{a} \rangle = 0\)</span> if, and only if, <span class="math inline">\(\vec{a} = 0\)</span>.</p>
+\langle \vec{a}, \vec{a} \rangle = \sum_{i=1}^n a_i \bar{a_i} = \sum_{i=1}^n
+a_i|^2.
+\end{align*}\]</span> Since <span class="math inline">\(|a_i|\)</span> is always a non-negative real number, we have that <span class="math inline">\(\langle
+\vec{a}, \vec{a} \rangle \ge 0\)</span>. Furthermore, we see that <span class="math inline">\(\langle \vec{a},
+\vec{a} \rangle = 0\)</span> if, and only if, <span class="math inline">\(\vec{a} = 0\)</span>.</p>
 <div id="thm-symmetric" class="theorem">
 <p><span class="theorem-title"><strong>Theorem 7.3</strong></span> Let <span class="math inline">\(A\)</span> be a symmetric matrix (<span class="math inline">\(A^T = A\)</span>) with real entries. Then <span class="math inline">\(A\)</span> has <span class="math inline">\(n\)</span> real eigenvalues (zero imaginary part) and its eigenvectors are orthogonal.</p>
 </div>
 <div class="proof">
 <p><span class="proof-title"><em>Proof</em>. </span>Let <span class="math inline">\(\lambda\)</span> be an eigenvalue of <span class="math inline">\(A\)</span> with eigenvector <span class="math inline">\(\vec{x}\)</span>. Recall that <span class="math inline">\(\vec{x} \neq 0\)</span>. Then, since <span class="math inline">\(A\)</span> has real values, we can compute that: <span class="math display">\[\begin{equation*}
-\bar{(A \vec{x})_i} = \bar{\sum_{j=1}^n A_{ji} x_i} = \sum_{j=1}^n A_{ji} \bar{x_i} = (A \bar{\vec{x}})_i.
+\bar{(A \vec{x})*i} = \bar{\sum*{j=1}^n A_{ji} x_i} = \sum_{j=1}^n A_{ji}
+\bar{x_i} = (A \bar{\vec{x}})_i.
 \end{equation*}\]</span> We also note that any real, symmetric matrix is automatically Hermitian.</p>
 <p>Then we see that <span class="math display">\[\begin{align*}
 \lambda \langle \vec{x}, \vec{x} \rangle
@@ -676,7 +695,8 @@ B \vec{y} &amp; = B P^{-1} \vec{x} &amp;&amp; \text{(definition of $\vec{y}$)} \
 &amp; = \mu \langle \vec{x}, \vec{y} \rangle.
 \end{align*}\]</span> Subtracting the right-hand side from the left hand side we see that <span class="math display">\[\begin{equation*}
 (\lambda - \mu) \langle \vec{x}, \vec{y} \rangle = 0.
-\end{equation*}\]</span> This implies that if <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\mu\)</span> are distinct, that <span class="math inline">\(\langle \vec{x}, \vec{y} \rangle = 0\)</span>.</p>
+\end{equation*}\]</span> This implies that if <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\mu\)</span> are distinct, that <span class="math inline">\(\langle \vec{x},
+\vec{y} \rangle = 0\)</span>.</p>
 </div>
 
 

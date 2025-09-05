@@ -325,7 +325,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to Linear Algebra</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to linear algebra</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -429,6 +429,19 @@ window.Quarto = {
 </header>
 
 
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Module learning objective
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Define and identify what is means for a set of vectors to be a basis, spanning set or linear independent.</p>
+</div>
+</div>
 <section id="definitions-of-matrices-and-vectors" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="definitions-of-matrices-and-vectors"><span class="header-section-number">3.1</span> Definitions of matrices and vectors</h2>
 <p>There are two important objects we wil work with that were defined in your first year Theoretical Foundations module.</p>
@@ -464,7 +477,8 @@ B = \begin{pmatrix} 0 &amp; 6 &amp; 3 &amp; 1 \\ 1 &amp; 4 &amp; 1
 \vec{b} =
 \begin{pmatrix} 0 \\ 1 \\ 3.1 \\ 7 \end{pmatrix}
 \quad
-\vec{c} = \begin{pmatrix} 4 \\ 6 \\ -4 \\ 0 \end{pmatrix}. \end{align*}\]</span></p>
+\vec{c} = \begin{pmatrix} 4 \\ 6 \\ -4 \\ 0 \end{pmatrix}.
+\end{align*}\]</span></p>
 <div id="exr-vector" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 3.2</strong></span> &nbsp;</p>
 <ol type="1">
@@ -516,7 +530,7 @@ a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n &amp; = b_n.
 </ul>
 <div id="exm-temperature" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.3 (Temperature in a sealed room)</strong></span> Suppose we wish to estimate the temperature distribution inside an object:</p>
-<div id="1c268a1f" class="cell" data-execution_count="2">
+<div id="fadeaef0" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -541,15 +555,14 @@ a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n &amp; = b_n.
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6 \\ x_7
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 400/6 \\ 100/6 \\ 0 \\ 0 \\ 100/6 \\ 0 \\ 0
 \end{pmatrix}.
 \]</span></p>
 </div>
 <div id="exm-traffic" class="theorem example">
 <p><span class="theorem-title"><strong>Example 3.4 (Traffic network)</strong></span> Suppose we wish to monitor the flow of traffic in a city centre:</p>
-<div id="2a3fafa4" class="cell" data-execution_count="3">
+<div id="d7d6ea35" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -575,8 +588,7 @@ x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6 \\ x_7
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6 \\ x_7 \\ x_8
 \end{pmatrix}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 y_5 \\ y_{12} - y_6 \\ y_8 - y_7 \\ y_{11} - y_4 \\
 y_{11} + y_{12} - y_{10} \\ y_9 \\ y_2 - y_3 \\ y_1
 \end{pmatrix}.
@@ -595,20 +607,20 @@ y_{11} + y_{12} - y_{10} \\ y_9 \\ y_2 - y_3 \\ y_1
 </ol>
 <div id="rem-inverse" class="proof remark">
 <p><span class="proof-title"><em>Remark 3.1</em>. </span>One way to solve a system of linear equations is to compute the inverse of <span class="math inline">\(A\)</span>, <span class="math inline">\(A^{-1}\)</span>, directly, then the solution is found through matrix multiplication: <span class="math inline">\(\vec{x} = A^{-1} \vec{b}\)</span>. This turns out to be an inefficient approach and we can do better with specialised algorithms.</p>
-<div id="fad2fc4a" class="cell" data-execution_count="4">
+<div id="ff86acbf" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-stdout">
 <pre><code>
 
 Trying different approaches for problem size 100
-Approach 1 - inverting the matrix and applying the inverse. Time = 0.0003077983856201172
-Approach 2 - solving the system of linear equations. Time = 0.0001399517059326172
-Approach 2 is faster by a factor of  2.1993185689948893
+Approach 1 - inverting the matrix and applying the inverse. Time = 0.00032830238342285156
+Approach 2 - solving the system of linear equations. Time = 0.00014472007751464844
+Approach 2 is faster by a factor of  2.268533772652389
 
 
 Trying different approaches for problem size 10000
-Approach 1 - inverting the matrix and applying the inverse. Time = 31.40844178199768
-Approach 2 - solving the system of linear equations. Time = 8.08825397491455
-Approach 2 is faster by a factor of  3.8832165606334708</code></pre>
+Approach 1 - inverting the matrix and applying the inverse. Time = 31.226905345916748
+Approach 2 - solving the system of linear equations. Time = 8.08289909362793
+Approach 2 is faster by a factor of  3.8633298503669504</code></pre>
 </div>
 </div>
 </div>
@@ -626,8 +638,7 @@ Approach 2 is faster by a factor of  3.8832165606334708</code></pre>
 \vec{a} + 2 \vec{b} + 2 \vec{c} &amp;= \begin{pmatrix} 12 \\ 9 \\ 22 \end{pmatrix}.
 \end{align}\]</span> Now if we write <span class="math inline">\(A\)</span> for the <span class="math inline">\(3 \times 3\)</span>-matrix whose columns are <span class="math inline">\(\vec{a},
 \vec{b}, \vec{c}\)</span>: <span class="math display">\[\begin{align*}
-A =
-\begin{pmatrix}
+A = \begin{pmatrix}
 &amp;&amp; \\ \vec{a} &amp; \vec{b} &amp; \vec{c} \\ &amp;&amp;
 \end{pmatrix}
 = \begin{pmatrix}
@@ -667,7 +678,7 @@ A =
 \vec{b} = \begin{pmatrix} -1 \\ 2 \end{pmatrix} \quad
 \vec{c} = \begin{pmatrix} 1 \\ -1 \end{pmatrix}
 \end{align*}\]</span></p>
-<div id="120a27d1" class="cell" data-execution_count="5">
+<div id="fc3553f0" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -779,10 +790,16 @@ y_2 \begin{pmatrix} 0 \\ 1 \end{pmatrix} = y_1 \vec{e}_1 + y_2 \vec{e}_2.
 </div>
 <div class="proof">
 <p><span class="proof-title"><em>Proof</em> (Proof of <a href="#thm-basis-expansion" class="quarto-xref">Theorem&nbsp;<span>3.1</span></a>). </span>Let <span class="math inline">\(\vec{y}\)</span> be a vector in <span class="math inline">\(V\)</span> and label <span class="math inline">\(S = \{ \vec{v}_1, \ldots \vec{v}_k
-\}\)</span>. Since <span class="math inline">\(S\)</span> forms a basis of <span class="math inline">\(V\)</span>, <span class="math inline">\(\vec{y} \in \mathrm{span}(S)\)</span> so there exists numbers <span class="math inline">\(x_1, \ldots, x_k\)</span> such that <span class="math display">\[\begin{align} \label{eq:basis_pf_x}
-\vec{y} = \sum_{i=1}^k x_i \vec{v}*i. \end{align}\]</span> Suppose that there exists another set of number <span class="math inline">\(z_1, \ldots z_k\)</span> such that <span class="math display">\[\begin{align}
-\label{eq:basis_pf_z} \vec{y} = \sum*{i=1}^k z_i \vec{v}*i. \end{align}\]</span> Taking the difference of <span class="math inline">\(\eqref{eq:basis_pf_x}\)</span> and <span class="math inline">\(\eqref{eq:basis_pf_z}\)</span>, we see that <span class="math display">\[\begin{align} \vec{0} = \sum*{i=1}^k (x_i - z_i) \vec{v}_i. \end{align}\]</span> Since <span class="math inline">\(S\)</span> is linearly independent, this implies <span class="math inline">\(x_i = z_i\)</span> for <span class="math inline">\(i = 1, \ldots, k\)</span>, and we have shown that there is only one linear combination of the vectors <span class="math inline">\(\{
-\vec{v}_i \}\)</span> to form <span class="math inline">\(\vec{y}\)</span>.</p>
+\}\)</span>. Since <span class="math inline">\(S\)</span> forms a basis of <span class="math inline">\(V\)</span>, <span class="math inline">\(\vec{y} \in \mathrm{span}(S)\)</span> so there exists numbers <span class="math inline">\(x_1, \ldots, x_k\)</span> such that <span class="math display">\[\begin{align}
+\label{eq:basis_pf_x}
+\vec{y} = \sum_{i=1}^k x_i \vec{v}_i.
+\end{align}\]</span> Suppose that there exists another set of number <span class="math inline">\(z_1, \ldots z_k\)</span> such that <span class="math display">\[\begin{align}
+\label{eq:basis_pf_z}
+\vec{y} = \sum_{i=1}^k z_i \vec{v}_i.
+\end{align}\]</span> Taking the difference of <span class="math inline">\(\eqref{eq:basis_pf_x}\)</span> and <span class="math inline">\(\eqref{eq:basis_pf_z}\)</span>, we see that <span class="math display">\[\begin{align}
+\vec{0} = \sum_{i=1}^k (x_i - z_i) \vec{v}_i.
+\end{align}\]</span> Since <span class="math inline">\(S\)</span> is linearly independent, this implies <span class="math inline">\(x_i = z_i\)</span> for <span class="math inline">\(i = 1, \ldots,
+k\)</span>, and we have shown that there is only one linear combination of the vectors <span class="math inline">\(\{ \vec{v}_i \}\)</span> to form <span class="math inline">\(\vec{y}\)</span>.</p>
 </div>
 <p>There is a theorem that says that the number of vectors in any basis of a given ‘nice’ set of vectors <span class="math inline">\(V\)</span> is the same but is beyond the scope of this module!</p>
 <div id="thm-uniq-solution" class="theorem">
