@@ -15,7 +15,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 ```
 
-# Implement the algorithm
+## Implement the algorithm
 
 ```{pyodide}
 #| caption: sample code
@@ -33,17 +33,15 @@ def euler(y0, t0, T, n):
   t[0] = t0
 
   for i in range(1, n):
-    # TODO implement
-    True
-    #y[i] = y[i-1] + dt * f(t[i-1], y[i-1])
-    #t[i] = t[i-1] + dt
+    y[i] = y[i-1] + dt * f(t[i-1], y[i-1])
+    t[i] = t[i-1] + dt
 
   return t, y
 
 euler(y0=1.0, t0=0.0, T=1.0, n=4)
 ```
 
-# Plot the results
+## Plot the results
 
 ```{pyodide}
 #| caption: run the code

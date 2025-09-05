@@ -1,14 +1,17 @@
----
-title: Welcome to Linear Algebra
----
+# Welcome to linear algebra
 
 ## Contents of this submodule
 
-This part of the module will deal with numerical algorithms that involve matrices. The study of this type of problem is called *linear algebra*. We will approach these problems using a mix of theoretical ideas thinking through the lens of practical solutions. This means that you will do some programming (using Python) and some pen and paper theoretical work too.
+This part of the module will deal with numerical algorithms that involve
+matrices. The study of this type of problem is called *linear algebra*. We will
+approach these problems using a mix of theoretical ideas thinking through the
+lens of practical solutions. This means that you will do some programming (using
+Python) and some pen and paper theoretical work too.
 
 ### Topics
 
-We will have 7 double-lectures, 3/4 tutorials and 3/4 labs. We break up the topics as follows:
+We will have 7 double-lectures, 3/4 tutorials and 3/4 labs. We break up the
+topics as follows:
 
 Lectures
 
@@ -38,10 +41,13 @@ Tutorials
 
 Candidates should be able to:
 
--	explain practical challenges working with floating point numbers;
--	define and identify what is means for a set of vectors to be a basis, spanning set or linear independent;
--	apply direct and iterative solvers to solve systems of linear equations; implement methods using floating point numbers and investigate computational cost using computer experiments;
--	apply algorithms to compute eigenvectors and eigenvalues of large matrices.
+- explain practical challenges working with floating point numbers;
+- define and identify what is means for a set of vectors to be a basis, spanning
+  set or linear independent;
+- apply direct and iterative solvers to solve systems of linear equations;
+  implement methods using floating point numbers and investigate computational
+  cost using computer experiments;
+- apply algorithms to compute eigenvectors and eigenvalues of large matrices.
 
 ## Programming
 
