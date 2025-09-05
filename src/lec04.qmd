@@ -466,9 +466,8 @@ def system_size(A, b):
     n, m = A.shape
     nb = b.shape[0]
 
-    assert n == m and n == nb, (
-        f"system shapes are not compatible {A.shape} {b.shape}"
-    )
+    assert n == m, f"matrix A is not square {A.shape=}"
+    assert n == nb, f"system shapes are not compatible {A.shape=} {b.shape=}"
 
     return n
 

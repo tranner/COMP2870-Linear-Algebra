@@ -275,7 +275,8 @@ The last term is known as **machine precision** or **unit roundoff** and is
 often called $eps$. This is obtained in Python with
 
 ```{python}
-np.finfo(np.double).eps
+eps = np.finfo(np.double).eps
+print(eps)
 ```
 
 ::: {#exm-eps}
@@ -311,7 +312,7 @@ eps = np.finfo(np.double).eps
 print(f"{eps=}")
 
 smaller = eps
-for i in range(5):
+for _ in range(5):
     smaller = smaller / 10.0
     print(f"{smaller=}")
 

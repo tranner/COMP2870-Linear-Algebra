@@ -24,7 +24,9 @@ def system_size(A, b):
     n, m = A.shape
     nb = b.shape[0]
 
-    assert n == m and n == nb
+    assert n == m, f"matrix A is not square {A.shape=}"
+    assert n == nb, f"system shapes are not compatible {A.shape=} {b.shape=}"
+
     return n
 
 
@@ -669,7 +671,7 @@ def random_sparse_system(n, nonzero):
 
     # fill off diagonal
     further_nnz = (nonzero - n) // 2
-    for k in range(further_nnz):
+    for _ in range(further_nnz):
         value = np.random.randint(low=-10, high=10) / 2
         while True:
             row = np.random.randint(n)

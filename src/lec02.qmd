@@ -228,7 +228,7 @@ fig, axs = plt.subplots(1, 2)
 
 axs[0].fill([pt[0] for pt in pts], [pt[1] for pt in pts], edgecolor="black")
 
-for pt, t in zip(pts, temperatures):
+for pt, t in zip(pts, temperatures, strict=False):
     axs[0].plot(pt[0], pt[1], "ko")
     offset = 0.1 * (pt - c) / np.linalg.norm(pt - c)
     axs[0].text(
@@ -239,7 +239,7 @@ for pt, t in zip(pts, temperatures):
         bbox={"facecolor": "white", "boxstyle": "round,pad=0.2"},
     )
 
-for pt, t in zip(pts, temperatures):
+for pt, t in zip(pts, temperatures, strict=False):
     axs[1].plot(pt[0], pt[1], "ko")
     offset = 0.1 * (pt - c) / np.linalg.norm(pt - c)
     axs[1].text(

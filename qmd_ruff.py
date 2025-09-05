@@ -4,11 +4,12 @@ import os
 import subprocess
 import sys
 
-NO_CODE_PREFIX = "###--no code--###"
+NO_CODE_PREFIX = "###--no code--### "
+NO_QA_SUFFIX = " # noqa: E501"
 
 
 def qmd_to_py(infile, outfile):
-    with open(infile, "r") as f:
+    with open(infile) as f:
         inlines = f.readlines()
 
     with open(outfile, "w") as f:
@@ -18,7 +19,7 @@ def qmd_to_py(infile, outfile):
             if incode:
                 if "```" in line:
                     incode = False
-                    f.write(NO_CODE_PREFIX + line)
+                    f.write(NO_CODE_PREFIX + line[:-1] + NO_QA_SUFFIX + "\n")
                 else:
                     f.write(line)
 
@@ -26,17 +27,19 @@ def qmd_to_py(infile, outfile):
                 if "```{python}" in line:
                     incode = True
 
-                f.write(NO_CODE_PREFIX + line)
+                f.write(NO_CODE_PREFIX + line[:-1] + NO_QA_SUFFIX + "\n")
 
 
 def py_to_qmd(infile, outfile):
-    with open(infile, "r") as f:
+    with open(infile) as f:
         inlines = f.readlines()
 
     with open(outfile, "w") as f:
         for line in inlines:
             if NO_CODE_PREFIX in line:
                 line = line.removeprefix(NO_CODE_PREFIX)
+            if NO_QA_SUFFIX in line:
+                line = line.removesuffix(NO_QA_SUFFIX + "\n") + "\n"
             f.write(line)
 
 
@@ -51,18 +54,7 @@ def run_ruff_format(file_path):
 
 def run_ruff_check(file_path):
     try:
-        subprocess.run(["ruff", "check", file_path], check=True)
-    except subprocess.CalledProcessError as e:
-        print(f"Error checking {file_path}: {e}")
-        return 2
-    return 0
-
-
-def run_ruff_sort_imports(file_path):
-    try:
-        subprocess.run(
-            ["ruff", "check", file_path, "--select", "I", "--fix"], check=True
-        )
+        subprocess.run(["ruff", "check", file_path, "--fix"], check=True)
     except subprocess.CalledProcessError as e:
         print(f"Error sorting imports in {file_path}: {e}")
         return 4
@@ -89,7 +81,6 @@ def main(infile):
     # format and check
     r0 = run_ruff_check(infile_py)
     r1 = run_ruff_format(infile_py)
-    r2 = run_ruff_sort_imports(infile_py)
 
     # convert back to qmd
     py_to_qmd(infile_py, infile)
@@ -97,7 +88,7 @@ def main(infile):
     # delete temporary file
     delete_file(infile_py)
 
-    return r0 + r1 + r2
+    return r0 + r1
 
 
 if __name__ == "__main__":
