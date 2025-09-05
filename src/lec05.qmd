@@ -20,6 +20,9 @@ def system_size(A, b):
     """
     for a system of linear equations, returns the size and errors if sizes are
     not compatible
+
+    inputs: numpy arrays A, b with shapes (n, m) and (nb,)
+    outputs: size of system n (== m == nb)
     """
     n, m = A.shape
     nb = b.shape[0]
@@ -32,7 +35,12 @@ def system_size(A, b):
 
 def print_array(array, array_name=None, end=None):
     """
-    print the array nicely
+    print the input array nicely
+
+    inputs: numpy array to be printed
+            array_name (optional) name to print at start of output,
+                                  will be guessed otherwise
+            end of line character (can be None)
     """
     # find array_name
     if array_name is None:
