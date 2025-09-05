@@ -18,22 +18,27 @@ from PIL import Image
 
 ## Reminder of the problem
 
-This is the first method we will use to solve systems of linear equations. We will see that by using the approach of Gaussian elimination (and variations of that method) we can solve any system of linear equations that have a solution.
+This is the first method we will use to solve systems of linear equations. We
+will see that by using the approach of Gaussian elimination (and variations of
+that method) we can solve any system of linear equations that have a solution.
 
-Recall the problem is to solve a set of $n$ **linear** equations for $n$ unknown values $x_j$, for $j=1, 2, \ldots, n$.
+Recall the problem is to solve a set of $n$ **linear** equations for $n$ unknown
+values $x_j$, for $j=1, 2, \ldots, n$.
 
 **Notation**:
 
-$$
-\begin{aligned}
-\text{Equation } 1: && a_{11} x_1 + a_{12} x_2 + a_{13} x_3 + \cdots + a_{1n} x_n & = b_1 \\
-\text{Equation } 2: && a_{21} x_1 + a_{22} x_2 + a_{23} x_3 + \cdots + a_{2n} x_n & = b_2 \\
+\begin{align*}
+\text{Equation } 1:
+&& a_{11} x_1 + a_{12} x_2 + a_{13} x_3 + \cdots + a_{1n} x_n & = b_1 \\
+\text{Equation } 2:
+&& a_{21} x_1 + a_{22} x_2 + a_{23} x_3 + \cdots + a_{2n} x_n & = b_2 \\
 \vdots \\
-\text{Equation } i: && a_{i1} x_1 + a_{i2} x_2 + a_{i3} x_3 + \cdots + a_{in} x_n & = b_i \\
+\text{Equation } i:
+&& a_{i1} x_1 + a_{i2} x_2 + a_{i3} x_3 + \cdots + a_{in} x_n & = b_i \\
 \vdots \\
-\text{Equation } n: && a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n & = b_n.
-\end{aligned}
-$$
+\text{Equation } n:
+&& a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n & = b_n.
+\end{align*}
 
 We can also write the system of linear equations in *general matrix-vector* form:
 
@@ -53,9 +58,12 @@ $$
  \end{pmatrix}.
 $$
 
-Recall the $n \times n$ matrix $A$ represents the coefficients that multiply the unknowns in each equation (row), while the $n$-vector $\vec{b}$ represents the right-hand-side values.
+Recall the $n \times n$ matrix $A$ represents the coefficients that multiply the
+unknowns in each equation (row), while the $n$-vector $\vec{b}$ represents the
+right-hand-side values.
 
-Our strategy will be to reduce the system to a triangular system of matrices which is then easy to solve!
+Our strategy will be to reduce the system to a triangular system of matrices
+which is then easy to solve!
 
 ## Elementary row operations
 
@@ -73,224 +81,255 @@ $$
 
 Note three things...
 
--   The order in which we choose to write the $n$ equations is irrelevant
+- The order in which we choose to write the $n$ equations is irrelevant
 
--   We can multiply any equation by an arbitrary real number ($k \neq 0$ say):
+- We can multiply any equation by an arbitrary real number ($k \neq 0$ say):
 
-    $$
-    k a_{p1} x_1 + k a_{p2} x_2 + k a_{p3} x_3 + \cdots + k a_{pn} x_n = k b_p.
-    $$
+  $$
+  k a_{p1} x_1 + k a_{p2} x_2 + k a_{p3} x_3 + \cdots + k a_{pn} x_n = k b_p.
+  $$
 
--   We can add any two equations:
+- We can add any two equations:
 
-    $$
-    k a_{p1} x_1 + k a_{p2} x_2 + k a_{p3} x_3 + \cdots + k a_{pn} x_n = k b_p
-    $$
+  $$
+  k a_{p1} x_1 + k a_{p2} x_2 + k a_{p3} x_3 + \cdots + k a_{pn} x_n = k b_p
+  $$
 
-	added to
+ added to
 
-	$$
-    a_{q1} x_1 + a_{q2} x_2 + a_{q3} x_3 + \cdots + a_{qn} x_n = b_q
-    $$
+ $$
+ a_{q1} x_1 + a_{q2} x_2 + a_{q3} x_3 + \cdots + a_{qn} x_n = b_q
+ $$
 
-	yields
+ yields
 
-	$$
-    (k a_{p1} + a_{q1}) x_1 + (k a_{p2} + a_{q2}) x_2 + \cdots + (k a_{pn} + a_{qn}) x_n = k b_p + b_q.
-    $$
+ $$
+ (k a_{p1} + a_{q1}) x_1 + (k a_{p2} + a_{q2}) x_2 + \cdots + (k a_{pn} +
+ a_{qn}) x_n = k b_p + b_q.
+ $$
 
 ::: {#exm-ero}
 Consider the system
-
 \begin{align}
 2 x_1 + 3 x_2 & = 4  \label{eq:eg1a} \\
 -3 x_1 + 2 x_2 & = 7 \label{eq:eg1b}.
 \end{align}
-
 Then we have:
-
-$$
-\begin{aligned}
+\begin{align*}
 4 \times \text{\eqref{eq:eg1a}} & \rightarrow & 8 x_1 + 12 x_2 & = 16 \\
 -15. \times \text{\eqref{eq:eg1b}} & \rightarrow & 4.5 x_2 - 3 x_2 & = -10.5 \\
-\text{\eqref{eq:eg1a}} + \text{\eqref{eq:eg1b}} & \rightarrow & -x_1 + 5 x_2 & = 11 \\
-\text{\eqref{eq:eg1b}} + 1.5 \times \text{\eqref{eq:eg1a}} & \rightarrow & 0 + 6.5 x_2 & = 13.
-\end{aligned}
-$$
+\text{\eqref{eq:eg1a}} + \text{\eqref{eq:eg1b}} & \rightarrow &
+-x_1 + 5 x_2 & = 11 \\
+\text{\eqref{eq:eg1b}} + 1.5 \times \text{\eqref{eq:eg1a}} & \rightarrow &
+0 + 6.5 x_2 & = 13.
+\end{align*}
 :::
 
 ::: {#exr-elo}
 Consider the system
-
 \begin{align}
 x_1 + 2 x_2 & = 1 \label{eq:eg2a} \\
 4 x_1 + x_2 & = -3 \label{eq:eg2b}.
 \end{align}
-
 Work out the result of these elementary row operations:
-
-$$
-\begin{aligned}
+\begin{align*}
 2 \times \text{\eqref{eq:eg2a}} & \rightarrow \\
 0.25 \times \text{\eqref{eq:eg2b}} & \rightarrow \\
 \text{\eqref{eq:eg2b}} + (-1) \times \text{\eqref{eq:eg2a}} & \rightarrow \\
 \text{\eqref{eq:eg2b}} + (-4) \times \text{\eqref{eq:eg2a}} & \rightarrow
-\end{aligned}
-$$
+\end{align*}
 :::
 
 For a system written in matrix form our three observations mean the following:
 
--   We can swap any two rows of the matrix (and corresponding right-hand side entries). For example:
+- We can swap any two rows of the matrix (and corresponding right-hand side
+  entries). For example:
 
-    $$
-    \begin{pmatrix}
-    2 & 3 \\ -3 & 2
-    \end{pmatrix}
-    \begin{pmatrix}
-    x_1 \\ x_2
-    \end{pmatrix} =
-    \begin{pmatrix}
-    4 \\ 7
-    \end{pmatrix}
-    \Rightarrow
-    \begin{pmatrix}
-    -3 & 2\\ 2 & 3
-    \end{pmatrix}
-    \begin{pmatrix}
-    x_1 \\ x_2
-    \end{pmatrix} =
-    \begin{pmatrix}
-    7 \\ 4
-    \end{pmatrix}
-    $$
+  $$
+  \begin{pmatrix}
+  2 & 3 \\ -3 & 2
+  \end{pmatrix}
+  \begin{pmatrix}
+  x_1 \\ x_2
+  \end{pmatrix} =
+  \begin{pmatrix}
+  4 \\ 7
+  \end{pmatrix}
+  \Rightarrow
+  \begin{pmatrix}
+  -3 & 2\\ 2 & 3
+  \end{pmatrix}
+  \begin{pmatrix}
+  x_1 \\ x_2
+  \end{pmatrix} =
+  \begin{pmatrix}
+  7 \\ 4
+  \end{pmatrix}
+  $$
 
--   We can multiply any row of the matrix (and corresponding right-hand side entry) by a scalar. For example:
+- We can multiply any row of the matrix (and corresponding right-hand side
+  entry) by a scalar. For example:
 
-    $$
-    \begin{pmatrix}
-    2 & 3 \\ -3 & 2
-    \end{pmatrix}
-    \begin{pmatrix}
-    x_1 \\ x_2
-    \end{pmatrix} =
-    \begin{pmatrix}
-    4 \\ 7
-    \end{pmatrix}
-    \Rightarrow
-    \begin{pmatrix}
-    1 & \frac{3}{2} \\ -3 & 2
-    \end{pmatrix}
-    \begin{pmatrix}
-    x_1 \\ x_2
-    \end{pmatrix} =
-    \begin{pmatrix}
-    2 \\ 7
-    \end{pmatrix}
-    $$
+  $$
+  \begin{pmatrix}
+  2 & 3 \\ -3 & 2
+  \end{pmatrix}
+  \begin{pmatrix}
+  x_1 \\ x_2
+  \end{pmatrix} =
+  \begin{pmatrix}
+  4 \\ 7
+  \end{pmatrix}
+  \Rightarrow
+  \begin{pmatrix}
+  1 & \frac{3}{2} \\ -3 & 2
+  \end{pmatrix}
+  \begin{pmatrix}
+  x_1 \\ x_2
+  \end{pmatrix} =
+  \begin{pmatrix}
+  2 \\ 7
+  \end{pmatrix}
+  $$
 
--   We can replace row $q$ by row $q + k \times$ row $p$. For example:
+- We can replace row $q$ by row $q + k \times$ row $p$. For example:
 
-	$$
-    \begin{pmatrix}
-    2 & 3 \\ -3 & 2
-    \end{pmatrix}
-    \begin{pmatrix}
-    x_1 \\ x_2
-    \end{pmatrix} =
-    \begin{pmatrix}
-    4 \\ 7
-    \end{pmatrix}
-    \Rightarrow
-    \begin{pmatrix}
-    2 & 3 \\ 0 & 6.5
-    \end{pmatrix}
-    \begin{pmatrix}
-    x_1 \\ x_2
-    \end{pmatrix} =
-    \begin{pmatrix}
-    4 \\ 13
-    \end{pmatrix}
-    $$
+  $$
+  \begin{pmatrix}
+  2 & 3 \\ -3 & 2
+  \end{pmatrix}
+  \begin{pmatrix}
+  x_1 \\ x_2
+  \end{pmatrix} =
+  \begin{pmatrix}
+  4 \\ 7
+  \end{pmatrix}
+  \Rightarrow
+  \begin{pmatrix}
+  2 & 3 \\ 0 & 6.5
+  \end{pmatrix}
+  \begin{pmatrix}
+  x_1 \\ x_2
+  \end{pmatrix} =
+  \begin{pmatrix}
+  4 \\ 13
+  \end{pmatrix}
+  $$
 
-	(here we replaced row $w$ by row $2 + 1.5 \times$ row $1$)
+  (here we replaced row $w$ by row $2 + 1.5 \times$ row $1$)
 
-    $$
-    \begin{pmatrix}
-    1 & 2 \\ 4 & 1
-    \end{pmatrix}
-    \begin{pmatrix}
-    x_1 \\ x_2
-    \end{pmatrix} =
-    \begin{pmatrix}
-    1 \\ -3
-    \end{pmatrix}
-    \Rightarrow
-    \begin{pmatrix}
-    1 & 2 \\ 0 & -7
-    \end{pmatrix}
-    \begin{pmatrix}
-    x_1 \\ x_2
-    \end{pmatrix} =
-    \begin{pmatrix}
-    1 \\ -7
-    \end{pmatrix}
-    $$
+  $$
+  \begin{pmatrix}
+  1 & 2 \\ 4 & 1
+  \end{pmatrix}
+  \begin{pmatrix}
+  x_1 \\ x_2
+  \end{pmatrix} =
+  \begin{pmatrix}
+  1 \\ -3
+  \end{pmatrix}
+  \Rightarrow
+  \begin{pmatrix}
+  1 & 2 \\ 0 & -7
+  \end{pmatrix}
+  \begin{pmatrix}
+  x_1 \\ x_2
+  \end{pmatrix} =
+  \begin{pmatrix}
+  1 \\ -7
+  \end{pmatrix}
+  $$
 
-	(here we replaced row $2$ by row $2 + (-4) \times$ row $1$)
+ (here we replaced row $2$ by row $2 + (-4) \times$ row $1$)
 
-Our strategy for solving systems of linear equations using Gaussian elimination is based on the following ideas:
+Our strategy for solving systems of linear equations using Gaussian elimination
+is based on the following ideas:
 
--   Three types of operation described above are called **elementary row operations** (ERO).
+- Three types of operation described above are called **elementary row
+  operations** (ERO).
 
--   We will applying a sequence of ERO to reduce an arbitrary system to a triangular form, which, we will see, can be easily solved.
+- We will applying a sequence of ERO to reduce an arbitrary system to a
+  triangular form, which, we will see, can be easily solved.
 
--   The algorithm for reducing a general matrix to upper triangular form is known as **forward elimination** or (more commonly) as **Gaussian elimination**.
+- The algorithm for reducing a general matrix to upper triangular form is known
+  as **forward elimination** or (more commonly) as **Gaussian elimination**.
 
 ## Gaussian elimination
 
-The algorithm of Gaussian elimination is a very old method that you may have already met at school - perhaps by a different name. The details of the method may seem quite confusing at first. Really we are following the ideas of eliminating systems of simultaneous equations, but in a way a computer understands. This is an important point in this section. You will have seen different ideas of how to solve systems of simulations equations where the first step is to "look at the equations to decide the easiest first step". When there are $10^9$ equations, its not effective for a computer to try and find an easy way through the problem. It must instead of a simple set of instructions to follow: this will be our algorithm.
+The algorithm of Gaussian elimination is a very old method that you may have
+already met at school - perhaps by a different name. The details of the method
+may seem quite confusing at first. Really we are following the ideas of
+eliminating systems of simultaneous equations, but in a way a computer
+understands. This is an important point in this section. You will have seen
+different ideas of how to solve systems of simulations equations where the first
+step is to "look at the equations to decide the easiest first step". When there
+are $10^9$ equations, its not effective for a computer to try and find an easy
+way through the problem. It must instead of a simple set of instructions to
+follow: this will be our algorithm.
 
-The method is so old, in fact we have evidence of Chinese mathematicians using Gaussian elimination in 179CE (From [Wikipedia](https://en.wikipedia.org/wiki/Gaussian_elimination)):
+The method is so old, in fact we have evidence of Chinese mathematicians using
+Gaussian elimination in 179CE (From
+[Wikipedia](https://en.wikipedia.org/wiki/Gaussian_elimination)):
 
-> The method of Gaussian elimination appears in the Chinese mathematical text Chapter Eight: Rectangular Arrays of The Nine Chapters on the Mathematical Art. Its use is illustrated in eighteen problems, with two to five equations. The first reference to the book by this title is dated to 179 CE, but parts of it were written as early as approximately 150 BCE. It was commented on by Liu Hui in the 3rd century.
+> The method of Gaussian elimination appears in the Chinese mathematical text
+> Chapter Eight: Rectangular Arrays of The Nine Chapters on the Mathematical
+> Art. Its use is illustrated in eighteen problems, with two to five equations.
+> The first reference to the book by this title is dated to 179 CE, but parts of
+> it were written as early as approximately 150 BCE. It was commented on by Liu
+> Hui in the 3rd century.
 >
-> The method in Europe stems from the notes of Isaac Newton. In 1670, he wrote that all the algebra books known to him lacked a lesson for solving simultaneous equations, which Newton then supplied. Carl Friedrich Gauss in 1810 devised a notation for symmetric elimination that was adopted in the 19th century by professional hand computers to solve the normal equations of least-squares problems. The algorithm that is taught in high school was named for Gauss only in the 1950s as a result of confusion over the history of the subject.
+> The method in Europe stems from the notes of Isaac Newton. In 1670, he wrote
+> that all the algebra books known to him lacked a lesson for solving
+> simultaneous equations, which Newton then supplied. Carl Friedrich Gauss in
+> 1810 devised a notation for symmetric elimination that was adopted in the 19th
+> century by professional hand computers to solve the normal equations of
+> least-squares problems. The algorithm that is taught in high school was named
+> for Gauss only in the 1950s as a result of confusion over the history of the
+> subject.
 
 ```{python}
 # | echo: false
-# | fig-cap: "Image from Nine Chapter of the Mathematical art. By Yang Hui(1238-1298) - mybook, Public Domain, <https://commons.wikimedia.org/w/index.php?curid=10317744>"
+# | fig-cap: "Image from Nine Chapter of the Mathematical art.
+# | By Yang Hui(1238-1298) - mybook, Public Domain,
+# | <https://commons.wikimedia.org/w/index.php?curid=10317744>"
 headers = {
     "User-Agent": "Mozilla/5.0 (compatible; MyQuartoImageBot/1.0; +https://example.com/bot-info)"
 }
 
-image_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Yanghui_Yongle_Dadian.JPG/1024px-Yanghui_Yongle_Dadian.JPG"
-response = requests.get(image_url, headers=headers)
-response.raise_for_status()
+print("TODO readd image")
+# image_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Yanghui_Yongle_Dadian.JPG/1024px-Yanghui_Yongle_Dadian.JPG"
+# response = requests.get(image_url, headers=headers)
+# response.raise_for_status()
 
-image = Image.open(BytesIO(response.content))
+# image = Image.open(BytesIO(response.content))
 
-plt.imshow(image, cmap="grey")
-plt.axis("off")
+# plt.imshow(image, cmap="grey")
+# plt.axis("off")
 
-plt.tight_layout()
-plt.show()
+# plt.tight_layout()
+# plt.show()
 
 
 ```
 
 ### The algorithm
 
-The following algorithm systematically introduces zeros into the system of equations, below the diagonal.
+The following algorithm systematically introduces zeros into the system of
+equations, below the diagonal.
 
-1.  Subtract multiples of row 1 from the rows below it to eliminate (make zero) nonzero entries in column 1.
-2.  Subtract multiplies of the new row 2 from the rows below it to eliminate nonzero entries in column 2.
-3.  Repeat for row $3, 4, \ldots, n-1$.
+1. Subtract multiples of row 1 from the rows below it to eliminate (make zero)
+   nonzero entries in column 1.
+2. Subtract multiplies of the new row 2 from the rows below it to eliminate
+   nonzero entries in column 2.
+3. Repeat for row $3, 4, \ldots, n-1$.
 
-After row $n-1$ all entities below the diagonal have been eliminated, so $A$ is now upper triangular and the resulting system can be solved by backward substitution.
+After row $n-1$ all entities below the diagonal have been eliminated, so $A$ is
+now upper triangular and the resulting system can be solved by backward
+substitution.
 
 ::: {#exm-ge}
-Use Gaussian eliminate to reduce the following system of equations to upper triangular form:
+Use Gaussian eliminate to reduce the following system of equations to upper
+triangular form:
 
 $$
 \begin{pmatrix}
@@ -306,37 +345,37 @@ $$
 
 First, use the first row to eliminate the first column below the diagonal:
 
--   (row 2) $- 0.5 \times$ (row 1) gives
+- (row 2) $- 0.5 \times$ (row 1) gives
 
-    $$
-    \begin{pmatrix}
-     2 & 1 & 4 \\ \mathbf{0} & 1.5 & 0 \\ 2 & 4 & 6
-    \end{pmatrix}
-    \begin{pmatrix}
-    x_1 \\ x_2 \\ x_3
-    \end{pmatrix} =
-    \begin{pmatrix}
-    12 \\ 3 \\ 22
-    \end{pmatrix}
-    $$
+  $$
+  \begin{pmatrix}
+    2 & 1 & 4 \\ \mathbf{0} & 1.5 & 0 \\ 2 & 4 & 6
+  \end{pmatrix}
+  \begin{pmatrix}
+  x_1 \\ x_2 \\ x_3
+  \end{pmatrix} =
+  \begin{pmatrix}
+  12 \\ 3 \\ 22
+  \end{pmatrix}
+  $$
 
--   (row 3) $-$ (row 1) then gives
+- (row 3) $-$ (row 1) then gives
 
-    $$
-    \begin{pmatrix}
-     2 & 1 & 4 \\ \mathbf{0} & 1.5 & 0 \\ \mathbf{0} & 3 & 2
-    \end{pmatrix}
-    \begin{pmatrix}
-    x_1 \\ x_2 \\ x_3
-    \end{pmatrix} =
-    \begin{pmatrix}
-    12 \\ 3 \\ 10
-    \end{pmatrix}
-    $$
+  $$
+  \begin{pmatrix}
+    2 & 1 & 4 \\ \mathbf{0} & 1.5 & 0 \\ \mathbf{0} & 3 & 2
+  \end{pmatrix}
+  \begin{pmatrix}
+  x_1 \\ x_2 \\ x_3
+  \end{pmatrix} =
+  \begin{pmatrix}
+  12 \\ 3 \\ 10
+  \end{pmatrix}
+  $$
 
 Now use the second row to eliminate the second column below the diagonal.
 
--   (row 3) $- 2 \times$ (row 2) gives
+- (row 3) $- 2 \times$ (row 2) gives
 
     $$
     \begin{pmatrix}
@@ -349,10 +388,12 @@ Now use the second row to eliminate the second column below the diagonal.
     12 \\ 3 \\ 4
     \end{pmatrix}
     $$
+
 :::
 
 ::: {#exr-ge}
-Use Gaussian elimination to reduce the following system of linear equations to upper triangular form.
+Use Gaussian elimination to reduce the following system of linear equations to
+upper triangular form.
 
 $$
 \begin{pmatrix}
@@ -367,21 +408,25 @@ x_1 \\ x_2 \\ x_3
 $$
 :::
 
-
 ::: {.remark}
--   Each row $i$ is used to eliminate the entries in column $i$ below $a_{ii}$, i.e. it forces $a_{ji} = 0$ for $j > i$.
 
--   This is done by subtracting a multiple of row $i$ from row $j$:
+- Each row $i$ is used to eliminate the entries in column $i$ below $a_{ii}$,
+  i.e. it forces $a_{ji} = 0$ for $j > i$.
 
-    $$
-    (\text{row } j) \leftarrow (\text{row } j) - \frac{a_{ji}}{a_{ii}} (\text{row } i).
-    $$
-
--   This guarantees that $a_{ji}$ becomes zero because
+- This is done by subtracting a multiple of row $i$ from row $j$:
 
     $$
-    a_{ji} \leftarrow a_{ji} - \frac{a_{ji}}{a_{ii}} a_{ii} = a_{ji} - a_{ji} = 0.
+    (\text{row } j) \leftarrow (\text{row } j) - \frac{a_{ji}}{a_{ii}}
+    (\text{row } i).
     $$
+
+- This guarantees that $a_{ji}$ becomes zero because
+
+    $$
+    a_{ji} \leftarrow a_{ji} - \frac{a_{ji}}{a_{ii}} a_{ii} = a_{ji} - a_{ji} =
+    0.
+    $$
+
 :::
 
 ::: {#exr-ge2}
@@ -404,22 +449,26 @@ The solution is $\vec{x} = (1, 1, 1, 1)^T$.
 
 ### Python version
 
-We start with some helper code which determines the size of the system we are working with:
+We start with some helper code which determines the size of the system we are
+working with:
 
 ```{python}
 def system_size(A, b):
     """
-    for a system of linear equations, returns the size and errors if sizes are not compatible
+    for a system of linear equations, returns the size and errors if sizes are
+    not compatible
     """
     n, m = A.shape
     nb = b.shape[0]
 
-    assert n == m and n == nb
+    assert n == m and n == nb, (
+        f"system shapes are not compatible {A.shape} {b.shape}"
+    )
+
     return n
 
 
 ```
-
 
 ```{python}
 # | echo: false
@@ -477,8 +526,8 @@ def row_swap(A, b, p, q):
 
 def row_scale(A, b, p, k):
     """
-    scale the entries in row p by k for the system of linear equations given by Ax = b.
-    updates entries in place
+    scale the entries in row p by k for the system of linear equations given by
+    Ax = b. updates entries in place
     """
     n = system_size(A, b)
 
@@ -507,6 +556,7 @@ def row_add(A, b, p, k, q):
 Let's test we are ok so far:
 
 Test 1: swapping rows
+
 ```{python}
 A = np.array([[2.0, 3.0], [-3.0, 2.0]])
 b = np.array([[4.0], [7.0]])
@@ -526,8 +576,8 @@ print_array(b)
 print()
 ```
 
-
 Test 2: scaling one row
+
 ```{python}
 A = np.array([[2.0, 3.0], [-3.0, 2.0]])
 b = np.array([[4.0], [7.0]])
@@ -548,6 +598,7 @@ print()
 ```
 
 Test 3: replacing a row by that adding a multiple of another row
+
 ```{python}
 A = np.array([[2.0, 3.0], [-3.0, 2.0]])
 b = np.array([[4.0], [7.0]])
@@ -569,12 +620,14 @@ print()
 
 ```
 
-Now we can define our Gaussian elimination function. We update the values in-place to avoid extra memory allocations.
+Now we can define our Gaussian elimination function. We update the values
+in-place to avoid extra memory allocations.
+
 ```{python}
 def gaussian_elimination(A, b, verbose=False):
     """
-    perform Gaussian elimnation to reduce the system of linear equations Ax=b to upper triangular form
-    use verbose to print out intermediate representations
+    perform Gaussian elimnation to reduce the system of linear equations Ax=b to
+    upper triangular form. use verbose to print out intermediate representations
     """
     # find shape of system
     n = system_size(A, b)
@@ -602,6 +655,7 @@ def gaussian_elimination(A, b, verbose=False):
 ```
 
 We can try our code on Example 1:
+
 ```{python}
 A = np.array([[2.0, 1.0, 4.0], [1.0, 2.0, 2.0], [2.0, 4.0, 6.0]])
 b = np.array([[12.0], [9.0], [22.0]])
@@ -628,22 +682,23 @@ print("Is A really upper triangular?", np.allclose(A, np.triu(A)))
 
 ## Solving triangular systems of equations
 
-A general *lower triangular* system of equations has $a_{ij} = 0$ for $j > i$ and takes the form:
+A general *lower triangular* system of equations has $a_{ij} = 0$ for $j > i$
+and takes the form:
 
 $$
- \begin{pmatrix}
- a_{11} & 0 & 0 & \cdots & 0 \\
- a_{21} & a_{22} & 0 & \cdots & 0 \\
- a_{31} & a_{32} & a_{33} & \cdots & 0 \\
- \vdots & \vdots & \vdots & \ddots & \vdots \\
+\begin{pmatrix}
+a_{11} & 0 & 0 & \cdots & 0 \\
+a_{21} & a_{22} & 0 & \cdots & 0 \\
+a_{31} & a_{32} & a_{33} & \cdots & 0 \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
 a_{n1} & a_{n2} & a_{n3} & \cdots & a_{nn}
- \end{pmatrix}
- \begin{pmatrix}
- x_1 \\ x_2 \\ x_3 \\ \vdots \\ x_n
- \end{pmatrix} =
- \begin{pmatrix}
- b_1 \\ b_2 \\ b_3 \\ \vdots \\ b_n
- \end{pmatrix}.
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\ x_2 \\ x_3 \\ \vdots \\ x_n
+\end{pmatrix} =
+\begin{pmatrix}
+b_1 \\ b_2 \\ b_3 \\ \vdots \\ b_n
+\end{pmatrix}.
 $$
 
 Note the first equation is
@@ -660,10 +715,11 @@ $$
 
 for each row $i = 1, 2, \ldots, n$ in turn.
 
--   Each calculation requires only previously computed values $x_j$ (and the sum gives a loop for $j < i$.
--   The matrix $A$ **must** have nonzero diagonal entries\
-    i.e. $a_{ii} \neq 0$ for $i = 1, 2, \ldots, n$.
--   **Upper triangular** systems of equations can be solved in a similar manner.
+- Each calculation requires only previously computed values $x_j$ (and the sum
+  gives a loop for $j < i$.
+- The matrix $A$ **must** have nonzero diagonal entries\
+  i.e. $a_{ii} \neq 0$ for $i = 1, 2, \ldots, n$.
+- **Upper triangular** systems of equations can be solved in a similar manner.
 
 ::: {#exm-fs}
 Solve the lower triangular system of equations given by
@@ -721,20 +777,26 @@ $$
 :::
 
 ::: {#rem-triangular}
--   It is simple to solve a lower (upper) triangular system of equations (provided the diagonal is nonzero).
 
--   This process is often referred to as **forward** (**backward**) **substitution**.
+- It is simple to solve a lower (upper) triangular system of equations (provided
+  the diagonal is non-zero).
 
--   A general system of equations (i.e. a full matrix $A$) can be solved rapidly once it has been reduced to upper triangular form. This is the idea of using Gaussian elimination with backward subsitution.
+- This process is often referred to as **forward** (**backward**)
+  **substitution**.
+
+- A general system of equations (i.e. a full matrix $A$) can be solved rapidly
+once it has been reduced to upper triangular form. This is the idea of using
+Gaussian elimination with backward substitution.
 :::
 
-We can define functions to solve both upper or lower triangular form systems of linear equations:
+We can define functions to solve both upper or lower triangular form systems of
+linear equations:
 
 ```{python}
 def forward_substitution(A, b):
     """
-    solves the system of linear equationa Ax = b assuming that A is lower triangular
-    returns the solution x
+    solves the system of linear equationa Ax = b assuming that A is lower
+    triangular. returns the solution x
     """
     # get size of system
     n = system_size(A, b)
@@ -757,8 +819,8 @@ def forward_substitution(A, b):
 
 def backward_substitution(A, b):
     """
-    solves the system of linear equationa Ax = b assuming that A is upper triangular
-    returns the solution x
+    solves the system of linear equationa Ax = b assuming that A is upper
+    triangular. returns the solution x
     """
     # get size of system
     n = system_size(A, b)
@@ -822,17 +884,18 @@ print("The solution using backward substitution is:")
 print_array(x)
 print()
 
-
 print("Does x really solve the system?", np.allclose(A @ x, b))
 ```
 
 ## Combining Gaussian elimination and backward substitution
 
-Our grant strategy can now come together so we have a method to solve systems of linear equations:
+Our grant strategy can now come together so we have a method to solve systems of
+linear equations:
 
 Given a system of linear equations $A\vec{x} = \vec{b}$;
 
-- First perform Gaussian elimination to give an equivalent system of equations in upper triangular form;
+- First perform Gaussian elimination to give an equivalent system of equations
+  in upper triangular form;
 - Then use backward substitution to produce a solution $\vec{x}$
 
 We can use our code to test this:
@@ -868,12 +931,16 @@ b = np.array([[12.0], [9.0], [22.0]])
 print("Does x really solve the original system?", np.allclose(A @ x, b))
 ```
 
-##  The cost of Gaussian Elimination
+## The cost of Gaussian Elimination
 
-Gaussian elimination (GE) is unnecessarily expensive when it is applied to many systems of equations with the same matrix $A$ but different right-hand sides $\vec{b}$.
+Gaussian elimination (GE) is unnecessarily expensive when it is applied to many
+systems of equations with the same matrix $A$ but different right-hand sides
+$\vec{b}$.
 
--   The forward elimination process is the most computationally expensive part at $O(n^3)$ but is exactly the same for any choice of $\vec{b}$.
--   In contrast, the solution of the resulting upper triangular system only requires $O(n^2)$ operations.
+- The forward elimination process is the most computationally expensive part at
+  $O(n^3)$ but is exactly the same for any choice of $\vec{b}$.
+- In contrast, the solution of the resulting upper triangular system only
+  requires $O(n^2)$ operations.
 
 ```{python}
 # | echo: false
@@ -901,7 +968,8 @@ for n in sizes:
 
 ```{python}
 # | echo: false
-# | fig-cap: Runtime cost of applying Gaussian elimination (GE) and backwards solution (BS).
+# | fig-cap: "Runtime cost of applying Gaussian elimination (GE) and backwards
+# | solution (BS)."
 
 plt.loglog(sizes, times_GE, "C0o", label="GE")
 plt.loglog(sizes, times_BS, "C1o", label="BS")
@@ -928,97 +996,107 @@ plt.show()
 
 ```
 
-We can use this information to improve the way in which we solve multiple systems of equations with the same matrix $A$ but different right-hand sides $\vec{b}$.
+We can use this information to improve the way in which we solve multiple
+systems of equations with the same matrix $A$ but different right-hand sides
+$\vec{b}$.
 
 ## LU factorisation
 
-Our next algorithm, called LU factorisation, is a way to try to speed up Gaussian elimination by reusing information. This can be used when we solve systems of equations with the same matrix $A$ but different right hand sides $\vec{b}$ - this is more common than you would think!
+Our next algorithm, called LU factorisation, is a way to try to speed up
+Gaussian elimination by reusing information. This can be used when we solve
+systems of equations with the same matrix $A$ but different right hand sides
+$\vec{b}$ - this is more common than you would think!
 
-Recall the elementary row operations (EROs) from above.
-Note that the EROs can be produced by left multiplication with a suitable matrix:
+Recall the elementary row operations (EROs) from above. Note that the EROs can
+be produced by left multiplication with a suitable matrix:
 
--   Row swap:
+- Row swap:
 
-    $$
-    \begin{pmatrix}
-    1 & 0 & 0 \\ 0 & 0 & 1 \\ 0 & 1 & 0
-    \end{pmatrix}
-    \begin{pmatrix}
-    a & b & c \\ d & e & f \\ g & h & i
-    \end{pmatrix}
-    =
-    \begin{pmatrix}
-    a & b & c \\ g & h & i \\ d & e & f
-    \end{pmatrix}
-    $$
+  $$
+  \begin{pmatrix}
+  1 & 0 & 0 \\ 0 & 0 & 1 \\ 0 & 1 & 0
+  \end{pmatrix}
+  \begin{pmatrix}
+  a & b & c \\ d & e & f \\ g & h & i
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+  a & b & c \\ g & h & i \\ d & e & f
+  \end{pmatrix}
+  $$
 
--   Row swap:
+- Row swap:
 
-    $$
-    \begin{pmatrix}
-    1 & 0 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 1
-    \end{pmatrix}
-    \begin{pmatrix}
-    a & b & c & d \\ e & f & g & h \\ i & j & k & l \\ m & n & o & p
-    \end{pmatrix}
-    =
-    \begin{pmatrix}
-    a & b & c & d \\ i & j & k & l \\ e & f & g & h \\ m & n & o & p
-    \end{pmatrix}
-    $$
+  $$
+  \begin{pmatrix}
+  1 & 0 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 1
+  \end{pmatrix}
+  \begin{pmatrix}
+  a & b & c & d \\ e & f & g & h \\ i & j & k & l \\ m & n & o & p
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+  a & b & c & d \\ i & j & k & l \\ e & f & g & h \\ m & n & o & p
+  \end{pmatrix}
+  $$
 
--   Multiply row by $\alpha$:
+- Multiply row by $\alpha$:
 
-    $$
-    \begin{pmatrix}
-    \alpha & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1
-    \end{pmatrix}
-    \begin{pmatrix}
-    a & b & c \\ d & e & f \\ g & h & i
-    \end{pmatrix}
-    =
-    \begin{pmatrix}
-    \alpha a & \alpha b & \alpha c \\ d & e & f \\ g & h & i
-    \end{pmatrix}
-    $$
+  $$
+  \begin{pmatrix}
+  \alpha & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1
+  \end{pmatrix}
+  \begin{pmatrix}
+  a & b & c \\ d & e & f \\ g & h & i
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+  \alpha a & \alpha b & \alpha c \\ d & e & f \\ g & h & i
+  \end{pmatrix}
+  $$
 
--   $\alpha \times \text{row } p + \text{row } q$:
+- $\alpha \times \text{row } p + \text{row } q$:
 
-    $$
-    \begin{pmatrix}
-    1 & 0 & 0 \\ 0 & 1 & 0 \\ \alpha & 0 & 1
-    \end{pmatrix}
-    \begin{pmatrix}
-    a & b & c \\ d & e & f \\ g & h & i
-    \end{pmatrix}
-    =
-    \begin{pmatrix}
-    a & b & c \\ d & e & f \\ \alpha a + g & \alpha b + h & \alpha c + i
-    \end{pmatrix}
-    $$
+  $$
+  \begin{pmatrix}
+  1 & 0 & 0 \\ 0 & 1 & 0 \\ \alpha & 0 & 1
+  \end{pmatrix}
+  \begin{pmatrix}
+  a & b & c \\ d & e & f \\ g & h & i
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+  a & b & c \\ d & e & f \\ \alpha a + g & \alpha b + h & \alpha c + i
+  \end{pmatrix}
+  $$
 
-Since Gaussian elimination (GE) is just a sequence of EROs and each ERO just multiplication by a suitable matrix, say $E_k$,
-forward elimination applied to the system $A \vec{x} = \vec{b}$ can be expressed as
+Since Gaussian elimination (GE) is just a sequence of EROs and each ERO just
+multiplication by a suitable matrix, say $E_k$, forward elimination applied to
+the system $A \vec{x} = \vec{b}$ can be expressed as
 $$
 (E_m \cdots E_1) A \vec{x} = (E_m \cdots E_1) \vec{b},
 $$
 here $m$ is the number of EROs required to reduce the upper triangular form.
 
-Let $U = (E_m \cdots E_1) A$ and $L = (E_m \cdots E_1)^{-1}$. Now the original system $A \vec{x} = \vec{b}$ is equivalent to
+Let $U = (E_m \cdots E_1) A$ and $L = (E_m \cdots E_1)^{-1}$. Now the original
+system $A \vec{x} = \vec{b}$ is equivalent to
 
 \begin{equation}
 \label{eq:LU}
 L U \vec{x} = \vec{b}
 \end{equation}
 
-where $U$ is *upper triangular* (by construction) and $L$ may be shown to be lower triangular (provided the EROs do not include any row swaps).
+where $U$ is *upper triangular* (by construction) and $L$ may be shown to be
+lower triangular (provided the EROs do not include any row swaps).
 
 Once $L$ and $U$ are known it is easy to solve \eqref{eq:LU}
 
--   Solve $L \vec{z} = \vec{b}$ in $O(n^2)$ operations.
--   Solve $U \vec{x} = \vec{z}$ in $O(n^2)$ operations.
+- Solve $L \vec{z} = \vec{b}$ in $O(n^2)$ operations.
+- Solve $U \vec{x} = \vec{z}$ in $O(n^2)$ operations.
 
-$L$ and $U$ may be found in $O(n^3)$ operations by performing GE and saving the $E_i$ matrices, however it is more convenient to find them directly (also $O(n^3)$ operations).
+$L$ and $U$ may be found in $O(n^3)$ operations by performing GE and saving the
+$E_i$ matrices, however it is more convenient to find them directly (also
+$O(n^3)$ operations).
 
 ### Computing $L$ and $U$
 
@@ -1061,14 +1139,19 @@ a_{41} & = (l_{41}, l_{42}, l_{43}, 1)(u_{11}, 0, 0, 0)^T && = l_{41} u_{11}
 \end{aligned}
 $$
 
-The second, third and fourth columns follow in a similar manner, giving all the entries in $L$ and $U$.
+The second, third and fourth columns follow in a similar manner, giving all the
+entries in $L$ and $U$.
 
 ::: {#rem-how-to-LU}
--   $L$ is assumed to have 1's on the diagonal, to ensure that the factorisation is unique.
 
--   The process involves division by the diagonal entries $u_{11}, u_{22}$, etc., so they **must** be non-zero.
+- $L$ is assumed to have 1's on the diagonal, to ensure that the factorisation
+  is unique.
 
--   In general the factors $l_{ij}$ and $u_{ij}$ are calculated for each column $j$ in turn, i.e.,
+- The process involves division by the diagonal entries $u_{11}, u_{22}$, etc.,
+  so they **must** be non-zero.
+
+- In general the factors $l_{ij}$ and $u_{ij}$ are calculated for each column
+  $j$ in turn, i.e.,
 
     ``` python
     for j in range(n):
@@ -1079,6 +1162,7 @@ The second, third and fourth columns follow in a similar manner, giving all the 
           # Compute factors l_{ij}
           ...
     ```
+
 :::
 
 ::: {#exm-lu}
@@ -1093,8 +1177,7 @@ $$
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
- =
-\begin{pmatrix}
+ = \begin{pmatrix}
 12 \\ 9 \\ 22
 \end{pmatrix}.
 $$
@@ -1107,8 +1190,7 @@ $$
 1 & 2 & 2 \\
 2 & 4 & 6
 \end{pmatrix}
- =
-\begin{pmatrix}
+ = \begin{pmatrix}
 1 & 0 & 0 \\
 l_{21} & 1 & 0 \\
 l_{31} & l_{32} & 1
@@ -1161,16 +1243,14 @@ $$
 \begin{pmatrix}
 z_1 \\ z_2 \\ z_3
 \end{pmatrix}
- =
-\begin{pmatrix}
+= \begin{pmatrix}
 12 \\ 9 \\ 22
 \end{pmatrix}
 \rightarrow
 \begin{pmatrix}
 z_1 \\ z_2 \\ z_3
 \end{pmatrix}
- =
-\begin{pmatrix}
+= \begin{pmatrix}
 12 \\ 3 \\ 4
 \end{pmatrix}
 $$
@@ -1193,8 +1273,7 @@ x_1 \\ x_2 \\ x_3
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
- =
-\begin{pmatrix}
+= \begin{pmatrix}
 1 \\ 2 \\ 2
 \end{pmatrix}.
 $$
@@ -1222,8 +1301,7 @@ $$
 1 & 2 & 2 \\
 2 & 4 & 6
 \end{pmatrix}
- =
-\begin{pmatrix}
+= \begin{pmatrix}
  1 & 0 & 0 \\
  0.5 & 1 & 0 \\
  1 & 2 & 1
@@ -1237,12 +1315,14 @@ $$
 
 Note that
 
--   the matrix $U$ is the same as the fully eliminated upper triangular form produced by Gaussian elimination;
+- the matrix $U$ is the same as the fully eliminated upper triangular form
+  produced by Gaussian elimination;
 
--   $L$ contains the multipliers that were used at each stage to eliminate the rows.
+- $L$ contains the multipliers that were used at each stage to eliminate the
+  rows.
 :::
 
-### Python code
+### Python code for LU factorisation
 
 We can implement computation of the LU factorisation:
 
@@ -1253,7 +1333,7 @@ def lu_factorisation(A):
     returns the factors L and U
     """
     n, m = A.shape
-    assert n == m
+    assert n == m, f"Matrix A is not square {A.shape=}"
 
     # construct arrays of zeros
     L, U = np.zeros_like(A), np.zeros_like(A)
@@ -1266,7 +1346,9 @@ def lu_factorisation(A):
             U[i, j] = A[i, j] - sum(L[i, k] * U[k, j] for k in range(i))
         # compute entries in L
         for j in range(i + 1, n):
-            L[j, i] = (A[j, i] - sum(L[j, k] * U[k, i] for k in range(i))) / U[i, i]
+            L[j, i] = (A[j, i] - sum(L[j, k] * U[k, i] for k in range(i))) / U[
+                i, i
+            ]
 
     return L, U
 
@@ -1316,7 +1398,8 @@ for n in sizes:
 
 ```{python}
 # | echo: false
-# | fig-cap: Runtime cost of applying Gaussian elimination (GE) and backwards solving (BS) equations as well as LU factorisation..
+# | fig-cap: "Runtime cost of applying Gaussian elimination (GE) and backwards
+# | solving (BS) equations as well as LU factorisation."
 
 plt.loglog(sizes, times_GE, "C0o", label="GE")
 plt.loglog(sizes, times_BS, "C1o", label="BS")
@@ -1343,7 +1426,9 @@ plt.legend()
 plt.show()
 ```
 
-We see that LU factorisation is still $O(n^3)$ and that the run times are similar to Gaussian elimination. But, importantly, we can reuse this factorisation more cheaply for different right-hand sides $\vec{b}$.
+We see that LU factorisation is still $O(n^3)$ and that the run times are
+similar to Gaussian elimination. But, importantly, we can reuse this
+factorisation more cheaply for different right-hand sides $\vec{b}$.
 
 ## Effects of finite precision arithmetic
 
@@ -1359,13 +1444,13 @@ $$
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
- =
-\begin{pmatrix}
+= \begin{pmatrix}
 7 \\ 4 \\ 5
 \end{pmatrix}
 $$
 
-*Problem*. We cannot eliminate the first column by the diagonal by adding multiples of row 1 to rows 2 and 3 respectively.
+*Problem*. We cannot eliminate the first column by the diagonal by adding
+multiples of row 1 to rows 2 and 3 respectively.
 
 *Solution*. Swap the order of the equations!
 
@@ -1380,15 +1465,14 @@ $$
   \begin{pmatrix}
   x_1 \\ x_2 \\ x_3
   \end{pmatrix}
-  =
-  \begin{pmatrix}
+  = \begin{pmatrix}
   4 \\ 7 \\ 5
   \end{pmatrix}
   $$
 
 - Now apply Gaussian elimination
 
-  $$
+  \begin{align*}
   \begin{pmatrix}
   2 & 1 & 0 \\
   0 & 2 & 1 \\
@@ -1397,11 +1481,9 @@ $$
   \begin{pmatrix}
   x_1 \\ x_2 \\ x_3
   \end{pmatrix}
-  =
-  \begin{pmatrix}
+  &= \begin{pmatrix}
   4 \\ 7 \\ 3
-  \end{pmatrix}
-  ;
+  \end{pmatrix} \\
   \begin{pmatrix}
   2 & 1 & 0 \\
   0 & 2 & 1 \\
@@ -1410,11 +1492,10 @@ $$
   \begin{pmatrix}
   x_1 \\ x_2 \\ x_3
   \end{pmatrix}
-  =
-  \begin{pmatrix}
+  &= \begin{pmatrix}
   4 \\ 7 \\ -2.25
   \end{pmatrix}.
-  $$
+  \end{align*}
 :::
 
 ::: {#exm-finite-precision2}
@@ -1429,15 +1510,14 @@ $$
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
- =
-\begin{pmatrix}
+= \begin{pmatrix}
  3 \\ 5 \\ 2
 \end{pmatrix}
 $$
 
 - Apply Gaussian elimination as usual:
 
-  $$
+  \begin{align*}
   \begin{pmatrix}
   2 & 1 & 1 \\
   0 & 0 & -1 \\
@@ -1446,11 +1526,10 @@ $$
   \begin{pmatrix}
   x_1 \\ x_2 \\ x_3
   \end{pmatrix}
-  =
-  \begin{pmatrix}
+  = \begin{pmatrix}
   3 \\ -1 \\ 2
   \end{pmatrix}
-  ;
+  \\
   \begin{pmatrix}
   2 & 1 & 1 \\
   0 & 0 & -1 \\
@@ -1459,15 +1538,16 @@ $$
   \begin{pmatrix}
   x_1 \\ x_2 \\ x_3
   \end{pmatrix}
-  =
-  \begin{pmatrix}
+  = \begin{pmatrix}
   3 \\ -1 \\ -1
   \end{pmatrix}
-  $$
+  \end{align*}
 
-- *Problem*. We cannot eliminate the second column below the diagonal by adding a multiple of row 2 to row 3.
+- *Problem*. We cannot eliminate the second column below the diagonal by adding
+  a multiple of row 2 to row 3.
 
-- Again this problem may be overcome simply by swapping the order of the equations - this time swapping rows 2 and 3:
+- Again this problem may be overcome simply by swapping the order of the
+  equations - this time swapping rows 2 and 3:
 
   $$
   \begin{pmatrix}
@@ -1478,8 +1558,7 @@ $$
   \begin{pmatrix}
   x_1 \\ x_2 \\ x_3
   \end{pmatrix}
-  =
-  \begin{pmatrix}
+  = \begin{pmatrix}
   3 \\ -1 \\ -1
   \end{pmatrix}
   $$
@@ -1487,12 +1566,14 @@ $$
 - We can now continue the Gaussian elimination process as usual.
 :::
 
-*In general*. Gaussian elimination requires row swaps to avoid breaking down when there is a zero in the "pivot" position.
-This might be a familiar aspect of Gaussian elimination, but there is an additional reason to apply pivoting when working with floating point numbers:
-
+*In general*. Gaussian elimination requires row swaps to avoid breaking down
+when there is a zero in the "pivot" position. This might be a familiar aspect of
+Gaussian elimination, but there is an additional reason to apply pivoting when
+working with floating point numbers:
 
 ::: {#exm-finite-precision3}
-Consider using Gaussian elimination to solve the linear system of equations given by
+Consider using Gaussian elimination to solve the linear system of equations
+given by
 
 $$
 \begin{pmatrix}
@@ -1502,8 +1583,7 @@ $$
 \begin{pmatrix}
 x_1 \\ x_2
 \end{pmatrix}
- =
-\begin{pmatrix}
+= \begin{pmatrix}
 2 + \varepsilon \\ 3
 \end{pmatrix}
 $$
@@ -1522,13 +1602,14 @@ where $\varepsilon \neq 1$.
   \begin{pmatrix}
   x_1 \\ x_2
   \end{pmatrix}
-   =
-  \begin{pmatrix}
+  = \begin{pmatrix}
   2 + \varepsilon \\ 3 - \frac{2 + \varepsilon}{\varepsilon}
   \end{pmatrix}
   $$
 
-- Problems occur not only when $\varepsilon = 0$ but also when it is very small, i.e. when $\frac{1}{\varepsilon}$ is very large, this will introduce very significant rounding errors into the computation.
+- Problems occur not only when $\varepsilon = 0$ but also when it is very small,
+  i.e. when $\frac{1}{\varepsilon}$ is very large, this will introduce very
+  significant rounding errors into the computation.
 
 Use Gaussian elimination to solve the linear system of equations given by
 
@@ -1540,8 +1621,7 @@ $$
 \begin{pmatrix}
 x_1 \\ x_2
 \end{pmatrix}
- =
-\begin{pmatrix}
+= \begin{pmatrix}
 3 \\ 2 + \varepsilon
 \end{pmatrix}
 $$
@@ -1560,8 +1640,7 @@ where $\varepsilon \neq 1$.
   \begin{pmatrix}
   x_1 \\ x_2
   \end{pmatrix}
-  =
-  \begin{pmatrix}
+  = \begin{pmatrix}
   3 \\ 2 - 2\varepsilon
   \end{pmatrix}
   $$
@@ -1569,6 +1648,7 @@ where $\varepsilon \neq 1$.
 - The problems due to small values of $\varepsilon$ have disappeared.
 
 This is a genuine problem we see in the code versions too!
+
 ```{python}
 print("without row swapping:")
 for eps in [1.0e-2, 1.0e-4, 1.0e-6, 1.0e-8, 1.0e-10, 1.0e-12, 1.0e-14]:
@@ -1606,11 +1686,13 @@ print()
 :::
 
 ::: {#rem-finite-precision}
+
 - Writing the equations in a different order has removed the previous problem.
 
 - The diagonal entries are now always *relatively* larger.
 
-- The interchange of the order of equations is a simple example of **row pivoting**. This strategy avoids excessive rounding errors in the computations.
+- The interchange of the order of equations is a simple example of **row
+  pivoting**. This strategy avoids excessive rounding errors in the computations.
 :::
 
 ### Gaussian elimination with pivoting
@@ -1620,23 +1702,28 @@ Key idea:
 - Before eliminating entries in column $j$:
 
   - find the entry in column $j$, below the diagonal, of maximum magnitude;
-  - if that entry is larger in magnitude than the diagonal entry then swap its row with row $j$.
+  - if that entry is larger in magnitude than the diagonal entry then swap its
+    row with row $j$.
 
 - Then eliminate column $j$ as before.
 
 This algorithm will always work when the matrix $A$ is invertible/non-singular.
-Conversely, if all of the possible pivot values are zero this implies that the matrix is singular and a unique solution does not exist.
-At each elimination step the row multiplies used are guaranteed to be at most one in magnitude
-so any errors in the representation of the system cannot be amplified by the elimination process.
-As always, solving $A \vec{x} = \vec{b}$ requires that the entries in $\vec{b}$ are also swapped in the appropriate way.
-Pivoting can be applied in an equivalent way to LU factorisation.
-The sequence of pivots is independent of the vector $\vec{b}$ and can be recorded and reused.
-The constraint imposed on the row multipliers means that for LU factorisation every entry in $L$ satisfies $| l_{ij} | \le 1$.
+Conversely, if all of the possible pivot values are zero this implies that the
+matrix is singular and a unique solution does not exist. At each elimination
+step the row multiplies used are guaranteed to be at most one in magnitude so
+any errors in the representation of the system cannot be amplified by the
+elimination process. As always, solving $A \vec{x} = \vec{b}$ requires that the
+entries in $\vec{b}$ are also swapped in the appropriate way. Pivoting can be
+applied in an equivalent way to LU factorisation. The sequence of pivots is
+independent of the vector $\vec{b}$ and can be recorded and reused. The
+constraint imposed on the row multipliers means that for LU factorisation every
+entry in $L$ satisfies $| l_{ij} | \le 1$.
 
 ::: {#exm-ge-pivot}
 Consider the linear system of equations given by
 
 $$
+
 \begin{pmatrix}
 10 & -7 & 0 \\
 -3 & 2.1 - \varepsilon & 6 \\
@@ -1646,6 +1733,7 @@ $$
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
  =
+
 \begin{pmatrix}
 7 \\ 9.9 + \varepsilon \\ 11
 \end{pmatrix}
@@ -1657,7 +1745,8 @@ where $0 \le \varepsilon \ll 1$, and solve it using
 
 2. Gaussian elimination with pivoting.
 
-The exact solution is $\vec{x} = (0, -1, 2)^T$ for any $\varepsilon$ in the given range.
+The exact solution is $\vec{x} = (0, -1, 2)^T$ for any $\varepsilon$ in the
+given range.
 
 **1. Solve the system using Gaussian elimination with no pivoting.**
 
@@ -1672,8 +1761,7 @@ $$
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
- =
-\begin{pmatrix}
+= \begin{pmatrix}
 7 \\ 12 + \varepsilon \\ 7.5
 \end{pmatrix}
 $$
@@ -1689,8 +1777,7 @@ $$
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
- =
-\begin{pmatrix}
+= \begin{pmatrix}
 7 \\ 12 + \varepsilon \\ 7.5 + 2.5(12 + \varepsilon)/\varepsilon
 \end{pmatrix}
 $$
@@ -1698,12 +1785,14 @@ $$
 which leads to
 
 $$
-x_3 = \frac{3 + \frac{12 + \varepsilon}{\varepsilon}}{2 + \frac{6}{\varepsilon}} \qquad
+x_3 = \frac{3 + \frac{12 + \varepsilon}{\varepsilon}}{2 + \frac{6}{\varepsilon}}
+\qquad
 x_2 = \frac{(12 + \varepsilon) - 6x_3}{-\varepsilon} \qquad
 x_1 = \frac{7+ 7x_2}{10}.
 $$
 
-There are many divisions by $\varepsilon$, so we will have problems if $\varepsilon$ is (very) small.
+There are many divisions by $\varepsilon$, so we will have problems if
+$\varepsilon$ is (very) small.
 
 **2. Solve the system using Gaussian elimination with pivoting.**
 
@@ -1718,13 +1807,13 @@ $$
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
- =
-\begin{pmatrix}
+= \begin{pmatrix}
 7 \\ 12 + \varepsilon \\ 7.5
 \end{pmatrix}
 $$
 
-but now $|a_{22}| = \varepsilon$ and $|a_{32}| = 2.5$ so we swap rows 2 and 3 to give
+but now $|a_{22}| = \varepsilon$ and $|a_{32}| = 2.5$ so we swap rows 2 and 3 to
+give
 
 $$
 \begin{pmatrix}
@@ -1735,8 +1824,7 @@ $$
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
- =
-\begin{pmatrix}
+= \begin{pmatrix}
 7 \\ 7.5 \\ 12 + \varepsilon
 \end{pmatrix}
 $$
@@ -1752,8 +1840,7 @@ $$
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
- =
-\begin{pmatrix}
+= \begin{pmatrix}
 7 \\ 7.5 \\ 12 + 4 \varepsilon
 \end{pmatrix}
 $$
@@ -1767,12 +1854,13 @@ x_1 = \frac{7 + 7 x_2}{10} = 0.
 $$
 :::
 
-### Python code
+### Python code for Gaussian elimination with pivoting
 
 ```{python}
 def gaussian_elimination_with_pivoting(A, b, verbose=False):
     """
-    perform Gaussian elimnation with pivoting to reduce the system of linear equations Ax=b to upper triangular form
+    perform Gaussian elimnation with pivoting to reduce the system of linear
+    equations Ax=b to upper triangular form.
     use verbose to print out intermediate representations
     """
     # find shape of system
@@ -1816,6 +1904,7 @@ def gaussian_elimination_with_pivoting(A, b, verbose=False):
 ```
 
 Gaussian elimination without pivoting following by back subsitution:
+
 ```{python}
 eps = 1.0e-14
 A = np.array([[10.0, -7.0, 0.0], [-3.0, 2.1 - eps, 6.0], [5.0, -1.0, 5.0]])
@@ -1849,6 +1938,7 @@ print("Does x solve the original system?", np.allclose(A @ x, b))
 ```
 
 Gaussian elimination with pivoting following by back subsitution:
+
 ```{python}
 eps = 1.0e-14
 A = np.array([[10.0, -7.0, 0.0], [-3.0, 2.1 - eps, 6.0], [5.0, -1.0, 5.0]])
@@ -1885,29 +1975,46 @@ print("Does x solve the original system?", np.allclose(A @ x, b))
 
 Some basic reading:
 
-- Wikipedia: [Gaussian elimination](https://en.wikipedia.org/wiki/Gaussian_elimination)
-- Joseph F. Grcar. [How ordinary elimination became Gaussian elimination](https://doi.org/10.1016/j.hm.2010.06.003). Historia Mathematica. Volume 38, Issue 2, May 2011. (More history)
-
+- Wikipedia: [Gaussian
+  elimination](https://en.wikipedia.org/wiki/Gaussian_elimination)
+- Joseph F. Grcar. [How ordinary elimination became Gaussian
+  elimination](https://doi.org/10.1016/j.hm.2010.06.003). Historia Mathematica.
+  Volume 38, Issue 2, May 2011. (More history)
 
 Some reading on LU factorisation:
 
-- [$A = LU$ and solving systems](http://staff.imsa.edu/~fogel/LinAlg/PDF/14%20Solving%20Factored%20Systems.pdf) [pdf]
+- [$A = LU$ and solving
+  systems](http://staff.imsa.edu/~fogel/LinAlg/PDF/14%20Solving%20Factored%20Systems.pdf)
+  [pdf]
 - Wikipedia: [LU decomposition](https://en.wikipedia.org/wiki/LU_decomposition)
-- Wikipedia: [Matrix decomposition](https://en.wikipedia.org/wiki/Matrix_decomposition) (Other examples of decompositions).
-- Nick Higham: [What is an LU factorization?](https://nhigham.com/2021/04/20/what-is-an-lu-factorization/) (a very mathematical treatment with additional references)
+- Wikipedia: [Matrix
+  decomposition](https://en.wikipedia.org/wiki/Matrix_decomposition) (Other
+  examples of decompositions).
+- Nick Higham: [What is an LU
+  factorization?](https://nhigham.com/2021/04/20/what-is-an-lu-factorization/)
+  (a very mathematical treatment with additional references)
 
 Some reading on using Gaussian elimination with pivoting:
 
-- [Gaussian elimination with Partial Pivoting](http://www.math.iitb.ac.in/~neela/partialpivot.pdf) [pdf]
-- [Gaussian elimination with partial pivoting example](http://www.math.sjsu.edu/~foster/m143m/partial_pivoting_example1.pdf) [pdf]
+- [Gaussian elimination with Partial
+  Pivoting](http://www.math.iitb.ac.in/~neela/partialpivot.pdf) [pdf]
+- [Gaussian elimination with partial pivoting
+  example](http://www.math.sjsu.edu/~foster/m143m/partial_pivoting_example1.pdf)
+  [pdf]
 
 A good general reference for this area:
 
-- Trefethen, Lloyd N.; Bau, David (1997), Numerical linear algebra, Philadelphia: Society for Industrial and Applied Mathematics, ISBN 978-0-89871-361-9.
+- Trefethen, Lloyd N.; Bau, David (1997), Numerical linear algebra,
+  Philadelphia: Society for Industrial and Applied Mathematics, ISBN
+  978-0-89871-361-9.
 
 Some implementations:
 
-- Numpy [`numpy.linalg.solve`](https://numpy.org/doc/stable/reference/generated/numpy.linalg.solve.html)
-- Scipy [`scipy.linalg.lu`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.lu.html)
-- LAPACK Gaussian elimination (uses LU factorisation): [`dgesv()`](https://netlib.org/lapack/explore-html-3.6.1/d7/d3b/group__double_g_esolve_ga5ee879032a8365897c3ba91e3dc8d512.html)
-- LAPACK LU Factorisation: [`dgetrf()`](http://www.netlib.org/lapack/explore-html/dd/d9a/group__double_g_ecomputational_ga0019443faea08275ca60a734d0593e60.html).
+- Numpy
+  [`numpy.linalg.solve`](https://numpy.org/doc/stable/reference/generated/numpy.linalg.solve.html)
+- Scipy
+  [`scipy.linalg.lu`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.lu.html)
+- LAPACK Gaussian elimination (uses LU factorisation):
+  [`dgesv()`](https://netlib.org/lapack/explore-html-3.6.1/d7/d3b/group__double_g_esolve_ga5ee879032a8365897c3ba91e3dc8d512.html)
+- LAPACK LU Factorisation:
+  [`dgetrf()`](http://www.netlib.org/lapack/explore-html/dd/d9a/group__double_g_ecomputational_ga0019443faea08275ca60a734d0593e60.html).
