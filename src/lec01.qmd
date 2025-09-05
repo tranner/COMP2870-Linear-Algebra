@@ -3,6 +3,11 @@ title: Floating point number systems
 jupyter: python3
 ---
 
+::: {.callout-tip}
+**Module learning objective**: explain practical challenges working with
+floating point numbers.
+:::
+
 This topic will not be presented in lectures explicitly instead you will study
 the material yourself in Lab session 1.
 

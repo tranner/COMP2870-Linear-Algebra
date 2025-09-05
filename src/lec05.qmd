@@ -1,5 +1,11 @@
 # Iterative solutions of linear equations
 
+::: {.callout-tip}
+**Module learning outcome:** apply direct and iterative solvers to solve systems
+of linear equations; implement methods using floating point numbers and
+investigate computational cost using computer experiments.
+:::
+
 ```{python}
 # | echo: false
 import inspect

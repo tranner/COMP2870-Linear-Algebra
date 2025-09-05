@@ -1,5 +1,8 @@
 # Complex numbers {#sec-complex-numbers}
 
+This section of the notes supports the final learning outcome around eigenvalues
+and eigenvectors.
+
 ```{python}
 # | echo: false
 import re

@@ -3,6 +3,11 @@ jupyter: python3
 ---
 # Eigenvectors and eigenvalues: practical solutions
 
+::: {.callout-tip}
+**Module learning outcome:** apply algorithms to compute eigenvectors and
+eigenvalues of large matrices.
+:::
+
 ```{python}
 # | echo: false
 import time

@@ -1,5 +1,10 @@
 # Eigenvectors and eigenvalues
 
+::: {.callout-tip}
+**Module learning outcome:** apply algorithms to compute eigenvectors and
+eigenvalues of large matrices.
+:::
+
 This section of the notes will introduce our second big linear algebra problem.
 Throughout, we will be considering a square ($n\times n$) matrix.
 

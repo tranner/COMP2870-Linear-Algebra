@@ -3,6 +3,11 @@ echo: false
 ---
 # Introduction to systems of linear equations
 
+::: {.callout-tip}
+**Module learning objective**: define and identify what is means for a set of
+vectors to be a basis, spanning set or linear independent.
+:::
+
 ```{python}
 import time
 
