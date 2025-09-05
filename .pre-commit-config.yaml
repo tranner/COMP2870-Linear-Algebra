@@ -13,7 +13,7 @@ repos:
     files: ".*qmd$"
     types: [text]
     args: ["-f","--ignore","MD012"]
-    # TODO MD012 needs to be ignored better
+    # TODO MD012 needs to be ignored better?
 
 -   repo: local
     hooks:

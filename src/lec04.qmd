@@ -296,18 +296,17 @@ headers = {
     "User-Agent": "Mozilla/5.0 (compatible; MyQuartoImageBot/1.0; +https://example.com/bot-info)"
 }
 
-print("TODO readd image")
-# image_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Yanghui_Yongle_Dadian.JPG/1024px-Yanghui_Yongle_Dadian.JPG"
-# response = requests.get(image_url, headers=headers)
-# response.raise_for_status()
+image_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Yanghui_Yongle_Dadian.JPG/1024px-Yanghui_Yongle_Dadian.JPG"
+response = requests.get(image_url, headers=headers)
+response.raise_for_status()
 
-# image = Image.open(BytesIO(response.content))
+image = Image.open(BytesIO(response.content))
 
-# plt.imshow(image, cmap="grey")
-# plt.axis("off")
+plt.imshow(image, cmap="grey")
+plt.axis("off")
 
-# plt.tight_layout()
-# plt.show()
+plt.tight_layout()
+plt.show()
 
 
 ```
@@ -1000,7 +999,7 @@ We can use this information to improve the way in which we solve multiple
 systems of equations with the same matrix $A$ but different right-hand sides
 $\vec{b}$.
 
-## LU factorisation
+## LU factorisation {#sec-LU-factorisation}
 
 Our next algorithm, called LU factorisation, is a way to try to speed up
 Gaussian elimination by reusing information. This can be used when we solve
