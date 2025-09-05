@@ -1,8 +1,19 @@
+---
+echo: false
+---
 # Eigenvectors and eigenvalues
 
+```{python}
+import matplotlib.pyplot as plt
+import numpy as np
+
+plt.style.use("seaborn-v0_8-colorblind")
+```
+
 ::: {.callout-tip}
-**Module learning outcome:** apply algorithms to compute eigenvectors and
-eigenvalues of large matrices.
+## Module learning outcome:
+
+Apply algorithms to compute eigenvectors and eigenvalues of large matrices.
 :::
 
 This section of the notes will introduce our second big linear algebra problem.
@@ -40,10 +51,6 @@ Let $P$ be the 3x3 matrix that represents projection on to a plane $\pi$. What
 are the eigenvalues and eigenvectors of $p$?
 
 ```{python}
-import matplotlib.pyplot as plt
-import numpy as np
-
-# from mpl_toolkits.mplot3d import Axes3D # TODO is this needed?
 
 
 def plot_3d_plane_and_vectors():

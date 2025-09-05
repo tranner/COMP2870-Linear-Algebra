@@ -1,7 +1,9 @@
 # Iterative solutions of linear equations
 
 ::: {.callout-tip}
-**Module learning outcome:** apply direct and iterative solvers to solve systems
+## Module learning objective
+
+Apply direct and iterative solvers to solve systems
 of linear equations; implement methods using floating point numbers and
 investigate computational cost using computer experiments.
 :::
@@ -14,6 +16,8 @@ import time
 import numpy as np
 import scipy as sp
 from matplotlib import pyplot as plt
+
+plt.style.use("seaborn-v0_8-colorblind")
 
 
 def system_size(A, b):

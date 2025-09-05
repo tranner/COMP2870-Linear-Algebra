@@ -1,12 +1,11 @@
----
-echo: true
----
 # Direct solvers for systems of linear equations
 
 ::: {.callout-tip}
-**Module learning outcome:** apply direct and iterative solvers to solve systems
-of linear equations; implement methods using floating point numbers and
-investigate computational cost using computer experiments.
+## Module learning objective
+
+Apply direct and iterative solvers to solve systems of linear equations;
+implement methods using floating point numbers and investigate computational
+cost using computer experiments.
 :::
 
 ```{python}
@@ -20,6 +19,7 @@ import requests
 from matplotlib import pyplot as plt
 from PIL import Image
 
+plt.style.use("seaborn-v0_8-colorblind")
 ```
 
 ## Reminder of the problem

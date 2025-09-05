@@ -17,6 +17,8 @@ from matplotlib import pyplot as plt
 from scipy.optimize import curve_fit
 from scipy.stats import special_ortho_group
 
+plt.style.use("seaborn-v0_8-colorblind")
+
 
 ```
 

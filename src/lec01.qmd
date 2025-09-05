@@ -1,11 +1,9 @@
----
-title: Floating point number systems
-jupyter: python3
----
+# Floating point number systems
 
 ::: {.callout-tip}
-**Module learning objective**: explain practical challenges working with
-floating point numbers.
+## Module learning objective
+
+Explain practical challenges working with floating point numbers.
 :::
 
 This topic will not be presented in lectures explicitly instead you will study
@@ -382,7 +380,8 @@ for j in range(20):
 ```
 
 We see that if `Delta_x` is not too small, we do an okay job. But if `Delta_x`
-is too small we start to have problems! :::
+is too small we start to have problems!
+:::
 
 ::: {#exr-calculations}
 
@@ -397,7 +396,8 @@ is too small we start to have problems! :::
 
 2. Given the number system $(\beta, t, L, U) = (10, 3, -3, 3)$ and $x =
 .100\times 10^3$, find nonzero numbers $y$ and $z$ from this system for which
-$fl(x+y) = x$ and $fl(x+z) > x$. :::
+$fl(x+y) = x$ and $fl(x+z) > x$.
+:::
 
 It is sometimes helpful to think of another machine precision epsilon in other
 way: **Machine precision epsilon** is the smallest positive number $eps$ such

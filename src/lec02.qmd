@@ -4,13 +4,19 @@ echo: false
 # Introduction to systems of linear equations
 
 ::: {.callout-tip}
-**Module learning objective**: define and identify what is means for a set of
+## Module learning objective
+
+Define and identify what is means for a set of
 vectors to be a basis, spanning set or linear independent.
 :::
 
 ```{python}
 import time
 
+import numpy as np
+from matplotlib import pyplot as plt
+
+plt.style.use("seaborn-v0_8-colorblind")
 ```
 
 ## Definitions of matrices and vectors
@@ -142,9 +148,6 @@ Suppose we wish to estimate the temperature distribution inside an object:
 
 ```{python}
 # | fig-cap: Image showing temperature sample points and relations in a room.
-import numpy as np
-from matplotlib import pyplot as plt
-
 R = np.sqrt(0.5)
 c = np.array([0.5, 0.5])
 d = np.pi / 6
@@ -781,15 +784,24 @@ be written *uniquely* as a linear combination of entries in $S$.
 
 Let $\vec{y}$ be a vector in $V$ and label $S = \{ \vec{v}_1, \ldots \vec{v}_k
 \}$. Since $S$ forms a basis of $V$, $\vec{y} \in \mathrm{span}(S)$ so there
-exists numbers $x_1, \ldots, x_k$ such that \begin{align} \label{eq:basis_pf_x}
-\vec{y} = \sum_{i=1}^k x_i \vec{v}*i. \end{align} Suppose that there exists
-another set of number $z_1, \ldots z_k$ such that \begin{align}
-\label{eq:basis_pf_z} \vec{y} = \sum*{i=1}^k z_i \vec{v}*i. \end{align} Taking
-the difference of \eqref{eq:basis_pf_x} and \eqref{eq:basis_pf_z}, we see that
-\begin{align} \vec{0} = \sum*{i=1}^k (x_i - z_i) \vec{v}_i. \end{align} Since
-$S$ is linearly independent, this implies $x_i = z_i$ for $i = 1, \ldots, k$,
-and we have shown that there is only one linear combination of the vectors $\{
-\vec{v}_i \}$ to form $\vec{y}$.
+exists numbers $x_1, \ldots, x_k$ such that
+\begin{align}
+\label{eq:basis_pf_x}
+\vec{y} = \sum_{i=1}^k x_i \vec{v}_i.
+\end{align}
+Suppose that there exists another set of number $z_1, \ldots z_k$ such that
+\begin{align}
+\label{eq:basis_pf_z}
+\vec{y} = \sum_{i=1}^k z_i \vec{v}_i.
+\end{align}
+Taking the difference of \eqref{eq:basis_pf_x} and \eqref{eq:basis_pf_z}, we see
+that
+\begin{align}
+\vec{0} = \sum_{i=1}^k (x_i - z_i) \vec{v}_i.
+\end{align}
+Since $S$ is linearly independent, this implies $x_i = z_i$ for $i = 1, \ldots,
+k$, and we have shown that there is only one linear combination of the vectors
+$\{ \vec{v}_i \}$ to form $\vec{y}$.
 :::
 
 There is a theorem that says that the number of vectors in any basis of a given

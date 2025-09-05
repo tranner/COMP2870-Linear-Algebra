@@ -11,6 +11,8 @@ import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
 import numpy as np
 
+plt.style.use("seaborn-v0_8-colorblind")
+
 ```
 
 ## Basic definitions
