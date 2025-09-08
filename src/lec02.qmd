@@ -3,11 +3,11 @@
 ::: {.callout-tip}
 ## Module learning objective
 
-Explain practical challenges working with floating point numbers.
+Explain practical challenges working with floating-point numbers.
 :::
 
-This topic will not be presented in lectures explicitly instead you will study
-the material yourself in Lab session 1.
+This topic will not be presented explicitly in lectures; instead, you will study
+the material yourself in Lab Session 1 (@sec-lab1).
 
 ## Finite precision number systems
 
@@ -18,9 +18,9 @@ from itertools import combinations, product
 ```
 
 Computers store numbers with **finite precision**, i.e. using a finite set of
-bits (binary digits), typically 32 or 64 of them. You met how to store numbers
-as floating point numbers last year in the module COMP1860 Building our Digital
-World.
+bits (binary digits), typically 32 or 64 of them. You learned how to store
+numbers as floating-point numbers last year in the module COMP1860 Building our
+Digital World.
 
 You will recall that many numbers cannot be stored exactly.
 
@@ -43,17 +43,17 @@ order to understand:
 The examples shown here will be in **decimal** by the issues apply to any base,
 *e.g.* **binary**.
 
-This is important when trying to solve problems with floating point numbers so
+This is important when trying to solve problems with floating-point numbers, so
 that we learn how to avoid the key pitfalls.
 
 ## Normalised systems
 
 To understand how this works in practice, we introduce an abstract way to think
-about the practicalities of floating point numbers, but our examples will have
-smaller numbers of digits.
+about the practicalities of floating-point numbers, but our examples will have
+fewer digits.
 
 Any finite precision number can be written using the floating point
-representation
+representation:
 
 $$
 x = \pm 0.b_1 b_2 b_3 \ldots b_{t-1} b_t \times \beta^e.
@@ -81,7 +81,7 @@ $$ b_1 \neq 0 \quad (0 < b_1 \le \beta -1). $$
 3. **Zero** is always taken to be a special case e.g., $0 = \pm .00\ldots 0
    \times \beta^0$.
 
-Our familiar floating point numbers can be representing using this format too:
+Our familiar floating point numbers can be represented using this format too:
 
 1. The [IEEE single-precision standard](https://en.wikipedia.org/wiki/IEEE_754)
    is $(\beta, t, L, U) = (2, 23, -127, 128)$. This is available via
@@ -110,10 +110,8 @@ or just giving the number in decimal format:
 ```{python}
 (np.double(5.1) == 5.1, np.double(5.1) == 5.1)
 ```
-However, in some extreme edge cases you are unlikely in meet, Python floats do
-not follow IEE double-precision standard on some extreme edge cases.
-
-Here is an example of how we can work with these abstracted systems:
+However, in some extreme edge cases, you are unlikely to meet, Python floats do
+not follow the IEEE double-precision standard in some extreme edge cases.
 
 ::: {#exm-number-system}
 
@@ -124,7 +122,7 @@ $$ x = \pm .b_1 b_2 \times 10^e \text{ where } -1 \le e \le 2. $$
 
 > a. How many numbers can be represented by this normalised system?
 
-- the sign can be positive or negative
+- The sign can be positive or negative
 - $b_1$ can take on the values $1$ to $9$ (9 options)
 - $b_2$ can take on the values $0$ to $9$ (10 options)
 - $e$ can take on the values $-1, 0, 1, 2$ (4 options)
@@ -151,11 +149,11 @@ The second smallest positive number has $+$ sign, $b_1 = 1$, $b_2 = 1$ and $e =
 > d. What is the smallest possible difference between two numbers in this
 > system?
 
-The smallest different will be between numbers of the form $+0.10 \ times
+The smallest difference will be between numbers of the form $+0.10 \ times
 10^{-1}$ and $+0.11 \times 10^{-1}$ which gives $$ 0.11 \times 10^{-1} - 0.10
 \times 10^{-1} = 0.011 - 0.010 = 0.001. $$
 
-Alternatively, we can brute force search for this:
+Alternatively, we can brute-force search for this:
 
 ```{python}
 # | echo: false
@@ -163,7 +161,7 @@ Alternatively, we can brute force search for this:
 # system is product of sign, b1, b2, e
 system = product([1, -1], range(1, 10), range(0, 10), range(-1, 3))
 
-# find smallest different between numbers
+# find smallest difference between numbers
 min_diff = 99
 min_x, min_y = None, None
 
@@ -209,7 +207,7 @@ which $x < 100 < y$?
 
 ::: {#exm-python}
 
-### What about in python
+### What about in Python
 
 We find that even with double-precision floating point numbers, we see some
 funniness when working with decimals:
@@ -257,7 +255,7 @@ figures) if $t$ is the largest non-negative integer for which
 
 $$ \text{Relative error} < 0.5 \times \beta^{1-t}. $$
 
-It can be proved that if the relative error is equal to $\beta^{-d}$ then
+It can be proved that if the relative error is equal to $\beta^{-d}$, then
 $fl(x)$ has $d$ correct significant digits.
 
 In the number system given by $(\beta, t, L, U)$, the nearest (larger)
@@ -313,9 +311,8 @@ for dtype in [np.half, np.single, np.double]:
 ::: {#rmk-eps}
 
 Machine precision epsilon ($eps$) gives us an upper bound for the
-error in the representation of a floating point number in a particular system.
-We note that this is different to the smallest possible numbers that we are able
-to store!
+error in the representation of a floating-point number in a particular system.
+We note that this is different to the smallest possible numbers that we can store!
 
 ```{python}
 eps = np.finfo(np.double).eps
@@ -334,8 +331,8 @@ Arithmetic operations are usually carried out as though infinite precision is
 available, after which the result is rounded to the nearest representable
 number.
 
-This means that arithmetic cannot be completely trusted and the usual rules
-don't necessarily apply!
+This approach means that arithmetic cannot be completely trusted and the usual rules
+do not necessarily apply!
 
 ::: {#exm-calculations}
 
