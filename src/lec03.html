@@ -478,20 +478,20 @@ a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n &amp; = b_n.
 </ol>
 <div id="rem-inverse" class="proof remark">
 <p><span class="proof-title"><em>Remark 3.1</em>. </span>One way to solve a system of linear equations is to compute the inverse of <span class="math inline">\(A\)</span>, <span class="math inline">\(A^{-1}\)</span>, directly, then the solution is found through matrix multiplication: <span class="math inline">\(\vec{x} = A^{-1} \vec{b}\)</span>. This turns out to be an inefficient approach and we can do better with specialised algorithms.</p>
-<div id="8f84502d" class="cell" data-execution_count="2">
+<div id="d742a947" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-stdout">
 <pre><code>
 
 Trying different approaches for problem size 100
-Approach 1 - inverting the matrix and applying the inverse. Time = 0.000934600830078125
-Approach 2 - solving the system of linear equations. Time = 0.00014162063598632812
-Approach 2 is faster by a factor of  6.5993265993265995
+Approach 1 - inverting the matrix and applying the inverse. Time = 0.0009698867797851562
+Approach 2 - solving the system of linear equations. Time = 0.000156402587890625
+Approach 2 is faster by a factor of  6.201219512195122
 
 
 Trying different approaches for problem size 10000
-Approach 1 - inverting the matrix and applying the inverse. Time = 31.330246925354004
-Approach 2 - solving the system of linear equations. Time = 8.105205535888672
-Approach 2 is faster by a factor of  3.8654475554787875</code></pre>
+Approach 1 - inverting the matrix and applying the inverse. Time = 31.351858615875244
+Approach 2 - solving the system of linear equations. Time = 8.104225873947144
+Approach 2 is faster by a factor of  3.8685815404852972</code></pre>
 </div>
 </div>
 </div>
@@ -549,7 +549,7 @@ A = \begin{pmatrix}
 \vec{b} = \begin{pmatrix} -1 \\ 2 \end{pmatrix} \quad
 \vec{c} = \begin{pmatrix} 1 \\ -1 \end{pmatrix}
 \end{align*}\]</span></p>
-<div id="f3c14fe9" class="cell" data-execution_count="3">
+<div id="c95ab466" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
