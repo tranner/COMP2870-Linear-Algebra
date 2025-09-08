@@ -1,0 +1,105 @@
+# Lab 01: Floating-point numbers
+
+Recall how to set everything up with github code spaces.
+Support for the materials in this section is given in @sec-floating-point-numbers.
+
+## Exercise 1:
+
+Write a for loop to add `0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1` (i.e. `0.1` 10 times). What value do you get and why?
+
+## Exercise 2:
+
+Given an algorithm which gives *computed answer* as an approximation to an *exact answer*, we define two errors:
+\begin{align*}
+\text{Absolute error} & = |\text{computer answer} - \text{exact answer}| \\
+\text{Relative error} & = \frac{|\text{computer answer} - \text{exact answer}|}{| \text{exact answer}|}.
+\end{align*}
+
+Recall derivatives of a smooth function $f \colon \mathbb{R} \to \mathbb{R}$ can be computed by finding the limit
+\begin{align*}
+f'(x) = \lim_{\Delta x \to 0} \frac{f(x + \Delta x) - f(x)}{\Delta}).
+\end{align*}
+We can use the *finite difference method* which computes an approximation to derivatives through replacing the limiting process by taking a small value for $\Delta x$:
+\begin{align*}
+\text{approx} = \frac{f(x + \Delta x) - f(x)}{\Delta}).
+\end{align*}
+
+Write code to approximate the derivative using finite differences of $f(x) = x^4$ at $x=1$ and at $x=10$. Produce a table of values of $\Delta x$, the finite difference approximation the derivative at each point, as well as the absolute and relative errors. Use $\Delta x = 10^{-j}$ for j = 0, 1, 2, 3, \ldots, 19$.
+
+Which value of $\Delta x$ gives the best value of the derivative at each point? Investigate what goes wrong for values of $\Delta x$ smaller than the best value.
+
+## Exercise 3:
+
+The [Basel problem](https://en.wikipedia.org/wiki/Basel_problem) is the problem of finding the sum:
+\begin{align*}
+\sum_{n=1}^\infty \frac{1}{n^2} = \frac{1}{1^2} + \frac{1}{2^2} + \frac{1}{3^2} + \cdots = \frac{\pi^2}{6} \approx 1.644934
+\end{align*}
+
+Write Python code to find the sum above replaced by the partial sum:
+\begin{align*}
+S_N = \sum_{n=1}^N \frac{1}{n^2} = \frac{1}{1^2} + \frac{1}{2^2} + \frac{1}{3^2} + \cdots + \frac{1}{N^2}.
+\end{align*}
+Compute the values of $S_{10^7}$, $S_{10^8}$ and $S_{10^9}$ and compute absolute errors to $\pi^2/6$.
+
+How do the errors change if you reverse and instead start for the largest values of $n$ in the sum? Why?
+
+## Exercise 4:
+
+Archimedes approximated $\pi$ by determining lengths of the perimeters of polygons inscribing and circumscribing a circle of diameter 1. Starting with the hexagon and successively doubling the number of sides, we have the recurrence formula for the side length in the circumscribed polygon, at step $n+1$, $$
+      \label{eq:1}
+      \tag{1}
+        \begin{aligned}
+        p_{n+1} & = \frac{ \sqrt{p_n^2+1} - 1 }{ p_n } && \mbox{ for } n=0,1,2,\ldots \\
+     p_0 & = \frac{1}{\sqrt{3}}.
+     \end{aligned}
+    $$ Thus $\pi$ can be found as a limit, noticing that the number of sides is $6 \cdot 2^n$, $$
+      \pi = \lim_{n \to \infty} 6 \cdot 2^n \cdot p_n = 3.141592653589793\ldots
+    $$
+
+    We can use this iteration to write code to compute $\pi$ using:
+
+    ``` python
+    import numpy as np
+
+
+    def side_length(n):
+        """
+        Compute the length of one side of a polygon with 6*2**n sides.
+
+        ARGUMENTS:  n  positive integer to calculate number of sides.
+
+        RETURNS:    float
+        """
+        assert n >= 0
+
+        if n == 0:
+            return 1.0 / np.sqrt(3.0)
+
+        p = side_length(n - 1)
+        return (np.sqrt(p * p + 1.0) - 1.0) / p
+
+
+    def pi_approx(n):
+        """
+        Compute an approximation to pi using polygonal approxmations of
+        a circle.
+
+        ARGUMENTS:  n postive integer
+
+        RETURNS:    float approximation of pi
+        """
+        return 6.0 * 2 ** n * side_length(n)
+    ```
+
+    a.  Produce a table of values of `n`, `pi_approx(n)` and the error between $\pi$ and its approximation for `n` between 0 and 50 inclusive.
+        How many correct digits can you achieve?
+
+    b.  Iterating further after the best approximation, what would you see? Why?
+
+    d.  Consider an alternative way of writing the update formula for $p_n$:
+        \begin{align*}
+        p_{n+1} & = \frac{p_n}{ \sqrt{p_n^2 + 1} + 1 } && \mbox{ for } n=0,1,2,\ldots \\
+        \end{align*}
+        Implement this new formula. Produce a table of values of `n`, `pi_approx(n)` and the error between $\pi$ and its approximation for `n` between 0 and 50 inclusive.
+
+    e.  How many correct digits can you achieve now? If you make more and more iterations after the best approximation, comment on what you observe by considering each term in your iteration formula.
