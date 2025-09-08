@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.34">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Thomas Ranner">
+
+<title>4&nbsp; Introduction to systems of linear equations – COMP2870 Theoretical Foundations: Linear Algebra</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../src/lec04.html" rel="next">
+<link href="../src/lec02.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-befe23ebd2f54d8af2c8a89d1a1611f1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-2478dfaf21121e4abc1bf4c5fc5acc12.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-57a138f0bb470e46bebdddd77a7e3455.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-2478dfaf21121e4abc1bf4c5fc5acc12.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script>
+  MathJax = {
+    tex: {
+      tags: 'ams'  // should be 'ams', 'none', or 'all'
+    }
+  };
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../src/lec03.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introduction to systems of linear equations</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">COMP2870 Theoretical Foundations: Linear Algebra</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to linear algebra</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../src/lec01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Linear Algebra introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../src/lec02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Floating point number systems</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../src/lec03.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introduction to systems of linear equations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../src/lec04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Direct solvers for systems of linear equations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../src/lec05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Iterative solutions of linear equations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../src/lec06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Complex numbers</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../src/lec07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../src/lec08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues: practical solutions</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#definition-of-systems-of-linear-equations" id="toc-definition-of-systems-of-linear-equations" class="nav-link active" data-scroll-target="#definition-of-systems-of-linear-equations"><span class="header-section-number">4.1</span> Definition of systems of linear equations</a></li>
+  <li><a href="#can-we-do-it" id="toc-can-we-do-it" class="nav-link" data-scroll-target="#can-we-do-it"><span class="header-section-number">4.2</span> Can we do it?</a>
+  <ul class="collapse">
+  <li><a href="#the-span-of-a-set-of-vectors" id="toc-the-span-of-a-set-of-vectors" class="nav-link" data-scroll-target="#the-span-of-a-set-of-vectors"><span class="header-section-number">4.2.1</span> The span of a set of vectors</a></li>
+  <li><a href="#linear-independence" id="toc-linear-independence" class="nav-link" data-scroll-target="#linear-independence"><span class="header-section-number">4.2.2</span> Linear independence</a></li>
+  <li><a href="#when-vectors-form-a-basis" id="toc-when-vectors-form-a-basis" class="nav-link" data-scroll-target="#when-vectors-form-a-basis"><span class="header-section-number">4.2.3</span> When vectors form a basis</a></li>
+  </ul></li>
+  <li><a href="#special-types-of-matrices" id="toc-special-types-of-matrices" class="nav-link" data-scroll-target="#special-types-of-matrices"><span class="header-section-number">4.3</span> Special types of matrices</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">4.4</span> Further reading</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introduction to systems of linear equations</span></h1>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Thomas Ranner <a href="mailto:T.Ranner@leeds.ac.uk" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            School of Computer Science, University of Leeds
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Module learning objective
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Define and identify what is means for a set of vectors to be a basis, spanning set or linear independent.</p>
+</div>
+</div>
+<section id="definition-of-systems-of-linear-equations" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="definition-of-systems-of-linear-equations"><span class="header-section-number">4.1</span> Definition of systems of linear equations</h2>
+<p>Given an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(A\)</span> and an <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\vec{b}\)</span>, find the <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\vec{x}\)</span> which satisfies: <span class="math display">\[\begin{equation}
+\label{eq:sle}
+A \vec{x} = \vec{b}.
+\end{equation}\]</span></p>
+<p>We can also write <span class="math inline">\(\eqref{eq:sle}\)</span> as a system of linear equations: <span class="math display">\[\begin{align*}
+\text{Equation 1:} &amp;&amp;
+a_{11} x_1 + a_{12} x_2 + a_{13} x_3 + \cdots + a_{1n} x_n &amp; = b_1 \\
+\text{Equation 2:} &amp;&amp;
+a_{21} x_1 + a_{22} x_2 + a_{23} x_3 + \cdots + a_{2n} x_n &amp; = b_2 \\
+\vdots \\
+\text{Equation i:} &amp;&amp;
+a_{i1} x_1 + a_{i2} x_2 + a_{i3} x_3 + \cdots + a_{in} x_n &amp; = b_i \\
+\vdots \\
+\text{Equation n:} &amp;&amp;
+a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n &amp; = b_n.
+\end{align*}\]</span></p>
+<p><strong>Notes</strong>:</p>
+<ul>
+<li><p>The values <span class="math inline">\(a_{ij}\)</span> are known as <strong>coefficients</strong>.</p></li>
+<li><p>The <strong>right hand side</strong> values <span class="math inline">\(b_i\)</span> are known and are given to you as part of the problem.</p></li>
+<li><p><span class="math inline">\(x_1, x_2, x_3, \ldots, x_n\)</span> are <strong>not</strong> known and are what you need to find to solve the problem.</p></li>
+</ul>
+</section>
+<section id="can-we-do-it" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="can-we-do-it"><span class="header-section-number">4.2</span> Can we do it?</h2>
+<p>Our first question might be - is it possible to solve <span class="math inline">\(\eqref{eq:sle}\)</span>?</p>
+<p>We know a few simple cases where we can answer this question very quickly:</p>
+<ol type="1">
+<li>If <span class="math inline">\(A = I_n\)</span>, the <span class="math inline">\(n \times n\)</span> <em>identity matrix</em>, then we <em>can</em> solve this problem: <span class="math display">\[\vec{x} = \vec{b}.\]</span></li>
+<li>If <span class="math inline">\(A = O\)</span>, the <span class="math inline">\(n \times n\)</span> <em>zero matrix</em>, and <span class="math inline">\(\vec{b} \neq \vec{0}\)</span>, the zero vector, then we cannot solve this problem: <span class="math display">\[O \vec{x} = \vec{0} \neq
+\vec{b} \quad \text{for any vector} \quad \vec{x}.\]</span></li>
+<li>If <span class="math inline">\(A\)</span> is <em>invertible</em>, with inverse <span class="math inline">\(A^{-1}\)</span>, then we <em>can</em> solve this problem: <span class="math display">\[\vec{x} = A^{-1} \vec{b}.\]</span> But, in general, this is a <em>very bad</em> idea and we will see algorithms that are more efficient than finding the inverse of <span class="math inline">\(A\)</span>.</li>
+</ol>
+<div id="rem-inverse" class="proof remark">
+<p><span class="proof-title"><em>Remark 4.1</em>. </span>One way to solve a system of linear equations is to compute the inverse of <span class="math inline">\(A\)</span>, <span class="math inline">\(A^{-1}\)</span>, directly, then the solution is found through matrix multiplication: <span class="math inline">\(\vec{x} = A^{-1} \vec{b}\)</span>. This turns out to be an inefficient approach and we can do better with specialised algorithms.</p>
+<div id="dcbc2c26" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+Trying different approaches for problem size 100
+Approach 1 - inverting the matrix and applying the inverse. Time = 0.0003921985626220703
+Approach 2 - solving the system of linear equations. Time = 0.00015783309936523438
+Approach 2 is faster by a factor of  2.484894259818731
+
+
+Trying different approaches for problem size 10000
+Approach 1 - inverting the matrix and applying the inverse. Time = 31.37147855758667
+Approach 2 - solving the system of linear equations. Time = 8.094819068908691
+Approach 2 is faster by a factor of  3.875500896379644</code></pre>
+</div>
+</div>
+</div>
+<p>There are tools to help us answer when a matrix is invertible which arise naturally when thinking about what <span class="math inline">\(A \vec{x} = \vec{b}\)</span> means! We have to go back to the basic operations on vectors.</p>
+<p>There are two fundamental operations you can do on vectors: addition and scalar multiplication. Consider the vectors: <span class="math display">\[\begin{align*}
+\vec{a} = \begin{pmatrix} 2 \\ 1 \\ 2 \end{pmatrix}, \quad
+\vec{b} = \begin{pmatrix} 1 \\ 2 \\ 4 \end{pmatrix}, \quad
+\vec{c} = \begin{pmatrix} 4 \\ 2 \\ 6 \end{pmatrix}.
+\end{align*}\]</span> Then, we can easily compute the following <em>linear combinations</em> <span class="math display">\[\begin{align}
+\label{eq:vector-linear-comb-a}
+\vec{a} + \vec{b} &amp; = \begin{pmatrix} 3 \\ 3 \\ 6 \end{pmatrix} \\
+\label{eq:vector-linear-comb-b}
+\vec{c} - 2 \vec{a} &amp; = \begin{pmatrix} 0 \\ 0 \\ 2 \end{pmatrix} \\
+\label{eq:vector-linear-comb-c}
+\vec{a} + 2 \vec{b} + 2 \vec{c} &amp;= \begin{pmatrix} 12 \\ 9 \\ 22 \end{pmatrix}.
+\end{align}\]</span> Now if we write <span class="math inline">\(A\)</span> for the <span class="math inline">\(3 \times 3\)</span>-matrix whose columns are <span class="math inline">\(\vec{a},
+\vec{b}, \vec{c}\)</span>: <span class="math display">\[\begin{align*}
+A = \begin{pmatrix}
+&amp;&amp; \\ \vec{a} &amp; \vec{b} &amp; \vec{c} \\ &amp;&amp;
+\end{pmatrix}
+= \begin{pmatrix}
+2 &amp; 1 &amp; 4 \\
+1 &amp; 2 &amp; 2 \\
+2 &amp; 4 &amp; 6
+\end{pmatrix},
+\end{align*}\]</span> then the three equations <span class="math inline">\(\eqref{eq:vector-linear-comb-a}\)</span>, <span class="math inline">\(\eqref{eq:vector-linear-comb-b}\)</span>, <span class="math inline">\(\eqref{eq:vector-linear-comb-c}\)</span>, can be written as <span class="math display">\[\begin{align*}
+\vec{a} + \vec{b} &amp; = 1 \vec{a} + 1 \vec{b} + 0 \vec{c}
+= A \begin{pmatrix} 1 \\ 1 \\ 0 \end{pmatrix}, \\
+\vec{c} - 2\vec{a} &amp; = -2 \vec{a} + 0 \vec{b} - 2 \vec{c}
+= A \begin{pmatrix} -2 \\ 0 \\ 1 \end{pmatrix}, \\
+\vec{a} + 2 \vec{b} + 2 \vec{c} &amp; = 1 \vec{a} + 2 \vec{b} + 2 \vec{c}
+= A \begin{pmatrix} 1 \\ 2 \\ 2
+\end{pmatrix}.
+\end{align*}\]</span> In other words,</p>
+<blockquote class="blockquote">
+<p>We can write any linear combination of vectors as a matrix-vector multiply,</p>
+</blockquote>
+<p>or if we reverse the process,</p>
+<blockquote class="blockquote">
+<p>We can write matrix-vector multiplication as a linear combination of the columns of the matrix.</p>
+</blockquote>
+<p>This rephrasing means, solving the system <span class="math inline">\(A \vec{x} = \vec{b}\)</span> is equivalent to finding a linear combination of the columns of <span class="math inline">\(A\)</span> which is equal to <span class="math inline">\(b\)</span>. So, our question about whether we can solve <span class="math inline">\(\eqref{eq:sle}\)</span>, can also be rephrased as: does there exist a linear combination of the columns of <span class="math inline">\(A\)</span> which is equal to <span class="math inline">\(\vec{b}\)</span>? We will next write this condition mathematically using the concept of <em>span</em>.</p>
+<section id="the-span-of-a-set-of-vectors" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="the-span-of-a-set-of-vectors"><span class="header-section-number">4.2.1</span> The span of a set of vectors</h3>
+<div id="def-span" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 4.1</strong></span> Given a set of vectors of the same size, <span class="math inline">\(S = \{ \vec{v}_1,
+\ldots, \vec{v}_k \}\)</span>, we say the <em>span</em> of <span class="math inline">\(S\)</span> is the set of all vectors which are linear combinations of vectors in <span class="math inline">\(S\)</span>: <span class="math display">\[\begin{equation}
+\mathrm{span}(S) = \left\{ \sum_{i=1}^k x_i \vec{v}_i : x_i \in \mathbb{R}
+\text{ for } i = 1, \ldots, k \right\}.
+\end{equation}\]</span></p>
+</div>
+<div id="exm-span" class="theorem example">
+<p><span class="theorem-title"><strong>Example 4.1</strong></span> Consider three new vectors <span class="math display">\[\begin{align*}
+\vec{a} = \begin{pmatrix} 2 \\ 3 \end{pmatrix} \quad
+\vec{b} = \begin{pmatrix} -1 \\ 2 \end{pmatrix} \quad
+\vec{c} = \begin{pmatrix} 1 \\ -1 \end{pmatrix}
+\end{align*}\]</span></p>
+<div id="0850e9e1" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lec03_files/figure-html/cell-4-output-1.png" width="592" height="434" class="figure-img"></p>
+<figcaption>Three example vectors in a plane.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<ol type="1">
+<li><p>Let <span class="math inline">\(S = \{ \vec{a} \}\)</span>, then <span class="math inline">\(\mathrm{span}(S) = \{ x \vec{a} : x \in
+\mathbb{R} \}\)</span>. Geometrically, we can think of the span of a single vector to be an infinite straight line which passes through the origin and <span class="math inline">\(\vec{a}\)</span>.</p></li>
+<li><p>Let <span class="math inline">\(S = \{ \vec{a}, \vec{b} \}\)</span>, then <span class="math inline">\(\mathrm{span}(S) = \mathbb{R}^2\)</span>. To see this is true, we first see that <span class="math inline">\(\mathrm{span}(S)\)</span> is contained in <span class="math inline">\(\mathbb{R}^2\)</span> since any <span class="math inline">\(2\)</span>-vectors added together and the scalar multiplication of a <span class="math inline">\(2\)</span>-vector also form a <span class="math inline">\(2\)</span>-vector. For the opposite inclusion, consider an arbitrary point <span class="math inline">\(\vec{y} = \begin{pmatrix} y_1 \\ y_2
+\end{pmatrix} \in \mathbb{R}^2\)</span> then <span class="math display">\[\begin{align}
+\nonumber
+\frac{2 y_1 + y_2}{7} \vec{a} + \frac{-3 y_1 + 2 y_2}{7} \vec{b}
+= \frac{2 y_1 + y_2}{7} \begin{pmatrix} 2 \\ 3 \end{pmatrix}
+- \frac{-3 y_1 + 2 y_2}{7} \begin{pmatrix} -1 \\ 2 \end{pmatrix} \\
+= \begin{pmatrix}
+\frac{4 y_1 + 2 y_2}{7} + \frac{3 y_1 - 2 y_2}{7} \\
+\label{eq:y-combo}
+\frac{6 y_1 + 3 y_2}{7} + \frac{-6 y_1 + 4 y_2}{7}
+\end{pmatrix}
+= \begin{pmatrix} y_1 \\ y_2 \end{pmatrix} = \vec{y}.
+\end{align}\]</span> This calculation shows, that we can always form a linear combination of <span class="math inline">\(\vec{a}\)</span> and <span class="math inline">\(\vec{b}\)</span> which results in <span class="math inline">\(\vec{y}\)</span>.</p></li>
+<li><p>Let <span class="math inline">\(S = \{ \vec{a}, \vec{b}, \vec{c} \}\)</span>, then <span class="math inline">\(\mathrm{span}(S) =
+\mathbb{R}^2\)</span>. Since <span class="math inline">\(\vec{c} \in \mathrm{span}(\{\vec{a}, \vec{b}\})\)</span>, any linear combination of <span class="math inline">\(\vec{a}, \vec{b}, \vec{c}\)</span> has an equivalent combination of just <span class="math inline">\(\vec{a}\)</span> and <span class="math inline">\(\vec{b}\)</span>. In formulae, we can see that by applying the formula from Example 2 (TODO make ref), we have <span class="math display">\[\begin{align*}
+\vec{c} = \frac{1}{7} \vec{a} - \frac{5}{7} \vec{b}.
+\end{align*}\]</span> So we have, if <span class="math inline">\(\vec{y} \in \mathrm{span}(S)\)</span>, then <span class="math display">\[\begin{align*}
+\vec{y} = x_1 \vec{a} + x_2 \vec{b} + x_3 \vec{c} &amp; \Rightarrow \vec{y}
+= (x_1 + \frac{1}{7} x_3) \vec{a} + (x_2 - \frac{5}{7} x_3) \vec{b},
+\end{align*}\]</span> so <span class="math inline">\(\vec{y} \in \mathrm{span}(\{\vec{a}, \vec{b}\})\)</span>. Conversely, if <span class="math inline">\(\vec{y}
+\in \mathrm{span}(\{\vec{a}, \vec{b}\})\)</span>, then <span class="math display">\[\begin{align*}
+\vec{y} = x_1 \vec{a} + x_2 \vec{b} &amp; \Rightarrow \vec{y}
+= x_1 \vec{a} + x_2 \vec{b} + 0
+\vec{c}.
+\end{align*}\]</span> So the span of <span class="math inline">\(S = \mathrm{span}(\{\vec{a}, \vec{b}\})
+= \mathbb{R}^2\)</span>. Notice that we this final linear combination of <span class="math inline">\(\vec{a},
+\vec{b}\)</span> and <span class="math inline">\(\vec{c}\)</span> to form <span class="math inline">\(\vec{y}\)</span> is not unique.</p></li>
+</ol>
+</div>
+<p>So our first statement is that <span class="math inline">\(\eqref{eq:sle}\)</span> has a solution if <span class="math inline">\(\vec{b}\)</span> is in the span of the columns of <span class="math inline">\(A\)</span>. However, as we saw with <a href="#exm-span" class="quarto-xref">Example&nbsp;<span>4.1</span></a>, Part 3, we are not guaranteed that the linear combination is unique! For this we need a further condition.</p>
+</section>
+<section id="linear-independence" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="linear-independence"><span class="header-section-number">4.2.2</span> Linear independence</h3>
+<div id="def-linear-indep" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 4.2</strong></span> Given a set of vectors of the same size, <span class="math inline">\(S = \{\vec{v}_1, \ldots, \vec{v}_k
+\}\)</span>, we say that <span class="math inline">\(S\)</span> is <em>linearly dependent</em>, if there exists numbers <span class="math inline">\(x_1, x_2,
+\ldots x_k\)</span>, not all zero, such that <span class="math display">\[\begin{align*}
+\sum_{i=1}^k x_i \vec{v}_i = \vec{0}.
+\end{align*}\]</span> The set <span class="math inline">\(S\)</span> is <em>linearly independent</em> if it is not linearly dependent.</p>
+<div id="exr-linear-indep-def" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 4.1</strong></span> Can you write the definition of a linearly independent set of vectors explicitly?</p>
+</div>
+</div>
+<div id="exm-linear-indep" class="theorem example">
+<p><span class="theorem-title"><strong>Example 4.2</strong></span> Continuing from <a href="#exm-span" class="quarto-xref">Example&nbsp;<span>4.1</span></a>.</p>
+<ol type="1">
+<li><p>Let <span class="math inline">\(S = \{ \vec{a}, \vec{b} \}\)</span>, then <span class="math inline">\(S\)</span> is linearly independent. Indeed, let <span class="math inline">\(x_1, x_2\)</span> be real numbers such that <span class="math display">\[\begin{align*}
+x_1 \vec{a} + x_2 \vec{b} = \vec{0},
+\end{align*}\]</span> then, <span class="math display">\[\begin{align*}
+2 x_1 - x_2 &amp; = 0 &amp;&amp; 3 x_1 + 2 x_2 &amp; = 0
+\end{align*}\]</span> The first equation says that <span class="math inline">\(x_2 = 2 x_1\)</span>, which when substituted into the second equation gives <span class="math inline">\(3 x_1 + 4 x_1 = 7 x_1 = 0\)</span>. Together this implies that <span class="math inline">\(x_1 = x_2 = 0\)</span>. Put simply this means that if we do have a linear combination of <span class="math inline">\(\vec{a}\)</span> and <span class="math inline">\(\vec{b}\)</span> which is equal zero, then the corresponding scalar multiples are all zero.</p></li>
+<li><p>Let <span class="math inline">\(S = \{ \vec{a}, \vec{b}, \vec{c} \}\)</span>, then <span class="math inline">\(S\)</span> is linearly dependent. We have previously seen that: <span class="math display">\[\begin{align*}
+\vec{c} = \frac{1}{7} \vec{a} - \frac{5}{7} \vec{b},
+\end{align*}\]</span> which we can rearrange to say that <span class="math display">\[\begin{align*}
+\frac{1}{7} \vec{a} - \frac{5}{7} \vec{b} - \vec{c} = \vec{0}.
+\end{align*}\]</span> We see that the definition of linear dependence is satisfied for <span class="math inline">\(x_1 = \frac{1}{7}, x_2 = -\frac{5}{7}, x_3 = -1\)</span> which are all nonzero.</p></li>
+</ol>
+</div>
+<p>So linear independence removes the multiplicity (or non-uniqueness) in how we form linear combinations! This leads us to the final definition of this section.</p>
+</section>
+<section id="when-vectors-form-a-basis" class="level3" data-number="4.2.3">
+<h3 data-number="4.2.3" class="anchored" data-anchor-id="when-vectors-form-a-basis"><span class="header-section-number">4.2.3</span> When vectors form a basis</h3>
+<div id="def-basis" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 4.3</strong></span> We say that a set of <span class="math inline">\(n\)</span>-vectors <span class="math inline">\(S\)</span> is a <em>basis</em> of a set of <span class="math inline">\(n\)</span>-vectors <span class="math inline">\(V\)</span> if the span of <span class="math inline">\(S\)</span> is <span class="math inline">\(V\)</span> and <span class="math inline">\(S\)</span> is linearly independent.</p>
+</div>
+<div id="exm-basis" class="theorem example">
+<p><span class="theorem-title"><strong>Example 4.3</strong></span> &nbsp;</p>
+<ol type="1">
+<li><p>From <a href="#exm-span" class="quarto-xref">Example&nbsp;<span>4.1</span></a>, we have that <span class="math inline">\(S = \{ \vec{a}, \vec{b} \}\)</span> is a basis of <span class="math inline">\(\mathbb{R}^2\)</span>.</p></li>
+<li><p>Another (perhaps simpler) basis of <span class="math inline">\(\mathbb{R}^2\)</span> are the coordinate axes: <span class="math display">\[\begin{align*}
+\vec{e}_1 = \begin{pmatrix} 1 \\ 0 \end{pmatrix} \quad
+\text{and} \quad \vec{e}_2 = \begin{pmatrix} 0 \\ 1 \end{pmatrix}.
+\end{align*}\]</span></p></li>
+<li><p>When we look at eigenvectors and eigenvalues we will see that there are other convenient bases (plural of basis) to work with.</p></li>
+</ol>
+</div>
+<p>We phrase the idea that the existence and uniqueness of linear combinations together depend on the underlying set being a basis mathematically in the following Theorem:</p>
+<div id="thm-basis-expansion" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 4.1</strong></span> Let <span class="math inline">\(S\)</span> be a basis of <span class="math inline">\(V\)</span>. Then any vector in <span class="math inline">\(V\)</span> can be written <em>uniquely</em> as a linear combination of entries in <span class="math inline">\(S\)</span>.</p>
+</div>
+<div id="exm-basis-expansion" class="theorem example">
+<p><span class="theorem-title"><strong>Example 4.4</strong></span> &nbsp;</p>
+<ol type="1">
+<li><p>From the main examples in this section, we have that <span class="math inline">\(S = \{ \vec{a}, \vec{b}
+\}\)</span> is a basis of <span class="math inline">\(\mathbb{R}^2\)</span> and we already know the formula for how to write <span class="math inline">\(\vec{y}\)</span> as a unique combination of <span class="math inline">\(\vec{a}\)</span> and <span class="math inline">\(\vec{b}\)</span>: it’s given in <span class="math inline">\(\eqref{eq:y-combo}\)</span>.</p></li>
+<li><p>For the simpler example of the coordinate axes: <span class="math display">\[\begin{align*}
+\vec{e}_1 =
+\begin{pmatrix} 1 \\ 0 \end{pmatrix} \quad \text{and} \quad
+\vec{e}_2 =
+\begin{pmatrix} 0 \\ 1 \end{pmatrix},
+\end{align*}\]</span> we have that for any <span class="math inline">\(\vec{y} = \begin{pmatrix} y_1 \\ y_2 \end{pmatrix} \in \mathbb{R}^2\)</span> <span class="math display">\[\begin{align*}
+\vec{y} = \begin{pmatrix} y_1 \\ y_2 \end{pmatrix}
+= y_1 \begin{pmatrix} 1 \\ 0 \end{pmatrix} +
+y_2 \begin{pmatrix} 0 \\ 1 \end{pmatrix} = y_1 \vec{e}_1 + y_2 \vec{e}_2.
+\end{align*}\]</span></p></li>
+</ol>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em> (Proof of <a href="#thm-basis-expansion" class="quarto-xref">Theorem&nbsp;<span>4.1</span></a>). </span>Let <span class="math inline">\(\vec{y}\)</span> be a vector in <span class="math inline">\(V\)</span> and label <span class="math inline">\(S = \{ \vec{v}_1, \ldots \vec{v}_k
+\}\)</span>. Since <span class="math inline">\(S\)</span> forms a basis of <span class="math inline">\(V\)</span>, <span class="math inline">\(\vec{y} \in \mathrm{span}(S)\)</span> so there exists numbers <span class="math inline">\(x_1, \ldots, x_k\)</span> such that <span class="math display">\[\begin{align}
+\label{eq:basis_pf_x}
+\vec{y} = \sum_{i=1}^k x_i \vec{v}_i.
+\end{align}\]</span> Suppose that there exists another set of number <span class="math inline">\(z_1, \ldots z_k\)</span> such that <span class="math display">\[\begin{align}
+\label{eq:basis_pf_z}
+\vec{y} = \sum_{i=1}^k z_i \vec{v}_i.
+\end{align}\]</span> Taking the difference of <span class="math inline">\(\eqref{eq:basis_pf_x}\)</span> and <span class="math inline">\(\eqref{eq:basis_pf_z}\)</span>, we see that <span class="math display">\[\begin{align}
+\vec{0} = \sum_{i=1}^k (x_i - z_i) \vec{v}_i.
+\end{align}\]</span> Since <span class="math inline">\(S\)</span> is linearly independent, this implies <span class="math inline">\(x_i = z_i\)</span> for <span class="math inline">\(i = 1, \ldots,
+k\)</span>, and we have shown that there is only one linear combination of the vectors <span class="math inline">\(\{ \vec{v}_i \}\)</span> to form <span class="math inline">\(\vec{y}\)</span>.</p>
+</div>
+<p>There is a theorem that says that the number of vectors in any basis of a given ‘nice’ set of vectors <span class="math inline">\(V\)</span> is the same but is beyond the scope of this module!</p>
+<div id="thm-uniq-solution" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 4.2</strong></span> Let <span class="math inline">\(A\)</span> be a <span class="math inline">\(n \times n\)</span>-matrix. If the columns of <span class="math inline">\(A\)</span> form a basis of <span class="math inline">\(\mathbb{R}^n\)</span>, then there exists a unique <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\vec{x}\)</span> which satisfies <span class="math inline">\(A \vec{x} = \vec{b}\)</span>.</p>
+</div>
+<p>We do not give full details of the proof here since all the key ideas are already given above.</p>
+</section>
+</section>
+<section id="special-types-of-matrices" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="special-types-of-matrices"><span class="header-section-number">4.3</span> Special types of matrices</h2>
+<p>The general matrix <span class="math inline">\(A\)</span> before the examples is known as a <strong>full</strong> matrix: any of its components <span class="math inline">\(a_{ij}\)</span> might be nonzero.</p>
+<p>Almost always the problem being solved leads to a matrix with a particular structure of entries: Some entries may be known to be zero. If this is the case then it is often possible to use this knowledge to improve the efficiency of the algorithm (in terms of both speed and/or storage).</p>
+<div id="exm-triangular-matrix" class="theorem example">
+<p><span class="theorem-title"><strong>Example 4.5 (Triangular matrix)</strong></span> One common (and important) structure takes the form</p>
+<p><span class="math display">\[
+A = \begin{pmatrix}
+a_{11} &amp; 0 &amp; 0 &amp; \cdots &amp; 0 \\ a_{21} &amp; a_{22} &amp; 0 &amp; \cdots &amp;
+0 \\ a_{31} &amp; a_{32} &amp; a_{33} &amp; \cdots &amp; 0 \\ \vdots &amp; \vdots &amp; \vdots &amp; \ddots
+&amp; \vdots \\ a_{n1} &amp; a_{n2} &amp; a_{n3} &amp; \cdots &amp; a_{nn} \end{pmatrix}.
+\]</span></p>
+<ul>
+<li><p>A is a <strong>lower triangular</strong> matrix. Every entry above the leading diagonal is zero:</p>
+<p><span class="math display">\[ a_{ij} = 0 \quad \text{ for } \quad j &gt; i. \]</span></p></li>
+<li><p>The <em>transpose</em> of this matrix is an <strong>upper triangular</strong> matrix and can be treated in a very similar manner.</p></li>
+</ul>
+</div>
+<div id="exm-sparse-matrix" class="theorem example">
+<p><span class="theorem-title"><strong>Example 4.6 (Sparse matrices)</strong></span> <strong>Sparse matrices</strong> are extremely common in any application which relies on some form of <em>graph</em> structure (see both the temperature, <a href="lec01.html#exm-temperature" class="quarto-xref">Example&nbsp;<span>2.3</span></a>, and traffic network examples, <a href="lec01.html#exm-traffic" class="quarto-xref">Example&nbsp;<span>2.4</span></a>).</p>
+<ul>
+<li><p>The <span class="math inline">\(a_{ij}\)</span> typically represents some form of “communication” between vertices <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> of the graph, so the element is only nonzero if the vertices are connected.</p></li>
+<li><p>There is no generic pattern for these entries, though there is usually one that is specific to the problem solved.</p></li>
+<li><p>Usually <span class="math inline">\(a_{ii} \neq 0\)</span> - the diagonal is nonzero.</p></li>
+<li><p>A “large” portion of the matrix is zero.</p>
+<ul>
+<li>A full <span class="math inline">\(n \times n\)</span> matrix has <span class="math inline">\(n^2\)</span> nonzero entries.</li>
+<li>A sparse <span class="math inline">\(n \times n\)</span> has <span class="math inline">\(\alpha n\)</span> nonzero entries, where <span class="math inline">\(\alpha \ll
+    n\)</span>.</li>
+</ul></li>
+<li><p>Many special techniques exist for handling sparse matrices, some of which can be used automatically within Python (<a href="https://docs.scipy.org/doc/scipy/reference/sparse.html"><code>scipy.sparse</code> documentation</a>)</p></li>
+</ul>
+</div>
+<p>What is the significance of these special examples?</p>
+<ul>
+<li><p>In the next section we will discuss a general numerical algorithm for the solution of linear systems of equations.</p></li>
+<li><p>This will involve <strong>reducing</strong> the problem to one involving a <strong>triangular matrix</strong> which, as we show below, is relatively easy to solve.</p></li>
+<li><p>In subsequent lectures, we will see that, for <em>sparse</em> matrix systems, alternative solution techniques are available.</p></li>
+</ul>
+</section>
+<section id="further-reading" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">4.4</span> Further reading</h2>
+<ul>
+<li>Wikipedia: <a href="https://en.wikipedia.org/wiki/System_of_linear_equations">Systems of linear equations</a> (includes a nice geometric picture of what a system of linear equations means).</li>
+<li>Maths is fun: <a href="https://www.mathsisfun.com/algebra/systems-linear-equations.html">Systems of linear equations</a> (very basic!)</li>
+<li>Gregory Gundersen <a href="http://gregorygundersen.com/blog/2020/12/09/matrix-inversion/">Why shouldn’t I invert that matrix?</a></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../src/lec02.html" class="pagination-link" aria-label="Floating point number systems">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Floating point number systems</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../src/lec04.html" class="pagination-link" aria-label="Direct solvers for systems of linear equations">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Direct solvers for systems of linear equations</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Copyright 2024-2025, Thomas Ranner and University of Leeds</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

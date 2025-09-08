@@ -8,7 +8,7 @@
 
 <meta name="author" content="Thomas Ranner">
 
-<title>8&nbsp; Eigenvectors and eigenvalues: practical solutions – COMP2870 Theoretical Foundations: Linear Algebra</title>
+<title>9&nbsp; Eigenvectors and eigenvalues: practical solutions – COMP2870 Theoretical Foundations: Linear Algebra</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -328,7 +328,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../src/lec08.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues: practical solutions</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../src/lec08.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues: practical solutions</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -365,43 +365,49 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../src/lec01.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Floating point number systems</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Linear Algebra introduction</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../src/lec02.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introduction to systems of linear equations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Floating point number systems</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../src/lec03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introduction to systems of linear equations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../src/lec04.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Direct solvers for systems of linear equations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Direct solvers for systems of linear equations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../src/lec05.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Iterative solutions of linear equations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Iterative solutions of linear equations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../src/lec06.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Complex numbers</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Complex numbers</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../src/lec07.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../src/lec08.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues: practical solutions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues: practical solutions</span></span></a>
   </div>
 </li>
     </ul>
@@ -414,12 +420,12 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#jacobi-transformations-of-a-symmetric-matrix" id="toc-jacobi-transformations-of-a-symmetric-matrix" class="nav-link active" data-scroll-target="#jacobi-transformations-of-a-symmetric-matrix"><span class="header-section-number">8.1</span> Jacobi transformations of a symmetric matrix</a></li>
-  <li><a href="#python-code" id="toc-python-code" class="nav-link" data-scroll-target="#python-code"><span class="header-section-number">8.2</span> Python code</a></li>
-  <li><a href="#computing-eigenvectors" id="toc-computing-eigenvectors" class="nav-link" data-scroll-target="#computing-eigenvectors"><span class="header-section-number">8.3</span> Computing eigenvectors</a></li>
-  <li><a href="#python-code-again" id="toc-python-code-again" class="nav-link" data-scroll-target="#python-code-again"><span class="header-section-number">8.4</span> Python code (again)</a></li>
-  <li><a href="#computational-cost" id="toc-computational-cost" class="nav-link" data-scroll-target="#computational-cost"><span class="header-section-number">8.5</span> Computational cost</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">8.6</span> References</a></li>
+  <li><a href="#jacobi-transformations-of-a-symmetric-matrix" id="toc-jacobi-transformations-of-a-symmetric-matrix" class="nav-link active" data-scroll-target="#jacobi-transformations-of-a-symmetric-matrix"><span class="header-section-number">9.1</span> Jacobi transformations of a symmetric matrix</a></li>
+  <li><a href="#python-code" id="toc-python-code" class="nav-link" data-scroll-target="#python-code"><span class="header-section-number">9.2</span> Python code</a></li>
+  <li><a href="#computing-eigenvectors" id="toc-computing-eigenvectors" class="nav-link" data-scroll-target="#computing-eigenvectors"><span class="header-section-number">9.3</span> Computing eigenvectors</a></li>
+  <li><a href="#python-code-again" id="toc-python-code-again" class="nav-link" data-scroll-target="#python-code-again"><span class="header-section-number">9.4</span> Python code (again)</a></li>
+  <li><a href="#computational-cost" id="toc-computational-cost" class="nav-link" data-scroll-target="#computational-cost"><span class="header-section-number">9.5</span> Computational cost</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">9.6</span> References</a></li>
   </ul>
 </nav>
     </div>
@@ -429,7 +435,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues: practical solutions</span></h1>
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues: practical solutions</span></h1>
 </div>
 
 
@@ -484,8 +490,8 @@ P_m^{-1} P_{m-1}^{-1} \cdots P_2^{-1} P_1^{-1} A P_1 P_2 \cdots P_{m-1} P_m,
 \end{equation*}\]</span> and the eigenvectors are the columns of the matrix <span class="math display">\[\begin{equation*}
 S_m = P_1 P_2 \cdots P_{m-1} P_m.
 \end{equation*}\]</span> Sometimes, we only want to compute eigenvalues, and not eigenvectors, then it is sufficient to transform the matrix to be triangular (either upper or lower triangular). Then, we can read off that the eigenvalues are the diagonal entries (see <span class="quarto-unresolved-ref">?exm-eigenvalue-triangular</span>).</p>
-<section id="jacobi-transformations-of-a-symmetric-matrix" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="jacobi-transformations-of-a-symmetric-matrix"><span class="header-section-number">8.1</span> Jacobi transformations of a symmetric matrix</h2>
+<section id="jacobi-transformations-of-a-symmetric-matrix" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="jacobi-transformations-of-a-symmetric-matrix"><span class="header-section-number">9.1</span> Jacobi transformations of a symmetric matrix</h2>
 <p>The Jacobi method forms a sequence of similarity transforms similar to <span class="math inline">\(\eqref{eq:similarity_transform}\)</span>. It is a <em>foolproof</em> approach for real, symmetric matrices (<span class="citation" data-cites="sim-symmetric-nice">@sim-symmetric-nice</span>).</p>
 <p>The key idea is to use the matrix <span class="math inline">\(P_{pq}\)</span> which is the matrix of the form <span class="math display">\[\begin{equation}
 \label{eq:Pmatrix}
@@ -503,7 +509,7 @@ P_{pq} = \begin{pmatrix}
 A' = P_{pq}^{T} A P.
 \end{equation*}\]</span></p>
 <div id="exm-one-jacobi-rotation" class="theorem example">
-<p><span class="theorem-title"><strong>Example 8.1</strong></span> Let <span class="math inline">\(A\)</span> be the <span class="math inline">\(3 \times 3\)</span> matrix given by <span class="math display">\[\begin{equation*}
+<p><span class="theorem-title"><strong>Example 9.1</strong></span> Let <span class="math inline">\(A\)</span> be the <span class="math inline">\(3 \times 3\)</span> matrix given by <span class="math display">\[\begin{equation*}
 A = \begin{pmatrix}
 1 &amp; 2 &amp; \frac{3 \sqrt{2 - \sqrt{2}}}{4}\\2 &amp; 5 &amp; \frac{3 \sqrt{\sqrt{2} + 2}}{4}
 \\\frac{3 \sqrt{2 - \sqrt{2}}}{4} &amp; \frac{3 \sqrt{\sqrt{2} + 2}}{4} &amp; 2 \sqrt{2}
@@ -555,7 +561,7 @@ A' = \begin{pmatrix}
 \end{pmatrix}
 \end{equation*}\]</span></p>
 <div id="exr-sim-trans" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 8.1</strong></span> Continue this exercise with <span class="math inline">\(P_{2, 3}\)</span>. Show that <span class="math inline">\(\theta\)</span> can be chosen so that <span class="math display">\[\begin{align*}
+<p><span class="theorem-title"><strong>Exercise 9.1</strong></span> Continue this exercise with <span class="math inline">\(P_{2, 3}\)</span>. Show that <span class="math inline">\(\theta\)</span> can be chosen so that <span class="math display">\[\begin{align*}
 A'' = P_{2, 3}^{-1} A' P_{2, 3}
 = \begin{pmatrix}
 3 - 2 \sqrt{2} &amp; 0 &amp; 0\\0 &amp; \frac{3}{2} + \frac{7 \sqrt{2}}{2} &amp; 0\\0 &amp; 0 &amp;
@@ -590,9 +596,9 @@ A'*{p, q} = (\cos^2\theta - \sin^2\theta) A*{p, q} + \cos\theta \sin\theta
 \end{equation*}\]</span> We follow the example above and take the smallest root using the quadratic formula and apply the same trigonometric identities in order to compute <span class="math inline">\(c\)</span> and <span class="math inline">\(s\)</span> <span class="math inline">\(\eqref{eq:trig_id}\)</span>.</p>
 <p>The only remaining step is to decide which order to cover <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span>. The update formula only needs to be applied to the upper triangular part of the matrix away from the diagonal. In Jacobi’s original algorithm from 1846, he proposed to eliminate each of the largest possible values in turn. This turns out to be computationally expensive and not necessary. Instead we simply iterate through all possible nonzero values until we have eliminated all off-diagonal values.</p>
 </section>
-<section id="python-code" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="python-code"><span class="header-section-number">8.2</span> Python code</h2>
-<div id="c1b5810a" class="cell" data-execution_count="2">
+<section id="python-code" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="python-code"><span class="header-section-number">9.2</span> Python code</h2>
+<div id="da086a14" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> jacobi_rotation(A, p, q):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Computes one iteration of P_{pq}^T A P_{pq}.</span></span>
@@ -627,7 +633,7 @@ A'*{p, q} = (\cos^2\theta - \sin^2\theta) A*{p, q} + \cos\theta \sin\theta
 <span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> A_new</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s try it out!</p>
-<div id="fc5e9788" class="cell" data-execution_count="3">
+<div id="3a790caf" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array(</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    [</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">-</span> np.sqrt(<span class="dv">2</span>)) <span class="op">/</span> <span class="dv">4</span>],</span>
@@ -678,7 +684,7 @@ Numpy's estimate of the eigenvalues is
 </div>
 </div>
 <p>Let’s try again with a harder problem</p>
-<div id="3062931d" class="cell" data-execution_count="4">
+<div id="637c8588" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">10</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>tol <span class="op">=</span> <span class="fl">1.0e-12</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -757,8 +763,8 @@ Numpy's estimate of the eigenvalues is
 </div>
 <p>We see that it takes 10 sweeps to find all the eigenvalues!</p>
 </section>
-<section id="computing-eigenvectors" class="level2" data-number="8.3">
-<h2 data-number="8.3" class="anchored" data-anchor-id="computing-eigenvectors"><span class="header-section-number">8.3</span> Computing eigenvectors</h2>
+<section id="computing-eigenvectors" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="computing-eigenvectors"><span class="header-section-number">9.3</span> Computing eigenvectors</h2>
 <p>After enough sweeps, we end up with a diagonal matrix (at least to machine precision), let’s call it <span class="math inline">\(D\)</span>. But indeed, we have computed a factorisation: <span class="math display">\[\begin{equation*}
 D = V^T A V,
 \end{equation*}\]</span> where <span class="math inline">\(V = P_1 P_2 \cdots\)</span> and each <span class="math inline">\(P_j\)</span> is a Jacobi rotation matrix. We can immediately identify the matrix <span class="math inline">\(V\)</span> as having columns which correspond to the eigenvectors of <span class="math inline">\(A\)</span>.</p>
@@ -770,7 +776,7 @@ v'*{rp} &amp;= c v*{rp} - s v_{rq} &amp;&amp; ?? \\
 v'*{rq} &amp;= s v*{rp} + c v_{rq} &amp;&amp; ??.
 \end{align*}\]</span></p>
 <div id="exm-one-jacobi-rotation2" class="theorem example">
-<p><span class="theorem-title"><strong>Example 8.2</strong></span> Continuing <a href="#exm-one-jacobi-rotation" class="quarto-xref">Example&nbsp;<span>8.1</span></a>. We computed that in the first iteration <span class="math display">\[\begin{align*}
+<p><span class="theorem-title"><strong>Example 9.2</strong></span> Continuing <a href="#exm-one-jacobi-rotation" class="quarto-xref">Example&nbsp;<span>9.1</span></a>. We computed that in the first iteration <span class="math display">\[\begin{align*}
 \cos\theta &amp; = 1 / \sqrt{\tan^2\theta +1} = \sqrt{\sqrt{2}/4 + 1/2} \\
 \sin\theta &amp; = \tan\theta \cos\theta
 =  \sqrt{1/2 - \sqrt{2}/4}.
@@ -794,7 +800,7 @@ c &amp; s &amp; 0 \\
 \end{pmatrix}.
 \]</span></p>
 <div id="exr-sim-trans2" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 8.2</strong></span> Continue this exercise with <span class="math inline">\(P_{2, 3}\)</span> to show <span class="math display">\[\begin{align*}
+<p><span class="theorem-title"><strong>Exercise 9.2</strong></span> Continue this exercise with <span class="math inline">\(P_{2, 3}\)</span> to show <span class="math display">\[\begin{align*}
 &amp; V'' = V' P_{2, 3}
 = \begin{pmatrix}
 \frac{\sqrt{\sqrt{2} + 2}}{2} &amp; - \frac{\sqrt{2}}{4}
@@ -811,10 +817,10 @@ c &amp; s &amp; 0 \\
 </div>
 </div>
 </section>
-<section id="python-code-again" class="level2" data-number="8.4">
-<h2 data-number="8.4" class="anchored" data-anchor-id="python-code-again"><span class="header-section-number">8.4</span> Python code (again)</h2>
+<section id="python-code-again" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="python-code-again"><span class="header-section-number">9.4</span> Python code (again)</h2>
 <p>We can try our methods on</p>
-<div id="f6504285" class="cell" data-execution_count="5">
+<div id="c9aebb6e" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> jacobi_rotation_with_V(A, V, p, q):</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Computes one iteration of P_{pq}^T A P_{pq} and V P_{pq}</span></span>
@@ -854,7 +860,7 @@ c &amp; s &amp; 0 \\
 <span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> A_new, V_new</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s try it out!</p>
-<div id="bdacc483" class="cell" data-execution_count="6">
+<div id="06aaecea" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    [</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span> <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">-</span> np.sqrt(<span class="dv">2</span>)) <span class="op">/</span> <span class="dv">4</span>],</span>
@@ -933,7 +939,7 @@ Numpy's estimate of the eigenvalues is
 </div>
 <p>Success! We have the same values (up to reordering).</p>
 <p>We can also apply the same code to the larger problem size:</p>
-<div id="fac72f2a" class="cell" data-execution_count="7">
+<div id="bdcaf42a" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">10</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>tol <span class="op">=</span> <span class="fl">1.0e-12</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1059,12 +1065,12 @@ Numpy's estimate of the eigenvalues is
 </div>
 </div>
 </section>
-<section id="computational-cost" class="level2" data-number="8.5">
-<h2 data-number="8.5" class="anchored" data-anchor-id="computational-cost"><span class="header-section-number">8.5</span> Computational cost</h2>
+<section id="computational-cost" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="computational-cost"><span class="header-section-number">9.5</span> Computational cost</h2>
 <p>A quick look at the cost of each rotation shows that the main cost is in updating all the entries. For a matrix of size <span class="math inline">\(n\)</span>, we must update <span class="math inline">\(4n-4\)</span> entries (two rows and two columns) in <span class="math inline">\(A\)</span> and <span class="math inline">\(2n\)</span> entries in (two rows) in <span class="math inline">\(V\)</span>. We say that each rotation costs <span class="math inline">\(O(n)\)</span>.</p>
 <p>One sweep corresponds to trying to eliminate all off diagonal entries (i.e.&nbsp;the strictly upper triangular portion of the matrix). So each sweep corresponds to <span class="math inline">\(n (n-1)/2\)</span> rotations or <span class="math inline">\((6n - 4) n (n-1) / 2\)</span>. So each sweep is <span class="math inline">\(O(n^3)\)</span>.</p>
 <p>The remaining question is how many sweeps are required? Let’s test this using our code.</p>
-<div id="8dd1aac2" class="cell" data-execution_count="9">
+<div id="18a82aa1" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1074,7 +1080,7 @@ Numpy's estimate of the eigenvalues is
 </div>
 </div>
 <p>This gives us an estimate that the number of sweeps is <span class="math inline">\(O(n^{1/2})\)</span>. So we would expect the time to run the algorithm to scale like <span class="math inline">\(n^{7/2}\)</span>. However, in practical situations, we see that the growth is closer to <span class="math inline">\(n^{5/2}\)</span>:</p>
-<div id="f3222f82" class="cell" data-execution_count="10">
+<div id="ba3814b3" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1084,8 +1090,8 @@ Numpy's estimate of the eigenvalues is
 </div>
 </div>
 </section>
-<section id="references" class="level2" data-number="8.6">
-<h2 data-number="8.6" class="anchored" data-anchor-id="references"><span class="header-section-number">8.6</span> References</h2>
+<section id="references" class="level2" data-number="9.6">
+<h2 data-number="9.6" class="anchored" data-anchor-id="references"><span class="header-section-number">9.6</span> References</h2>
 <p>Numerical recipes, chapter XX?</p>
 <p><a href="https://arxiv.org/abs/2509.00495" class="uri">https://arxiv.org/abs/2509.00495</a></p>
 
@@ -1508,7 +1514,7 @@ Numpy's estimate of the eigenvalues is
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../src/lec07.html" class="pagination-link" aria-label="Eigenvectors and eigenvalues">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
