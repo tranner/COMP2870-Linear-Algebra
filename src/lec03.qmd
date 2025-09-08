@@ -1,0 +1,529 @@
+---
+echo: false
+---
+# Introduction to systems of linear equations
+
+::: {.callout-tip}
+## Module learning objective
+
+Define and identify what is means for a set of
+vectors to be a basis, spanning set or linear independent.
+:::
+
+```{python}
+import time
+
+import numpy as np
+from matplotlib import pyplot as plt
+
+plt.style.use("seaborn-v0_8-colorblind")
+```
+
+## Definition of systems of linear equations
+
+Given an $n \times n$ matrix $A$ and an $n$-vector $\vec{b}$, find the
+$n$-vector $\vec{x}$ which satisfies:
+\begin{equation}
+\label{eq:sle}
+A \vec{x} = \vec{b}.
+\end{equation}
+
+We can also write \eqref{eq:sle} as a system of linear equations:
+\begin{align*}
+\text{Equation 1:} &&
+a_{11} x_1 + a_{12} x_2 + a_{13} x_3 + \cdots + a_{1n} x_n & = b_1 \\
+\text{Equation 2:} &&
+a_{21} x_1 + a_{22} x_2 + a_{23} x_3 + \cdots + a_{2n} x_n & = b_2 \\
+\vdots \\
+\text{Equation i:} &&
+a_{i1} x_1 + a_{i2} x_2 + a_{i3} x_3 + \cdots + a_{in} x_n & = b_i \\
+\vdots \\
+\text{Equation n:} &&
+a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n & = b_n.
+\end{align*}
+
+**Notes**:
+
+- The values $a_{ij}$ are known as **coefficients**.
+
+- The **right hand side** values $b_i$ are known and are given to you as part
+    of the problem.
+
+- $x_1, x_2, x_3, \ldots, x_n$ are **not** known and are what you need to find
+    to solve the problem.
+
+## Can we do it?
+
+Our first question might be - is it possible to solve \eqref{eq:sle}?
+
+We know a few simple cases where we can answer this question very quickly:
+
+1. If $A = I_n$, the $n \times n$ *identity matrix*, then we *can* solve this
+   problem: $$\vec{x} = \vec{b}.$$
+2. If $A = O$, the $n \times n$ *zero matrix*, and $\vec{b} \neq \vec{0}$, the
+   zero vector, then we cannot solve this problem: $$O \vec{x} = \vec{0} \neq
+   \vec{b} \quad \text{for any vector} \quad \vec{x}.$$
+3. If $A$ is *invertible*, with inverse $A^{-1}$, then we *can* solve this
+   problem: $$\vec{x} = A^{-1} \vec{b}.$$ But, in general, this is a *very bad*
+   idea and we will see algorithms that are more efficient than finding the
+   inverse of $A$.
+
+::: {#rem-inverse}
+
+One way to solve a system of linear equations is to compute the inverse of $A$,
+$A^{-1}$, directly, then the solution is found through matrix multiplication:
+$\vec{x} = A^{-1} \vec{b}$. This turns out to be an inefficient approach and we
+can do better with specialised algorithms.
+
+```{python}
+for size in [100, 10000]:
+    print(f"\n\nTrying different approaches for problem size {size}")
+    # create a system of linear equations with unique solution
+    A_part = np.random.rand(size, size)
+    A = np.dot(A_part, A_part.T)
+    b = np.random.rand(size, 1)
+
+    # approach 1 - invert the matrix and apply the inverse
+    start_time = time.time()
+    A_inv = np.linalg.inv(A)
+    x = A_inv @ b
+    end_time = time.time()
+    time_1 = end_time - start_time
+    print(
+        "Approach 1 - inverting the matrix and applying the inverse. Time =",
+        time_1,
+    )
+
+    # approach 2 - solve the system of linear equations
+    start_time = time.time()
+    x = np.linalg.solve(A, b)
+    end_time = time.time()
+    time_2 = end_time - start_time
+    print("Approach 2 - solving the system of linear equations. Time =", time_2)
+
+    print("Approach 2 is faster by a factor of ", time_1 / time_2)
+```
+
+:::
+
+There are tools to help us answer when a matrix is invertible which arise
+naturally when thinking about what $A \vec{x} = \vec{b}$ means! We have to go
+back to the basic operations on vectors.
+
+There are two fundamental operations you can do on vectors: addition and scalar
+multiplication. Consider the vectors:
+\begin{align*}
+\vec{a} = \begin{pmatrix} 2 \\ 1 \\ 2 \end{pmatrix}, \quad
+\vec{b} = \begin{pmatrix} 1 \\ 2 \\ 4 \end{pmatrix}, \quad
+\vec{c} = \begin{pmatrix} 4 \\ 2 \\ 6 \end{pmatrix}.
+\end{align*}
+Then, we can easily compute the following *linear combinations*
+\begin{align}
+\label{eq:vector-linear-comb-a}
+\vec{a} + \vec{b} & = \begin{pmatrix} 3 \\ 3 \\ 6 \end{pmatrix} \\
+\label{eq:vector-linear-comb-b}
+\vec{c} - 2 \vec{a} & = \begin{pmatrix} 0 \\ 0 \\ 2 \end{pmatrix} \\
+\label{eq:vector-linear-comb-c}
+\vec{a} + 2 \vec{b} + 2 \vec{c} &= \begin{pmatrix} 12 \\ 9 \\ 22 \end{pmatrix}.
+\end{align}
+Now if we write $A$ for the $3 \times 3$-matrix whose columns are $\vec{a},
+\vec{b}, \vec{c}$:
+\begin{align*}
+A = \begin{pmatrix}
+&& \\ \vec{a} & \vec{b} & \vec{c} \\ &&
+\end{pmatrix}
+= \begin{pmatrix}
+2 & 1 & 4 \\
+1 & 2 & 2 \\
+2 & 4 & 6
+\end{pmatrix},
+\end{align*}
+then the three equations
+\eqref{eq:vector-linear-comb-a}, \eqref{eq:vector-linear-comb-b},
+\eqref{eq:vector-linear-comb-c}, can be written as
+\begin{align*}
+\vec{a} + \vec{b} & = 1 \vec{a} + 1 \vec{b} + 0 \vec{c}
+= A \begin{pmatrix} 1 \\ 1 \\ 0 \end{pmatrix}, \\
+\vec{c} - 2\vec{a} & = -2 \vec{a} + 0 \vec{b} - 2 \vec{c}
+= A \begin{pmatrix} -2 \\ 0 \\ 1 \end{pmatrix}, \\
+\vec{a} + 2 \vec{b} + 2 \vec{c} & = 1 \vec{a} + 2 \vec{b} + 2 \vec{c}
+= A \begin{pmatrix} 1 \\ 2 \\ 2
+\end{pmatrix}.
+\end{align*}
+In other words,
+
+> We can write any linear combination of vectors as a matrix-vector multiply,
+
+or if we reverse the process,
+
+> We can write matrix-vector multiplication as a linear combination of the
+> columns of the matrix.
+
+This rephrasing means, solving the system $A \vec{x} = \vec{b}$ is equivalent to
+finding a linear combination of the columns of $A$ which is equal to $b$. So,
+our question about whether we can solve \eqref{eq:sle}, can also be rephrased
+as: does there exist a linear combination of the columns of $A$ which is equal
+to $\vec{b}$? We will next write this condition mathematically using the concept
+of *span*.
+
+### The span of a set of vectors
+
+::: {#def-span}
+Given a set of vectors of the same size, $S = \{ \vec{v}_1,
+\ldots, \vec{v}_k \}$, we say the *span* of $S$ is the set of all vectors which
+are linear combinations of vectors in $S$:
+\begin{equation}
+\mathrm{span}(S) = \left\{ \sum_{i=1}^k x_i \vec{v}_i : x_i \in \mathbb{R}
+\text{ for } i = 1, \ldots, k \right\}.
+\end{equation}
+:::
+
+::: {#exm-span}
+Consider three new vectors
+\begin{align*}
+\vec{a} = \begin{pmatrix} 2 \\ 3 \end{pmatrix} \quad
+\vec{b} = \begin{pmatrix} -1 \\ 2 \end{pmatrix} \quad
+\vec{c} = \begin{pmatrix} 1 \\ -1 \end{pmatrix}
+\end{align*}
+
+```{python}
+# | echo: false
+# | fig-cap: Three example vectors in a plane.
+
+# Define the vectors
+a = np.array([2, 3])
+b = np.array([-1, 2])
+c = np.array([1, -1])
+
+# Create a new figure
+plt.figure()
+
+# Plot the vectors
+plt.quiver(
+    0,
+    0,
+    a[0],
+    a[1],
+    angles="xy",
+    scale_units="xy",
+    scale=1,
+    color="C0",
+    label="$\\vec{a}$",
+)
+plt.quiver(
+    0,
+    0,
+    b[0],
+    b[1],
+    angles="xy",
+    scale_units="xy",
+    scale=1,
+    color="C1",
+    label="$\\vec{b}$",
+)
+plt.quiver(
+    0,
+    0,
+    c[0],
+    c[1],
+    angles="xy",
+    scale_units="xy",
+    scale=1,
+    color="C2",
+    label="$\\vec{c}$",
+)
+
+# Set the limits of the plot
+plt.xlim(-2, 3)
+plt.ylim(-2, 4)
+
+# Add grid, legend and labels
+plt.grid()
+plt.legend()
+plt.xlabel("$x$")
+plt.ylabel("$y$")
+
+# Show the plot
+plt.show()
+```
+
+1. Let $S = \{ \vec{a} \}$, then $\mathrm{span}(S) = \{ x \vec{a} : x \in
+   \mathbb{R} \}$. Geometrically, we can think of the span of a single vector to
+   be an infinite straight line which passes through the origin and $\vec{a}$.
+
+2. Let $S = \{ \vec{a}, \vec{b} \}$, then $\mathrm{span}(S) = \mathbb{R}^2$. To
+   see this is true, we first see that $\mathrm{span}(S)$ is contained in
+   $\mathbb{R}^2$ since any $2$-vectors added together and the scalar
+   multiplication of a $2$-vector also form a $2$-vector. For the opposite
+   inclusion, consider an arbitrary point $\vec{y} = \begin{pmatrix} y_1 \\ y_2
+   \end{pmatrix} \in \mathbb{R}^2$ then
+   \begin{align}
+   \nonumber
+   \frac{2 y_1 + y_2}{7} \vec{a} + \frac{-3 y_1 + 2 y_2}{7} \vec{b}
+   = \frac{2 y_1 + y_2}{7} \begin{pmatrix} 2 \\ 3 \end{pmatrix}
+   - \frac{-3 y_1 + 2 y_2}{7} \begin{pmatrix} -1 \\ 2 \end{pmatrix} \\
+   = \begin{pmatrix}
+   \frac{4 y_1 + 2 y_2}{7} + \frac{3 y_1 - 2 y_2}{7} \\
+   \label{eq:y-combo}
+   \frac{6 y_1 + 3 y_2}{7} + \frac{-6 y_1 + 4 y_2}{7}
+   \end{pmatrix}
+   = \begin{pmatrix} y_1 \\ y_2 \end{pmatrix} = \vec{y}.
+   \end{align}
+   This calculation shows, that we can always form a linear
+   combination of $\vec{a}$ and $\vec{b}$ which results in $\vec{y}$.
+
+3. Let $S = \{ \vec{a}, \vec{b}, \vec{c} \}$, then $\mathrm{span}(S) =
+   \mathbb{R}^2$. Since $\vec{c} \in \mathrm{span}(\{\vec{a}, \vec{b}\})$, any
+   linear combination of $\vec{a}, \vec{b}, \vec{c}$ has an equivalent
+   combination of just $\vec{a}$ and $\vec{b}$. In formulae, we can see that by
+   applying the formula from Example 2 (TODO make ref), we have
+   \begin{align*}
+   \vec{c} = \frac{1}{7} \vec{a} - \frac{5}{7} \vec{b}.
+   \end{align*}
+   So we have, if $\vec{y} \in \mathrm{span}(S)$, then
+   \begin{align*}
+   \vec{y} = x_1 \vec{a} + x_2 \vec{b} + x_3 \vec{c} & \Rightarrow \vec{y}
+   = (x_1 + \frac{1}{7} x_3) \vec{a} + (x_2 - \frac{5}{7} x_3) \vec{b},
+   \end{align*}
+   so $\vec{y} \in \mathrm{span}(\{\vec{a}, \vec{b}\})$. Conversely, if $\vec{y}
+   \in \mathrm{span}(\{\vec{a}, \vec{b}\})$, then
+   \begin{align*}
+   \vec{y} = x_1 \vec{a} + x_2 \vec{b} & \Rightarrow \vec{y}
+   = x_1 \vec{a} + x_2 \vec{b} + 0
+   \vec{c}.
+   \end{align*}
+   So the span of $S = \mathrm{span}(\{\vec{a}, \vec{b}\})
+   = \mathbb{R}^2$. Notice that we this final linear combination of $\vec{a},
+   \vec{b}$ and $\vec{c}$ to form $\vec{y}$ is not unique.
+:::
+
+So our first statement is that \eqref{eq:sle} has a solution if $\vec{b}$ is in
+the span of the columns of $A$. However, as we saw with @exm-span, Part 3, we
+are not guaranteed that the linear combination is unique! For this we need a
+further condition.
+
+### Linear independence
+
+::: {#def-linear-indep}
+
+Given a set of vectors of the same size, $S = \{\vec{v}_1, \ldots, \vec{v}_k
+\}$, we say that $S$ is *linearly dependent*, if there exists numbers $x_1, x_2,
+\ldots x_k$, not all zero, such that
+\begin{align*}
+\sum_{i=1}^k x_i \vec{v}_i = \vec{0}.
+\end{align*}
+The set $S$ is *linearly independent* if it is not linearly dependent.
+
+::: {#exr-linear-indep-def}
+
+Can you write the definition of a linearly
+independent set of vectors explicitly?
+:::
+:::
+
+::: {#exm-linear-indep}
+
+Continuing from @exm-span.
+
+1. Let $S = \{ \vec{a}, \vec{b} \}$, then $S$ is linearly independent. Indeed,
+   let $x_1, x_2$ be real numbers such that
+   \begin{align*}
+   x_1 \vec{a} + x_2 \vec{b} = \vec{0},
+   \end{align*}
+   then,
+   \begin{align*}
+   2 x_1 - x_2 & = 0 && 3 x_1 + 2 x_2 & = 0
+   \end{align*}
+   The first equation says that $x_2 = 2 x_1$, which when substituted into the
+   second equation gives $3 x_1 + 4 x_1 = 7 x_1 = 0$. Together this implies that
+   $x_1 = x_2 = 0$. Put simply this means that if we do have a linear
+   combination of $\vec{a}$ and $\vec{b}$ which is equal zero, then the
+   corresponding scalar multiples are all zero.
+
+2. Let $S = \{ \vec{a}, \vec{b}, \vec{c} \}$, then $S$ is linearly dependent. We
+   have previously seen that:
+   \begin{align*}
+   \vec{c} = \frac{1}{7} \vec{a} - \frac{5}{7} \vec{b},
+   \end{align*}
+   which we can rearrange to say that
+   \begin{align*}
+   \frac{1}{7} \vec{a} - \frac{5}{7} \vec{b} - \vec{c} = \vec{0}.
+   \end{align*}
+   We see that the definition of linear dependence is satisfied for
+   $x_1 = \frac{1}{7}, x_2 = -\frac{5}{7}, x_3 = -1$ which are all nonzero.
+:::
+
+So linear independence removes the multiplicity (or non-uniqueness) in how we
+form linear combinations! This leads us to the final definition of this section.
+
+### When vectors form a basis
+
+::: {#def-basis}
+We say that a set of $n$-vectors $S$ is a *basis* of a set of $n$-vectors $V$ if
+the span of $S$ is $V$ and $S$ is linearly independent.
+:::
+
+::: {#exm-basis}
+
+1. From @exm-span, we have that $S = \{ \vec{a}, \vec{b} \}$ is a basis of
+   $\mathbb{R}^2$.
+
+2. Another (perhaps simpler) basis of $\mathbb{R}^2$ are the coordinate axes:
+   \begin{align*}
+   \vec{e}_1 = \begin{pmatrix} 1 \\ 0 \end{pmatrix} \quad
+   \text{and} \quad \vec{e}_2 = \begin{pmatrix} 0 \\ 1 \end{pmatrix}.
+   \end{align*}
+
+3. When we look at eigenvectors and eigenvalues we will see that there are other
+convenient bases (plural of basis) to work with.
+:::
+
+We phrase the idea that the existence and uniqueness of linear combinations
+together depend on the underlying set being a basis mathematically in the
+following Theorem:
+
+::: {#thm-basis-expansion}
+Let $S$ be a basis of $V$. Then any vector in $V$ can
+be written *uniquely* as a linear combination of entries in $S$.
+:::
+
+::: {#exm-basis-expansion}
+
+1. From the main examples in this section, we have that $S = \{ \vec{a}, \vec{b}
+   \}$ is a basis of $\mathbb{R}^2$ and we already know the formula for how to
+   write $\vec{y}$ as a unique combination of $\vec{a}$ and $\vec{b}$: it's
+   given in \eqref{eq:y-combo}.
+
+2. For the simpler example of the coordinate axes:
+   \begin{align*}
+   \vec{e}_1 =
+   \begin{pmatrix} 1 \\ 0 \end{pmatrix} \quad \text{and} \quad
+   \vec{e}_2 =
+   \begin{pmatrix} 0 \\ 1 \end{pmatrix},
+   \end{align*}
+   we have that for any
+   $\vec{y} = \begin{pmatrix} y_1 \\ y_2 \end{pmatrix} \in \mathbb{R}^2$
+   \begin{align*}
+   \vec{y} = \begin{pmatrix} y_1 \\ y_2 \end{pmatrix}
+   = y_1 \begin{pmatrix} 1 \\ 0 \end{pmatrix} +
+   y_2 \begin{pmatrix} 0 \\ 1 \end{pmatrix} = y_1 \vec{e}_1 + y_2 \vec{e}_2.
+   \end{align*}
+:::
+
+::: {.proof}
+
+#### Proof of @thm-basis-expansion
+
+Let $\vec{y}$ be a vector in $V$ and label $S = \{ \vec{v}_1, \ldots \vec{v}_k
+\}$. Since $S$ forms a basis of $V$, $\vec{y} \in \mathrm{span}(S)$ so there
+exists numbers $x_1, \ldots, x_k$ such that
+\begin{align}
+\label{eq:basis_pf_x}
+\vec{y} = \sum_{i=1}^k x_i \vec{v}_i.
+\end{align}
+Suppose that there exists another set of number $z_1, \ldots z_k$ such that
+\begin{align}
+\label{eq:basis_pf_z}
+\vec{y} = \sum_{i=1}^k z_i \vec{v}_i.
+\end{align}
+Taking the difference of \eqref{eq:basis_pf_x} and \eqref{eq:basis_pf_z}, we see
+that
+\begin{align}
+\vec{0} = \sum_{i=1}^k (x_i - z_i) \vec{v}_i.
+\end{align}
+Since $S$ is linearly independent, this implies $x_i = z_i$ for $i = 1, \ldots,
+k$, and we have shown that there is only one linear combination of the vectors
+$\{ \vec{v}_i \}$ to form $\vec{y}$.
+:::
+
+There is a theorem that says that the number of vectors in any basis of a given
+'nice' set of vectors $V$ is the same but is beyond the scope of this module!
+
+::: {#thm-uniq-solution}
+Let $A$ be a $n \times n$-matrix. If the columns of $A$
+form a basis of $\mathbb{R}^n$, then there exists a unique $n$-vector $\vec{x}$
+which satisfies $A \vec{x} = \vec{b}$.
+:::
+
+We do not give full details of the proof here since all the key ideas are
+already given above.
+
+## Special types of matrices
+
+The general matrix $A$ before the examples is known as a **full** matrix: any of
+its components $a_{ij}$ might be nonzero.
+
+Almost always the problem being solved leads to a matrix with a particular
+structure of entries: Some entries may be known to be zero. If this is the case
+then it is often possible to use this knowledge to improve the efficiency of the
+algorithm (in terms of both speed and/or storage).
+
+::: {#exm-triangular-matrix}
+
+### Triangular matrix
+
+One common (and important) structure takes the form
+
+$$
+A = \begin{pmatrix}
+a_{11} & 0 & 0 & \cdots & 0 \\ a_{21} & a_{22} & 0 & \cdots &
+ 0 \\ a_{31} & a_{32} & a_{33} & \cdots & 0 \\ \vdots & \vdots & \vdots & \ddots
+ & \vdots \\ a_{n1} & a_{n2} & a_{n3} & \cdots & a_{nn} \end{pmatrix}.
+ $$
+
+- A is a **lower triangular** matrix. Every entry above the leading diagonal
+    is zero:
+
+    $$ a_{ij} = 0 \quad \text{ for } \quad j > i. $$
+
+- The *transpose* of this matrix is an **upper triangular** matrix and can be
+treated in a very similar manner.
+:::
+
+::: {#exm-sparse-matrix}
+
+### Sparse matrices
+
+**Sparse matrices** are extremely common in any application which relies on some
+form of *graph* structure (see both the temperature, @exm-temperature, and
+traffic network examples, @exm-traffic).
+
+- The $a_{ij}$ typically represents some form of "communication" between
+    vertices $i$ and $j$ of the graph, so the element is only nonzero if the
+    vertices are connected.
+
+- There is no generic pattern for these entries, though there is usually one
+    that is specific to the problem solved.
+
+- Usually $a_{ii} \neq 0$ - the diagonal is nonzero.
+
+- A "large" portion of the matrix is zero.
+  - A full $n \times n$ matrix has $n^2$ nonzero entries.
+  - A sparse $n \times n$ has $\alpha n$ nonzero entries, where $\alpha \ll
+        n$.
+- Many special techniques exist for handling sparse matrices, some of which
+can be used automatically within Python ([`scipy.sparse`
+documentation](https://docs.scipy.org/doc/scipy/reference/sparse.html))
+:::
+
+What is the significance of these special examples?
+
+- In the next section we will discuss a general numerical algorithm for the
+    solution of linear systems of equations.
+
+- This will involve **reducing** the problem to one involving a **triangular
+    matrix** which, as we show below, is relatively easy to solve.
+
+- In subsequent lectures, we will see that, for *sparse* matrix systems,
+    alternative solution techniques are available.
+
+## Further reading
+
+- Wikipedia: [Systems of linear
+  equations](https://en.wikipedia.org/wiki/System_of_linear_equations) (includes
+  a nice geometric picture of what a system of linear equations means).
+- Maths is fun: [Systems of linear
+  equations](https://www.mathsisfun.com/algebra/systems-linear-equations.html)
+  (very basic!)
+- Gregory Gundersen [Why shouldn't I invert that
+  matrix?](http://gregorygundersen.com/blog/2020/12/09/matrix-inversion/)

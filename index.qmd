@@ -48,7 +48,3 @@ Candidates should be able to:
   implement methods using floating point numbers and investigate computational
   cost using computer experiments;
 - apply algorithms to compute eigenvectors and eigenvalues of large matrices.
-
-## Programming
-
-## Motivations

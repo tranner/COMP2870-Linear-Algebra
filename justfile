@@ -19,4 +19,4 @@ _build output: lint
 
 # remove all output files
 clean:
-	rm -rf _output
+	rm -rf _output _freeze
