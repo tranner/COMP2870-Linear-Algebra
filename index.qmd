@@ -14,13 +14,16 @@ plt.style.use("seaborn-v0_8-colorblind")
 
 This part of the module will deal with numerical algorithms that involve
 matrices. The study of this type of problem is called *linear algebra*. We will
-approach these problems using a mix of theoretical ideas thinking through the
-lens of practical solutions. This means that you will do some programming (using
-Python) and some pen and paper theoretical work too.
+approach these problems using a combination of theoretical ideas and practical
+solutions, thinking through the lens of real-world applications. As a
+consequence, to succeed in linear algebra, you will do some programming (using
+Python) and some pen-and-paper theoretical work, too.
 
 ### Topics
 
-We will have 7 double-lectures, 3/4 tutorials and 3/4 labs. We break up the
+TODO how many!!
+
+We will have 7 double lectures, 3/4 tutorials, and 3/4 labs. We break up the
 topics as follows:
 
 Lectures
@@ -51,9 +54,9 @@ Tutorials
 
 Candidates should be able to:
 
-- explain practical challenges working with floating point numbers;
-- define and identify what is means for a set of vectors to be a basis, spanning
-  set or linear independent;
+- explain practical challenges working with floating-point numbers;
+- define and identify what it means for a set of vectors to be a basis, spanning
+  set or linearly independent;
 - apply direct and iterative solvers to solve systems of linear equations;
   implement methods using floating point numbers and investigate computational
   cost using computer experiments;
@@ -61,18 +64,18 @@ Candidates should be able to:
 
 ## Textbooks and other resources
 
-There are many textbook and other external resources which could help your
+There are many textbooks and other external resources which could help your
 learning:
 
 - [Introduction to Linear
   Algebra](https://leeds.primo.exlibrisgroup.com/permalink/44LEE_INST/13rlbcs/alma991011421399705181)
   (Fifth Edition), Gilbert Strang, Wellesley-Cambridge Press, 2016. \ with [MIT
   course material](https://web.mit.edu/18.06/www). *Strongly recommended book
-  and youtube lecture series*
+  and YouTube lecture series*
 
 - [Scientific Computing: An Introductory
   Survey](https://leeds.primo.exlibrisgroup.com/permalink/44LEE_INST/13rlbcs/alma991009203099705181),
-  T.M. Heath, McGraw-Hill, 2002. \ some [lecture notes based on the
+  T.M. Heath, McGraw-Hill, 2002. \ Some [lecture notes based on the
   book](http://heath.cs.illinois.edu/scicomp/notes/index.html)
 
 - [Engineering
@@ -90,17 +93,17 @@ Other links and resources are given at the end of each section of the notes.
 
 ## Programming
 
-Since this section of the notes links theoretical material with practical
+This section of the notes links theoretical material with practical
 applications. We will have weekly lab sessions where you will see how the
-methods mention in the lecture notes work when implemented. More instructions of
-how we will do this will be covered in the lab sessions them selves.
+methods mentioned in the lecture notes work when implemented. More instructions on
+how we will do this will be covered in the lab sessions themselves.
 
 An important theoretical aspect of translating the algorithms in linear algebra
-to computer implementations is the use of floating point numbers. You will have
-already met floating point numbers in your first year studies where you met how
+to computer implementations is the use of floating-point numbers. You will have
+already met floating-point numbers in your first year studies where you met how
 computer store numbers. You will already know that computer cannot store every
-possible real number exactly. This will have real consequences when performing
-linear algebra computations.
+possible real number exactly. The inexactness of floating-point numbers has real
+consequences when performing linear algebra computations.
 
 Exploring and understanding the material in (@sec-floating-point-numbers) is
 really helpful for understanding many of the choices that we make when forming
@@ -112,15 +115,16 @@ to revise some of your notes from last year on these topics.
 
 ## The big problems in linear algebra
 
-We will cover two big linear algebra problems in this section of the module. Linear algebra can be defined as the study of problems involving matrices and vectors.
+We will cover two big linear algebra problems in this section of the module.
+Linear algebra can be defined as the study of problems involving matrices and
+vectors.
 
 ### Reminder of matrices and vectors
 
-There are two important objects we wil work with that were defined in your first
-year Theoretical Foundations module.
+There are two important objects we will work with that were defined in your
+first-year Theoretical Foundations module (COMP1870).
 
 ::: {#def-matrix}
-
 A *matrix* is a rectangular array of numbers called *entries*
 or *elements* of the matrix. A matrix with $m$ rows and $n$ columns is called an
 $m \times n$ matrix or $m$-by-$n$ matrix. We may additionally say that the
@@ -129,7 +133,6 @@ matrix is of order $m \times n$. If $m = n$, then we say that the matrix is
 :::
 
 ::: {#exm-matrix}
-
 $A$ is a $4 \times 4$ matrix and $B$ is a $3 \times 4$ matrix:
 \begin{align*}
 A = \begin{pmatrix} 10 & 1 & 0 & 9 \\ 12.4 & 6 & 1 & 0 \\ 1 &
@@ -148,15 +151,15 @@ each other we mean the matrix product).
 :::
 :::
 
-When considering systems of linear equations the entries of the matrix will
-always be real numbers (later we will explore using complex
-numbers (@sec-complex-numbers) too)
+When considering systems of linear equations, the entries of the matrix will
+always be real numbers (later we will explore using complex numbers
+(@sec-complex-numbers) too)
 
 ::: {#def-vector}
 
 A *column vector*, often just called a *vector*, is a matrix
 with a single column. A matrix with a single row is a *row vector*. The entries
-of a vector are called *components*. A vector with $n$-rows is called an
+of a vector are called *components*. A vector with $n$ rows is called an
 $n$-vector.
 :::
 
@@ -177,7 +180,7 @@ $\vec{a}$ is a row vector, $\vec{b}$ and $\vec{c}$ are
 ::: {#exr-vector}
 
 1. Compute, if defined, $\vec{b} + \vec{c}$, $0.25 \vec{c}$.
-2. What is the meaning of $\vec{b}^T \vec{c}$? (here, we are interpreting the
+2. What is the meaning of $\vec{b}^T \vec{c}$? (Here, we are interpreting the
    vectors as matrices).
 3. Compute, if defined, $B \vec{b}$.
 :::
@@ -224,7 +227,7 @@ fields such as
 - Graphics and visualisation;
 - Machine learning.
 
-Typically these systems are *very* large ($n \approx 10^9$).
+Typically, these systems are *very* large ($n \approx 10^9$).
 
 It is therefore important that this problem can be solved
 
@@ -487,8 +490,8 @@ plt.tight_layout()
 plt.show()
 ```
 
-As the above example shows, it is not necessary to monitor at every single road.
-If we know all of the $y$ values we can calculate the $x$ values!
+As the above example shows, it is not necessary to monitor every single road.
+If we know all of the $y$ values, we can calculate the $x$ values!
 
 This example leads to the system:
 
@@ -520,10 +523,10 @@ For this problem, we will think of a matrix $A$ acting on functions $\vec{x}$:
 \vec{x} \mapsto A \vec{x}.
 \end{equation*}
 We are interested in when is the output vector $A \vec{x}$ is *parallel* to
-$\vec{x}$.
+$\vec{x}$?
 
 ::: {#def-evalues}
-We say that any vector $\vec{x}$ where $A \vec{x}$ is parallel is $\vec{x}$ is
+We say that any vector $\vec{x}$, where $A \vec{x}$ is parallel is $\vec{x}$, is
 called an *eigenvector* of $A$. Here by parallel, we mean that there exists a
 number $\lambda$ (can be positive, negative or zero) such that
 \begin{equation}
@@ -575,7 +578,7 @@ a & 0 \\ 0 & b
 :::
 
 ::: {#exm-projection}
-Let $P$ be the 3x3 matrix that represents projection on to a plane $\pi$. What
+Let $P$ be the 3x3 matrix that represents projection onto a plane $\pi$. What
 are the eigenvalues and eigenvectors of $p$?
 
 ```{python}
@@ -652,10 +655,11 @@ def plot_3d_plane_and_vectors():
 plot_3d_plane_and_vectors()
 ```
 
-- if $\vec{x}$ is in the plane $\Pi$, then $P \vec{x} = \vec{x}$. This means
+- If $\vec{x}$ is in the plane $\Pi$, then $P \vec{x} = \vec{x}$. This means
   that $\vec{x}$ is an eigenvector and the associated eigenvalue is $1$.
-- if $\vec{y}$ is perpendicular to the plane $\Pi$, then $P \vec{y} = \vec{0}$.
-  this means that $\vec{y}$ is an eigenvector and the associated eigenvalue is
+
+- If $\vec{y}$ is perpendicular to the plane $\Pi$, then $P \vec{y} = \vec{0}$.
+  This means that $\vec{y}$ is an eigenvector and the associated eigenvalue is
   $0$.
 
 Let $\vec{y}$ be perpendicular to $\Pi$ (so that $P \vec{y} = \vec{0}$ and
@@ -664,7 +668,7 @@ $\vec{y}$ is an eigenvector of $P$), then for any number $s$, we can compute
 P (s \vec{y}) = s P \vec{y} = s \vec{0} = \vec{0}.
 \end{equation*}
 This means that $s \vec{y}$ is also an eigenvector of $P$ associated to the
-eigenvalue $0$. As a consequence when we compute eigenvectors, we need to take
+eigenvalue $0$. As a consequence, when we compute eigenvectors, we need to take
 care to *normalise* the vector to ensure we get a unique answer.
 
 We see we end up with a two-dimensional space of eigenvectors (i.e., the plane
@@ -683,11 +687,12 @@ A = \begin{pmatrix}
 \end{equation*}
 What are the eigenvectors and eigenvalues of $A$?
 
-- Let $\vec{x} = (1, 1)^T$, the swapping the components of $\vec{x}$ gives back
+- Let $\vec{x} = (1, 1)^T$, then swapping the components of $\vec{x}$ gives back
   the same vector $\vec{x}$. In equations, we can write $A \vec{x} = \vec{x}$.
   This means that $\vec{x}$ is an eigenvector and the eigenvalue is $1$.
-- Let $\vec{x} = (-1, 1)^T$, the swapping the components of $\vec{x}$ gives back
-  $(1, -1)^T$ which we can see is $-\vec{x}$. In equations, we can write $A
+
+- Let $\vec{x} = (-1, 1)^T$, then swapping the components of $\vec{x}$ gives back
+  $(1, -1)^T$, which we can see is $-\vec{x}$. In equations, we can write $A
   \vec{x} = -\vec{x}$. This means that $\vec{x}$ is an eigenvector of $A$ and
   the associated eigenvalue is $-1$.
 
