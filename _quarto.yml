@@ -10,6 +10,16 @@ author:
 book:
   title: "COMP2870 Theoretical Foundations: Linear Algebra"
   author: "Thomas Ranner"
+  date: today
+  date-format: "D MMMM YYYY"
+  site-url: https://comp2870-2526.github.io/linear-algebra-notes/
+  page-navigation: true
+  search: true
+  page-footer: "Copyright 2024-2025, Thomas Ranner and University of Leeds"
+  repo-url: https://github.com/COMP2870-2526/linear-algebra-notes
+  repo-actions: [edit, source, issue]
+  downloads: [pdf]
+  language: "en-GB"
   chapters:
     - index.qmd
     - src/lec02.qmd
@@ -19,17 +29,6 @@ book:
     - src/lec06.qmd
     - src/lec07.qmd
     - src/lec08.qmd
-
-website:
-  title: "COMP2870 Theoretical Foundations: Linear Algebra"
-  page-navigation: true
-  search: true
-  page-footer: "Copyright 2024-2025, Thomas Ranner and University of Leeds"
-  repo-url: "https://github.com/TODO"
-  repo-actions: [edit, source, issue]
-
-  sidebar:
-    contents: src/*
 
 toc: true
 number-sections: true
