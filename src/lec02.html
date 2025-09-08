@@ -345,7 +345,9 @@ window.Quarto = {
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../">COMP2870 Theoretical Foundations: Linear Algebra</a> 
-        <div class="sidebar-tools-main">
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/COMP2870-2526/linear-algebra-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="../COMP2870-Theoretical-Foundations--Linear-Algebra.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
     </div>
@@ -425,7 +427,7 @@ window.Quarto = {
   <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">2.6.1</span> Further reading</a></li>
   </ul></li>
   </ul>
-</nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/edit/main/src/lec02.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/blob/main/src/lec02.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -530,7 +532,7 @@ x = \pm 0.b_1 b_2 b_3 \ldots b_{t-1} b_t \times \beta^e.
 <li><p>The <a href="https://en.wikipedia.org/wiki/IEEE_754">IEEE single-precision standard</a> is <span class="math inline">\((\beta, t, L, U) = (2, 23, -127, 128)\)</span>. This is available via <code>numpy.single</code>.</p></li>
 <li><p>The <a href="https://en.wikipedia.org/wiki/IEEE_754">IEEE double-precision standard</a> is <span class="math inline">\((\beta, t, L, U) = (2, 52, -1023, 1024)\)</span>. This is available via <code>numpy.double</code>.</p></li>
 </ol>
-<div id="44deabcb" class="cell" data-execution_count="2">
+<div id="46d90584" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> np.double(<span class="fl">1.1</span>)</span>
@@ -547,7 +549,7 @@ x = \pm 0.b_1 b_2 b_3 \ldots b_{t-1} b_t \times \beta^e.
 </div>
 </div>
 <p>You can create double-precision floating point numbers without using <code>numpy</code> (i.e.&nbsp;64 bit with the same <span class="math inline">\(\beta, t, L, U\)</span> as above) by calling the <a href="https://docs.python.org/3/reference/datamodel.html#numbers-real-float"><code>float</code> function</a>, or just giving the number in decimal format:</p>
-<div id="ab390696" class="cell" data-execution_count="3">
+<div id="aea14911" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>(np.double(<span class="fl">5.1</span>) <span class="op">==</span> <span class="fl">5.1</span>, np.double(<span class="fl">5.1</span>) <span class="op">==</span> <span class="fl">5.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>(np.True_, np.True_)</code></pre>
@@ -595,7 +597,7 @@ x = \pm 0.b_1 b_2 b_3 \ldots b_{t-1} b_t \times \beta^e.
 10^{-1}\)</span> and <span class="math inline">\(+0.11 \times 10^{-1}\)</span> which gives <span class="math display">\[ 0.11 \times 10^{-1} - 0.10
 \times 10^{-1} = 0.011 - 0.010 = 0.001. \]</span></p>
 <p>Alternatively, we can brute-force search for this:</p>
-<div id="6705b77a" class="cell" data-execution_count="4">
+<div id="c8bb5580" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-stdout">
 <pre><code>The minimum difference min_diff=0.0010
 at x=+0.57 x 10^{-1} y=+0.58 x 10^{-1}.</code></pre>
@@ -616,7 +618,7 @@ at x=+0.57 x 10^{-1} y=+0.58 x 10^{-1}.</code></pre>
 </div>
 <div id="exm-python" class="theorem example">
 <p><span class="theorem-title"><strong>Example 2.3 (What about in Python)</strong></span> We find that even with double-precision floating point numbers, we see some funniness when working with decimals:</p>
-<div id="23059597" class="cell" data-execution_count="5">
+<div id="df36d297" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> np.double(<span class="fl">0.0</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># add 0.1 ten times to get 1?</span></span>
@@ -643,7 +645,7 @@ Is a = 1? False</code></pre>
 <p>Why is this output not a surprise?</p>
 </blockquote>
 <p>We also see that even adding up numbers can have different results depending on what order we add them:</p>
-<div id="296e234e" class="cell" data-execution_count="6">
+<div id="d225e9c0" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.double(<span class="fl">1e30</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.double(<span class="op">-</span><span class="fl">1e30</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> np.double(<span class="fl">1.0</span>)</span>
@@ -653,7 +655,7 @@ Is a = 1? False</code></pre>
 <pre><code>(x + y) + z=1.0000000000000000</code></pre>
 </div>
 </div>
-<div id="0d3906e1" class="cell" data-execution_count="7">
+<div id="e667e609" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>x <span class="op">+</span> (y <span class="op">+</span> z)<span class="op">=</span><span class="sc">:.16f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>x + (y + z)=0.0000000000000000</code></pre>
@@ -683,7 +685,7 @@ x + \beta^{e-t} \]</span></p>
 <p>and this provides a bound on the <strong>relative error</strong>: for any <span class="math inline">\(y\)</span></p>
 <p><span class="math display">\[ \frac{|y - fl(y)|}{|y|} &lt; \frac{1}{2} \beta^{1-t}. \]</span></p>
 <p>The last term is known as <strong>machine precision</strong> or <strong>unit roundoff</strong> and is often called <span class="math inline">\(eps\)</span>. This is obtained in Python with</p>
-<div id="5201fa1a" class="cell" data-execution_count="8">
+<div id="f9a697af" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>eps <span class="op">=</span> np.finfo(np.double).eps</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(eps)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -701,7 +703,7 @@ x + \beta^{e-t} \]</span></p>
 <p><span class="math display">\[ eps = \frac{1}{2} \beta^{1-t} = \frac{1}{2} 10^{1-7} = 0.000005. \]</span></p></li>
 <li><p>For some common types in python, we see the following values:</p></li>
 </ol>
-<div id="53facef0" class="cell" data-execution_count="9">
+<div id="f9e450f7" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> dtype <span class="kw">in</span> [np.half, np.single, np.double]:</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(dtype.<span class="va">__name__</span>, np.finfo(dtype).eps)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -713,7 +715,7 @@ float64 2.220446049250313e-16</code></pre>
 </div>
 <div id="rmk-eps">
 <p>Machine precision epsilon (<span class="math inline">\(eps\)</span>) gives us an upper bound for the error in the representation of a floating-point number in a particular system. We note that this is different to the smallest possible numbers that we can store!</p>
-<div id="39bc440b" class="cell" data-execution_count="10">
+<div id="1b711adf" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>eps <span class="op">=</span> np.finfo(np.double).eps</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>eps<span class="op">=</span><span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -918,7 +920,7 @@ gives <span class="math inline">\(0.0\)</span> with no warning
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/comp2870-2526\.github\.io\/linear-algebra-notes\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1265,7 +1267,7 @@ gives <span class="math inline">\(0.0\)</span> with no warning
     </div>   
     <div class="nav-footer-center">
 <p>Copyright 2024-2025, Thomas Ranner and University of Leeds</p>
-</div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/edit/main/src/lec02.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/blob/main/src/lec02.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>
