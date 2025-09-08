@@ -6,8 +6,8 @@ The notes are build by [`quarto`](https://quarto.org/) which takes a markdown fi
 
 Build versions of the notes are available at:
 
-- <https://tranner.github.io/COMP2870-Linear-Algebra/COMP2870-Theoretical-Foundations--Linear-Algebra.pdf>
-- <https://tranner.github.io/COMP2870-Linear-Algebra>
+- <https://comp2870-2526.github.io/linear-algebra-notes/> (html version)
+- <https://comp2870-2526.github.io/linear-algebra-notes/COMP2870-Theoretical-Foundations--Linear-Algebra.pdf> (pdf version)
 
 To build the notes locally, you will need the dependencies [`uv`](https://docs.astral.sh/uv/) and [`quarto`](https://quarto.org/) (and optionally [`just`](https://github.com/casey/just)). You can build all outputs or just serve a preview with
 
