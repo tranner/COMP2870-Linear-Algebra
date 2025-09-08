@@ -1,4 +1,14 @@
-# Welcome to linear algebra
+---
+echo: false
+---
+# Introduction
+
+```{python}
+import numpy as np
+from matplotlib import pyplot as plt
+
+plt.style.use("seaborn-v0_8-colorblind")
+```
 
 ## Contents of this submodule
 
@@ -37,7 +47,7 @@ Tutorials
 3. Complex numbers
 4. Eigenvalues and eigenvectors
 
-## Learning outcomes
+### Learning outcomes
 
 Candidates should be able to:
 
@@ -48,3 +58,638 @@ Candidates should be able to:
   implement methods using floating point numbers and investigate computational
   cost using computer experiments;
 - apply algorithms to compute eigenvectors and eigenvalues of large matrices.
+
+## Textbooks and other resources
+
+There are many textbook and other external resources which could help your
+learning:
+
+- [Introduction to Linear
+  Algebra](https://leeds.primo.exlibrisgroup.com/permalink/44LEE_INST/13rlbcs/alma991011421399705181)
+  (Fifth Edition), Gilbert Strang, Wellesley-Cambridge Press, 2016. \ with [MIT
+  course material](https://web.mit.edu/18.06/www). *Strongly recommended book
+  and youtube lecture series*
+
+- [Scientific Computing: An Introductory
+  Survey](https://leeds.primo.exlibrisgroup.com/permalink/44LEE_INST/13rlbcs/alma991009203099705181),
+  T.M. Heath, McGraw-Hill, 2002. \ some [lecture notes based on the
+  book](http://heath.cs.illinois.edu/scicomp/notes/index.html)
+
+- [Engineering
+  Mathematics](https://leeds.primo.exlibrisgroup.com/permalink/44LEE_INST/13rlbcs/alma991019677711205181),
+  K.A. Stroud, Macmillan, 2001. *available online*
+
+- [Numerical Recipes in
+  C++/C/FORTRAN](https://leeds.primo.exlibrisgroup.com/permalink/44LEE_INST/13rlbcs/alma991010465229705181):
+  The Art of Scientific Computing, W.H. Press, S.A. Teukolsky, W.T. Vetterling
+  and B.P. Flannery, Cambridge University Press, 2002/1993/1993. *A very
+  practical view of the methods we develop in this module which could be used
+  for library development*
+
+Other links and resources are given at the end of each section of the notes.
+
+## Programming
+
+Since this section of the notes links theoretical material with practical
+applications. We will have weekly lab sessions where you will see how the
+methods mention in the lecture notes work when implemented. More instructions of
+how we will do this will be covered in the lab sessions them selves.
+
+An important theoretical aspect of translating the algorithms in linear algebra
+to computer implementations is the use of floating point numbers. You will have
+already met floating point numbers in your first year studies where you met how
+computer store numbers. You will already know that computer cannot store every
+possible real number exactly. This will have real consequences when performing
+linear algebra computations.
+
+Exploring and understanding the material in (@sec-floating-point-numbers) is
+really helpful for understanding many of the choices that we make when forming
+methods in linear algebra.
+
+We will make extensive use of [`Python`](https://www.python.org/) and
+[`numpy`](https://numpy.org/) during this section of the module. It may help you
+to revise some of your notes from last year on these topics.
+
+## The big problems in linear algebra
+
+We will cover two big linear algebra problems in this section of the module. Linear algebra can be defined as the study of problems involving matrices and vectors.
+
+### Reminder of matrices and vectors
+
+There are two important objects we wil work with that were defined in your first
+year Theoretical Foundations module.
+
+::: {#def-matrix}
+
+A *matrix* is a rectangular array of numbers called *entries*
+or *elements* of the matrix. A matrix with $m$ rows and $n$ columns is called an
+$m \times n$ matrix or $m$-by-$n$ matrix. We may additionally say that the
+matrix is of order $m \times n$. If $m = n$, then we say that the matrix is
+*square*.
+:::
+
+::: {#exm-matrix}
+
+$A$ is a $4 \times 4$ matrix and $B$ is a $3 \times 4$ matrix:
+\begin{align*}
+A = \begin{pmatrix} 10 & 1 & 0 & 9 \\ 12.4 & 6 & 1 & 0 \\ 1 &
+3.14 & 1 & 0 \end{pmatrix}
+\quad
+B = \begin{pmatrix} 0 & 6 & 3 & 1 \\ 1 & 4 & 1
+& 0 \\ 7 & 0 & 10 & 20 \end{pmatrix} \quad C = \begin{pmatrix} 4 & 1 & 8 & -1 \\
+1.5 & 1 & 3 & 4 \\ 6 & -4 & 2 & 8 \end{pmatrix}
+\end{align*}
+
+::: {#exr-matrix}
+
+1. Compute, if defined, $A + B$, $B + C$.
+2. Compute, if defined, $A B$, $B A$, $B C$ (here, by writing matrices next to
+each other we mean the matrix product).
+:::
+:::
+
+When considering systems of linear equations the entries of the matrix will
+always be real numbers (later we will explore using complex
+numbers (@sec-complex-numbers) too)
+
+::: {#def-vector}
+
+A *column vector*, often just called a *vector*, is a matrix
+with a single column. A matrix with a single row is a *row vector*. The entries
+of a vector are called *components*. A vector with $n$-rows is called an
+$n$-vector.
+:::
+
+::: {#exm-vector}
+
+$\vec{a}$ is a row vector, $\vec{b}$ and $\vec{c}$ are
+(column) vectors.
+\begin{align*}
+\vec{a} =
+\begin{pmatrix} 0 & 1 & 7 \end{pmatrix}
+\quad
+\vec{b} =
+\begin{pmatrix} 0 \\ 1 \\ 3.1 \\ 7 \end{pmatrix}
+\quad
+\vec{c} = \begin{pmatrix} 4 \\ 6 \\ -4 \\ 0 \end{pmatrix}.
+\end{align*}
+
+::: {#exr-vector}
+
+1. Compute, if defined, $\vec{b} + \vec{c}$, $0.25 \vec{c}$.
+2. What is the meaning of $\vec{b}^T \vec{c}$? (here, we are interpreting the
+   vectors as matrices).
+3. Compute, if defined, $B \vec{b}$.
+:::
+:::
+
+### Systems of linear equations
+
+Given an $n \times n$ matrix $A$ and an $n$-vector $\vec{b}$, find the
+$n$-vector $\vec{x}$ which satisfies:
+\begin{equation}
+\label{eq:sle}
+A \vec{x} = \vec{b}.
+\end{equation}
+
+We can also write \eqref{eq:sle} as a system of linear equations:
+\begin{align*}
+\text{Equation 1:} &&
+a_{11} x_1 + a_{12} x_2 + a_{13} x_3 + \cdots + a_{1n} x_n & = b_1 \\
+\text{Equation 2:} &&
+a_{21} x_1 + a_{22} x_2 + a_{23} x_3 + \cdots + a_{2n} x_n & = b_2 \\
+\vdots \\
+\text{Equation i:} &&
+a_{i1} x_1 + a_{i2} x_2 + a_{i3} x_3 + \cdots + a_{in} x_n & = b_i \\
+\vdots \\
+\text{Equation n:} &&
+a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n & = b_n.
+\end{align*}
+
+**Notes**:
+
+- The values $a_{ij}$ are known as **coefficients**.
+
+- The **right hand side** values $b_i$ are known and are given to you as part
+    of the problem.
+
+- $x_1, x_2, x_3, \ldots, x_n$ are **not** known and are what you need to find
+    to solve the problem.
+
+Many computational algorithms require the solution of linear equations, e.g. in
+fields such as
+
+- Scientific computation;
+- Network design and optimisation;
+- Graphics and visualisation;
+- Machine learning.
+
+Typically these systems are *very* large ($n \approx 10^9$).
+
+It is therefore important that this problem can be solved
+
+- accurately: we are allowed to make small errors but not big errors;
+- efficiently: we need to find the answer quickly;
+- reliably: we need to know that our algorithm will give us an answer that we
+    are happy with.
+
+::: {#exm-temperature}
+
+#### Temperature in a sealed room
+
+Suppose we wish to estimate the temperature distribution inside an object:
+
+```{python}
+# | fig-cap: Image showing temperature sample points and relations in a room.
+R = np.sqrt(0.5)
+c = np.array([0.5, 0.5])
+d = np.pi / 6
+p = np.pi / 4
+
+pts = (
+    [np.array([0.0, 0.0]), np.array([0.5, 0.0])]
+    + [
+        c + R * np.array([np.cos(n * d + p), np.sin(n * d + p)])
+        for n in range(-3, 4)
+    ]
+    + [np.array([0.0, 0.5])]
+)
+
+
+temperatures = [
+    200,
+    100,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    100,
+]
+
+interior_pts = [
+    [0.25, 0.25],
+    [0.75, 0.25],
+    [0.5, 0.5],
+    [1.0, 0.5],
+    [0.25, 0.75],
+    [0.75, 0.75],
+    [0.5, 1.0],
+]
+
+edges = [
+    [0, 1],
+    [0, 10],
+    [0, 9],
+    [1, 10],
+    [1, 11],
+    [1, 2],
+    [2, 11],
+    [2, 13],
+    [2, 3],
+    [3, 13],
+    [3, 4],
+    [4, 13],
+    [4, 15],
+    [4, 5],
+    [5, 15],
+    [5, 6],
+    [6, 15],
+    [6, 16],
+    [6, 7],
+    [7, 16],
+    [7, 8],
+    [8, 16],
+    [8, 14],
+    [8, 9],
+    [9, 14],
+    [9, 10],
+    [10, 11],
+    [10, 12],
+    [10, 14],
+    [11, 12],
+    [11, 15],
+    [11, 13],
+    [12, 14],
+    [12, 15],
+    [13, 15],
+    [14, 15],
+    [14, 16],
+    [15, 16],
+]
+
+fig, axs = plt.subplots(1, 2)
+
+
+axs[0].fill([pt[0] for pt in pts], [pt[1] for pt in pts], edgecolor="black")
+
+for pt, t in zip(pts, temperatures, strict=False):
+    axs[0].plot(pt[0], pt[1], "ko")
+    offset = 0.1 * (pt - c) / np.linalg.norm(pt - c)
+    axs[0].text(
+        pt[0] + offset[0],
+        pt[1] + offset[1],
+        t,
+        ha="center",
+        bbox={"facecolor": "white", "boxstyle": "round,pad=0.2"},
+    )
+
+for pt, t in zip(pts, temperatures, strict=False):
+    axs[1].plot(pt[0], pt[1], "ko")
+    offset = 0.1 * (pt - c) / np.linalg.norm(pt - c)
+    axs[1].text(
+        pt[0] + offset[0],
+        pt[1] + offset[1],
+        t,
+        ha="center",
+        bbox={"facecolor": "white", "boxstyle": "round,pad=0.2"},
+    )
+
+for j, pt in enumerate(interior_pts):
+    axs[1].plot(pt[0], pt[1], "ko")
+    axs[1].text(
+        pt[0] + 0.06,
+        pt[1] + 0.06,
+        f"$x_{{{j + 1}}}$",
+        ha="center",
+        bbox={"facecolor": "white", "boxstyle": "round,pad=0.2"},
+    )
+
+all_pts = pts + interior_pts
+
+for e in edges:
+    pt_A, pt_B = all_pts[e[0]], all_pts[e[1]]
+    axs[1].plot([pt_A[0], pt_B[0]], [pt_A[1], pt_B[1]], "k")
+
+for ax in axs:
+    ax.set_axis_off()
+    ax.set_aspect("equal")
+
+plt.tight_layout()
+plt.show()
+```
+
+We can place a network of points inside the object and use the following model:
+the temperature at each interior point is the average of its neighbours.
+
+This example leads to the system:
+
+$$
+\begin{pmatrix}
+1 & -1/6 & -1/6 & 0 & -1/6 & 0 & 0 \\
+-1/6 & 1 & -1/6 & -1/6 & 0 & -1/6 & 0 \\
+-1/4 & -1/4 & 1 & 0 & -1/4 & -1/4 & 0 \\
+0 & -1/5 & 0 & 1 & 0 & -1/5 & 0 \\
+-1/6 & 0 & -1/6 & 0 & 1 & -1/6 & -1/6 \\
+0 & -1/8 & -1/8 & -1/8 & -1/8 & 1 & -1/8 \\
+0 & 0 & 0 & 0 & -1/5 & -1/5 & 1
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6 \\ x_7
+\end{pmatrix}
+= \begin{pmatrix}
+400/6 \\ 100/6 \\ 0 \\ 0 \\ 100/6 \\ 0 \\ 0
+\end{pmatrix}.
+$$
+:::
+
+::: {#exm-traffic}
+
+#### Traffic network
+
+Suppose we wish to monitor the flow of traffic in a city centre:
+
+```{python}
+# | fig-cap: Example network showing traffic flow in a city
+dx = 1.0
+dy = 0.7
+head_proportion = 0.75
+
+pts = np.array(
+    [
+        [dx, 0.0],
+        [2 * dx, 0.0],
+        [0.0, dy],
+        [dx, dy],
+        [2 * dx, dy],
+        [0.0, 2 * dy],
+        [dx, 2 * dy],
+        [2 * dx, 2 * dy],
+    ]
+)
+
+arrows = [  # x arrows
+    [np.array([2 * dx, 2 * dy]), np.array([-dx, 0.0]), "$x_1$"],
+    [np.array([dx, 2 * dy]), np.array([-dx, 0.0]), "$x_2$"],
+    [np.array([2 * dx, 2 * dy]), np.array([0.0, -dy]), "$x_3$"],
+    [np.array([0.0, 2 * dy]), np.array([0.0, -dy]), "$x_4$"],
+    [np.array([dx, dy]), np.array([-dx, 0.0]), "$x_5$"],
+    [np.array([2 * dx, dy]), np.array([0.0, -dy]), "$x_6$"],
+    [np.array([dx, dy]), np.array([0.0, -dy]), "$x_7$"],
+    [np.array([2 * dx, 0.0]), np.array([-dx, 0.0]), "$x_8$"],
+    # y arrows
+    [np.array([dx, 0]), np.array([0.0, -dy]), "$y_1$"],
+    [np.array([2 * dx, 0]), np.array([0.0, -dy]), "$y_2$"],
+    [np.array([2 * dx + dx, 0]), np.array([-dx, 0.0]), "$y_3$"],
+    [np.array([2 * dx + dx, dy]), np.array([-dx, 0.0]), "$y_4$"],
+    [np.array([2 * dx + dx, 2 * dy + dy]), np.array([-dx, -dy]), "$y_5$"],
+    [np.array([dx, 2 * dy + dy]), np.array([0.0, -dy]), "$y_6$"],
+    [np.array([0.0, 2 * dy + dy]), np.array([0.0, -dy]), "$y_7$"],
+    [np.array([0.0, 2 * dy]), np.array([-dx, 0.0]), "$y_8$"],
+    [np.array([0.0, dy]), np.array([-dx, 0.0]), "$y_9$"],
+    [np.array([dx, dy]), np.array([-dx, -dy]), "$y_{10}$"],
+    [np.array([2 * dx, dy]), np.array([-dx, 0.0]), "$y_{11}$"],
+    [np.array([dx, 2 * dy]), np.array([0.0, -dy]), "$y_{12}$"],
+]
+
+for pt in pts:
+    plt.plot(pt[0], pt[1], "ko")
+
+for arrow in arrows:
+    start, direction, label = arrow
+    if "x" in label:
+        color = "C0"
+    elif "y" in label:
+        color = "C1"
+    plt.arrow(
+        start[0],
+        start[1],
+        direction[0] * head_proportion,
+        direction[1] * head_proportion,
+        length_includes_head=True,
+        head_width=0.05,
+        facecolor=color,
+    )
+    plt.arrow(
+        start[0] + direction[0] * head_proportion,
+        start[1] + direction[1] * head_proportion,
+        direction[0] * (1 - head_proportion),
+        direction[1] * (1 - head_proportion),
+        length_includes_head=True,
+        head_width=0.0,
+    )
+    plt.text(
+        start[0] + direction[0] / 2,
+        start[1] + direction[1] / 2,
+        label,
+        ha="center",
+        va="center",
+        bbox={"facecolor": "white", "boxstyle": "round,pad=0.2"},
+    )
+
+ax = plt.gca()
+ax.set_axis_off()
+ax.set_aspect("equal")
+
+plt.tight_layout()
+plt.show()
+```
+
+As the above example shows, it is not necessary to monitor at every single road.
+If we know all of the $y$ values we can calculate the $x$ values!
+
+This example leads to the system:
+
+$$
+\begin{pmatrix}
+1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+1 & -1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+0 & 1 & 0 & -1 & 0 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 & 0 & -1 & 0 & 0 \\
+0 & 0 & 0 & 0 & 1 & 0 & 1 & 0 \\
+0 & 0 & 0 & 1 & 1 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 & 1 & 0 & -1 \\
+0 & 0 & 0 & 0 & 0 & 0 & 1 & 1
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6 \\ x_7 \\ x_8
+\end{pmatrix}
+= \begin{pmatrix}
+y_5 \\ y_{12} - y_6 \\ y_8 - y_7 \\ y_{11} - y_4 \\
+y_{11} + y_{12} - y_{10} \\ y_9 \\ y_2 - y_3 \\ y_1
+\end{pmatrix}.
+$$
+:::
+
+### Eigenvalues and eigenvectors
+
+For this problem, we will think of a matrix $A$ acting on functions $\vec{x}$:
+\begin{equation*}
+\vec{x} \mapsto A \vec{x}.
+\end{equation*}
+We are interested in when is the output vector $A \vec{x}$ is *parallel* to
+$\vec{x}$.
+
+::: {#def-evalues}
+We say that any vector $\vec{x}$ where $A \vec{x}$ is parallel is $\vec{x}$ is
+called an *eigenvector* of $A$. Here by parallel, we mean that there exists a
+number $\lambda$ (can be positive, negative or zero) such that
+\begin{equation}
+\label{eq:evalues}
+A \vec{x} = \lambda \vec{x}.
+\end{equation}
+We call the associated number $\lambda$ an *eigenvalue* of $A$.
+
+We will later see that an $n \times n$ square matrix always has $n$ eigenvalues
+(which may not always be distinct).
+:::
+
+To help with our intuition here, we start with some simple examples:
+
+::: {#exm-unequal-scaling-evalues}
+Let $A$ be the $2 \times 2$ matrix that scales any input vector by $a$ in the $x$-direction and by $b$ in the $y$-direction.
+We can write this matrix as
+\begin{equation*}
+A = \begin{pmatrix}
+a & 0 \\ 0 & b
+\end{pmatrix},
+\end{equation*}
+since then for a 2-vector $\vec{x} = (x, y)^T$, we have
+\begin{equation*}
+A \vec{x}
+= \begin{pmatrix}
+a & 0 \\ 0 & b
+\end{pmatrix}
+\begin{pmatrix} x \\ y \end{pmatrix}
+= \begin{pmatrix} a x + 0 y \\ 0 x + b y \end{pmatrix}
+= \begin{pmatrix} a x \\ b y \end{pmatrix}.
+\end{equation*}
+
+Then, we infer we have two eigenvalues and two eigenvectors: One eigenvalue is $a$ with eigenvector $(1, 0)^T$ and the other is $b$ with eigenvector $(0, 1)^T$ since:
+\begin{align*}
+\begin{pmatrix}
+a & 0 \\ 0 & b
+\end{pmatrix}
+\begin{pmatrix} 1 \\ 0 \end{pmatrix}
+& = \begin{pmatrix} a \\ 0 \end{pmatrix}
+= a \begin{pmatrix} 1 \\ 0 \end{pmatrix} \\
+\begin{pmatrix}
+a & 0 \\ 0 & b
+\end{pmatrix}
+\begin{pmatrix} 0 \\ 1 \end{pmatrix}
+& = \begin{pmatrix} 0 \\ b \end{pmatrix}
+= b \begin{pmatrix} 0 \\ 1 \end{pmatrix}.
+\end{align*}
+:::
+
+::: {#exm-projection}
+Let $P$ be the 3x3 matrix that represents projection on to a plane $\pi$. What
+are the eigenvalues and eigenvectors of $p$?
+
+```{python}
+
+
+def plot_3d_plane_and_vectors():
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection="3d")
+
+    # Define a plane with a point and a normal vector
+    point_on_plane = np.array([0, 0, 0])
+    normal_vector = np.array([0, 0, 1])  # z = 0 plane
+
+    # Create grid to plot the plane
+    x = np.linspace(-2, 2, 10)
+    y = np.linspace(-2, 2, 10)
+    X, Y = np.meshgrid(x, y)
+    Z = (
+        -normal_vector[0] * (X - point_on_plane[0])
+        - normal_vector[1] * (Y - point_on_plane[1])
+    ) / normal_vector[2] + point_on_plane[2]
+
+    ax.plot_surface(
+        X,
+        Y,
+        Z,
+        alpha=0.5,
+        color="lightblue",
+        rstride=1,
+        cstride=1,
+        edgecolor="none",
+    )
+
+    # Vector in the plane
+    in_plane_vector = np.array([1, -1, 0])
+    in_plane_vector = (
+        in_plane_vector - np.dot(in_plane_vector, normal_vector) * normal_vector
+    )
+    # Vector orthogonal to the plane (same as normal)
+    orthogonal_vector = normal_vector
+    # TODO does it look better with this in too
+    # Arbitrary vector
+    # arbitrary_vector = np.array([0.5, 0.5, 0.5])
+    #
+    # Project the arbitrary vector onto the plane
+    # projection = (
+    #    arbitrary_vector
+    #    - np.dot(arbitrary_vector, normal_vector) * normal_vector
+    # )
+
+    # Plot vectors
+    def draw_vector(v, color, label):
+        ax.quiver(
+            0, 0, 0, v[0], v[1], v[2], color=color, label=label, linewidth=2
+        )
+
+    draw_vector(in_plane_vector, "green", "In-plane Vector")
+    draw_vector(orthogonal_vector, "red", "Normal Vector")
+
+    ax.set_xlim([-2.5, 2.5])
+    ax.set_ylim([-2.5, 2.5])
+    ax.set_zlim([-0.5, 1])
+    ax.axis("off")
+    ax.legend()
+    ax.set_title("Sample plane and normal vector")
+
+    ax.set_facecolor((0, 0, 0, 0))  # Transparent axis background
+    fig.patch.set_alpha(0)  # Transparent figure background
+
+    plt.tight_layout()
+    plt.show()
+
+
+plot_3d_plane_and_vectors()
+```
+
+- if $\vec{x}$ is in the plane $\Pi$, then $P \vec{x} = \vec{x}$. This means
+  that $\vec{x}$ is an eigenvector and the associated eigenvalue is $1$.
+- if $\vec{y}$ is perpendicular to the plane $\Pi$, then $P \vec{y} = \vec{0}$.
+  this means that $\vec{y}$ is an eigenvector and the associated eigenvalue is
+  $0$.
+
+Let $\vec{y}$ be perpendicular to $\Pi$ (so that $P \vec{y} = \vec{0}$ and
+$\vec{y}$ is an eigenvector of $P$), then for any number $s$, we can compute
+\begin{equation*}
+P (s \vec{y}) = s P \vec{y} = s \vec{0} = \vec{0}.
+\end{equation*}
+This means that $s \vec{y}$ is also an eigenvector of $P$ associated to the
+eigenvalue $0$. As a consequence when we compute eigenvectors, we need to take
+care to *normalise* the vector to ensure we get a unique answer.
+
+We see we end up with a two-dimensional space of eigenvectors (i.e., the plane
+$\Pi$) associated to eigenvalue $1$ and a one-dimensional space of eigenvectors
+(i.e., the line perpendicular to $\Pi$) eigenvalue $0$. We use the term
+*eigenspace* the space of eigenvectors associated to a particular eigenvalue.
+:::
+
+::: {#exm-permuatation}
+Let $A$ be the permuatation matrix which takes an input two-vector and outputs a
+two-vector with the components swapped. The matrix is given by
+\begin{equation*}
+A = \begin{pmatrix}
+0 & 1 \\ 1 & 0 \\
+\end{pmatrix}.
+\end{equation*}
+What are the eigenvectors and eigenvalues of $A$?
+
+- Let $\vec{x} = (1, 1)^T$, the swapping the components of $\vec{x}$ gives back
+  the same vector $\vec{x}$. In equations, we can write $A \vec{x} = \vec{x}$.
+  This means that $\vec{x}$ is an eigenvector and the eigenvalue is $1$.
+- Let $\vec{x} = (-1, 1)^T$, the swapping the components of $\vec{x}$ gives back
+  $(1, -1)^T$ which we can see is $-\vec{x}$. In equations, we can write $A
+  \vec{x} = -\vec{x}$. This means that $\vec{x}$ is an eigenvector of $A$ and
+  the associated eigenvalue is $-1$.
+
+Here we see that again we actually have two one-dimensional eigenspaces.
+:::

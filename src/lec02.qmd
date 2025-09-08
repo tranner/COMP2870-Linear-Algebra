@@ -1,4 +1,4 @@
-# Floating point number systems
+# Floating point number systems {#sec-floating-point-numbers}
 
 ::: {.callout-tip}
 ## Module learning objective

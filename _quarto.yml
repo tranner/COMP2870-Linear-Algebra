@@ -12,7 +12,6 @@ book:
   author: "Thomas Ranner"
   chapters:
     - index.qmd
-    - src/lec01.qmd
     - src/lec02.qmd
     - src/lec03.qmd
     - src/lec04.qmd
