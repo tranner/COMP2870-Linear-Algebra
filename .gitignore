@@ -8,4 +8,6 @@ index.log
 index.pdf
 index.tex
 index.toc
+index*files/
+.jupyter_cache/
 notes.html
