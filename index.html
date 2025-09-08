@@ -31,7 +31,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./src/lec01.html" rel="next">
+<link href="./src/lec02.html" rel="next">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -81,6 +81,35 @@ ul.task-list li input[type="checkbox"] {
   };
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -264,7 +293,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to linear algebra</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -295,55 +324,49 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to linear algebra</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./src/lec01.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Linear Algebra introduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./src/lec02.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Floating point number systems</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Floating point number systems</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./src/lec03.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introduction to systems of linear equations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introduction to systems of linear equations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./src/lec04.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Direct solvers for systems of linear equations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Direct solvers for systems of linear equations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./src/lec05.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Iterative solutions of linear equations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Iterative solutions of linear equations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./src/lec06.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Complex numbers</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Complex numbers</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./src/lec07.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./src/lec08.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues: practical solutions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues: practical solutions</span></span></a>
   </div>
 </li>
     </ul>
@@ -356,13 +379,21 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#welcome-to-linear-algebra" id="toc-welcome-to-linear-algebra" class="nav-link active" data-scroll-target="#welcome-to-linear-algebra"><span class="header-section-number">1</span> Welcome to linear algebra</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a>
   <ul class="collapse">
   <li><a href="#contents-of-this-submodule" id="toc-contents-of-this-submodule" class="nav-link" data-scroll-target="#contents-of-this-submodule"><span class="header-section-number">1.1</span> Contents of this submodule</a>
   <ul class="collapse">
   <li><a href="#topics" id="toc-topics" class="nav-link" data-scroll-target="#topics"><span class="header-section-number">1.1.1</span> Topics</a></li>
+  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link" data-scroll-target="#learning-outcomes"><span class="header-section-number">1.1.2</span> Learning outcomes</a></li>
   </ul></li>
-  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link" data-scroll-target="#learning-outcomes"><span class="header-section-number">1.2</span> Learning outcomes</a></li>
+  <li><a href="#textbooks-and-other-resources" id="toc-textbooks-and-other-resources" class="nav-link" data-scroll-target="#textbooks-and-other-resources"><span class="header-section-number">1.2</span> Textbooks and other resources</a></li>
+  <li><a href="#programming" id="toc-programming" class="nav-link" data-scroll-target="#programming"><span class="header-section-number">1.3</span> Programming</a></li>
+  <li><a href="#the-big-problems-in-linear-algebra" id="toc-the-big-problems-in-linear-algebra" class="nav-link" data-scroll-target="#the-big-problems-in-linear-algebra"><span class="header-section-number">1.4</span> The big problems in linear algebra</a>
+  <ul class="collapse">
+  <li><a href="#reminder-of-matrices-and-vectors" id="toc-reminder-of-matrices-and-vectors" class="nav-link" data-scroll-target="#reminder-of-matrices-and-vectors"><span class="header-section-number">1.4.1</span> Reminder of matrices and vectors</a></li>
+  <li><a href="#systems-of-linear-equations" id="toc-systems-of-linear-equations" class="nav-link" data-scroll-target="#systems-of-linear-equations"><span class="header-section-number">1.4.2</span> Systems of linear equations</a></li>
+  <li><a href="#eigenvalues-and-eigenvectors" id="toc-eigenvalues-and-eigenvectors" class="nav-link" data-scroll-target="#eigenvalues-and-eigenvectors"><span class="header-section-number">1.4.3</span> Eigenvalues and eigenvectors</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -396,14 +427,15 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="welcome-to-linear-algebra" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Welcome to linear algebra</h1>
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
 <section id="contents-of-this-submodule" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="contents-of-this-submodule"><span class="header-section-number">1.1</span> Contents of this submodule</h2>
-<p>This part of the module will deal with numerical algorithms that involve matrices. The study of this type of problem is called <em>linear algebra</em>. We will approach these problems using a mix of theoretical ideas thinking through the lens of practical solutions. This means that you will do some programming (using Python) and some pen and paper theoretical work too.</p>
+<p>This part of the module will deal with numerical algorithms that involve matrices. The study of this type of problem is called <em>linear algebra</em>. We will approach these problems using a combination of theoretical ideas and practical solutions, thinking through the lens of real-world applications. As a consequence, to succeed in linear algebra, you will do some programming (using Python) and some pen-and-paper theoretical work, too.</p>
 <section id="topics" class="level3" data-number="1.1.1">
 <h3 data-number="1.1.1" class="anchored" data-anchor-id="topics"><span class="header-section-number">1.1.1</span> Topics</h3>
-<p>We will have 7 double-lectures, 3/4 tutorials and 3/4 labs. We break up the topics as follows:</p>
+<p>TODO how many!!</p>
+<p>We will have 7 double lectures, 3/4 tutorials, and 3/4 labs. We break up the topics as follows:</p>
 <p>Lectures</p>
 <ol type="1">
 <li>Introduction and motivation, key problem statements</li>
@@ -429,18 +461,268 @@ ul.task-list li input[type="checkbox"] {
 <li>Eigenvalues and eigenvectors</li>
 </ol>
 </section>
-</section>
-<section id="learning-outcomes" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="learning-outcomes"><span class="header-section-number">1.2</span> Learning outcomes</h2>
+<section id="learning-outcomes" class="level3" data-number="1.1.2">
+<h3 data-number="1.1.2" class="anchored" data-anchor-id="learning-outcomes"><span class="header-section-number">1.1.2</span> Learning outcomes</h3>
 <p>Candidates should be able to:</p>
 <ul>
-<li>explain practical challenges working with floating point numbers;</li>
-<li>define and identify what is means for a set of vectors to be a basis, spanning set or linear independent;</li>
+<li>explain practical challenges working with floating-point numbers;</li>
+<li>define and identify what it means for a set of vectors to be a basis, spanning set or linearly independent;</li>
 <li>apply direct and iterative solvers to solve systems of linear equations; implement methods using floating point numbers and investigate computational cost using computer experiments;</li>
 <li>apply algorithms to compute eigenvectors and eigenvalues of large matrices.</li>
 </ul>
+</section>
+</section>
+<section id="textbooks-and-other-resources" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="textbooks-and-other-resources"><span class="header-section-number">1.2</span> Textbooks and other resources</h2>
+<p>There are many textbooks and other external resources which could help your learning:</p>
+<ul>
+<li><p><a href="https://leeds.primo.exlibrisgroup.com/permalink/44LEE_INST/13rlbcs/alma991011421399705181">Introduction to Linear Algebra</a> (Fifth Edition), Gilbert Strang, Wellesley-Cambridge Press, 2016. &nbsp;with <a href="https://web.mit.edu/18.06/www">MIT course material</a>. <em>Strongly recommended book and YouTube lecture series</em></p></li>
+<li><p><a href="https://leeds.primo.exlibrisgroup.com/permalink/44LEE_INST/13rlbcs/alma991009203099705181">Scientific Computing: An Introductory Survey</a>, T.M. Heath, McGraw-Hill, 2002. &nbsp;Some <a href="http://heath.cs.illinois.edu/scicomp/notes/index.html">lecture notes based on the book</a></p></li>
+<li><p><a href="https://leeds.primo.exlibrisgroup.com/permalink/44LEE_INST/13rlbcs/alma991019677711205181">Engineering Mathematics</a>, K.A. Stroud, Macmillan, 2001. <em>available online</em></p></li>
+<li><p><a href="https://leeds.primo.exlibrisgroup.com/permalink/44LEE_INST/13rlbcs/alma991010465229705181">Numerical Recipes in C++/C/FORTRAN</a>: The Art of Scientific Computing, W.H. Press, S.A. Teukolsky, W.T. Vetterling and B.P. Flannery, Cambridge University Press, 2002/1993/1993. <em>A very practical view of the methods we develop in this module which could be used for library development</em></p></li>
+</ul>
+<p>Other links and resources are given at the end of each section of the notes.</p>
+</section>
+<section id="programming" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="programming"><span class="header-section-number">1.3</span> Programming</h2>
+<p>This section of the notes links theoretical material with practical applications. We will have weekly lab sessions where you will see how the methods mentioned in the lecture notes work when implemented. More instructions on how we will do this will be covered in the lab sessions themselves.</p>
+<p>An important theoretical aspect of translating the algorithms in linear algebra to computer implementations is the use of floating-point numbers. You will have already met floating-point numbers in your first year studies where you met how computer store numbers. You will already know that computer cannot store every possible real number exactly. The inexactness of floating-point numbers has real consequences when performing linear algebra computations.</p>
+<p>Exploring and understanding the material in (<a href="src/lec02.html" class="quarto-xref"><span>Chapter 2</span></a>) is really helpful for understanding many of the choices that we make when forming methods in linear algebra.</p>
+<p>We will make extensive use of <a href="https://www.python.org/"><code>Python</code></a> and <a href="https://numpy.org/"><code>numpy</code></a> during this section of the module. It may help you to revise some of your notes from last year on these topics.</p>
+</section>
+<section id="the-big-problems-in-linear-algebra" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="the-big-problems-in-linear-algebra"><span class="header-section-number">1.4</span> The big problems in linear algebra</h2>
+<p>We will cover two big linear algebra problems in this section of the module. Linear algebra can be defined as the study of problems involving matrices and vectors.</p>
+<section id="reminder-of-matrices-and-vectors" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="reminder-of-matrices-and-vectors"><span class="header-section-number">1.4.1</span> Reminder of matrices and vectors</h3>
+<p>There are two important objects we will work with that were defined in your first-year Theoretical Foundations module (COMP1870).</p>
+<div id="def-matrix" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 1.1</strong></span> A <em>matrix</em> is a rectangular array of numbers called <em>entries</em> or <em>elements</em> of the matrix. A matrix with <span class="math inline">\(m\)</span> rows and <span class="math inline">\(n\)</span> columns is called an <span class="math inline">\(m \times n\)</span> matrix or <span class="math inline">\(m\)</span>-by-<span class="math inline">\(n\)</span> matrix. We may additionally say that the matrix is of order <span class="math inline">\(m \times n\)</span>. If <span class="math inline">\(m = n\)</span>, then we say that the matrix is <em>square</em>.</p>
+</div>
+<div id="exm-matrix" class="theorem example">
+<p><span class="theorem-title"><strong>Example 1.1</strong></span> <span class="math inline">\(A\)</span> is a <span class="math inline">\(4 \times 4\)</span> matrix and <span class="math inline">\(B\)</span> is a <span class="math inline">\(3 \times 4\)</span> matrix: <span class="math display">\[\begin{align*}
+A = \begin{pmatrix} 10 &amp; 1 &amp; 0 &amp; 9 \\ 12.4 &amp; 6 &amp; 1 &amp; 0 \\ 1 &amp;
+3.14 &amp; 1 &amp; 0 \end{pmatrix}
+\quad
+B = \begin{pmatrix} 0 &amp; 6 &amp; 3 &amp; 1 \\ 1 &amp; 4 &amp; 1
+&amp; 0 \\ 7 &amp; 0 &amp; 10 &amp; 20 \end{pmatrix} \quad C = \begin{pmatrix} 4 &amp; 1 &amp; 8 &amp; -1 \\
+1.5 &amp; 1 &amp; 3 &amp; 4 \\ 6 &amp; -4 &amp; 2 &amp; 8 \end{pmatrix}
+\end{align*}\]</span></p>
+<div id="exr-matrix" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 1.1</strong></span> &nbsp;</p>
+<ol type="1">
+<li>Compute, if defined, <span class="math inline">\(A + B\)</span>, <span class="math inline">\(B + C\)</span>.</li>
+<li>Compute, if defined, <span class="math inline">\(A B\)</span>, <span class="math inline">\(B A\)</span>, <span class="math inline">\(B C\)</span> (here, by writing matrices next to each other we mean the matrix product).</li>
+</ol>
+</div>
+</div>
+<p>When considering systems of linear equations, the entries of the matrix will always be real numbers (later we will explore using complex numbers (<a href="src/lec06.html" class="quarto-xref"><span>Chapter 6</span></a>) too)</p>
+<div id="def-vector" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 1.2</strong></span> A <em>column vector</em>, often just called a <em>vector</em>, is a matrix with a single column. A matrix with a single row is a <em>row vector</em>. The entries of a vector are called <em>components</em>. A vector with <span class="math inline">\(n\)</span> rows is called an <span class="math inline">\(n\)</span>-vector.</p>
+</div>
+<div id="exm-vector" class="theorem example">
+<p><span class="theorem-title"><strong>Example 1.2</strong></span> <span class="math inline">\(\vec{a}\)</span> is a row vector, <span class="math inline">\(\vec{b}\)</span> and <span class="math inline">\(\vec{c}\)</span> are (column) vectors. <span class="math display">\[\begin{align*}
+\vec{a} =
+\begin{pmatrix} 0 &amp; 1 &amp; 7 \end{pmatrix}
+\quad
+\vec{b} =
+\begin{pmatrix} 0 \\ 1 \\ 3.1 \\ 7 \end{pmatrix}
+\quad
+\vec{c} = \begin{pmatrix} 4 \\ 6 \\ -4 \\ 0 \end{pmatrix}.
+\end{align*}\]</span></p>
+<div id="exr-vector" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 1.2</strong></span> &nbsp;</p>
+<ol type="1">
+<li>Compute, if defined, <span class="math inline">\(\vec{b} + \vec{c}\)</span>, <span class="math inline">\(0.25 \vec{c}\)</span>.</li>
+<li>What is the meaning of <span class="math inline">\(\vec{b}^T \vec{c}\)</span>? (Here, we are interpreting the vectors as matrices).</li>
+<li>Compute, if defined, <span class="math inline">\(B \vec{b}\)</span>.</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="systems-of-linear-equations" class="level3" data-number="1.4.2">
+<h3 data-number="1.4.2" class="anchored" data-anchor-id="systems-of-linear-equations"><span class="header-section-number">1.4.2</span> Systems of linear equations</h3>
+<p>Given an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(A\)</span> and an <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\vec{b}\)</span>, find the <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\vec{x}\)</span> which satisfies: <span class="math display">\[\begin{equation}
+\label{eq:sle}
+A \vec{x} = \vec{b}.
+\end{equation}\]</span></p>
+<p>We can also write <span class="math inline">\(\eqref{eq:sle}\)</span> as a system of linear equations: <span class="math display">\[\begin{align*}
+\text{Equation 1:} &amp;&amp;
+a_{11} x_1 + a_{12} x_2 + a_{13} x_3 + \cdots + a_{1n} x_n &amp; = b_1 \\
+\text{Equation 2:} &amp;&amp;
+a_{21} x_1 + a_{22} x_2 + a_{23} x_3 + \cdots + a_{2n} x_n &amp; = b_2 \\
+\vdots \\
+\text{Equation i:} &amp;&amp;
+a_{i1} x_1 + a_{i2} x_2 + a_{i3} x_3 + \cdots + a_{in} x_n &amp; = b_i \\
+\vdots \\
+\text{Equation n:} &amp;&amp;
+a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n &amp; = b_n.
+\end{align*}\]</span></p>
+<p><strong>Notes</strong>:</p>
+<ul>
+<li><p>The values <span class="math inline">\(a_{ij}\)</span> are known as <strong>coefficients</strong>.</p></li>
+<li><p>The <strong>right hand side</strong> values <span class="math inline">\(b_i\)</span> are known and are given to you as part of the problem.</p></li>
+<li><p><span class="math inline">\(x_1, x_2, x_3, \ldots, x_n\)</span> are <strong>not</strong> known and are what you need to find to solve the problem.</p></li>
+</ul>
+<p>Many computational algorithms require the solution of linear equations, e.g.&nbsp;in fields such as</p>
+<ul>
+<li>Scientific computation;</li>
+<li>Network design and optimisation;</li>
+<li>Graphics and visualisation;</li>
+<li>Machine learning.</li>
+</ul>
+<p>Typically, these systems are <em>very</em> large (<span class="math inline">\(n \approx 10^9\)</span>).</p>
+<p>It is therefore important that this problem can be solved</p>
+<ul>
+<li>accurately: we are allowed to make small errors but not big errors;</li>
+<li>efficiently: we need to find the answer quickly;</li>
+<li>reliably: we need to know that our algorithm will give us an answer that we are happy with.</li>
+</ul>
+<div id="exm-temperature" class="theorem example">
+<p><span class="theorem-title"><strong>Example 1.3 (Temperature in a sealed room)</strong></span> Suppose we wish to estimate the temperature distribution inside an object:</p>
+<div id="d44d3d2c" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-3-output-1.png" width="665" height="332" class="figure-img"></p>
+<figcaption>Image showing temperature sample points and relations in a room.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>We can place a network of points inside the object and use the following model: the temperature at each interior point is the average of its neighbours.</p>
+<p>This example leads to the system:</p>
+<p><span class="math display">\[
+\begin{pmatrix}
+1 &amp; -1/6 &amp; -1/6 &amp; 0 &amp; -1/6 &amp; 0 &amp; 0 \\
+-1/6 &amp; 1 &amp; -1/6 &amp; -1/6 &amp; 0 &amp; -1/6 &amp; 0 \\
+-1/4 &amp; -1/4 &amp; 1 &amp; 0 &amp; -1/4 &amp; -1/4 &amp; 0 \\
+0 &amp; -1/5 &amp; 0 &amp; 1 &amp; 0 &amp; -1/5 &amp; 0 \\
+-1/6 &amp; 0 &amp; -1/6 &amp; 0 &amp; 1 &amp; -1/6 &amp; -1/6 \\
+0 &amp; -1/8 &amp; -1/8 &amp; -1/8 &amp; -1/8 &amp; 1 &amp; -1/8 \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; -1/5 &amp; -1/5 &amp; 1
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6 \\ x_7
+\end{pmatrix}
+= \begin{pmatrix}
+400/6 \\ 100/6 \\ 0 \\ 0 \\ 100/6 \\ 0 \\ 0
+\end{pmatrix}.
+\]</span></p>
+</div>
+<div id="exm-traffic" class="theorem example">
+<p><span class="theorem-title"><strong>Example 1.4 (Traffic network)</strong></span> Suppose we wish to monitor the flow of traffic in a city centre:</p>
+<div id="43af41b4" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-4-output-1.png" width="662" height="469" class="figure-img"></p>
+<figcaption>Example network showing traffic flow in a city</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>As the above example shows, it is not necessary to monitor every single road. If we know all of the <span class="math inline">\(y\)</span> values, we can calculate the <span class="math inline">\(x\)</span> values!</p>
+<p>This example leads to the system:</p>
+<p><span class="math display">\[
+\begin{pmatrix}
+1 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+1 &amp; -1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 0 &amp; -1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; -1 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; -1 \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 1
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6 \\ x_7 \\ x_8
+\end{pmatrix}
+= \begin{pmatrix}
+y_5 \\ y_{12} - y_6 \\ y_8 - y_7 \\ y_{11} - y_4 \\
+y_{11} + y_{12} - y_{10} \\ y_9 \\ y_2 - y_3 \\ y_1
+\end{pmatrix}.
+\]</span></p>
+</div>
+</section>
+<section id="eigenvalues-and-eigenvectors" class="level3" data-number="1.4.3">
+<h3 data-number="1.4.3" class="anchored" data-anchor-id="eigenvalues-and-eigenvectors"><span class="header-section-number">1.4.3</span> Eigenvalues and eigenvectors</h3>
+<p>For this problem, we will think of a matrix <span class="math inline">\(A\)</span> acting on functions <span class="math inline">\(\vec{x}\)</span>: <span class="math display">\[\begin{equation*}
+\vec{x} \mapsto A \vec{x}.
+\end{equation*}\]</span> We are interested in when is the output vector <span class="math inline">\(A \vec{x}\)</span> is <em>parallel</em> to <span class="math inline">\(\vec{x}\)</span>?</p>
+<div id="def-evalues" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 1.3</strong></span> We say that any vector <span class="math inline">\(\vec{x}\)</span>, where <span class="math inline">\(A \vec{x}\)</span> is parallel is <span class="math inline">\(\vec{x}\)</span>, is called an <em>eigenvector</em> of <span class="math inline">\(A\)</span>. Here by parallel, we mean that there exists a number <span class="math inline">\(\lambda\)</span> (can be positive, negative or zero) such that <span class="math display">\[\begin{equation}
+\label{eq:evalues}
+A \vec{x} = \lambda \vec{x}.
+\end{equation}\]</span> We call the associated number <span class="math inline">\(\lambda\)</span> an <em>eigenvalue</em> of <span class="math inline">\(A\)</span>.</p>
+<p>We will later see that an <span class="math inline">\(n \times n\)</span> square matrix always has <span class="math inline">\(n\)</span> eigenvalues (which may not always be distinct).</p>
+</div>
+<p>To help with our intuition here, we start with some simple examples:</p>
+<div id="exm-unequal-scaling-evalues" class="theorem example">
+<p><span class="theorem-title"><strong>Example 1.5</strong></span> Let <span class="math inline">\(A\)</span> be the <span class="math inline">\(2 \times 2\)</span> matrix that scales any input vector by <span class="math inline">\(a\)</span> in the <span class="math inline">\(x\)</span>-direction and by <span class="math inline">\(b\)</span> in the <span class="math inline">\(y\)</span>-direction. We can write this matrix as <span class="math display">\[\begin{equation*}
+A = \begin{pmatrix}
+a &amp; 0 \\ 0 &amp; b
+\end{pmatrix},
+\end{equation*}\]</span> since then for a 2-vector <span class="math inline">\(\vec{x} = (x, y)^T\)</span>, we have <span class="math display">\[\begin{equation*}
+A \vec{x}
+= \begin{pmatrix}
+a &amp; 0 \\ 0 &amp; b
+\end{pmatrix}
+\begin{pmatrix} x \\ y \end{pmatrix}
+= \begin{pmatrix} a x + 0 y \\ 0 x + b y \end{pmatrix}
+= \begin{pmatrix} a x \\ b y \end{pmatrix}.
+\end{equation*}\]</span></p>
+<p>Then, we infer we have two eigenvalues and two eigenvectors: One eigenvalue is <span class="math inline">\(a\)</span> with eigenvector <span class="math inline">\((1, 0)^T\)</span> and the other is <span class="math inline">\(b\)</span> with eigenvector <span class="math inline">\((0, 1)^T\)</span> since: <span class="math display">\[\begin{align*}
+\begin{pmatrix}
+a &amp; 0 \\ 0 &amp; b
+\end{pmatrix}
+\begin{pmatrix} 1 \\ 0 \end{pmatrix}
+&amp; = \begin{pmatrix} a \\ 0 \end{pmatrix}
+= a \begin{pmatrix} 1 \\ 0 \end{pmatrix} \\
+\begin{pmatrix}
+a &amp; 0 \\ 0 &amp; b
+\end{pmatrix}
+\begin{pmatrix} 0 \\ 1 \end{pmatrix}
+&amp; = \begin{pmatrix} 0 \\ b \end{pmatrix}
+= b \begin{pmatrix} 0 \\ 1 \end{pmatrix}.
+\end{align*}\]</span></p>
+</div>
+<div id="exm-projection" class="theorem example">
+<p><span class="theorem-title"><strong>Example 1.6</strong></span> Let <span class="math inline">\(P\)</span> be the 3x3 matrix that represents projection onto a plane <span class="math inline">\(\pi\)</span>. What are the eigenvalues and eigenvectors of <span class="math inline">\(p\)</span>?</p>
+<div id="60ee0fae" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/cell-5-output-1.png" width="450" height="470" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p>If <span class="math inline">\(\vec{x}\)</span> is in the plane <span class="math inline">\(\Pi\)</span>, then <span class="math inline">\(P \vec{x} = \vec{x}\)</span>. This means that <span class="math inline">\(\vec{x}\)</span> is an eigenvector and the associated eigenvalue is <span class="math inline">\(1\)</span>.</p></li>
+<li><p>If <span class="math inline">\(\vec{y}\)</span> is perpendicular to the plane <span class="math inline">\(\Pi\)</span>, then <span class="math inline">\(P \vec{y} = \vec{0}\)</span>. This means that <span class="math inline">\(\vec{y}\)</span> is an eigenvector and the associated eigenvalue is <span class="math inline">\(0\)</span>.</p></li>
+</ul>
+<p>Let <span class="math inline">\(\vec{y}\)</span> be perpendicular to <span class="math inline">\(\Pi\)</span> (so that <span class="math inline">\(P \vec{y} = \vec{0}\)</span> and <span class="math inline">\(\vec{y}\)</span> is an eigenvector of <span class="math inline">\(P\)</span>), then for any number <span class="math inline">\(s\)</span>, we can compute <span class="math display">\[\begin{equation*}
+P (s \vec{y}) = s P \vec{y} = s \vec{0} = \vec{0}.
+\end{equation*}\]</span> This means that <span class="math inline">\(s \vec{y}\)</span> is also an eigenvector of <span class="math inline">\(P\)</span> associated to the eigenvalue <span class="math inline">\(0\)</span>. As a consequence, when we compute eigenvectors, we need to take care to <em>normalise</em> the vector to ensure we get a unique answer.</p>
+<p>We see we end up with a two-dimensional space of eigenvectors (i.e., the plane <span class="math inline">\(\Pi\)</span>) associated to eigenvalue <span class="math inline">\(1\)</span> and a one-dimensional space of eigenvectors (i.e., the line perpendicular to <span class="math inline">\(\Pi\)</span>) eigenvalue <span class="math inline">\(0\)</span>. We use the term <em>eigenspace</em> the space of eigenvectors associated to a particular eigenvalue.</p>
+</div>
+<div id="exm-permuatation" class="theorem example">
+<p><span class="theorem-title"><strong>Example 1.7</strong></span> Let <span class="math inline">\(A\)</span> be the permuatation matrix which takes an input two-vector and outputs a two-vector with the components swapped. The matrix is given by <span class="math display">\[\begin{equation*}
+A = \begin{pmatrix}
+0 &amp; 1 \\ 1 &amp; 0 \\
+\end{pmatrix}.
+\end{equation*}\]</span> What are the eigenvectors and eigenvalues of <span class="math inline">\(A\)</span>?</p>
+<ul>
+<li><p>Let <span class="math inline">\(\vec{x} = (1, 1)^T\)</span>, then swapping the components of <span class="math inline">\(\vec{x}\)</span> gives back the same vector <span class="math inline">\(\vec{x}\)</span>. In equations, we can write <span class="math inline">\(A \vec{x} = \vec{x}\)</span>. This means that <span class="math inline">\(\vec{x}\)</span> is an eigenvector and the eigenvalue is <span class="math inline">\(1\)</span>.</p></li>
+<li><p>Let <span class="math inline">\(\vec{x} = (-1, 1)^T\)</span>, then swapping the components of <span class="math inline">\(\vec{x}\)</span> gives back <span class="math inline">\((1, -1)^T\)</span>, which we can see is <span class="math inline">\(-\vec{x}\)</span>. In equations, we can write <span class="math inline">\(A
+\vec{x} = -\vec{x}\)</span>. This means that <span class="math inline">\(\vec{x}\)</span> is an eigenvector of <span class="math inline">\(A\)</span> and the associated eigenvalue is <span class="math inline">\(-1\)</span>.</p></li>
+</ul>
+<p>Here we see that again we actually have two one-dimensional eigenspaces.</p>
+</div>
 
 
+</section>
 </section>
 </section>
 
@@ -861,8 +1143,8 @@ ul.task-list li input[type="checkbox"] {
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./src/lec01.html" class="pagination-link" aria-label="Linear Algebra introduction">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Linear Algebra introduction</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./src/lec02.html" class="pagination-link" aria-label="Floating point number systems">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Floating point number systems</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

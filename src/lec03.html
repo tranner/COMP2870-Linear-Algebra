@@ -8,7 +8,7 @@
 
 <meta name="author" content="Thomas Ranner">
 
-<title>4&nbsp; Introduction to systems of linear equations – COMP2870 Theoretical Foundations: Linear Algebra</title>
+<title>3&nbsp; Introduction to systems of linear equations – COMP2870 Theoretical Foundations: Linear Algebra</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -294,7 +294,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../src/lec03.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introduction to systems of linear equations</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../src/lec03.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introduction to systems of linear equations</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -325,55 +325,49 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome to linear algebra</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../src/lec01.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Linear Algebra introduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../src/lec02.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Floating point number systems</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Floating point number systems</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../src/lec03.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introduction to systems of linear equations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introduction to systems of linear equations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../src/lec04.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Direct solvers for systems of linear equations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Direct solvers for systems of linear equations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../src/lec05.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Iterative solutions of linear equations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Iterative solutions of linear equations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../src/lec06.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Complex numbers</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Complex numbers</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../src/lec07.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../src/lec08.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues: practical solutions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues: practical solutions</span></span></a>
   </div>
 </li>
     </ul>
@@ -386,15 +380,15 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#definition-of-systems-of-linear-equations" id="toc-definition-of-systems-of-linear-equations" class="nav-link active" data-scroll-target="#definition-of-systems-of-linear-equations"><span class="header-section-number">4.1</span> Definition of systems of linear equations</a></li>
-  <li><a href="#can-we-do-it" id="toc-can-we-do-it" class="nav-link" data-scroll-target="#can-we-do-it"><span class="header-section-number">4.2</span> Can we do it?</a>
+  <li><a href="#definition-of-systems-of-linear-equations" id="toc-definition-of-systems-of-linear-equations" class="nav-link active" data-scroll-target="#definition-of-systems-of-linear-equations"><span class="header-section-number">3.1</span> Definition of systems of linear equations</a></li>
+  <li><a href="#can-we-do-it" id="toc-can-we-do-it" class="nav-link" data-scroll-target="#can-we-do-it"><span class="header-section-number">3.2</span> Can we do it?</a>
   <ul class="collapse">
-  <li><a href="#the-span-of-a-set-of-vectors" id="toc-the-span-of-a-set-of-vectors" class="nav-link" data-scroll-target="#the-span-of-a-set-of-vectors"><span class="header-section-number">4.2.1</span> The span of a set of vectors</a></li>
-  <li><a href="#linear-independence" id="toc-linear-independence" class="nav-link" data-scroll-target="#linear-independence"><span class="header-section-number">4.2.2</span> Linear independence</a></li>
-  <li><a href="#when-vectors-form-a-basis" id="toc-when-vectors-form-a-basis" class="nav-link" data-scroll-target="#when-vectors-form-a-basis"><span class="header-section-number">4.2.3</span> When vectors form a basis</a></li>
+  <li><a href="#the-span-of-a-set-of-vectors" id="toc-the-span-of-a-set-of-vectors" class="nav-link" data-scroll-target="#the-span-of-a-set-of-vectors"><span class="header-section-number">3.2.1</span> The span of a set of vectors</a></li>
+  <li><a href="#linear-independence" id="toc-linear-independence" class="nav-link" data-scroll-target="#linear-independence"><span class="header-section-number">3.2.2</span> Linear independence</a></li>
+  <li><a href="#when-vectors-form-a-basis" id="toc-when-vectors-form-a-basis" class="nav-link" data-scroll-target="#when-vectors-form-a-basis"><span class="header-section-number">3.2.3</span> When vectors form a basis</a></li>
   </ul></li>
-  <li><a href="#special-types-of-matrices" id="toc-special-types-of-matrices" class="nav-link" data-scroll-target="#special-types-of-matrices"><span class="header-section-number">4.3</span> Special types of matrices</a></li>
-  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">4.4</span> Further reading</a></li>
+  <li><a href="#special-types-of-matrices" id="toc-special-types-of-matrices" class="nav-link" data-scroll-target="#special-types-of-matrices"><span class="header-section-number">3.3</span> Special types of matrices</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">3.4</span> Further reading</a></li>
   </ul>
 </nav>
     </div>
@@ -404,7 +398,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introduction to systems of linear equations</span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Introduction to systems of linear equations</span></h1>
 </div>
 
 
@@ -447,8 +441,8 @@ Module learning objective
 <p>Define and identify what is means for a set of vectors to be a basis, spanning set or linear independent.</p>
 </div>
 </div>
-<section id="definition-of-systems-of-linear-equations" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="definition-of-systems-of-linear-equations"><span class="header-section-number">4.1</span> Definition of systems of linear equations</h2>
+<section id="definition-of-systems-of-linear-equations" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="definition-of-systems-of-linear-equations"><span class="header-section-number">3.1</span> Definition of systems of linear equations</h2>
 <p>Given an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(A\)</span> and an <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\vec{b}\)</span>, find the <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\vec{x}\)</span> which satisfies: <span class="math display">\[\begin{equation}
 \label{eq:sle}
 A \vec{x} = \vec{b}.
@@ -472,8 +466,8 @@ a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n &amp; = b_n.
 <li><p><span class="math inline">\(x_1, x_2, x_3, \ldots, x_n\)</span> are <strong>not</strong> known and are what you need to find to solve the problem.</p></li>
 </ul>
 </section>
-<section id="can-we-do-it" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="can-we-do-it"><span class="header-section-number">4.2</span> Can we do it?</h2>
+<section id="can-we-do-it" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="can-we-do-it"><span class="header-section-number">3.2</span> Can we do it?</h2>
 <p>Our first question might be - is it possible to solve <span class="math inline">\(\eqref{eq:sle}\)</span>?</p>
 <p>We know a few simple cases where we can answer this question very quickly:</p>
 <ol type="1">
@@ -483,21 +477,21 @@ a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n &amp; = b_n.
 <li>If <span class="math inline">\(A\)</span> is <em>invertible</em>, with inverse <span class="math inline">\(A^{-1}\)</span>, then we <em>can</em> solve this problem: <span class="math display">\[\vec{x} = A^{-1} \vec{b}.\]</span> But, in general, this is a <em>very bad</em> idea and we will see algorithms that are more efficient than finding the inverse of <span class="math inline">\(A\)</span>.</li>
 </ol>
 <div id="rem-inverse" class="proof remark">
-<p><span class="proof-title"><em>Remark 4.1</em>. </span>One way to solve a system of linear equations is to compute the inverse of <span class="math inline">\(A\)</span>, <span class="math inline">\(A^{-1}\)</span>, directly, then the solution is found through matrix multiplication: <span class="math inline">\(\vec{x} = A^{-1} \vec{b}\)</span>. This turns out to be an inefficient approach and we can do better with specialised algorithms.</p>
-<div id="77c9ba1f" class="cell" data-execution_count="2">
+<p><span class="proof-title"><em>Remark 3.1</em>. </span>One way to solve a system of linear equations is to compute the inverse of <span class="math inline">\(A\)</span>, <span class="math inline">\(A^{-1}\)</span>, directly, then the solution is found through matrix multiplication: <span class="math inline">\(\vec{x} = A^{-1} \vec{b}\)</span>. This turns out to be an inefficient approach and we can do better with specialised algorithms.</p>
+<div id="8f84502d" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-stdout">
 <pre><code>
 
 Trying different approaches for problem size 100
-Approach 1 - inverting the matrix and applying the inverse. Time = 0.000989675521850586
-Approach 2 - solving the system of linear equations. Time = 0.0001552104949951172
-Approach 2 is faster by a factor of  6.376344086021505
+Approach 1 - inverting the matrix and applying the inverse. Time = 0.000934600830078125
+Approach 2 - solving the system of linear equations. Time = 0.00014162063598632812
+Approach 2 is faster by a factor of  6.5993265993265995
 
 
 Trying different approaches for problem size 10000
-Approach 1 - inverting the matrix and applying the inverse. Time = 31.502981901168823
-Approach 2 - solving the system of linear equations. Time = 8.1720290184021
-Approach 2 is faster by a factor of  3.854976754271082</code></pre>
+Approach 1 - inverting the matrix and applying the inverse. Time = 31.330246925354004
+Approach 2 - solving the system of linear equations. Time = 8.105205535888672
+Approach 2 is faster by a factor of  3.8654475554787875</code></pre>
 </div>
 </div>
 </div>
@@ -540,22 +534,22 @@ A = \begin{pmatrix}
 <p>We can write matrix-vector multiplication as a linear combination of the columns of the matrix.</p>
 </blockquote>
 <p>This rephrasing means, solving the system <span class="math inline">\(A \vec{x} = \vec{b}\)</span> is equivalent to finding a linear combination of the columns of <span class="math inline">\(A\)</span> which is equal to <span class="math inline">\(b\)</span>. So, our question about whether we can solve <span class="math inline">\(\eqref{eq:sle}\)</span>, can also be rephrased as: does there exist a linear combination of the columns of <span class="math inline">\(A\)</span> which is equal to <span class="math inline">\(\vec{b}\)</span>? We will next write this condition mathematically using the concept of <em>span</em>.</p>
-<section id="the-span-of-a-set-of-vectors" class="level3" data-number="4.2.1">
-<h3 data-number="4.2.1" class="anchored" data-anchor-id="the-span-of-a-set-of-vectors"><span class="header-section-number">4.2.1</span> The span of a set of vectors</h3>
+<section id="the-span-of-a-set-of-vectors" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="the-span-of-a-set-of-vectors"><span class="header-section-number">3.2.1</span> The span of a set of vectors</h3>
 <div id="def-span" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 4.1</strong></span> Given a set of vectors of the same size, <span class="math inline">\(S = \{ \vec{v}_1,
+<p><span class="theorem-title"><strong>Definition 3.1</strong></span> Given a set of vectors of the same size, <span class="math inline">\(S = \{ \vec{v}_1,
 \ldots, \vec{v}_k \}\)</span>, we say the <em>span</em> of <span class="math inline">\(S\)</span> is the set of all vectors which are linear combinations of vectors in <span class="math inline">\(S\)</span>: <span class="math display">\[\begin{equation}
 \mathrm{span}(S) = \left\{ \sum_{i=1}^k x_i \vec{v}_i : x_i \in \mathbb{R}
 \text{ for } i = 1, \ldots, k \right\}.
 \end{equation}\]</span></p>
 </div>
 <div id="exm-span" class="theorem example">
-<p><span class="theorem-title"><strong>Example 4.1</strong></span> Consider three new vectors <span class="math display">\[\begin{align*}
+<p><span class="theorem-title"><strong>Example 3.1</strong></span> Consider three new vectors <span class="math display">\[\begin{align*}
 \vec{a} = \begin{pmatrix} 2 \\ 3 \end{pmatrix} \quad
 \vec{b} = \begin{pmatrix} -1 \\ 2 \end{pmatrix} \quad
 \vec{c} = \begin{pmatrix} 1 \\ -1 \end{pmatrix}
 \end{align*}\]</span></p>
-<div id="709c8738" class="cell" data-execution_count="3">
+<div id="f3c14fe9" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -597,22 +591,22 @@ A = \begin{pmatrix}
 \vec{b}\)</span> and <span class="math inline">\(\vec{c}\)</span> to form <span class="math inline">\(\vec{y}\)</span> is not unique.</p></li>
 </ol>
 </div>
-<p>So our first statement is that <span class="math inline">\(\eqref{eq:sle}\)</span> has a solution if <span class="math inline">\(\vec{b}\)</span> is in the span of the columns of <span class="math inline">\(A\)</span>. However, as we saw with <a href="#exm-span" class="quarto-xref">Example&nbsp;<span>4.1</span></a>, Part 3, we are not guaranteed that the linear combination is unique! For this we need a further condition.</p>
+<p>So our first statement is that <span class="math inline">\(\eqref{eq:sle}\)</span> has a solution if <span class="math inline">\(\vec{b}\)</span> is in the span of the columns of <span class="math inline">\(A\)</span>. However, as we saw with <a href="#exm-span" class="quarto-xref">Example&nbsp;<span>3.1</span></a>, Part 3, we are not guaranteed that the linear combination is unique! For this we need a further condition.</p>
 </section>
-<section id="linear-independence" class="level3" data-number="4.2.2">
-<h3 data-number="4.2.2" class="anchored" data-anchor-id="linear-independence"><span class="header-section-number">4.2.2</span> Linear independence</h3>
+<section id="linear-independence" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="linear-independence"><span class="header-section-number">3.2.2</span> Linear independence</h3>
 <div id="def-linear-indep" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 4.2</strong></span> Given a set of vectors of the same size, <span class="math inline">\(S = \{\vec{v}_1, \ldots, \vec{v}_k
+<p><span class="theorem-title"><strong>Definition 3.2</strong></span> Given a set of vectors of the same size, <span class="math inline">\(S = \{\vec{v}_1, \ldots, \vec{v}_k
 \}\)</span>, we say that <span class="math inline">\(S\)</span> is <em>linearly dependent</em>, if there exists numbers <span class="math inline">\(x_1, x_2,
 \ldots x_k\)</span>, not all zero, such that <span class="math display">\[\begin{align*}
 \sum_{i=1}^k x_i \vec{v}_i = \vec{0}.
 \end{align*}\]</span> The set <span class="math inline">\(S\)</span> is <em>linearly independent</em> if it is not linearly dependent.</p>
 <div id="exr-linear-indep-def" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 4.1</strong></span> Can you write the definition of a linearly independent set of vectors explicitly?</p>
+<p><span class="theorem-title"><strong>Exercise 3.1</strong></span> Can you write the definition of a linearly independent set of vectors explicitly?</p>
 </div>
 </div>
 <div id="exm-linear-indep" class="theorem example">
-<p><span class="theorem-title"><strong>Example 4.2</strong></span> Continuing from <a href="#exm-span" class="quarto-xref">Example&nbsp;<span>4.1</span></a>.</p>
+<p><span class="theorem-title"><strong>Example 3.2</strong></span> Continuing from <a href="#exm-span" class="quarto-xref">Example&nbsp;<span>3.1</span></a>.</p>
 <ol type="1">
 <li><p>Let <span class="math inline">\(S = \{ \vec{a}, \vec{b} \}\)</span>, then <span class="math inline">\(S\)</span> is linearly independent. Indeed, let <span class="math inline">\(x_1, x_2\)</span> be real numbers such that <span class="math display">\[\begin{align*}
 x_1 \vec{a} + x_2 \vec{b} = \vec{0},
@@ -628,15 +622,15 @@ x_1 \vec{a} + x_2 \vec{b} = \vec{0},
 </div>
 <p>So linear independence removes the multiplicity (or non-uniqueness) in how we form linear combinations! This leads us to the final definition of this section.</p>
 </section>
-<section id="when-vectors-form-a-basis" class="level3" data-number="4.2.3">
-<h3 data-number="4.2.3" class="anchored" data-anchor-id="when-vectors-form-a-basis"><span class="header-section-number">4.2.3</span> When vectors form a basis</h3>
+<section id="when-vectors-form-a-basis" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="when-vectors-form-a-basis"><span class="header-section-number">3.2.3</span> When vectors form a basis</h3>
 <div id="def-basis" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 4.3</strong></span> We say that a set of <span class="math inline">\(n\)</span>-vectors <span class="math inline">\(S\)</span> is a <em>basis</em> of a set of <span class="math inline">\(n\)</span>-vectors <span class="math inline">\(V\)</span> if the span of <span class="math inline">\(S\)</span> is <span class="math inline">\(V\)</span> and <span class="math inline">\(S\)</span> is linearly independent.</p>
+<p><span class="theorem-title"><strong>Definition 3.3</strong></span> We say that a set of <span class="math inline">\(n\)</span>-vectors <span class="math inline">\(S\)</span> is a <em>basis</em> of a set of <span class="math inline">\(n\)</span>-vectors <span class="math inline">\(V\)</span> if the span of <span class="math inline">\(S\)</span> is <span class="math inline">\(V\)</span> and <span class="math inline">\(S\)</span> is linearly independent.</p>
 </div>
 <div id="exm-basis" class="theorem example">
-<p><span class="theorem-title"><strong>Example 4.3</strong></span> &nbsp;</p>
+<p><span class="theorem-title"><strong>Example 3.3</strong></span> &nbsp;</p>
 <ol type="1">
-<li><p>From <a href="#exm-span" class="quarto-xref">Example&nbsp;<span>4.1</span></a>, we have that <span class="math inline">\(S = \{ \vec{a}, \vec{b} \}\)</span> is a basis of <span class="math inline">\(\mathbb{R}^2\)</span>.</p></li>
+<li><p>From <a href="#exm-span" class="quarto-xref">Example&nbsp;<span>3.1</span></a>, we have that <span class="math inline">\(S = \{ \vec{a}, \vec{b} \}\)</span> is a basis of <span class="math inline">\(\mathbb{R}^2\)</span>.</p></li>
 <li><p>Another (perhaps simpler) basis of <span class="math inline">\(\mathbb{R}^2\)</span> are the coordinate axes: <span class="math display">\[\begin{align*}
 \vec{e}_1 = \begin{pmatrix} 1 \\ 0 \end{pmatrix} \quad
 \text{and} \quad \vec{e}_2 = \begin{pmatrix} 0 \\ 1 \end{pmatrix}.
@@ -646,10 +640,10 @@ x_1 \vec{a} + x_2 \vec{b} = \vec{0},
 </div>
 <p>We phrase the idea that the existence and uniqueness of linear combinations together depend on the underlying set being a basis mathematically in the following Theorem:</p>
 <div id="thm-basis-expansion" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 4.1</strong></span> Let <span class="math inline">\(S\)</span> be a basis of <span class="math inline">\(V\)</span>. Then any vector in <span class="math inline">\(V\)</span> can be written <em>uniquely</em> as a linear combination of entries in <span class="math inline">\(S\)</span>.</p>
+<p><span class="theorem-title"><strong>Theorem 3.1</strong></span> Let <span class="math inline">\(S\)</span> be a basis of <span class="math inline">\(V\)</span>. Then any vector in <span class="math inline">\(V\)</span> can be written <em>uniquely</em> as a linear combination of entries in <span class="math inline">\(S\)</span>.</p>
 </div>
 <div id="exm-basis-expansion" class="theorem example">
-<p><span class="theorem-title"><strong>Example 4.4</strong></span> &nbsp;</p>
+<p><span class="theorem-title"><strong>Example 3.4</strong></span> &nbsp;</p>
 <ol type="1">
 <li><p>From the main examples in this section, we have that <span class="math inline">\(S = \{ \vec{a}, \vec{b}
 \}\)</span> is a basis of <span class="math inline">\(\mathbb{R}^2\)</span> and we already know the formula for how to write <span class="math inline">\(\vec{y}\)</span> as a unique combination of <span class="math inline">\(\vec{a}\)</span> and <span class="math inline">\(\vec{b}\)</span>: it’s given in <span class="math inline">\(\eqref{eq:y-combo}\)</span>.</p></li>
@@ -666,7 +660,7 @@ y_2 \begin{pmatrix} 0 \\ 1 \end{pmatrix} = y_1 \vec{e}_1 + y_2 \vec{e}_2.
 </ol>
 </div>
 <div class="proof">
-<p><span class="proof-title"><em>Proof</em> (Proof of <a href="#thm-basis-expansion" class="quarto-xref">Theorem&nbsp;<span>4.1</span></a>). </span>Let <span class="math inline">\(\vec{y}\)</span> be a vector in <span class="math inline">\(V\)</span> and label <span class="math inline">\(S = \{ \vec{v}_1, \ldots \vec{v}_k
+<p><span class="proof-title"><em>Proof</em> (Proof of <a href="#thm-basis-expansion" class="quarto-xref">Theorem&nbsp;<span>3.1</span></a>). </span>Let <span class="math inline">\(\vec{y}\)</span> be a vector in <span class="math inline">\(V\)</span> and label <span class="math inline">\(S = \{ \vec{v}_1, \ldots \vec{v}_k
 \}\)</span>. Since <span class="math inline">\(S\)</span> forms a basis of <span class="math inline">\(V\)</span>, <span class="math inline">\(\vec{y} \in \mathrm{span}(S)\)</span> so there exists numbers <span class="math inline">\(x_1, \ldots, x_k\)</span> such that <span class="math display">\[\begin{align}
 \label{eq:basis_pf_x}
 \vec{y} = \sum_{i=1}^k x_i \vec{v}_i.
@@ -680,17 +674,17 @@ k\)</span>, and we have shown that there is only one linear combination of the v
 </div>
 <p>There is a theorem that says that the number of vectors in any basis of a given ‘nice’ set of vectors <span class="math inline">\(V\)</span> is the same but is beyond the scope of this module!</p>
 <div id="thm-uniq-solution" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 4.2</strong></span> Let <span class="math inline">\(A\)</span> be a <span class="math inline">\(n \times n\)</span>-matrix. If the columns of <span class="math inline">\(A\)</span> form a basis of <span class="math inline">\(\mathbb{R}^n\)</span>, then there exists a unique <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\vec{x}\)</span> which satisfies <span class="math inline">\(A \vec{x} = \vec{b}\)</span>.</p>
+<p><span class="theorem-title"><strong>Theorem 3.2</strong></span> Let <span class="math inline">\(A\)</span> be a <span class="math inline">\(n \times n\)</span>-matrix. If the columns of <span class="math inline">\(A\)</span> form a basis of <span class="math inline">\(\mathbb{R}^n\)</span>, then there exists a unique <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\vec{x}\)</span> which satisfies <span class="math inline">\(A \vec{x} = \vec{b}\)</span>.</p>
 </div>
 <p>We do not give full details of the proof here since all the key ideas are already given above.</p>
 </section>
 </section>
-<section id="special-types-of-matrices" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="special-types-of-matrices"><span class="header-section-number">4.3</span> Special types of matrices</h2>
+<section id="special-types-of-matrices" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="special-types-of-matrices"><span class="header-section-number">3.3</span> Special types of matrices</h2>
 <p>The general matrix <span class="math inline">\(A\)</span> before the examples is known as a <strong>full</strong> matrix: any of its components <span class="math inline">\(a_{ij}\)</span> might be nonzero.</p>
 <p>Almost always the problem being solved leads to a matrix with a particular structure of entries: Some entries may be known to be zero. If this is the case then it is often possible to use this knowledge to improve the efficiency of the algorithm (in terms of both speed and/or storage).</p>
 <div id="exm-triangular-matrix" class="theorem example">
-<p><span class="theorem-title"><strong>Example 4.5 (Triangular matrix)</strong></span> One common (and important) structure takes the form</p>
+<p><span class="theorem-title"><strong>Example 3.5 (Triangular matrix)</strong></span> One common (and important) structure takes the form</p>
 <p><span class="math display">\[
 A = \begin{pmatrix}
 a_{11} &amp; 0 &amp; 0 &amp; \cdots &amp; 0 \\ a_{21} &amp; a_{22} &amp; 0 &amp; \cdots &amp;
@@ -704,7 +698,7 @@ a_{11} &amp; 0 &amp; 0 &amp; \cdots &amp; 0 \\ a_{21} &amp; a_{22} &amp; 0 &amp;
 </ul>
 </div>
 <div id="exm-sparse-matrix" class="theorem example">
-<p><span class="theorem-title"><strong>Example 4.6 (Sparse matrices)</strong></span> <strong>Sparse matrices</strong> are extremely common in any application which relies on some form of <em>graph</em> structure (see both the temperature, <a href="lec01.html#exm-temperature" class="quarto-xref">Example&nbsp;<span>2.3</span></a>, and traffic network examples, <a href="lec01.html#exm-traffic" class="quarto-xref">Example&nbsp;<span>2.4</span></a>).</p>
+<p><span class="theorem-title"><strong>Example 3.6 (Sparse matrices)</strong></span> <strong>Sparse matrices</strong> are extremely common in any application which relies on some form of <em>graph</em> structure (see both the temperature, <a href="../index.html#exm-temperature" class="quarto-xref">Example&nbsp;<span>1.3</span></a>, and traffic network examples, <a href="../index.html#exm-traffic" class="quarto-xref">Example&nbsp;<span>1.4</span></a>).</p>
 <ul>
 <li><p>The <span class="math inline">\(a_{ij}\)</span> typically represents some form of “communication” between vertices <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> of the graph, so the element is only nonzero if the vertices are connected.</p></li>
 <li><p>There is no generic pattern for these entries, though there is usually one that is specific to the problem solved.</p></li>
@@ -725,8 +719,8 @@ a_{11} &amp; 0 &amp; 0 &amp; \cdots &amp; 0 \\ a_{21} &amp; a_{22} &amp; 0 &amp;
 <li><p>In subsequent lectures, we will see that, for <em>sparse</em> matrix systems, alternative solution techniques are available.</p></li>
 </ul>
 </section>
-<section id="further-reading" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">4.4</span> Further reading</h2>
+<section id="further-reading" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">3.4</span> Further reading</h2>
 <ul>
 <li>Wikipedia: <a href="https://en.wikipedia.org/wiki/System_of_linear_equations">Systems of linear equations</a> (includes a nice geometric picture of what a system of linear equations means).</li>
 <li>Maths is fun: <a href="https://www.mathsisfun.com/algebra/systems-linear-equations.html">Systems of linear equations</a> (very basic!)</li>
@@ -1152,12 +1146,12 @@ a_{11} &amp; 0 &amp; 0 &amp; \cdots &amp; 0 \\ a_{21} &amp; a_{22} &amp; 0 &amp;
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../src/lec02.html" class="pagination-link" aria-label="Floating point number systems">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Floating point number systems</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Floating point number systems</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../src/lec04.html" class="pagination-link" aria-label="Direct solvers for systems of linear equations">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Direct solvers for systems of linear equations</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Direct solvers for systems of linear equations</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
