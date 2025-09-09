@@ -14,9 +14,13 @@ vectors to be a basis, spanning set or linear independent.
 import time
 
 import numpy as np
+import scipy as sp
 from matplotlib import pyplot as plt
+from mpl_toolkits.mplot3d.art3d import Poly3DCollection, PolyCollection
 
 plt.style.use("seaborn-v0_8-colorblind")
+
+
 ```
 
 ## Definition of systems of linear equations
@@ -73,35 +77,83 @@ We know a few simple cases where we can answer this question very quickly:
 One way to solve a system of linear equations is to compute the inverse of $A$,
 $A^{-1}$, directly, then the solution is found through matrix multiplication:
 $\vec{x} = A^{-1} \vec{b}$. This turns out to be an inefficient approach and we
-can do better with specialised algorithms.
+can do better with specialised algorithms. Here we compare two simple implementations:
 
 ```{python}
-for size in [100, 10000]:
-    print(f"\n\nTrying different approaches for problem size {size}")
-    # create a system of linear equations with unique solution
-    A_part = np.random.rand(size, size)
-    A = np.dot(A_part, A_part.T)
-    b = np.random.rand(size, 1)
-
-    # approach 1 - invert the matrix and apply the inverse
-    start_time = time.time()
+# | echo: True
+def approach1(A, b):
+    """
+    Solve the system of linear equations Ax = b by applying the inverse of A
+    """
     A_inv = np.linalg.inv(A)
     x = A_inv @ b
-    end_time = time.time()
-    time_1 = end_time - start_time
-    print(
-        "Approach 1 - inverting the matrix and applying the inverse. Time =",
-        time_1,
-    )
+    return x
 
-    # approach 2 - solve the system of linear equations
-    start_time = time.time()
+
+def approach2(A, b):
+    """
+    Solve the system of linear equations Ax = b through numpy's linear solver
+    """
     x = np.linalg.solve(A, b)
-    end_time = time.time()
-    time_2 = end_time - start_time
-    print("Approach 2 - solving the system of linear equations. Time =", time_2)
+    return x
 
-    print("Approach 2 is faster by a factor of ", time_1 / time_2)
+
+def approach3(A_sparse, b):
+    """
+    Solve the system of linear equations Ax = b through scipy's sparse linear
+    solver
+    """
+    x = sp.sparse.linalg.spsolve(A_sparse, b)
+    return x
+
+
+```
+
+```{python}
+
+
+def timeit(method, A, b, repeats=5):
+    start_time = time.time()
+    for _ in range(repeats):
+        method(A, b)
+    end_time = time.time()
+
+    return (end_time - start_time) / repeats
+
+
+times1, times2, times3 = [], [], []
+sizes = [2**j for j in range(3, 14)]
+
+for size in sizes:
+    # create a system of linear equations with unique solution
+    A_sparse = sp.sparse.diags(
+        [-1 * np.ones(size - 1), 3 * np.ones(size), -1 * np.ones(size - 1)],
+        offsets=[-1, 0, 1],
+        format="csr",
+    )
+    A = A_sparse.toarray()
+    b = np.ones((size,))
+
+    # time solutions
+    time1 = timeit(approach1, A, b)
+    time2 = timeit(approach2, A, b)
+    time3 = timeit(approach3, A_sparse, b)
+
+    times1.append(time1)
+    times2.append(time2)
+    times3.append(time3)
+
+# plot results
+plt.loglog(sizes, times1, label="approach1")
+plt.loglog(sizes, times2, label="approach2")
+plt.loglog(sizes, times3, label="approach3")
+
+plt.xlabel("size")
+plt.ylabel("time (s)")
+plt.legend()
+plt.grid(True)
+
+plt.show()
 ```
 
 :::
@@ -276,7 +328,7 @@ plt.show()
    \mathbb{R}^2$. Since $\vec{c} \in \mathrm{span}(\{\vec{a}, \vec{b}\})$, any
    linear combination of $\vec{a}, \vec{b}, \vec{c}$ has an equivalent
    combination of just $\vec{a}$ and $\vec{b}$. In formulae, we can see that by
-   applying the formula from Example 2 (TODO make ref), we have
+   applying the formula from \eqref{eq:y-combo}, we have
    \begin{align*}
    \vec{c} = \frac{1}{7} \vec{a} - \frac{5}{7} \vec{b}.
    \end{align*}
@@ -448,6 +500,252 @@ which satisfies $A \vec{x} = \vec{b}$.
 We do not give full details of the proof here since all the key ideas are
 already given above.
 
+### Another characterisation: the determinant
+
+Let $\vec{e}_j$ be the (column) vector in $\mathbb{R}^n$ which has 0 for all
+coefficients apart from the $j$th place:
+$$
+\vec{e}_j = (0, \ldots, 0, \underbrace{1}_{\text{$j$th place}}, 0, \ldots, 0).
+$$
+Then, we can compute that for any $n \times n$ matrix $A$ that we have the $i$th
+component of $A \vec{e}_j$ is given by
+\begin{align*}
+(A \vec{e}_j)_i = \sum_{k=1}^n A_{ik} (\vec{e}_j)_k = A_{ij}.
+\end{align*}
+That is that $A \vec{e}_j$ gives the $j$th column of the matrix $A$.
+
+One geometric way to see that the columns of $A$ is to see the shape of polytope
+with edges away from the origin given by the columns of $A$ has non-zero area
+(hyper-parallelopiped).
+
+::: {#exm-parallelopiped}
+For $A$ given by
+$$
+A = \begin{pmatrix}
+3 & 1 \\ 0 & 3
+\end{pmatrix}
+$$
+the shape is a parallelogram that looks like this:
+```{python}
+# Define the vectors for the parallelepiped
+Ax1 = np.array([3, 0])  # along x-axis
+Ax2 = np.array([1, 3])  # in xy-plane
+
+# Define the origin
+origin = np.array([0, 0])
+
+# Generate the 8 vertices of the parallelepiped
+vertices = [
+    origin,
+    Ax1,
+    Ax1 + Ax2,
+    Ax2,
+]
+
+# Define the 6 faces of the parallelepiped
+faces = [vertices]
+
+# Create the 3D plot
+fig = plt.figure()
+ax = fig.add_subplot(111)
+
+# Draw the parallelepiped
+ax.add_collection(
+    PolyCollection(faces, facecolors="C0", edgecolors=(1, 1, 1, 1), alpha=0.3)
+)
+
+# Draw the three base vectors with different colors
+ax.quiver(
+    *origin,
+    *Ax1,
+    color="C1",
+    linewidth=2,
+    label="$A \\vec{x}_1$",
+    angles="xy",
+    scale_units="xy",
+    scale=1,
+)
+ax.quiver(
+    *origin,
+    *Ax2,
+    color="C2",
+    linewidth=2,
+    label="$A \\vec{x}_2$",
+    angles="xy",
+    scale_units="xy",
+    scale=1,
+)
+
+# Label the vectors at their tips
+ax.text(*(Ax1 * 1.05), "$A \\vec{x}_1$", color="C1", fontsize=12)
+ax.text(*(Ax2 * 1.05), "$A \\vec{x}_2$", color="C2", fontsize=12)
+
+# Set limits for better visualization
+ax.set_xlim([0, 5])
+ax.set_ylim([0, 5])
+
+plt.show()
+```
+
+For $A$ given by
+$$
+A = \begin{pmatrix}
+3 & 1 & 1\\ 0 & 3 & 1 \\ 0 & 0 & 3
+\end{pmatrix},
+$$
+the shape is a parallelopiped given that looks like this:
+```{python}
+# Define the vectors for the parallelepiped
+Ax1 = np.array([3, 0, 0])  # along x-axis
+Ax2 = np.array([1, 3, 0])  # in xy-plane
+Ax3 = np.array([1, 1, 3])  # 3D vector
+
+# Define the origin
+origin = np.array([0, 0, 0])
+
+# Generate the 8 vertices of the parallelepiped
+vertices = [
+    origin,
+    Ax1,
+    Ax2,
+    Ax3,
+    Ax1 + Ax2,
+    Ax1 + Ax3,
+    Ax2 + Ax3,
+    Ax1 + Ax2 + Ax3,
+]
+
+# Define the 6 faces of the parallelepiped
+faces = [
+    [vertices[0], vertices[1], vertices[4], vertices[2]],
+    [vertices[0], vertices[1], vertices[5], vertices[3]],
+    [vertices[0], vertices[2], vertices[6], vertices[3]],
+    [vertices[7], vertices[4], vertices[1], vertices[5]],
+    [vertices[7], vertices[6], vertices[2], vertices[4]],
+    [vertices[7], vertices[6], vertices[3], vertices[5]],
+]
+
+# Create the 3D plot
+fig = plt.figure()
+ax = fig.add_subplot(111, projection="3d")
+
+# Draw the parallelepiped
+ax.add_collection3d(
+    Poly3DCollection(faces, facecolors="C0", edgecolors="black", alpha=0.3)
+)
+
+# Draw the three base vectors with different colors
+ax.quiver(*origin, *Ax1, color="C1", linewidth=2, label="$A \\vec{x}_1$")
+ax.quiver(*origin, *Ax2, color="C2", linewidth=2, label="$A \\vec{x}_2$")
+ax.quiver(*origin, *Ax3, color="C3", linewidth=2, label="$A \\vec{x}_3$")
+
+# Label the vectors at their tips
+ax.text(*(Ax1 * 1.05), "$A \\vec{x}_1$", color="C1", fontsize=12)
+ax.text(*(Ax2 * 1.05), "$A \\vec{x}_2$", color="C2", fontsize=12)
+ax.text(*(Ax3 * 1.05), "$A \\vec{x}_3$", color="C3", fontsize=12)
+
+# Set limits for better visualization
+ax.set_xlim([0, 5])
+ax.set_ylim([0, 5])
+ax.set_zlim([0, 5])
+
+plt.show()
+```
+:::
+
+If we are given an $n \times n$ matrix $A$, its $n$ columns form a basis of
+$\mathbb{R}^n$ if, and only if, the area/volume/hyper-volume of the associated
+hyper-parallelepiped is non-zero. Roughly speaking this follows since if the
+area/volume/hyper-volume is zero then two of the column vectors must point in
+the same direction. This property is so important the area/volume/hyper-volume
+of the hyper-parallelepiped associated to the matrix $A$ has a special name: the
+*determinant* of $A$ and we write $\det A$.
+
+::: {#def-determinant}
+Let $A$ be a square $n \times n$ matrix.
+
+If $n = 2$,
+\begin{equation}
+\det A = \det \begin{pmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{pmatrix}
+= a_{11} a_{22} - a_{21} a_{12}.
+\end{equation}
+
+If $n = 3$,
+\begin{align*}
+\det A & = \det \begin{pmatrix} a_{11} & a_{12} & a_{13} \\
+a_{21} & a_{22} & a_{23} \\
+a_{31} & a_{32} & a_{33}
+\end{pmatrix} \\
+& = a_{11} (a_{22} a_{33} - a_{23} a_{32}) - a_{12} (a_{21} a_{33} - a_{23}
+a_{31}) + a_{13} (a_{21} a_{32} - a_{22} - a_{31}).
+\end{align*}
+
+For general $n$, the determinant can be found by, for example, Laplace expansions
+$$
+\det A = \sum_{j=1}^n (-1)^{j+1} a_{1,j} m_{1,j},
+$$
+where $a_{1,j}$ is the entry of the first row and $j$th column of $A$ and
+$m_{1,j}$ is the determinant of the submatrix obtained by removing the first row
+and the $j$th column from $A$.
+:::
+
+::: {#exm-determinant}
+1. Let $A$ be given by
+   $$
+   A = \begin{pmatrix}
+   3 & 1 \\ 0 & 3
+   \end{pmatrix}.
+   $$
+   Then we can compute that
+   $$
+   \det A = 3 \times 3 - 1 \times 0 = 9 - 0 = 9.
+   $$
+
+2. Let $A$ be given by
+   $$
+   A = \begin{pmatrix}
+   3 & 1 & 1\\ 0 & 3 & 1 \\ 0 & 0 & 3
+   \end{pmatrix}.
+   $$
+   Then we can compute that
+   \begin{align*}
+   \det A
+   & = 3 \times (1 \times 3 - 0 \times 3) - 1 \times (0 \times 3 - 3 \times 0) +
+   1 \times (0 \times 0 - 3 \times 0) \\
+   & = 3 \times 3 - 1 \times 0 + 1 \times 0 = 9.
+   \end{align*}
+
+   ::: {#exr-determinant}
+   Compute the determinant of
+   $$
+   \begin{pmatrix}
+   2 & -1 & 3 \\
+   3 & 2 & -4 \\
+   5 & 1 & 1
+   \end{pmatrix}.
+   $$
+   :::
+:::
+
+We have been a little inaccurate in what we've said before. Strictly speaking the determinant we have defined here is the *signed* area/volume/hyper-volume of the associated hyper-parallelepiped and we can recover the actual volume by taking $| \det A |$.
+
+::: {#thm-det}
+Let $A$ be an $n \times n$ matrix and $\vec{b}$ be an $n$-column vector.
+The following are equivalent:
+
+1. $A \vec{x} = \vec{b}$ has a unique solution.
+2. The columns of $A$ form a basis of $\mathbb{R}^n$.
+3. $\det A \neq 0$.
+:::
+
+This proof is beyond the scope of this course.
+
+We do have the following rule for manipulating determinants too:
+
+- Let $A, B$ be square $n \times n$-matrices then $\det (AB) = \det A \det B$.
+- Let $A$ be a square $n \times n$-matrix and $c$ a real number then $\det (cA) = c^n \det A$.
+- Let $A$ be an invertible square matrix, then $\det (A^{-1}) = \frac{1}{\det A}$.
+
 ## Special types of matrices
 
 The general matrix $A$ before the examples is known as a **full** matrix: any of
@@ -478,6 +776,12 @@ a_{11} & 0 & 0 & \cdots & 0 \\ a_{21} & a_{22} & 0 & \cdots &
 
 - The *transpose* of this matrix is an **upper triangular** matrix and can be
 treated in a very similar manner.
+
+- Note that the determinant of a triangular matrix is simply the product of
+  diagonal coefficients:
+  $$
+  \det A = a_{11} a_{22} \cdots a_{nn} = \prod_{i=1}^n a_{ii}.
+  $$
 :::
 
 ::: {#exm-sparse-matrix}
