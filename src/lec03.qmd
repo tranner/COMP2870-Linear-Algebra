@@ -6,8 +6,8 @@ echo: false
 ::: {.callout-tip}
 ## Module learning objective
 
-Define and identify what is means for a set of
-vectors to be a basis, spanning set or linear independent.
+Define and identify what it means for a set of vectors to be a basis, spanning
+set or linearly independent.
 :::
 
 ```{python}
@@ -50,7 +50,7 @@ a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n & = b_n.
 
 - The values $a_{ij}$ are known as **coefficients**.
 
-- The **right hand side** values $b_i$ are known and are given to you as part
+- The **right-hand side** values $b_i$ are known and are given to you as part
     of the problem.
 
 - $x_1, x_2, x_3, \ldots, x_n$ are **not** known and are what you need to find
@@ -58,7 +58,7 @@ a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n & = b_n.
 
 ## Can we do it?
 
-Our first question might be - is it possible to solve \eqref{eq:sle}?
+Our first question might be: Is it possible to solve \eqref{eq:sle}?
 
 We know a few simple cases where we can answer this question very quickly:
 
@@ -68,16 +68,19 @@ We know a few simple cases where we can answer this question very quickly:
    zero vector, then we cannot solve this problem: $$O \vec{x} = \vec{0} \neq
    \vec{b} \quad \text{for any vector} \quad \vec{x}.$$
 3. If $A$ is *invertible*, with inverse $A^{-1}$, then we *can* solve this
-   problem: $$\vec{x} = A^{-1} \vec{b}.$$ But, in general, this is a *very bad*
-   idea and we will see algorithms that are more efficient than finding the
-   inverse of $A$.
+   problem:
+   $$
+   \vec{x} = A^{-1} \vec{b}.
+   $$
+   However, in general, this is a *terrible* idea and we will see algorithms
+   that are more efficient than finding the inverse of $A$.
 
 ::: {#rem-inverse}
 
 One way to solve a system of linear equations is to compute the inverse of $A$,
 $A^{-1}$, directly, then the solution is found through matrix multiplication:
-$\vec{x} = A^{-1} \vec{b}$. This turns out to be an inefficient approach and we
-can do better with specialised algorithms. Here we compare two simple implementations:
+$\vec{x} = A^{-1} \vec{b}$. Here we compare two simple and one more specialised
+implementations:
 
 ```{python}
 # | echo: True
@@ -158,8 +161,8 @@ plt.show()
 
 :::
 
-There are tools to help us answer when a matrix is invertible which arise
-naturally when thinking about what $A \vec{x} = \vec{b}$ means! We have to go
+There are tools to help us determine when a matrix is invertible which arise
+naturally when considering about what $A \vec{x} = \vec{b}$ means! We have to go
 back to the basic operations on vectors.
 
 There are two fundamental operations you can do on vectors: addition and scalar
@@ -169,7 +172,7 @@ multiplication. Consider the vectors:
 \vec{b} = \begin{pmatrix} 1 \\ 2 \\ 4 \end{pmatrix}, \quad
 \vec{c} = \begin{pmatrix} 4 \\ 2 \\ 6 \end{pmatrix}.
 \end{align*}
-Then, we can easily compute the following *linear combinations*
+Then, we can easily compute the following *linear combinations*:
 \begin{align}
 \label{eq:vector-linear-comb-a}
 \vec{a} + \vec{b} & = \begin{pmatrix} 3 \\ 3 \\ 6 \end{pmatrix} \\
@@ -211,7 +214,7 @@ or if we reverse the process,
 > We can write matrix-vector multiplication as a linear combination of the
 > columns of the matrix.
 
-This rephrasing means, solving the system $A \vec{x} = \vec{b}$ is equivalent to
+This rephrasing means that solving the system $A \vec{x} = \vec{b}$ is equivalent to
 finding a linear combination of the columns of $A$ which is equal to $b$. So,
 our question about whether we can solve \eqref{eq:sle}, can also be rephrased
 as: does there exist a linear combination of the columns of $A$ which is equal
@@ -349,7 +352,7 @@ plt.show()
    \vec{b}$ and $\vec{c}$ to form $\vec{y}$ is not unique.
 :::
 
-So our first statement is that \eqref{eq:sle} has a solution if $\vec{b}$ is in
+Our first statement is that \eqref{eq:sle} has a solution if $\vec{b}$ is in
 the span of the columns of $A$. However, as we saw with @exm-span, Part 3, we
 are not guaranteed that the linear combination is unique! For this we need a
 further condition.
@@ -359,7 +362,7 @@ further condition.
 ::: {#def-linear-indep}
 
 Given a set of vectors of the same size, $S = \{\vec{v}_1, \ldots, \vec{v}_k
-\}$, we say that $S$ is *linearly dependent*, if there exists numbers $x_1, x_2,
+\}$, we say that $S$ is *linearly dependent*, if there exist numbers $x_1, x_2,
 \ldots x_k$, not all zero, such that
 \begin{align*}
 \sum_{i=1}^k x_i \vec{v}_i = \vec{0}.
@@ -406,7 +409,8 @@ Continuing from @exm-span.
 :::
 
 So linear independence removes the multiplicity (or non-uniqueness) in how we
-form linear combinations! This leads us to the final definition of this section.
+form linear combinations! The ideas of linear independence and spanning lead us
+to the final definition of this section.
 
 ### When vectors form a basis
 
@@ -426,8 +430,8 @@ the span of $S$ is $V$ and $S$ is linearly independent.
    \text{and} \quad \vec{e}_2 = \begin{pmatrix} 0 \\ 1 \end{pmatrix}.
    \end{align*}
 
-3. When we look at eigenvectors and eigenvalues we will see that there are other
-convenient bases (plural of basis) to work with.
+3. Later, when we work with at eigenvectors and eigenvalues we will see that
+   there are other convenient bases (plural of basis) to work with.
 :::
 
 We phrase the idea that the existence and uniqueness of linear combinations
@@ -441,9 +445,9 @@ be written *uniquely* as a linear combination of entries in $S$.
 
 ::: {#exm-basis-expansion}
 
-1. From the main examples in this section, we have that $S = \{ \vec{a}, \vec{b}
+1. From the main examples TODO (@todo-label) in this section, we have that $S = \{ \vec{a}, \vec{b}
    \}$ is a basis of $\mathbb{R}^2$ and we already know the formula for how to
-   write $\vec{y}$ as a unique combination of $\vec{a}$ and $\vec{b}$: it's
+   write $\vec{y}$ as a unique combination of $\vec{a}$ and $\vec{b}$: it is
    given in \eqref{eq:y-combo}.
 
 2. For the simpler example of the coordinate axes:
@@ -489,7 +493,7 @@ $\{ \vec{v}_i \}$ to form $\vec{y}$.
 :::
 
 There is a theorem that says that the number of vectors in any basis of a given
-'nice' set of vectors $V$ is the same but is beyond the scope of this module!
+'nice' set of vectors $V$ is the same, but is beyond the scope of this module!
 
 ::: {#thm-uniq-solution}
 Let $A$ be a $n \times n$-matrix. If the columns of $A$
@@ -514,8 +518,8 @@ component of $A \vec{e}_j$ is given by
 \end{align*}
 That is that $A \vec{e}_j$ gives the $j$th column of the matrix $A$.
 
-One geometric way to see that the columns of $A$ is to see the shape of polytope
-with edges away from the origin given by the columns of $A$ has non-zero area
+One geometric way to see that the columns of $A$ form a basis is to explore the
+shape of polytope with edges away from the origin given by the columns of $A$
 (hyper-parallelopiped).
 
 ::: {#exm-parallelopiped}
@@ -655,10 +659,10 @@ plt.show()
 
 If we are given an $n \times n$ matrix $A$, its $n$ columns form a basis of
 $\mathbb{R}^n$ if, and only if, the area/volume/hyper-volume of the associated
-hyper-parallelepiped is non-zero. Roughly speaking this follows since if the
+hyper-parallelepiped is nonzero. Roughly speaking this follows since if the
 area/volume/hyper-volume is zero then two of the column vectors must point in
-the same direction. This property is so important the area/volume/hyper-volume
-of the hyper-parallelepiped associated to the matrix $A$ has a special name: the
+the same direction. This property is so important that the area/volume/hyper-volume
+of the hyper-parallelepiped associated with the matrix $A$ has a special name: the
 *determinant* of $A$ and we write $\det A$.
 
 ::: {#def-determinant}
@@ -727,7 +731,10 @@ and the $j$th column from $A$.
    :::
 :::
 
-We have been a little inaccurate in what we've said before. Strictly speaking the determinant we have defined here is the *signed* area/volume/hyper-volume of the associated hyper-parallelepiped and we can recover the actual volume by taking $| \det A |$.
+We have been inaccurate in what we have said before. Strictly speaking the
+determinant we have defined here is the *signed* area/volume/hyper-volume of the
+associated hyper-parallelepiped, and we can recover the actual volume by taking
+$| \det A |$.
 
 ::: {#thm-det}
 Let $A$ be an $n \times n$ matrix and $\vec{b}$ be an $n$-column vector.
@@ -743,15 +750,32 @@ This proof is beyond the scope of this course.
 We do have the following rule for manipulating determinants too:
 
 - Let $A, B$ be square $n \times n$-matrices then $\det (AB) = \det A \det B$.
-- Let $A$ be a square $n \times n$-matrix and $c$ a real number then $\det (cA) = c^n \det A$.
+- Let $A$ be a square $n \times n$-matrix and $c$ a real number then $\det (cA)
+  = c^n \det A$.
 - Let $A$ be an invertible square matrix, then $\det (A^{-1}) = \frac{1}{\det A}$.
+
+::: {#exr-det-rules}
+Prove these three rules for manipulating determinants for $2 \times 2$ matrices by direct calculation.
+:::
+
+::: {#rem-det-python}
+Computing determinants numerically is an important topic in it's own right but we do not focus on this in this module.
+
+You can use `numpy` to compute determinants
+
+```{python}
+# | echo: true
+A = np.array([[3.0, 1.0], [0.0, 3.0]])
+np.linalg.det(A)
+```
+:::
 
 ## Special types of matrices
 
 The general matrix $A$ before the examples is known as a **full** matrix: any of
 its components $a_{ij}$ might be nonzero.
 
-Almost always the problem being solved leads to a matrix with a particular
+Almost always, the problem being solved leads to a matrix with a particular
 structure of entries: Some entries may be known to be zero. If this is the case
 then it is often possible to use this knowledge to improve the efficiency of the
 algorithm (in terms of both speed and/or storage).
@@ -788,7 +812,7 @@ treated in a very similar manner.
 
 ### Sparse matrices
 
-**Sparse matrices** are extremely common in any application which relies on some
+**Sparse matrices** are prevalent in any application which relies on some
 form of *graph* structure (see both the temperature, @exm-temperature, and
 traffic network examples, @exm-traffic).
 
@@ -799,7 +823,7 @@ traffic network examples, @exm-traffic).
 - There is no generic pattern for these entries, though there is usually one
     that is specific to the problem solved.
 
-- Usually $a_{ii} \neq 0$ - the diagonal is nonzero.
+- Usually, $a_{ii} \neq 0$ - the diagonal is nonzero.
 
 - A "large" portion of the matrix is zero.
   - A full $n \times n$ matrix has $n^2$ nonzero entries.
@@ -816,7 +840,7 @@ What is the significance of these special examples?
     solution of linear systems of equations.
 
 - This will involve **reducing** the problem to one involving a **triangular
-    matrix** which, as we show below, is relatively easy to solve.
+    matrix**, which, as we show below, is relatively easy to solve.
 
 - In subsequent lectures, we will see that, for *sparse* matrix systems,
     alternative solution techniques are available.
