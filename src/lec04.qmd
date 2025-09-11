@@ -22,11 +22,17 @@ from PIL import Image
 plt.style.use("seaborn-v0_8-colorblind")
 ```
 
-## Reminder of the problem
-
 This is the first method we will use to solve systems of linear equations. We
 will see that by using the approach of Gaussian elimination (and variations of
 that method) we can solve any system of linear equations that have a solution.
+
+  It is important to note that Gaussian elimination should look very familiar to
+you - this looks a lot like solving simultaneous equations at high school. Here,
+we are trying to codify this approach into an algorithm that can computer can
+apply without any further human input in a way that always 'works' (or at least
+works when it should!).
+
+## Reminder of the problem
 
 Recall the problem is to solve a set of $n$ **linear** equations for $n$ unknown
 values $x_j$, for $j=1, 2, \ldots, n$.
@@ -198,7 +204,7 @@ For a system written in matrix form our three observations mean the following:
   \end{pmatrix}
   $$
 
-- [ ] We can replace row $q$ by row $q + k \times$ row $p$. For example:
+- We can replace row $q$ by row $q + k \times$ row $p$. For example:
 
   $$
   \begin{pmatrix}
@@ -246,7 +252,7 @@ For a system written in matrix form our three observations mean the following:
   \end{pmatrix}
   $$
 
- (here we replaced row $2$ by row $2 + (-4) \times$ row $1$)
+  (here we replaced row $2$ by row $2 + (-4) \times$ row $1$)
 
 Our strategy for solving systems of linear equations using Gaussian elimination
 is based on the following ideas:
@@ -416,7 +422,7 @@ x_1 \\ x_2 \\ x_3
 $$
 :::
 
-::: {.remark}
+The key idea is that:
 
 - Each row $i$ is used to eliminate the entries in column $i$ below $a_{ii}$,
   i.e. it forces $a_{ji} = 0$ for $j > i$.
@@ -435,26 +441,6 @@ $$
     0.
     $$
 
-:::
-
-::: {#exr-ge2}
-Solve the system
-
-$$
-\begin{pmatrix}
-4 & 3 & 2 & 1 \\ 1 & 2 & 2 & 2 \\
-1 & 1 & 3 & 0 \\ 2 & 1 & 2 & 3
-\end{pmatrix}
-\begin{pmatrix}
-x_1 \\ x_2 \\ x_3 \\ x_4
-\end{pmatrix} =
-\begin{pmatrix}
- 10 \\ 7 \\ 5 \\ 8
-\end{pmatrix}.
-$$
-The solution is $\vec{x} = (1, 1, 1, 1)^T$.
-:::
-
 ### Python version
 
 We start with some helper code which determines the size of the system we are
@@ -463,14 +449,45 @@ working with:
 ```{python}
 def system_size(A, b):
     """
-    for a system of linear equations, returns the size and errors if sizes are
-    not compatible
-    """
-    n, m = A.shape
-    nb = b.shape[0]
+    Validate the dimensions of a linear system and return its size.
 
-    assert n == m, f"matrix A is not square {A.shape=}"
-    assert n == nb, f"system shapes are not compatible {A.shape=} {b.shape=}"
+    This function checks whether the given coefficient matrix `A` is square
+    and whether its dimensions are compatible with the right-hand side vector
+    `b`. If the dimensions are valid, it returns the size of the system.
+
+    Parameters
+    ----------
+    A : numpy.ndarray
+        A 2D array of shape ``(n, n)`` representing the coefficient matrix of
+        the linear system.
+    b : numpy.ndarray
+        A array of shape ``(n, o)`` representing the right-hand side vector.
+
+    Returns
+    -------
+    int
+        The size of the system, i.e., the number of variables `n`.
+
+    Raises
+    ------
+    ValueError
+        If `A` is not square or if the size of `b` does not match the number of
+        rows in `A`.
+    """
+
+    # Validate that A is a 2D square matrix
+    if A.ndim != 2:
+        raise ValueError(f"Matrix A must be 2D, but got {A.ndim}D array")
+
+    n, m = A.shape
+    if n != m:
+        raise ValueError(f"Matrix A must be square, but got A.shape={A.shape}")
+
+    if b.shape[0] != n:
+        raise ValueError(
+            f"System shapes are not compatible: A.shape={A.shape}, "
+            f"b.shape={b.shape}"
+        )
 
     return n
 
@@ -481,7 +498,26 @@ def system_size(A, b):
 # | echo: false
 def print_array(array, array_name=None, end=None):
     """
-    print the array nicely
+    Nicely print a 2D NumPy array with dynamic precision formatting.
+
+    This function prints a 2D array in a readable, formatted style. It
+    automatically determines the required precision to accurately represent the
+    array values, up to a maximum of 15 decimal places. The printed output
+    includes the array name if provided; otherwise, the function attempts to
+    infer the variable name from the calling scope.
+
+    Parameters
+    ----------
+    array : numpy.ndarray
+        A 2D NumPy array to print.
+    array_name : str, optional
+        The name to display for the array in the output. If ``None`` (default),
+        the function attempts to infer the variable name from the caller's local
+        variables. If it cannot be inferred, defaults to ``"array"``.
+    end : str, optional
+        String appended after the last value in each row, similar to the `end`
+        parameter in Python's built-in ``print`` function. Default is ``None``,
+        which adds a newline.
     """
     # find array_name
     if array_name is None:
@@ -520,9 +556,33 @@ Then we can implement the elementary row operations
 ```{python}
 def row_swap(A, b, p, q):
     """
-    swap the rows p and q for the system of linear equations given by Ax = b.
-    updates entries in place
+    Swap two rows in a linear system of equations in place.
+
+    This function swaps the rows `p` and `q` of the coefficient matrix `A`
+    and the right-hand side vector `b` for a linear system of equations
+    of the form ``Ax = b``. The operation is performed **in place**, modifying
+    the input arrays directly.
+
+    Parameters
+    ----------
+    A : numpy.ndarray
+        A 2D NumPy array of shape ``(n, n)`` representing the coefficient matrix
+        of the linear system.
+    b : numpy.ndarray
+        A 2D NumPy array of shape ``(n, 1)`` representing the right-hand side
+        vector of the system.
+    p : int
+        The index of the first row to swap. Must satisfy ``0 <= p < n``.
+    q : int
+        The index of the second row to swap. Must satisfy ``0 <= q < n``.
+
+    Returns
+    -------
+    None
+        This function modifies `A` and `b` directly and does not return
+        anything.
     """
+    # get system size
     n = system_size(A, b)
     # swap rows of A
     for j in range(n):
@@ -533,8 +593,31 @@ def row_swap(A, b, p, q):
 
 def row_scale(A, b, p, k):
     """
-    scale the entries in row p by k for the system of linear equations given by
-    Ax = b. updates entries in place
+    Scale a row of a linear system by a constant factor in place.
+
+    This function multiplies all entries in row `p` of the coefficient matrix
+    `A` and the corresponding entry in the right-hand side vector `b` by a
+    scalar `k`. The operation is performed **in place**, modifying the input
+    arrays directly.
+
+    Parameters
+    ----------
+    A : numpy.ndarray
+        A 2D NumPy array of shape ``(n, n)`` representing the coefficient matrix
+        of the linear system.
+    b : numpy.ndarray
+        A 2D NumPy array of shape ``(n, 1)`` representing the right-hand side
+        vector of the system.
+    p : int
+        The index of the row to scale. Must satisfy ``0 <= p < n``.
+    k : float
+        The scalar multiplier applied to the entire row.
+
+    Returns
+    -------
+    None
+        This function modifies `A` and `b` directly and does not return
+        anything.
     """
     n = system_size(A, b)
 
@@ -547,14 +630,40 @@ def row_scale(A, b, p, k):
 
 def row_add(A, b, p, k, q):
     """
-    add rows for the system of linear equations given by Ax = b
-    this operation is row p |-> row p + k * row q
-    updates entries in place
+    Perform an in-place row addition operation on a linear system.
+
+    This function applies the elementary row operation:
+
+    ``row_p ← row_p + k * row_q``
+
+    where `row_p` and `row_q` are rows in the coefficient matrix `A` and the
+    right-hand side vector `b`. It updates the entries of `A` and `b`
+    **in place**, directly modifying the original data.
+
+    Parameters
+    ----------
+    A : numpy.ndarray
+        A 2D NumPy array of shape ``(n, n)`` representing the coefficient matrix
+        of the linear system.
+    b : numpy.ndarray
+        A 2D NumPy array of shape ``(n, 1)`` representing the right-hand side
+        vector of the system.
+    p : int
+        The index of the row to be updated (destination row). Must satisfy
+        ``0 <= p < n``.
+    k : float
+        The scalar multiplier applied to `row_q` before adding it to `row_p`.
+    q : int
+        The index of the source row to be scaled and added. Must satisfy
+        ``0 <= q < n``.
     """
     n = system_size(A, b)
 
+    # Perform the row operation
     for j in range(n):
         A[p, j] = A[p, j] + k * A[q, j]
+
+    # Update the corresponding value in b
     b[p, 0] = b[p, 0] + k * b[q, 0]
 
 
@@ -633,8 +742,33 @@ in-place to avoid extra memory allocations.
 ```{python}
 def gaussian_elimination(A, b, verbose=False):
     """
-    perform Gaussian elimnation to reduce the system of linear equations Ax=b to
-    upper triangular form. use verbose to print out intermediate representations
+    Perform Gaussian elimination to reduce a linear system to upper triangular
+    form.
+
+    This function performs **forward elimination** to transform the coefficient
+    matrix `A` into an upper triangular matrix, while applying the same
+    operations to the right-hand side vector `b`. This is the first step in
+    solving a linear system of equations of the form ``Ax = b`` using Gaussian
+    elimination.
+
+    Parameters
+    ----------
+    A : numpy.ndarray
+        A 2D NumPy array of shape ``(n, n)`` representing the coefficient matrix
+        of the system.
+    b : numpy.ndarray
+        A 2D NumPy array of shape ``(n, 1)`` representing the right-hand side
+        vector.
+    verbose : bool, optional
+        If ``True``, prints detailed information about each elimination step,
+        including the row operations performed and the intermediate forms of
+        `A` and `b`. Default is ``False``.
+
+    Returns
+    -------
+    None
+        This function modifies `A` and `b` **in place** and does not return
+        anything.
     """
     # find shape of system
     n = system_size(A, b)
@@ -802,6 +936,33 @@ linear equations:
 ```{python}
 def forward_substitution(A, b):
     """
+    Solve a lower triangular system of linear equations using forward
+    substitution.
+
+    This function solves the system of equations:
+
+    .. math::
+        A x = b
+
+    where `A` is a **lower triangular matrix** (all elements above the main
+    diagonal are zero). The solution vector `x` is computed sequentially by
+    solving each equation starting from the first row.
+
+    Parameters
+    ----------
+    A : numpy.ndarray
+        A 2D NumPy array of shape ``(n, n)`` representing the lower triangular
+        coefficient matrix of the system.
+    b : numpy.ndarray
+        A 1D NumPy array of shape ``(n,)`` or a 2D NumPy array of shape
+        ``(n, 1)`` representing the right-hand side vector.
+
+    Returns
+    -------
+    x : numpy.ndarray
+        A NumPy array of shape ``(n,)`` containing the solution vector.
+    """
+    """
     solves the system of linear equationa Ax = b assuming that A is lower
     triangular. returns the solution x
     """
@@ -809,7 +970,8 @@ def forward_substitution(A, b):
     n = system_size(A, b)
 
     # check is lower triangular
-    assert np.allclose(A, np.tril(A))
+    if not np.allclose(A, np.tril(A)):
+        raise ValueError("Matrix A is not lower triangular")
 
     # create solution variable
     x = np.empty_like(b)
@@ -826,8 +988,31 @@ def forward_substitution(A, b):
 
 def backward_substitution(A, b):
     """
-    solves the system of linear equationa Ax = b assuming that A is upper
-    triangular. returns the solution x
+    Solve an upper triangular system of linear equations using backward
+    substitution.
+
+    This function solves the system of equations:
+
+    .. math::
+        A x = b
+
+    where `A` is an **upper triangular matrix** (all elements below the main
+    diagonal are zero). The solution vector `x` is computed starting from the
+    last equation and proceeding backward.
+
+    Parameters
+    ----------
+    A : numpy.ndarray
+        A 2D NumPy array of shape ``(n, n)`` representing the upper triangular
+        coefficient matrix of the system.
+    b : numpy.ndarray
+        A 1D NumPy array of shape ``(n,)`` or a 2D NumPy array of shape
+        ``(n, 1)`` representing the right-hand side vector.
+
+    Returns
+    -------
+    x : numpy.ndarray
+        A NumPy array of shape ``(n,)`` containing the solution vector.
     """
     # get size of system
     n = system_size(A, b)
@@ -896,7 +1081,7 @@ print("Does x really solve the system?", np.allclose(A @ x, b))
 
 ## Combining Gaussian elimination and backward substitution
 
-Our grant strategy can now come together so we have a method to solve systems of
+Our grand strategy can now come together so we have a method to solve systems of
 linear equations:
 
 Given a system of linear equations $A\vec{x} = \vec{b}$;
@@ -937,6 +1122,23 @@ A = np.array([[2.0, 1.0, 4.0], [1.0, 2.0, 2.0], [2.0, 4.0, 6.0]])
 b = np.array([[12.0], [9.0], [22.0]])
 print("Does x really solve the original system?", np.allclose(A @ x, b))
 ```
+
+::: {#exr-ge2}
+Use Gaussian elimination followed by backwards elimination to solve the system:
+$$
+\begin{pmatrix}
+4 & 3 & 2 & 1 \\ 1 & 2 & 2 & 2 \\
+1 & 1 & 3 & 0 \\ 2 & 1 & 2 & 3
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\ x_2 \\ x_3 \\ x_4
+\end{pmatrix} =
+\begin{pmatrix}
+ 10 \\ 7 \\ 5 \\ 8
+\end{pmatrix}.
+$$
+The solution is $\vec{x} = (1, 1, 1, 1)^T$.
+:::
 
 ## The cost of Gaussian Elimination
 
@@ -1331,11 +1533,32 @@ We can implement computation of the LU factorisation:
 ```{python}
 def lu_factorisation(A):
     """
-    compute the LU factorisation of A
-    returns the factors L and U
+    Compute the LU factorisation of a square matrix A.
+
+    The function decomposes a square matrix ``A`` into the product of a lower
+    triangular matrix ``L`` and an upper triangular matrix ``U`` such that:
+
+    .. math::
+        A = L U
+
+    where ``L`` has unit diagonal elements and ``U`` is upper triangular.
+
+    Parameters
+    ----------
+    A : numpy.ndarray
+        A 2D NumPy array of shape ``(n, n)`` representing the square matrix to
+        factorise.
+
+    Returns
+    -------
+    L : numpy.ndarray
+        A lower triangular matrix with shape ``(n, n)`` and unit diagonal.
+    U : numpy.ndarray
+        An upper triangular matrix with shape ``(n, n)``.
     """
     n, m = A.shape
-    assert n == m, f"Matrix A is not square {A.shape=}"
+    if n != m:
+        raise ValueError(f"Matrix A is not square {A.shape=}")
 
     # construct arrays of zeros
     L, U = np.zeros_like(A), np.zeros_like(A)
@@ -1709,17 +1932,18 @@ Key idea:
 
 - Then eliminate column $j$ as before.
 
-This algorithm will always work when the matrix $A$ is invertible/non-singular.
-Conversely, if all of the possible pivot values are zero this implies that the
-matrix is singular and a unique solution does not exist. At each elimination
-step the row multiplies used are guaranteed to be at most one in magnitude so
-any errors in the representation of the system cannot be amplified by the
-elimination process. As always, solving $A \vec{x} = \vec{b}$ requires that the
-entries in $\vec{b}$ are also swapped in the appropriate way. Pivoting can be
-applied in an equivalent way to LU factorisation. The sequence of pivots is
-independent of the vector $\vec{b}$ and can be recorded and reused. The
-constraint imposed on the row multipliers means that for LU factorisation every
-entry in $L$ satisfies $| l_{ij} | \le 1$.
+This algorithm will always work when the matrix $A$ is non-singular. Conversely,
+if all of the possible pivot values are zero this implies that the matrix is
+singular and a unique solution does not exist. At each elimination step the row
+multiplies used are guaranteed to be at most one in magnitude so any errors in
+the representation of the system cannot be amplified by the elimination process.
+As always, solving $A \vec{x} = \vec{b}$ requires that the entries in $\vec{b}$
+are also swapped in the appropriate way.
+
+Pivoting can be applied in an equivalent way to LU factorisation. The sequence
+of pivots is independent of the vector $\vec{b}$ and can be recorded and reused.
+The constraint imposed on the row multipliers means that for LU factorisation
+every entry in $L$ satisfies $| l_{ij} | \le 1$.
 
 ::: {#exm-ge-pivot}
 Consider the linear system of equations given by
