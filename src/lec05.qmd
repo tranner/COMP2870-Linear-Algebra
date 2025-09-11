@@ -22,29 +22,71 @@ plt.style.use("seaborn-v0_8-colorblind")
 
 def system_size(A, b):
     """
-    for a system of linear equations, returns the size and errors if sizes are
-    not compatible
+    Validate the dimensions of a linear system and return its size.
 
-    inputs: numpy arrays A, b with shapes (n, m) and (nb,)
-    outputs: size of system n (== m == nb)
+    This function checks whether the given coefficient matrix `A` is square
+    and whether its dimensions are compatible with the right-hand side vector
+    `b`. If the dimensions are valid, it returns the size of the system.
+
+    Parameters
+    ----------
+    A : numpy.ndarray
+        A 2D array of shape ``(n, n)`` representing the coefficient matrix of
+        the linear system.
+    b : numpy.ndarray
+        A array of shape ``(n, o)`` representing the right-hand side vector.
+
+    Returns
+    -------
+    int
+        The size of the system, i.e., the number of variables `n`.
+
+    Raises
+    ------
+    ValueError
+        If `A` is not square or if the size of `b` does not match the number of
+        rows in `A`.
     """
-    n, m = A.shape
-    nb = b.shape[0]
 
-    assert n == m, f"matrix A is not square {A.shape=}"
-    assert n == nb, f"system shapes are not compatible {A.shape=} {b.shape=}"
+    # Validate that A is a 2D square matrix
+    if A.ndim != 2:
+        raise ValueError(f"Matrix A must be 2D, but got {A.ndim}D array")
+
+    n, m = A.shape
+    if n != m:
+        raise ValueError(f"Matrix A must be square, but got A.shape={A.shape}")
+
+    if b.shape[0] != n:
+        raise ValueError(
+            f"System shapes are not compatible: A.shape={A.shape}, "
+            f"b.shape={b.shape}"
+        )
 
     return n
 
 
 def print_array(array, array_name=None, end=None):
     """
-    print the input array nicely
+    Nicely print a 2D NumPy array with dynamic precision formatting.
 
-    inputs: numpy array to be printed
-            array_name (optional) name to print at start of output,
-                                  will be guessed otherwise
-            end of line character (can be None)
+    This function prints a 2D array in a readable, formatted style. It
+    automatically determines the required precision to accurately represent the
+    array values, up to a maximum of 15 decimal places. The printed output
+    includes the array name if provided; otherwise, the function attempts to
+    infer the variable name from the calling scope.
+
+    Parameters
+    ----------
+    array : numpy.ndarray
+        A 2D NumPy array to print.
+    array_name : str, optional
+        The name to display for the array in the output. If ``None`` (default),
+        the function attempts to infer the variable name from the caller's local
+        variables. If it cannot be inferred, defaults to ``"array"``.
+    end : str, optional
+        String appended after the last value in each row, similar to the `end`
+        parameter in Python's built-in ``print`` function. Default is ``None``,
+        which adds a newline.
     """
     # find array_name
     if array_name is None:
@@ -104,9 +146,18 @@ choose a starting value $\vec{x}^{(k)}$ but there is often a reasonable
 approximation which can be used. Once all this is defined, we still need to
 decide when we need to stop!
 
+
+::: {#rem-iteration-notation}
+We use a value in brackets in the superscript to denote the iteration number to avoid confusion between the iteration number and the component of the vector:
+$$
+\vec{x}^{(k)} = (\vec{x}^{(k)}_1, \vec{x}^{(k)}_2, \ldots, \vec{x}^{(k)}_n).
+$$
+:::
+
 ::: {#exm-bad-iterations}
 
 ### Some very bad examples
+These are examples of potential iterative methods which would not work very well!
 
 1. Consider
 
@@ -146,18 +197,19 @@ given by
 
 for some matrix $P$ such that
 
-- $P$ is easy to compute, or the matrix vector product $P \vec{r}$ is easy to
-   compute,
+- $P$ is easy to compute, or the matrix-vector product $\vec{r} \mapsto P
+   \vec{r}$ is easy to compute,
 - $P$ approximates $A^{-1}$ well enough that the algorithm converges in few
    iterations.
 
-We call $\vec{b} - A \vec{x}^{(k)} = \vec{r}$ the **residual**. Note in the
-above examples we would have $P = O$ (the zero matrix) or $P = A^{-1}$.
+We call $\vec{b} - A \vec{x}^{(k)} = \vec{r}$ the **residual**. Note the above
+bad examples could be written in the form of \eqref{eq:general-iteration} with
+$P = O$ (the zero matrix) or $P = A^{-1}$.
 
 ## Jacobi iteration
 
-One simple choice for $P$ is given by the Jacobi method where we take $P =
-D^{-1}$ where $D$ is the diagonal of $A$:
+One simple choice for $P$ in \eqref{eq:general-iteration} is given by the Jacobi
+method where we take $P = D^{-1}$ where $D$ is the diagonal of $A$:
 $$
 D_{ii} = A_{ii} \quad \text{and} \quad D_{ij} = 0 \text{ for } i \neq j.
 $$
@@ -407,7 +459,7 @@ $$
 Again, note the changes in the iteration number on the right hand side of these
 equations, especially the differences against the Jacobi method.
 
-- What happens if the initial estimate is altered to $\vec{x}^{(0)} = (2, 1)^T$ (homework).
+- What happens if the initial estimate is altered to $\vec{x}^{(0)} = (2, 1)^T$.
 :::
 
 ::: {#exr-iterations}
@@ -439,7 +491,7 @@ Note that the exact solution to this system is $x_1 = 2, x_2 = 2, x_3 = 2$.
 - Here both methods converge, but fairly slowly. They might not converge at
     all!
 
-- We will discuss convergence and stopping criteria in the next lecture.
+- We will discuss convergence and when to stop later.
 
 - The Gauss-Seidel iteration generally out-performs the Jacobi iteration.
 
@@ -454,7 +506,40 @@ Note that the exact solution to this system is $x_1 = 2, x_2 = 2, x_3 = 2$.
 ```{python}
 def jacobi_iteration(A, b, x0, max_iter, verbose=False):
     """
-    TODO
+    Solve a linear system Ax = b using the Jacobi iterative method.
+
+    The Jacobi method is an iterative algorithm for solving the linear system:
+
+    .. math::
+        Ax = b
+
+    starting from an initial guess ``x0``. At each iteration, the solution is
+    updated according to:
+
+    .. math::
+        x_i^{(k+1)} = x_i^{(k)} + \\frac{1}{A_{ii}} \\left( b_i -
+        \\sum_{j=0}^{n-1} A_{ij} x_j^{(k)} \\right)
+
+    Parameters
+    ----------
+    A : numpy.ndarray
+        A 2D NumPy array of shape ``(n, n)`` representing the coefficient
+        matrix.
+    b : numpy.ndarray
+        A 1D or 2D NumPy array of shape ``(n,)`` or ``(n, 1)`` representing the
+        right-hand side vector.
+    x0 : numpy.ndarray
+        Initial guess for the solution, same shape as ``b``.
+    max_iter : int
+        Maximum number of iterations to perform.
+    verbose : bool, optional
+        If ``True``, prints the value of the solution vector at each iteration.
+        Default is ``False``.
+
+    Returns
+    -------
+    x : numpy.ndarray
+        Approximated solution vector after ``max_iter`` iterations.
     """
     n = system_size(A, b)
 
@@ -482,7 +567,43 @@ def jacobi_iteration(A, b, x0, max_iter, verbose=False):
 
 def gauss_seidel_iteration(A, b, x0, max_iter, verbose=False):
     """
-    TODO
+    Solve a linear system Ax = b using the Gauss-Seidel iterative method.
+
+    The Gauss-Seidel method is an iterative algorithm for solving the linear
+    system:
+
+    .. math::
+        Ax = b
+
+    starting from an initial guess ``x0``. At each iteration, the solution is
+    updated sequentially using the most recently computed values:
+
+    .. math::
+        x_i^{(k+1)} = x_i^{(k)} + \\frac{1}{A_{ii}} \\left( b_i -
+        \\sum_{j=0}^{i-1} A_{ij} x_j^{(k+1)} -
+        \\sum_{j=i}^{n-1} A_{ij} x_j^{(k)} \\right)
+
+    Parameters
+    ----------
+    A : numpy.ndarray
+        A 2D NumPy array of shape ``(n, n)`` representing the coefficient
+        matrix.
+    b : numpy.ndarray
+        A 1D or 2D NumPy array of shape ``(n,)`` or ``(n, 1)`` representing the
+        right-hand side vector.
+    x0 : numpy.ndarray
+        Initial guess for the solution, same shape as ``b``.
+    max_iter : int
+        Maximum number of iterations to perform.
+    verbose : bool, optional
+        If ``True``, prints the value of the solution vector at each iteration.
+        Default is ``False``.
+
+    Returns
+    -------
+    x : numpy.ndarray
+        Approximated solution vector after ``max_iter`` iterations.
+
     """
     n = system_size(A, b)
 
@@ -531,10 +652,10 @@ print()
 ## Sparse Matrices
 
 We met sparse matrices as an example of a special matrix format when we first
-thought about systems of linear equations. Sparse matrices are very common in
-applications and have a structure which is very useful when used with iterative
-methods. There are two main ways in which sparse matrices can be exploited in
-order to obtain benefits within iterative methods.
+thought about systems of linear equations (@exm-sparse-matrix). Sparse
+matrices are very common in applications and have a structure which is very
+useful when used with iterative methods. There are two main ways in which sparse
+matrices can be exploited in order to obtain benefits within iterative methods.
 
 - The storage can be reduced from $O(n^2)$.
 
@@ -553,7 +674,8 @@ The simplest way in which a sparse matrix is stored is using three arrays:
 - an array of integers (`I_col` say) that stores the column numbers of the
     corresponding entry in the real array.
 
-This requires just $3 \alpha n$ units of storage - i.e. $O(n)$.
+This requires just $3 \alpha n$ units of storage - i.e. $O(n)$. This is called
+the COO (coordinate) format.
 
 Given the above storage pattern, the following algorithm will execute a sparse
 matrix-vector multiplication ($\vec{z} = A \vec{y}$) in $O(n)$ operations:
@@ -570,11 +692,55 @@ for k in range(nonzero):
 ### Python experiments
 
 ```{python}
+# | echo: false
+
+
 def system_size_sparse(A_real, I_row, I_col, b):
+    """
+    Determine the size and number of non-zero elements of a sparse linear
+    system.
+
+    This function checks the consistency of a sparse representation of a linear
+    system and returns the number of equations and the number of stored non-zero
+    elements.
+
+    The sparse system is represented in coordinate (COO) format with three
+    arrays:
+    - `A_real`: non-zero values
+    - `I_row`: corresponding row indices
+    - `I_col`: corresponding column indices
+
+    Parameters
+    ----------
+    A_real : array-like
+        Array containing the non-zero entries of the sparse coefficient matrix.
+    I_row : array-like
+        Array containing the row indices corresponding to each non-zero entry in
+        `A_real`.
+    I_col : array-like
+        Array containing the column indices corresponding to each non-zero entry
+        in `A_real`.
+    b : array-like
+        Right-hand side vector of the linear system, of length `n`.
+
+    Returns
+    -------
+    n : int
+        Number of equations (length of `b`).
+    nonzero : int
+        Number of non-zero entries in the sparse matrix (length of `A_real`).
+    """
     n = len(b)
     nonzero = len(A_real)
-    assert nonzero == len(I_row)
-    assert nonzero == len(I_col)
+
+    if nonzero != len(I_row):
+        raise ValueError(
+            f"{len(I_row)=} is not equal to the number of nonzero entries"
+        )
+    if nonzero != len(I_col):
+        raise ValueError(
+            f"{len(I_col)=} is not equal to the number of nonzero entries"
+        )
 
     return n, nonzero
 
@@ -588,7 +754,41 @@ def jacobi_iteration_sparse(
     A_real, I_row, I_col, b, x0, max_iter, verbose=False
 ):
     """
-    TODO
+    Solve a sparse linear system Ax = b using the Jacobi iterative method.
+
+    The system is represented in **sparse COO (coordinate) format** with:
+    - `A_real`: non-zero values
+    - `I_row`: row indices of non-zero entries
+    - `I_col`: column indices of non-zero entries
+
+    The Jacobi method updates the solution iteratively:
+
+    .. math::
+        x_i^{(k+1)} = x_i^{(k)} + \\frac{1}{A_{ii}} \\left( b_i -
+        \\sum_{j=0}^{n-1} A_{ij} x_j^{(k)} \\right)
+
+    Parameters
+    ----------
+    A_real : array-like
+        Array of non-zero entries of the sparse matrix A.
+    I_row : array-like
+        Row indices corresponding to each entry in `A_real`.
+    I_col : array-like
+        Column indices corresponding to each entry in `A_real`.
+    b : array-like
+        Right-hand side vector of length `n`.
+    x0 : numpy.ndarray
+        Initial guess for the solution vector, same length as `b`.
+    max_iter : int
+        Maximum number of iterations to perform.
+    verbose : bool, optional
+        If ``True``, prints the solution vector after each iteration. Default is
+        ``False``.
+
+    Returns
+    -------
+    x : numpy.ndarray
+        Approximated solution vector after `max_iter` iterations.
     """
     n, nonzero = system_size_sparse(A_real, I_row, I_col, b)
 
@@ -627,7 +827,43 @@ def gauss_seidel_iteration_sparse(
     A_real, I_row, I_col, b, x0, max_iter, verbose=False
 ):
     """
-    TODO
+    Solve a sparse linear system Ax = b using the Gauss-Seidel iterative method.
+
+    The system is represented in **sparse COO (coordinate) format** with:
+    - `A_real`: non-zero values
+    - `I_row`: row indices of non-zero entries
+    - `I_col`: column indices of non-zero entries
+
+    The Gauss-Seidel method updates the solution sequentially using the most
+    recently computed values:
+
+    .. math::
+        x_i^{(k+1)} = x_i^{(k)} + \\frac{1}{A_{ii}} \\left( b_i -
+        \\sum_{j=0}^{i-1} A_{ij} x_j^{(k+1)} -
+        \\sum_{j=i}^{n-1} A_{ij} x_j^{(k)} \\right)
+
+    Parameters
+    ----------
+    A_real : array-like
+        Array of non-zero entries of the sparse matrix A.
+    I_row : array-like
+        Row indices corresponding to each entry in `A_real`.
+    I_col : array-like
+        Column indices corresponding to each entry in `A_real`.
+    b : array-like
+        Right-hand side vector of length `n`.
+    x0 : numpy.ndarray
+        Initial guess for the solution vector, same length as `b`.
+    max_iter : int
+        Maximum number of iterations to perform.
+    verbose : bool, optional
+        If ``True``, prints the solution vector after each iteration. Default is
+        ``False``.
+
+    Returns
+    -------
+    x : numpy.ndarray
+        Approximated solution vector after `max_iter` iterations.
     """
     n, nonzero = system_size_sparse(A_real, I_row, I_col, b)
 
@@ -753,9 +989,9 @@ print()
 We see that we get the same results!
 
 Now let's see how long it takes to get a solution. The following plot shows the
-run times of using the two different implementations of the Jacobi method. We
-see that, as expected, the run time of the dense formulation is $O(n^2)$ and the
-run time of the sparse formulation is $O(n)$.
+run times of using the two different implementations of the Jacobi method both
+for 10 iterations. We see that, as expected, the run time of the dense
+formulation is $O(n^2)$ and the run time of the sparse formulation is $O(n)$.
 
 ```{python}
 # | echo: false
@@ -889,8 +1125,8 @@ methods) to use stopping criteria:
  \| \vec{r} \| = \| \vec{b} - A \vec{x}^{(k)} \| < tol
  $$
 
-In both cases, we call $tol$ the **convergence tolerance** and the choice of
-$tol$ will control the accuracy of the solution.
+In the second and third cases, we call $tol$ the **convergence tolerance** and
+the choice of $tol$ will control the accuracy of the solution.
 
 ::: {#exr-stopping-discussion}
 
