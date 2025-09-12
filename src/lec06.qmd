@@ -44,7 +44,8 @@ plt.grid(True)
 plt.show()
 ```
 
-We can see that this equation has no solution over the real numbers.
+We can see that this equation has no solution over the real numbers: There are
+no real values $x$ such that $x^2 + 1 = 0$.
 :::
 
 The key idea of complex numbers is to create a new symbol, that we will call
@@ -94,7 +95,7 @@ What are the real and imaginary parts of these numbers?
 We can perform the basic operations, addition, subtraction, multiplication and
 division, on complex numbers.
 
-Addition and subtraction is relatively straight forward: we simple treat the
+Addition and subtraction is relatively straight forward: we simply treat the
 real and imaginary parts separately.
 
 ::: {#exm-add-sub}
@@ -113,7 +114,7 @@ For multiplying and dividing, we first say that applying these operations
 between complex and real numbers again follows the usual rules. Let $x$ be a
 real number and $z = (a + bi)$ be a complex number, then
 \begin{align*}
- & x \times (a + bi) = (a + bi) \times x = (x \times a) + (x \times b) \\
+ & x \times (a + bi) = (a + bi) \times x = (x \times a) + (x \times b) i \\
  & \frac{a + bi}{x} = \frac{a}{x} + \frac{b}{x} i.
 \end{align*}
 
@@ -152,7 +153,8 @@ Suppose we want to find $(2 + 3i) / (12 - 12i)$. Our idea is to find a numbers
 so that we can write
 \begin{equation*}
 \frac{2 + 3i}{12 - 12i} = \frac{2 + 3i}{12 - 12i} \times \frac{z}{z}
-= frac{(2 + 3i)z}{(12 - 12i)z} = \frac{\text{something}}{\text{something real}}.
+= \frac{(2 + 3i)z}{(12 - 12i)z}
+= \frac{\text{something}}{\text{something real}}.
 \end{equation*}
 The answer is to use $z = 12 + 12 i$ - that is the denominator with the sign of
 the imaginary part flipped (we will give this a name later on).
@@ -596,4 +598,4 @@ Find the value of $z$ which satisfy $z^2 - 4z + 20 = 0$.
 
 We will see in later sections that although this is one possible solution to
 compute the eigenvalues for $2 \times 2$ matrices this approach becomes
-impossible for larger size matrices and we need another approach!
+infeasible for larger size matrices and we need another approach!
