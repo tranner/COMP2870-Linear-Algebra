@@ -276,9 +276,10 @@ product of a number and its conjugate always gives a real, positive number:
 
 In fact, we use this same calculation to define the **absolute value**
 (sometimes called the **modulus**) of a complex number $z = a + bi$
-\begin{equation*}
+\begin{equation}
+\label{eq:modulus}
 |z| = |a + bi| = \sqrt{a^2 + b^2} = \sqrt{z \bar{z}}.
-\end{equation*}
+\end{equation}
 
 ::: {#exm-modulus}
 
@@ -599,3 +600,111 @@ Find the value of $z$ which satisfy $z^2 - 4z + 20 = 0$.
 We will see in later sections that although this is one possible solution to
 compute the eigenvalues for $2 \times 2$ matrices this approach becomes
 infeasible for larger size matrices and we need another approach!
+
+## Complex vectors and matrices
+
+Last year you were introduced to vectors of real numbers. In the remaining part
+of Linear Algebra, we will need to work with complex. The definitions are
+mostly what you would expect but with some slight subtleties.
+
+::: {#def-complex-vectors-matrices}
+A complex matrix is a matrix whose entries are complex numbers.
+A complex vector is a vector whose entries are complex numbers.
+:::
+
+One thing we like to do with vectors is to take scalar products and to find
+their length. When working with complex vectors, we replace the scalar product
+with a *Hermitian product*. We write $\langle \vec{a}, \vec{b} \rangle$ for
+the Hermitian product of two complex $n$-vectors $\vec{a}$ and $\vec{b}$ and the
+value is given by
+\begin{equation}
+\label{eq:hermitian-product}
+\langle \vec{a}, \vec{b} \rangle = \sum_{i=1}^n a_i \bar{b}_i.
+\end{equation}
+We see that the Hermitian product is the same as taking the scalar product of
+$\vec{a}$ and the complex conjugate of $\vec{b}$.
+If the entries in $\vec{b}$ have no imaginary part (i.e. they are all real
+numbers), then the Hermitian product of $\vec{a}$ and $\vec{b}$ is equal to the
+scalar product of $\vec{a}$ and $\vec{b}$.
+
+::: {#exm-hermitian-product}
+Let $\vec{a} = (1 + 2i, 2 + i, 3 - 4i)^T$ and $\vec{b} =
+(6 + 2i, 3 + 4i, 1 + i)^T$ then:
+\begin{align*}
+\langle \vec{a}, \vec{b} \rangle
+& = (1 + 2i) \times (6 - 2i) + (2 + i) \times (3 - 4i) + (3 - 4i) \times (1 - i)
+\\
+& = (10 + 10i) + (10 - 5i) + (-1 - 7i) = 19 - 2i.
+\end{align*}
+
+::: {#exr-hermitian-product}
+Find the Hermitian product of $\vec{c} = (3 + i, -2 + 2i, 4 - i)^T$ and $\vec{d}
+= (-1 + 3i, 2 + 6i, 2i)^T$.
+:::
+:::
+
+Recalling the definition of modulus of a complex number \eqref{eq:modulus}, we
+can also compute that for a complex $n$-vector $\vec{z}$ that
+\begin{align*}
+\langle \vec{z}, \vec{z} \rangle
+= \sum_{i=1}^n z_i \bar{z}_i = \sum_{i=1}^n |z_i|^2.
+\end{align*}
+So for a complex vector, we define the Euclidean norm as
+\begin{align*}
+\| \vec{z} \| = \sqrt{ \sum_{i=1}^n |z_i|^2 } = \sqrt{ \langle z, z \rangle }.
+\end{align*}
+
+
+Recall that for a real *symmetric* $n \times n$ matrix $A$ and any $n$-vectors
+$\vec{x}$ and $\vec{y}$ that
+\begin{align*}
+A \vec{x} \cdot \vec{y}
+& = \sum_{i=1}^n (A \vec{x})_i y_i && \text{(definition of scalar product)} \\
+& = \sum_{i=1}^n \left( \sum_{j=1}^n A_{ij} x_j \right) y_i
+&& \text{(definition of matrix-vector product)} \\
+& = \sum_{i=1}^n \sum_{j=1}^n A_{ji} x_j y_i
+&& \text{(symmetry of $A$)} \\
+& = \sum_{j=1}^n x_j \sum_{i=1}^n \left(A_{ji} y_i \right)
+&& \text{(rearranging)} \\
+& = \sum_{j=1}^n x_j (A y)_j
+&& \text{(definition of matrix-vector product)} \\
+& = \vec{x} \cdot A \vec{y}
+&& \text{(definition of scalar product)}.
+\end{align*}
+
+Replacing all terms with complex value and the scalar product with Hermitian
+product, we get a similar calculation:
+\begin{align*}
+\langle A \vec{x}, \vec{y} \rangle
+& = \sum_{i=1}^n (A \vec{x})_i \bar{y}_i && \text{(definition of Hermitian product)} \\
+& = \sum_{i=1}^n \left( \sum_{j=1}^n A_{ij} x_j \right) \bar{y}_i
+&& \text{(definition of matrix-vector product)} \\
+& = \sum_{i=1}^n \sum_{j=1}^n A_{ji} x_j \bar{y}_i
+&& \text{(symmetry of $A$)} \\
+& = \sum_{j=1}^n x_j \sum_{i=1}^n \left(A_{ji} \bar{y}_i \right)
+&& \text{(rearranging)} \\
+& = \sum_{j=1}^n x_j \bar{(\bar{A} y)}_j
+&& \text{(definition of matrix-vector product)} \\
+& = \langle \vec{x}, \bar{A} \vec{y} \rangle
+&& \text{(definition of Hermitian)}.
+\end{align*}
+This is quite unsatisfactory (note the extra bar on $A$ in the final equation)
+and we would like something the generalises the idea of a symmetric matrix to
+the Hermitian product case too.
+
+The key idea is to generalise the definition of matrix transpose to the complex
+setting:
+
+::: {#def-hermitian-matrix}
+For a complex $n$-matrix $A$, we write $A^H$ for the **conjugate transpose** (also called
+the **Hermitian transpose**) given by
+\begin{equation*}
+(A^H)_{ij} = \bar{A}_{ji} = \bar{A}^T.
+\end{equation*}
+If $A^H = A$, then we say that $A$ is **Hermitian**.
+:::
+
+Repeating the above calculations, we can see that if $A$ is Hermitian then
+\begin{equation*}
+\langle A \vec{x}, \vec{y} \rangle = \langle \vec{x}, A \vec{y} \rangle.
+\end{equation*}
