@@ -8,6 +8,12 @@ jupyter: python3
 eigenvalues of large matrices.
 :::
 
+TODO change this lecture to:
+
+- QR with gram-schmidt
+- power iteration and inverse power iteration
+- orthogonal vs orthonormal
+
 ```{python}
 # | echo: false
 import time
@@ -41,8 +47,11 @@ $P_1, P_2, \ldots$ to form a sequence of matrices:
 A, P_1^{-1} A P, P_2^{-1} P_1^{-1} A P_1 P_2, P_3^{-1} P_2^{-1} P_1^{-1} A P_1
 P_2 P_3, \ldots
 \end{equation}
-If we get all the way to a diagonal matrix, at level $m$ say, then the
-eigenvalues are the diagonal of the matrix
+Our aim is to get all the way to a simple matrix where we read off the
+eigenvalues and eigenvectors.
+
+For example, if at level $m$, say, we have transformed $A$ into a diagonal
+matrix the eigenvalues are the diagonal of the matrix
 \begin{equation*}
 P_m^{-1} P_{m-1}^{-1} \cdots P_2^{-1} P_1^{-1} A P_1 P_2 \cdots P_{m-1} P_m,
 \end{equation*}
@@ -55,6 +64,381 @@ sufficient to transform the matrix to be triangular (either upper or lower
 triangular). Then, we can read off that the eigenvalues are the diagonal entries
 (see @exm-eigenvalue-triangular).
 
+::: {#rem-orthogonal-matrices-are-good}
+In the example below, and many others, we see that we typically want the
+matrices $P_j$ to be *orthogonal*. A (real-valued) matrix $Q$ is orthogonal if
+$Q^T Q = I_n$.
+
+Orthogonal matrices have the nice property that $Q^{-1} = Q^T$ so we can very
+easily compute their inverse! They also always have determinant 1 and their
+columns are orthonormal too. Finally, we can apply them (or their inverses)
+without worrying about adding extra problems from finite precision.
+
+Examples of orthogonal matrices include matrices which describe rotations and
+reflections.
+:::
+
+## QR algorithm
+
+The QR algorithm is an iterative method for computing eigenvalues and
+eigenvectors.
+At each step a matrix is factored into a product in a similar fashion to LU
+factorisation (@sec-lu-factorisation). In this case, we factor a matrix, $A$ into
+a product of an orthgonal matrix, $Q$, and an upper triangular matrix, $R$:
+$$
+A = Q R.
+$$
+This is *QR factorisation*.
+
+Given a matrix $A$, the algorithm repeatedly applies QR factorisation. First,
+we set $A^{(0)} = A$, then we successively perform for $k=0, 1, 2, \ldots$:
+
+1. Compute the QR factorisation of $A^{(k)}$ into an orthogonal part and upper
+   triangular part
+   $$
+   A^{(k)} = Q^{(k)} R^{(k)};
+   $$
+
+2. Update the matrix $A^{(k+1)}$ recombining $Q$ and $R$ in the reverse order:
+   $$
+   $A^{(k+1)} = R^{(k)} Q^{(k)}.
+   $$
+
+As we take more and more steps, we hope that $A^{(k)}$ converges to an upper
+triangular matrix whose diagonal entries are the eigenvalues of the original
+matrix.
+
+Rearranging the first step within each iteration, we see that
+$$
+R^{(k)} = (Q^{(k)})^{-1} A^{(k)} = (Q^{(k)})^T A^{(k)}.
+$$
+Substituting this value of $R^{(k)}$ into the second step gives
+$$
+A^{(k+1)} = (Q^{(k)})^{-1} A^{(k)} Q^{(k)},
+$$
+and we see that at each step we are finding a sequence of similar matrices,
+all with the same eigenvalues ({@thm-XX}). We can additionally find the
+eigenvectors of $A$ by forming the product
+$$
+Q = Q^{(1)} Q^{(2)} \cdots Q^{(m)}.
+$$
+
+The hard part of the method is compute the QR factorisation. One classical way
+to get a QR factorisation is to use the Gram-Schmidt method. In general,
+Gram-Schmidt is used for take a sequence of vectors and forming a new sequence
+which is orthogonal. We can apply this to the columns of $A$ to form an
+orthogonal matrix. It turns out that if we track this process as a matrix-matrix
+product we find that the other factor is upper triangular.
+
+The key idea is shown in @fig-projection-away. Given a vector $\vec{a}$ (blue)
+and a vector $\vec{q}$ (green) with length 1. We can compute the projection
+of $\vec{a}$ onto the direction $\vec{q}$ (orange) by
+\begin{align*}
+(\vec{a} \cdot \vec{q}) \vec{q}.
+\end{align*}
+If we subtract this term from $\vec{a}$. We end up with a vector $\vec{u}$ with
+$\vec{u} \cdot \vec{q} = 0$. The difference $\vec{u}$ is given by
+\begin{align*}
+\vec{u} = \vec{a} - (\vec{a} \cdot \vec{q}) \vec{q},
+\end{align*}
+and we can compute that
+\begin{align*}
+\vec{u} \cdot \vec{q}
+& = (\vec{a} - (\vec{a} \cdot \vec{q}) \vec{q}) \cdot \vec{q} \\
+& = (\vec{a} \cdot \vec{q}) - (\vec{a} \cdot \vec{q}) (\vec{q} \cdot \vec{q})
+&& \text{(properties of scalar product)}\\
+& = (\vec{a} \cdot \vec{q}) - (\vec{a} \cdot \vec{q})
+&& \text{(since $\| \vec{q} \| = 1$)} \\
+& = 0.
+\end{align*}
+
+```{python}
+# | echo: false
+# | label: fig-projection-away
+# | fig-cap: Projection of $\vec{a}$ away from $\vec{q}$.
+
+a = np.array([0.5, 0.7])
+q = np.array([np.cos(np.pi / 10), np.sin(np.pi / 10)])
+
+Pq_a = np.dot(a, q) * q
+Pqp_a = a - Pq_a
+
+
+def draw_arrow(pt, label, color):
+    plt.arrow(
+        0,
+        0,
+        pt[0],
+        pt[1],
+        head_width=0.05,
+        head_length=0.05,
+        linewidth=2,
+        color=color,
+        ec=color,
+        length_includes_head=True,
+    )
+
+    plt.text(
+        pt[0] / 2 + 0.04 * pt[1] / np.linalg.norm(pt),
+        pt[1] / 2 - 0.04 * pt[0] / np.linalg.norm(pt),
+        label,
+        color=color,
+        va="center",
+        ha="center",
+        rotation=np.arctan2(pt[1], pt[0]) * (180 / np.pi),
+        rotation_mode="anchor",
+        transform_rotates_text=True,
+    )
+
+
+plt.plot(
+    [0.9 * Pq_a[0], 0.9 * Pq_a[0] + 0.1 * Pqp_a[0], Pq_a[0] + 0.1 * Pqp_a[0]],
+    [0.9 * Pq_a[1], 0.9 * Pq_a[1] + 0.1 * Pqp_a[1], Pq_a[1] + 0.1 * Pqp_a[1]],
+    color="0.5",
+)
+plt.plot(
+    [0.9 * Pqp_a[0], 0.9 * Pqp_a[0] + 0.1 * Pq_a[0], Pqp_a[0] + 0.1 * Pq_a[0]],
+    [0.9 * Pqp_a[1], 0.9 * Pqp_a[1] + 0.1 * Pq_a[1], Pqp_a[1] + 0.1 * Pq_a[1]],
+    color="0.5",
+)
+
+draw_arrow(a, "$\\vec{a}$", "C0")
+draw_arrow(q, "$\\vec{q}$", "C1")
+draw_arrow(Pq_a, "$(\\vec{a} \\cdot \\vec{q}) \\vec{q}$", "C2")
+draw_arrow(
+    Pqp_a, "$\\vec{q} = \\vec{a} - (\\vec{a} \\cdot \\vec{q}) \\vec{q}$", "C3"
+)
+
+plt.plot([a[0], Pq_a[0]], [a[1], Pq_a[1]], color="C2", linestyle="--")
+plt.plot([a[0], Pqp_a[0]], [a[1], Pqp_a[1]], color="C3", linestyle="--")
+
+plt.grid(True)
+plt.axis("square")
+
+plt.tight_layout()
+plt.show()
+```
+
+::: {#exm-gram-schmidt}
+Consider the sequence of vectors
+\begin{equation*}
+\vec{a}^{(1)} = \begin{pmatrix} 1 \\ 0 \\ 1 \end{pmatrix},
+\vec{a}^{(2)} = \begin{pmatrix} 2 \\ -1 \\ 0 \end{pmatrix},
+\vec{a}^{(3)} = \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix}.
+\end{equation*}
+We will manipulate these vectors to form three vectors which are orthonormal.
+
+```{python}
+# | echo: false
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection="3d")
+A = [
+    np.array([1.0, 0.0, 1.0]),
+    np.array([2.0, -1.0, 0.0]),
+    np.array([1.0, 2.0, 1.0]),
+]
+
+for j, a in enumerate(A):
+    ax.quiver(
+        0,
+        0,
+        0,
+        a[0],
+        a[1],
+        a[2],
+        color=f"C{j}",
+        linewidth=2,
+        label=f"$\\vec{{a}}^{{({j + 1})}}$",
+    )
+
+ax.set_xlim([-2, 2])
+ax.set_ylim([-2, 2])
+ax.set_zlim([-2, 2])
+
+plt.legend()
+
+
+```
+
+First, we set $\vec{q}^{(1)} = \vec{a}^{(1)} / \| \vec{a}^{(1)} \|$:
+\begin{align*}
+\| \vec{a}^{(1)} \| = \sqrt{1^2 + 0^2 + 1^2} = \sqrt{2},
+\end{align*}
+so
+\begin{equation*}
+\vec{q}^{(1)} = \begin{pmatrix} \frac{1}{\sqrt{2}} \\ 0 \\
+\frac{1}{\sqrt{2}} \end{pmatrix}.
+\end{equation*}
+
+Second, we want to find $\vec{q}^{(2)}$ which must satisfy that
+$\vec{q}^{(2)} \cdot \vec{q}^{(1)} = 0$. We can do this by subtracting form
+$\vec{a}^{(2)}$ the portion of $\vec{a}^{(2)}$ which points in the direction
+$\vec{q}^{(1)}$. We call this $\vec{u}^{(2)}$:
+\begin{align*}
+\vec{u}^{(2)}
+& = \vec{a}^{(2)} - \left(\vec{a}^{(2)} \cdot \vec{q}^{(1)} \right)
+\vec{q}^{(1)} \\
+& = \begin{pmatrix} 2 \\ -1 \\ 0 \end{pmatrix} -
+\left(\begin{pmatrix} 2 \\ -1 \\ 0 \end{pmatrix} \cdot
+\begin{pmatrix} \frac{1}{\sqrt{2}} \\ 0 \\
+\frac{1}{\sqrt{2}} \end{pmatrix} \right)
+\begin{pmatrix} \frac{1}{\sqrt{2}} \\ 0 \\
+\frac{1}{\sqrt{2}} \end{pmatrix} \\
+& = \begin{pmatrix} 2 \\ -1 \\ 0 \end{pmatrix} -
+\frac{2}{\sqrt{2}}
+\begin{pmatrix} \frac{1}{\sqrt{2}} \\ 0 \\
+\frac{1}{\sqrt{2}} \end{pmatrix} \\
+& = \begin{pmatrix} 2 - \frac{2}{\sqrt{2}} \frac{1}{\sqrt{2}} \\
+-1 - \frac{2}{\sqrt{2}} 0 \\
+0 - \frac{2}{\sqrt{2}} \frac{1}{\sqrt{2}} \end{pmatrix}
+= \begin{pmatrix}
+1 \\ -1 \\ -1
+\end{pmatrix}.
+\end{align*}
+We then normalise $\vec{u}^{(2)}$ to get a unit-length vector $q^{(2)}$:
+\begin{align*}
+\vec{q}^{(2)} & = \vec{u}^{(2)} / \| \vec{u}^{(2)} \|
+= \begin{pmatrix} \frac{1}{\sqrt{3}} \\ \frac{-1}{\sqrt{3}} \\
+\frac{-1}{\sqrt{3}}
+\end{pmatrix}.
+\end{align*}
+
+Third, we will find $q^{(3)}$ which we need to check satisfies $\vec{q}^{(3)}
+\cdot \vec{q}^{(2)} = 0$ and $\vec{q}^{(3)} \cdot \vec{q}^{(1)} = 0$. We can do
+this by subtracting from $\vec{a}^{(3)}$ the portion of $\vec{a}^{(3)}$
+which points in the direction $\vec{q}^{(1)}$ and the portion of $\vec{a}^{(3)}$
+which points in the direction $\vec{q}^{(2)}$. We call this term $\vec{u}^{(3)}$
+\begin{align*}
+\vec{u}^{(3)}
+& = \vec{a}^{(3)} - \left(\vec{a}^{(3)} \cdot \vec{q}^{(1)} \right)
+\vec{q}^{(1)} - \left( \vec{a}^{(3)} \cdot \vec{q}^{(2)} \right) \vec{q}^{(2)}
+\\
+& = \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix} - \left(
+\begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix} \cdot
+\begin{pmatrix} \frac{1}{\sqrt{2}} \\ 0 \\ \frac{1}{\sqrt{2}}
+\end{pmatrix} \right)
+\begin{pmatrix} \frac{1}{\sqrt{2}} \\ 0 \\ \frac{1}{\sqrt{2}}
+\end{pmatrix} - \left(
+\begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix} \cdot
+\begin{pmatrix} \frac{1}{\sqrt{3}} \\ \frac{-1}{\sqrt{3}} \\ \frac{-1}{\sqrt{3}}
+\end{pmatrix} \right)
+\begin{pmatrix} \frac{1}{\sqrt{3}} \\ \frac{-1}{\sqrt{3}} \\ \frac{-1}{\sqrt{3}}
+\end{pmatrix} \\
+& = \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix} - \left(
+\frac{2}{\sqrt{2}} \right)
+\begin{pmatrix} \frac{1}{\sqrt{2}} \\ 0 \\ \frac{1}{\sqrt{2}}
+\end{pmatrix} - \left(
+\frac{-2}{\sqrt{3}}
+\right)
+\begin{pmatrix} \frac{1}{\sqrt{3}} \\ \frac{-1}{\sqrt{3}} \\ \frac{-1}{\sqrt{3}}
+\end{pmatrix} \\
+& = \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix} -
+\begin{pmatrix} 1 \\ 0 \\ 1 \end{pmatrix} -
+\begin{pmatrix} -2/3 \\ 2/3 \\ 2/3 \end{pmatrix}
+= \begin{pmatrix}
+2/3 \\ 4/3 \\ -2/3.
+\end{pmatrix}.
+\end{align*}
+Again, we normalise $\vec{u}^{(3)}$ to get $\vec{q}^{(3)}$:
+\begin{align*}
+\| \vec{u}^{(3)} \| & = \sqrt{(2/3)^2 + (4/3)^2 + (-2/3)^2}
+= \sqrt{4/9 + 16/9 + 4/9} = \sqrt{24/9} \\
+& = \frac{2}{3} \sqrt{6},
+\end{align*}
+so
+\begin{align*}
+\vec{q}^{(3)} & = \begin{pmatrix} \frac{1}{\sqrt{6}} \\
+\frac{2}{\sqrt{6}} \\ \frac{-1}{\sqrt{6}} \end{pmatrix}.
+\end{align*}
+
+::: {#exr-gram-schmit-ex}
+Verify the orthonormality conditions for $\vec{q}^{(1)}, \vec{q}^{(2)}$ and
+$\vec{q}^{(3)}$.
+:::
+
+```{python}
+# | echo: false
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection="3d")
+A = [
+    np.array([1.0, 0.0, 1.0]),
+    np.array([2.0, -1.0, 0.0]),
+    np.array([1.0, 2.0, 1.0]),
+]
+U = [A[0]]
+Q = [U[0] / np.linalg.norm(U[0])]
+
+U.append(A[1] - np.dot(A[1], Q[0]) * Q[0])
+Q.append(U[1] / np.linalg.norm(U[1]))
+
+U.append(A[2] - np.dot(A[2], Q[0]) * Q[0] - np.dot(A[2], Q[1]) * Q[1])
+Q.append(U[2] / np.linalg.norm(U[2]))
+
+for j, a in enumerate(A):
+    ax.quiver(
+        0,
+        0,
+        0,
+        a[0],
+        a[1],
+        a[2],
+        color=f"C{j}",
+        linewidth=1,
+        label=f"$\\vec{{a}}^{{({j + 1})}}$",
+        alpha=0.75,
+        linestyle="--",
+    )
+
+for j, q in enumerate(Q):
+    ax.quiver(
+        0,
+        0,
+        0,
+        q[0],
+        q[1],
+        q[2],
+        color=f"C{j}",
+        linewidth=2,
+        label=f"$\\vec{{q}}^{{({j + 1})}}$",
+    )
+
+ax.set_xlim([-2, 2])
+ax.set_ylim([-2, 2])
+ax.set_zlim([-2, 2])
+
+plt.legend()
+
+
+```
+Now we have applied the Gram-Schmidt process to convert from the vectors
+$\vec{a}^{(j)}$ to the vectors $\vec{q}^{(j)}$. We can consider the matrices
+\begin{equation*}
+ Q = \begin{pmatrix}
+ && \\
+ \vec{q}^{(1)} & \vec{q}^{(2)} & \vec{q}^{(3)} \\
+ &&
+ \end{pmatrix}
+ \quad \text{and} \quad
+ R = \begin{pmatrix}
+ \vec{a}^{(1)} \cdot \vec{q}^{(1)} & \vec{a}^{(2)} \cdot \vec{q}^{(1)}
+ & \vec{a}^{(3)} \cdot \vec{q}^{(1)} \\
+ \vec{a}^{(1)} \cdot \vec{q}^{(2)} & \vec{a}^{(2)} \cdot \vec{q}^{(2)}
+ & \vec{a}^{(3)} \cdot \vec{q}^{(2)} \\
+ \vec{a}^{(1)} \cdot \vec{q}^{(3)} & \vec{a}^{(2)} \cdot \vec{q}^{(3)}
+ & \vec{a}^{(3)} \cdot \vec{q}^{(3)}
+ \end{pmatrix}.
+\end{equation*}
+Then we can compute that
+\begin{align*}
+Q R
+= \begin{pmatrix}
+TODO
+\end{pmatrix}
+\end{align*}
+:::
+
 ## Jacobi transformations of a symmetric matrix
 
 The Jacobi method forms a sequence of similarity transforms similar to
@@ -64,7 +448,7 @@ matrices (@sim-symmetric-nice).
 The key idea is to use the matrix $P_{pq}$ which is the matrix of the form
 \begin{equation}
 \label{eq:Pmatrix}
- P_{pq} = \begin{pmatrix}
+   * [ ] P_{pq} = \begin{pmatrix}
   1 &&&&&&& \\
   & \ddots &&&&&& \\
   && c & \cdots & s &&& \\
@@ -589,7 +973,8 @@ n_values = []
 sweep_values = []
 times = []
 
-for n in range(10, 100, 5):
+# for n in range(10, 100, 5):
+for n in [5, 10]:
     times_holder_n = []
     sweeps_holder_n = []
 
