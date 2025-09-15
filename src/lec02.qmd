@@ -395,16 +395,16 @@ Examples:
 
 ## Other "Features" of finite precision
 
-When working with floating point numbers there are other things we need to worry
-about too!
+When working with floating-point numbers there are other things we need to worry
+about, too!
 
 Overflow
-:   the number is too large to be represented, e.g. multiply the largest
+:   The number is too large to be represented, e.g. multiply the largest
     representable number by 10. This gives `inf` (infinity) with `numpy.double`s
     and is usually "fatal".
 
 Underflow
-:   the number is too small to be represented, e.g. divide the smallest
+:   The number is too small to be represented, e.g. divide the smallest
     representable number by 10. This gives $0$ and may not be immediately
     obvious.
 
@@ -430,7 +430,7 @@ arithmetic...
   correctly](https://www.bbc.com/future/article/20150505-the-numbers-that-lead-to-disaster).
 
 - In October 2020, a driverless car drove straight into a wall due to [faulty
-  handling of a floating point
+  handling of a floating-point
   error](https://sinews.siam.org/Details-Page/a-new-ieee-754-standard-for-floating-point-arithmetic-in-an-ever-changing-world).
 
 ## Summary
