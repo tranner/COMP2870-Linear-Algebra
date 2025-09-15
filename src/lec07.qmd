@@ -10,6 +10,8 @@ import numpy as np
 plt.style.use("seaborn-v0_8-colorblind")
 ```
 
+TODO Add triangular matrix example.
+
 ::: {.callout-tip}
 ## Module learning outcome:
 
@@ -47,10 +49,13 @@ eigenvalue $0$. In fact, we know that $0$ is an eigenvalue of $A$ if, and only
 if, $A$ is singular.
 
 ::: {#exm-projection}
-Let $P$ be the 3x3 matrix that represents projection on to a plane $\pi$. What
-are the eigenvalues and eigenvectors of $p$?
+Let $P$ be the 3x3 matrix that represents projection on to a plane $\Pi =
+\{\vec{x} \in \mathbb{R}^3 : \vec{a} \cdot \vec{x} = 0\}$ (i.e. $P$ maps any
+point in $\mathbb{R}^3$ to its nearest point in $\Pi$). What are the eigenvalues
+and eigenvectors of $P$?
 
 ```{python}
+# | caption: "Representation of planar projection operator $P$."
 
 
 def plot_3d_plane_and_vectors():
@@ -74,11 +79,12 @@ def plot_3d_plane_and_vectors():
         X,
         Y,
         Z,
-        alpha=0.5,
-        color="lightblue",
+        alpha=0.2,
+        color="C0",
         rstride=1,
         cstride=1,
         edgecolor="none",
+        label="plane $\\Pi$",
     )
 
     # Vector in the plane
@@ -88,15 +94,6 @@ def plot_3d_plane_and_vectors():
     )
     # Vector orthogonal to the plane (same as normal)
     orthogonal_vector = normal_vector
-    # TODO does it look better with this in too
-    # Arbitrary vector
-    # arbitrary_vector = np.array([0.5, 0.5, 0.5])
-    #
-    # Project the arbitrary vector onto the plane
-    # projection = (
-    #    arbitrary_vector
-    #    - np.dot(arbitrary_vector, normal_vector) * normal_vector
-    # )
 
     # Plot vectors
     def draw_vector(v, color, label):
@@ -104,15 +101,14 @@ def plot_3d_plane_and_vectors():
             0, 0, 0, v[0], v[1], v[2], color=color, label=label, linewidth=2
         )
 
-    draw_vector(in_plane_vector, "green", "In-plane Vector")
-    draw_vector(orthogonal_vector, "red", "Normal Vector")
+    draw_vector(in_plane_vector, "C1", "In-plane Vector")
+    draw_vector(orthogonal_vector, "C2", "Normal Vector")
 
     ax.set_xlim([-2.5, 2.5])
     ax.set_ylim([-2.5, 2.5])
     ax.set_zlim([-0.5, 1])
     ax.axis("off")
     ax.legend()
-    ax.set_title("Sample plane and normal vector")
 
     ax.set_facecolor((0, 0, 0, 0))  # Transparent axis background
     fig.patch.set_alpha(0)  # Transparent figure background
@@ -196,8 +192,9 @@ move everything to the left-hand side and use the identity matrix $(I_n)$:
 (A - \lambda I_n) \vec{x} = \vec{0}.
 \end{equation*}
 This tells us that if we want to find an eigenvalue of $A$, then we need to find
-a number $\lambda$ such that $(A - \lambda I_n)$ can multiply a matrix and give
-us back the zero-vector. This happens when $(A - \lambda I)$ is *singular*.
+a number $\lambda$ such that $(A - \lambda I_n)$ can multiply a non-zero vector
+and give us back the zero-vector. This happens when $(A - \lambda I)$ is
+*singular* (@thm-det).
 
 One way to test if a matrix is singular, is if the determinant is 0. This gives
 us a test we can use to determine eigenvalues:
@@ -261,6 +258,7 @@ We can identify that $(A - 2 I_n) (-1, 1)^T = \vec{0}$.
 So $(-1, 1)$ is an eigenvector associated with $2$.
 :::
 
+TODO possibly remove if we don't do scaling/shifting methods.
 We note that this example is actually surprisingly similar to @exm-permuatation.
 We see that the eigenvectors are actually the same! We can see that the matrices
 are related too:
@@ -280,7 +278,7 @@ So we can compute that if $A \vec{x} = \lambda \vec{x}$ then
 So we see that $\vec{x}$ is also an eigenvector of $A$ and the associated
 eigenvector is $\lambda + 3$.
 
-Although this procedure is robust to finding eigenvalues there are cases where
+Although this procedure is gives us back eigenvalues there are cases where
 we have to be a bit careful. We have seen one example above with a
 two-dimensional eigenspace associated with one eigenvector (@exm-projection).
 Here are two other cases we must be careful:
@@ -305,7 +303,7 @@ So we can find eigenvalues by finding the values $\lambda$ such that
 \begin{equation*}
 \lambda^2 + 1 = 0.
 \end{equation*}
-We saw in the section on Complex Numbers (@sec:complex-numbers) that the
+We saw in the section on Complex Numbers (@sec-complex-numbers) that the
 solutions to this equation are $\pm i$. This means our algorithms for finding
 eigenvalues and eigenvectors need to handle complex numbers too.
 :::
@@ -461,65 +459,39 @@ algorithms we apply depend heavily on properties of the matrix $A$.
 
 ## Why symmetric matrices are nice {#sec-symmetric-nice}
 
-For the inner product of two complex vectors, we additionally take the complex
-conjugate of the entries of $\vec{b}$. We call this the Hermitian product and
-write $\langle \vec{a}, \vec{b} \rangle = \vec{a} \cdot \bar{\vec{b}} =
-\sum_{i=1}^n a_i \bar{b_i}$. We denote the conjugate transform of a matrix $A$
-by $A^H = \bar{A}^T$. We say that $A$ is *Hermitian* if $A^H = A$ and say that
-if $\langle \vec{a}, \vec{b} \rangle = 0$ that $\vec{a}, \vec{b}$ are
-*orthogonal*.
-
-We notice that for any matrix $A$
-\begin{equation}
-\label{eq:orthog}
-\begin{aligned}
-\langle A \vec{a}, \vec{b} \rangle
-& = \sum_{i=1}^n (A \vec{a})*i \bar{b}*i \\
-& = \sum*{i, j=1}^n (A*{ij} a_j) \bar{b}*i \\
-& = \sum*{i, j=1}^n a_j (A_{ij} \bar{b}*i) \\
-& = \sum*{i, j=1}^n a_j \bar{((A^H)*{ji} b_i)} \\
-& = \sum*{i=1}^n a_i \bar{(A^H \vec{b})_i} \\
-& = \langle \vec{a}, A^H \vec{b} \rangle
-\end{aligned}
-\end{equation}
-In particular this means that if $A = A^H$ then $\langle A \vec{a}, \vec{b}
-\rangle = \langle \vec{a}, A \vec{b} \rangle$. We call a matrix *Hermitian* if
-$A = A^H$.
-
-For any complex vector $\vec{a}$, we see that
-\begin{align*}
-\langle \vec{a}, \vec{a} \rangle = \sum_{i=1}^n a_i \bar{a_i} = \sum_{i=1}^n
-a_i|^2.
-\end{align*}
-Since $|a_i|$ is always a non-negative real number, we have that $\langle
-\vec{a}, \vec{a} \rangle \ge 0$. Furthermore, we see that $\langle \vec{a},
-\vec{a} \rangle = 0$ if, and only if, $\vec{a} = 0$.
+Whilst all our methods are developed for complex matrices, when we restrict to
+real-valued symmetric matrices, we have this nice result.
 
 ::: {#thm-symmetric}
 Let $A$ be a symmetric matrix ($A^T = A$) with real entries. Then $A$ has $n$
-real eigenvalues (zero imaginary part) and its eigenvectors are orthogonal.
+real eigenvalues (zero imaginary part) and its eigenvectors are distinct and
+orthogonal.
 :::
 
 ::: {.proof}
 Let $\lambda$ be an eigenvalue of $A$ with eigenvector $\vec{x}$. Recall that
 $\vec{x} \neq 0$. Then, since $A$ has real values, we can compute that:
 \begin{equation*}
-\bar{(A \vec{x})*i} = \bar{\sum*{j=1}^n A_{ji} x_i} = \sum_{j=1}^n A_{ji}
-\bar{x_i} = (A \bar{\vec{x}})_i.
+\bar{(A \vec{x})}_i = \bar{\left(\sum_{j=1}^n A_{ji} x_i\right)}
+= \sum_{j=1}^n A_{ji} \bar{x_i} = (A \bar{\vec{x}})_i.
 \end{equation*}
 We also note that any real, symmetric matrix is automatically Hermitian.
 
 Then we see that
 \begin{align*}
 \lambda \langle \vec{x}, \vec{x} \rangle
-& = \langle (\lambda \vec{x}), \vec{x} \rangle \\
-& = \langle (A \vec{x}), \vec{x} \rangle \\
-& = \langle \vec{x}, A^H \vec{x} \rangle \\
-& = \langle \vec{x}, A \vec{x} \rangle \\
-& = \langle \vec{x}, \lambda \vec{x} \rangle \\
-& = \bar{\lambda} \langle \vec{x}, \vec{x} \rangle.
+& = \langle (\lambda \vec{x}), \vec{x} \rangle
+&& \text{(from definition of Hermitian product)}\\
+& = \langle (A \vec{x}), \vec{x} \rangle
+&& \text{(definition of eigenvalue and eigenvector)} \\
+& = \langle \vec{x}, A \vec{x} \rangle
+&& \text{(symmetry of $A$)} \\
+& = \langle \vec{x}, \lambda \vec{x} \rangle
+&& \text{(definition of eigenvalue and eigenvector)} \\
+& = \bar{\lambda} \langle \vec{x}, \vec{x} \rangle
+&& \text{(from definition of Hermitian product)}.
 \end{align*}
-Since, $\langle \vec{x}, \vec{x} \rangle > 0$ (reccall $\vec{x} \neq 0$), we can
+Since, $\langle \vec{x}, \vec{x} \rangle > 0$ (recall $\vec{x} \neq 0$), we can
 divide by $\langle \vec{x}, \vec{x} \rangle$ so infer that
 \begin{equation*}
 \lambda = \bar{\lambda}.
@@ -544,4 +516,36 @@ Subtracting the right-hand side from the left hand side we see that
 \end{equation*}
 This implies that if $\lambda$ and $\mu$ are distinct, that $\langle \vec{x},
 \vec{y} \rangle = 0$.
+:::
+
+::: {#cor-evector-basis}
+Let $A$ be a symmetric $n \times n$ matrix with real entries. Then the
+eigenvectors of $A$ form a basis of $\mathbb{R}^n$.
+:::
+
+::: {.proof}
+We can only given an incomplete proof of this result. We will show that the
+eigenvectors are linearly independent. The proof is completed by showing that if
+you have any $n$ linearly independent vectors in $\mathbb{R}^n$ then you must
+have a basis.
+
+Denote by $\vec{x}^{(1)}, \ldots \vec{x}^{(n)}$ the $n$ eigenvectors of $A$.
+We want to show that the eigenvectors are linearly independent.
+Suppose that we have real numbers $\alpha_1, \alpha_2, \cdots, \alpha_n$ such
+that:
+\begin{equation}
+\label{eq:evalue-lin}
+\sum_{i=1}^n \alpha_i \vec{x}^{(i)} = \vec{0}.
+\end{equation}
+To show the eigenvectors are linearly independent, we need to show that all
+$\alpha_i = 0$. We can do this by taking the inner product of
+\eqref{eq:evalue-lin} with $\vec{x}^{(j)}$ for *any* $j$:
+\begin{equation*}
+0 = \vec{0} \cdot \vec{x}^{(j)}
+= \left(\sum_{i=1}^n \alpha_i \vec{x}^{(i)}\right) \cdot \vec{x}^{(j)}
+= \sum_{i=1}^n \alpha_i \left( \vec{x^{(i)}} \cdot \vec{x}^{(j)} \right)
+= \alpha_j \vec{x}^{(j)} \cdot \vec{x}^{(j)}.
+\end{equation*}
+Since we have that $|\vec{x}^{(j)}| > 0$, we have $\alpha_j = 0$ and we have
+shown that the eigenvectors are linearly independent.
 :::
