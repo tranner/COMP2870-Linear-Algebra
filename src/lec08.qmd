@@ -3,6 +3,78 @@ jupyter: python3
 ---
 # Eigenvectors and eigenvalues: practical solutions
 
+```{python}
+# | echo: false
+import inspect
+
+import numpy as np
+from matplotlib import pyplot as plt
+from scipy.stats import special_ortho_group
+
+plt.style.use("seaborn-v0_8-colorblind")
+
+
+def print_array(array, array_name=None, end=None):
+    """
+    Nicely print a 2D NumPy array with dynamic precision formatting.
+
+    This function prints a 2D array in a readable, formatted style. It
+    automatically determines the required precision to accurately represent the
+    array values, up to a maximum of 15 decimal places. The printed output
+    includes the array name if provided; otherwise, the function attempts to
+    infer the variable name from the calling scope.
+
+    Parameters
+    ----------
+    array : numpy.ndarray
+        A 2D NumPy array to print.
+    array_name : str, optional
+        The name to display for the array in the output. If ``None`` (default),
+        the function attempts to infer the variable name from the caller's local
+        variables. If it cannot be inferred, defaults to ``"array"``.
+    end : str, optional
+        String appended after the last value in each row, similar to the `end`
+        parameter in Python's built-in ``print`` function. Default is ``None``,
+        which adds a newline.
+    """
+    # find array_name
+    if array_name is None:
+        frame = inspect.currentframe().f_back
+        for name, value in frame.f_locals.items():
+            if value is array:
+                array_name = name
+                break
+    if array_name is None:
+        array_name = "array"
+
+    # determine precision
+    precision = 1
+    while not np.allclose(array, np.round(array, precision)):
+        precision = precision + 1
+        if precision == 16:
+            break
+    format_str = f"{{:{precision + 3}.{precision}f}}"
+
+    if len(array.shape) == 2:
+        n, m = array.shape
+    else:
+        n = array.shape[0]
+
+    for i in range(n):
+        if i == 0:
+            print(f"{array_name} = [ ", end="")
+        else:
+            print(" " * len(array_name) + "   [ ", end="")
+
+        try:
+            print(", ".join([format_str.format(v) for v in array[i]]), end=" ]")
+        except TypeError:
+            print(format_str.format(array[i]), end=" ]")
+        print(end=end)
+
+
+```
+
 ::: {.callout-tip}
 **Module learning outcome:** apply algorithms to compute eigenvectors and
 eigenvalues of large matrices.
@@ -13,20 +85,6 @@ TODO change this lecture to:
 - QR with gram-schmidt
 - power iteration and inverse power iteration
 - orthogonal vs orthonormal
-
-```{python}
-# | echo: false
-import time
-
-import numpy as np
-from matplotlib import pyplot as plt
-from scipy.optimize import curve_fit
-from scipy.stats import special_ortho_group
-
-plt.style.use("seaborn-v0_8-colorblind")
-
-
-```
 
 In the previous lecture, we defined the eigenvalue problem for a matrix $A$:
 Finding numbers $\lambda$ (eigenvalues) and vectors $\vec{x}$ (eigenvectors)
@@ -101,7 +159,7 @@ we set $A^{(0)} = A$, then we successively perform for $k=0, 1, 2, \ldots$:
 
 2. Update the matrix $A^{(k+1)}$ recombining $Q$ and $R$ in the reverse order:
    $$
-   $A^{(k+1)} = R^{(k)} Q^{(k)}.
+   A^{(k+1)} = R^{(k)} Q^{(k)}.
    $$
 
 As we take more and more steps, we hope that $A^{(k)}$ converges to an upper
@@ -124,11 +182,13 @@ Q = Q^{(1)} Q^{(2)} \cdots Q^{(m)}.
 $$
 
 The hard part of the method is compute the QR factorisation. One classical way
-to get a QR factorisation is to use the Gram-Schmidt method. In general,
+to get a QR factorisation is to use the Gram-Schmidt process. In general,
 Gram-Schmidt is used for take a sequence of vectors and forming a new sequence
 which is orthogonal. We can apply this to the columns of $A$ to form an
 orthogonal matrix. It turns out that if we track this process as a matrix-matrix
 product we find that the other factor is upper triangular.
+
+### The Gram-Schmidt process
 
 The key idea is shown in @fig-projection-away. Given a vector $\vec{a}$ (blue)
 and a vector $\vec{q}$ (green) with length 1. We can compute the projection
@@ -155,7 +215,7 @@ and we can compute that
 ```{python}
 # | echo: false
 # | label: fig-projection-away
-# | fig-cap: Projection of $\vec{a}$ away from $\vec{q}$.
+# | fig-cap: Projection of $\vec{a}$ away from $\vec{q}$ onto $\vec{u}$.
 
 a = np.array([0.5, 0.7])
 q = np.array([np.cos(np.pi / 10), np.sin(np.pi / 10)])
@@ -206,7 +266,7 @@ draw_arrow(a, "$\\vec{a}$", "C0")
 draw_arrow(q, "$\\vec{q}$", "C1")
 draw_arrow(Pq_a, "$(\\vec{a} \\cdot \\vec{q}) \\vec{q}$", "C2")
 draw_arrow(
-    Pqp_a, "$\\vec{q} = \\vec{a} - (\\vec{a} \\cdot \\vec{q}) \\vec{q}$", "C3"
+    Pqp_a, "$\\vec{u} = \\vec{a} - (\\vec{a} \\cdot \\vec{q}) \\vec{q}$", "C3"
 )
 
 plt.plot([a[0], Pq_a[0]], [a[1], Pq_a[1]], color="C2", linestyle="--")
@@ -413,7 +473,9 @@ plt.legend()
 
 ```
 Now we have applied the Gram-Schmidt process to convert from the vectors
-$\vec{a}^{(j)}$ to the vectors $\vec{q}^{(j)}$. We can consider the matrices
+$\vec{a}^{(j)}$ to the vectors $\vec{q}^{(j)}$. We can consider the matrix $Q$
+whose columns are the vectors $\vec{q}^{(j)}$ and the matrix $A$ whose columns
+are the vectors $\vec{a}^{(j)}$:
 \begin{equation*}
  Q = \begin{pmatrix}
  && \\
@@ -421,674 +483,278 @@ $\vec{a}^{(j)}$ to the vectors $\vec{q}^{(j)}$. We can consider the matrices
  &&
  \end{pmatrix}
  \quad \text{and} \quad
- R = \begin{pmatrix}
- \vec{a}^{(1)} \cdot \vec{q}^{(1)} & \vec{a}^{(2)} \cdot \vec{q}^{(1)}
- & \vec{a}^{(3)} \cdot \vec{q}^{(1)} \\
- \vec{a}^{(1)} \cdot \vec{q}^{(2)} & \vec{a}^{(2)} \cdot \vec{q}^{(2)}
- & \vec{a}^{(3)} \cdot \vec{q}^{(2)} \\
- \vec{a}^{(1)} \cdot \vec{q}^{(3)} & \vec{a}^{(2)} \cdot \vec{q}^{(3)}
- & \vec{a}^{(3)} \cdot \vec{q}^{(3)}
- \end{pmatrix}.
+  A = \begin{pmatrix}
+ && \\
+ \vec{a}^{(1)} & \vec{a}^{(2)} & \vec{a}^{(3)} \\
+ &&
+ \end{pmatrix}
 \end{equation*}
 Then we can compute that
 \begin{align*}
-Q R
-= \begin{pmatrix}
-TODO
-\end{pmatrix}
+(Q^T A)_{ij} = \vec{q}^{(j)} \cdot \vec{a}^{(j)}.
 \end{align*}
-:::
-
-## Jacobi transformations of a symmetric matrix
-
-The Jacobi method forms a sequence of similarity transforms similar to
-\eqref{eq:similarity_transform}. It is a *foolproof* approach for real, symmetric
-matrices (@sim-symmetric-nice).
-
-The key idea is to use the matrix $P_{pq}$ which is the matrix of the form
-\begin{equation}
-\label{eq:Pmatrix}
-   * [ ] P_{pq} = \begin{pmatrix}
-  1 &&&&&&& \\
-  & \ddots &&&&&& \\
-  && c & \cdots & s &&& \\
-  && \vdots & 1 & \vdots &&& \\
-  && -s & \cdots & c &&& \\
-  &&&&&& \ddots & \\
-  &&&&&&& 1
- \end{pmatrix}
-\end{equation}
-That is a matrix where all diagonal elements are one except for the two elements
-$c$ is rows $p$ and $q$. All off-diagonal elements are zero except the two
-elements $s$ and $-s$ in positions $(p, q)$ and $(q, p)$. We will choose $c, s$
-to be the cosine and sine of a particular angle (so that $c^2 + s^2 = 1$) which
-we specify later. Handily this means that $P_{pq}^{-1} = P_{pq}^T$.
-
-We will apply the matrix $P_{pq}$ as a similarity transformation:
-\begin{equation*}
-A' = P_{pq}^{T} A P.
-\end{equation*}
-
-::: {#exm-one-jacobi-rotation}
-Let $A$ be the $3 \times 3$ matrix given by
-\begin{equation*}
- A = \begin{pmatrix}
- 1 & 2 & \frac{3 \sqrt{2 - \sqrt{2}}}{4}\\2 & 5 & \frac{3 \sqrt{\sqrt{2} + 2}}{4}
- \\\frac{3 \sqrt{2 - \sqrt{2}}}{4} & \frac{3 \sqrt{\sqrt{2} + 2}}{4} & 2 \sqrt{2}
- \end{pmatrix}.
-\end{equation*}
-
-Let's apply the matrix as a similarity transform with $p=1, q=2$. Then we have
-\begin{equation*}
- P_{1,2} = \begin{pmatrix}
- c & s & 0\\- s & c & 0\\0 & 0 & 1
- \end{pmatrix},
-\end{equation*}
-where $c = \cos(\theta)$ and $s = \sin(\theta)$ and $\theta$ is still to be
-determined.
-
-We can compute that
-\begin{equation*}
- A P_{1,2} =
- \begin{pmatrix}
- c - 2 s & 2 c + s & \frac{3 \sqrt{2 - \sqrt{2}}}{4}\\
- 2 c - 5 s & 5 c + 2 s & \frac{3 \sqrt{\sqrt{2} + 2}}{4}\\
- \frac{3 c \sqrt{2 - \sqrt{2}}}{4} - \frac{3 s \sqrt{\sqrt{2} + 2}}{4} &
- \frac{3 c \sqrt{\sqrt{2} + 2}}{4} + \frac{3 s \sqrt{2 - \sqrt{2}}}{4} &
- 2 \sqrt{2}
- \end{pmatrix}
- \end{equation*}
- and
-\begin{equation*}
- A' = P_{1, 2}^T A P_{1,2} = \begin{pmatrix}
- c^{2} - 4 c s + 5 s^{2} & 2 c^{2} - 4 c s - 2 s^{2} &
- \frac{3 c \sqrt{2 - \sqrt{2}}}{4} - \frac{3 s \sqrt{\sqrt{2} + 2}}{4}\\
- 2 c^{2} - 4 c s - 2 s^{2} & 5 c^{2} + 4 c s + s^{2} &
- \frac{3 c \sqrt{\sqrt{2} + 2}}{4} + \frac{3 s \sqrt{2 - \sqrt{2}}}{4}\\
- \frac{3 c \sqrt{2 - \sqrt{2}}}{4} - \frac{3 s \sqrt{\sqrt{2} + 2}}{4} &
- \frac{3 c \sqrt{\sqrt{2} + 2}}{4} + \frac{3 s \sqrt{2 - \sqrt{2}}}{4} &
- 2 \sqrt{2}
- \end{pmatrix}
- \end{equation*}
-Our grant aim is to nudge $A$ towards being diagonal. Since, we've started with
-the $(1, 2)$ entry we might hope that we can make $A'_{1,2}$ to be zero. To do
-this we need $\theta$ such that
-\begin{equation*}
-2 \cos^{2}\theta - 4 \cos\theta \sin\theta - 2 \sin^2 \theta = 0
-\end{equation*}
-We can see that if $\theta = \pi/2 + m \pi$ (for some $m \in \mathbb{Z}$),
-$\cos\theta = 0$ but $\sin\theta = \pm 1$ and we don't have a solution.
-Otherwise, $\cos\theta \neq 0$ so we can divide by $- 2 \cos^2\theta$ to get
-\begin{equation*}
-\tan^2\theta + 2 \tan(\theta) - 1 = 0.
-\end{equation*}
-This is a quadratic equation in $\tan\theta$ with roots:
-\begin{equation*}
-\tan\theta = -1 \pm \sqrt{2}.
-\end{equation*}
-Taking the smaller root (with $+$ sign), we get (using some trigonometric
-identities):
-\begin{equation}
-\label{eq:trig_id}
-\begin{aligned}
-\tan\theta & = -1 + \sqrt{2} \\
-\cos\theta & = 1 / \sqrt{\tan^2\theta +1} = \sqrt{\sqrt{2}/4 + 1/2} \\
-\sin\theta & = \tan\theta \cos\theta
-=  \sqrt{1/2 - \sqrt{2}/4}.
-\end{aligned}
-\end{equation}
-
-Applying these substitutions, we arrive at
-\begin{equation*}
-A' = \begin{pmatrix}
-3 - 2 \sqrt{2} & 0 & 0\\0 & 2 \sqrt{2} + 3 & \frac{3}{2}\\0 & \frac{3}{2} &
-2 \sqrt{2}
-\end{pmatrix}
-\end{equation*}
-
-::: {#exr-sim-trans}
-Continue this exercise with $P_{2, 3}$.
-Show that $\theta$ can be chosen so that
+So
 \begin{align*}
-A'' = P_{2, 3}^{-1} A' P_{2, 3}
-= \begin{pmatrix}
-3 - 2 \sqrt{2} & 0 & 0\\0 & \frac{3}{2} + \frac{7 \sqrt{2}}{2} & 0\\0 & 0 &
-\frac{\sqrt{2}}{2} + \frac{3}{2}
+(Q^T A)
+& = \begin{pmatrix}
+(1, 0, 1)^T \cdot (\tfrac{1}{\sqrt{2}}, 0, \tfrac{1}{\sqrt{2}})^T
+& (2, -1, 0)^T \cdot (\tfrac{1}{\sqrt{2}}, 0, \tfrac{1}{\sqrt{2}})^T
+& (1, 2, 1)^T \cdot (\tfrac{1}{\sqrt{2}}, 0, \tfrac{1}{\sqrt{2}})^T
+\\
+(1, 0, 1)^T \cdot (\tfrac{1}{\sqrt{3}}, \tfrac{-1}{\sqrt{3}},
+\tfrac{-1}{\sqrt{3}})^T
+& (2, -1, 0)^T \cdot (\tfrac{1}{\sqrt{3}}, \tfrac{-1}{\sqrt{3}},
+\tfrac{-1}{\sqrt{3}})^T
+& (1, 2, 1)^T \cdot (\tfrac{1}{\sqrt{3}}, \tfrac{-1}{\sqrt{3}},
+\tfrac{-1}{\sqrt{3}})^T
+\\
+(1, 0, 1)^T \cdot (\tfrac{1}{\sqrt{6}}, \tfrac{2}{\sqrt{6}},
+\tfrac{-1}{\sqrt{6}})^T
+& (2, -1, 0)^T \cdot (\tfrac{1}{\sqrt{6}}, \tfrac{2}{\sqrt{6}},
+\tfrac{-1}{\sqrt{6}})^T
+& (1, 2, 1)^T \cdot (\tfrac{1}{\sqrt{6}}, \tfrac{2}{\sqrt{6}},
+\tfrac{-1}{\sqrt{6}})^T
 \end{pmatrix} \\
-\approx
-\begin{pmatrix}
-0.17157287525381 & 0 & 0\\0 & 6.44974746830583 & 0\\0 & 0 & 2.20710678118655
+& = \begin{pmatrix}
+\tfrac{2}{\sqrt{2}} & \tfrac{2}{\sqrt{2}} & \tfrac{2}{\sqrt{2}} \\
+0 & \tfrac{3}{\sqrt{3}} & \tfrac{-2}{\sqrt{3}} \\
+0 & 0 & \tfrac{4}{\sqrt{6}}
 \end{pmatrix}.
 \end{align*}
+Hence we have found an upper triangular matrix $R = Q^T A$. Since $Q$ is
+orthogonal, we know $Q^{-1} = Q^T$ and we have a factorisation:
+\begin{equation*}
+A = Q R.
+\end{equation*}
+
+::: {#exr-gramm-schmidt}
+Continue the QR-factorisation process by computing $B = R Q$ and apply the
+Gram-Schmidt process to the columns of $B$.
 :::
 :::
 
-The general case follows in a similar way. Multiplying out $A' = P_{pq}^{T} A
-P_{pq}$ for a general $n \times n$ matrix gives us the update formulae:
-\begin{align*}
-A'*{r, p} & = c A*{r, p} - s A_{r, q}
-&& \text{for} \quad r \in \{1, \ldots n\} \setminus \{p, q\} \\
-A'*{r, q} & = c A*{r, q} + s A_{r, p}
-&& \text{for} \quad r \in \{1, \ldots n\} \setminus \{p, q\} \\
-A'*{q, r} & = c A*{p, r} - s A_{q, r}
-&& \text{for} \quad r \in \{1, \ldots n\} \setminus \{p, q\} \\
-A'*{q, r} & = c A*{q, r} + s A_{p, r}
-&& \text{for} \quad r \in \{1, \ldots n\} \setminus \{p, q\} \\
-A'*{p, p} & = c^2 A*{p, p} + s^2 A_{q, q} - 2 c s A_{p, q} \\
-A'*{q, q} & = s^2 A*{p, p} + c^2 A_{q, q} + 2 c s A_{p, q} \\
-A'*{p, q} & = (c^2 - s^2) A*{p, q} + c s (A_{p, p} - A_{q, q}) \\
-A'*{q, p} & = (c^2 - s^2) A*{q, p} + c s (A_{p, p} - A_{q, q}) \\
-\end{align*}
-The equation we need to solve is to find $\theta$ such that
-\begin{equation*}
-A'*{p, q} = (\cos^2\theta - \sin^2\theta) A*{p, q} + \cos\theta \sin\theta
-(A_{p, p} - A_{q, q}) = 0
-\end{equation*}
-As in the example, we see that $\pi/2 + m \pi$ is not a solution, so we are safe
-to assume that $\cos\theta \neq 0$. Further, since we want to set $A'_{p, q}$ to
-zero, we can assume that $A_{p, q} \neq 0$ (otherwise we don't need to address
-this pair of $p$ and $q$). So we will divide by $-\cos^2\theta A_{p, q}$ to get
-a quadratic equation in $\tan\theta$:
-\begin{equation*}
--1 + \tan^2\theta - \tan\theta \frac{A_{p, p} - A_{q, q}}{A_{p, q}} = 0
-\end{equation*}
-We follow the example above and take the smallest root using the quadratic
-formula and apply the same trigonometric identities in order to compute $c$ and
-$s$ \eqref{eq:trig_id}.
+::: {.remark}
+The Gram-Schmidt algorithm relies on the fact that after each projection there
+should be something left - i.e. $\vec{u}^{(j)}$ should be non-zero. If
+$\vec{a}^{(j)}$ is in the span of $\{ \vec{q}^{(1)}, \ldots, \vec{q}^{(j-1)}
+\}$, then the projection onto $\vec{u}^{(j)}$ will give $\vec{0}$. There are a
+few ways to test this, but the key idea is that if $A$ is non-singular then we
+will always have $\vec{u}^{(j)} \neq \vec{0}$ -- at least in exact-precision
+calculations...
+:::
 
-The only remaining step is to decide which order to cover $p$ and $q$. The
-update formula only needs to be applied to the upper triangular part of the
-matrix away from the diagonal. In Jacobi's original algorithm from 1846, he
-proposed to eliminate each of the largest possible values in turn. This turns
-out to be computationally expensive and not necessary. Instead we simply iterate
-through all possible nonzero values until we have eliminated all off-diagonal
-values.
-
-## Python code
+### Python QR factorisation using Gram-Schmidt
 
 ```{python}
-def jacobi_rotation(A, p, q):
+def gram_schmidt_qr(A):
     """
-    Computes one iteration of P_{pq}^T A P_{pq}.
-    Inputs: symmetric matrix A, indices p, q
-    Output: symmetric matrix A' with A'_{p, q} = 0 (and A'_{q, p} = 0).
+    Compute the QR factorization of a square matrix using the classical
+    Gram-Schmidt process.
+
+    Parameters
+    ----------
+    A : numpy.ndarray
+        A square 2D NumPy array of shape ``(n, n)`` representing the input
+        matrix.
+
+    Returns
+    -------
+    Q : numpy.ndarray
+        Orthogonal matrix of shape ``(n, n)`` where the columns form an
+        orthonormal basis for the column space of A.
+    R : numpy.ndarray
+        Upper triangular matrix of shape ``(n, n)``.
     """
+    n, m = A.shape
+    if n != m:
+        raise ValueError(f"the matrix A is not square, {A.shape=}")
 
-    # copy matrix to new holder
-    A_new = A.copy()
+    Q = np.empty_like(A)
+    R = np.zeros_like(A)
 
-    # solve quadratic equation
-    b = (A[q, q] - A[p, p]) / A[p, q]
-    roots = (-b + np.sqrt(b * b + 4)) / 2, (-b - np.sqrt(b * b + 4)) / 2
-    t = min(roots, key=abs)  # take smallest in absolute value root
+    for j in range(n):
+        # Start with the j-th column of A
+        u = A[:, j].copy()
 
-    # determine c, s
-    c = 1.0 / np.sqrt(t * t + 1.0)
-    s = c * t
+        # Orthogonalize against previous q vectors
+        for i in range(j):
+            R[i, j] = np.dot(Q[:, i], A[:, j])  # projection coefficient
+            u -= R[i, j] * Q[:, i]  # subtract the projection
 
-    # do updates
-    A_new[:, p] = c * A[:, p] - s * A[:, q]
-    A_new[:, q] = c * A[:, q] + s * A[:, p]
-    A_new[p, :] = c * A[p, :] - s * A[q, :]
-    A_new[q, :] = c * A[q, :] + s * A[p, :]
+        # Normalize u to get q_j
+        R[j, j] = np.linalg.norm(u)
+        Q[:, j] = u / R[j, j]
 
-    A_new[p, p] = c**2 * A[p, p] + s**2 * A[q, q] - 2 * c * s * A[p, q]
-    A_new[q, q] = s**2 * A[p, p] + c**2 * A[q, q] + 2 * c * s * A[p, q]
-
-    A_new[p, q] = 0.0  # replace update formula with exact value
-    A_new[q, p] = 0.0  # replace update formula with exact value
-
-    return A_new
+    return Q, R
 
 
 ```
 
-Let's try it out!
-
+Let's test it without our example above:
 ```{python}
+# | echo: false
 
-A = np.array(
-    [
-        [1, 2, 3 * np.sqrt(2 - np.sqrt(2)) / 4],
-        [2, 5, 3 * np.sqrt(2 + np.sqrt(2)) / 4],
-        [
-            3 * np.sqrt(2 - np.sqrt(2)) / 4,
-            3 * np.sqrt(2 + np.sqrt(2)) / 4,
-            2 * np.sqrt(2),
-        ],
-    ]
-)
-np_ev, _ = np.linalg.eig(A)
+# matrix with columns equal to a1, a2 and a3
+A = np.array([[1.0, 2.0, 1.0], [0.0, -1.0, 2.0], [1.0, 0.0, 1.0]])
 
-print("initial matrix")
-print(A)
+print_array(A)
 
-A = jacobi_rotation(A, 0, 1)
+Q, R = gram_schmidt_qr(A)
 
-print("after one rotation (0, 1)")
-print(A)
+print("QR factorisation:")
+print_array(Q)
+print_array(R)
 
-A = jacobi_rotation(A, 1, 2)
+print("Have we computed a factorisation? (A == Q @ R?)", np.allclose(A, Q @ R))
 
-print("after second rotation (1, 2)")
-print(A)
 
-print("Our estimate of the eigenvalues is")
-print(np.diag(A))
-print("Numpy's estimate of the eigenvalues is")
-print(np_ev)
 ```
 
-Let's try again with a harder problem
+## Finding eigenvalues and eigenvectors
+
+The algorithm given above says that we use the QR factorisation to iteratively
+find a sequence of matrices $A^{(j)}$ which *should* converge to an
+upper-triangular matrix.
+
+We test this out in code first for the matrix from @exm-char:
 
 ```{python}
+def gram_schmidt_eigen(A, maxiter=100, verbose=False):
+    """
+    Compute the eigenvalues and eigenvectors of a square matrix using the QR
+    algorithm with classical Gram-Schmidt QR factorization.
 
-n = 10
-tol = 1.0e-12
+    This function implements the basic QR algorithm:
 
-# generate a random matrix
+    1. Factorize the matrix `A` into `Q` and `R` using Gram-Schmidt QR
+       factorization.
+    2. Update the matrix as:
+
+       .. math::
+           A_{k+1} = R_k Q_k
+
+    3. Accumulate the orthogonal transformations in `V` to compute the
+       eigenvectors.
+    4. Iterate until `A` becomes approximately upper triangular or until the
+       maximum number of iterations is reached.
+
+    Once the iteration converges, the diagonal of `A` contains the eigenvalues,
+    and the columns of `V` contain the corresponding eigenvectors.
+
+    Parameters
+    ----------
+    A : numpy.ndarray
+        A square 2D NumPy array of shape ``(n, n)`` representing the input
+        matrix. This matrix will be **modified in place** during the
+        computation.
+    maxiter : int, optional
+        Maximum number of QR iterations to perform. Default is 100.
+    verbose : bool, optional
+        If ``True``, prints intermediate matrices (`A`, `Q`, `R`, and `V`) at
+        each iteration. Useful for debugging and understanding convergence.
+        Default is ``False``.
+
+    Returns
+    -------
+    eigenvalues : numpy.ndarray
+        A 1D NumPy array of length ``n`` containing the eigenvalues of `A`.
+        These are the diagonal elements of the final upper triangular matrix.
+    V : numpy.ndarray
+        A 2D NumPy array of shape ``(n, n)`` whose columns are the normalized
+        eigenvectors corresponding to the eigenvalues.
+    it : int
+        The number of iterations taken by the algorithm.
+    """
+    # identity matrix to store eigenvectors
+    V = np.eye(A.shape[0])
+
+    if verbose:
+        print_array(A)
+
+    it = -1
+    for it in range(maxiter):
+        if verbose:
+            print(f"\n\n{it=}")
+
+        # perform factorisation
+        Q, R = gram_schmidt_qr(A)
+        if verbose:
+            print_array(Q)
+            print_array(R)
+
+        # update A and V in place
+        A[:] = R @ Q
+        V[:] = V @ Q
+
+        if verbose:
+            print_array(A)
+            print_array(V)
+
+        # test for convergence: is A upper triangular up to tolerance 1.0e-8?
+        if np.allclose(A, np.triu(A), atol=1.0e-8):
+            break
+
+    eigenvalues = np.diag(A)
+    return eigenvalues, V, it
+
+
+```
+
+```{python}
+A = np.array([[3.0, 1.0], [1.0, 3.0]])
+print_array(A)
+
+eigenvalues, eigenvectors, it = gram_schmidt_eigen(A)
+print_array(eigenvalues)
+print_array(eigenvectors)
+print("iterations required:", it)
+
+
+```
+
+These values agree with those from @exm-char. Note that this code normalises
+the eigenvectors to have length one, so we have slightly different values
+for the eigenvectors but still in the same directions.
+
+## Correctness and convergence
+
+Let's see what happens when we try this same approach for a bigger symmetric
+matrix. We write a test that first checks how good the QR factorisation is for
+the initial matrix $A$ and then uses our approach to find eigenvalues and
+eigenvectors and tests how good that approximation is too.
+
+```{python}
+# replicable seed
 np.random.seed(42)
-S = special_ortho_group.rvs(n)
-D = np.diag(np.random.randint(-5, 5, (n,)))
-A = S.T @ D @ S
 
-print("initial matrix A")
-print(A)
+for n in [2, 4, 8, 16, 32]:
+    print(f"\n\n matrix size {n=}")
+    # generate a random matrix
+    S = special_ortho_group.rvs(n)
+    D = np.diag(np.random.randint(-5, 5, (n,)))
+    A = S.T @ D @ S
 
-np_ev, _ = np.linalg.eig(A)
+    Q, R = gram_schmidt_qr(A)
 
-# sweep over matrix several times
-for sweep in range(10):
-    for i in range(n):
-        for j in range(i + 1, n):
-            if abs(A[i, j]) < tol:
-                continue
+    print(
+        "- how accurate is Q R factorisation of A?",
+        np.linalg.norm(A - Q @ R),
+    )
+    print("- is Q orthogonal?", np.linalg.norm(np.eye(n) - Q.T @ Q))
 
-            A = jacobi_rotation(A, i, j)
-
-    non_diag_nonzeros = 0
-    non_diag_zeros = 0
-    for i in range(n):
-        for j in range(n):
-            if i == j:
-                continue
-            if abs(A[i, j]) < tol:
-                non_diag_zeros += 1
-            else:
-                non_diag_nonzeros += 1
-
-    print(f"end of sweep {sweep}: {non_diag_zeros=} {non_diag_nonzeros=}")
-    if non_diag_nonzeros == 0:
-        break
-
-print("our estimate of the eigenvalues is")
-print(np.diag(A))
-print("Numpy's estimate of the eigenvalues is")
-print(np_ev)
-```
-
-We see that it takes 10 sweeps to find all the eigenvalues!
-
-## Computing eigenvectors
-
-After enough sweeps, we end up with a diagonal matrix (at least to machine
-precision), let's call it $D$. But indeed, we have computed a factorisation:
-\begin{equation*}
-D = V^T A V,
-\end{equation*}
-where $V = P_1 P_2 \cdots$ and each $P_j$ is a Jacobi rotation matrix. We can
-immediately identify the matrix $V$ as having columns which correspond to the
-eigenvectors of $A$.
-
-The eigenvector matrix can be computed by successively computing:
-\begin{equation*}
-V' = V P_{pq},
-\end{equation*}
-starting from $V$ is the identity matrix.
-We can see that componentwise, we have the update formulae:
-\begin{align*}
-v'*{rs} &= v*{rs} && s \neq p, s \neq q \\
-v'*{rp} &= c v*{rp} - s v_{rq} && ?? \\
-v'*{rq} &= s v*{rp} + c v_{rq} && ??.
-\end{align*}
-
-::: {#exm-one-jacobi-rotation2}
-Continuing @exm-one-jacobi-rotation. We computed that in the first iteration
-\begin{align*}
-\cos\theta & = 1 / \sqrt{\tan^2\theta +1} = \sqrt{\sqrt{2}/4 + 1/2} \\
-\sin\theta & = \tan\theta \cos\theta
-=  \sqrt{1/2 - \sqrt{2}/4}.
-\end{align*}
-
-Starting from
-$$
-V = \begin{pmatrix}
-1 & 0 & 0 \\
-0 & 1 & 0 \\
-0 & 0 & 1 \\
-\end{pmatrix},
-$$
-we can compute $V'$ as
-$$
-V' = \begin{pmatrix}
-c & s & 0 \\
--s & c & 0 \\
-0 & 0 & 1 \\
-\end{pmatrix}
-= \begin{pmatrix}
-\sqrt{\sqrt{2}/4 + 1/2} & \sqrt{1/2 - \sqrt{2}/4} & 0 \\
--\sqrt{1/2 - \sqrt{2}/4} & \sqrt{\sqrt{2}/4 + 1/2} & 0 \\
-0 & 0 & 1 \\
-\end{pmatrix}.
-$$
-
-:::: {#exr-sim-trans2}
-Continue this exercise with $P_{2, 3}$ to show
-\begin{align*}
-& V'' = V' P_{2, 3}
-= \begin{pmatrix}
-\frac{\sqrt{\sqrt{2} + 2}}{2} & - \frac{\sqrt{2}}{4}
-& \frac{1}{2} - \frac{\sqrt{2}}{4} \\ - \frac{\sqrt{2 - \sqrt{2}}}{2} &
--\frac{1}{2} - \frac{\sqrt{2}}{4} & \frac{\sqrt{2}}{4} \\
-0 & - \frac{\sqrt{2 - \sqrt{2}}}{2} & - \frac{\sqrt{\sqrt{2} + 2}}{2}
-\end{pmatrix} \\
-& \approx
-\begin{pmatrix}
-0.923879532511287 & -0.353553390593274 & 0.146446609406726\\
--0.38268343236509 & -0.853553390593274 & 0.353553390593274\\
-0 & -0.38268343236509 & -0.923879532511287\end{pmatrix}.
-\end{align*}
-:::
-:::
-
-## Python code (again)
-
-We can try our methods on
-
-```{python}
-
-
-def jacobi_rotation_with_V(A, V, p, q):
-    """
-    Computes one iteration of P_{pq}^T A P_{pq} and V P_{pq}
-    Inputs: symmetric matrix A, matrix V, indices p, q
-    Output: symmetric matrix A' with A'_{p, q} = 0 (and A'_{q, p} = 0),
-            updated corresponding eigenvector matrix V
-    """
-
-    # copy matrix to new holder
-    A_new = A.copy()
-    V_new = V.copy()
-
-    # solve quadratic equation
-    b = (A[q, q] - A[p, p]) / A[p, q]
-    roots = (-b + np.sqrt(b * b + 4)) / 2, (-b - np.sqrt(b * b + 4)) / 2
-    t = min(roots, key=abs)  # take smallest in absolute value root
-
-    # determine c, s
-    c = 1.0 / np.sqrt(t * t + 1.0)
-    s = c * t
-
-    # do updates
-    A_new[:, p] = c * A[:, p] - s * A[:, q]
-    A_new[:, q] = c * A[:, q] + s * A[:, p]
-    A_new[p, :] = c * A[p, :] - s * A[q, :]
-    A_new[q, :] = c * A[q, :] + s * A[p, :]
-
-    A_new[p, p] = c**2 * A[p, p] + s**2 * A[q, q] - 2 * c * s * A[p, q]
-    A_new[q, q] = s**2 * A[p, p] + c**2 * A[q, q] + 2 * c * s * A[p, q]
-
-    A_new[p, q] = 0.0  # replace update formula with exact value
-    A_new[q, p] = 0.0  # replace update formula with exact value
-
-    V_new[:, p] = c * V[:, p] - s * V[:, q]
-    V_new[:, q] = s * V[:, p] + c * V[:, q]
-
-    return A_new, V_new
+    print("- can we use this approach to find eigenvalues?")
+    maxiter = 100_000
+    D, V, k = gram_schmidt_eigen(A, maxiter=maxiter)
+    if k == maxiter - 1:
+        print(" -> too many iterations required")
+    else:
+        print(
+            f" -> are the eigenvalues and eigenvectors accurate? {k=}",
+            np.linalg.norm(A @ V - np.diag(D) @ V),
+        )
 
 
 ```
 
-Let's try it out!
-
-```{python}
-A = np.array(
-    [
-        [1, 2, 3 * np.sqrt(2 - np.sqrt(2)) / 4],
-        [2, 5, 3 * np.sqrt(2 + np.sqrt(2)) / 4],
-        [
-            3 * np.sqrt(2 - np.sqrt(2)) / 4,
-            3 * np.sqrt(2 + np.sqrt(2)) / 4,
-            2 * np.sqrt(2),
-        ],
-    ]
-)
-np_eval, np_evec = np.linalg.eig(A)
-
-V = np.eye(A.shape[0])
-
-print("initial matrices")
-print(A)
-print(V)
-
-A, V = jacobi_rotation_with_V(A, V, 0, 1)
-
-print("after one rotation (0, 1)")
-print(A)
-print(V)
-
-A, V = jacobi_rotation_with_V(A, V, 1, 2)
-
-print("after second rotation (1, 2)")
-print(A)
-print(V)
-
-print("Our estimate of the eigenvalues is")
-print(np.diag(A))
-print("Numpy's estimate of the eigenvalues is")
-print(np_eval)
-
-print("Our estimate of eigenvectors is")
-print(V)
-print("Numpy's estimate of the eigenvalues is")
-print(np_evec)
-```
-
-Success! We have the same values (up to reordering).
-
-We can also apply the same code to the larger problem size:
-
-```{python}
-n = 10
-tol = 1.0e-12
-
-# generate a random matrix
-np.random.seed(42)
-S = special_ortho_group.rvs(n)
-D = np.diag(np.random.randint(-5, 5, (n,)))
-A = S.T @ D @ S
-V = np.eye(n)
-
-print("initial matrix A")
-print(A)
-
-np_eval, np_evec = np.linalg.eig(A)
-
-# sweep over matrix several times
-for sweep in range(10):
-    for i in range(n):
-        for j in range(i + 1, n):
-            if abs(A[i, j]) < tol:
-                continue
-
-            A, V = jacobi_rotation_with_V(A, V, i, j)
-
-    non_diag_nonzeros = 0
-    non_diag_zeros = 0
-    for i in range(n):
-        for j in range(n):
-            if i == j:
-                continue
-            if abs(A[i, j]) < tol:
-                non_diag_zeros += 1
-            else:
-                non_diag_nonzeros += 1
-
-    print(f"end of sweep {sweep}: {non_diag_zeros=} {non_diag_nonzeros=}")
-    if non_diag_nonzeros == 0:
-        break
-
-print("our estimate of the eigenvalues is")
-print(np.diag(A))
-print("Numpy's estimate of the eigenvalues is")
-print(np_ev)
-
-print("Our estimate of eigenvectors is")
-print(V)
-print("Numpy's estimate of the eigenvalues is")
-print(np_evec)
-```
-
-## Computational cost
-
-A quick look at the cost of each rotation shows that the main cost is in
-updating all the entries. For a matrix of size $n$, we must update $4n-4$
-entries (two rows and two columns) in $A$ and $2n$ entries in (two rows) in $V$.
-We say that each rotation costs $O(n)$.
-
-One sweep corresponds to trying to eliminate all off diagonal entries (i.e. the
-strictly upper triangular portion of the matrix). So each sweep corresponds to
-$n (n-1)/2$ rotations or $(6n - 4) n (n-1) / 2$. So each sweep is $O(n^3)$.
-
-The remaining question is how many sweeps are required? Let's test this using
-our code.
-
-```{python}
-# | echo: false
-
-tol = 1e-12
-max_sweeps = 100
-
-n_values = []
-sweep_values = []
-times = []
-
-# for n in range(10, 100, 5):
-for n in [5, 10]:
-    times_holder_n = []
-    sweeps_holder_n = []
-
-    for _ in range(5):
-        S = special_ortho_group.rvs(n)
-        D = np.diag(np.random.randint(-5, 5, (n,)))
-        A = S.T @ D @ S
-        V = np.eye(n)
-
-        my_time = 0.0
-
-        # sweep over matrix several times
-        for sweep in range(max_sweeps):
-            start = time.time()
-            for i in range(n):
-                for j in range(i + 1, n):
-                    if abs(A[i, j]) < tol:
-                        continue
-
-                    A, V = jacobi_rotation_with_V(A, V, i, j)
-
-            end = time.time()
-            my_time += end - start
-
-            non_diag_nonzeros = 0
-            non_diag_zeros = 0
-            for i in range(n):
-                for j in range(n):
-                    if i == j:
-                        continue
-                    if abs(A[i, j]) < tol:
-                        non_diag_zeros += 1
-                    else:
-                        non_diag_nonzeros += 1
-
-            if non_diag_nonzeros == 0:
-                n_sweeps = sweep + 1
-                break
-
-        times_holder_n.append(my_time)
-        sweeps_holder_n.append(n_sweeps)
-
-    n_values.append(n)
-    sweep_values.append(np.average(sweeps_holder_n))
-    times.append(np.average(times_holder_n))
-```
-
-```{python}
-# | echo: false
-
-n_values = np.array(n_values)
-
-
-def sweep_fit_func(n, *params):
-    a, b = params
-    return a * n**0.5 + b
-
-
-opt, cov = curve_fit(sweep_fit_func, n_values, sweep_values, (1, 0))
-
-plt.plot(n_values, sweep_values, "o", label="samples")
-if len(opt) == 1:
-    raise Exception(opt)
-plt.plot(
-    n_values,
-    sweep_fit_func(n_values, *opt),
-    label=f"fit  ({opt[0]:.2f} $n^{{1/2}}$ + {opt[1]:.2f})",
-)
-
-plt.xlabel("$n$")
-plt.ylabel("no. of sweeps")
-plt.legend()
-
-plt.grid(True)
-plt.show()
-```
-
-This gives us an estimate that the number of sweeps is $O(n^{1/2})$.
-So we would expect the time to run the algorithm to scale like $n^{7/2}$.
-However, in practical situations, we see that the growth is closer to $n^{5/2}$:
-
-```{python}
-# | echo: false
-
-
-def time_fit_func(log_n, *params):
-    a, b = params
-    return a * log_n + b
-
-
-def time_fit_func_rescale(n, *params):
-    a, b = params
-    return np.exp(b) * n**a
-
-
-opt, cov = curve_fit(time_fit_func, np.log(n_values), np.log(times), p0=(1, 0))
-
-plt.loglog(n_values, times, "o", label="samples")
-plt.loglog(
-    n_values,
-    time_fit_func_rescale(n_values, *opt),
-    label=f"fit ($({np.exp(opt[1]):.2e}) n^{{{opt[0]:.2f}}})$",
-)
-
-plt.xlabel("$n$")
-plt.ylabel("time")
-plt.legend()
-
-plt.grid(True)
-plt.show()
-```
-
-## References
-
-Numerical recipes, chapter XX?
-
-<https://arxiv.org/abs/2509.00495>
+You will see in the lab session ways to improve our basic algorithm that allows
+faster, more robust convergence.
