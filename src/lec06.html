@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.34">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -35,18 +35,19 @@ ul.task-list li input[type="checkbox"] {
 <link href="../src/lec05.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-befe23ebd2f54d8af2c8a89d1a1611f1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b651517ce65839d647a86e2780455cfb.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-2478dfaf21121e4abc1bf4c5fc5acc12.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-57a138f0bb470e46bebdddd77a7e3455.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-2478dfaf21121e4abc1bf4c5fc5acc12.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-fcdc01ead29fbffdaec00249dfc3ebda.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e1296d290184cee5a0f44e6c4c60492d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-fcdc01ead29fbffdaec00249dfc3ebda.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -96,7 +97,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -307,7 +308,9 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="../">COMP2870 Theoretical Foundations: Linear Algebra</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -386,6 +389,7 @@ window.Quarto = {
   <li><a href="#calculations-with-complex-numbers" id="toc-calculations-with-complex-numbers" class="nav-link" data-scroll-target="#calculations-with-complex-numbers"><span class="header-section-number">6.2</span> Calculations with complex numbers</a></li>
   <li><a href="#a-geometric-picture" id="toc-a-geometric-picture" class="nav-link" data-scroll-target="#a-geometric-picture"><span class="header-section-number">6.3</span> A geometric picture</a></li>
   <li><a href="#solving-polynomial-equations" id="toc-solving-polynomial-equations" class="nav-link" data-scroll-target="#solving-polynomial-equations"><span class="header-section-number">6.4</span> Solving polynomial equations</a></li>
+  <li><a href="#complex-vectors-and-matrices" id="toc-complex-vectors-and-matrices" class="nav-link" data-scroll-target="#complex-vectors-and-matrices"><span class="header-section-number">6.5</span> Complex vectors and matrices</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/edit/main/src/lec06.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/blob/main/src/lec06.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -433,7 +437,7 @@ window.Quarto = {
 <p><span class="theorem-title"><strong>Example 6.1</strong></span> Consider the polynomial equation <span class="math display">\[\begin{equation}
 x^2 + 1 = 0.
 \end{equation}\]</span></p>
-<div id="93bdefa3" class="cell" data-execution_count="2">
+<div id="f90d4279" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -442,7 +446,7 @@ x^2 + 1 = 0.
 </div>
 </div>
 </div>
-<p>We can see that this equation has no solution over the real numbers.</p>
+<p>We can see that this equation has no solution over the real numbers: There are no real values <span class="math inline">\(x\)</span> such that <span class="math inline">\(x^2 + 1 = 0\)</span>.</p>
 </div>
 <p>The key idea of complex numbers is to create a new symbol, that we will call <span class="math inline">\(i\)</span>, or the <strong>imaginary unit</strong> which satisfies: <span class="math display">\[\begin{equation*}
 i^2 = -1 \qquad \sqrt{-1} = i.
@@ -474,7 +478,7 @@ i^2 = -1 \qquad \sqrt{-1} = i.
 <section id="calculations-with-complex-numbers" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="calculations-with-complex-numbers"><span class="header-section-number">6.2</span> Calculations with complex numbers</h2>
 <p>We can perform the basic operations, addition, subtraction, multiplication and division, on complex numbers.</p>
-<p>Addition and subtraction is relatively straight forward: we simple treat the real and imaginary parts separately.</p>
+<p>Addition and subtraction is relatively straight forward: we simply treat the real and imaginary parts separately.</p>
 <div id="exm-add-sub" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.2</strong></span> We can compute that <span class="math display">\[\begin{align*}
 &amp; (2 + 3i) + (12 - 12i) = (2 + 12) + (3 - 12)i = 14 - 9i \\
@@ -485,7 +489,7 @@ i^2 = -1 \qquad \sqrt{-1} = i.
 <p><span class="theorem-title"><strong>Exercise 6.2</strong></span> Compute <span class="math inline">\((3+6i) + (-3.5 + 2i)\)</span> and <span class="math inline">\((3 + 6i) - (-3.5 + 2i)\)</span>.</p>
 </div>
 <p>For multiplying and dividing, we first say that applying these operations between complex and real numbers again follows the usual rules. Let <span class="math inline">\(x\)</span> be a real number and <span class="math inline">\(z = (a + bi)\)</span> be a complex number, then <span class="math display">\[\begin{align*}
-&amp; x \times (a + bi) = (a + bi) \times x = (x \times a) + (x \times b) \\
+&amp; x \times (a + bi) = (a + bi) \times x = (x \times a) + (x \times b) i \\
 &amp; \frac{a + bi}{x} = \frac{a}{x} + \frac{b}{x} i.
 \end{align*}\]</span></p>
 <p>For multiplication between complex numbers, things are a bit harder. We expand out brackets and apply the rule that <span class="math inline">\(i^2 = -1\)</span>:</p>
@@ -511,7 +515,8 @@ i^2 &amp;&amp; \text{(rearrange)} \\
 <div id="exm-division" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.4</strong></span> Suppose we want to find <span class="math inline">\((2 + 3i) / (12 - 12i)\)</span>. Our idea is to find a numbers so that we can write <span class="math display">\[\begin{equation*}
 \frac{2 + 3i}{12 - 12i} = \frac{2 + 3i}{12 - 12i} \times \frac{z}{z}
-= frac{(2 + 3i)z}{(12 - 12i)z} = \frac{\text{something}}{\text{something real}}.
+= \frac{(2 + 3i)z}{(12 - 12i)z}
+= \frac{\text{something}}{\text{something real}}.
 \end{equation*}\]</span> The answer is to use <span class="math inline">\(z = 12 + 12 i\)</span> - that is the denominator with the sign of the imaginary part flipped (we will give this a name later on).</p>
 <p>We can compute that <span class="math display">\[\begin{align*}
 &amp; (12 - 12i) \times (12 + 12i) \\
@@ -559,7 +564,7 @@ i^2 = (\sqrt{-1})^2 = \sqrt{-1} \sqrt{-1} \neq \sqrt{(-1) \times (-1)} = \sqrt{1
 <p>The complex plane is the two dimensional space formed by considering the real and imaginary parts of a complex number as two different coordinate axes.</p>
 <div id="exm-plane" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.5</strong></span> &nbsp;</p>
-<div id="23338a6f" class="cell" data-caption="Examples of complex numbers as points in the complex plane." data-execution_count="3">
+<div id="19e63fc0" class="cell" data-caption="Examples of complex numbers as points in the complex plane." data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -585,12 +590,13 @@ a - bi\)</span>. (The complex conjugate is that number we used before when worki
 &amp; = (a \times a) + (a \times -b + b \times a) i - (b \times - b) \\
 &amp; = a^2 + b^2 + 0 i.
 \end{align*}\]</span></p>
-<p>In fact, we use this same calculation to define the <strong>absolute value</strong> (sometimes called the <strong>modulus</strong>) of a complex number <span class="math inline">\(z = a + bi\)</span> <span class="math display">\[\begin{equation*}
+<p>In fact, we use this same calculation to define the <strong>absolute value</strong> (sometimes called the <strong>modulus</strong>) of a complex number <span class="math inline">\(z = a + bi\)</span> <span class="math display">\[\begin{equation}
+\label{eq:modulus}
 |z| = |a + bi| = \sqrt{a^2 + b^2} = \sqrt{z \bar{z}}.
-\end{equation*}\]</span></p>
+\end{equation}\]</span></p>
 <div id="exm-modulus" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.7</strong></span> &nbsp;</p>
-<div id="7e5988b8" class="cell" data-caption="Examples of moduli of complex numbers as points in the complex plane." data-execution_count="4">
+<div id="13afb20b" class="cell" data-caption="Examples of moduli of complex numbers as points in the complex plane." data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -646,7 +652,7 @@ z y
 </div>
 <div id="exm-arg" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.9</strong></span> &nbsp;</p>
-<div id="52d2b831" class="cell" data-caption="Examples of arguments of complex numbers as points in the complex plane." data-execution_count="5">
+<div id="a30fbb08" class="cell" data-caption="Examples of arguments of complex numbers as points in the complex plane." data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -679,7 +685,7 @@ x^2 + 1 = 0.
 &amp; i^2 + 1 = 0 \\
 &amp; (-i)^2 + 1 = (-1)^2 i^2 + 1 = i^2 + 1 = 0.
 \end{align*}\]</span></p>
-<div id="b6871ee0" class="cell" data-execution_count="6">
+<div id="32e081e3" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -700,7 +706,74 @@ z = \frac{+2 \pm \sqrt{(-2)^2 - 4 \times 1 \times 2}}{2} =
 <p><span class="theorem-title"><strong>Exercise 6.9</strong></span> Find the value of <span class="math inline">\(z\)</span> which satisfy <span class="math inline">\(z^2 - 4z + 20 = 0\)</span>.</p>
 </div>
 </div>
-<p>We will see in later sections that although this is one possible solution to compute the eigenvalues for <span class="math inline">\(2 \times 2\)</span> matrices this approach becomes impossible for larger size matrices and we need another approach!</p>
+<p>We will see in later sections that although this is one possible solution to compute the eigenvalues for <span class="math inline">\(2 \times 2\)</span> matrices this approach becomes infeasible for larger size matrices and we need another approach!</p>
+</section>
+<section id="complex-vectors-and-matrices" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="complex-vectors-and-matrices"><span class="header-section-number">6.5</span> Complex vectors and matrices</h2>
+<p>Last year you were introduced to vectors of real numbers. In the remaining part of Linear Algebra, we will need to work with complex. The definitions are mostly what you would expect but with some slight subtleties.</p>
+<div id="def-complex-vectors-matrices" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 6.3</strong></span> A complex matrix is a matrix whose entries are complex numbers. A complex vector is a vector whose entries are complex numbers.</p>
+</div>
+<p>One thing we like to do with vectors is to take scalar products and to find their length. When working with complex vectors, we replace the scalar product with a <em>Hermitian product</em>. We write <span class="math inline">\(\langle \vec{a}, \vec{b} \rangle\)</span> for the Hermitian product of two complex <span class="math inline">\(n\)</span>-vectors <span class="math inline">\(\vec{a}\)</span> and <span class="math inline">\(\vec{b}\)</span> and the value is given by <span class="math display">\[\begin{equation}
+\label{eq:hermitian-product}
+\langle \vec{a}, \vec{b} \rangle = \sum_{i=1}^n a_i \bar{b}_i.
+\end{equation}\]</span> We see that the Hermitian product is the same as taking the scalar product of <span class="math inline">\(\vec{a}\)</span> and the complex conjugate of <span class="math inline">\(\vec{b}\)</span>. If the entries in <span class="math inline">\(\vec{b}\)</span> have no imaginary part (i.e.&nbsp;they are all real numbers), then the Hermitian product of <span class="math inline">\(\vec{a}\)</span> and <span class="math inline">\(\vec{b}\)</span> is equal to the scalar product of <span class="math inline">\(\vec{a}\)</span> and <span class="math inline">\(\vec{b}\)</span>.</p>
+<div id="exm-hermitian-product" class="theorem example">
+<p><span class="theorem-title"><strong>Example 6.12</strong></span> Let <span class="math inline">\(\vec{a} = (1 + 2i, 2 + i, 3 - 4i)^T\)</span> and <span class="math inline">\(\vec{b} =
+(6 + 2i, 3 + 4i, 1 + i)^T\)</span> then: <span class="math display">\[\begin{align*}
+\langle \vec{a}, \vec{b} \rangle
+&amp; = (1 + 2i) \times (6 - 2i) + (2 + i) \times (3 - 4i) + (3 - 4i) \times (1 - i)
+\\
+&amp; = (10 + 10i) + (10 - 5i) + (-1 - 7i) = 19 - 2i.
+\end{align*}\]</span></p>
+<div id="exr-hermitian-product" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 6.10</strong></span> Find the Hermitian product of <span class="math inline">\(\vec{c} = (3 + i, -2 + 2i, 4 - i)^T\)</span> and <span class="math inline">\(\vec{d}
+= (-1 + 3i, 2 + 6i, 2i)^T\)</span>.</p>
+</div>
+</div>
+<p>Recalling the definition of modulus of a complex number <span class="math inline">\(\eqref{eq:modulus}\)</span>, we can also compute that for a complex <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\vec{z}\)</span> that <span class="math display">\[\begin{align*}
+\langle \vec{z}, \vec{z} \rangle
+= \sum_{i=1}^n z_i \bar{z}_i = \sum_{i=1}^n |z_i|^2.
+\end{align*}\]</span> So for a complex vector, we define the Euclidean norm as <span class="math display">\[\begin{align*}
+\| \vec{z} \| = \sqrt{ \sum_{i=1}^n |z_i|^2 } = \sqrt{ \langle z, z \rangle }.
+\end{align*}\]</span></p>
+<p>Recall that for a real <em>symmetric</em> <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(A\)</span> and any <span class="math inline">\(n\)</span>-vectors <span class="math inline">\(\vec{x}\)</span> and <span class="math inline">\(\vec{y}\)</span> that <span class="math display">\[\begin{align*}
+A \vec{x} \cdot \vec{y}
+&amp; = \sum_{i=1}^n (A \vec{x})_i y_i &amp;&amp; \text{(definition of scalar product)} \\
+&amp; = \sum_{i=1}^n \left( \sum_{j=1}^n A_{ij} x_j \right) y_i
+&amp;&amp; \text{(definition of matrix-vector product)} \\
+&amp; = \sum_{i=1}^n \sum_{j=1}^n A_{ji} x_j y_i
+&amp;&amp; \text{(symmetry of $A$)} \\
+&amp; = \sum_{j=1}^n x_j \sum_{i=1}^n \left(A_{ji} y_i \right)
+&amp;&amp; \text{(rearranging)} \\
+&amp; = \sum_{j=1}^n x_j (A y)_j
+&amp;&amp; \text{(definition of matrix-vector product)} \\
+&amp; = \vec{x} \cdot A \vec{y}
+&amp;&amp; \text{(definition of scalar product)}.
+\end{align*}\]</span></p>
+<p>Replacing all terms with complex value and the scalar product with Hermitian product, we get a similar calculation: <span class="math display">\[\begin{align*}
+\langle A \vec{x}, \vec{y} \rangle
+&amp; = \sum_{i=1}^n (A \vec{x})_i \bar{y}_i &amp;&amp; \text{(definition of Hermitian product)} \\
+&amp; = \sum_{i=1}^n \left( \sum_{j=1}^n A_{ij} x_j \right) \bar{y}_i
+&amp;&amp; \text{(definition of matrix-vector product)} \\
+&amp; = \sum_{i=1}^n \sum_{j=1}^n A_{ji} x_j \bar{y}_i
+&amp;&amp; \text{(symmetry of $A$)} \\
+&amp; = \sum_{j=1}^n x_j \sum_{i=1}^n \left(A_{ji} \bar{y}_i \right)
+&amp;&amp; \text{(rearranging)} \\
+&amp; = \sum_{j=1}^n x_j \bar{(\bar{A} y)}_j
+&amp;&amp; \text{(definition of matrix-vector product)} \\
+&amp; = \langle \vec{x}, \bar{A} \vec{y} \rangle
+&amp;&amp; \text{(definition of Hermitian)}.
+\end{align*}\]</span> This is quite unsatisfactory (note the extra bar on <span class="math inline">\(A\)</span> in the final equation) and we would like something the generalises the idea of a symmetric matrix to the Hermitian product case too.</p>
+<p>The key idea is to generalise the definition of matrix transpose to the complex setting:</p>
+<div id="def-hermitian-matrix" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 6.4</strong></span> For a complex <span class="math inline">\(n\)</span>-matrix <span class="math inline">\(A\)</span>, we write <span class="math inline">\(A^H\)</span> for the <strong>conjugate transpose</strong> (also called the <strong>Hermitian transpose</strong>) given by <span class="math display">\[\begin{equation*}
+(A^H)_{ij} = \bar{A}_{ji} = \bar{A}^T.
+\end{equation*}\]</span> If <span class="math inline">\(A^H = A\)</span>, then we say that <span class="math inline">\(A\)</span> is <strong>Hermitian</strong>.</p>
+</div>
+<p>Repeating the above calculations, we can see that if <span class="math inline">\(A\)</span> is Hermitian then <span class="math display">\[\begin{equation*}
+\langle A \vec{x}, \vec{y} \rangle = \langle \vec{x}, A \vec{y} \rangle.
+\end{equation*}\]</span></p>
 
 
 </section>
@@ -770,13 +843,14 @@ z = \frac{+2 \pm \sqrt{(-2)^2 - 4 \times 1 \times 2}}{2} =
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
