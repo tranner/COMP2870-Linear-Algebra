@@ -80,11 +80,7 @@ def print_array(array, array_name=None, end=None):
 eigenvalues of large matrices.
 :::
 
-TODO change this lecture to:
-
-- QR with gram-schmidt
-- power iteration and inverse power iteration
-- orthogonal vs orthonormal
+TODO orthogonal vs orthonormal
 
 In the previous lecture, we defined the eigenvalue problem for a matrix $A$:
 Finding numbers $\lambda$ (eigenvalues) and vectors $\vec{x}$ (eigenvectors)
@@ -94,9 +90,9 @@ A \vec{x} = \lambda \vec{x}.
 \end{equation}
 We saw one starting point for finding eigenvalues is to find the roots of the
 characteristic equation: a polynomial of degree $n$ for an $n \times n$ matrix
-$A$. But we already have seen that this approach will be infeasible for large
-matrices. Instead, we will find a sequence of similar matrices to $A$ such that
-we can read off the eigenvalues from the final matrix.
+$A$. However, we have already seen that this approach will be infeasible for
+large matrices. Instead, we will find a sequence of similar matrices to $A$ such
+that we can read off the eigenvalues from the final matrix.
 
 In equations, we can say our "grand strategy" is to find a sequence of matrices
 $P_1, P_2, \ldots$ to form a sequence of matrices:
@@ -105,8 +101,8 @@ $P_1, P_2, \ldots$ to form a sequence of matrices:
 A, P_1^{-1} A P, P_2^{-1} P_1^{-1} A P_1 P_2, P_3^{-1} P_2^{-1} P_1^{-1} A P_1
 P_2 P_3, \ldots
 \end{equation}
-Our aim is to get all the way to a simple matrix where we read off the
-eigenvalues and eigenvectors.
+We aim to get all the way to a simple matrix where we read off the eigenvalues
+and eigenvectors.
 
 For example, if at level $m$, say, we have transformed $A$ into a diagonal
 matrix the eigenvalues are the diagonal of the matrix
@@ -128,7 +124,7 @@ matrices $P_j$ to be *orthogonal*. A (real-valued) matrix $Q$ is orthogonal if
 $Q^T Q = I_n$.
 
 Orthogonal matrices have the nice property that $Q^{-1} = Q^T$ so we can very
-easily compute their inverse! They also always have determinant 1 and their
+easily compute their inverse! They also always have a determinant of 1 and their
 columns are orthonormal too. Finally, we can apply them (or their inverses)
 without worrying about adding extra problems from finite precision.
 
@@ -142,7 +138,7 @@ The QR algorithm is an iterative method for computing eigenvalues and
 eigenvectors.
 At each step a matrix is factored into a product in a similar fashion to LU
 factorisation (@sec-lu-factorisation). In this case, we factor a matrix, $A$ into
-a product of an orthgonal matrix, $Q$, and an upper triangular matrix, $R$:
+a product of an orthonormal matrix, $Q$, and an upper triangular matrix, $R$:
 $$
 A = Q R.
 $$
@@ -181,12 +177,12 @@ $$
 Q = Q^{(1)} Q^{(2)} \cdots Q^{(m)}.
 $$
 
-The hard part of the method is compute the QR factorisation. One classical way
-to get a QR factorisation is to use the Gram-Schmidt process. In general,
-Gram-Schmidt is used for take a sequence of vectors and forming a new sequence
-which is orthogonal. We can apply this to the columns of $A$ to form an
-orthogonal matrix. It turns out that if we track this process as a matrix-matrix
-product we find that the other factor is upper triangular.
+The hard part of the method is computing the QR factorisation. One classical way
+to get a QR factorisation is to use the Gram-Schmidt process. In general, the
+Gram-Schmidt process is used to take a sequence of vectors and form a new
+sequence which is orthonormal. We can apply this to the columns of $A$ to form
+an orthogonal matrix. If we track this process as a matrix-matrix product, we
+find that the other factor is upper triangular.
 
 ### The Gram-Schmidt process
 
@@ -286,7 +282,7 @@ Consider the sequence of vectors
 \vec{a}^{(2)} = \begin{pmatrix} 2 \\ -1 \\ 0 \end{pmatrix},
 \vec{a}^{(3)} = \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix}.
 \end{equation*}
-We will manipulate these vectors to form three vectors which are orthonormal.
+We will manipulate these vectors to form three orthonormal vectors.
 
 ```{python}
 # | echo: false
@@ -332,7 +328,7 @@ so
 \end{equation*}
 
 Second, we want to find $\vec{q}^{(2)}$ which must satisfy that
-$\vec{q}^{(2)} \cdot \vec{q}^{(1)} = 0$. We can do this by subtracting form
+$\vec{q}^{(2)} \cdot \vec{q}^{(1)} = 0$. We can do this by subtracting from
 $\vec{a}^{(2)}$ the portion of $\vec{a}^{(2)}$ which points in the direction
 $\vec{q}^{(1)}$. We call this $\vec{u}^{(2)}$:
 \begin{align*}
@@ -548,7 +544,7 @@ calculations...
 ```{python}
 def gram_schmidt_qr(A):
     """
-    Compute the QR factorization of a square matrix using the classical
+    Compute the QR factorisation of a square matrix using the classical
     Gram-Schmidt process.
 
     Parameters
@@ -622,12 +618,12 @@ We test this out in code first for the matrix from @exm-char:
 def gram_schmidt_eigen(A, maxiter=100, verbose=False):
     """
     Compute the eigenvalues and eigenvectors of a square matrix using the QR
-    algorithm with classical Gram-Schmidt QR factorization.
+    algorithm with classical Gram-Schmidt QR factorisation.
 
     This function implements the basic QR algorithm:
 
-    1. Factorize the matrix `A` into `Q` and `R` using Gram-Schmidt QR
-       factorization.
+    1. Factorise the matrix `A` into `Q` and `R` using Gram-Schmidt QR
+       factorisation.
     2. Update the matrix as:
 
        .. math::
@@ -756,5 +752,5 @@ for n in [2, 4, 8, 16, 32]:
 
 ```
 
-You will see in the lab session ways to improve our basic algorithm that allows
-faster, more robust convergence.
+You will see in the lab session ways to improve our basic algorithm, which
+allows for faster and more robust convergence.

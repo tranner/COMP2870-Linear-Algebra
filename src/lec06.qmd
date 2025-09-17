@@ -18,11 +18,10 @@ plt.style.use("seaborn-v0_8-colorblind")
 ## Basic definitions
 
 A complex number is an element of a number system which extends our familiar
-real number system. Our motivation will be for finding eigenvalues and
-eigenvectors which is the next topic in this module. In order to find
-eigenvalues, we will need to find solutions of polynomial equations and it will
-turn out to be useful to *always* be able to get a solution to any polynomial
-equation.
+real number system. Our motivation will be to find eigenvalues and eigenvectors
+which is the next topic in this module. To find eigenvalues, we need to solve of
+polynomial equations and it will turn out to be useful to *always* be able to
+get a solution to any polynomial equation.
 
 ::: {#exm-quadratic0}
 Consider the polynomial equation
@@ -31,6 +30,7 @@ x^2 + 1 = 0.
 \end{equation}
 
 ```{python}
+# | fig-cap: Plot of $y = x^2 + 1$.
 # | echo: false
 
 x = np.linspace(-1, 1)
@@ -48,7 +48,7 @@ We can see that this equation has no solution over the real numbers: There are
 no real values $x$ such that $x^2 + 1 = 0$.
 :::
 
-The key idea of complex numbers is to create a new symbol, that we will call
+The key idea of complex numbers is to create a new symbol, which we will call
 $i$, or the **imaginary unit** which satisfies:
 \begin{equation*}
  i^2 = -1 \qquad \sqrt{-1} = i.
@@ -57,12 +57,12 @@ By taking multiples of this imaginary unit, we can create many more new numbers,
 like $3i, \sqrt{5} i$ or $-12 i$. These are examples of **imaginary numbers**.
 
 We form **complex numbers** by adding real and imaginary numbers whilst keeping
-each part separate. For example, $2 + 3i$, $\frac{1}{2} + \sqrt{5} i$ or $12 -
+each part separate -- for example, $2 + 3i$, $\frac{1}{2} + \sqrt{5} i$ or $12 -
 12i$.
 
 ::: {#def-complex}
 Any number that can be written as $z = a + bi$ with $a, b$ real numbers and $i$
-the imaginary unit are called *complex numbers*. In this format, we call $a$ the
+the imaginary unit is called  *complex number*. In this format, we call $a$ the
 **real part** of $z$ and $b$ the **imaginary part** of $z$.
 :::
 
@@ -70,11 +70,11 @@ We notice that all real numbers $x$ must also be complex numbers since $x = x +
 0 i$.
 
 ::: {#rem-history}
-Among the first recorded use of complex numbers in European mathematics is by an
-Italian mathematician Gerolamo Cardano in around 1545. He later described
-complex numbers as being "as subtle as they are useless" and "mental torture".
+Among the first recorded uses of complex numbers in European mathematics was by
+an Italian mathematician, Gerolamo Cardano, in around 1545. He later described
+complex numbers as being "as subtle as they are useless" and "mental torment".
 
-The term imaginary was coined by Rene Descartes in 1637:
+The term imaginary was coined by René Descartes in 1637:
 
 > ... sometimes only imaginary, that is one can imagine as many as I said in
 > each equation, but sometimes there exist no quantity that matches that which
@@ -92,11 +92,11 @@ What are the real and imaginary parts of these numbers?
 
 ## Calculations with complex numbers
 
-We can perform the basic operations, addition, subtraction, multiplication and
-division, on complex numbers.
+We can perform the basic operations, such as addition, subtraction,
+multiplication and division, on complex numbers.
 
-Addition and subtraction is relatively straight forward: we simply treat the
-real and imaginary parts separately.
+Addition and subtraction are relatively straightforward: we treat the real and
+imaginary parts separately.
 
 ::: {#exm-add-sub}
 We can compute that
@@ -118,8 +118,8 @@ real number and $z = (a + bi)$ be a complex number, then
  & \frac{a + bi}{x} = \frac{a}{x} + \frac{b}{x} i.
 \end{align*}
 
-For multiplication between complex numbers, things are a bit harder. We expand
-out brackets and apply the rule that $i^2 = -1$:
+For multiplication between complex numbers, things are harder. We expand
+brackets and apply the rule that $i^2 = -1$:
 
 ::: {#exm-mult}
 \begin{align*}
@@ -134,7 +134,7 @@ i^2 && \text{(rearrange)} \\
 \end{align*}
 :::
 
-We see that we have a general formula:
+This leads us to a general formula:
 \begin{equation*}
 (a + bi) \times (c + di) = (ac - bd) + (ad + bc) i.
 \end{equation*}
@@ -149,8 +149,8 @@ try to rewrite the fraction to have a real denominator by "rationalising the
 denominator".
 
 ::: {#exm-division}
-Suppose we want to find $(2 + 3i) / (12 - 12i)$. Our idea is to find a numbers
-so that we can write
+Suppose we want to find $(2 + 3i) / (12 - 12i)$. Our idea is to find a number so
+that we can write
 \begin{equation*}
 \frac{2 + 3i}{12 - 12i} = \frac{2 + 3i}{12 - 12i} \times \frac{z}{z}
 = \frac{(2 + 3i)z}{(12 - 12i)z}
@@ -213,10 +213,10 @@ In fact, we have that $\sqrt{x} \sqrt{y} = \sqrt{xy}$ only if $x, y > 0$.
 ## A geometric picture
 
 The idea of adding complex numbers by considering real and imaginary parts
-separately is reminiscent of adding two dimensional vectors. For this reason, it
+separately is reminiscent of adding two-dimensional vectors. For this reason, it
 is often helpful to think of complex numbers as points in *the complex plane*.
 
-The complex plane is the two dimensional space formed by considering the real
+The complex plane is the two-dimensional space formed by considering the real
 and imaginary parts of a complex number as two different coordinate axes.
 
 ::: {#exm-plane}
@@ -246,13 +246,12 @@ plt.show()
 
 :::
 
-We can see that adding complex numbers looks just like adding two dimensional
-vectors! We can also use this geometric picture to help with some further
-operations.
+Adding complex numbers looks just like adding two dimensional vectors! We can
+also use this geometric picture to help with some further operations.
 
-The complex conjugate of a complex number $z = a + bi$ is given by $\bar{z} =
-a - bi$. (The complex conjugate is that number we used before when working out
-how to divide complex numbers).
+The *complex conjugate* of a complex number $z = a + bi$ is given by $\bar{z} =
+a - bi$. The complex conjugate is that number we used before when working out
+how to divide complex numbers.
 
 ::: {#exm-conjugate}
 The complex conjugate of $2 + 3i$ is $2 - 3i$.
@@ -274,8 +273,8 @@ product of a number and its conjugate always gives a real, positive number:
 & = a^2 + b^2 + 0 i.
 \end{align*}
 
-In fact, we use this same calculation to define the **absolute value**
-(sometimes called the **modulus**) of a complex number $z = a + bi$
+In fact, we use this same calculation to define the **modulus**
+(sometimes called the **absolute value**) of a complex number $z = a + bi$
 \begin{equation}
 \label{eq:modulus}
 |z| = |a + bi| = \sqrt{a^2 + b^2} = \sqrt{z \bar{z}}.
@@ -390,13 +389,13 @@ z y
 \end{align*}
 Recalling the example of a rotation matrix from (TODO is it there?), we see that
 multiplying by $y$ is the same as rotating the complex point ($z$) by an angle
-of $\theta$ radians in the anticlockwise direction.
+of $\theta$ radians in the anti-clockwise direction.
 
 This leads us to thinking *polar coordinates* for the complex plane. Polar
 coordinates are a different form of coordinates that replace the usual $x$ and
 $y$-directions (up and across) by two values which represent the distance to the
 origin (that we call radius) and angle to the positive $x$-axis (that we call
-the angle). When talking about a complex numbers $z$ represented in the complex
+the angle). When talking about a complex number $z$ represented in the complex
 plane, we know that the modulus $|z|$ represents the radius. The idea of
 $\theta$ above represents the angle of a complex number that we know call the
 **argument**.
@@ -407,7 +406,7 @@ Let $z$ be a complex number. The **polar form** of $z$ is $R (cos \theta + i
 $z$.
 :::
 
-The representation of the angle only unique up to adding integer multiples of $2
+The representation of the angle unique up to adding integer multiples of $2
 \pi$, since rotating a point by $2 \pi$ about the origin leaves it unchanged.
 
 ::: {#exm-polar-rep}
@@ -496,7 +495,7 @@ The polar representation of complex numbers then gives us a nice way to
 understand multiplication of complex numbers. If $y \neq 0$, then we can check
 that $\left| \frac{y}{|y|} \right| = 1$ and $\arg{y} = \arg{\frac{y}{|y|}}$.
 Then writing $zy = z \frac{y}{|y|} |y|$, we can use our calculations above to
-infer that multiplying by $y$ corresponds to a anti-clockwise rotation by
+infer that multiplying by $y$ corresponds to an anticlockwise rotation by
 $\arg{y}$ then scaling by $|y|$.
 
 ::: {#exr-check}
@@ -554,7 +553,7 @@ y = np.linspace(-2, 2, 400)
 X, Y = np.meshgrid(x, y)
 Z = X + 1j * Y
 
-# Compute the absolute value of f(z) to plot contours
+# Compute the modulus of f(z) to plot contours
 F = np.abs(f(Z))
 
 # Create custom normalization: red at 0, yellow at 1, green at 10
@@ -604,8 +603,8 @@ infeasible for larger size matrices and we need another approach!
 ## Complex vectors and matrices
 
 Last year you were introduced to vectors of real numbers. In the remaining part
-of Linear Algebra, we will need to work with complex. The definitions are
-mostly what you would expect but with some slight subtleties.
+of Linear Algebra, we will need to work with complex matrices and vectors. The
+definitions are mostly what you would expect but with some slight subtleties.
 
 ::: {#def-complex-vectors-matrices}
 A complex matrix is a matrix whose entries are complex numbers.
@@ -672,11 +671,12 @@ A \vec{x} \cdot \vec{y}
 && \text{(definition of scalar product)}.
 \end{align*}
 
-Replacing all terms with complex value and the scalar product with Hermitian
+Replacing all terms with complex value and the scalar product with the Hermitian
 product, we get a similar calculation:
 \begin{align*}
 \langle A \vec{x}, \vec{y} \rangle
-& = \sum_{i=1}^n (A \vec{x})_i \bar{y}_i && \text{(definition of Hermitian product)} \\
+& = \sum_{i=1}^n (A \vec{x})_i \bar{y}_i &&
+\text{(definition of Hermitian product)} \\
 & = \sum_{i=1}^n \left( \sum_{j=1}^n A_{ij} x_j \right) \bar{y}_i
 && \text{(definition of matrix-vector product)} \\
 & = \sum_{i=1}^n \sum_{j=1}^n A_{ji} x_j \bar{y}_i
@@ -688,8 +688,8 @@ product, we get a similar calculation:
 & = \langle \vec{x}, \bar{A} \vec{y} \rangle
 && \text{(definition of Hermitian)}.
 \end{align*}
-This is quite unsatisfactory (note the extra bar on $A$ in the final equation)
-and we would like something the generalises the idea of a symmetric matrix to
+This is quite unsatisfactory (note the extra bar on $A$ in the final equation),
+and we would like something that generalises the idea of a symmetric matrix to
 the Hermitian product case too.
 
 The key idea is to generalise the definition of matrix transpose to the complex
@@ -708,3 +708,17 @@ Repeating the above calculations, we can see that if $A$ is Hermitian then
 \begin{equation*}
 \langle A \vec{x}, \vec{y} \rangle = \langle \vec{x}, A \vec{y} \rangle.
 \end{equation*}
+
+## Summary
+
+In this section, we introduced complex numbers and their algebraic and geometric representations. Key concepts include:
+
+- Definition of complex numbers as combinations of real and imaginary parts.
+- Arithmetic operations: addition, subtraction, multiplication, and division.
+- Geometric interpretation in the complex plane.
+- Complex conjugates and their role in division and modulus.
+- Polar representation and argument of complex numbers.
+- Application of complex numbers in solving polynomial equations.
+- Extension to complex vectors and matrices, including Hermitian products and Hermitian matrices.
+
+These concepts form the foundation for understanding eigenvalues and eigenvectors in the context of complex matrices.
