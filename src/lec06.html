@@ -390,6 +390,7 @@ window.Quarto = {
   <li><a href="#a-geometric-picture" id="toc-a-geometric-picture" class="nav-link" data-scroll-target="#a-geometric-picture"><span class="header-section-number">6.3</span> A geometric picture</a></li>
   <li><a href="#solving-polynomial-equations" id="toc-solving-polynomial-equations" class="nav-link" data-scroll-target="#solving-polynomial-equations"><span class="header-section-number">6.4</span> Solving polynomial equations</a></li>
   <li><a href="#complex-vectors-and-matrices" id="toc-complex-vectors-and-matrices" class="nav-link" data-scroll-target="#complex-vectors-and-matrices"><span class="header-section-number">6.5</span> Complex vectors and matrices</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">6.6</span> Summary</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/edit/main/src/lec06.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/blob/main/src/lec06.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -432,35 +433,36 @@ window.Quarto = {
 <p>This section of the notes supports the final learning outcome around eigenvalues and eigenvectors.</p>
 <section id="basic-definitions" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="basic-definitions"><span class="header-section-number">6.1</span> Basic definitions</h2>
-<p>A complex number is an element of a number system which extends our familiar real number system. Our motivation will be for finding eigenvalues and eigenvectors which is the next topic in this module. In order to find eigenvalues, we will need to find solutions of polynomial equations and it will turn out to be useful to <em>always</em> be able to get a solution to any polynomial equation.</p>
+<p>A complex number is an element of a number system which extends our familiar real number system. Our motivation will be to find eigenvalues and eigenvectors which is the next topic in this module. To find eigenvalues, we need to solve of polynomial equations and it will turn out to be useful to <em>always</em> be able to get a solution to any polynomial equation.</p>
 <div id="exm-quadratic0" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.1</strong></span> Consider the polynomial equation <span class="math display">\[\begin{equation}
 x^2 + 1 = 0.
 \end{equation}\]</span></p>
-<div id="f90d4279" class="cell" data-execution_count="2">
+<div id="159f222b" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="lec06_files/figure-html/cell-3-output-1.png" width="599" height="429" class="figure-img"></p>
+<figcaption>Plot of <span class="math inline">\(y = x^2 + 1\)</span>.</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <p>We can see that this equation has no solution over the real numbers: There are no real values <span class="math inline">\(x\)</span> such that <span class="math inline">\(x^2 + 1 = 0\)</span>.</p>
 </div>
-<p>The key idea of complex numbers is to create a new symbol, that we will call <span class="math inline">\(i\)</span>, or the <strong>imaginary unit</strong> which satisfies: <span class="math display">\[\begin{equation*}
+<p>The key idea of complex numbers is to create a new symbol, which we will call <span class="math inline">\(i\)</span>, or the <strong>imaginary unit</strong> which satisfies: <span class="math display">\[\begin{equation*}
 i^2 = -1 \qquad \sqrt{-1} = i.
 \end{equation*}\]</span> By taking multiples of this imaginary unit, we can create many more new numbers, like <span class="math inline">\(3i, \sqrt{5} i\)</span> or <span class="math inline">\(-12 i\)</span>. These are examples of <strong>imaginary numbers</strong>.</p>
-<p>We form <strong>complex numbers</strong> by adding real and imaginary numbers whilst keeping each part separate. For example, <span class="math inline">\(2 + 3i\)</span>, <span class="math inline">\(\frac{1}{2} + \sqrt{5} i\)</span> or <span class="math inline">\(12 -
+<p>We form <strong>complex numbers</strong> by adding real and imaginary numbers whilst keeping each part separate – for example, <span class="math inline">\(2 + 3i\)</span>, <span class="math inline">\(\frac{1}{2} + \sqrt{5} i\)</span> or <span class="math inline">\(12 -
 12i\)</span>.</p>
 <div id="def-complex" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 6.1</strong></span> Any number that can be written as <span class="math inline">\(z = a + bi\)</span> with <span class="math inline">\(a, b\)</span> real numbers and <span class="math inline">\(i\)</span> the imaginary unit are called <em>complex numbers</em>. In this format, we call <span class="math inline">\(a\)</span> the <strong>real part</strong> of <span class="math inline">\(z\)</span> and <span class="math inline">\(b\)</span> the <strong>imaginary part</strong> of <span class="math inline">\(z\)</span>.</p>
+<p><span class="theorem-title"><strong>Definition 6.1</strong></span> Any number that can be written as <span class="math inline">\(z = a + bi\)</span> with <span class="math inline">\(a, b\)</span> real numbers and <span class="math inline">\(i\)</span> the imaginary unit is called <em>complex number</em>. In this format, we call <span class="math inline">\(a\)</span> the <strong>real part</strong> of <span class="math inline">\(z\)</span> and <span class="math inline">\(b\)</span> the <strong>imaginary part</strong> of <span class="math inline">\(z\)</span>.</p>
 </div>
 <p>We notice that all real numbers <span class="math inline">\(x\)</span> must also be complex numbers since <span class="math inline">\(x = x +
 0 i\)</span>.</p>
 <div id="rem-history" class="proof remark">
-<p><span class="proof-title"><em>Remark 6.1</em>. </span>Among the first recorded use of complex numbers in European mathematics is by an Italian mathematician Gerolamo Cardano in around 1545. He later described complex numbers as being “as subtle as they are useless” and “mental torture”.</p>
-<p>The term imaginary was coined by Rene Descartes in 1637:</p>
+<p><span class="proof-title"><em>Remark 6.1</em>. </span>Among the first recorded uses of complex numbers in European mathematics was by an Italian mathematician, Gerolamo Cardano, in around 1545. He later described complex numbers as being “as subtle as they are useless” and “mental torment”.</p>
+<p>The term imaginary was coined by René Descartes in 1637:</p>
 <blockquote class="blockquote">
 <p>… sometimes only imaginary, that is one can imagine as many as I said in each equation, but sometimes there exist no quantity that matches that which we imagine.</p>
 </blockquote>
@@ -468,17 +470,17 @@ i^2 = -1 \qquad \sqrt{-1} = i.
 <div id="exr-parts" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 6.1</strong></span> What are the real and imaginary parts of these numbers?</p>
 <ol type="1">
-<li>3 + 6i</li>
-<li>-3.5 + 2i</li>
-<li>5</li>
-<li>7i</li>
+<li><span class="math inline">\(3 + 6i\)</span></li>
+<li><span class="math inline">\(-3.5 + 2i\)</span></li>
+<li><span class="math inline">\(5\)</span></li>
+<li><span class="math inline">\(7i\)</span></li>
 </ol>
 </div>
 </section>
 <section id="calculations-with-complex-numbers" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="calculations-with-complex-numbers"><span class="header-section-number">6.2</span> Calculations with complex numbers</h2>
-<p>We can perform the basic operations, addition, subtraction, multiplication and division, on complex numbers.</p>
-<p>Addition and subtraction is relatively straight forward: we simply treat the real and imaginary parts separately.</p>
+<p>We can perform the basic operations, such as addition, subtraction, multiplication and division, on complex numbers.</p>
+<p>Addition and subtraction are relatively straightforward: we treat the real and imaginary parts separately.</p>
 <div id="exm-add-sub" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.2</strong></span> We can compute that <span class="math display">\[\begin{align*}
 &amp; (2 + 3i) + (12 - 12i) = (2 + 12) + (3 - 12)i = 14 - 9i \\
@@ -492,7 +494,7 @@ i^2 = -1 \qquad \sqrt{-1} = i.
 &amp; x \times (a + bi) = (a + bi) \times x = (x \times a) + (x \times b) i \\
 &amp; \frac{a + bi}{x} = \frac{a}{x} + \frac{b}{x} i.
 \end{align*}\]</span></p>
-<p>For multiplication between complex numbers, things are a bit harder. We expand out brackets and apply the rule that <span class="math inline">\(i^2 = -1\)</span>:</p>
+<p>For multiplication between complex numbers, things are harder. We expand brackets and apply the rule that <span class="math inline">\(i^2 = -1\)</span>:</p>
 <div id="exm-mult" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.3</strong></span> <span class="math display">\[\begin{align*}
 &amp; (2 + 3i) \times (12 - 12i)  \\
@@ -505,7 +507,7 @@ i^2 &amp;&amp; \text{(rearrange)} \\
 &amp; = 60 + 12 i &amp;&amp; \text{(collect terms)}.
 \end{align*}\]</span></p>
 </div>
-<p>We see that we have a general formula: <span class="math display">\[\begin{equation*}
+<p>This leads us to a general formula: <span class="math display">\[\begin{equation*}
 (a + bi) \times (c + di) = (ac - bd) + (ad + bc) i.
 \end{equation*}\]</span></p>
 <div id="exr-mult" class="theorem exercise">
@@ -513,7 +515,7 @@ i^2 &amp;&amp; \text{(rearrange)} \\
 </div>
 <p>Division is harder - you may want to skip this on first reading since it is not so important for what follows in these notes. When we divide complex numbers, we try to rewrite the fraction to have a real denominator by “rationalising the denominator”.</p>
 <div id="exm-division" class="theorem example">
-<p><span class="theorem-title"><strong>Example 6.4</strong></span> Suppose we want to find <span class="math inline">\((2 + 3i) / (12 - 12i)\)</span>. Our idea is to find a numbers so that we can write <span class="math display">\[\begin{equation*}
+<p><span class="theorem-title"><strong>Example 6.4</strong></span> Suppose we want to find <span class="math inline">\((2 + 3i) / (12 - 12i)\)</span>. Our idea is to find a number so that we can write <span class="math display">\[\begin{equation*}
 \frac{2 + 3i}{12 - 12i} = \frac{2 + 3i}{12 - 12i} \times \frac{z}{z}
 = \frac{(2 + 3i)z}{(12 - 12i)z}
 = \frac{\text{something}}{\text{something real}}.
@@ -560,11 +562,11 @@ i^2 = (\sqrt{-1})^2 = \sqrt{-1} \sqrt{-1} \neq \sqrt{(-1) \times (-1)} = \sqrt{1
 </section>
 <section id="a-geometric-picture" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="a-geometric-picture"><span class="header-section-number">6.3</span> A geometric picture</h2>
-<p>The idea of adding complex numbers by considering real and imaginary parts separately is reminiscent of adding two dimensional vectors. For this reason, it is often helpful to think of complex numbers as points in <em>the complex plane</em>.</p>
-<p>The complex plane is the two dimensional space formed by considering the real and imaginary parts of a complex number as two different coordinate axes.</p>
+<p>The idea of adding complex numbers by considering real and imaginary parts separately is reminiscent of adding two-dimensional vectors. For this reason, it is often helpful to think of complex numbers as points in <em>the complex plane</em>.</p>
+<p>The complex plane is the two-dimensional space formed by considering the real and imaginary parts of a complex number as two different coordinate axes.</p>
 <div id="exm-plane" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.5</strong></span> &nbsp;</p>
-<div id="19e63fc0" class="cell" data-caption="Examples of complex numbers as points in the complex plane." data-execution_count="3">
+<div id="4c92a4de" class="cell" data-caption="Examples of complex numbers as points in the complex plane." data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -574,9 +576,9 @@ i^2 = (\sqrt{-1})^2 = \sqrt{-1} \sqrt{-1} \neq \sqrt{(-1) \times (-1)} = \sqrt{1
 </div>
 </div>
 </div>
-<p>We can see that adding complex numbers looks just like adding two dimensional vectors! We can also use this geometric picture to help with some further operations.</p>
-<p>The complex conjugate of a complex number <span class="math inline">\(z = a + bi\)</span> is given by <span class="math inline">\(\bar{z} =
-a - bi\)</span>. (The complex conjugate is that number we used before when working out how to divide complex numbers).</p>
+<p>Adding complex numbers looks just like adding two dimensional vectors! We can also use this geometric picture to help with some further operations.</p>
+<p>The <em>complex conjugate</em> of a complex number <span class="math inline">\(z = a + bi\)</span> is given by <span class="math inline">\(\bar{z} =
+a - bi\)</span>. The complex conjugate is that number we used before when working out how to divide complex numbers.</p>
 <div id="exm-conjugate" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.6</strong></span> The complex conjugate of <span class="math inline">\(2 + 3i\)</span> is <span class="math inline">\(2 - 3i\)</span>. The complex conjugate of <span class="math inline">\(12 - 12i\)</span> is <span class="math inline">\(12 + 12i\)</span>.</p>
 <div id="exr-conjugate" class="theorem exercise">
@@ -590,13 +592,13 @@ a - bi\)</span>. (The complex conjugate is that number we used before when worki
 &amp; = (a \times a) + (a \times -b + b \times a) i - (b \times - b) \\
 &amp; = a^2 + b^2 + 0 i.
 \end{align*}\]</span></p>
-<p>In fact, we use this same calculation to define the <strong>absolute value</strong> (sometimes called the <strong>modulus</strong>) of a complex number <span class="math inline">\(z = a + bi\)</span> <span class="math display">\[\begin{equation}
+<p>In fact, we use this same calculation to define the <strong>modulus</strong> (sometimes called the <strong>absolute value</strong>) of a complex number <span class="math inline">\(z = a + bi\)</span> <span class="math display">\[\begin{equation}
 \label{eq:modulus}
 |z| = |a + bi| = \sqrt{a^2 + b^2} = \sqrt{z \bar{z}}.
 \end{equation}\]</span></p>
 <div id="exm-modulus" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.7</strong></span> &nbsp;</p>
-<div id="13afb20b" class="cell" data-caption="Examples of moduli of complex numbers as points in the complex plane." data-execution_count="4">
+<div id="730b6ee3" class="cell" data-caption="Examples of moduli of complex numbers as points in the complex plane." data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -626,13 +628,13 @@ z y
 z y
 &amp; = (ac - bd) + (ad + bc)i \\
 &amp; = (a \cos(\theta) - b \sin(\theta)) + (a \sin(\theta) + b\cos(\theta)) i.
-\end{align*}\]</span> Recalling the example of a rotation matrix from (TODO is it there?), we see that multiplying by <span class="math inline">\(y\)</span> is the same as rotating the complex point (<span class="math inline">\(z\)</span>) by an angle of <span class="math inline">\(\theta\)</span> radians in the anticlockwise direction.</p>
-<p>This leads us to thinking <em>polar coordinates</em> for the complex plane. Polar coordinates are a different form of coordinates that replace the usual <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>-directions (up and across) by two values which represent the distance to the origin (that we call radius) and angle to the positive <span class="math inline">\(x\)</span>-axis (that we call the angle). When talking about a complex numbers <span class="math inline">\(z\)</span> represented in the complex plane, we know that the modulus <span class="math inline">\(|z|\)</span> represents the radius. The idea of <span class="math inline">\(\theta\)</span> above represents the angle of a complex number that we know call the <strong>argument</strong>.</p>
+\end{align*}\]</span> Recalling the example of a rotation matrix from (TODO is it there?), we see that multiplying by <span class="math inline">\(y\)</span> is the same as rotating the complex point (<span class="math inline">\(z\)</span>) by an angle of <span class="math inline">\(\theta\)</span> radians in the anti-clockwise direction.</p>
+<p>This leads us to thinking <em>polar coordinates</em> for the complex plane. Polar coordinates are a different form of coordinates that replace the usual <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>-directions (up and across) by two values which represent the distance to the origin (that we call radius) and angle to the positive <span class="math inline">\(x\)</span>-axis (that we call the angle). When talking about a complex number <span class="math inline">\(z\)</span> represented in the complex plane, we know that the modulus <span class="math inline">\(|z|\)</span> represents the radius. The idea of <span class="math inline">\(\theta\)</span> above represents the angle of a complex number that we know call the <strong>argument</strong>.</p>
 <div id="def-polar-rep" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 6.2</strong></span> Let <span class="math inline">\(z\)</span> be a complex number. The <strong>polar form</strong> of <span class="math inline">\(z\)</span> is <span class="math inline">\(R (cos \theta + i
 \sin \theta)\)</span>. We call <span class="math inline">\(R\)</span> the modulus of <span class="math inline">\(z\)</span> and <span class="math inline">\(\theta\)</span> is the argument of <span class="math inline">\(z\)</span>.</p>
 </div>
-<p>The representation of the angle only unique up to adding integer multiples of <span class="math inline">\(2
+<p>The representation of the angle unique up to adding integer multiples of <span class="math inline">\(2
 \pi\)</span>, since rotating a point by <span class="math inline">\(2 \pi\)</span> about the origin leaves it unchanged.</p>
 <div id="exm-polar-rep" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.8</strong></span> Let <span class="math inline">\(z = 12 -12i\)</span>. Then <span class="math display">\[\begin{align*}
@@ -652,7 +654,7 @@ z y
 </div>
 <div id="exm-arg" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.9</strong></span> &nbsp;</p>
-<div id="a30fbb08" class="cell" data-caption="Examples of arguments of complex numbers as points in the complex plane." data-execution_count="5">
+<div id="af57270c" class="cell" data-caption="Examples of arguments of complex numbers as points in the complex plane." data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -662,7 +664,7 @@ z y
 </div>
 </div>
 </div>
-<p>The polar representation of complex numbers then gives us a nice way to understand multiplication of complex numbers. If <span class="math inline">\(y \neq 0\)</span>, then we can check that <span class="math inline">\(\left| \frac{y}{|y|} \right| = 1\)</span> and <span class="math inline">\(\arg{y} = \arg{\frac{y}{|y|}}\)</span>. Then writing <span class="math inline">\(zy = z \frac{y}{|y|} |y|\)</span>, we can use our calculations above to infer that multiplying by <span class="math inline">\(y\)</span> corresponds to a anti-clockwise rotation by <span class="math inline">\(\arg{y}\)</span> then scaling by <span class="math inline">\(|y|\)</span>.</p>
+<p>The polar representation of complex numbers then gives us a nice way to understand multiplication of complex numbers. If <span class="math inline">\(y \neq 0\)</span>, then we can check that <span class="math inline">\(\left| \frac{y}{|y|} \right| = 1\)</span> and <span class="math inline">\(\arg{y} = \arg{\frac{y}{|y|}}\)</span>. Then writing <span class="math inline">\(zy = z \frac{y}{|y|} |y|\)</span>, we can use our calculations above to infer that multiplying by <span class="math inline">\(y\)</span> corresponds to an anticlockwise rotation by <span class="math inline">\(\arg{y}\)</span> then scaling by <span class="math inline">\(|y|\)</span>.</p>
 <div id="exr-check" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 6.8</strong></span> Check that for any non-zero complex number <span class="math inline">\(y\)</span>, that <span class="math inline">\(\left| \frac{y}{|y|}
 \right| = 1\)</span> and <span class="math inline">\(\arg{y} = \arg{\frac{y}{|y|}}\)</span>.</p>
@@ -685,7 +687,7 @@ x^2 + 1 = 0.
 &amp; i^2 + 1 = 0 \\
 &amp; (-i)^2 + 1 = (-1)^2 i^2 + 1 = i^2 + 1 = 0.
 \end{align*}\]</span></p>
-<div id="32e081e3" class="cell" data-execution_count="6">
+<div id="82e6ab81" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -710,7 +712,7 @@ z = \frac{+2 \pm \sqrt{(-2)^2 - 4 \times 1 \times 2}}{2} =
 </section>
 <section id="complex-vectors-and-matrices" class="level2" data-number="6.5">
 <h2 data-number="6.5" class="anchored" data-anchor-id="complex-vectors-and-matrices"><span class="header-section-number">6.5</span> Complex vectors and matrices</h2>
-<p>Last year you were introduced to vectors of real numbers. In the remaining part of Linear Algebra, we will need to work with complex. The definitions are mostly what you would expect but with some slight subtleties.</p>
+<p>Last year you were introduced to vectors of real numbers. In the remaining part of Linear Algebra, we will need to work with complex matrices and vectors. The definitions are mostly what you would expect but with some slight subtleties.</p>
 <div id="def-complex-vectors-matrices" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 6.3</strong></span> A complex matrix is a matrix whose entries are complex numbers. A complex vector is a vector whose entries are complex numbers.</p>
 </div>
@@ -751,9 +753,10 @@ A \vec{x} \cdot \vec{y}
 &amp; = \vec{x} \cdot A \vec{y}
 &amp;&amp; \text{(definition of scalar product)}.
 \end{align*}\]</span></p>
-<p>Replacing all terms with complex value and the scalar product with Hermitian product, we get a similar calculation: <span class="math display">\[\begin{align*}
+<p>Replacing all terms with complex value and the scalar product with the Hermitian product, we get a similar calculation: <span class="math display">\[\begin{align*}
 \langle A \vec{x}, \vec{y} \rangle
-&amp; = \sum_{i=1}^n (A \vec{x})_i \bar{y}_i &amp;&amp; \text{(definition of Hermitian product)} \\
+&amp; = \sum_{i=1}^n (A \vec{x})_i \bar{y}_i &amp;&amp;
+\text{(definition of Hermitian product)} \\
 &amp; = \sum_{i=1}^n \left( \sum_{j=1}^n A_{ij} x_j \right) \bar{y}_i
 &amp;&amp; \text{(definition of matrix-vector product)} \\
 &amp; = \sum_{i=1}^n \sum_{j=1}^n A_{ji} x_j \bar{y}_i
@@ -764,7 +767,7 @@ A \vec{x} \cdot \vec{y}
 &amp;&amp; \text{(definition of matrix-vector product)} \\
 &amp; = \langle \vec{x}, \bar{A} \vec{y} \rangle
 &amp;&amp; \text{(definition of Hermitian)}.
-\end{align*}\]</span> This is quite unsatisfactory (note the extra bar on <span class="math inline">\(A\)</span> in the final equation) and we would like something the generalises the idea of a symmetric matrix to the Hermitian product case too.</p>
+\end{align*}\]</span> This is quite unsatisfactory (note the extra bar on <span class="math inline">\(A\)</span> in the final equation), and we would like something that generalises the idea of a symmetric matrix to the Hermitian product case too.</p>
 <p>The key idea is to generalise the definition of matrix transpose to the complex setting:</p>
 <div id="def-hermitian-matrix" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 6.4</strong></span> For a complex <span class="math inline">\(n\)</span>-matrix <span class="math inline">\(A\)</span>, we write <span class="math inline">\(A^H\)</span> for the <strong>conjugate transpose</strong> (also called the <strong>Hermitian transpose</strong>) given by <span class="math display">\[\begin{equation*}
@@ -774,6 +777,20 @@ A \vec{x} \cdot \vec{y}
 <p>Repeating the above calculations, we can see that if <span class="math inline">\(A\)</span> is Hermitian then <span class="math display">\[\begin{equation*}
 \langle A \vec{x}, \vec{y} \rangle = \langle \vec{x}, A \vec{y} \rangle.
 \end{equation*}\]</span></p>
+</section>
+<section id="summary" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">6.6</span> Summary</h2>
+<p>In this section, we introduced complex numbers and their algebraic and geometric representations. Key concepts include:</p>
+<ul>
+<li>Definition of complex numbers as combinations of real and imaginary parts.</li>
+<li>Arithmetic operations: addition, subtraction, multiplication, and division.</li>
+<li>Geometric interpretation in the complex plane.</li>
+<li>Complex conjugates and their role in division and modulus.</li>
+<li>Polar representation and argument of complex numbers.</li>
+<li>Application of complex numbers in solving polynomial equations.</li>
+<li>Extension to complex vectors and matrices, including Hermitian products and Hermitian matrices.</li>
+</ul>
+<p>These concepts form the foundation for understanding eigenvalues and eigenvectors in the context of complex matrices.</p>
 
 
 </section>

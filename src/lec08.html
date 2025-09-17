@@ -478,20 +478,15 @@ Tip
 <p><strong>Module learning outcome:</strong> apply algorithms to compute eigenvectors and eigenvalues of large matrices.</p>
 </div>
 </div>
-<p>TODO change this lecture to:</p>
-<ul>
-<li>QR with gram-schmidt</li>
-<li>power iteration and inverse power iteration</li>
-<li>orthogonal vs orthonormal</li>
-</ul>
+<p>TODO orthogonal vs orthonormal</p>
 <p>In the previous lecture, we defined the eigenvalue problem for a matrix <span class="math inline">\(A\)</span>: Finding numbers <span class="math inline">\(\lambda\)</span> (eigenvalues) and vectors <span class="math inline">\(\vec{x}\)</span> (eigenvectors) which satisfy the equation: <span class="math display">\[\begin{equation}
 A \vec{x} = \lambda \vec{x}.
-\end{equation}\]</span> We saw one starting point for finding eigenvalues is to find the roots of the characteristic equation: a polynomial of degree <span class="math inline">\(n\)</span> for an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(A\)</span>. But we already have seen that this approach will be infeasible for large matrices. Instead, we will find a sequence of similar matrices to <span class="math inline">\(A\)</span> such that we can read off the eigenvalues from the final matrix.</p>
+\end{equation}\]</span> We saw one starting point for finding eigenvalues is to find the roots of the characteristic equation: a polynomial of degree <span class="math inline">\(n\)</span> for an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(A\)</span>. However, we have already seen that this approach will be infeasible for large matrices. Instead, we will find a sequence of similar matrices to <span class="math inline">\(A\)</span> such that we can read off the eigenvalues from the final matrix.</p>
 <p>In equations, we can say our “grand strategy” is to find a sequence of matrices <span class="math inline">\(P_1, P_2, \ldots\)</span> to form a sequence of matrices: <span class="math display">\[\begin{equation}
 \label{eq:similarity_transform}
 A, P_1^{-1} A P, P_2^{-1} P_1^{-1} A P_1 P_2, P_3^{-1} P_2^{-1} P_1^{-1} A P_1
 P_2 P_3, \ldots
-\end{equation}\]</span> Our aim is to get all the way to a simple matrix where we read off the eigenvalues and eigenvectors.</p>
+\end{equation}\]</span> We aim to get all the way to a simple matrix where we read off the eigenvalues and eigenvectors.</p>
 <p>For example, if at level <span class="math inline">\(m\)</span>, say, we have transformed <span class="math inline">\(A\)</span> into a diagonal matrix the eigenvalues are the diagonal of the matrix <span class="math display">\[\begin{equation*}
 P_m^{-1} P_{m-1}^{-1} \cdots P_2^{-1} P_1^{-1} A P_1 P_2 \cdots P_{m-1} P_m,
 \end{equation*}\]</span> and the eigenvectors are the columns of the matrix <span class="math display">\[\begin{equation*}
@@ -499,12 +494,12 @@ S_m = P_1 P_2 \cdots P_{m-1} P_m.
 \end{equation*}\]</span> Sometimes, we only want to compute eigenvalues, and not eigenvectors, then it is sufficient to transform the matrix to be triangular (either upper or lower triangular). Then, we can read off that the eigenvalues are the diagonal entries (see <span class="quarto-unresolved-ref">?exm-eigenvalue-triangular</span>).</p>
 <div id="rem-orthogonal-matrices-are-good" class="proof remark">
 <p><span class="proof-title"><em>Remark 8.1</em>. </span>In the example below, and many others, we see that we typically want the matrices <span class="math inline">\(P_j\)</span> to be <em>orthogonal</em>. A (real-valued) matrix <span class="math inline">\(Q\)</span> is orthogonal if <span class="math inline">\(Q^T Q = I_n\)</span>.</p>
-<p>Orthogonal matrices have the nice property that <span class="math inline">\(Q^{-1} = Q^T\)</span> so we can very easily compute their inverse! They also always have determinant 1 and their columns are orthonormal too. Finally, we can apply them (or their inverses) without worrying about adding extra problems from finite precision.</p>
+<p>Orthogonal matrices have the nice property that <span class="math inline">\(Q^{-1} = Q^T\)</span> so we can very easily compute their inverse! They also always have a determinant of 1 and their columns are orthonormal too. Finally, we can apply them (or their inverses) without worrying about adding extra problems from finite precision.</p>
 <p>Examples of orthogonal matrices include matrices which describe rotations and reflections.</p>
 </div>
 <section id="qr-algorithm" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="qr-algorithm"><span class="header-section-number">8.1</span> QR algorithm</h2>
-<p>The QR algorithm is an iterative method for computing eigenvalues and eigenvectors. At each step a matrix is factored into a product in a similar fashion to LU factorisation (<span class="quarto-unresolved-ref">?sec-lu-factorisation</span>). In this case, we factor a matrix, <span class="math inline">\(A\)</span> into a product of an orthgonal matrix, <span class="math inline">\(Q\)</span>, and an upper triangular matrix, <span class="math inline">\(R\)</span>: <span class="math display">\[
+<p>The QR algorithm is an iterative method for computing eigenvalues and eigenvectors. At each step a matrix is factored into a product in a similar fashion to LU factorisation (<span class="quarto-unresolved-ref">?sec-lu-factorisation</span>). In this case, we factor a matrix, <span class="math inline">\(A\)</span> into a product of an orthonormal matrix, <span class="math inline">\(Q\)</span>, and an upper triangular matrix, <span class="math inline">\(R\)</span>: <span class="math display">\[
 A = Q R.
 \]</span> This is <em>QR factorisation</em>.</p>
 <p>Given a matrix <span class="math inline">\(A\)</span>, the algorithm repeatedly applies QR factorisation. First, we set <span class="math inline">\(A^{(0)} = A\)</span>, then we successively perform for <span class="math inline">\(k=0, 1, 2, \ldots\)</span>:</p>
@@ -524,7 +519,7 @@ A^{(k+1)} = (Q^{(k)})^{-1} A^{(k)} Q^{(k)},
 \]</span> and we see that at each step we are finding a sequence of similar matrices, all with the same eigenvalues ({<span class="quarto-unresolved-ref">?thm-XX</span>}). We can additionally find the eigenvectors of <span class="math inline">\(A\)</span> by forming the product <span class="math display">\[
 Q = Q^{(1)} Q^{(2)} \cdots Q^{(m)}.
 \]</span></p>
-<p>The hard part of the method is compute the QR factorisation. One classical way to get a QR factorisation is to use the Gram-Schmidt process. In general, Gram-Schmidt is used for take a sequence of vectors and forming a new sequence which is orthogonal. We can apply this to the columns of <span class="math inline">\(A\)</span> to form an orthogonal matrix. It turns out that if we track this process as a matrix-matrix product we find that the other factor is upper triangular.</p>
+<p>The hard part of the method is computing the QR factorisation. One classical way to get a QR factorisation is to use the Gram-Schmidt process. In general, the Gram-Schmidt process is used to take a sequence of vectors and form a new sequence which is orthonormal. We can apply this to the columns of <span class="math inline">\(A\)</span> to form an orthogonal matrix. If we track this process as a matrix-matrix product, we find that the other factor is upper triangular.</p>
 <section id="the-gram-schmidt-process" class="level3" data-number="8.1.1">
 <h3 data-number="8.1.1" class="anchored" data-anchor-id="the-gram-schmidt-process"><span class="header-section-number">8.1.1</span> The Gram-Schmidt process</h3>
 <p>The key idea is shown in <a href="#fig-projection-away" class="quarto-xref">Figure&nbsp;<span>8.1</span></a>. Given a vector <span class="math inline">\(\vec{a}\)</span> (blue) and a vector <span class="math inline">\(\vec{q}\)</span> (green) with length 1. We can compute the projection of <span class="math inline">\(\vec{a}\)</span> onto the direction <span class="math inline">\(\vec{q}\)</span> (orange) by <span class="math display">\[\begin{align*}
@@ -559,8 +554,8 @@ Figure&nbsp;8.1: Projection of <span class="math inline">\(\vec{a}\)</span> away
 \vec{a}^{(1)} = \begin{pmatrix} 1 \\ 0 \\ 1 \end{pmatrix},
 \vec{a}^{(2)} = \begin{pmatrix} 2 \\ -1 \\ 0 \end{pmatrix},
 \vec{a}^{(3)} = \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix}.
-\end{equation*}\]</span> We will manipulate these vectors to form three vectors which are orthonormal.</p>
-<div id="217ba9b2" class="cell" data-execution_count="3">
+\end{equation*}\]</span> We will manipulate these vectors to form three orthonormal vectors.</p>
+<div id="0ce7ede3" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -575,7 +570,7 @@ Figure&nbsp;8.1: Projection of <span class="math inline">\(\vec{a}\)</span> away
 \vec{q}^{(1)} = \begin{pmatrix} \frac{1}{\sqrt{2}} \\ 0 \\
 \frac{1}{\sqrt{2}} \end{pmatrix}.
 \end{equation*}\]</span></p>
-<p>Second, we want to find <span class="math inline">\(\vec{q}^{(2)}\)</span> which must satisfy that <span class="math inline">\(\vec{q}^{(2)} \cdot \vec{q}^{(1)} = 0\)</span>. We can do this by subtracting form <span class="math inline">\(\vec{a}^{(2)}\)</span> the portion of <span class="math inline">\(\vec{a}^{(2)}\)</span> which points in the direction <span class="math inline">\(\vec{q}^{(1)}\)</span>. We call this <span class="math inline">\(\vec{u}^{(2)}\)</span>: <span class="math display">\[\begin{align*}
+<p>Second, we want to find <span class="math inline">\(\vec{q}^{(2)}\)</span> which must satisfy that <span class="math inline">\(\vec{q}^{(2)} \cdot \vec{q}^{(1)} = 0\)</span>. We can do this by subtracting from <span class="math inline">\(\vec{a}^{(2)}\)</span> the portion of <span class="math inline">\(\vec{a}^{(2)}\)</span> which points in the direction <span class="math inline">\(\vec{q}^{(1)}\)</span>. We call this <span class="math inline">\(\vec{u}^{(2)}\)</span>: <span class="math display">\[\begin{align*}
 \vec{u}^{(2)}
 &amp; = \vec{a}^{(2)} - \left(\vec{a}^{(2)} \cdot \vec{q}^{(1)} \right)
 \vec{q}^{(1)} \\
@@ -643,7 +638,7 @@ Figure&nbsp;8.1: Projection of <span class="math inline">\(\vec{a}\)</span> away
 <div id="exr-gram-schmit-ex" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 8.1</strong></span> Verify the orthonormality conditions for <span class="math inline">\(\vec{q}^{(1)}, \vec{q}^{(2)}\)</span> and <span class="math inline">\(\vec{q}^{(3)}\)</span>.</p>
 </div>
-<div id="344aa125" class="cell" data-execution_count="4">
+<div id="7f9fe1dd" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -706,10 +701,10 @@ A = Q R.
 </section>
 <section id="python-qr-factorisation-using-gram-schmidt" class="level3" data-number="8.1.2">
 <h3 data-number="8.1.2" class="anchored" data-anchor-id="python-qr-factorisation-using-gram-schmidt"><span class="header-section-number">8.1.2</span> Python QR factorisation using Gram-Schmidt</h3>
-<div id="ea5b8628" class="cell" data-execution_count="5">
+<div id="a91f6c28" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gram_schmidt_qr(A):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Compute the QR factorization of a square matrix using the classical</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Compute the QR factorisation of a square matrix using the classical</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Gram-Schmidt process.</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
@@ -749,7 +744,7 @@ A = Q R.
 <span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Q, R</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Let’s test it without our example above:</p>
-<div id="6f22b9ff" class="cell" data-execution_count="6">
+<div id="6df37119" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-stdout">
 <pre><code>A = [  1.0,  2.0,  1.0 ]
     [  0.0, -1.0,  2.0 ]
@@ -770,16 +765,16 @@ Have we computed a factorisation? (A == Q @ R?) True</code></pre>
 <h2 data-number="8.2" class="anchored" data-anchor-id="finding-eigenvalues-and-eigenvectors"><span class="header-section-number">8.2</span> Finding eigenvalues and eigenvectors</h2>
 <p>The algorithm given above says that we use the QR factorisation to iteratively find a sequence of matrices <span class="math inline">\(A^{(j)}\)</span> which <em>should</em> converge to an upper-triangular matrix.</p>
 <p>We test this out in code first for the matrix from <a href="lec07.html#exm-char" class="quarto-xref">Example&nbsp;<span>7.3</span></a>:</p>
-<div id="b466e66e" class="cell" data-execution_count="7">
+<div id="8d15fad5" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gram_schmidt_eigen(A, maxiter<span class="op">=</span><span class="dv">100</span>, verbose<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Compute the eigenvalues and eigenvectors of a square matrix using the QR</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">    algorithm with classical Gram-Schmidt QR factorization.</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">    algorithm with classical Gram-Schmidt QR factorisation.</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">    This function implements the basic QR algorithm:</span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">    1. Factorize the matrix `A` into `Q` and `R` using Gram-Schmidt QR</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">       factorization.</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">    1. Factorise the matrix `A` into `Q` and `R` using Gram-Schmidt QR</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">       factorisation.</span></span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">    2. Update the matrix as:</span></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">       .. math::</span></span>
@@ -849,7 +844,7 @@ Have we computed a factorisation? (A == Q @ R?) True</code></pre>
 <span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>    eigenvalues <span class="op">=</span> np.diag(A)</span>
 <span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> eigenvalues, V, it</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="6def5f6a" class="cell" data-execution_count="8">
+<div id="0769a0e0" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">3.0</span>, <span class="fl">1.0</span>], [<span class="fl">1.0</span>, <span class="fl">3.0</span>]])</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>print_array(A)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -872,7 +867,7 @@ iterations required: 27</code></pre>
 <section id="correctness-and-convergence" class="level2" data-number="8.3">
 <h2 data-number="8.3" class="anchored" data-anchor-id="correctness-and-convergence"><span class="header-section-number">8.3</span> Correctness and convergence</h2>
 <p>Let’s see what happens when we try this same approach for a bigger symmetric matrix. We write a test that first checks how good the QR factorisation is for the initial matrix <span class="math inline">\(A\)</span> and then uses our approach to find eigenvalues and eigenvectors and tests how good that approximation is too.</p>
-<div id="64d697f0" class="cell" data-execution_count="9">
+<div id="64e4ed34" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># replicable seed</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -939,7 +934,7 @@ iterations required: 27</code></pre>
  -&gt; too many iterations required</code></pre>
 </div>
 </div>
-<p>You will see in the lab session ways to improve our basic algorithm that allows faster, more robust convergence.</p>
+<p>You will see in the lab session ways to improve our basic algorithm, which allows for faster and more robust convergence.</p>
 
 
 </section>
