@@ -1137,7 +1137,6 @@ x_1 \\ x_2 \\ x_3 \\ x_4
  10 \\ 7 \\ 5 \\ 8
 \end{pmatrix}.
 $$
-The solution is $\vec{x} = (1, 1, 1, 1)^T$.
 :::
 
 ## The cost of Gaussian Elimination

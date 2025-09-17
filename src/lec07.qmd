@@ -345,13 +345,10 @@ $(1, 0)^T$.
 :::
 
 ::: {#exr-char}
-Find the eigenvalues and eigenvectors for the matrices
-
+Find the eigenvalues and eigenvectors for the matrix:
 \begin{equation*}
 A = \begin{pmatrix} 9 & -2 \\ -2 & 6 \end{pmatrix}.
 \end{equation*}
-
-TODO add another complex example
 :::
 
 ## Important theory

@@ -84,10 +84,10 @@ The term imaginary was coined by Rene Descartes in 1637:
 ::: {#exr-parts}
 What are the real and imaginary parts of these numbers?
 
-1. 3 + 6i
-2. -3.5 + 2i
-3. 5
-4. 7i
+1. $3 + 6i$
+2. $-3.5 + 2i$
+3. $5$
+4. $7i$
 :::
 
 ## Calculations with complex numbers
