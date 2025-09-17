@@ -123,9 +123,9 @@ def print_array(array, array_name=None, end=None):
 ## Iterative methods
 
 In the previous section we looked at what are known as *direct* methods for
-solving systems of linear equations. They are guaranteed to produce a solution
-with a fixed amount of work (we can even prove this in exact arithmetic!), but
-this fixed amount of work may be **very** large.
+solving systems of linear equations. They are guaranteed to solve with a fixed
+amount of work (we can even prove this in exact arithmetic!), but this fixed
+amount of work may be **very** large.
 
 For a general $n \times n$ system of linear equations $A \vec{x} = \vec{b}$, the
 computation expense of all direct methods if $O(n^3)$. The amount of storage
@@ -148,7 +148,8 @@ decide when we need to stop!
 
 
 ::: {#rem-iteration-notation}
-We use a value in brackets in the superscript to denote the iteration number to avoid confusion between the iteration number and the component of the vector:
+We use a value in brackets in the superscript to denote the iteration number to
+avoid confusion between the iteration number and the component of the vector:
 $$
 \vec{x}^{(k)} = (\vec{x}^{(k)}_1, \vec{x}^{(k)}_2, \ldots, \vec{x}^{(k)}_n).
 $$
@@ -156,8 +157,10 @@ $$
 
 ::: {#exm-bad-iterations}
 
-### Some very bad examples
-These are examples of potential iterative methods which would not work very well!
+### Some terrible examples
+
+These are examples of potential iterative methods which would not work very
+well!
 
 1. Consider
 
@@ -165,7 +168,8 @@ These are examples of potential iterative methods which would not work very well
    \vec{F}(\vec{x}^{(k)}) = \vec{x}^{(k)}.
    $$
 
-   Each iteration is very cheap to compute but very inaccurate - it never converges!
+   Each iteration is very cheap to compute but very inaccurate - it never
+   converges!
 
 2. Consider
 
@@ -173,12 +177,13 @@ These are examples of potential iterative methods which would not work very well
    \vec{F}(\vec{x}^{(k)}) = \vec{x}^{(k)} + A^{-1} (\vec{b} - A \vec{x}^{(k)}).
    $$
 
-   Each iteration is very expensive to compute - you have to invert $A$! - but it
-   converges in just one step since
+   Each iteration is very expensive to compute - you have to invert $A$! - but
+   it converges in just one step since
 
    $$
    \begin{aligned}
-   A \vec{x}^{(k+1)} & = A \vec{x}^{(k)} + A A^{-1} (\vec{b} - A \vec{x}^{(k)}) \\
+   A \vec{x}^{(k+1)} & = A \vec{x}^{(k)} + A A^{-1} (\vec{b} - A \vec{x}^{(k)})
+   \\
    & = A \vec{x}^{(k)} + \vec{b} - A \vec{x}^{(k)} \\
    & = \vec{b}.
    \end{aligned}
@@ -186,9 +191,9 @@ These are examples of potential iterative methods which would not work very well
 
 :::
 
-The key point here is we want a method which is both cheap to compute but
-converges quickly to the solution. One way to do this is to construct iteration
-given by
+The key point here is that we want a method that is both computationally cheap
+and converges quickly to the solution. One way to do this is to construct an
+iteration given by
 
 \begin{equation}
 \label{eq:general-iteration}
@@ -202,14 +207,14 @@ for some matrix $P$ such that
 - $P$ approximates $A^{-1}$ well enough that the algorithm converges in few
    iterations.
 
-We call $\vec{b} - A \vec{x}^{(k)} = \vec{r}$ the **residual**. Note the above
-bad examples could be written in the form of \eqref{eq:general-iteration} with
-$P = O$ (the zero matrix) or $P = A^{-1}$.
+We call $\vec{b} - A \vec{x}^{(k)} = \vec{r}$ the **residual**. Note that the
+above bad examples could be written in the form of \eqref{eq:general-iteration}
+with $P = O$ (the zero matrix) or $P = A^{-1}$.
 
 ## Jacobi iteration
 
-One simple choice for $P$ in \eqref{eq:general-iteration} is given by the Jacobi
-method where we take $P = D^{-1}$ where $D$ is the diagonal of $A$:
+One straightforward choice for $P$ in \eqref{eq:general-iteration} is given by
+the Jacobi method where we take $P = D^{-1}$ where $D$ is the diagonal of $A$:
 $$
 D_{ii} = A_{ii} \quad \text{and} \quad D_{ij} = 0 \text{ for } i \neq j.
 $$
@@ -221,7 +226,7 @@ $$
 $$
 
 $D$ is a *diagonal matrix*, so $D^{-1}$ is trivial to form (as long as the
-diagonal entries are all nonzero):
+diagonal entries are all non-zero):
 $$
 (D^{-1})_{ii} = \frac{1}{D_{ii}}
 \quad \text{and} \quad
@@ -250,8 +255,7 @@ $$
 The Jacobi iteration updates all elements of $\vec{x}^{(k)}$ *simultaneously* to
 get $\vec{x}^{(k+1)}$. Writing the method out component by component gives
 
-$$
-\begin{aligned}
+\begin{align*}
 x_1^{(k+1)} &= x_1^{(k)} + \frac{1}{A_{11}} \left( b_1 - \sum_{j=1}^n A_{1j}
 x_j^{(k)} \right) \\
 x_2^{(k+1)} &= x_2^{(k)} + \frac{1}{A_{22}} \left( b_2 - \sum_{j=1}^n A_{2j}
@@ -259,8 +263,7 @@ x_j^{(k)} \right) \\
 \vdots \quad & \hphantom{=} \quad \vdots \\
 x_n^{(k+1)} &= x_n^{(k)} + \frac{1}{A_{nn}} \left( b_n - \sum_{j=1}^n A_{nj}
 x_j^{(k)} \right).
-\end{aligned}
-$$
+\end{align*}
 
 Note that once the first step has been taken, $x_1^{(k+1)}$ is already known,
 but the Jacobi iteration does not make use of this information!
@@ -325,7 +328,7 @@ A_{ij} &\quad \text{if } i > j \\
 0 &\quad \text{if } i \le j.
 \end{cases}
 $$
-The we can calculate that:
+Then we can calculate that:
 $$
 \begin{aligned}
 \vec{x}^{(k+1)} & = \vec{x}^{(k)} + D^{-1}(\vec{b} - A \vec{x}^{(k)}) \\
@@ -338,16 +341,15 @@ $$
 $$
 In this formulation, we do not explicitly form the residual as part of the
 computations. In practical situations, this may be a simpler formulation we can
-use if we have knowledge of the coefficients of $A$, but this is not always
-true!
+use if we have knowledge of the coefficients of $A$, rather than just the
+matrix-vector product.
 
 ## Gauss-Seidel iteration
 
 As an alternative to Jacobi iteration, the iteration might use $x_i^{(k+1)}$ as
 soon as it is calculated (rather than using the previous iteration), giving
 
-$$
-\begin{aligned}
+\begin{align*}
 x_1^{(k+1)}
 & = x_1^{(k)} + \frac{1}{A_{11}} \left(
 b_1 - \sum_{j=1}^n A_{1j} x_j^{(k)}
@@ -370,11 +372,10 @@ x_n^{(k+1)}
 & = x_n^{(k)} + \frac{1}{A_{nn}} \left(
 b_n - \sum_{j=1}^{n-1} A_{nj} x_j^{(k+1)} - A_{nn} x_n^{(k)}
 \right).
-\end{aligned}
-$$
+\end{align*}
 
-Consider the system $A \vec{x}= b$ with the matrix $A$ split as $A = L + D + U$
-where $D$ is the diagonal of $A$, $L$ contains the elements below the diagonal
+Consider the system $A \vec{x}= b$ with the matrix $A$ split as $A = L + D + U$,
+where $D$ is the diagonal of $A$, $L$ contains the elements below the diagonal,
 and $U$ contains the elements above the diagonal. The componentwise iteration
 above can be written in matrix form as
 $$
@@ -405,8 +406,8 @@ $$
 $$
 That is, we use $P = (D+L)^{-1}$ in \eqref{eq:general-iteration}.
 
-In general, we don't form the inverse of $D + L$ explicitly here since it is
-more complicated to do so than for simply computing the inverse of $D$.
+In general, we do not form the inverse of $D + L$ explicitly here since it is
+more complicated to do so than simply computing the inverse of $D$.
 
 ::: {#exm-gauss-seidel-iteration}
 
@@ -456,7 +457,7 @@ x^{(2)}_2 & = x^{(1)}_2 + \frac{1}{A_{22}} (b_2 - A_{21} x^{(2)}_1
 \end{aligned}
 $$
 
-Again, note the changes in the iteration number on the right hand side of these
+Again, note the changes in the iteration number on the right-hand side of these
 equations, especially the differences against the Jacobi method.
 
 - What happens if the initial estimate is altered to $\vec{x}^{(0)} = (2, 1)^T$.
@@ -488,7 +489,7 @@ Note that the exact solution to this system is $x_1 = 2, x_2 = 2, x_3 = 2$.
 
 ::: remark
 
-- Here both methods converge, but fairly slowly. They might not converge at
+- Here, both methods converge, but relatively slowly. They might not converge at
     all!
 
 - We will discuss convergence and when to stop later.
@@ -988,8 +989,8 @@ print()
 
 We see that we get the same results!
 
-Now let's see how long it takes to get a solution. The following plot shows the
-run times of using the two different implementations of the Jacobi method both
+Now let us see how long it takes to get a solution. The following plot shows the
+run times of using the two different implementations of the Jacobi method, each
 for 10 iterations. We see that, as expected, the run time of the dense
 formulation is $O(n^2)$ and the run time of the sparse formulation is $O(n)$.
 
@@ -1061,12 +1062,13 @@ here $\vec{x}^{(k)}$ is a vector of values and $\vec{F}$ is some vector-valued
 function which we have defined.
 
 How can we decide if this iteration has converged? We need $\vec{x} -
-\vec{x}^{(k)}$ to be small, but we don't have access to the exact solution
+\vec{x}^{(k)}$ to be small, but we do not have access to the exact solution
 $\vec{x}$ so we have to do something else!
 
 How do we decide that a vector/array is small? The most common measure is to use
-the "Euclidean norm" of an array (which you met last year!). This is defined to
-be the square root of the sum of squares of the entries of the array:
+the *Euclidean norm* of an array (which you met last year!). The Euclidean norm,
+or norm for short, is defined to be the square root of the sum of squares of the
+entries of the array:
 $$
 \| \vec{r} \| = \sqrt{ \sum_{i=1}^n r_i^2 }.
 $$
@@ -1109,24 +1111,24 @@ Let $\vec{x} = \begin{pmatrix} 2 \\ 0 \end{pmatrix}$.
 :::
 
 Rather than decide in advance how many iterations (of the Jacobi or Gauss-Seidel
-methods) to use stopping criteria:
+methods) to use, we can use the following stopping criteria:
 
-- This could be a maximum number of iterations.
+- A maximum number of iterations.
 
-- This could be the *change* in values is small enough:
+- The *change* in values is small enough:
 
     $$
     \|x^{(k+1)} - \vec{x}^{(k)}\| < tol,
     $$
 
-- This could be the *norm of the residual* is small enough:
+- The *norm of the residual* is small enough:
 
  $$
  \| \vec{r} \| = \| \vec{b} - A \vec{x}^{(k)} \| < tol
  $$
 
 In the second and third cases, we call $tol$ the **convergence tolerance** and
-the choice of $tol$ will control the accuracy of the solution.
+the choice of $tol$ controls the accuracy of the solution.
 
 ::: {#exr-stopping-discussion}
 
@@ -1250,9 +1252,9 @@ Some software implementations:
 - [`scipy.sparse`](https://docs.scipy.org/doc/scipy/reference/sparse.html)
   custom routines specialised to sparse matrices
 - [SuiteSparse](http://faculty.cse.tamu.edu/davis/suitesparse.html), a suite of
-  sparse matrix algorithms, geared toward the direct solution of sparse linear
+  sparse matrix algorithms geared toward the direct solution of sparse linear
   systems
 - `scipy.sparse` iterative solvers: [Solving linear
   problems](https://docs.scipy.org/doc/scipy/reference/sparse.linalg.html#solving-linear-problems)
 - PETSc: [Linear system solvers](https://petsc.org/release/docs/manual/ksp/) - a
-  high performance linear algebra toolkit
+  high-performance linear algebra toolkit
