@@ -10,8 +10,6 @@ import numpy as np
 plt.style.use("seaborn-v0_8-colorblind")
 ```
 
-TODO Add triangular matrix example.
-
 ::: {.callout-tip}
 ## Module learning outcome:
 
@@ -346,6 +344,65 @@ A = \begin{pmatrix} 9 & -2 \\ -2 & 6 \end{pmatrix}.
 \end{equation*}
 :::
 
+::: {#exm-triangular-evalues}
+### Eigenvalues and eigenvectors of a triangular matrix
+
+Consider an upper triangular matrix (@exm-triangular-matrix).
+When forming the characteristic equation, we see that most terms are simply
+zero:
+\begin{align*}
+& \det \begin{pmatrix}
+3 - \lambda & 2 \\
+0 & 1 - \lambda
+\end{pmatrix} \\
+& = (3 - \lambda)(1 - \lambda) - 2 \times 0 =
+(3 - \lambda)(1 - \lambda) \\
+%
+& \det \begin{pmatrix}
+3 - \lambda & 2 & 4 \\
+0 & 1 - \lambda & -1 \\
+0 & 0 & 2 - \lambda
+\end{pmatrix} \\ & =
+(3 - \lambda) ((1-\lambda)(2 - \lambda) - (-1) \times 0)
+- 2 (0 (2 - \lambda) - (-1 \times 0)) + 4 (0 \times 0 - 1 \times 0) \\
+& = (3 - \lambda)(1 - \lambda)( 2 - \lambda).
+\end{align*}
+Indeed this is true in general,
+\begin{align*}
+\det (A - \lambda I_n) & = \det \begin{pmatrix}
+a_{11} - \lambda & a_{12} & a_{13} & \cdots & a_{1n} \\
+0 & a_{22} - \lambda & a_{23} & \cdots & a_{2n} \\
+0 & 0 & a_{33} - \lambda & \cdots & a_{3n} \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+0 & 0 & 0 & \cdots & a_{nn} - \lambda \end{pmatrix} \\
+ & = \prod_{i=1}^n (a_{ii} - \lambda).
+\end{align*}
+So we can read off that the eigenvalues of an upper triangular matrix are simply
+the diagonal coefficients.
+
+We can see the eigenvectors are the coordinate directions:
+\begin{align*}
+\begin{pmatrix}
+3 & 2 \\ 0 & 1
+\end{pmatrix}
+\begin{pmatrix}
+1 \\ 0
+\end{pmatrix}
+& = \begin{pmatrix}
+3 \\ 0
+\end{pmatrix} \\
+\begin{pmatrix}
+3 & 2 \\ 0 & 1
+\end{pmatrix}
+\begin{pmatrix}
+0 \\ 1
+\end{pmatrix}
+& = \begin{pmatrix}
+0 \\ 1
+\end{pmatrix}
+\end{align*}
+:::
+
 ## Important theory
 
 We have established a way to identify eigenvalues and eigenvectors for an
@@ -456,7 +513,7 @@ real-valued symmetric matrices, we have this nice result.
 
 ::: {#thm-symmetric}
 Let $A$ be a symmetric matrix ($A^T = A$) with real entries. Then $A$ has $n$
-real eigenvalues (zero imaginary part) and its eigenvectors are distinct and
+real eigenvalues (zero imaginary part) and any distinct eigenvectors are
 orthogonal.
 :::
 
