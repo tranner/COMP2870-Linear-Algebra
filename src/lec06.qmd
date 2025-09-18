@@ -387,9 +387,9 @@ z y
 & = (ac - bd) + (ad + bc)i \\
 & = (a \cos(\theta) - b \sin(\theta)) + (a \sin(\theta) + b\cos(\theta)) i.
 \end{align*}
-Recalling the example of a rotation matrix from (TODO is it there?), we see that
-multiplying by $y$ is the same as rotating the complex point ($z$) by an angle
-of $\theta$ radians in the anti-clockwise direction.
+Recalling the example of a rotation matrix from @exm-special-matrices, we see
+that multiplying by $y$ is the same as rotating the complex point ($z$) by an
+angle of $\theta$ radians in the anti-clockwise direction.
 
 This leads us to thinking *polar coordinates* for the complex plane. Polar
 coordinates are a different form of coordinates that replace the usual $x$ and
@@ -401,7 +401,7 @@ $\theta$ above represents the angle of a complex number that we know call the
 **argument**.
 
 ::: {#def-polar-rep}
-Let $z$ be a complex number. The **polar form** of $z$ is $R (cos \theta + i
+Let $z$ be a complex number. The **polar form** of $z$ is $R (\cos \theta + i
 \sin \theta)$. We call $R$ the modulus of $z$ and $\theta$ is the argument of
 $z$.
 :::

@@ -188,6 +188,43 @@ $\vec{a}$ is a row vector, $\vec{b}$ and $\vec{c}$ are
 :::
 :::
 
+::: {#exm-special-matrices}
+#### Some special matrices
+
+It will be helpful to remember some special matrices during this seciton of the
+module.
+
+A **rotation matrix** is a $2 \times 2$ matrix given by
+\begin{equation}
+R(\theta) = \begin{pmatrix}
+\cos \theta & -\sin \theta \\
+\sin \theta & \cos \theta
+\end{pmatrix}.
+\end{equation}
+This matrix describes an anti-clockwise rotation by $\theta$ (in radians).
+
+The **projection operator** maps vectors onto either lines or planes which pass
+through the origin ($\vec{0}$).
+
+- For projection onto a line $L = \{ \lambda \vec{a} : \lambda \in \mathbb{R} \}$,
+we can write this transformation as:
+\begin{equation*}
+\vec{x} \mapsto \vec{a} \cdot \vec{x} \vec{a}
+= (\vec{a} \otimes \vec{a}) \vec{x},
+\end{equation*}
+where $\otimes$ is the *outer product*. For two $n$-vectors $\vec{a}$ and
+$\vec{b}$, $\vec{a} \otimes \vec{b}$ is an $n \times n$ with entries:
+\begin{equation*}
+(\vec{a} \otimes \vec{b})_{ij} = a_i b_j.
+\end{equation*}
+
+- For projection onto a plane $\Pi = \{ \lambda \vec{a} + \mu \vec{b} : \lambda,
+\mu \in \mathbb{R} \}$, we can rite the projection operator as:
+\begin{equation*}
+\vec{x} \mapsto (\vec{a} \otimes \vec{a} + \vec{b} \otimes \vec{b}) \vec{x}.
+\end{equation*}
+:::
+
 ### Systems of linear equations
 
 Given an $n \times n$ matrix $A$ and an $n$-vector $\vec{b}$, find the
@@ -608,7 +645,7 @@ def plot_3d_plane_and_vectors():
         Y,
         Z,
         alpha=0.5,
-        color="lightblue",
+        color="C0",
         rstride=1,
         cstride=1,
         edgecolor="none",
@@ -621,15 +658,6 @@ def plot_3d_plane_and_vectors():
     )
     # Vector orthogonal to the plane (same as normal)
     orthogonal_vector = normal_vector
-    # TODO does it look better with this in too
-    # Arbitrary vector
-    # arbitrary_vector = np.array([0.5, 0.5, 0.5])
-    #
-    # Project the arbitrary vector onto the plane
-    # projection = (
-    #    arbitrary_vector
-    #    - np.dot(arbitrary_vector, normal_vector) * normal_vector
-    # )
 
     # Plot vectors
     def draw_vector(v, color, label):
@@ -637,8 +665,8 @@ def plot_3d_plane_and_vectors():
             0, 0, 0, v[0], v[1], v[2], color=color, label=label, linewidth=2
         )
 
-    draw_vector(in_plane_vector, "green", "In-plane Vector")
-    draw_vector(orthogonal_vector, "red", "Normal Vector")
+    draw_vector(in_plane_vector, "C1", "In-plane vector")
+    draw_vector(orthogonal_vector, "C2", "Normal vector")
 
     ax.set_xlim([-2.5, 2.5])
     ax.set_ylim([-2.5, 2.5])
