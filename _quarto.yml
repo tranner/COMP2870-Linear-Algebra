@@ -15,7 +15,8 @@ book:
   site-url: https://comp2870-2526.github.io/linear-algebra-notes/
   page-navigation: true
   search: true
-  page-footer: "Copyright 2024-2025, Thomas Ranner and University of Leeds"
+  page-footer: "Copyright 2024-2025, Thomas Ranner and University of Leeds, licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) ![](https://mirrors.creativecommons.org/presskit/icons/cc.svg){height=1em width=1em} ![](https://mirrors.creativecommons.org/presskit/icons/by.svg){height=1em width=1em}."
+  license: "CC BY"
   repo-url: https://github.com/COMP2870-2526/linear-algebra-notes
   repo-actions: [edit, source, issue]
   downloads: [pdf]
@@ -33,6 +34,7 @@ book:
 toc: true
 number-sections: true
 callout-icon: false
+code-line-numbers: true
 
 format:
   html:
