@@ -683,6 +683,8 @@ def plot_3d_plane_and_vectors():
 
 
 plot_3d_plane_and_vectors()
+
+
 ```
 
 - If $\vec{x}$ is in the plane $\Pi$, then $P \vec{x} = \vec{x}$. This means
@@ -746,7 +748,37 @@ repository](https://github.com/COMP2870-2526/linear-algebra-notes) to report any
 corrections.
 
 ```{python}
-cmd = ["git", "rev-parse", "--short", "HEAD"]
-result = subprocess.run(cmd, capture_output=True, text=True, check=True)
-print(f"This version of the notes is {result.stdout.strip()}.")
+def get_version():
+    try:
+        # Check if HEAD matches a tag
+        tag = (
+            subprocess.check_output(
+                ["git", "describe", "--tags", "--exact-match"],
+                stderr=subprocess.DEVNULL,
+            )
+            .decode()
+            .strip()
+        )
+        return tag
+    except subprocess.CalledProcessError:
+        # Not on a tag, use commit hash
+        commit_hash = (
+            subprocess.check_output(["git", "rev-parse", "--short", "HEAD"])
+            .decode()
+            .strip()
+        )
+
+        # Check for uncommitted changes
+        dirty = (
+            subprocess.check_output(["git", "status", "--porcelain"])
+            .decode()
+            .strip()
+        )
+
+        if dirty:
+            return f"{commit_hash}+dirty"
+        return commit_hash
+
+
+print(f"This version of the notes is {get_version()}.")
 ```
