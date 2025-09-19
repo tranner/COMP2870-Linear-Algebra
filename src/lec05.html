@@ -754,145 +754,145 @@ x_1 \\ x_2 \\ x_3
 </section>
 <section id="python-version-of-iterative-methods" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="python-version-of-iterative-methods"><span class="header-section-number">5.4</span> Python version of iterative methods</h2>
-<div id="40e3bee7" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> jacobi_iteration(A, b, x0, max_iter, verbose<span class="op">=</span><span class="va">False</span>):</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Solve a linear system Ax = b using the Jacobi iterative method.</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">    The Jacobi method is an iterative algorithm for solving the linear system:</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">    .. math::</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">        Ax = b</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">    starting from an initial guess ``x0``. At each iteration, the solution is</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">    updated according to:</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">    .. math::</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">        x_i^{(k+1)} = x_i^{(k)} + </span><span class="ch">\\</span><span class="co">frac{1}{A_{ii}} </span><span class="ch">\\</span><span class="co">left( b_i -</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">        </span><span class="ch">\\</span><span class="co">sum_{j=0}^{n-1} A_{ij} x_j^{(k)} </span><span class="ch">\\</span><span class="co">right)</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">    A : numpy.ndarray</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">        A 2D NumPy array of shape ``(n, n)`` representing the coefficient</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">        matrix.</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">    b : numpy.ndarray</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">        A 1D or 2D NumPy array of shape ``(n,)`` or ``(n, 1)`` representing the</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">        right-hand side vector.</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co">    x0 : numpy.ndarray</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co">        Initial guess for the solution, same shape as ``b``.</span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co">    max_iter : int</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co">        Maximum number of iterations to perform.</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co">    verbose : bool, optional</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co">        If ``True``, prints the value of the solution vector at each iteration.</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co">        Default is ``False``.</span></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co">    x : numpy.ndarray</span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co">        Approximated solution vector after ``max_iter`` iterations.</span></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> system_size(A, b)</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> x0.copy()</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    xnew <span class="op">=</span> np.empty_like(x)</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> verbose:</span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"starting value: "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>        print_array(x.T, <span class="st">"x.T"</span>)</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="bu">iter</span> <span class="kw">in</span> <span class="bu">range</span>(max_iter):</span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>            Axi <span class="op">=</span> <span class="fl">0.0</span></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n):</span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>                Axi <span class="op">+=</span> A[i, j] <span class="op">*</span> x[j]</span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>            xnew[i] <span class="op">=</span> x[i] <span class="op">+</span> <span class="fl">1.0</span> <span class="op">/</span> (A[i, i]) <span class="op">*</span> (b[i] <span class="op">-</span> Axi)</span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> xnew.copy()</span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> verbose:</span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"after </span><span class="sc">{</span><span class="bu">iter</span><span class="op">=</span><span class="sc">}</span><span class="ss">: "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>            print_array(x.T, <span class="st">"x.T"</span>)</span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x</span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gauss_seidel_iteration(A, b, x0, max_iter, verbose<span class="op">=</span><span class="va">False</span>):</span>
-<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="co">    Solve a linear system Ax = b using the Gauss-Seidel iterative method.</span></span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="co">    The Gauss-Seidel method is an iterative algorithm for solving the linear</span></span>
-<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="co">    system:</span></span>
-<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="co">    .. math::</span></span>
-<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="co">        Ax = b</span></span>
-<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="co">    starting from an initial guess ``x0``. At each iteration, the solution is</span></span>
-<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a><span class="co">    updated sequentially using the most recently computed values:</span></span>
-<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="co">    .. math::</span></span>
-<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a><span class="co">        x_i^{(k+1)} = x_i^{(k)} + </span><span class="ch">\\</span><span class="co">frac{1}{A_{ii}} </span><span class="ch">\\</span><span class="co">left( b_i -</span></span>
-<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a><span class="co">        </span><span class="ch">\\</span><span class="co">sum_{j=0}^{i-1} A_{ij} x_j^{(k+1)} -</span></span>
-<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a><span class="co">        </span><span class="ch">\\</span><span class="co">sum_{j=i}^{n-1} A_{ij} x_j^{(k)} </span><span class="ch">\\</span><span class="co">right)</span></span>
-<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
-<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
-<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a><span class="co">    A : numpy.ndarray</span></span>
-<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a><span class="co">        A 2D NumPy array of shape ``(n, n)`` representing the coefficient</span></span>
-<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a><span class="co">        matrix.</span></span>
-<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a><span class="co">    b : numpy.ndarray</span></span>
-<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a><span class="co">        A 1D or 2D NumPy array of shape ``(n,)`` or ``(n, 1)`` representing the</span></span>
-<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="co">        right-hand side vector.</span></span>
-<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a><span class="co">    x0 : numpy.ndarray</span></span>
-<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a><span class="co">        Initial guess for the solution, same shape as ``b``.</span></span>
-<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="co">    max_iter : int</span></span>
-<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a><span class="co">        Maximum number of iterations to perform.</span></span>
-<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a><span class="co">    verbose : bool, optional</span></span>
-<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a><span class="co">        If ``True``, prints the value of the solution vector at each iteration.</span></span>
-<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a><span class="co">        Default is ``False``.</span></span>
-<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
-<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
-<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a><span class="co">    x : numpy.ndarray</span></span>
-<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a><span class="co">        Approximated solution vector after ``max_iter`` iterations.</span></span>
-<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> system_size(A, b)</span>
-<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> x0.copy()</span>
-<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a>    xnew <span class="op">=</span> np.empty_like(x)</span>
-<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> verbose:</span>
-<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"starting value: "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a>        print_array(x.T, <span class="st">"x.T"</span>)</span>
-<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="bu">iter</span> <span class="kw">in</span> <span class="bu">range</span>(max_iter):</span>
-<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
-<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>            Axi <span class="op">=</span> <span class="fl">0.0</span></span>
-<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i):</span>
-<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a>                Axi <span class="op">+=</span> A[i, j] <span class="op">*</span> xnew[j]</span>
-<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i, n):</span>
-<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a>                Axi <span class="op">+=</span> A[i, j] <span class="op">*</span> x[j]</span>
-<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a>            xnew[i] <span class="op">=</span> x[i] <span class="op">+</span> <span class="fl">1.0</span> <span class="op">/</span> (A[i, i]) <span class="op">*</span> (b[i] <span class="op">-</span> Axi)</span>
-<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> xnew.copy()</span>
-<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> verbose:</span>
-<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"after </span><span class="sc">{</span><span class="bu">iter</span><span class="op">=</span><span class="sc">}</span><span class="ss">: "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>            print_array(x.T, <span class="st">"x.T"</span>)</span>
-<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="4b1650e5" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">def</span> jacobi_iteration(A, b, x0, max_iter, verbose<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb1-2"><a href="#cb1-2"></a>    <span class="co">"""</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="co">    Solve a linear system Ax = b using the Jacobi iterative method.</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co">    The Jacobi method is an iterative algorithm for solving the linear system:</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co">    .. math::</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="co">        Ax = b</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="co">    starting from an initial guess ``x0``. At each iteration, the solution is</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="co">    updated according to:</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="co">    .. math::</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="co">        x_i^{(k+1)} = x_i^{(k)} + </span><span class="ch">\\</span><span class="co">frac{1}{A_{ii}} </span><span class="ch">\\</span><span class="co">left( b_i -</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="co">        </span><span class="ch">\\</span><span class="co">sum_{j=0}^{n-1} A_{ij} x_j^{(k)} </span><span class="ch">\\</span><span class="co">right)</span></span>
+<span id="cb1-16"><a href="#cb1-16"></a></span>
+<span id="cb1-17"><a href="#cb1-17"></a><span class="co">    Parameters</span></span>
+<span id="cb1-18"><a href="#cb1-18"></a><span class="co">    ----------</span></span>
+<span id="cb1-19"><a href="#cb1-19"></a><span class="co">    A : numpy.ndarray</span></span>
+<span id="cb1-20"><a href="#cb1-20"></a><span class="co">        A 2D NumPy array of shape ``(n, n)`` representing the coefficient</span></span>
+<span id="cb1-21"><a href="#cb1-21"></a><span class="co">        matrix.</span></span>
+<span id="cb1-22"><a href="#cb1-22"></a><span class="co">    b : numpy.ndarray</span></span>
+<span id="cb1-23"><a href="#cb1-23"></a><span class="co">        A 1D or 2D NumPy array of shape ``(n,)`` or ``(n, 1)`` representing the</span></span>
+<span id="cb1-24"><a href="#cb1-24"></a><span class="co">        right-hand side vector.</span></span>
+<span id="cb1-25"><a href="#cb1-25"></a><span class="co">    x0 : numpy.ndarray</span></span>
+<span id="cb1-26"><a href="#cb1-26"></a><span class="co">        Initial guess for the solution, same shape as ``b``.</span></span>
+<span id="cb1-27"><a href="#cb1-27"></a><span class="co">    max_iter : int</span></span>
+<span id="cb1-28"><a href="#cb1-28"></a><span class="co">        Maximum number of iterations to perform.</span></span>
+<span id="cb1-29"><a href="#cb1-29"></a><span class="co">    verbose : bool, optional</span></span>
+<span id="cb1-30"><a href="#cb1-30"></a><span class="co">        If ``True``, prints the value of the solution vector at each iteration.</span></span>
+<span id="cb1-31"><a href="#cb1-31"></a><span class="co">        Default is ``False``.</span></span>
+<span id="cb1-32"><a href="#cb1-32"></a></span>
+<span id="cb1-33"><a href="#cb1-33"></a><span class="co">    Returns</span></span>
+<span id="cb1-34"><a href="#cb1-34"></a><span class="co">    -------</span></span>
+<span id="cb1-35"><a href="#cb1-35"></a><span class="co">    x : numpy.ndarray</span></span>
+<span id="cb1-36"><a href="#cb1-36"></a><span class="co">        Approximated solution vector after ``max_iter`` iterations.</span></span>
+<span id="cb1-37"><a href="#cb1-37"></a><span class="co">    """</span></span>
+<span id="cb1-38"><a href="#cb1-38"></a>    n <span class="op">=</span> system_size(A, b)</span>
+<span id="cb1-39"><a href="#cb1-39"></a></span>
+<span id="cb1-40"><a href="#cb1-40"></a>    x <span class="op">=</span> x0.copy()</span>
+<span id="cb1-41"><a href="#cb1-41"></a>    xnew <span class="op">=</span> np.empty_like(x)</span>
+<span id="cb1-42"><a href="#cb1-42"></a></span>
+<span id="cb1-43"><a href="#cb1-43"></a>    <span class="cf">if</span> verbose:</span>
+<span id="cb1-44"><a href="#cb1-44"></a>        <span class="bu">print</span>(<span class="st">"starting value: "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb1-45"><a href="#cb1-45"></a>        print_array(x.T, <span class="st">"x.T"</span>)</span>
+<span id="cb1-46"><a href="#cb1-46"></a></span>
+<span id="cb1-47"><a href="#cb1-47"></a>    <span class="cf">for</span> <span class="bu">iter</span> <span class="kw">in</span> <span class="bu">range</span>(max_iter):</span>
+<span id="cb1-48"><a href="#cb1-48"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb1-49"><a href="#cb1-49"></a>            Axi <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb1-50"><a href="#cb1-50"></a>            <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb1-51"><a href="#cb1-51"></a>                Axi <span class="op">+=</span> A[i, j] <span class="op">*</span> x[j]</span>
+<span id="cb1-52"><a href="#cb1-52"></a>            xnew[i] <span class="op">=</span> x[i] <span class="op">+</span> <span class="fl">1.0</span> <span class="op">/</span> (A[i, i]) <span class="op">*</span> (b[i] <span class="op">-</span> Axi)</span>
+<span id="cb1-53"><a href="#cb1-53"></a>        x <span class="op">=</span> xnew.copy()</span>
+<span id="cb1-54"><a href="#cb1-54"></a></span>
+<span id="cb1-55"><a href="#cb1-55"></a>        <span class="cf">if</span> verbose:</span>
+<span id="cb1-56"><a href="#cb1-56"></a>            <span class="bu">print</span>(<span class="ss">f"after </span><span class="sc">{</span><span class="bu">iter</span><span class="op">=</span><span class="sc">}</span><span class="ss">: "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb1-57"><a href="#cb1-57"></a>            print_array(x.T, <span class="st">"x.T"</span>)</span>
+<span id="cb1-58"><a href="#cb1-58"></a></span>
+<span id="cb1-59"><a href="#cb1-59"></a>    <span class="cf">return</span> x</span>
+<span id="cb1-60"><a href="#cb1-60"></a></span>
+<span id="cb1-61"><a href="#cb1-61"></a></span>
+<span id="cb1-62"><a href="#cb1-62"></a><span class="kw">def</span> gauss_seidel_iteration(A, b, x0, max_iter, verbose<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb1-63"><a href="#cb1-63"></a>    <span class="co">"""</span></span>
+<span id="cb1-64"><a href="#cb1-64"></a><span class="co">    Solve a linear system Ax = b using the Gauss-Seidel iterative method.</span></span>
+<span id="cb1-65"><a href="#cb1-65"></a></span>
+<span id="cb1-66"><a href="#cb1-66"></a><span class="co">    The Gauss-Seidel method is an iterative algorithm for solving the linear</span></span>
+<span id="cb1-67"><a href="#cb1-67"></a><span class="co">    system:</span></span>
+<span id="cb1-68"><a href="#cb1-68"></a></span>
+<span id="cb1-69"><a href="#cb1-69"></a><span class="co">    .. math::</span></span>
+<span id="cb1-70"><a href="#cb1-70"></a><span class="co">        Ax = b</span></span>
+<span id="cb1-71"><a href="#cb1-71"></a></span>
+<span id="cb1-72"><a href="#cb1-72"></a><span class="co">    starting from an initial guess ``x0``. At each iteration, the solution is</span></span>
+<span id="cb1-73"><a href="#cb1-73"></a><span class="co">    updated sequentially using the most recently computed values:</span></span>
+<span id="cb1-74"><a href="#cb1-74"></a></span>
+<span id="cb1-75"><a href="#cb1-75"></a><span class="co">    .. math::</span></span>
+<span id="cb1-76"><a href="#cb1-76"></a><span class="co">        x_i^{(k+1)} = x_i^{(k)} + </span><span class="ch">\\</span><span class="co">frac{1}{A_{ii}} </span><span class="ch">\\</span><span class="co">left( b_i -</span></span>
+<span id="cb1-77"><a href="#cb1-77"></a><span class="co">        </span><span class="ch">\\</span><span class="co">sum_{j=0}^{i-1} A_{ij} x_j^{(k+1)} -</span></span>
+<span id="cb1-78"><a href="#cb1-78"></a><span class="co">        </span><span class="ch">\\</span><span class="co">sum_{j=i}^{n-1} A_{ij} x_j^{(k)} </span><span class="ch">\\</span><span class="co">right)</span></span>
+<span id="cb1-79"><a href="#cb1-79"></a></span>
+<span id="cb1-80"><a href="#cb1-80"></a><span class="co">    Parameters</span></span>
+<span id="cb1-81"><a href="#cb1-81"></a><span class="co">    ----------</span></span>
+<span id="cb1-82"><a href="#cb1-82"></a><span class="co">    A : numpy.ndarray</span></span>
+<span id="cb1-83"><a href="#cb1-83"></a><span class="co">        A 2D NumPy array of shape ``(n, n)`` representing the coefficient</span></span>
+<span id="cb1-84"><a href="#cb1-84"></a><span class="co">        matrix.</span></span>
+<span id="cb1-85"><a href="#cb1-85"></a><span class="co">    b : numpy.ndarray</span></span>
+<span id="cb1-86"><a href="#cb1-86"></a><span class="co">        A 1D or 2D NumPy array of shape ``(n,)`` or ``(n, 1)`` representing the</span></span>
+<span id="cb1-87"><a href="#cb1-87"></a><span class="co">        right-hand side vector.</span></span>
+<span id="cb1-88"><a href="#cb1-88"></a><span class="co">    x0 : numpy.ndarray</span></span>
+<span id="cb1-89"><a href="#cb1-89"></a><span class="co">        Initial guess for the solution, same shape as ``b``.</span></span>
+<span id="cb1-90"><a href="#cb1-90"></a><span class="co">    max_iter : int</span></span>
+<span id="cb1-91"><a href="#cb1-91"></a><span class="co">        Maximum number of iterations to perform.</span></span>
+<span id="cb1-92"><a href="#cb1-92"></a><span class="co">    verbose : bool, optional</span></span>
+<span id="cb1-93"><a href="#cb1-93"></a><span class="co">        If ``True``, prints the value of the solution vector at each iteration.</span></span>
+<span id="cb1-94"><a href="#cb1-94"></a><span class="co">        Default is ``False``.</span></span>
+<span id="cb1-95"><a href="#cb1-95"></a></span>
+<span id="cb1-96"><a href="#cb1-96"></a><span class="co">    Returns</span></span>
+<span id="cb1-97"><a href="#cb1-97"></a><span class="co">    -------</span></span>
+<span id="cb1-98"><a href="#cb1-98"></a><span class="co">    x : numpy.ndarray</span></span>
+<span id="cb1-99"><a href="#cb1-99"></a><span class="co">        Approximated solution vector after ``max_iter`` iterations.</span></span>
+<span id="cb1-100"><a href="#cb1-100"></a></span>
+<span id="cb1-101"><a href="#cb1-101"></a><span class="co">    """</span></span>
+<span id="cb1-102"><a href="#cb1-102"></a>    n <span class="op">=</span> system_size(A, b)</span>
+<span id="cb1-103"><a href="#cb1-103"></a></span>
+<span id="cb1-104"><a href="#cb1-104"></a>    x <span class="op">=</span> x0.copy()</span>
+<span id="cb1-105"><a href="#cb1-105"></a>    xnew <span class="op">=</span> np.empty_like(x)</span>
+<span id="cb1-106"><a href="#cb1-106"></a></span>
+<span id="cb1-107"><a href="#cb1-107"></a>    <span class="cf">if</span> verbose:</span>
+<span id="cb1-108"><a href="#cb1-108"></a>        <span class="bu">print</span>(<span class="st">"starting value: "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb1-109"><a href="#cb1-109"></a>        print_array(x.T, <span class="st">"x.T"</span>)</span>
+<span id="cb1-110"><a href="#cb1-110"></a></span>
+<span id="cb1-111"><a href="#cb1-111"></a>    <span class="cf">for</span> <span class="bu">iter</span> <span class="kw">in</span> <span class="bu">range</span>(max_iter):</span>
+<span id="cb1-112"><a href="#cb1-112"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb1-113"><a href="#cb1-113"></a>            Axi <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb1-114"><a href="#cb1-114"></a>            <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i):</span>
+<span id="cb1-115"><a href="#cb1-115"></a>                Axi <span class="op">+=</span> A[i, j] <span class="op">*</span> xnew[j]</span>
+<span id="cb1-116"><a href="#cb1-116"></a>            <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i, n):</span>
+<span id="cb1-117"><a href="#cb1-117"></a>                Axi <span class="op">+=</span> A[i, j] <span class="op">*</span> x[j]</span>
+<span id="cb1-118"><a href="#cb1-118"></a>            xnew[i] <span class="op">=</span> x[i] <span class="op">+</span> <span class="fl">1.0</span> <span class="op">/</span> (A[i, i]) <span class="op">*</span> (b[i] <span class="op">-</span> Axi)</span>
+<span id="cb1-119"><a href="#cb1-119"></a>        x <span class="op">=</span> xnew.copy()</span>
+<span id="cb1-120"><a href="#cb1-120"></a></span>
+<span id="cb1-121"><a href="#cb1-121"></a>        <span class="cf">if</span> verbose:</span>
+<span id="cb1-122"><a href="#cb1-122"></a>            <span class="bu">print</span>(<span class="ss">f"after </span><span class="sc">{</span><span class="bu">iter</span><span class="op">=</span><span class="sc">}</span><span class="ss">: "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb1-123"><a href="#cb1-123"></a>            print_array(x.T, <span class="st">"x.T"</span>)</span>
+<span id="cb1-124"><a href="#cb1-124"></a></span>
+<span id="cb1-125"><a href="#cb1-125"></a>    <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="e7b655da" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="fl">2.0</span>, <span class="fl">1.0</span>], [<span class="op">-</span><span class="fl">1.0</span>, <span class="fl">4.0</span>]])</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.array([[<span class="fl">3.5</span>], [<span class="fl">0.5</span>]])</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> np.array([[<span class="fl">1.0</span>], [<span class="fl">1.0</span>]])</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"jacobi iteration"</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> jacobi_iteration(A, b, x0, <span class="dv">5</span>, verbose<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"gauss seidel iteration"</span>)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> gauss_seidel_iteration(A, b, x0, <span class="dv">5</span>, verbose<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="8fa472fe" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>A <span class="op">=</span> np.array([[<span class="fl">2.0</span>, <span class="fl">1.0</span>], [<span class="op">-</span><span class="fl">1.0</span>, <span class="fl">4.0</span>]])</span>
+<span id="cb2-2"><a href="#cb2-2"></a>b <span class="op">=</span> np.array([[<span class="fl">3.5</span>], [<span class="fl">0.5</span>]])</span>
+<span id="cb2-3"><a href="#cb2-3"></a>x0 <span class="op">=</span> np.array([[<span class="fl">1.0</span>], [<span class="fl">1.0</span>]])</span>
+<span id="cb2-4"><a href="#cb2-4"></a></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="bu">print</span>(<span class="st">"jacobi iteration"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6"></a>x <span class="op">=</span> jacobi_iteration(A, b, x0, <span class="dv">5</span>, verbose<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="bu">print</span>()</span>
+<span id="cb2-8"><a href="#cb2-8"></a></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="bu">print</span>(<span class="st">"gauss seidel iteration"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10"></a>x <span class="op">=</span> gauss_seidel_iteration(A, b, x0, <span class="dv">5</span>, verbose<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="bu">print</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>jacobi iteration
 starting value: x.T = [  1.0,  1.0 ]
@@ -929,9 +929,9 @@ after iter=4: x.T = [  1.49994,  0.49998 ]
 </ul>
 <p>This requires just <span class="math inline">\(3 \alpha n\)</span> units of storage - i.e.&nbsp;<span class="math inline">\(O(n)\)</span>. This is called the COO (coordinate) format.</p>
 <p>Given the above storage pattern, the following algorithm will execute a sparse matrix-vector multiplication (<span class="math inline">\(\vec{z} = A \vec{y}\)</span>) in <span class="math inline">\(O(n)\)</span> operations:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> np.zeros((n, <span class="dv">1</span>))</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(nonzero):</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    z[I_row[k]] <span class="op">=</span> z[I_row[k]] <span class="op">+</span> A_real[k] <span class="op">*</span> y[I_col[k]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>z <span class="op">=</span> np.zeros((n, <span class="dv">1</span>))</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(nonzero):</span>
+<span id="cb4-3"><a href="#cb4-3"></a>    z[I_row[k]] <span class="op">=</span> z[I_row[k]] <span class="op">+</span> A_real[k] <span class="op">*</span> y[I_col[k]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>Here <code>nonzero</code> is the number of non-zero entries in the matrix.</li>
 <li>Note that the cost of this operation is <span class="math inline">\(O(n)\)</span> as required.</li>
@@ -939,213 +939,213 @@ after iter=4: x.T = [  1.49994,  0.49998 ]
 <section id="python-experiments" class="level3" data-number="5.5.1">
 <h3 data-number="5.5.1" class="anchored" data-anchor-id="python-experiments"><span class="header-section-number">5.5.1</span> Python experiments</h3>
 <p>First let’s adapt our implementations to use this sparse matrix format:</p>
-<div id="85ee3850" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> jacobi_iteration_sparse(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    A_real, I_row, I_col, b, x0, max_iter, verbose<span class="op">=</span><span class="va">False</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>):</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Solve a sparse linear system Ax = b using the Jacobi iterative method.</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">    The system is represented in **sparse COO (coordinate) format** with:</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">    - `A_real`: non-zero values</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">    - `I_row`: row indices of non-zero entries</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">    - `I_col`: column indices of non-zero entries</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">    The Jacobi method updates the solution iteratively:</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co">    .. math::</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co">        x_i^{(k+1)} = x_i^{(k)} + </span><span class="ch">\\</span><span class="co">frac{1}{A_{ii}} </span><span class="ch">\\</span><span class="co">left( b_i -</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co">        </span><span class="ch">\\</span><span class="co">sum_{j=0}^{n-1} A_{ij} x_j^{(k)} </span><span class="ch">\\</span><span class="co">right)</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co">    A_real : array-like</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co">        Array of non-zero entries of the sparse matrix A.</span></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co">    I_row : array-like</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="co">        Row indices corresponding to each entry in `A_real`.</span></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="co">    I_col : array-like</span></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="co">        Column indices corresponding to each entry in `A_real`.</span></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="co">    b : array-like</span></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="co">        Right-hand side vector of length `n`.</span></span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="co">    x0 : numpy.ndarray</span></span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="co">        Initial guess for the solution vector, same length as `b`.</span></span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="co">    max_iter : int</span></span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="co">        Maximum number of iterations to perform.</span></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="co">    verbose : bool, optional</span></span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="co">        If ``True``, prints the solution vector after each iteration. Default is</span></span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="co">        ``False``.</span></span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a><span class="co">    x : numpy.ndarray</span></span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a><span class="co">        Approximated solution vector after `max_iter` iterations.</span></span>
-<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>    n, nonzero <span class="op">=</span> system_size_sparse(A_real, I_row, I_col, b)</span>
-<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> x0.copy()</span>
-<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>    xnew <span class="op">=</span> np.empty_like(x)</span>
-<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> verbose:</span>
-<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"starting value: "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>        print_array(x.T, <span class="st">"x.T"</span>)</span>
-<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>    <span class="co"># determine diagonal</span></span>
-<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>    <span class="co"># D[i] should be A_{ii}</span></span>
-<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>    D <span class="op">=</span> np.zeros_like(x)</span>
-<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(nonzero):</span>
-<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> I_row[k] <span class="op">==</span> I_col[k]:</span>
-<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>            D[I_row[k]] <span class="op">=</span> A_real[k]</span>
-<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="bu">iter</span> <span class="kw">in</span> <span class="bu">range</span>(max_iter):</span>
-<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>        <span class="co"># precompute Ax</span></span>
-<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>        Ax <span class="op">=</span> np.zeros_like(x)</span>
-<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(nonzero):</span>
-<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>            Ax[I_row[k]] <span class="op">=</span> Ax[I_row[k]] <span class="op">+</span> A_real[k] <span class="op">*</span> x[I_col[k]]</span>
-<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
-<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>            xnew[i] <span class="op">=</span> x[i] <span class="op">+</span> <span class="fl">1.0</span> <span class="op">/</span> D[i] <span class="op">*</span> (b[i] <span class="op">-</span> Ax[i])</span>
-<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> xnew.copy()</span>
-<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> verbose:</span>
-<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"after </span><span class="sc">{</span><span class="bu">iter</span><span class="op">=</span><span class="sc">}</span><span class="ss">: "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>            print_array(x.T, <span class="st">"x.T"</span>)</span>
-<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x</span>
-<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gauss_seidel_iteration_sparse(</span>
-<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>    A_real, I_row, I_col, b, x0, max_iter, verbose<span class="op">=</span><span class="va">False</span></span>
-<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>):</span>
-<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a><span class="co">    Solve a sparse linear system Ax = b using the Gauss-Seidel iterative method.</span></span>
-<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a><span class="co">    The system is represented in **sparse COO (coordinate) format** with:</span></span>
-<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a><span class="co">    - `A_real`: non-zero values</span></span>
-<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a><span class="co">    - `I_row`: row indices of non-zero entries</span></span>
-<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a><span class="co">    - `I_col`: column indices of non-zero entries</span></span>
-<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a><span class="co">    The Gauss-Seidel method updates the solution sequentially using the most</span></span>
-<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a><span class="co">    recently computed values:</span></span>
-<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a><span class="co">    .. math::</span></span>
-<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a><span class="co">        x_i^{(k+1)} = x_i^{(k)} + </span><span class="ch">\\</span><span class="co">frac{1}{A_{ii}} </span><span class="ch">\\</span><span class="co">left( b_i -</span></span>
-<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a><span class="co">        </span><span class="ch">\\</span><span class="co">sum_{j=0}^{i-1} A_{ij} x_j^{(k+1)} -</span></span>
-<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a><span class="co">        </span><span class="ch">\\</span><span class="co">sum_{j=i}^{n-1} A_{ij} x_j^{(k)} </span><span class="ch">\\</span><span class="co">right)</span></span>
-<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
-<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
-<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a><span class="co">    A_real : array-like</span></span>
-<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a><span class="co">        Array of non-zero entries of the sparse matrix A.</span></span>
-<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a><span class="co">    I_row : array-like</span></span>
-<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a><span class="co">        Row indices corresponding to each entry in `A_real`.</span></span>
-<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a><span class="co">    I_col : array-like</span></span>
-<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a><span class="co">        Column indices corresponding to each entry in `A_real`.</span></span>
-<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a><span class="co">    b : array-like</span></span>
-<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a><span class="co">        Right-hand side vector of length `n`.</span></span>
-<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a><span class="co">    x0 : numpy.ndarray</span></span>
-<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a><span class="co">        Initial guess for the solution vector, same length as `b`.</span></span>
-<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a><span class="co">    max_iter : int</span></span>
-<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a><span class="co">        Maximum number of iterations to perform.</span></span>
-<span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a><span class="co">    verbose : bool, optional</span></span>
-<span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a><span class="co">        If ``True``, prints the solution vector after each iteration. Default is</span></span>
-<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a><span class="co">        ``False``.</span></span>
-<span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
-<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
-<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a><span class="co">    x : numpy.ndarray</span></span>
-<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a><span class="co">        Approximated solution vector after `max_iter` iterations.</span></span>
-<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a>    n, nonzero <span class="op">=</span> system_size_sparse(A_real, I_row, I_col, b)</span>
-<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> x0.copy()</span>
-<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a>    xnew <span class="op">=</span> np.empty_like(x)</span>
-<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> verbose:</span>
-<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"starting value: "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a>        print_array(x.T, <span class="st">"x.T"</span>)</span>
-<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="bu">iter</span> <span class="kw">in</span> <span class="bu">range</span>(max_iter):</span>
-<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a>        <span class="co"># precompute Ax using xnew if i &lt; j</span></span>
-<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a>        Ax <span class="op">=</span> np.zeros_like(x)</span>
-<span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(nonzero):</span>
-<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> I_row[k] <span class="op">&lt;</span> I_col[k]:</span>
-<span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a>                Ax[I_row[k]] <span class="op">=</span> Ax[I_row[k]] <span class="op">+</span> A_real[k] <span class="op">*</span> xnew[I_col[k]]</span>
-<span id="cb5-131"><a href="#cb5-131" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
-<span id="cb5-132"><a href="#cb5-132" aria-hidden="true" tabindex="-1"></a>                Ax[I_row[k]] <span class="op">=</span> Ax[I_row[k]] <span class="op">+</span> A_real[k] <span class="op">*</span> x[I_col[k]]</span>
-<span id="cb5-133"><a href="#cb5-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-134"><a href="#cb5-134" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
-<span id="cb5-135"><a href="#cb5-135" aria-hidden="true" tabindex="-1"></a>            xnew[i] <span class="op">=</span> x[i] <span class="op">+</span> <span class="fl">1.0</span> <span class="op">/</span> (A[i, i]) <span class="op">*</span> (b[i] <span class="op">-</span> Ax[i])</span>
-<span id="cb5-136"><a href="#cb5-136" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> xnew.copy()</span>
-<span id="cb5-137"><a href="#cb5-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-138"><a href="#cb5-138" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> verbose:</span>
-<span id="cb5-139"><a href="#cb5-139" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"after </span><span class="sc">{</span><span class="bu">iter</span><span class="op">=</span><span class="sc">}</span><span class="ss">: "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb5-140"><a href="#cb5-140" aria-hidden="true" tabindex="-1"></a>            print_array(x.T, <span class="st">"x.T"</span>)</span>
-<span id="cb5-141"><a href="#cb5-141" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-142"><a href="#cb5-142" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="34e157f6" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">def</span> jacobi_iteration_sparse(</span>
+<span id="cb5-2"><a href="#cb5-2"></a>    A_real, I_row, I_col, b, x0, max_iter, verbose<span class="op">=</span><span class="va">False</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a>):</span>
+<span id="cb5-4"><a href="#cb5-4"></a>    <span class="co">"""</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="co">    Solve a sparse linear system Ax = b using the Jacobi iterative method.</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="co">    The system is represented in **sparse COO (coordinate) format** with:</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="co">    - `A_real`: non-zero values</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="co">    - `I_row`: row indices of non-zero entries</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a><span class="co">    - `I_col`: column indices of non-zero entries</span></span>
+<span id="cb5-11"><a href="#cb5-11"></a></span>
+<span id="cb5-12"><a href="#cb5-12"></a><span class="co">    The Jacobi method updates the solution iteratively:</span></span>
+<span id="cb5-13"><a href="#cb5-13"></a></span>
+<span id="cb5-14"><a href="#cb5-14"></a><span class="co">    .. math::</span></span>
+<span id="cb5-15"><a href="#cb5-15"></a><span class="co">        x_i^{(k+1)} = x_i^{(k)} + </span><span class="ch">\\</span><span class="co">frac{1}{A_{ii}} </span><span class="ch">\\</span><span class="co">left( b_i -</span></span>
+<span id="cb5-16"><a href="#cb5-16"></a><span class="co">        </span><span class="ch">\\</span><span class="co">sum_{j=0}^{n-1} A_{ij} x_j^{(k)} </span><span class="ch">\\</span><span class="co">right)</span></span>
+<span id="cb5-17"><a href="#cb5-17"></a></span>
+<span id="cb5-18"><a href="#cb5-18"></a><span class="co">    Parameters</span></span>
+<span id="cb5-19"><a href="#cb5-19"></a><span class="co">    ----------</span></span>
+<span id="cb5-20"><a href="#cb5-20"></a><span class="co">    A_real : array-like</span></span>
+<span id="cb5-21"><a href="#cb5-21"></a><span class="co">        Array of non-zero entries of the sparse matrix A.</span></span>
+<span id="cb5-22"><a href="#cb5-22"></a><span class="co">    I_row : array-like</span></span>
+<span id="cb5-23"><a href="#cb5-23"></a><span class="co">        Row indices corresponding to each entry in `A_real`.</span></span>
+<span id="cb5-24"><a href="#cb5-24"></a><span class="co">    I_col : array-like</span></span>
+<span id="cb5-25"><a href="#cb5-25"></a><span class="co">        Column indices corresponding to each entry in `A_real`.</span></span>
+<span id="cb5-26"><a href="#cb5-26"></a><span class="co">    b : array-like</span></span>
+<span id="cb5-27"><a href="#cb5-27"></a><span class="co">        Right-hand side vector of length `n`.</span></span>
+<span id="cb5-28"><a href="#cb5-28"></a><span class="co">    x0 : numpy.ndarray</span></span>
+<span id="cb5-29"><a href="#cb5-29"></a><span class="co">        Initial guess for the solution vector, same length as `b`.</span></span>
+<span id="cb5-30"><a href="#cb5-30"></a><span class="co">    max_iter : int</span></span>
+<span id="cb5-31"><a href="#cb5-31"></a><span class="co">        Maximum number of iterations to perform.</span></span>
+<span id="cb5-32"><a href="#cb5-32"></a><span class="co">    verbose : bool, optional</span></span>
+<span id="cb5-33"><a href="#cb5-33"></a><span class="co">        If ``True``, prints the solution vector after each iteration. Default is</span></span>
+<span id="cb5-34"><a href="#cb5-34"></a><span class="co">        ``False``.</span></span>
+<span id="cb5-35"><a href="#cb5-35"></a></span>
+<span id="cb5-36"><a href="#cb5-36"></a><span class="co">    Returns</span></span>
+<span id="cb5-37"><a href="#cb5-37"></a><span class="co">    -------</span></span>
+<span id="cb5-38"><a href="#cb5-38"></a><span class="co">    x : numpy.ndarray</span></span>
+<span id="cb5-39"><a href="#cb5-39"></a><span class="co">        Approximated solution vector after `max_iter` iterations.</span></span>
+<span id="cb5-40"><a href="#cb5-40"></a><span class="co">    """</span></span>
+<span id="cb5-41"><a href="#cb5-41"></a>    n, nonzero <span class="op">=</span> system_size_sparse(A_real, I_row, I_col, b)</span>
+<span id="cb5-42"><a href="#cb5-42"></a></span>
+<span id="cb5-43"><a href="#cb5-43"></a>    x <span class="op">=</span> x0.copy()</span>
+<span id="cb5-44"><a href="#cb5-44"></a>    xnew <span class="op">=</span> np.empty_like(x)</span>
+<span id="cb5-45"><a href="#cb5-45"></a></span>
+<span id="cb5-46"><a href="#cb5-46"></a>    <span class="cf">if</span> verbose:</span>
+<span id="cb5-47"><a href="#cb5-47"></a>        <span class="bu">print</span>(<span class="st">"starting value: "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb5-48"><a href="#cb5-48"></a>        print_array(x.T, <span class="st">"x.T"</span>)</span>
+<span id="cb5-49"><a href="#cb5-49"></a></span>
+<span id="cb5-50"><a href="#cb5-50"></a>    <span class="co"># determine diagonal</span></span>
+<span id="cb5-51"><a href="#cb5-51"></a>    <span class="co"># D[i] should be A_{ii}</span></span>
+<span id="cb5-52"><a href="#cb5-52"></a>    D <span class="op">=</span> np.zeros_like(x)</span>
+<span id="cb5-53"><a href="#cb5-53"></a>    <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(nonzero):</span>
+<span id="cb5-54"><a href="#cb5-54"></a>        <span class="cf">if</span> I_row[k] <span class="op">==</span> I_col[k]:</span>
+<span id="cb5-55"><a href="#cb5-55"></a>            D[I_row[k]] <span class="op">=</span> A_real[k]</span>
+<span id="cb5-56"><a href="#cb5-56"></a></span>
+<span id="cb5-57"><a href="#cb5-57"></a>    <span class="cf">for</span> <span class="bu">iter</span> <span class="kw">in</span> <span class="bu">range</span>(max_iter):</span>
+<span id="cb5-58"><a href="#cb5-58"></a>        <span class="co"># precompute Ax</span></span>
+<span id="cb5-59"><a href="#cb5-59"></a>        Ax <span class="op">=</span> np.zeros_like(x)</span>
+<span id="cb5-60"><a href="#cb5-60"></a>        <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(nonzero):</span>
+<span id="cb5-61"><a href="#cb5-61"></a>            Ax[I_row[k]] <span class="op">=</span> Ax[I_row[k]] <span class="op">+</span> A_real[k] <span class="op">*</span> x[I_col[k]]</span>
+<span id="cb5-62"><a href="#cb5-62"></a></span>
+<span id="cb5-63"><a href="#cb5-63"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb5-64"><a href="#cb5-64"></a>            xnew[i] <span class="op">=</span> x[i] <span class="op">+</span> <span class="fl">1.0</span> <span class="op">/</span> D[i] <span class="op">*</span> (b[i] <span class="op">-</span> Ax[i])</span>
+<span id="cb5-65"><a href="#cb5-65"></a>        x <span class="op">=</span> xnew.copy()</span>
+<span id="cb5-66"><a href="#cb5-66"></a></span>
+<span id="cb5-67"><a href="#cb5-67"></a>        <span class="cf">if</span> verbose:</span>
+<span id="cb5-68"><a href="#cb5-68"></a>            <span class="bu">print</span>(<span class="ss">f"after </span><span class="sc">{</span><span class="bu">iter</span><span class="op">=</span><span class="sc">}</span><span class="ss">: "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb5-69"><a href="#cb5-69"></a>            print_array(x.T, <span class="st">"x.T"</span>)</span>
+<span id="cb5-70"><a href="#cb5-70"></a></span>
+<span id="cb5-71"><a href="#cb5-71"></a>    <span class="cf">return</span> x</span>
+<span id="cb5-72"><a href="#cb5-72"></a></span>
+<span id="cb5-73"><a href="#cb5-73"></a></span>
+<span id="cb5-74"><a href="#cb5-74"></a><span class="kw">def</span> gauss_seidel_iteration_sparse(</span>
+<span id="cb5-75"><a href="#cb5-75"></a>    A_real, I_row, I_col, b, x0, max_iter, verbose<span class="op">=</span><span class="va">False</span></span>
+<span id="cb5-76"><a href="#cb5-76"></a>):</span>
+<span id="cb5-77"><a href="#cb5-77"></a>    <span class="co">"""</span></span>
+<span id="cb5-78"><a href="#cb5-78"></a><span class="co">    Solve a sparse linear system Ax = b using the Gauss-Seidel iterative method.</span></span>
+<span id="cb5-79"><a href="#cb5-79"></a></span>
+<span id="cb5-80"><a href="#cb5-80"></a><span class="co">    The system is represented in **sparse COO (coordinate) format** with:</span></span>
+<span id="cb5-81"><a href="#cb5-81"></a><span class="co">    - `A_real`: non-zero values</span></span>
+<span id="cb5-82"><a href="#cb5-82"></a><span class="co">    - `I_row`: row indices of non-zero entries</span></span>
+<span id="cb5-83"><a href="#cb5-83"></a><span class="co">    - `I_col`: column indices of non-zero entries</span></span>
+<span id="cb5-84"><a href="#cb5-84"></a></span>
+<span id="cb5-85"><a href="#cb5-85"></a><span class="co">    The Gauss-Seidel method updates the solution sequentially using the most</span></span>
+<span id="cb5-86"><a href="#cb5-86"></a><span class="co">    recently computed values:</span></span>
+<span id="cb5-87"><a href="#cb5-87"></a></span>
+<span id="cb5-88"><a href="#cb5-88"></a><span class="co">    .. math::</span></span>
+<span id="cb5-89"><a href="#cb5-89"></a><span class="co">        x_i^{(k+1)} = x_i^{(k)} + </span><span class="ch">\\</span><span class="co">frac{1}{A_{ii}} </span><span class="ch">\\</span><span class="co">left( b_i -</span></span>
+<span id="cb5-90"><a href="#cb5-90"></a><span class="co">        </span><span class="ch">\\</span><span class="co">sum_{j=0}^{i-1} A_{ij} x_j^{(k+1)} -</span></span>
+<span id="cb5-91"><a href="#cb5-91"></a><span class="co">        </span><span class="ch">\\</span><span class="co">sum_{j=i}^{n-1} A_{ij} x_j^{(k)} </span><span class="ch">\\</span><span class="co">right)</span></span>
+<span id="cb5-92"><a href="#cb5-92"></a></span>
+<span id="cb5-93"><a href="#cb5-93"></a><span class="co">    Parameters</span></span>
+<span id="cb5-94"><a href="#cb5-94"></a><span class="co">    ----------</span></span>
+<span id="cb5-95"><a href="#cb5-95"></a><span class="co">    A_real : array-like</span></span>
+<span id="cb5-96"><a href="#cb5-96"></a><span class="co">        Array of non-zero entries of the sparse matrix A.</span></span>
+<span id="cb5-97"><a href="#cb5-97"></a><span class="co">    I_row : array-like</span></span>
+<span id="cb5-98"><a href="#cb5-98"></a><span class="co">        Row indices corresponding to each entry in `A_real`.</span></span>
+<span id="cb5-99"><a href="#cb5-99"></a><span class="co">    I_col : array-like</span></span>
+<span id="cb5-100"><a href="#cb5-100"></a><span class="co">        Column indices corresponding to each entry in `A_real`.</span></span>
+<span id="cb5-101"><a href="#cb5-101"></a><span class="co">    b : array-like</span></span>
+<span id="cb5-102"><a href="#cb5-102"></a><span class="co">        Right-hand side vector of length `n`.</span></span>
+<span id="cb5-103"><a href="#cb5-103"></a><span class="co">    x0 : numpy.ndarray</span></span>
+<span id="cb5-104"><a href="#cb5-104"></a><span class="co">        Initial guess for the solution vector, same length as `b`.</span></span>
+<span id="cb5-105"><a href="#cb5-105"></a><span class="co">    max_iter : int</span></span>
+<span id="cb5-106"><a href="#cb5-106"></a><span class="co">        Maximum number of iterations to perform.</span></span>
+<span id="cb5-107"><a href="#cb5-107"></a><span class="co">    verbose : bool, optional</span></span>
+<span id="cb5-108"><a href="#cb5-108"></a><span class="co">        If ``True``, prints the solution vector after each iteration. Default is</span></span>
+<span id="cb5-109"><a href="#cb5-109"></a><span class="co">        ``False``.</span></span>
+<span id="cb5-110"><a href="#cb5-110"></a></span>
+<span id="cb5-111"><a href="#cb5-111"></a><span class="co">    Returns</span></span>
+<span id="cb5-112"><a href="#cb5-112"></a><span class="co">    -------</span></span>
+<span id="cb5-113"><a href="#cb5-113"></a><span class="co">    x : numpy.ndarray</span></span>
+<span id="cb5-114"><a href="#cb5-114"></a><span class="co">        Approximated solution vector after `max_iter` iterations.</span></span>
+<span id="cb5-115"><a href="#cb5-115"></a><span class="co">    """</span></span>
+<span id="cb5-116"><a href="#cb5-116"></a>    n, nonzero <span class="op">=</span> system_size_sparse(A_real, I_row, I_col, b)</span>
+<span id="cb5-117"><a href="#cb5-117"></a></span>
+<span id="cb5-118"><a href="#cb5-118"></a>    x <span class="op">=</span> x0.copy()</span>
+<span id="cb5-119"><a href="#cb5-119"></a>    xnew <span class="op">=</span> np.empty_like(x)</span>
+<span id="cb5-120"><a href="#cb5-120"></a></span>
+<span id="cb5-121"><a href="#cb5-121"></a>    <span class="cf">if</span> verbose:</span>
+<span id="cb5-122"><a href="#cb5-122"></a>        <span class="bu">print</span>(<span class="st">"starting value: "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb5-123"><a href="#cb5-123"></a>        print_array(x.T, <span class="st">"x.T"</span>)</span>
+<span id="cb5-124"><a href="#cb5-124"></a></span>
+<span id="cb5-125"><a href="#cb5-125"></a>    <span class="cf">for</span> <span class="bu">iter</span> <span class="kw">in</span> <span class="bu">range</span>(max_iter):</span>
+<span id="cb5-126"><a href="#cb5-126"></a>        <span class="co"># precompute Ax using xnew if i &lt; j</span></span>
+<span id="cb5-127"><a href="#cb5-127"></a>        Ax <span class="op">=</span> np.zeros_like(x)</span>
+<span id="cb5-128"><a href="#cb5-128"></a>        <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(nonzero):</span>
+<span id="cb5-129"><a href="#cb5-129"></a>            <span class="cf">if</span> I_row[k] <span class="op">&lt;</span> I_col[k]:</span>
+<span id="cb5-130"><a href="#cb5-130"></a>                Ax[I_row[k]] <span class="op">=</span> Ax[I_row[k]] <span class="op">+</span> A_real[k] <span class="op">*</span> xnew[I_col[k]]</span>
+<span id="cb5-131"><a href="#cb5-131"></a>            <span class="cf">else</span>:</span>
+<span id="cb5-132"><a href="#cb5-132"></a>                Ax[I_row[k]] <span class="op">=</span> Ax[I_row[k]] <span class="op">+</span> A_real[k] <span class="op">*</span> x[I_col[k]]</span>
+<span id="cb5-133"><a href="#cb5-133"></a></span>
+<span id="cb5-134"><a href="#cb5-134"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb5-135"><a href="#cb5-135"></a>            xnew[i] <span class="op">=</span> x[i] <span class="op">+</span> <span class="fl">1.0</span> <span class="op">/</span> (A[i, i]) <span class="op">*</span> (b[i] <span class="op">-</span> Ax[i])</span>
+<span id="cb5-136"><a href="#cb5-136"></a>        x <span class="op">=</span> xnew.copy()</span>
+<span id="cb5-137"><a href="#cb5-137"></a></span>
+<span id="cb5-138"><a href="#cb5-138"></a>        <span class="cf">if</span> verbose:</span>
+<span id="cb5-139"><a href="#cb5-139"></a>            <span class="bu">print</span>(<span class="ss">f"after </span><span class="sc">{</span><span class="bu">iter</span><span class="op">=</span><span class="sc">}</span><span class="ss">: "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb5-140"><a href="#cb5-140"></a>            print_array(x.T, <span class="st">"x.T"</span>)</span>
+<span id="cb5-141"><a href="#cb5-141"></a></span>
+<span id="cb5-142"><a href="#cb5-142"></a>    <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Then we can test the two different implementations of the methods:</p>
-<div id="60b50887" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># random matrix</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">4</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>nonzero <span class="op">=</span> <span class="dv">10</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>A_real, I_row, I_col, b <span class="op">=</span> random_sparse_system(n, nonzero)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"sparse matrix:"</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"A_real ="</span>, A_real)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"I_row = "</span>, I_row)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"I_col = "</span>, I_col)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># convert to dense for comparison</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>A_dense <span class="op">=</span> to_dense(A_real, I_row, I_col)</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"dense matrix:"</span>)</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>print_array(A_dense)</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co"># starting guess</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> np.zeros((n, <span class="dv">1</span>))</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"jacobi with sparse matrix"</span>)</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>x_sparse <span class="op">=</span> jacobi_iteration_sparse(</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    A_real, I_row, I_col, b, x0, max_iter<span class="op">=</span><span class="dv">5</span>, verbose<span class="op">=</span><span class="va">True</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"jacobi with dense matrix"</span>)</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>x_dense <span class="op">=</span> jacobi_iteration(A_dense, b, x0, max_iter<span class="op">=</span><span class="dv">5</span>, verbose<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cee5108e" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># random matrix</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>n <span class="op">=</span> <span class="dv">4</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a>nonzero <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a>A_real, I_row, I_col, b <span class="op">=</span> random_sparse_system(n, nonzero)</span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="bu">print</span>(<span class="st">"sparse matrix:"</span>)</span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="bu">print</span>(<span class="st">"A_real ="</span>, A_real)</span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="bu">print</span>(<span class="st">"I_row = "</span>, I_row)</span>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="bu">print</span>(<span class="st">"I_col = "</span>, I_col)</span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="bu">print</span>()</span>
+<span id="cb6-10"><a href="#cb6-10"></a></span>
+<span id="cb6-11"><a href="#cb6-11"></a><span class="co"># convert to dense for comparison</span></span>
+<span id="cb6-12"><a href="#cb6-12"></a>A_dense <span class="op">=</span> to_dense(A_real, I_row, I_col)</span>
+<span id="cb6-13"><a href="#cb6-13"></a><span class="bu">print</span>(<span class="st">"dense matrix:"</span>)</span>
+<span id="cb6-14"><a href="#cb6-14"></a>print_array(A_dense)</span>
+<span id="cb6-15"><a href="#cb6-15"></a><span class="bu">print</span>()</span>
+<span id="cb6-16"><a href="#cb6-16"></a></span>
+<span id="cb6-17"><a href="#cb6-17"></a><span class="co"># starting guess</span></span>
+<span id="cb6-18"><a href="#cb6-18"></a>x0 <span class="op">=</span> np.zeros((n, <span class="dv">1</span>))</span>
+<span id="cb6-19"><a href="#cb6-19"></a></span>
+<span id="cb6-20"><a href="#cb6-20"></a><span class="bu">print</span>(<span class="st">"jacobi with sparse matrix"</span>)</span>
+<span id="cb6-21"><a href="#cb6-21"></a>x_sparse <span class="op">=</span> jacobi_iteration_sparse(</span>
+<span id="cb6-22"><a href="#cb6-22"></a>    A_real, I_row, I_col, b, x0, max_iter<span class="op">=</span><span class="dv">5</span>, verbose<span class="op">=</span><span class="va">True</span></span>
+<span id="cb6-23"><a href="#cb6-23"></a>)</span>
+<span id="cb6-24"><a href="#cb6-24"></a><span class="bu">print</span>()</span>
+<span id="cb6-25"><a href="#cb6-25"></a></span>
+<span id="cb6-26"><a href="#cb6-26"></a><span class="bu">print</span>(<span class="st">"jacobi with dense matrix"</span>)</span>
+<span id="cb6-27"><a href="#cb6-27"></a>x_dense <span class="op">=</span> jacobi_iteration(A_dense, b, x0, max_iter<span class="op">=</span><span class="dv">5</span>, verbose<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-28"><a href="#cb6-28"></a><span class="bu">print</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>sparse matrix:
-A_real = [-2.25  2.5  20.25 -2.25  2.25 20.25]
-I_row =  [0 0 1 1 2 3]
-I_col =  [1 0 1 0 2 3]
+A_real = [18.   -4.5  20.25 -4.    3.25 -4.5   2.    0.25  2.   44.25 -4.   18.  ]
+I_row =  [0 0 0 1 1 1 2 2 3 3 3 3]
+I_col =  [3 1 0 3 1 0 3 2 2 3 1 0]
 
 dense matrix:
-A_dense = [  2.50, -2.25,  0.00,  0.00 ]
-          [ -2.25, 20.25,  0.00,  0.00 ]
-          [  0.00,  0.00,  2.25,  0.00 ]
-          [  0.00,  0.00,  0.00, 20.25 ]
+A_dense = [ 20.25, -4.50,  0.00, 18.00 ]
+          [ -4.50,  3.25,  0.00, -4.00 ]
+          [  0.00,  0.00,  0.25,  2.00 ]
+          [ 18.00, -4.00,  2.00, 44.25 ]
 
 jacobi with sparse matrix
 starting value: x.T = [  0.0,  0.0,  0.0,  0.0 ]
-after iter=0: x.T = [  0.10000,  0.88889,  1.00000,  1.00000 ]
-after iter=1: x.T = [  0.9,  0.9,  1.0,  1.0 ]
-after iter=2: x.T = [  0.91000,  0.98889,  1.00000,  1.00000 ]
-after iter=3: x.T = [  0.99,  0.99,  1.00,  1.00 ]
-after iter=4: x.T = [  0.99100,  0.99889,  1.00000,  1.00000 ]
+after iter=0: x.T = [  1.66667, -1.61538,  9.00000,  1.36158 ]
+after iter=1: x.T = [  0.097397,  2.368101, -1.892655,  0.130813 ]
+after iter=2: x.T = [  2.07663, -1.31953,  7.95350,  1.62157 ]
+after iter=3: x.T = [ -0.067959,  3.255735, -3.972576,  0.038090 ]
+after iter=4: x.T = [  2.3563, -1.6626,  8.6953,  1.8631 ]
 
 jacobi with dense matrix
 starting value: x.T = [  0.0,  0.0,  0.0,  0.0 ]
-after iter=0: x.T = [  0.10000,  0.88889,  1.00000,  1.00000 ]
-after iter=1: x.T = [  0.9,  0.9,  1.0,  1.0 ]
-after iter=2: x.T = [  0.91000,  0.98889,  1.00000,  1.00000 ]
-after iter=3: x.T = [  0.99,  0.99,  1.00,  1.00 ]
-after iter=4: x.T = [  0.99100,  0.99889,  1.00000,  1.00000 ]
+after iter=0: x.T = [  1.66667, -1.61538,  9.00000,  1.36158 ]
+after iter=1: x.T = [  0.097397,  2.368101, -1.892655,  0.130813 ]
+after iter=2: x.T = [  2.07663, -1.31953,  7.95350,  1.62157 ]
+after iter=3: x.T = [ -0.067959,  3.255735, -3.972576,  0.038090 ]
+after iter=4: x.T = [  2.3563, -1.6626,  8.6953,  1.8631 ]
 </code></pre>
 </div>
 </div>
 <p>We see that we get the same results!</p>
 <p>Now let us see how long it takes to get a solution. The following plot shows the run times of using the two different implementations of the Jacobi method, each for 10 iterations. We see that, as expected, the run time of the dense formulation is <span class="math inline">\(O(n^2)\)</span> and the run time of the sparse formulation is <span class="math inline">\(O(n)\)</span>.</p>
-<div id="98e2e55c" class="cell" data-execution_count="9">
+<div id="a2780925" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1745,7 +1745,7 @@ after iter=4: x.T = [  0.99100,  0.99889,  1.00000,  1.00000 ]
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>Copyright 2024-2025, Thomas Ranner and University of Leeds</p>
+<p>Copyright 2024-2025, Thomas Ranner and University of Leeds, licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" style="width:1em;height:1em"> <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" style="width:1em;height:1em">.</p>
 <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/edit/main/src/lec05.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/blob/main/src/lec05.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
