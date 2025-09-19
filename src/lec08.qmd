@@ -154,7 +154,7 @@ orthonormal.
 The QR algorithm is an iterative method for computing eigenvalues and
 eigenvectors.
 At each step a matrix is factored into a product in a similar fashion to LU
-factorisation (@sec-lu-factorisation). In this case, we factor a matrix, $A$ into
+factorisation (@sec-LU-factorisation). In this case, we factor a matrix, $A$ into
 a product of an orthonormal matrix, $Q$, and an upper triangular matrix, $R$:
 $$
 A = Q R.
@@ -188,7 +188,7 @@ $$
 A^{(k+1)} = (Q^{(k)})^{-1} A^{(k)} Q^{(k)},
 $$
 and we see that at each step we are finding a sequence of similar matrices,
-all with the same eigenvalues ({@thm-XX}). We can additionally find the
+all with the same eigenvalues ({@thm-similar}). We can additionally find the
 eigenvectors of $A$ by forming the product
 $$
 Q = Q^{(1)} Q^{(2)} \cdots Q^{(m)}.

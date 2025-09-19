@@ -7,7 +7,7 @@ Explain practical challenges working with floating-point numbers.
 :::
 
 This topic will not be presented explicitly in lectures; instead, you will study
-the material yourself in Lab Session 1 (@sec-lab1).
+the material yourself in Lab Session 1.
 
 ## Finite precision number systems
 
