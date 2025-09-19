@@ -445,7 +445,7 @@ be written *uniquely* as a linear combination of entries in $S$.
 
 ::: {#exm-basis-expansion}
 
-1. From the main examples TODO (@todo-label) in this section, we have that $S = \{ \vec{a}, \vec{b}
+1. From the main examples (@exm-span) in this section, we have that $S = \{ \vec{a}, \vec{b}
    \}$ is a basis of $\mathbb{R}^2$ and we already know the formula for how to
    write $\vec{y}$ as a unique combination of $\vec{a}$ and $\vec{b}$: it is
    given in \eqref{eq:y-combo}.
