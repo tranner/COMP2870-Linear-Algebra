@@ -80,8 +80,6 @@ def print_array(array, array_name=None, end=None):
 eigenvalues of large matrices.
 :::
 
-TODO orthogonal vs orthonormal
-
 In the previous lecture, we defined the eigenvalue problem for a matrix $A$:
 Finding numbers $\lambda$ (eigenvalues) and vectors $\vec{x}$ (eigenvectors)
 which satisfy the equation:
@@ -113,23 +111,42 @@ and the eigenvectors are the columns of the matrix
 \begin{equation*}
 S_m = P_1 P_2 \cdots P_{m-1} P_m.
 \end{equation*}
-Sometimes, we only want to compute eigenvalues, and not eigenvectors, then it is
-sufficient to transform the matrix to be triangular (either upper or lower
-triangular). Then, we can read off that the eigenvalues are the diagonal entries
-(see @exm-eigenvalue-triangular).
+We have seen a similar example for upper triangular matrices
+(@exm-triangular-evalues).
 
 ::: {#rem-orthogonal-matrices-are-good}
 In the example below, and many others, we see that we typically want the
-matrices $P_j$ to be *orthogonal*. A (real-valued) matrix $Q$ is orthogonal if
-$Q^T Q = I_n$.
+matrices $P_j$ to be **orthogonal** or **orthonormal**.
 
-Orthogonal matrices have the nice property that $Q^{-1} = Q^T$ so we can very
-easily compute their inverse! They also always have a determinant of 1 and their
-columns are orthonormal too. Finally, we can apply them (or their inverses)
-without worrying about adding extra problems from finite precision.
+A (real-valued) matrix $Q$ is orthogonal if $Q^T Q$ is diagonal and a (real-valued)
+matrix $Q$ is orthonormal if $Q^T Q = I_n$.
 
-Examples of orthogonal matrices include matrices which describe rotations and
-reflections.
+In other words, if denote by
+$\vec{q}^{(1)}, \ldots, \vec{q}^{(n)}$ the columns of $Q$, then $Q$ is
+orthogonal if
+\begin{equation*}
+\vec{q}^{(i)} \cdot \vec{q}^{(j)} = 0 \quad \text{ if } i \neq j,
+\end{equation*}
+and $Q$ is orthonormal if
+\begin{equation*}
+\vec{q}^{(i)} \cdot \vec{q}^{(j)} =
+\begin{cases}
+0 & \text{ if } i \neq j \\
+1 & \text{ if } i = j.
+\end{cases}
+\end{equation*}
+
+Orthonormal matrices have the nice property that $Q^{-1} = Q^T$ so we can very
+easily compute their inverse! They also always have a determinant of 1.
+Importantly, we can apply them (or their inverses) without worrying about adding
+extra problems from finite precision.
+
+Examples of orthonormal matrices include matrices which describe rotations.
+
+::: {#exr-rotation-orthonormal}
+Show that the rotation matrix $R(\theta)$ from @exm-special-matrices is
+orthonormal.
+:::
 :::
 
 ## QR algorithm
@@ -147,7 +164,7 @@ This is *QR factorisation*.
 Given a matrix $A$, the algorithm repeatedly applies QR factorisation. First,
 we set $A^{(0)} = A$, then we successively perform for $k=0, 1, 2, \ldots$:
 
-1. Compute the QR factorisation of $A^{(k)}$ into an orthogonal part and upper
+1. Compute the QR factorisation of $A^{(k)}$ into an orthonormal part and upper
    triangular part
    $$
    A^{(k)} = Q^{(k)} R^{(k)};
@@ -181,7 +198,7 @@ The hard part of the method is computing the QR factorisation. One classical way
 to get a QR factorisation is to use the Gram-Schmidt process. In general, the
 Gram-Schmidt process is used to take a sequence of vectors and form a new
 sequence which is orthonormal. We can apply this to the columns of $A$ to form
-an orthogonal matrix. If we track this process as a matrix-matrix product, we
+an orthonormal matrix. If we track this process as a matrix-matrix product, we
 find that the other factor is upper triangular.
 
 ### The Gram-Schmidt process
@@ -518,7 +535,7 @@ So
 \end{pmatrix}.
 \end{align*}
 Hence we have found an upper triangular matrix $R = Q^T A$. Since $Q$ is
-orthogonal, we know $Q^{-1} = Q^T$ and we have a factorisation:
+orthonormal, we know $Q^{-1} = Q^T$ and we have a factorisation:
 \begin{equation*}
 A = Q R.
 \end{equation*}
@@ -556,7 +573,7 @@ def gram_schmidt_qr(A):
     Returns
     -------
     Q : numpy.ndarray
-        Orthogonal matrix of shape ``(n, n)`` where the columns form an
+        Orthonormal matrix of shape ``(n, n)`` where the columns form an
         orthonormal basis for the column space of A.
     R : numpy.ndarray
         Upper triangular matrix of shape ``(n, n)``.
@@ -629,7 +646,7 @@ def gram_schmidt_eigen(A, maxiter=100, verbose=False):
        .. math::
            A_{k+1} = R_k Q_k
 
-    3. Accumulate the orthogonal transformations in `V` to compute the
+    3. Accumulate the orthonormal transformations in `V` to compute the
        eigenvectors.
     4. Iterate until `A` becomes approximately upper triangular or until the
        maximum number of iterations is reached.
@@ -736,7 +753,7 @@ for n in [2, 4, 8, 16, 32]:
         "- how accurate is Q R factorisation of A?",
         np.linalg.norm(A - Q @ R),
     )
-    print("- is Q orthogonal?", np.linalg.norm(np.eye(n) - Q.T @ Q))
+    print("- is Q orthonormal?", np.linalg.norm(np.eye(n) - Q.T @ Q))
 
     print("- can we use this approach to find eigenvalues?")
     maxiter = 100_000
@@ -752,5 +769,7 @@ for n in [2, 4, 8, 16, 32]:
 
 ```
 
+We see we have problems with the accuracy of the QR factorisation of the initial
+matrix and also how many iterations are required to find the eigenvalues.
 You will see in the lab session ways to improve our basic algorithm, which
 allows for faster and more robust convergence.
