@@ -503,6 +503,36 @@ Check that for any non-zero complex number $y$, that $\left| \frac{y}{|y|}
 \right| = 1$ and $\arg{y} = \arg{\frac{y}{|y|}}$.
 :::
 
+## Euler's formula
+
+The polar form of complex numbers can be further developed thanks to two helpful
+identities. We only state the identities here. There are some examples on the
+worksheet to help your understanding here.
+
+Euler's formula is relates the polar form of a complex number to complex
+exponentials: Let $x$ be a real number, then
+$$
+\exp (i x) = \cos x + i \sin x.
+$$
+The result can be shown by showing that the function $f(x) = \exp(-ix)(\cos x +
+i \sin x)$ is a constant function and that the constant value is $1$. For the
+purposes of this part of the module, you might want to think of $\exp(ix)$
+simply as a shorthand for $\cos x + i \sin x$ when used in calculations.
+
+For example, as a consequence of Euler's formula, we can compute powers of
+complex numbers very simply. Let $z$ be given in polar form by $z = R \exp(i
+\theta)$ (that is $R$ is the magnitude of $z$ and $\theta$ is the argument of
+$z$). Then $z^p$ is, by the rule of exponentiation, $z^p = R^p \exp(i p
+\theta)$.
+
+Euler's formula is the key important step for showing Euler's identity:
+$$
+\exp(i \pi) = -1.
+$$
+This is shown by applying Euler's formula at $x= \pi$. This is a formula which
+many mathematicians a surprising and beautiful result!
+
+
 ## Solving polynomial equations
 
 As we have mentioned above, we will be using complex numbers when solving
