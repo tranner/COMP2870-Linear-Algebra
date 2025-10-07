@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Thomas Ranner">
-<meta name="dcterms.date" content="2025-09-19">
+<meta name="dcterms.date" content="2025-10-07">
 
 <title>COMP2870 Theoretical Foundations: Linear Algebra</title>
 <style>
@@ -40,14 +40,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b651517ce65839d647a86e2780455cfb.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-fcdc01ead29fbffdaec00249dfc3ebda.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-e1296d290184cee5a0f44e6c4c60492d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-fcdc01ead29fbffdaec00249dfc3ebda.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-ccb7598c1076c02ad842cf9fb90770d1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-6543c591f586cb3d6e99e55162843527.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-ccb7598c1076c02ad842cf9fb90770d1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -428,7 +428,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">19 September 2025</p>
+      <p class="date">7 October 2025</p>
     </div>
   </div>
   
@@ -450,26 +450,26 @@ window.Quarto = {
 <p>We will have 7 double lectures, 3 tutorials, and 3 labs. We break up the topics as follows:</p>
 <p>Lectures</p>
 <ol type="1">
-<li>Introduction and motivation, key problem statements (week 4, Mon)</li>
-<li>When can we solve systems of linear equations? (week 4, Wed)</li>
-<li>Direct methods for systems of linear equations (week 5, Mon)</li>
-<li>Iterative solution of linear equations (week 5, Wed)</li>
-<li>Complex numbers (week 6, Mon)</li>
-<li>Eigenvalues and eigenvectors (week 6, Wed)</li>
-<li>Practical solutions for eigenvalues and eigenvectors / Summary (week 7, Mon)</li>
+<li>Introduction and motivation, key problem statements (Week 4, Mon)</li>
+<li>When can we solve systems of linear equations? (Week 4, Wed)</li>
+<li>Direct methods for systems of linear equations (Week 5, Mon)</li>
+<li>Iterative solution of linear equations (Week 5, Wed)</li>
+<li>Complex numbers (Week 6, Mon)</li>
+<li>Eigenvalues and eigenvectors (Week 6, Wed)</li>
+<li>Practical solutions for eigenvalues and eigenvectors / Summary (Week 7, Mon)</li>
 </ol>
 <p>Labs</p>
 <ol type="1">
-<li>Floating point numbers (week 4)</li>
-<li>When can we solve systems of linear equations? (week 5)</li>
-<li>Systems of linear equations (week 6)</li>
-<li>Eigenvalues and eigenvectors (week 7)</li>
+<li>Floating point numbers (Week 4)</li>
+<li>When can we solve systems of linear equations? (Week 5)</li>
+<li>Systems of linear equations (Week 6)</li>
+<li>Eigenvalues and eigenvectors (Week 7)</li>
 </ol>
-<p>Tutorials (how do the dates work out)</p>
+<p>Tutorials</p>
 <ol type="1">
-<li>Linear independence, span, basis (week 5)</li>
-<li>Solution of linear systems (week 6)</li>
-<li>Eigenvalue and eigenvectors (week 7)</li>
+<li>Linear independence, span, basis (Week 5)</li>
+<li>Solution of linear systems (Week 6)</li>
+<li>Eigenvalue and eigenvectors (Week 7)</li>
 </ol>
 <p>Later this term, week 11, you will complete a project based on the things you’ve learnt from this section of the module.</p>
 </section>
@@ -614,7 +614,7 @@ a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n &amp; = b_n.
 </ul>
 <div id="exm-temperature" class="theorem example">
 <p><span class="theorem-title"><strong>Example 1.4 (Temperature in a sealed room)</strong></span> Suppose we wish to estimate the temperature distribution inside an object:</p>
-<div id="08098028" class="cell" data-execution_count="2">
+<div id="eaeba5c2" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -646,7 +646,7 @@ x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6 \\ x_7
 </div>
 <div id="exm-traffic" class="theorem example">
 <p><span class="theorem-title"><strong>Example 1.5 (Traffic network)</strong></span> Suppose we wish to monitor the flow of traffic in a city centre:</p>
-<div id="40ced88a" class="cell" data-execution_count="3">
+<div id="991e5452" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -723,7 +723,7 @@ a &amp; 0 \\ 0 &amp; b
 </div>
 <div id="exm-projection" class="theorem example">
 <p><span class="theorem-title"><strong>Example 1.7</strong></span> Let <span class="math inline">\(P\)</span> be the 3x3 matrix that represents projection onto a plane <span class="math inline">\(\pi\)</span>. What are the eigenvalues and eigenvectors of <span class="math inline">\(p\)</span>?</p>
-<div id="fbbdeb96" class="cell" data-execution_count="4">
+<div id="bef1594c" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -765,9 +765,9 @@ A = \begin{pmatrix}
 <li><a href="https://comp2870-2526.github.io/linear-algebra-notes/COMP2870-Theoretical-Foundations--Linear-Algebra.pdf" class="uri">https://comp2870-2526.github.io/linear-algebra-notes/COMP2870-Theoretical-Foundations--Linear-Algebra.pdf</a> (pdf version)</li>
 </ul>
 <p>Please either email me (<a href="mailto:T.Ranner@leeds.ac.uk">T.Ranner@leeds.ac.uk</a>) or use the <a href="https://github.com/COMP2870-2526/linear-algebra-notes">github repository</a> to report any corrections.</p>
-<div id="af2e9fc8" class="cell" data-execution_count="5">
+<div id="ed8ce4fa" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-stdout">
-<pre><code>This version of the notes is 151c3aa+dirty.</code></pre>
+<pre><code>This version of the notes is ec16322+dirty.</code></pre>
 </div>
 </div>
 <p>Copyright 2024-2025, Thomas Ranner and University of Leeds, licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</p>

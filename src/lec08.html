@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -74,14 +74,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b651517ce65839d647a86e2780455cfb.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-fcdc01ead29fbffdaec00249dfc3ebda.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-e1296d290184cee5a0f44e6c4c60492d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-fcdc01ead29fbffdaec00249dfc3ebda.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-ccb7598c1076c02ad842cf9fb90770d1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-6543c591f586cb3d6e99e55162843527.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-ccb7598c1076c02ad842cf9fb90770d1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -567,7 +567,7 @@ Figure&nbsp;8.1: Projection of <span class="math inline">\(\vec{a}\)</span> away
 \vec{a}^{(2)} = \begin{pmatrix} 2 \\ -1 \\ 0 \end{pmatrix},
 \vec{a}^{(3)} = \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix}.
 \end{equation*}\]</span> We will manipulate these vectors to form three orthonormal vectors.</p>
-<div id="bf2c56aa" class="cell" data-execution_count="3">
+<div id="f2d9d3ee" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -650,7 +650,7 @@ Figure&nbsp;8.1: Projection of <span class="math inline">\(\vec{a}\)</span> away
 <div id="exr-gram-schmit-ex" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 8.2</strong></span> Verify the orthonormality conditions for <span class="math inline">\(\vec{q}^{(1)}, \vec{q}^{(2)}\)</span> and <span class="math inline">\(\vec{q}^{(3)}\)</span>.</p>
 </div>
-<div id="3d486fe5" class="cell" data-execution_count="4">
+<div id="7832109c" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -713,7 +713,7 @@ A = Q R.
 </section>
 <section id="python-qr-factorisation-using-gram-schmidt" class="level3" data-number="8.1.2">
 <h3 data-number="8.1.2" class="anchored" data-anchor-id="python-qr-factorisation-using-gram-schmidt"><span class="header-section-number">8.1.2</span> Python QR factorisation using Gram-Schmidt</h3>
-<div id="c814c1a7" class="cell" data-execution_count="5">
+<div id="542c8270" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">def</span> gram_schmidt_qr(A):</span>
 <span id="cb1-2"><a href="#cb1-2"></a>    <span class="co">"""</span></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="co">    Compute the QR factorisation of a square matrix using the classical</span></span>
@@ -756,7 +756,7 @@ A = Q R.
 <span id="cb1-40"><a href="#cb1-40"></a>    <span class="cf">return</span> Q, R</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Let’s test it without our example above:</p>
-<div id="048e8a67" class="cell" data-execution_count="6">
+<div id="211a5eea" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-stdout">
 <pre><code>A = [  1.0,  2.0,  1.0 ]
     [  0.0, -1.0,  2.0 ]
@@ -777,7 +777,7 @@ Have we computed a factorisation? (A == Q @ R?) True</code></pre>
 <h2 data-number="8.2" class="anchored" data-anchor-id="finding-eigenvalues-and-eigenvectors"><span class="header-section-number">8.2</span> Finding eigenvalues and eigenvectors</h2>
 <p>The algorithm given above says that we use the QR factorisation to iteratively find a sequence of matrices <span class="math inline">\(A^{(j)}\)</span> which <em>should</em> converge to an upper-triangular matrix.</p>
 <p>We test this out in code first for the matrix from <a href="lec07.html#exm-char" class="quarto-xref">Example&nbsp;<span>7.3</span></a>:</p>
-<div id="b6d61793" class="cell" data-execution_count="7">
+<div id="465c1cda" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">def</span> gram_schmidt_eigen(A, maxiter<span class="op">=</span><span class="dv">100</span>, verbose<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb3-2"><a href="#cb3-2"></a>    <span class="co">"""</span></span>
 <span id="cb3-3"><a href="#cb3-3"></a><span class="co">    Compute the eigenvalues and eigenvectors of a square matrix using the QR</span></span>
@@ -856,7 +856,7 @@ Have we computed a factorisation? (A == Q @ R?) True</code></pre>
 <span id="cb3-76"><a href="#cb3-76"></a>    eigenvalues <span class="op">=</span> np.diag(A)</span>
 <span id="cb3-77"><a href="#cb3-77"></a>    <span class="cf">return</span> eigenvalues, V, it</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="f64aa474" class="cell" data-execution_count="8">
+<div id="71e88cd3" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>A <span class="op">=</span> np.array([[<span class="fl">3.0</span>, <span class="fl">1.0</span>], [<span class="fl">1.0</span>, <span class="fl">3.0</span>]])</span>
 <span id="cb4-2"><a href="#cb4-2"></a>print_array(A)</span>
 <span id="cb4-3"><a href="#cb4-3"></a></span>
@@ -879,7 +879,7 @@ iterations required: 27</code></pre>
 <section id="correctness-and-convergence" class="level2" data-number="8.3">
 <h2 data-number="8.3" class="anchored" data-anchor-id="correctness-and-convergence"><span class="header-section-number">8.3</span> Correctness and convergence</h2>
 <p>Let’s see what happens when we try this same approach for a bigger symmetric matrix. We write a test that first checks how good the QR factorisation is for the initial matrix <span class="math inline">\(A\)</span> and then uses our approach to find eigenvalues and eigenvectors and tests how good that approximation is too.</p>
-<div id="7dfcc988" class="cell" data-execution_count="9">
+<div id="b7cfd89b" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># replicable seed</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a>np.random.seed(<span class="dv">42</span>)</span>
 <span id="cb6-3"><a href="#cb6-3"></a></span>

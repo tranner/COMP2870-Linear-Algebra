@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -40,14 +40,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b651517ce65839d647a86e2780455cfb.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-fcdc01ead29fbffdaec00249dfc3ebda.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-e1296d290184cee5a0f44e6c4c60492d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-fcdc01ead29fbffdaec00249dfc3ebda.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-ccb7598c1076c02ad842cf9fb90770d1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-6543c591f586cb3d6e99e55162843527.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-ccb7598c1076c02ad842cf9fb90770d1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -388,9 +388,10 @@ window.Quarto = {
   <li><a href="#basic-definitions" id="toc-basic-definitions" class="nav-link active" data-scroll-target="#basic-definitions"><span class="header-section-number">6.1</span> Basic definitions</a></li>
   <li><a href="#calculations-with-complex-numbers" id="toc-calculations-with-complex-numbers" class="nav-link" data-scroll-target="#calculations-with-complex-numbers"><span class="header-section-number">6.2</span> Calculations with complex numbers</a></li>
   <li><a href="#a-geometric-picture" id="toc-a-geometric-picture" class="nav-link" data-scroll-target="#a-geometric-picture"><span class="header-section-number">6.3</span> A geometric picture</a></li>
-  <li><a href="#solving-polynomial-equations" id="toc-solving-polynomial-equations" class="nav-link" data-scroll-target="#solving-polynomial-equations"><span class="header-section-number">6.4</span> Solving polynomial equations</a></li>
-  <li><a href="#complex-vectors-and-matrices" id="toc-complex-vectors-and-matrices" class="nav-link" data-scroll-target="#complex-vectors-and-matrices"><span class="header-section-number">6.5</span> Complex vectors and matrices</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">6.6</span> Summary</a></li>
+  <li><a href="#eulers-formula" id="toc-eulers-formula" class="nav-link" data-scroll-target="#eulers-formula"><span class="header-section-number">6.4</span> Euler’s formula</a></li>
+  <li><a href="#solving-polynomial-equations" id="toc-solving-polynomial-equations" class="nav-link" data-scroll-target="#solving-polynomial-equations"><span class="header-section-number">6.5</span> Solving polynomial equations</a></li>
+  <li><a href="#complex-vectors-and-matrices" id="toc-complex-vectors-and-matrices" class="nav-link" data-scroll-target="#complex-vectors-and-matrices"><span class="header-section-number">6.6</span> Complex vectors and matrices</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">6.7</span> Summary</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/edit/main/src/lec06.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/blob/main/src/lec06.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -438,7 +439,7 @@ window.Quarto = {
 <p><span class="theorem-title"><strong>Example 6.1</strong></span> Consider the polynomial equation <span class="math display">\[\begin{equation}
 x^2 + 1 = 0.
 \end{equation}\]</span></p>
-<div id="dc476902" class="cell" data-execution_count="2">
+<div id="8c3338d5" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -566,7 +567,7 @@ i^2 = (\sqrt{-1})^2 = \sqrt{-1} \sqrt{-1} \neq \sqrt{(-1) \times (-1)} = \sqrt{1
 <p>The complex plane is the two-dimensional space formed by considering the real and imaginary parts of a complex number as two different coordinate axes.</p>
 <div id="exm-plane" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.5</strong></span> &nbsp;</p>
-<div id="d9aa0386" class="cell" data-caption="Examples of complex numbers as points in the complex plane." data-execution_count="3">
+<div id="ff7f0069" class="cell" data-caption="Examples of complex numbers as points in the complex plane." data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -598,7 +599,7 @@ a - bi\)</span>. The complex conjugate is that number we used before when workin
 \end{equation}\]</span></p>
 <div id="exm-modulus" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.7</strong></span> &nbsp;</p>
-<div id="a26243d4" class="cell" data-caption="Examples of moduli of complex numbers as points in the complex plane." data-execution_count="4">
+<div id="f0c4e716" class="cell" data-caption="Examples of moduli of complex numbers as points in the complex plane." data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -654,7 +655,7 @@ z y
 </div>
 <div id="exm-arg" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.9</strong></span> &nbsp;</p>
-<div id="9546c19c" class="cell" data-caption="Examples of arguments of complex numbers as points in the complex plane." data-execution_count="5">
+<div id="191fe30d" class="cell" data-caption="Examples of arguments of complex numbers as points in the complex plane." data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -670,8 +671,22 @@ z y
 \right| = 1\)</span> and <span class="math inline">\(\arg{y} = \arg{\frac{y}{|y|}}\)</span>.</p>
 </div>
 </section>
-<section id="solving-polynomial-equations" class="level2" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="solving-polynomial-equations"><span class="header-section-number">6.4</span> Solving polynomial equations</h2>
+<section id="eulers-formula" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="eulers-formula"><span class="header-section-number">6.4</span> Euler’s formula</h2>
+<p>The polar form of complex numbers can be further developed thanks to two helpful identities. We only state the identities here. There are some examples on the worksheet to help your understanding here.</p>
+<p>Euler’s formula is relates the polar form of a complex number to complex exponentials: Let <span class="math inline">\(x\)</span> be a real number, then <span class="math display">\[
+\exp (i x) = \cos x + i \sin x.
+\]</span> The result can be shown by showing that the function <span class="math inline">\(f(x) = \exp(-ix)(\cos x +
+i \sin x)\)</span> is a constant function and that the constant value is <span class="math inline">\(1\)</span>. For the purposes of this part of the module, you might want to think of <span class="math inline">\(\exp(ix)\)</span> simply as a shorthand for <span class="math inline">\(\cos x + i \sin x\)</span> when used in calculations.</p>
+<p>For example, as a consequence of Euler’s formula, we can compute powers of complex numbers very simply. Let <span class="math inline">\(z\)</span> be given in polar form by <span class="math inline">\(z = R \exp(i
+\theta)\)</span> (that is <span class="math inline">\(R\)</span> is the magnitude of <span class="math inline">\(z\)</span> and <span class="math inline">\(\theta\)</span> is the argument of <span class="math inline">\(z\)</span>). Then <span class="math inline">\(z^p\)</span> is, by the rule of exponentiation, <span class="math inline">\(z^p = R^p \exp(i p
+\theta)\)</span>.</p>
+<p>Euler’s formula is the key important step for showing Euler’s identity: <span class="math display">\[
+\exp(i \pi) = -1.
+\]</span> This is shown by applying Euler’s formula at <span class="math inline">\(x= \pi\)</span>. This is a formula which many mathematicians a surprising and beautiful result!</p>
+</section>
+<section id="solving-polynomial-equations" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="solving-polynomial-equations"><span class="header-section-number">6.5</span> Solving polynomial equations</h2>
 <p>As we have mentioned above, we will be using complex numbers when solving polynomial equations to work out eigenvalues and eigenvectors of matrices later in the section. The reason complex numbers are useful here is this very important Theorem:</p>
 <div id="thm-fund-alg" class="theorem">
 <p><span class="theorem-title"><strong>Theorem 6.1 (The Fundamental Theorem of Algebra)</strong></span> For any complex numbers <span class="math inline">\(a_0, \ldots, a_n\)</span> not all zero, there is at least one complex number <span class="math inline">\(z\)</span> which satisfies: <span class="math display">\[\begin{equation*}
@@ -687,7 +702,7 @@ x^2 + 1 = 0.
 &amp; i^2 + 1 = 0 \\
 &amp; (-i)^2 + 1 = (-1)^2 i^2 + 1 = i^2 + 1 = 0.
 \end{align*}\]</span></p>
-<div id="b75024e2" class="cell" data-execution_count="6">
+<div id="d18fe5f2" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -710,8 +725,8 @@ z = \frac{+2 \pm \sqrt{(-2)^2 - 4 \times 1 \times 2}}{2} =
 </div>
 <p>We will see in later sections that although this is one possible solution to compute the eigenvalues for <span class="math inline">\(2 \times 2\)</span> matrices this approach becomes infeasible for larger size matrices and we need another approach!</p>
 </section>
-<section id="complex-vectors-and-matrices" class="level2" data-number="6.5">
-<h2 data-number="6.5" class="anchored" data-anchor-id="complex-vectors-and-matrices"><span class="header-section-number">6.5</span> Complex vectors and matrices</h2>
+<section id="complex-vectors-and-matrices" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="complex-vectors-and-matrices"><span class="header-section-number">6.6</span> Complex vectors and matrices</h2>
 <p>Last year you were introduced to vectors of real numbers. In the remaining part of Linear Algebra, we will need to work with complex matrices and vectors. The definitions are mostly what you would expect but with some slight subtleties.</p>
 <div id="def-complex-vectors-matrices" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 6.3</strong></span> A complex matrix is a matrix whose entries are complex numbers. A complex vector is a vector whose entries are complex numbers.</p>
@@ -778,8 +793,8 @@ A \vec{x} \cdot \vec{y}
 \langle A \vec{x}, \vec{y} \rangle = \langle \vec{x}, A \vec{y} \rangle.
 \end{equation*}\]</span></p>
 </section>
-<section id="summary" class="level2" data-number="6.6">
-<h2 data-number="6.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">6.6</span> Summary</h2>
+<section id="summary" class="level2" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="summary"><span class="header-section-number">6.7</span> Summary</h2>
 <p>In this section, we introduced complex numbers and their algebraic and geometric representations. Key concepts include:</p>
 <ul>
 <li>Definition of complex numbers as combinations of real and imaginary parts.</li>
