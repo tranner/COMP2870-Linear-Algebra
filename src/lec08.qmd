@@ -6,6 +6,7 @@ jupyter: python3
 ```{python}
 # | echo: false
 import inspect
+import time
 
 import numpy as np
 from matplotlib import pyplot as plt
@@ -619,6 +620,9 @@ print_array(Q)
 print_array(R)
 
 print("Have we computed a factorisation? (A == Q @ R?)", np.allclose(A, Q @ R))
+print(
+    "Is Q orthonormal? (Q.T @ Q == np.eye(3))", np.allclose(np.eye(3), Q.T @ Q)
+)
 
 
 ```
@@ -628,8 +632,6 @@ print("Have we computed a factorisation? (A == Q @ R?)", np.allclose(A, Q @ R))
 The algorithm given above says that we use the QR factorisation to iteratively
 find a sequence of matrices $A^{(j)}$ which *should* converge to an
 upper-triangular matrix.
-
-We test this out in code first for the matrix from @exm-char:
 
 ```{python}
 def gram_schmidt_eigen(A, maxiter=100, verbose=False):
@@ -696,8 +698,8 @@ def gram_schmidt_eigen(A, maxiter=100, verbose=False):
             print_array(R)
 
         # update A and V in place
-        A[:] = R @ Q
-        V[:] = V @ Q
+        A = R @ Q
+        V = V @ Q
 
         if verbose:
             print_array(A)
@@ -712,6 +714,8 @@ def gram_schmidt_eigen(A, maxiter=100, verbose=False):
 
 
 ```
+
+We test this out in code first for the matrix from @exm-char:
 
 ```{python}
 A = np.array([[3.0, 1.0], [1.0, 3.0]])
@@ -732,44 +736,105 @@ for the eigenvectors but still in the same directions.
 ## Correctness and convergence
 
 Let's see what happens when we try this same approach for a bigger symmetric
-matrix. We write a test that first checks how good the QR factorisation is for
-the initial matrix $A$ and then uses our approach to find eigenvalues and
-eigenvectors and tests how good that approximation is too.
+matrices. Here we have a test that samples ten different random matrices and
+computes the average number of iterations, average run time and maximum error
+in the eigenvalue equation.
 
 ```{python}
-# replicable seed
+
+# replicable random seed
 np.random.seed(42)
 
-for n in [2, 4, 8, 16, 32]:
-    print(f"\n\n matrix size {n=}")
+
+def test_accuracy_of_eigensolve(A, eigenvalues, eigenvectors):
+    """
+    test accuracy of solution of eigenvalue problem
+    """
+    residuals = []
+    for i in range(len(eigenvalues)):
+        residual = np.linalg.norm(
+            A @ eigenvectors[:, i] - eigenvalues[i] * eigenvectors[:, i]
+        )
+        residuals.append(residual)
+    return max(residuals)
+
+
+# replicable seed
+repeats = 10
+
+# restart the seed
+np.random.seed(42)
+
+
+def random_symmetric_matrix(n):
     # generate a random matrix
     S = special_ortho_group.rvs(n)
-    D = np.diag(np.random.randint(-5, 5, (n,)))
+    D = np.diag(np.random.randint(1, 10, (n,)) / 2)
     A = S.T @ D @ S
+    return A
 
-    Q, R = gram_schmidt_qr(A)
 
-    print(
-        "- how accurate is Q R factorisation of A?",
-        np.linalg.norm(A - Q @ R),
-    )
-    print("- is Q orthonormal?", np.linalg.norm(np.eye(n) - Q.T @ Q))
+print("size  time (s)       iter  error")
 
-    print("- can we use this approach to find eigenvalues?")
-    maxiter = 100_000
-    D, V, k = gram_schmidt_eigen(A, maxiter=maxiter)
-    if k == maxiter - 1:
-        print(" -> too many iterations required")
-    else:
-        print(
-            f" -> are the eigenvalues and eigenvectors accurate? {k=}",
-            np.linalg.norm(A @ V - np.diag(D) @ V),
+n_values = [2**j for j in range(1, 8)]
+it_values = []
+runtime_values = []
+
+for n in n_values:
+    runtime = 0.0
+    total_its = 0
+    max_error = 0.0
+
+    for _ in range(repeats):
+        # generate new random matrix
+        A = random_symmetric_matrix(n)
+
+        # do and time the solve, ensure converged
+        maxiter = 1000_000
+        start = time.perf_counter()
+        eigenvalues, eigenvectors, it = gram_schmidt_eigen(A, maxiter=maxiter)
+        end = time.perf_counter()
+
+        if it == maxiter - 1:
+            # skip
+            continue
+
+        # store the data
+        runtime += end - start
+        total_its += it
+        max_error = max(
+            max_error,
+            test_accuracy_of_eigensolve(A, eigenvalues, eigenvectors),
         )
 
+    runtime /= repeats
+    average_it = total_its / repeats
 
+    it_values.append(average_it)
+    runtime_values.append(runtime)
+
+    print(f"{n:4d}   {runtime:.6e}  {average_it:5.1f}  {max_error:.6e}")
 ```
 
-We see we have problems with the accuracy of the QR factorisation of the initial
-matrix and also how many iterations are required to find the eigenvalues.
-You will see in the lab session ways to improve our basic algorithm, which
-allows for faster and more robust convergence.
+```{python}
+# | echo: false
+
+_, axs = plt.subplots(1, 2)
+
+axs[0].loglog(n_values, it_values, ".-")
+axs[1].loglog(n_values, runtime_values, ".-")
+
+axs[0].set_xlabel("$n$")
+axs[1].set_xlabel("$n$")
+
+axs[0].set_ylabel("average iterations")
+axs[1].set_ylabel("average runtime")
+
+axs[0].grid(True)
+axs[1].grid(True)
+
+plt.tight_layout()
+plt.show()
+```
+
+We see that the method converges very well with a good low accuracy.
