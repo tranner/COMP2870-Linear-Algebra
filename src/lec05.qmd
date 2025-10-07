@@ -1006,18 +1006,18 @@ for n in ns:
     A_real, I_row, I_col, b = random_sparse_system(n, nonzero)
     x0 = np.zeros((n, 1))
 
-    start_time = time.time()
+    start_time = time.perf_counter()
     jacobi_iteration_sparse(
         A_real, I_row, I_col, b, x0, max_iter=10, verbose=False
     )
-    end_time = time.time()
+    end_time = time.perf_counter()
 
     timing_sparse.append(end_time - start_time)
 
     A_dense = to_dense(A_real, I_row, I_col)
-    start_time = time.time()
+    start_time = time.perf_counter()
     jacobi_iteration(A_dense, b, x0, max_iter=10, verbose=False)
-    end_time = time.time()
+    end_time = time.perf_counter()
 
     timing_dense.append(end_time - start_time)
 ```

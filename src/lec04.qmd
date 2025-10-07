@@ -1164,15 +1164,15 @@ for n in sizes:
     b = np.random.rand(n, 1)
 
     # perform Gaussian elimination
-    start_time = time.time()
+    start_time = time.perf_counter()
     gaussian_elimination(A, b)
-    end_time = time.time()
+    end_time = time.perf_counter()
     times_GE.append(end_time - start_time)
 
     # perform backward subsitution
-    start_time = time.time()
+    start_time = time.perf_counter()
     backward_substitution(A, b)
-    end_time = time.time()
+    end_time = time.perf_counter()
     times_BS.append(end_time - start_time)
 ```
 

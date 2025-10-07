@@ -116,10 +116,10 @@ def approach3(A_sparse, b):
 
 
 def timeit(method, A, b, repeats=5):
-    start_time = time.time()
+    start_time = time.perf_counter()
     for _ in range(repeats):
         method(A, b)
-    end_time = time.time()
+    end_time = time.perf_counter()
 
     return (end_time - start_time) / repeats
 
