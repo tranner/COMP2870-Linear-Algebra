@@ -28,26 +28,26 @@ as follows:
 
 Lectures
 
-1. Introduction and motivation, key problem statements (week 4, Mon)
-2. When can we solve systems of linear equations? (week 4, Wed)
-3. Direct methods for systems of linear equations (week 5, Mon)
-4. Iterative solution of linear equations (week 5, Wed)
-5. Complex numbers (week 6, Mon)
-6. Eigenvalues and eigenvectors (week 6, Wed)
-7. Practical solutions for eigenvalues and eigenvectors / Summary (week 7, Mon)
+1. Introduction and motivation, key problem statements (Week 4, Mon)
+2. When can we solve systems of linear equations? (Week 4, Wed)
+3. Direct methods for systems of linear equations (Week 5, Mon)
+4. Iterative solution of linear equations (Week 5, Wed)
+5. Complex numbers (Week 6, Mon)
+6. Eigenvalues and eigenvectors (Week 6, Wed)
+7. Practical solutions for eigenvalues and eigenvectors / Summary (Week 7, Mon)
 
 Labs
 
-1. Floating point numbers (week 4)
-2. When can we solve systems of linear equations? (week 5)
-3. Systems of linear equations (week 6)
-4. Eigenvalues and eigenvectors (week 7)
+1. Floating point numbers (Week 4)
+2. When can we solve systems of linear equations? (Week 5)
+3. Systems of linear equations (Week 6)
+4. Eigenvalues and eigenvectors (Week 7)
 
-Tutorials (how do the dates work out)
+Tutorials
 
-1. Linear independence, span, basis (week 5)
-2. Solution of linear systems (week 6)
-3. Eigenvalue and eigenvectors (week 7)
+1. Linear independence, span, basis (Week 5)
+2. Solution of linear systems (Week 6)
+3. Eigenvalue and eigenvectors (Week 7)
 
 Later this term, week 11, you will complete a project based on the things you've
 learnt from this section of the module.

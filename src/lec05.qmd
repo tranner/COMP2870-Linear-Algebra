@@ -465,7 +465,7 @@ equations, especially the differences against the Jacobi method.
 
 ::: {#exr-iterations}
 
-Take one iteration of (i) Jacobi iteration; (ii) Gauss-Seidel iteration to
+Take one iteration of (a) Jacobi iteration; (b) Gauss-Seidel iteration to
 approximate the solution of the following system using the initial guess
 $\vec{x}^{(0)} = (1, 2, 3)^T$:
 
