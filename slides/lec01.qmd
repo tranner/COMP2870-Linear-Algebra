@@ -8,7 +8,7 @@ author:
     affiliation: School of Computer Science, University of Leeds
 code-line-numbers: true
 html-math-method: mathjax
-include-in-header: ./mathjax.html
+include-in-header: ../mathjax.html
 
 format:
   live-revealjs:
