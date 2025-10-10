@@ -1,0 +1,642 @@
+---
+echo: false
+slide-level: 3
+slide-number: true
+preview-links: auto
+format: live-revealjs
+title: COMP2870 Theoretical Foundations of Computer Science II
+subtitle: Introduction to Linear Algebra
+author:
+  - name: Dr. Thomas Ranner (Tom)
+    email: T.Ranner@leeds.ac.uk
+    affiliation: School of Computer Science, University of Leeds
+include-in-header: ../mathjax.html
+code-line-numbers: true
+---
+hi
+
+Dr. Thomas Ranner (Tom)
+<T.Ranner@leeds.ac.uk>
+
+Teams messages are fine too.
+
+```{python}
+
+import numpy as np
+from matplotlib import pyplot as plt
+
+plt.style.use("seaborn-v0_8-colorblind")
+```
+
+## Contents of this submodule
+
+> This part of the module will deal with numerical algorithms that involve matrices. The study of this type of problem is called *(numerical) linear algebra*.
+
+We will approach these problems using a combination of theoretical ideas and practical
+solutions, thinking through the lens of real-world applications.
+
+As a consequence, to succeed in linear algebra, you will do some programming (using
+Python) and some pen-and-paper theoretical work, too.
+
+### Support for this part of the module
+
+- Weekly labs (1 hour): Mondays or Tuesdays
+- Tutorials (1 hour): Mondays or Tuesday
+
+Later this term, week 11, you will complete a project based on the things you've
+learnt from this section of the module.
+
+### Learning outcomes
+
+Candidates should be able to:
+
+- explain practical challenges working with floating-point numbers;
+- define and identify what it means for a set of vectors to be a basis, spanning
+  set or linearly independent;
+- apply direct and iterative solvers to solve systems of linear equations;
+  implement methods using floating point numbers and investigate computational
+  cost using computer experiments;
+- apply and understand algorithms to compute eigenvectors and eigenvalues of large matrices.
+
+### Textbooks and other resources
+
+- [Introduction to Linear
+  Algebra](https://leeds.primo.exlibrisgroup.com/permalink/44LEE_INST/13rlbcs/alma991011421399705181)
+  (Fifth Edition), Gilbert Strang, Wellesley-Cambridge Press, 2016. \ with [MIT
+  course material](https://web.mit.edu/18.06/www).
+
+- [Scientific Computing: An Introductory
+  Survey](https://leeds.primo.exlibrisgroup.com/permalink/44LEE_INST/13rlbcs/alma991009203099705181),
+  T.M. Heath, McGraw-Hill, 2002. \ Some [lecture notes based on the
+  book](http://heath.cs.illinois.edu/scicomp/notes/index.html)
+
+- [Engineering
+  Mathematics](https://leeds.primo.exlibrisgroup.com/permalink/44LEE_INST/13rlbcs/alma991019677711205181),
+  K.A. Stroud, Macmillan, 2001. *available online*
+
+- [Numerical Recipes in
+  C++/C/FORTRAN](https://leeds.primo.exlibrisgroup.com/permalink/44LEE_INST/13rlbcs/alma991010465229705181):
+  The Art of Scientific Computing, W.H. Press, S.A. Teukolsky, W.T. Vetterling
+  and B.P. Flannery, Cambridge University Press, 2002/1993/1993.
+
+::: {.notes}
+- Strong recommend for Strang (and accompanying lectures on youtube)
+- Numerical Recipes works with fully practical methods - useful for developing libraries.
+:::
+
+### Online notes
+
+I expect minor adjustments to be made to both throughout the progress of
+delivering the materials.
+
+You can always find the latest versions at:
+
+- <https://comp2870-2526.github.io/linear-algebra-notes/> (html version)
+- <https://comp2870-2526.github.io/linear-algebra-notes/COMP2870-Theoretical-Foundations--Linear-Algebra.pdf> (pdf version)
+
+Please either email me ([T.Ranner@leeds.ac.uk](mailto:T.Ranner@leeds.ac.uk)) or
+use the [github
+repository](https://github.com/COMP2870-2526/linear-algebra-notes) to report any
+corrections.
+
+### Programming
+
+::: {.incremental}
+<div>
+We will make extensive use of [`Python`](https://www.python.org/) and
+[`numpy`](https://numpy.org/) during this section of the module. It may help you
+to revise some of your notes from last year on these topics.
+</div>
+<div>
+We will also be working with *floating-point numbers*. You will have met the definition of a floating point number last year (COMP1850) - we will see that doing maths with floating-point numbers has real consequences (see first lab!)
+</div>
+:::
+
+### Sample problems working with floating point numbers i
+
+
+``` {pyodide}
+1 + 2
+```
+
+``` {pyodide}
+0.1 + 0.2
+```
+
+``` {pyodide}
+0.1 + 0.2 ==
+```
+
+### Sample problems working with floating point numbers ii
+
+If we add something positive to one do we always get an answer greater than one?
+``` {pyodide}
+value = 1.0
+while 1.0 + value > 1.0:
+    value = value / 2
+    print(value)
+```
+
+### Sample problems working with floating point numbers iii
+
+``` {pyodide}
+def f(x):
+    return x**2
+
+# compute an approximation to the derivative at x=1
+x = 1
+...
+```
+
+::: {.notes}
+``` python
+h = 0.1
+df_approx = (f(x+h) - f(x)) / h
+```
+then smaller h
+:::
+
+### What can go wrong!?!
+
+- In February 1991, a [basic rounding
+  error](https://www-users.cse.umn.edu/~arnold/disasters/patriot.html) within
+  software for the US Patriot missile system caused it to fail, contributing to
+  the loss of 28 lives.
+
+- In June 1996, the European Space Agency's Ariane Rocket exploded shortly after
+  take-off: the error was due to failing to [handle overflow
+  correctly](https://www.bbc.com/future/article/20150505-the-numbers-that-lead-to-disaster).
+
+- In October 2020, a driverless car drove straight into a wall due to [faulty
+  handling of a floating-point
+  error](https://sinews.siam.org/Details-Page/a-new-ieee-754-standard-for-floating-point-arithmetic-in-an-ever-changing-world).
+
+### Here's the video
+
+<a href="https://www.twitch.tv/roborace/clip/FunAmazingWrenFrankerZ">
+<iframe src="https://clips.twitch.tv/embed?clip=FunAmazingWrenFrankerZ&parent=www.example.com" frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="620"></iframe>
+<p>Video</p>
+</a>
+
+## Reminder of matrices and vectors
+
+::: {#def-matrix}
+A *matrix* is a rectangular array of numbers called *entries*
+or *elements* of the matrix. A matrix with $m$ rows and $n$ columns is called an
+$m \times n$ matrix or $m$-by-$n$ matrix. We may additionally say that the
+matrix is of order $m \times n$. If $m = n$, then we say that the matrix is
+*square*.
+:::
+
+::: {.notes}
+::: {#exm-matrix}
+$A$ is a $4 \times 4$ matrix and $B$ is a $3 \times 4$ matrix:
+\begin{align*}
+A = \begin{pmatrix} 10 & 1 & 0 & 9 \\ 12.4 & 6 & 1 & 0 \\ 1 &
+3.14 & 1 & 0 \end{pmatrix}
+\quad
+B = \begin{pmatrix} 0 & 6 & 3 & 1 \\ 1 & 4 & 1
+& 0 \\ 7 & 0 & 10 & 20 \end{pmatrix} \\
+C = \begin{pmatrix} 4 & 1 & 8 & -1 \\
+1.5 & 1 & 3 & 4 \\ 6 & -4 & 2 & 8 \end{pmatrix}
+\end{align*}
+
+::: {#exr-matrix}
+
+1. Compute, if defined, $A + B$, $B + C$.
+2. Compute, if defined, $A B$, $B A$, $B C$ (here, by writing matrices next to
+each other we mean the matrix product).
+:::
+:::
+:::
+
+### Vectors
+
+::: {#def-vector}
+A *column vector*, often just called a *vector*, is a matrix
+with a single column. A matrix with a single row is a *row vector*. The entries
+of a vector are called *components*. A vector with $n$ rows is called an
+$n$-vector.
+:::
+
+::: {.notes}
+::: {#exm-vector}
+
+$\vec{a}$ is a row vector, $\vec{b}$ and $\vec{c}$ are
+(column) vectors.
+\begin{align*}
+\vec{a} =
+\begin{pmatrix} 0 & 1 & 7 \end{pmatrix}
+\quad
+\vec{b} =
+\begin{pmatrix} 0 \\ 1 \\ 3.1 \\ 7 \end{pmatrix}
+\quad
+\vec{c} = \begin{pmatrix} 4 \\ 6 \\ -4 \\ 0 \end{pmatrix}.
+\end{align*}
+
+::: {#exr-vector}
+
+1. Compute, if defined, $\vec{b} + \vec{c}$, $0.25 \vec{c}$.
+2. What is the meaning of $\vec{b}^T \vec{c}$? (Here, we are interpreting the
+   vectors as matrices).
+3. Compute, if defined, $B \vec{b}$.
+:::
+:::
+:::
+
+::: {.notes}
+::: {#exm-special-matrices}
+It will be helpful to remember some special matrices during this seciton of the
+module.
+
+A **rotation matrix** is a $2 \times 2$ matrix given by
+\begin{equation}
+R(\theta) = \begin{pmatrix}
+\cos \theta & -\sin \theta \\
+\sin \theta & \cos \theta
+\end{pmatrix}.
+\end{equation}
+This matrix describes an anti-clockwise rotation by $\theta$ (in radians).
+
+The **projection operator** maps vectors onto either lines or planes which pass
+through the origin ($\vec{0}$).
+
+- For projection onto a line $L = \{ \lambda \vec{a} : \lambda \in \mathbb{R} \}$,
+we can write this transformation as:
+\begin{equation*}
+\vec{x} \mapsto \vec{a} \cdot \vec{x} \vec{a}
+= (\vec{a} \otimes \vec{a}) \vec{x},
+\end{equation*}
+where $\otimes$ is the *outer product*. For two $n$-vectors $\vec{a}$ and
+$\vec{b}$, $\vec{a} \otimes \vec{b}$ is an $n \times n$ with entries:
+\begin{equation*}
+(\vec{a} \otimes \vec{b})_{ij} = a_i b_j.
+\end{equation*}
+
+- For projection onto a plane $\Pi = \{ \lambda \vec{a} + \mu \vec{b} : \lambda,
+\mu \in \mathbb{R} \}$, we can rite the projection operator as:
+\begin{equation*}
+\vec{x} \mapsto (\vec{a} \otimes \vec{a} + \vec{b} \otimes \vec{b}) \vec{x}.
+\end{equation*}
+:::
+:::
+
+## Systems of linear equations
+
+Given an $n \times n$ matrix $A$ and an $n$-vector $\vec{b}$, find the
+$n$-vector $\vec{x}$ which satisfies:
+\begin{equation}
+\label{eq:sle}
+A \vec{x} = \vec{b}.
+\end{equation}
+
+### Fully written out format
+
+We can also write \eqref{eq:sle} as a system of linear equations:
+\begin{align*}
+\text{Equation 1:} &&
+a_{11} x_1 + a_{12} x_2 + a_{13} x_3 + \cdots + a_{1n} x_n & = b_1 \\
+\text{Equation 2:} &&
+a_{21} x_1 + a_{22} x_2 + a_{23} x_3 + \cdots + a_{2n} x_n & = b_2 \\
+\vdots \\
+\text{Equation i:} &&
+a_{i1} x_1 + a_{i2} x_2 + a_{i3} x_3 + \cdots + a_{in} x_n & = b_i \\
+\vdots \\
+\text{Equation n:} &&
+a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n & = b_n.
+\end{align*}
+
+### Notes
+
+- The values $a_{ij}$ are known as **coefficients**.
+
+- The **right hand side** values $b_i$ are known and are given to you as part
+    of the problem.
+
+- $x_1, x_2, x_3, \ldots, x_n$ are **not** known and are what you need to find
+    to solve the problem.
+
+### Key properties of solution algorithms
+
+::: {.notes}
+Many computational algorithms require the solution of linear equations, e.g. in
+fields such as
+
+- Scientific computation;
+- Network design and optimisation;
+- Graphics and visualisation;
+- Machine learning.
+:::
+
+Typically, these systems are *very* large ($n \approx 10^9$).
+
+It is therefore important that this problem can be solved
+
+- **accurately**: we are allowed to make small errors but not big errors;
+- **efficiently**: we need to find the answer quickly;
+- **reliably**: we need to know that our algorithm will give us an answer that we
+    are happy with.
+
+### Ex. Temperature in a sealed room
+
+Suppose we wish to estimate the temperature distribution inside an object:
+
+```{python}
+R = np.sqrt(0.5)
+c = np.array([0.5, 0.5])
+d = np.pi / 6
+p = np.pi / 4
+
+pts = (
+    [np.array([0.0, 0.0]), np.array([0.5, 0.0])]
+    + [
+        c + R * np.array([np.cos(n * d + p), np.sin(n * d + p)])
+        for n in range(-3, 4)
+    ]
+    + [np.array([0.0, 0.5])]
+)
+
+
+temperatures = [
+    200,
+    100,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    100,
+]
+
+interior_pts = [
+    [0.25, 0.25],
+    [0.75, 0.25],
+    [0.5, 0.5],
+    [1.0, 0.5],
+    [0.25, 0.75],
+    [0.75, 0.75],
+    [0.5, 1.0],
+]
+
+edges = [
+    [0, 1],
+    [0, 10],
+    [0, 9],
+    [1, 10],
+    [1, 11],
+    [1, 2],
+    [2, 11],
+    [2, 13],
+    [2, 3],
+    [3, 13],
+    [3, 4],
+    [4, 13],
+    [4, 15],
+    [4, 5],
+    [5, 15],
+    [5, 6],
+    [6, 15],
+    [6, 16],
+    [6, 7],
+    [7, 16],
+    [7, 8],
+    [8, 16],
+    [8, 14],
+    [8, 9],
+    [9, 14],
+    [9, 10],
+    [10, 11],
+    [10, 12],
+    [10, 14],
+    [11, 12],
+    [11, 15],
+    [11, 13],
+    [12, 14],
+    [12, 15],
+    [13, 15],
+    [14, 15],
+    [14, 16],
+    [15, 16],
+]
+
+fig, axs = plt.subplots(1, 2)
+
+
+axs[0].fill([pt[0] for pt in pts], [pt[1] for pt in pts], edgecolor="black")
+
+for pt, t in zip(pts, temperatures, strict=False):
+    axs[0].plot(pt[0], pt[1], "ko")
+    offset = 0.1 * (pt - c) / np.linalg.norm(pt - c)
+    axs[0].text(
+        pt[0] + offset[0],
+        pt[1] + offset[1],
+        t,
+        ha="center",
+        bbox={"facecolor": "white", "boxstyle": "round,pad=0.2"},
+    )
+
+for pt, t in zip(pts, temperatures, strict=False):
+    axs[1].plot(pt[0], pt[1], "ko")
+    offset = 0.1 * (pt - c) / np.linalg.norm(pt - c)
+    axs[1].text(
+        pt[0] + offset[0],
+        pt[1] + offset[1],
+        t,
+        ha="center",
+        bbox={"facecolor": "white", "boxstyle": "round,pad=0.2"},
+    )
+
+for j, pt in enumerate(interior_pts):
+    axs[1].plot(pt[0], pt[1], "ko")
+    axs[1].text(
+        pt[0] + 0.06,
+        pt[1] + 0.06,
+        f"$x_{{{j + 1}}}$",
+        ha="center",
+        bbox={"facecolor": "white", "boxstyle": "round,pad=0.2"},
+    )
+
+all_pts = pts + interior_pts
+
+for e in edges:
+    pt_A, pt_B = all_pts[e[0]], all_pts[e[1]]
+    axs[1].plot([pt_A[0], pt_B[0]], [pt_A[1], pt_B[1]], "k")
+
+for ax in axs:
+    ax.set_axis_off()
+    ax.set_aspect("equal")
+
+plt.tight_layout()
+plt.show()
+```
+
+### Model
+
+> The temperature at each interior point is the average of its neighbours.
+
+::: {.notes}
+We can place a network of points inside the object and use the following model:
+the temperature at each interior point is the average of its neighbours.
+
+This example leads to the system:
+
+$$
+\begin{pmatrix}
+1 & -1/6 & -1/6 & 0 & -1/6 & 0 & 0 \\
+-1/6 & 1 & -1/6 & -1/6 & 0 & -1/6 & 0 \\
+-1/4 & -1/4 & 1 & 0 & -1/4 & -1/4 & 0 \\
+0 & -1/5 & 0 & 1 & 0 & -1/5 & 0 \\
+-1/6 & 0 & -1/6 & 0 & 1 & -1/6 & -1/6 \\
+0 & -1/8 & -1/8 & -1/8 & -1/8 & 1 & -1/8 \\
+0 & 0 & 0 & 0 & -1/5 & -1/5 & 1
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6 \\ x_7
+\end{pmatrix}
+= \begin{pmatrix}
+400/6 \\ 100/6 \\ 0 \\ 0 \\ 100/6 \\ 0 \\ 0
+\end{pmatrix}.
+$$
+:::
+
+### Ex. Traffic network
+
+Suppose we wish to monitor the flow of traffic in a city centre:
+
+```{python}
+dx = 1.0
+dy = 0.7
+head_proportion = 0.75
+
+pts = np.array(
+    [
+        [dx, 0.0],
+        [2 * dx, 0.0],
+        [0.0, dy],
+        [dx, dy],
+        [2 * dx, dy],
+        [0.0, 2 * dy],
+        [dx, 2 * dy],
+        [2 * dx, 2 * dy],
+    ]
+)
+
+arrows = [  # x arrows
+    [np.array([2 * dx, 2 * dy]), np.array([-dx, 0.0]), "$x_1$"],
+    [np.array([dx, 2 * dy]), np.array([-dx, 0.0]), "$x_2$"],
+    [np.array([2 * dx, 2 * dy]), np.array([0.0, -dy]), "$x_3$"],
+    [np.array([0.0, 2 * dy]), np.array([0.0, -dy]), "$x_4$"],
+    [np.array([dx, dy]), np.array([-dx, 0.0]), "$x_5$"],
+    [np.array([2 * dx, dy]), np.array([0.0, -dy]), "$x_6$"],
+    [np.array([dx, dy]), np.array([0.0, -dy]), "$x_7$"],
+    [np.array([2 * dx, 0.0]), np.array([-dx, 0.0]), "$x_8$"],
+    # y arrows
+    [np.array([dx, 0]), np.array([0.0, -dy]), "$y_1$"],
+    [np.array([2 * dx, 0]), np.array([0.0, -dy]), "$y_2$"],
+    [np.array([2 * dx + dx, 0]), np.array([-dx, 0.0]), "$y_3$"],
+    [np.array([2 * dx + dx, dy]), np.array([-dx, 0.0]), "$y_4$"],
+    [np.array([2 * dx + dx, 2 * dy + dy]), np.array([-dx, -dy]), "$y_5$"],
+    [np.array([dx, 2 * dy + dy]), np.array([0.0, -dy]), "$y_6$"],
+    [np.array([0.0, 2 * dy + dy]), np.array([0.0, -dy]), "$y_7$"],
+    [np.array([0.0, 2 * dy]), np.array([-dx, 0.0]), "$y_8$"],
+    [np.array([0.0, dy]), np.array([-dx, 0.0]), "$y_9$"],
+    [np.array([dx, dy]), np.array([-dx, -dy]), "$y_{10}$"],
+    [np.array([2 * dx, dy]), np.array([-dx, 0.0]), "$y_{11}$"],
+    [np.array([dx, 2 * dy]), np.array([0.0, -dy]), "$y_{12}$"],
+]
+
+for pt in pts:
+    plt.plot(pt[0], pt[1], "ko")
+
+for arrow in arrows:
+    start, direction, label = arrow
+    if "x" in label:
+        color = "C0"
+    elif "y" in label:
+        color = "C1"
+    plt.arrow(
+        start[0],
+        start[1],
+        direction[0] * head_proportion,
+        direction[1] * head_proportion,
+        length_includes_head=True,
+        head_width=0.05,
+        facecolor=color,
+    )
+    plt.arrow(
+        start[0] + direction[0] * head_proportion,
+        start[1] + direction[1] * head_proportion,
+        direction[0] * (1 - head_proportion),
+        direction[1] * (1 - head_proportion),
+        length_includes_head=True,
+        head_width=0.0,
+    )
+    plt.text(
+        start[0] + direction[0] / 2,
+        start[1] + direction[1] / 2,
+        label,
+        ha="center",
+        va="center",
+        bbox={"facecolor": "white", "boxstyle": "round,pad=0.2"},
+    )
+
+ax = plt.gca()
+ax.set_axis_off()
+ax.set_aspect("equal")
+
+plt.tight_layout()
+plt.show()
+```
+
+### Model
+
+As the above example shows, it is not necessary to monitor every single road.
+If we know all of the $y$ values, we can calculate the $x$ values!
+
+::: {.notes}
+This example leads to the system:
+
+$$
+\begin{pmatrix}
+1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+1 & -1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+0 & 1 & 0 & -1 & 0 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 & 0 & -1 & 0 & 0 \\
+0 & 0 & 0 & 0 & 1 & 0 & 1 & 0 \\
+0 & 0 & 0 & 1 & 1 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 & 1 & 0 & -1 \\
+0 & 0 & 0 & 0 & 0 & 0 & 1 & 1
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6 \\ x_7 \\ x_8
+\end{pmatrix}
+= \begin{pmatrix}
+y_5 \\ y_{12} - y_6 \\ y_8 - y_7 \\ y_{11} - y_4 \\
+y_{11} + y_{12} - y_{10} \\ y_9 \\ y_2 - y_3 \\ y_1
+\end{pmatrix}.
+$$
+:::
+
+## Some bigger examples
+
+###
+
+![](https://i.redd.it/m80opffb1wif1.jpeg){.r-stretch}
+
+::: {.notes}
+- Data mining requires complex models of very large data sets in order to extract useful information from them (e.g. Google PageRank)
+
+- Self-driving cars, robotics and more rely on quick, accurate image processing and vision
+
+- Much of AI boils down to *optimisation* which requires special numerical methods
+:::
+
+### Airflow around cars
+
+{{<video https://www.youtube.com/watch?v=-4gSS-UHWcc
+  width="100%" height="100%"
+>}}
+
+Gianmarco Mengaldo, [Industry-relvant implicit LES via spetal/hp element methods](https://www.nektar.info/industry-relevant-implicit-les-via-spectral-hp-element-methods/)
