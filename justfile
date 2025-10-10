@@ -25,7 +25,8 @@ _build_slides:
 _build_slide qmd_filename:
 	mkdir -p $(dirname _output/{{ qmd_filename }})
 	uv run quarto render {{ qmd_filename }}
-	mv {{ without_extension(qmd_filename) }}.html _output/{{ without_extension(qmd_filename) }}
+	mv {{ without_extension(qmd_filename) }}.html _output/{{ without_extension(qmd_filename) }}.html
+	mv {{ without_extension(qmd_filename) }}_files _output/{{ without_extension(qmd_filename) }}_files
 
 # remove all output files
 clean:
