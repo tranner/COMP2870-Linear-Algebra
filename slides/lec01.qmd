@@ -1,17 +1,20 @@
 ---
 echo: false
-slide-level: 3
-slide-number: true
-preview-links: auto
-format: live-revealjs
 title: COMP2870 Theoretical Foundations of Computer Science II
 subtitle: Introduction to Linear Algebra
 author:
   - name: Dr. Thomas Ranner (Tom)
     email: T.Ranner@leeds.ac.uk
     affiliation: School of Computer Science, University of Leeds
-include-in-header: ../mathjax.html
 code-line-numbers: true
+html-math-method: mathjax
+include-in-header: ./mathjax.html
+
+format:
+  live-revealjs:
+    slide-level: 3
+    slide-number: true
+    preview-links: auto
 ---
 hi
 
@@ -242,20 +245,17 @@ $\vec{a}$ is a row vector, $\vec{b}$ and $\vec{c}$ are
 3. Compute, if defined, $B \vec{b}$.
 :::
 :::
-:::
 
-::: {.notes}
-::: {#exm-special-matrices}
-It will be helpful to remember some special matrices during this seciton of the
+It will be helpful to remember some special matrices during this section of the
 module.
 
 A **rotation matrix** is a $2 \times 2$ matrix given by
-\begin{equation}
+$$
 R(\theta) = \begin{pmatrix}
 \cos \theta & -\sin \theta \\
 \sin \theta & \cos \theta
 \end{pmatrix}.
-\end{equation}
+$$
 This matrix describes an anti-clockwise rotation by $\theta$ (in radians).
 
 The **projection operator** maps vectors onto either lines or planes which pass
@@ -278,7 +278,6 @@ $\vec{b}$, $\vec{a} \otimes \vec{b}$ is an $n \times n$ with entries:
 \begin{equation*}
 \vec{x} \mapsto (\vec{a} \otimes \vec{a} + \vec{b} \otimes \vec{b}) \vec{x}.
 \end{equation*}
-:::
 :::
 
 ## Systems of linear equations
