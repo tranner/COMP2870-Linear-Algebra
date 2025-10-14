@@ -2070,38 +2070,9 @@ print("Does x solve the original system?", np.allclose(A @ x, b))
 
 Some basic reading:
 
-- Wikipedia: [Gaussian
-  elimination](https://en.wikipedia.org/wiki/Gaussian_elimination)
 - Joseph F. Grcar. [How ordinary elimination became Gaussian
   elimination](https://doi.org/10.1016/j.hm.2010.06.003). Historia Mathematica.
   Volume 38, Issue 2, May 2011. (More history)
-
-Some reading on LU factorisation:
-
-- [$A = LU$ and solving
-  systems](http://staff.imsa.edu/~fogel/LinAlg/PDF/14%20Solving%20Factored%20Systems.pdf)
-  [pdf]
-- Wikipedia: [LU decomposition](https://en.wikipedia.org/wiki/LU_decomposition)
-- Wikipedia: [Matrix
-  decomposition](https://en.wikipedia.org/wiki/Matrix_decomposition) (Other
-  examples of decompositions).
-- Nick Higham: [What is an LU
-  factorization?](https://nhigham.com/2021/04/20/what-is-an-lu-factorization/)
-  (a very mathematical treatment with additional references)
-
-Some reading on using Gaussian elimination with pivoting:
-
-- [Gaussian elimination with Partial
-  Pivoting](http://www.math.iitb.ac.in/~neela/partialpivot.pdf) [pdf]
-- [Gaussian elimination with partial pivoting
-  example](http://www.math.sjsu.edu/~foster/m143m/partial_pivoting_example1.pdf)
-  [pdf]
-
-A good general reference for this area:
-
-- Trefethen, Lloyd N.; Bau, David (1997), Numerical linear algebra,
-  Philadelphia: Society for Industrial and Applied Mathematics, ISBN
-  978-0-89871-361-9.
 
 Some implementations:
 

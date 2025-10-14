@@ -1214,38 +1214,9 @@ module - see Final year projects, MSc projects, PhD, and beyond!
 
 ## Further reading
 
-More details on these basic (and related) methods:
-
-- Wikipedia: [Jacobi method](https://en.wikipedia.org/wiki/Jacobi_method)
-- Wikipedia: [Gauss-Seidel
-  method](https://en.wikipedia.org/wiki/Gauss%E2%80%93Seidel_method)
-- Wikipedia: [Iterative methods](https://en.wikipedia.org/wiki/Iterative_method)
-  - see also Richardson method, Damped Jacobi method, Successive over-relaxation
-    method (SOR), Symmetric successive over-relaxation method (SSOR) and [Krylov
-    subspace
-    methods](https://en.wikipedia.org/wiki/Iterative_method#Krylov_subspace_methods)
-
-More details on sparse matrices:
-
-- Wikipedia [Sparse matrix](https://en.wikipedia.org/wiki/Sparse_matrix) -
-  including a long detailed list of software libraries support sparse matrices.
-- Stackoverflow: [Using a sparse matrix vs numpy
-  array](https://stackoverflow.com/questions/36969886/using-a-sparse-matrix-versus-numpy-array)
 - Jason Brownlee: [A gentle introduction to sparse matrices for machine
   learning](https://machinelearningmastery.com/sparse-matrices-for-machine-learning/),
   Machine learning mastery
-
-Some related textbooks:
-
-- Jack Dongarra [Templates for the solution of linear systems: Stopping
-  criteria](http://www.netlib.org/linalg/html_templates/node83.html)
-- Jack Dongarra [Templates for the solution of linear systems: Stationary
-  iterative
-  methods](http://www.netlib.org/linalg/html_templates/node11.html#SECTION00720000000000000000)
-- Golub, Gene H.; Van Loan, Charles F. (1996), Matrix Computations (3rd ed.),
-  Baltimore: Johns Hopkins, ISBN 978-0-8018-5414-9.
-- Saad, Yousef (2003). Iterative Methods for Sparse Linear Systems (2nd ed.).
-  SIAM. p. 414. ISBN 0898715342.
 
 Some software implementations:
 

@@ -450,8 +450,6 @@ arithmetic...
 
 ### Further reading
 
-- Wikipedia: [Floating-point
-  arithmetic](https://en.wikipedia.org/wiki/Floating-point_arithmetic)
 - David Goldberg, [What every computer scientist should know about
   floating-point arithmetic](https://doi.org/10.1145/103162.103163), ACM
   Computing Surveys, Volume 23, Issue 1, March 1991.
