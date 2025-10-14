@@ -65,8 +65,10 @@ We know a few simple cases where we can answer this question very quickly:
 1. If $A = I_n$, the $n \times n$ *identity matrix*, then we *can* solve this
    problem: $$\vec{x} = \vec{b}.$$
 2. If $A = O$, the $n \times n$ *zero matrix*, and $\vec{b} \neq \vec{0}$, the
-   zero vector, then we cannot solve this problem: $$O \vec{x} = \vec{0} \neq
-   \vec{b} \quad \text{for any vector} \quad \vec{x}.$$
+   zero vector, then there are infinitely many solutions to the problem:
+   $$
+   O \vec{x} = \vec{0} \neq \vec{b} \quad \text{for any vector} \quad \vec{x}.
+   $$
 3. If $A$ is *invertible*, with inverse $A^{-1}$, then we *can* solve this
    problem:
    $$
