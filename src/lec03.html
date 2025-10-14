@@ -513,15 +513,16 @@ a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n &amp; = b_n.
 <p>We know a few simple cases where we can answer this question very quickly:</p>
 <ol type="1">
 <li>If <span class="math inline">\(A = I_n\)</span>, the <span class="math inline">\(n \times n\)</span> <em>identity matrix</em>, then we <em>can</em> solve this problem: <span class="math display">\[\vec{x} = \vec{b}.\]</span></li>
-<li>If <span class="math inline">\(A = O\)</span>, the <span class="math inline">\(n \times n\)</span> <em>zero matrix</em>, and <span class="math inline">\(\vec{b} \neq \vec{0}\)</span>, the zero vector, then we cannot solve this problem: <span class="math display">\[O \vec{x} = \vec{0} \neq
-\vec{b} \quad \text{for any vector} \quad \vec{x}.\]</span></li>
+<li>If <span class="math inline">\(A = O\)</span>, the <span class="math inline">\(n \times n\)</span> <em>zero matrix</em>, and <span class="math inline">\(\vec{b} \neq \vec{0}\)</span>, the zero vector, then there are infinitely many solutions to the problem: <span class="math display">\[
+O \vec{x} = \vec{0} \neq \vec{b} \quad \text{for any vector} \quad \vec{x}.
+\]</span></li>
 <li>If <span class="math inline">\(A\)</span> is <em>invertible</em>, with inverse <span class="math inline">\(A^{-1}\)</span>, then we <em>can</em> solve this problem: <span class="math display">\[
 \vec{x} = A^{-1} \vec{b}.
 \]</span> However, in general, this is a <em>terrible</em> idea and we will see algorithms that are more efficient than finding the inverse of <span class="math inline">\(A\)</span>.</li>
 </ol>
 <div id="rem-inverse" class="proof remark">
 <p><span class="proof-title"><em>Remark 3.1</em>. </span>One way to solve a system of linear equations is to compute the inverse of <span class="math inline">\(A\)</span>, <span class="math inline">\(A^{-1}\)</span>, directly, then the solution is found through matrix multiplication: <span class="math inline">\(\vec{x} = A^{-1} \vec{b}\)</span>. Here we compare two simple and one more specialised implementations:</p>
-<div id="fc346f22" class="cell" data-execution_count="2">
+<div id="a4b19553" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">def</span> approach1(A, b):</span>
 <span id="cb1-2"><a href="#cb1-2"></a>    <span class="co">"""</span></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="co">    Solve the system of linear equations Ax = b by applying the inverse of A</span></span>
@@ -547,7 +548,7 @@ a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n &amp; = b_n.
 <span id="cb1-23"><a href="#cb1-23"></a>    x <span class="op">=</span> sp.sparse.linalg.spsolve(A_sparse, b)</span>
 <span id="cb1-24"><a href="#cb1-24"></a>    <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="c0bbc559" class="cell" data-execution_count="3">
+<div id="95a3cdf1" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -611,7 +612,7 @@ A = \begin{pmatrix}
 \vec{b} = \begin{pmatrix} -1 \\ 2 \end{pmatrix} \quad
 \vec{c} = \begin{pmatrix} 1 \\ -1 \end{pmatrix}
 \end{align*}\]</span></p>
-<div id="b8f28635" class="cell" data-execution_count="4">
+<div id="e998eeb9" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -754,7 +755,7 @@ A = \begin{pmatrix}
 3 &amp; 1 \\ 0 &amp; 3
 \end{pmatrix}
 \]</span> the shape is a parallelogram that looks like this:</p>
-<div id="89ca8474" class="cell" data-execution_count="5">
+<div id="3d46a65d" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -768,7 +769,7 @@ A = \begin{pmatrix}
 3 &amp; 1 &amp; 1\\ 0 &amp; 3 &amp; 1 \\ 0 &amp; 0 &amp; 3
 \end{pmatrix},
 \]</span> the shape is a parallelopiped given that looks like this:</p>
-<div id="8770604b" class="cell" data-execution_count="6">
+<div id="6e5a11c6" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -851,7 +852,7 @@ A = \begin{pmatrix}
 <div id="rem-det-python" class="proof remark">
 <p><span class="proof-title"><em>Remark 3.2</em>. </span>Computing determinants numerically is an important topic in it’s own right but we do not focus on this in this module.</p>
 <p>You can use <code>numpy</code> to compute determinants</p>
-<div id="c704e4bf" class="cell" data-execution_count="7">
+<div id="85b5d8a3" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>A <span class="op">=</span> np.array([[<span class="fl">3.0</span>, <span class="fl">1.0</span>], [<span class="fl">0.0</span>, <span class="fl">3.0</span>]])</span>
 <span id="cb2-2"><a href="#cb2-2"></a>np.linalg.det(A)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
