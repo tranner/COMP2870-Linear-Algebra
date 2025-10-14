@@ -38,7 +38,7 @@ jobs:
         run: uv run quarto render
 
       - name: 'Build slides'
-        run: mkdir -p _output/slides && for q in slides/*.qmd; do uv run quarto render $q && mv ${q/.qmd/.html} _output/slides/ && mv ${q/.qmd/_files} _output/${v/.qmd/_files}; done
+        run: mkdir -p _output/slides && for q in slides/*.qmd; do uv run quarto render $q && mv ${q/.qmd/.html} _output/slides/ && mv ${q/.qmd/_files} _output/slides/${q/.qmd/_files}; done
 
       - name: Upload site as artifact
         uses: actions/upload-artifact@v4
