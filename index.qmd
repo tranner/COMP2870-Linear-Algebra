@@ -219,7 +219,7 @@ $\vec{b}$, $\vec{a} \otimes \vec{b}$ is an $n \times n$ with entries:
 \end{equation*}
 
 - For projection onto a plane $\Pi = \{ \lambda \vec{a} + \mu \vec{b} : \lambda,
-\mu \in \mathbb{R} \}$, we can rite the projection operator as:
+\mu \in \mathbb{R} \}$, we can write the projection operator as:
 \begin{equation*}
 \vec{x} \mapsto (\vec{a} \otimes \vec{a} + \vec{b} \otimes \vec{b}) \vec{x}.
 \end{equation*}

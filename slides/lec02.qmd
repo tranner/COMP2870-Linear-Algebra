@@ -88,7 +88,7 @@ We know a few simple cases where we can answer this question very quickly:
 ### Can we do it?
 
 2. If $A = O$, the $n \times n$ *zero matrix*, and $\vec{b} \neq \vec{0}$, the
-   zero vector, then there are infinitely many solutions to the problem:
+   zero vector, then there are no solutions to the problem:
    $$
    O \vec{x} = \vec{0} \neq \vec{b} \quad \text{for any vector} \quad \vec{x}.
    $$

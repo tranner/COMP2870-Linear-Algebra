@@ -45,6 +45,7 @@ Python) and some pen-and-paper theoretical work, too.
 
 - Weekly labs (1 hour): Mondays or Tuesdays
 - Tutorials (1 hour): Mondays or Tuesday
+- Maths lunch hour: Wednesday 1-2pm, Bragg GR.25
 
 Later this term, week 11, you will complete a project based on the things you've
 learnt from this section of the module.
@@ -137,7 +138,7 @@ If we add something positive to one do we always get an answer greater than one?
 value = 1.0
 while 1.0 + value > 1.0:
     value = value / 2
-    print(value)
+    print(f"{value:.16e} {1.0+value:.16f}")
 ```
 
 ### Sample problems working with floating point numbers iii
@@ -241,7 +242,7 @@ $\vec{a}$ is a row vector, $\vec{b}$ and $\vec{c}$ are
 
 1. Compute, if defined, $\vec{b} + \vec{c}$, $0.25 \vec{c}$.
 2. What is the meaning of $\vec{b}^T \vec{c}$? (Here, we are interpreting the
-   vectors as matrices).
+   vectors as matrices). What about $\vec{b} \vec{c}^T$?
 3. Compute, if defined, $B \vec{b}$.
 :::
 :::
@@ -270,11 +271,11 @@ we can write this transformation as:
 where $\otimes$ is the *outer product*. For two $n$-vectors $\vec{a}$ and
 $\vec{b}$, $\vec{a} \otimes \vec{b}$ is an $n \times n$ with entries:
 \begin{equation*}
-(\vec{a} \otimes \vec{b})_{ij} = a_i b_j.
+(\vec{a} \otimes \vec{b})_{ij} = a_i b_j = \vec{a} \vec{b}^T.
 \end{equation*}
 
 - For projection onto a plane $\Pi = \{ \lambda \vec{a} + \mu \vec{b} : \lambda,
-\mu \in \mathbb{R} \}$, we can rite the projection operator as:
+\mu \in \mathbb{R} \}$, we can write the projection operator as:
 \begin{equation*}
 \vec{x} \mapsto (\vec{a} \otimes \vec{a} + \vec{b} \otimes \vec{b}) \vec{x}.
 \end{equation*}
@@ -620,7 +621,15 @@ $$
 
 ## Some bigger examples
 
-###
+### Airflow around cars
+
+{{<video https://www.youtube.com/watch?v=-4gSS-UHWcc
+  width="100%" height="100%"
+>}}
+
+Gianmarco Mengaldo, [Industry-relvant implicit LES via spetal/hp element methods](https://www.nektar.info/industry-relevant-implicit-les-via-spectral-hp-element-methods/)
+
+### (Almost) all of machine learning...
 
 ![](https://i.redd.it/m80opffb1wif1.jpeg){.r-stretch}
 
@@ -632,10 +641,14 @@ $$
 - Much of AI boils down to *optimisation* which requires special numerical methods
 :::
 
-### Airflow around cars
+## Summary
 
-{{<video https://www.youtube.com/watch?v=-4gSS-UHWcc
-  width="100%" height="100%"
->}}
+To succeed in linear algebra,
 
-Gianmarco Mengaldo, [Industry-relvant implicit LES via spetal/hp element methods](https://www.nektar.info/industry-relevant-implicit-les-via-spectral-hp-element-methods/)
+- we will have to think theoretically and practically;
+
+- we will need to think about floating-point errors;
+
+- we will need to think about *massive* problems ($n \approx 10^9$)
+
+Our first target problem will be solving systems of linear equations.
