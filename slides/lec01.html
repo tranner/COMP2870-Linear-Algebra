@@ -242,6 +242,7 @@ Dr.&nbsp;Thomas Ranner (Tom)
 <ul>
 <li>Weekly labs (1 hour): Mondays or Tuesdays</li>
 <li>Tutorials (1 hour): Mondays or Tuesday</li>
+<li>Maths lunch hour: Wednesday 1-2pm, Bragg GR.25</li>
 </ul>
 <p>Later this term, week 11, you will complete a project based on the things you’ve learnt from this section of the module.</p>
 </section>
@@ -334,7 +335,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiMC4xICsgMC4yID09In0=
 
 </div>
 <script type="pyodide-4-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoidmFsdWUgPSAxLjBcbndoaWxlIDEuMCArIHZhbHVlID4gMS4wOlxuICAgIHZhbHVlID0gdmFsdWUgLyAyXG4gICAgcHJpbnQodmFsdWUpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoidmFsdWUgPSAxLjBcbndoaWxlIDEuMCArIHZhbHVlID4gMS4wOlxuICAgIHZhbHVlID0gdmFsdWUgLyAyXG4gICAgcHJpbnQoZlwie3ZhbHVlOi4xNmV9IHsxLjArdmFsdWU6LjE2Zn1cIikifQ==
 </script>
 </div>
 </section>
@@ -437,7 +438,7 @@ C = \begin{pmatrix} 4 &amp; 1 &amp; 8 &amp; -1 \\
 <p><span class="theorem-title"><strong>Exercise 2</strong></span> &nbsp;</p>
 <ol type="1">
 <li>Compute, if defined, <span class="math inline">\(\vec{b} + \vec{c}\)</span>, <span class="math inline">\(0.25 \vec{c}\)</span>.</li>
-<li>What is the meaning of <span class="math inline">\(\vec{b}^T \vec{c}\)</span>? (Here, we are interpreting the vectors as matrices).</li>
+<li>What is the meaning of <span class="math inline">\(\vec{b}^T \vec{c}\)</span>? (Here, we are interpreting the vectors as matrices). What about <span class="math inline">\(\vec{b} \vec{c}^T\)</span>?</li>
 <li>Compute, if defined, <span class="math inline">\(B \vec{b}\)</span>.</li>
 </ol>
 </div>
@@ -455,10 +456,10 @@ R(\theta) = \begin{pmatrix}
 \vec{x} \mapsto \vec{a} \cdot \vec{x} \vec{a}
 = (\vec{a} \otimes \vec{a}) \vec{x},
 \end{equation*}\]</span> where <span class="math inline">\(\otimes\)</span> is the <em>outer product</em>. For two <span class="math inline">\(n\)</span>-vectors <span class="math inline">\(\vec{a}\)</span> and <span class="math inline">\(\vec{b}\)</span>, <span class="math inline">\(\vec{a} \otimes \vec{b}\)</span> is an <span class="math inline">\(n \times n\)</span> with entries: <span class="math display">\[\begin{equation*}
-(\vec{a} \otimes \vec{b})_{ij} = a_i b_j.
+(\vec{a} \otimes \vec{b})_{ij} = a_i b_j = \vec{a} \vec{b}^T.
 \end{equation*}\]</span></p></li>
 <li><p>For projection onto a plane <span class="math inline">\(\Pi = \{ \lambda \vec{a} + \mu \vec{b} : \lambda,
-\mu \in \mathbb{R} \}\)</span>, we can rite the projection operator as: <span class="math display">\[\begin{equation*}
+\mu \in \mathbb{R} \}\)</span>, we can write the projection operator as: <span class="math display">\[\begin{equation*}
 \vec{x} \mapsto (\vec{a} \otimes \vec{a} + \vec{b} \otimes \vec{b}) \vec{x}.
 \end{equation*}\]</span></p></li>
 </ul>
@@ -537,7 +538,7 @@ a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n &amp; = b_n.
 <section id="ex.-temperature-in-a-sealed-room" class="slide level3">
 <h3>Ex. Temperature in a sealed room</h3>
 <p>Suppose we wish to estimate the temperature distribution inside an object:</p>
-<div id="33c2f103" class="cell" data-execution_count="2">
+<div id="f7e3ddfe" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -587,7 +588,7 @@ x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6 \\ x_7
 <section id="ex.-traffic-network" class="slide level3">
 <h3>Ex. Traffic network</h3>
 <p>Suppose we wish to monitor the flow of traffic in a city centre:</p>
-<div id="f9ef67ce" class="cell" data-execution_count="3">
+<div id="4ec881c8" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -638,8 +639,13 @@ y_{11} + y_{12} - y_{10} \\ y_9 \\ y_2 - y_3 \\ y_1
 <h2>Some bigger examples</h2>
 
 </section>
-<section id="section" class="slide level3">
-<h3></h3>
+<section id="airflow-around-cars" class="slide level3">
+<h3>Airflow around cars</h3>
+<iframe data-external="1" src="https://www.youtube.com/embed/-4gSS-UHWcc" width="100%" height="100%" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+<p>Gianmarco Mengaldo, <a href="https://www.nektar.info/industry-relevant-implicit-les-via-spectral-hp-element-methods/">Industry-relvant implicit LES via spetal/hp element methods</a></p>
+</section>
+<section id="almost-all-of-machine-learning" class="slide level3">
+<h3>(Almost) all of machine learning…</h3>
 <img data-src="https://i.redd.it/m80opffb1wif1.jpeg" class="r-stretch">
 <aside class="notes">
 <ul>
@@ -658,11 +664,16 @@ y_{11} + y_{12} - y_{10} \\ y_9 \\ y_2 - y_3 \\ y_1
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-</section>
-<section id="airflow-around-cars" class="slide level3">
-<h3>Airflow around cars</h3>
-<iframe data-external="1" src="https://www.youtube.com/embed/-4gSS-UHWcc" width="100%" height="100%" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
-<p>Gianmarco Mengaldo, <a href="https://www.nektar.info/industry-relevant-implicit-les-via-spectral-hp-element-methods/">Industry-relvant implicit LES via spetal/hp element methods</a></p>
+</section></section>
+<section id="summary" class="title-slide slide level2 center">
+<h2>Summary</h2>
+<p>To succeed in linear algebra,</p>
+<ul>
+<li><p>we will have to think theoretically and practically;</p></li>
+<li><p>we will need to think about floating-point errors;</p></li>
+<li><p>we will need to think about <em>massive</em> problems (<span class="math inline">\(n \approx 10^9\)</span>)</p></li>
+</ul>
+<p>Our first target problem will be solving systems of linear equations.</p>
 
 <script type="pyodide-data">
 eyJvcHRpb25zIjp7ImluZGV4VVJMIjoiaHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L3B5b2RpZGUvdjAuMjYuMS9mdWxsLyJ9LCJwYWNrYWdlcyI6eyJwa2dzIjpbInB5b2RpZGVfaHR0cCIsIm1pY3JvcGlwIiwiaXB5dGhvbiJdfX0=
@@ -681,7 +692,7 @@ eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJweW9kaWRlLTUiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2RO
 <script type="vfs-file">
 W10=
 </script>
-</section></section>
+</section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
