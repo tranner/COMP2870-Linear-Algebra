@@ -29,6 +29,8 @@ Define and identify what it means for a set of vectors to be a basis, spanning
 set or linearly independent.
 :::
 
+Chapter 3
+
 ```{python}
 import time
 
