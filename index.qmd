@@ -135,7 +135,7 @@ matrix is of order $m \times n$. If $m = n$, then we say that the matrix is
 :::
 
 ::: {#exm-matrix}
-$A$ is a $4 \times 4$ matrix and $B$ is a $3 \times 4$ matrix:
+$A$ is a $3 \times 4$ matrix and $B$ is a $3 \times 4$ matrix:
 \begin{align*}
 A = \begin{pmatrix} 10 & 1 & 0 & 9 \\ 12.4 & 6 & 1 & 0 \\ 1 &
 3.14 & 1 & 0 \end{pmatrix}
