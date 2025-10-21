@@ -19,7 +19,6 @@ format:
     slide-level: 3
     slide-number: true
     preview-links: auto
-    theme: black
 ---
 
 # Direct solvers for systems of linear equations
