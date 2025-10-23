@@ -201,7 +201,7 @@ then the three equations
 \begin{align*}
 \vec{a} + \vec{b} & = 1 \vec{a} + 1 \vec{b} + 0 \vec{c}
 = A \begin{pmatrix} 1 \\ 1 \\ 0 \end{pmatrix}, \\
-\vec{c} - 2\vec{a} & = -2 \vec{a} + 0 \vec{b} - 2 \vec{c}
+\vec{c} - 2\vec{a} & = -2 \vec{a} + 0 \vec{b} + 1 \vec{c}
 = A \begin{pmatrix} -2 \\ 0 \\ 1 \end{pmatrix}, \\
 \vec{a} + 2 \vec{b} + 2 \vec{c} & = 1 \vec{a} + 2 \vec{b} + 2 \vec{c}
 = A \begin{pmatrix} 1 \\ 2 \\ 2
