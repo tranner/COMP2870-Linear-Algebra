@@ -23,6 +23,7 @@ format:
 pyodide:
     packages:
         - numpy
+        - scipy
 ---
 
 # Iterative solutions of linear equations
@@ -37,8 +38,8 @@ investigate computational cost using computer experiments.
 
 Chapter 5
 
-```{python}
-# | echo: false
+```{pyodide}
+#| include: false
 import inspect
 import time
 
@@ -145,6 +146,123 @@ def print_array(array, array_name=None, end=None):
 
         print(", ".join([format_str.format(v) for v in array[i]]), end=" ]")
         print(end=end)
+
+
+```
+
+```{python}
+# | echo: false
+import inspect
+import time
+
+import numpy as np
+import scipy as sp
+from matplotlib import pyplot as plt
+
+plt.style.use("seaborn-v0_8-colorblind")
+
+
+def print_array(array, array_name=None, end=None):
+    """
+    Nicely print a 2D NumPy array with dynamic precision formatting.
+
+    This function prints a 2D array in a readable, formatted style. It
+    automatically determines the required precision to accurately represent the
+    array values, up to a maximum of 15 decimal places. The printed output
+    includes the array name if provided; otherwise, the function attempts to
+    infer the variable name from the calling scope.
+
+    Parameters
+    ----------
+    array : numpy.ndarray
+        A 2D NumPy array to print.
+    array_name : str, optional
+        The name to display for the array in the output. If ``None`` (default),
+        the function attempts to infer the variable name from the caller's local
+        variables. If it cannot be inferred, defaults to ``"array"``.
+    end : str, optional
+        String appended after the last value in each row, similar to the `end`
+        parameter in Python's built-in ``print`` function. Default is ``None``,
+        which adds a newline.
+    """
+    # find array_name
+    if array_name is None:
+        frame = inspect.currentframe().f_back
+        for name, value in frame.f_locals.items():
+            if value is array:
+                array_name = name
+                break
+    if array_name is None:
+        array_name = "array"
+
+    # determine precision
+    precision = 1
+    while not np.allclose(array, np.round(array, precision)):
+        precision = precision + 1
+        if precision == 16:
+            break
+    format_str = f"{{:{precision + 3}.{precision}f}}"
+
+    n, m = array.shape
+
+    for i in range(n):
+        if i == 0:
+            print(f"{array_name} = [ ", end="")
+        else:
+            print(" " * len(array_name) + "   [ ", end="")
+
+        print(", ".join([format_str.format(v) for v in array[i]]), end=" ]")
+        print(end=end)
+
+
+def system_size_sparse(A_real, I_row, I_col, b):
+    """
+    Determine the size and number of non-zero elements of a sparse linear
+    system.
+
+    This function checks the consistency of a sparse representation of a linear
+    system and returns the number of equations and the number of stored non-zero
+    elements.
+
+    The sparse system is represented in coordinate (COO) format with three
+    arrays:
+    - `A_real`: non-zero values
+    - `I_row`: corresponding row indices
+    - `I_col`: corresponding column indices
+
+    Parameters
+    ----------
+    A_real : array-like
+        Array containing the non-zero entries of the sparse coefficient matrix.
+    I_row : array-like
+        Array containing the row indices corresponding to each non-zero entry in
+        `A_real`.
+    I_col : array-like
+        Array containing the column indices corresponding to each non-zero entry
+        in `A_real`.
+    b : array-like
+        Right-hand side vector of the linear system, of length `n`.
+
+    Returns
+    -------
+    n : int
+        Number of equations (length of `b`).
+    nonzero : int
+        Number of non-zero entries in the sparse matrix (length of `A_real`).
+    """
+    n = len(b)
+    nonzero = len(A_real)
+
+    if nonzero != len(I_row):
+        raise ValueError(
+            f"{len(I_row)=} is not equal to the number of nonzero entries"
+        )
+    if nonzero != len(I_col):
+        raise ValueError(
+            f"{len(I_col)=} is not equal to the number of nonzero entries"
+        )
+
+    return n, nonzero
 
 
 ```
@@ -276,7 +394,7 @@ $$
     dominated by the matrix-vector product $A \vec{x}^{(k)}$.
 
 - This cost can be reduced to $O(n)$ if the matrix $A$ is sparse - this is
-    when iterative methods are especially attractive (@exm-sparse-matrix).
+    when iterative methods are especially attractive.
 
 - The amount of work also depends on the number of iterations required to get
     a "satisfactory" solution.
@@ -532,9 +650,66 @@ Note that the exact solution to this system is $x_1 = 2, x_2 = 2, x_3 = 2$.
 - Both iterative algorithms can be made faster and more efficient for sparse
     systems of equations (far more than direct methods).
 
-## Python version of iterative methods
+## Python version of Jacobi iteration
 
+```{pyodide}
+def jacobi_iteration(A, b, x0, max_iter, verbose=False):
+    """
+    Solve a linear system Ax = b using the Jacobi iterative method.
+    """
+    n = system_size(A, b)
+    ...
+```
+
+::: {.notes}
 ```{python}
+
+
+def system_size(A, b):
+    """
+    Validate the dimensions of a linear system and return its size.
+
+    This function checks whether the given coefficient matrix `A` is square
+    and whether its dimensions are compatible with the right-hand side vector
+    `b`. If the dimensions are valid, it returns the size of the system.
+
+    Parameters
+    ----------
+    A : numpy.ndarray
+        A 2D array of shape ``(n, n)`` representing the coefficient matrix of
+        the linear system.
+    b : numpy.ndarray
+        A array of shape ``(n, o)`` representing the right-hand side vector.
+
+    Returns
+    -------
+    int
+        The size of the system, i.e., the number of variables `n`.
+
+    Raises
+    ------
+    ValueError
+        If `A` is not square or if the size of `b` does not match the number of
+        rows in `A`.
+    """
+
+    # Validate that A is a 2D square matrix
+    if A.ndim != 2:
+        raise ValueError(f"Matrix A must be 2D, but got {A.ndim}D array")
+
+    n, m = A.shape
+    if n != m:
+        raise ValueError(f"Matrix A must be square, but got A.shape={A.shape}")
+
+    if b.shape[0] != n:
+        raise ValueError(
+            f"System shapes are not compatible: A.shape={A.shape}, "
+            f"b.shape={b.shape}"
+        )
+
+    return n
+
+
 def jacobi_iteration(A, b, x0, max_iter, verbose=False):
     """
     Solve a linear system Ax = b using the Jacobi iterative method.
@@ -596,6 +771,22 @@ def jacobi_iteration(A, b, x0, max_iter, verbose=False):
     return x
 
 
+```
+:::
+
+## Python version of Jacobi iteration
+
+```{pyodide}
+def gauss_seidel_iteration(A, b, x0, max_iter, verbose=False):
+    """
+    Solve a linear system Ax = b using the Gauss-Seidel iterative method.
+    """
+    n = system_size(A, b)
+    ...
+```
+
+::: {.notes}
+```{python}
 def gauss_seidel_iteration(A, b, x0, max_iter, verbose=False):
     """
     Solve a linear system Ax = b using the Gauss-Seidel iterative method.
@@ -663,8 +854,11 @@ def gauss_seidel_iteration(A, b, x0, max_iter, verbose=False):
 
 
 ```
+:::
 
-```{python}
+### Test it out!
+
+```{pyodide}
 A = np.array([[2.0, 1.0], [-1.0, 4.0]])
 b = np.array([[3.5], [0.5]])
 x0 = np.array([[1.0], [1.0]])
@@ -680,7 +874,7 @@ print()
 
 ```
 
-### Sparse matrices
+## Sparse matrices
 
 **Sparse matrices** are prevalent in any application which relies on some form
 of *graph* structure (see both the
@@ -744,8 +938,8 @@ for k in range(nonzero):
 
 ### Python experiments
 
-```{python}
-# | echo: false
+```{pyodide}
+#| include: false
 
 
 def system_size_sparse(A_real, I_row, I_col, b):
@@ -802,79 +996,19 @@ def system_size_sparse(A_real, I_row, I_col, b):
 
 First let's adapt our implementations to use this sparse matrix format:
 
-```{python}
+```{pyodide}
 def jacobi_iteration_sparse(
     A_real, I_row, I_col, b, x0, max_iter, verbose=False
 ):
     """
     Solve a sparse linear system Ax = b using the Jacobi iterative method.
-
-    The system is represented in **sparse COO (coordinate) format** with:
-    - `A_real`: non-zero values
-    - `I_row`: row indices of non-zero entries
-    - `I_col`: column indices of non-zero entries
-
-    The Jacobi method updates the solution iteratively:
-
-    .. math::
-        x_i^{(k+1)} = x_i^{(k)} + \\frac{1}{A_{ii}} \\left( b_i -
-        \\sum_{j=0}^{n-1} A_{ij} x_j^{(k)} \\right)
-
-    Parameters
-    ----------
-    A_real : array-like
-        Array of non-zero entries of the sparse matrix A.
-    I_row : array-like
-        Row indices corresponding to each entry in `A_real`.
-    I_col : array-like
-        Column indices corresponding to each entry in `A_real`.
-    b : array-like
-        Right-hand side vector of length `n`.
-    x0 : numpy.ndarray
-        Initial guess for the solution vector, same length as `b`.
-    max_iter : int
-        Maximum number of iterations to perform.
-    verbose : bool, optional
-        If ``True``, prints the solution vector after each iteration. Default is
-        ``False``.
-
-    Returns
-    -------
-    x : numpy.ndarray
-        Approximated solution vector after `max_iter` iterations.
     """
     n, nonzero = system_size_sparse(A_real, I_row, I_col, b)
 
-    x = x0.copy()
-    xnew = np.empty_like(x)
+ ```
 
-    if verbose:
-        print("starting value: ", end="")
-        print_array(x.T, "x.T")
-
-    # determine diagonal
-    # D[i] should be A_{ii}
-    D = np.zeros_like(x)
-    for k in range(nonzero):
-        if I_row[k] == I_col[k]:
-            D[I_row[k]] = A_real[k]
-
-    for iter in range(max_iter):
-        # precompute Ax
-        Ax = np.zeros_like(x)
-        for k in range(nonzero):
-            Ax[I_row[k]] = Ax[I_row[k]] + A_real[k] * x[I_col[k]]
-
-        for i in range(n):
-            xnew[i] = x[i] + 1.0 / D[i] * (b[i] - Ax[i])
-        x = xnew.copy()
-
-        if verbose:
-            print(f"after {iter=}: ", end="")
-            print_array(x.T, "x.T")
-
-    return x
-
+ ```{pyodide}
+ #| include: false
 
 def gauss_seidel_iteration_sparse(
     A_real, I_row, I_col, b, x0, max_iter, verbose=False
@@ -949,10 +1083,12 @@ def gauss_seidel_iteration_sparse(
 
 ```
 
+### Testing it out
+
 Then we can test the two different implementations of the methods:
 
-```{python}
-# | echo: false
+```{pyodide}
+#| include: false
 
 
 def random_sparse_system(n, nonzero):
@@ -1008,7 +1144,7 @@ def to_dense(A_real, I_row, I_col):
 
 ```
 
-```{python}
+```{pyodide}
 # random matrix
 n = 4
 nonzero = 10
@@ -1039,15 +1175,149 @@ x_dense = jacobi_iteration(A_dense, b, x0, max_iter=5, verbose=True)
 print()
 ```
 
+::: {.notes}
 We see that we get the same results!
+:::
 
+### Run time test Jacobi method
+
+::: {.notes}
 Now let us see how long it takes to get a solution. The following plot shows the
 run times of using the two different implementations of the Jacobi method, each
 for 10 iterations. We see that, as expected, the run time of the dense
 formulation is $O(n^2)$ and the run time of the sparse formulation is $O(n)$.
 
+We say "as expected" because we have already counted the number of operations
+per iteration and these implementations compute for a fixed number of
+iterations. In the next section, we look at alternative stopping criteria.
+:::
+
 ```{python}
 # | echo: false
+def jacobi_iteration_sparse(
+    A_real, I_row, I_col, b, x0, max_iter, verbose=False
+):
+    """
+    Solve a sparse linear system Ax = b using the Jacobi iterative method.
+
+    The system is represented in **sparse COO (coordinate) format** with:
+    - `A_real`: non-zero values
+    - `I_row`: row indices of non-zero entries
+    - `I_col`: column indices of non-zero entries
+
+    The Jacobi method updates the solution iteratively:
+
+    .. math::
+        x_i^{(k+1)} = x_i^{(k)} + \\frac{1}{A_{ii}} \\left( b_i -
+        \\sum_{j=0}^{n-1} A_{ij} x_j^{(k)} \\right)
+
+    Parameters
+    ----------
+    A_real : array-like
+        Array of non-zero entries of the sparse matrix A.
+    I_row : array-like
+        Row indices corresponding to each entry in `A_real`.
+    I_col : array-like
+        Column indices corresponding to each entry in `A_real`.
+    b : array-like
+        Right-hand side vector of length `n`.
+    x0 : numpy.ndarray
+        Initial guess for the solution vector, same length as `b`.
+    max_iter : int
+        Maximum number of iterations to perform.
+    verbose : bool, optional
+        If ``True``, prints the solution vector after each iteration. Default is
+        ``False``.
+
+    Returns
+    -------
+    x : numpy.ndarray
+        Approximated solution vector after `max_iter` iterations.
+    """
+    n, nonzero = system_size_sparse(A_real, I_row, I_col, b)
+
+    x = x0.copy()
+    xnew = np.empty_like(x)
+
+    if verbose:
+        print("starting value: ", end="")
+        print_array(x.T, "x.T")
+
+    # determine diagonal
+    # D[i] should be A_{ii}
+    D = np.zeros_like(x)
+    for k in range(nonzero):
+        if I_row[k] == I_col[k]:
+            D[I_row[k]] = A_real[k]
+
+    for iter in range(max_iter):
+        # precompute Ax
+        Ax = np.zeros_like(x)
+        for k in range(nonzero):
+            Ax[I_row[k]] = Ax[I_row[k]] + A_real[k] * x[I_col[k]]
+
+        for i in range(n):
+            xnew[i] = x[i] + 1.0 / D[i] * (b[i] - Ax[i])
+        x = xnew.copy()
+
+        if verbose:
+            print(f"after {iter=}: ", end="")
+            print_array(x.T, "x.T")
+
+    return x
+
+
+def random_sparse_system(n, nonzero):
+    assert nonzero > n
+    assert nonzero < n**2
+
+    A_real = []
+    I_row = []
+    I_col = []
+
+    # fill diagonal first
+    for i in range(n):
+        value = np.random.randint(low=1.0, high=10.0) / 2
+        A_real.append(value)
+        I_row.append(i)
+        I_col.append(i)
+
+    # fill off diagonal
+    further_nnz = (nonzero - n) // 2
+    for _ in range(further_nnz):
+        value = np.random.randint(low=-10, high=10) / 2
+        while True:
+            row = np.random.randint(n)
+            col = np.random.randint(n)
+            if row != col:
+                break
+
+        A_real.append(value)
+        I_row.append(row)
+        I_col.append(col)
+
+    # square and extract arrays
+    A = sp.sparse.coo_array((A_real, (I_row, I_col)))
+    A = (A.T @ A).tocoo()
+    A_real = A.data
+    I_row = A.coords[0]
+    I_col = A.coords[1]
+    nonzero = len(A.data)
+
+    # construction rhs to match solution of all ones
+    x = np.ones((n, 1))
+    b = np.zeros_like(x)
+    for k in range(nonzero):
+        b[I_row[k]] = b[I_row[k]] + A_real[k] * x[I_col[k]]
+
+    return A_real, I_row, I_col, b
+
+
+def to_dense(A_real, I_row, I_col):
+    A = sp.sparse.coo_array((A_real, (I_row, I_col)))
+    return A.todense()
+
+
 ns = [4, 8, 16, 32, 64, 128]
 timing_sparse = []
 timing_dense = []
@@ -1092,13 +1362,10 @@ plt.loglog(ns, poly_dense, "C0--", label="$O(n^2)$")
 plt.xlabel("$n$")
 plt.ylabel("time (s)")
 plt.legend()
+plt.grid(True)
 
 plt.show()
 ```
-
-We say "as expected" because we have already counted the number of operations
-per iteration and these implementations compute for a fixed number of
-iterations. In the next section, we look at alternative stopping criteria.
 
 ## Convergence of an iterative method
 
