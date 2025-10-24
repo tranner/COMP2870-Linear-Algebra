@@ -231,7 +231,7 @@ O \vec{x} = \vec{0} \neq \vec{b} \quad \text{for any vector} \quad \vec{x}.
 </section>
 <section id="how-about-finding-the-inverse-of-a" class="slide level3">
 <h3>How about finding the inverse of <span class="math inline">\(A\)</span>?</h3>
-<div id="abda70a9" class="cell" data-execution_count="3">
+<div id="68d2df1b" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -325,61 +325,6 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG51bXB5IGFzIG5w
 </script>
 </div>
 <p>You will also see different ways to compute determinants in the lab sessions!</p>
-</section>
-
-<section id="special-types-of-matrices" class="title-slide slide level2 center">
-<h2>Special types of matrices</h2>
-<p>The general matrix <span class="math inline">\(A\)</span> before the examples is known as a <strong>full</strong> matrix: any of its components <span class="math inline">\(a_{ij}\)</span> might be nonzero.</p>
-</section>
-<section id="triangular-matrix" class="slide level3">
-<h3>Triangular matrix</h3>
-<p>One common (and important) structure takes the form</p>
-<p><span class="math display">\[
-A = \begin{pmatrix}
-a_{11} &amp; 0 &amp; 0 &amp; \cdots &amp; 0 \\ a_{21} &amp; a_{22} &amp; 0 &amp; \cdots &amp;
-0 \\ a_{31} &amp; a_{32} &amp; a_{33} &amp; \cdots &amp; 0 \\ \vdots &amp; \vdots &amp; \vdots &amp; \ddots
-&amp; \vdots \\ a_{n1} &amp; a_{n2} &amp; a_{n3} &amp; \cdots &amp; a_{nn} \end{pmatrix}.
-\]</span></p>
-</section>
-<section id="triangular-matrix-1" class="slide level3">
-<h3>Triangular matrix</h3>
-<ul>
-<li><p>A is a <strong>lower triangular</strong> matrix. Every entry above the leading diagonal is zero:</p>
-<p><span class="math display">\[ a_{ij} = 0 \quad \text{ for } \quad j &gt; i. \]</span></p></li>
-<li><p>The <em>transpose</em> of this matrix is an <strong>upper triangular</strong> matrix and can be treated in a very similar manner.</p></li>
-<li><p>Note that the determinant of a triangular matrix is simply the product of diagonal coefficients: <span class="math display">\[
-\det A = a_{11} a_{22} \cdots a_{nn} = \prod_{i=1}^n a_{ii}.
-\]</span></p></li>
-</ul>
-</section>
-<section id="sparse-matrices" class="slide level3">
-<h3>Sparse matrices</h3>
-<p><strong>Sparse matrices</strong> are prevalent in any application which relies on some form of <em>graph</em> structure (see both the <a href="https://comp2870-2526.github.io/linear-algebra-notes/#exm-temperature">temperature</a> and <a href="https://comp2870-2526.github.io/linear-algebra-notes/#exm-traffic">traffic network</a> examples).</p>
-<ul>
-<li><p>The <span class="math inline">\(a_{ij}\)</span> typically represents some form of “communication” between vertices <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> of the graph, so the element is only nonzero if the vertices are connected.</p></li>
-<li><p>There is no generic pattern for these entries, though there is usually one that is specific to the problem solved.</p></li>
-</ul>
-</section>
-<section id="sparse-matrices-1" class="slide level3">
-<h3>Sparse matrices</h3>
-<ul>
-<li><p>Usually, <span class="math inline">\(a_{ii} \neq 0\)</span> - the diagonal is nonzero.</p></li>
-<li><p>A “large” portion of the matrix is zero.</p>
-<ul>
-<li>A full <span class="math inline">\(n \times n\)</span> matrix has <span class="math inline">\(n^2\)</span> nonzero entries.</li>
-<li>A sparse <span class="math inline">\(n \times n\)</span> has <span class="math inline">\(\alpha n\)</span> nonzero entries, where <span class="math inline">\(\alpha \ll
-    n\)</span>.</li>
-</ul></li>
-<li><p>Many special techniques exist for handling sparse matrices, some of which can be used automatically within Python (<a href="https://docs.scipy.org/doc/scipy/reference/sparse.html"><code>scipy.sparse</code> documentation</a>)</p></li>
-</ul>
-</section>
-<section id="what-is-the-significance-of-these-special-examples" class="slide level3">
-<h3>What is the significance of these special examples?</h3>
-<ul>
-<li><p>In the next section we will discuss a general numerical algorithm for the solution of linear systems of equations.</p></li>
-<li><p>This will involve <strong>reducing</strong> the problem to one involving a <strong>triangular matrix</strong>, which, as we show below, is relatively easy to solve.</p></li>
-<li><p>In subsequent lectures, we will see that, for <em>sparse</em> matrix systems, alternative solution techniques are available.</p></li>
-</ul>
 
 <script type="pyodide-data">
 eyJvcHRpb25zIjp7ImluZGV4VVJMIjoiaHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L3B5b2RpZGUvdjAuMjYuMS9mdWxsLyJ9LCJwYWNrYWdlcyI6eyJwa2dzIjpbInB5b2RpZGVfaHR0cCIsIm1pY3JvcGlwIiwiaXB5dGhvbiJdfX0=
