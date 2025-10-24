@@ -362,8 +362,10 @@ for some matrix $P$ such that
 - $P$ approximates $A^{-1}$ well enough that the algorithm converges in few
    iterations.
 
+::: {style="font-size:75%"}
 Note that the above bad examples could be written in the form of
 \eqref{eq:general-iteration} with $P = O$ (the zero matrix) or $P = A^{-1}$.
+:::
 
 ## Jacobi iteration
 
@@ -774,7 +776,7 @@ def jacobi_iteration(A, b, x0, max_iter, verbose=False):
 ```
 :::
 
-## Python version of Jacobi iteration
+## Python version of Gauss-Seidel iteration
 
 ```{pyodide}
 def gauss_seidel_iteration(A, b, x0, max_iter, verbose=False):
