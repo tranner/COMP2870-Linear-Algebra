@@ -869,24 +869,30 @@ def gauss_seidel_iteration_sparse(
     n, nonzero = system_size_sparse(A_real, I_row, I_col, b)
 
     x = x0.copy()
-    xnew = np.empty_like(x)
 
     if verbose:
         print("starting value: ", end="")
         print_array(x.T, "x.T")
 
-    for iter in range(max_iter):
-        # precompute Ax using xnew if i < j
-        Ax = np.zeros_like(x)
-        for k in range(nonzero):
-            if I_row[k] < I_col[k]:
-                Ax[I_row[k]] = Ax[I_row[k]] + A_real[k] * xnew[I_col[k]]
-            else:
-                Ax[I_row[k]] = Ax[I_row[k]] + A_real[k] * x[I_col[k]]
+    # determine diagonal and row_mapping
+    # D[i] should be A_{ii}
+    D = np.zeros_like(x)
+    row_entries = [[] for _ in range(n)]
+    for k in range(nonzero):
+        # diagonals
+        if I_row[k] == I_col[k]:
+            D[I_row[k]] = A_real[k]
+        # store which row
+        row_entries[I_row[k]].append(k)
 
+    for iter in range(max_iter):
         for i in range(n):
-            xnew[i] = x[i] + 1.0 / (A[i, i]) * (b[i] - Ax[i])
-        x = xnew.copy()
+            # precompute ith component of Ax using latest x values
+            Ax_i = 0.0
+            for k in row_entries[i]:
+                Ax_i = Ax_i + A_real[k] * x[I_col[k]]
+
+            x[i] = x[i] + 1.0 / D[i] * (b[i] - Ax_i)
 
         if verbose:
             print(f"after {iter=}: ", end="")
@@ -954,6 +960,7 @@ def to_dense(A_real, I_row, I_col):
     return A.todense()
 
 
+np.random.seed(43)
 ```
 
 ```{python}
@@ -985,6 +992,16 @@ print()
 print("jacobi with dense matrix")
 x_dense = jacobi_iteration(A_dense, b, x0, max_iter=5, verbose=True)
 print()
+
+print("gauss seidel with sparse matrix")
+x_sparse = gauss_seidel_iteration_sparse(
+    A_real, I_row, I_col, b, x0, max_iter=5, verbose=True
+)
+print()
+
+print("gauss seidel with dense matrix")
+x_dense = gauss_seidel_iteration(A_dense, b, x0, max_iter=5, verbose=True)
+print()
 ```
 
 We see that we get the same results!
@@ -997,14 +1014,18 @@ formulation is $O(n^2)$ and the run time of the sparse formulation is $O(n)$.
 ```{python}
 # | echo: false
 ns = [4, 8, 16, 32, 64, 128]
-timing_sparse = []
-timing_dense = []
+timing_jac_sparse = []
+timing_jac_dense = []
+timing_gs_sparse = []
+timing_gs_dense = []
+
 
 for n in ns:
     # generate random nonzero matrix
     nonzero = 3 * n
     A_real, I_row, I_col, b = random_sparse_system(n, nonzero)
     x0 = np.zeros((n, 1))
+    A_dense = to_dense(A_real, I_row, I_col)
 
     start_time = time.perf_counter()
     jacobi_iteration_sparse(
@@ -1012,30 +1033,69 @@ for n in ns:
     )
     end_time = time.perf_counter()
 
-    timing_sparse.append(end_time - start_time)
+    timing_jac_sparse.append(end_time - start_time)
 
-    A_dense = to_dense(A_real, I_row, I_col)
     start_time = time.perf_counter()
     jacobi_iteration(A_dense, b, x0, max_iter=10, verbose=False)
     end_time = time.perf_counter()
 
-    timing_dense.append(end_time - start_time)
+    timing_gs_dense.append(end_time - start_time)
+
+    start_time = time.perf_counter()
+    gauss_seidel_iteration_sparse(
+        A_real, I_row, I_col, b, x0, max_iter=10, verbose=False
+    )
+    end_time = time.perf_counter()
+
+    timing_gs_sparse.append(end_time - start_time)
+
+    start_time = time.perf_counter()
+    gauss_seidel_iteration(A_dense, b, x0, max_iter=10, verbose=False)
+    end_time = time.perf_counter()
+
+    timing_jac_dense.append(end_time - start_time)
 ```
 
 ```{python}
 # | echo: false
-plt.loglog(ns, timing_sparse, "C1o", label="sparse")
-plt.loglog(ns, timing_dense, "C0o", label="dense")
+plt.loglog(ns, timing_jac_sparse, "C1o", label="Jacobi sparse")
+plt.loglog(ns, timing_jac_dense, "C0o", label="Jacobi dense")
 
-poly_sparse = np.poly1d([np.polyfit(ns, timing_sparse, 1)[0], 0])(
-    np.array(ns, dtype=np.double)
-)
-poly_dense = np.poly1d([np.polyfit(ns, timing_dense, 2)[0], 0, 0])(
-    np.array(ns, dtype=np.double)
-)
+plt.loglog(ns, timing_gs_sparse, "C3o", label="GS sparse")
+plt.loglog(ns, timing_gs_dense, "C2o", label="GS dense")
 
-plt.loglog(ns, poly_sparse, "C1--", label="$O(n)$")
-plt.loglog(ns, poly_dense, "C0--", label="$O(n^2)$")
+poly_sparse = np.poly1d(
+    [
+        np.polyfit(
+            ns,
+            [
+                0.5 * (a + b)
+                for a, b in zip(
+                    timing_jac_sparse, timing_gs_sparse, strict=False
+                )
+            ],
+            1,
+        )[0],
+        0,
+    ]
+)(np.array(ns, dtype=np.double))
+poly_dense = np.poly1d(
+    [
+        np.polyfit(
+            ns,
+            [
+                0.5 * (a + b)
+                for a, b in zip(timing_jac_dense, timing_gs_dense, strict=False)
+            ],
+            2,
+        )[0],
+        0,
+        0,
+    ]
+)(np.array(ns, dtype=np.double))
+
+plt.loglog(ns, poly_sparse, "C4--", label="$O(n)$")
+plt.loglog(ns, poly_dense, "C5--", label="$O(n^2)$")
 
 plt.xlabel("$n$")
 plt.ylabel("time (s)")
