@@ -318,7 +318,7 @@ plt.show()
    \nonumber
    \frac{2 y_1 + y_2}{7} \vec{a} + \frac{-3 y_1 + 2 y_2}{7} \vec{b}
    = \frac{2 y_1 + y_2}{7} \begin{pmatrix} 2 \\ 3 \end{pmatrix}
-   - \frac{-3 y_1 + 2 y_2}{7} \begin{pmatrix} -1 \\ 2 \end{pmatrix} \\
+   + \frac{-3 y_1 + 2 y_2}{7} \begin{pmatrix} -1 \\ 2 \end{pmatrix} \\
    = \begin{pmatrix}
    \frac{4 y_1 + 2 y_2}{7} + \frac{3 y_1 - 2 y_2}{7} \\
    \label{eq:y-combo}
@@ -716,9 +716,9 @@ and the $j$th column from $A$.
    Then we can compute that
    \begin{align*}
    \det A
-   & = 3 \times (1 \times 3 - 0 \times 3) - 1 \times (0 \times 3 - 3 \times 0) +
+   & = 3 \times (3 \times 3 - 0 \times 1) - 1 \times (0 \times 3 - 0 \times 1) +
    1 \times (0 \times 0 - 3 \times 0) \\
-   & = 3 \times 3 - 1 \times 0 + 1 \times 0 = 9.
+   & = 3 \times 9 - 1 \times 0 + 1 \times 0 = 27.
    \end{align*}
 
    ::: {#exr-determinant}
