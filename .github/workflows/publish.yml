@@ -6,24 +6,44 @@ on:
     branches: main
   pull_request:
 
-
 jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
       site-dir: "_output"
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      # Cache Quarto's Jupyter freeze directory to avoid re-executing notebooks
+      - name: Restore Quarto freeze cache
+        uses: actions/cache@v4
+        with:
+          path: .quarto/_freeze
+          key: quarto-freeze-${{ hashFiles('**/*.qmd') }}
+          restore-keys: |
+            quarto-freeze-
+
+      # Install uv and Python
       - name: Install uv
         uses: astral-sh/setup-uv@v5
 
-      - name: Set up python
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version-file: "pyproject.toml"
 
+      #  Cache uv virtual environment (optional but speeds up dependency install)
+      - name: Cache uv virtualenv
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: uv-${{ hashFiles('uv.lock') }}
+          restore-keys: |
+            uv-
+
+      # Set up Quarto
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
         env:
@@ -31,15 +51,32 @@ jobs:
         with:
           tinytex: true
 
-      - name: 'Install the project'
+      #  Install dependencies using uv
+      - name: Install the project
         run: uv sync --all-extras --dev --locked
 
-      - name: 'Build site'
+      #  Build the Quarto site
+      - name: Build site
         run: uv run quarto render
 
-      - name: 'Build slides'
-        run: mkdir -p _output/slides && for q in slides/*.qmd; do uv run quarto render $q && mv ${q/.qmd/.html} _output/slides/ && mv ${q/.qmd/_files} _output/${q/.qmd/_files}; done
+      #  Build Quarto slides separately
+      - name: Build slides
+        run: |
+          mkdir -p _output/slides
+          for q in slides/*.qmd; do
+            uv run quarto render "$q"
+            mv "${q/.qmd/.html}" _output/slides/
+            mv "${q/.qmd/_files}" "_output/${q/.qmd/_files}"
+          done
 
+      # Save updated Quarto freeze cache
+      - name: Save Quarto freeze cache
+        uses: actions/cache@v4
+        with:
+          path: .quarto/_freeze
+          key: quarto-freeze-${{ hashFiles('**/*.qmd') }}
+
+      # Upload built site as artifact
       - name: Upload site as artifact
         uses: actions/upload-artifact@v4
         with:
