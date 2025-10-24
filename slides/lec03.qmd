@@ -1,7 +1,7 @@
 ---
 echo: false
 title: COMP2870 Theoretical Foundations of Computer Science II
-subtitle: Introduction to systems of linear equations
+subtitle: Direct solvers for systems of linear equations
 author:
   - name: Dr. Thomas Ranner (Tom)
     email: T.Ranner@leeds.ac.uk
@@ -121,34 +121,6 @@ treated in a very similar manner.
   \det A = a_{11} a_{22} \cdots a_{nn} = \prod_{i=1}^n a_{ii}.
   $$
 
-
-### Sparse matrices
-
-**Sparse matrices** are prevalent in any application which relies on some form
-of *graph* structure (see both the
-[temperature](https://comp2870-2526.github.io/linear-algebra-notes/#exm-temperature)
-and [traffic
-network](https://comp2870-2526.github.io/linear-algebra-notes/#exm-traffic)
-examples).
-
-- The $a_{ij}$ typically represents some form of "communication" between
-    vertices $i$ and $j$ of the graph, so the element is only nonzero if the
-    vertices are connected.
-
-- There is no generic pattern for these entries, though there is usually one
-    that is specific to the problem solved.
-
-### Sparse matrices
-
-- Usually, $a_{ii} \neq 0$ - the diagonal is nonzero.
-
-- A "large" portion of the matrix is zero.
-  - A full $n \times n$ matrix has $n^2$ nonzero entries.
-  - A sparse $n \times n$ has $\alpha n$ nonzero entries, where $\alpha \ll
-        n$.
-- Many special techniques exist for handling sparse matrices, some of which
-can be used automatically within Python ([`scipy.sparse`
-documentation](https://docs.scipy.org/doc/scipy/reference/sparse.html))
 
 ## Solving triangular systems of equations
 
