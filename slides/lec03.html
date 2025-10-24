@@ -205,7 +205,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">COMP2870 Theoretical Foundations of Computer Science II</h1>
-  <p class="subtitle">Introduction to systems of linear equations</p>
+  <p class="subtitle">Direct solvers for systems of linear equations</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -300,27 +300,6 @@ a_{11} &amp; 0 &amp; 0 &amp; \cdots &amp; 0 \\ a_{21} &amp; a_{22} &amp; 0 &amp;
 <li><p>Note that the determinant of a triangular matrix is simply the product of diagonal coefficients: <span class="math display">\[
 \det A = a_{11} a_{22} \cdots a_{nn} = \prod_{i=1}^n a_{ii}.
 \]</span></p></li>
-</ul>
-</section>
-<section id="sparse-matrices" class="slide level3">
-<h3>Sparse matrices</h3>
-<p><strong>Sparse matrices</strong> are prevalent in any application which relies on some form of <em>graph</em> structure (see both the <a href="https://comp2870-2526.github.io/linear-algebra-notes/#exm-temperature">temperature</a> and <a href="https://comp2870-2526.github.io/linear-algebra-notes/#exm-traffic">traffic network</a> examples).</p>
-<ul>
-<li><p>The <span class="math inline">\(a_{ij}\)</span> typically represents some form of “communication” between vertices <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> of the graph, so the element is only nonzero if the vertices are connected.</p></li>
-<li><p>There is no generic pattern for these entries, though there is usually one that is specific to the problem solved.</p></li>
-</ul>
-</section>
-<section id="sparse-matrices-1" class="slide level3">
-<h3>Sparse matrices</h3>
-<ul>
-<li><p>Usually, <span class="math inline">\(a_{ii} \neq 0\)</span> - the diagonal is nonzero.</p></li>
-<li><p>A “large” portion of the matrix is zero.</p>
-<ul>
-<li>A full <span class="math inline">\(n \times n\)</span> matrix has <span class="math inline">\(n^2\)</span> nonzero entries.</li>
-<li>A sparse <span class="math inline">\(n \times n\)</span> has <span class="math inline">\(\alpha n\)</span> nonzero entries, where <span class="math inline">\(\alpha \ll
-    n\)</span>.</li>
-</ul></li>
-<li><p>Many special techniques exist for handling sparse matrices, some of which can be used automatically within Python (<a href="https://docs.scipy.org/doc/scipy/reference/sparse.html"><code>scipy.sparse</code> documentation</a>)</p></li>
 </ul>
 </section>
 
@@ -1234,7 +1213,7 @@ x_1 \\ x_2 \\ x_3
 </section>
 <section id="timing-plot" class="slide level3">
 <h3>Timing plot</h3>
-<div id="6f20da6a" class="cell" data-execution_count="3">
+<div id="68b47791" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -1575,7 +1554,7 @@ x_1 \\ x_2
 <section id="how-bad-is-it" class="slide level3">
 <h3>How bad is it?</h3>
 <p>This is a genuine problem we see in the code versions too!</p>
-<div id="851e76a9" class="cell" data-execution_count="4">
+<div id="9b9fb812" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-stdout">
 <pre><code>without row swapping:
 eps=1.0e-02, x.T = [  1.0,  2.0 ], Solution? True
