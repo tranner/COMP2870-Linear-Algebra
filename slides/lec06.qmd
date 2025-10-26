@@ -1,7 +1,7 @@
 ---
 echo: false
 title: COMP2870 Theoretical Foundations of Computer Science II
-subtitle: A little more linear algebra
+subtitle: Complex matrices and vectors
 author:
   - name: Dr. Thomas Ranner (Tom)
     email: T.Ranner@leeds.ac.uk
