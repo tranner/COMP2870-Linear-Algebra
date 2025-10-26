@@ -1,0 +1,412 @@
+---
+echo: false
+title: COMP2870 Theoretical Foundations of Computer Science II
+subtitle: A little more linear algebra
+author:
+  - name: Dr. Thomas Ranner (Tom)
+    email: T.Ranner@leeds.ac.uk
+    affiliation: School of Computer Science, University of Leeds
+code-line-numbers: true
+html-math-method: mathjax
+include-in-header: ../mathjax.html
+
+execute:
+  freeze: auto
+  cache: true
+
+format:
+  live-revealjs:
+    slide-level: 3
+    slide-number: true
+    preview-links: auto
+---
+
+## Complex vectors and matrices
+
+::: {#def-complex-vectors-matrices}
+- A complex matrix is a matrix whose entries are complex numbers.
+- A complex vector is a vector whose entries are complex numbers.
+:::
+
+::: {.notes}
+Last year you were introduced to vectors of real numbers. In the remaining part
+of Linear Algebra, we will need to work with complex matrices and vectors. The
+definitions are mostly what you would expect but with some slight subtleties.
+:::
+
+### Hermitian product
+
+We write $\langle \vec{a}, \vec{b} \rangle$ for
+the Hermitian product of two complex $n$-vectors $\vec{a}$ and $\vec{b}$ and the
+value is given by
+\begin{equation}
+\label{eq:hermitian-product}
+\langle \vec{a}, \vec{b} \rangle = \sum_{i=1}^n a_i \bar{b}_i.
+\end{equation}
+
+- We see that the Hermitian product is the same as taking the scalar product of
+$\vec{a}$ and the complex conjugate of $\vec{b}$.
+- If the entries in $\vec{b}$ are all real numbers, then the Hermitian product
+of $\vec{a}$ and $\vec{b}$ is equal to the scalar product of $\vec{a}$ and
+$\vec{b}$.
+
+### Example
+
+Find the Hermitian product of
+$\vec{a} = (1 + 2i, 2 + i, 3 - 4i)^T$ and
+$\vec{b} = (6 + 2i, 3 + 4i, 1 + i)$.
+
+::: {.notes}
+Let $\vec{a} = (1 + 2i, 2 + i, 3 - 4i)^T$ and $\vec{b} =
+(6 + 2i, 3 + 4i, 1 + i)^T$ then:
+\begin{align*}
+\langle \vec{a}, \vec{b} \rangle
+& = (1 + 2i) \times (6 - 2i) + (2 + i) \times (3 - 4i) + (3 - 4i) \times (1 - i)
+\\
+& = (10 + 10i) + (10 - 5i) + (-1 - 7i) = 19 - 2i.
+\end{align*}
+:::
+
+### Exercise
+
+Find the Hermitian product of $\vec{c} = (3 + i, -2 + 2i, 4 - i)^T$ and $\vec{d}
+= (-1 + 3i, 2 + 6i, 2i)^T$.
+
+### Euclidean norm of a complex vector
+
+For a complex vector, we define the Euclidean norm as
+\begin{align*}
+\| \vec{z} \| = \sqrt{ \sum_{i=1}^n |z_i|^2 } = \sqrt{ \langle z, z \rangle }.
+\end{align*}
+
+::: {.notes}
+\begin{align*}
+\langle \vec{z}, \vec{z} \rangle
+= \sum_{i=1}^n z_i \bar{z}_i = \sum_{i=1}^n |z_i|^2.
+\end{align*}
+So for a complex vector, we define the Euclidean norm as
+\begin{align*}
+\| \vec{z} \| = \sqrt{ \sum_{i=1}^n |z_i|^2 } = \sqrt{ \langle z, z \rangle }.
+\end{align*}
+::::
+
+### Orthogonal vectors
+
+We say two vectors are **orthogonal** if their Hermitian product is 0.
+
+**Example.**
+
+The vectors $(1, 2, 3)^T$ and $(-3, -6, 5)^T$ are orthogonal.
+
+### Matrices and inner products
+
+::: {#lem-transpose-inner-product}
+Let $\vec{x}, \vec{y}$ be $n$-vectors (with real entries) and $A$ an $n \times
+n$ matrix (with real entries).
+Then
+$$
+A \vec{x} \cdot \vec{y} = \vec{x} \cdot A^T \vec{y}.
+$$
+Moreover, if $A$ is symmetric ($A^T = A$), then
+$$
+A \vec{x} \cdot \vec{y} = \vec{x} \cdot A \vec{y}.
+$$
+:::
+
+::: {.notes}
+Recall that for a real *symmetric* $n \times n$ matrix $A$ and any $n$-vectors
+$\vec{x}$ and $\vec{y}$ that
+\begin{align*}
+A \vec{x} \cdot \vec{y}
+& = \sum_{i=1}^n (A \vec{x})_i y_i && \text{(definition of scalar product)} \\
+& = \sum_{i=1}^n \left( \sum_{j=1}^n A_{ij} x_j \right) y_i
+&& \text{(definition of matrix-vector product)} \\
+& = \sum_{i=1}^n \sum_{j=1}^n A_{ji} x_j y_i
+&& \text{(symmetry of $A$)} \\
+& = \sum_{j=1}^n x_j \sum_{i=1}^n \left(A_{ji} y_i \right)
+&& \text{(rearranging)} \\
+& = \sum_{j=1}^n x_j (A y)_j
+&& \text{(definition of matrix-vector product)} \\
+& = \vec{x} \cdot A \vec{y}
+&& \text{(definition of scalar product)}.
+\end{align*}
+
+Replacing all terms with complex value and the scalar product with the Hermitian
+product, we get a similar calculation:
+\begin{align*}
+\langle A \vec{x}, \vec{y} \rangle
+& = \sum_{i=1}^n (A \vec{x})_i \bar{y}_i &&
+\text{(definition of Hermitian product)} \\
+& = \sum_{i=1}^n \left( \sum_{j=1}^n A_{ij} x_j \right) \bar{y}_i
+&& \text{(definition of matrix-vector product)} \\
+& = \sum_{i=1}^n \sum_{j=1}^n A_{ji} x_j \bar{y}_i
+&& \text{(symmetry of $A$)} \\
+& = \sum_{j=1}^n x_j \sum_{i=1}^n \left(A_{ji} \bar{y}_i \right)
+&& \text{(rearranging)} \\
+& = \sum_{j=1}^n x_j \bar{(\bar{A} y)}_j
+&& \text{(definition of matrix-vector product)} \\
+& = \langle \vec{x}, \bar{A} \vec{y} \rangle
+&& \text{(definition of Hermitian)}.
+\end{align*}
+This is quite unsatisfactory (note the extra bar on $A$ in the final equation),
+and we would like something that generalises the idea of a symmetric matrix to
+the Hermitian product case too.
+:::
+
+### What about for the Hermitian product?
+
+::: {#lem-hermitian-inner-product}
+Let $\vec{x}, \vec{y}$ be complex $n$-vectors and $A$ an $n \times n$ complex matrix.
+Then
+$$
+\langle A \vec{x}, \vec{y} \rangle
+= \langle \vec{x},  \bar{A}^T \vec{y} \rangle.
+$$
+:::
+
+### Hermitian matrix
+
+::: {#def-hermitian-matrix}
+For a complex $n$-matrix $A$, we write $A^H$ for the **conjugate transpose** (also called
+the **Hermitian transpose**) given by
+\begin{equation*}
+(A^H)_{ij} = \bar{A}_{ji} = (\bar{A}^T)_{ij}.
+\end{equation*}
+If $A^H = A$, then we say that $A$ is **Hermitian**.
+:::
+
+Repeating the above calculations, we can see that if $A$ is Hermitian then
+\begin{equation*}
+\langle A \vec{x}, \vec{y} \rangle = \langle \vec{x}, A \vec{y} \rangle.
+\end{equation*}
+
+## Back to the eigenvalue problem
+
+Finding numbers $\lambda$ (eigenvalues) and vectors $\vec{x}$ (eigenvectors)
+which satisfy the equation:
+\begin{equation}
+A \vec{x} = \lambda \vec{x}.
+\end{equation}
+
+::: {.notes}
+We saw one starting point for finding eigenvalues is to find the roots of the
+characteristic equation: a polynomial of degree $n$ for an $n \times n$ matrix
+$A$. However, we have already seen that this approach will be infeasible for
+large matrices. Instead, we will find a sequence of similar matrices to $A$ such
+that we can read off the eigenvalues from the final matrix.
+:::
+
+### Matrix formulation
+
+::: {#lem-matrix-form}
+Let $A$ be an $n \times n$ matrix with $n$ (distinct) eigenvalues and $n$ eigenvectors.
+<!-- Label the eigenvectors by -->
+<!-- $\vec{x}_{1}, \ldots \vec{x}_{n}$ and the eigenvalues $\lambda_1, \ldots -->
+<!-- \lambda_n$. -->
+Let $S$ be the matrix whose columns are the eigenvectors and $\Lambda$ the diagonal matrix
+whose entries are the correspond eigenvalues.
+Then
+\begin{equation}
+\label{eq:SLamSinv}
+A S = S \Lambda.
+\end{equation}
+:::
+
+::: {.notes}
+This formula shows another factorisation of the matrix $A$ into simpler
+matrices, very much like we had when we computed the LU-factorisation matrix.
+
+This is an example of **similar matrices** - matrices that have the same eigenvalues
+:::
+
+### Similar matrices
+
+::: {#def-similar}
+We say two matrices $A$ and $B$ are **similar** if there exists an invertible matrix $P$ such that
+$$
+P B = A P.
+$$
+:::
+
+::: {.notes}
+So $A$ is similar to $\Lambda$
+:::
+
+### Example
+
+The matrices
+\begin{equation*}
+A = \begin{pmatrix}
+1 & 0 \\ 0 & 2
+\end{pmatrix}
+\quad \text{and} \quad
+B = \begin{pmatrix}
+1 & -2 \\ 0 & 2
+\end{pmatrix}
+\end{equation*}
+are similar.
+
+::: {.notes}
+Let $P = \begin{pmatrix} 1 & 2 \\ 0 & 2 \end{pmatrix}$ then
+
+\begin{align*}
+P B = \begin{pmatrix}
+1 & 2 \\ 0 & 4.
+\end{pmatrix} = A P
+\end{align*}
+:::
+
+### Key theorem
+
+::: {#thm-similar}
+Let $A$ and $B$ be similar matrices. Then $A$ and $B$ have the same eigenvalues.
+:::
+
+::: {.notes}
+We start by writing $B = P^{-1} A P$.
+Then we can compute that
+\begin{equation}
+\label{eq:Bsim-alt}
+B P^{-1} = P^{-1} A.
+\end{equation}
+Let $\lambda$ be an eigenvalue of $A$ with eigenvector $\vec{x}$ and write
+$\vec{y} = P^{-1} \vec{x}$. Then we have that
+\begin{align*}
+B \vec{y} & = B P^{-1} \vec{x} && \text{(definition of $\vec{y}$)} \\
+& = P^{-1} A \vec{x}  && \text{(from \eqref{eq:Bsim-alt})} \\
+& = P^{-1} (\lambda \vec{x}) && \text{(since $\vec{x}$ is an eigenvector)} \\
+& = \lambda P^{-1} \vec{x} && \text{(rearranging)} \\
+& = \lambda \vec{y} && \text{(definition of $\vec{y}$)}.
+\end{align*}
+This shows that any eigenvalue of $A$ is an eigenvalue of $B$. It also gives a
+formula for how eigenvectors change between $A$ and $B$.
+
+To show any eigenvalue of $B$ is an eigenvalue of $A$, we repeat the
+calculation with $A$ and $B$ swapped.
+:::
+
+### Using eigenvalues to help
+
+Suppose we have two matrices $A$ and $B$ of the same size which we can write as:
+\begin{align*}
+A S = S \Lambda \quad\text{and}\quad B R = R \Lambda.
+\end{align*}
+If $R$ is invertible, then
+\begin{align*}
+A S R^{-1} = S R^{-1} B.
+\end{align*}
+If $S$ is also invertible, then $S R^{-1}$ is also invertible and $A$ and $B$
+are similar.
+
+## Symmetric matrices
+
+::: {#thm-symmetric}
+Let $A$ be a symmetric matrix with real entries. Then $A$ has $n$ real
+eigenvalues and any distinct eigenvalues are orthogonal.
+:::
+
+::: {.notes}
+Let $\lambda$ be an eigenvalue of $A$ with eigenvector $\vec{x}$. Recall that
+$\vec{x} \neq 0$. Then, since $A$ has real values, we can compute that:
+\begin{equation*}
+\bar{(A \vec{x})}_i = \bar{\left(\sum_{j=1}^n A_{ji} x_i\right)}
+= \sum_{j=1}^n A_{ji} \bar{x_i} = (A \bar{\vec{x}})_i.
+\end{equation*}
+We also note that any real, symmetric matrix is automatically Hermitian.
+
+Then we see that
+\begin{align*}
+\lambda \langle \vec{x}, \vec{x} \rangle
+& = \langle (\lambda \vec{x}), \vec{x} \rangle
+&& \text{(from definition of Hermitian product)}\\
+& = \langle (A \vec{x}), \vec{x} \rangle
+&& \text{(definition of eigenvalue and eigenvector)} \\
+& = \langle \vec{x}, A \vec{x} \rangle
+&& \text{(symmetry of $A$)} \\
+& = \langle \vec{x}, \lambda \vec{x} \rangle
+&& \text{(definition of eigenvalue and eigenvector)} \\
+& = \bar{\lambda} \langle \vec{x}, \vec{x} \rangle
+&& \text{(from definition of Hermitian product)}.
+\end{align*}
+Since, $\langle \vec{x}, \vec{x} \rangle > 0$ (recall $\vec{x} \neq 0$), we can
+divide by $\langle \vec{x}, \vec{x} \rangle$ so infer that
+\begin{equation*}
+\lambda = \bar{\lambda}.
+\end{equation*}
+
+Next, let $\vec{x}$ and $\vec{y}$ be eigenvectors of $A$ with distinct,
+eigenvalues $\lambda$ and $\mu$, respectively. From the first part of the proof,
+we know that $\lambda$ and $\mu$ are real. We compute that
+\begin{align*}
+\lambda \langle \vec{x}, \vec{y} \rangle
+& = \langle \lambda \vec{x}, \vec{y} \rangle \\
+& = \langle A \vec{x}, \vec{y} \rangle \\
+& = \langle \vec{x}, A^H \vec{y} \rangle \\
+& = \langle \vec{x}, A \vec{y} \rangle \\
+& = \langle \vec{x}, \mu \vec{y} \rangle \\
+& = \bar{\mu} \langle \vec{x}, \vec{y} \rangle \\
+& = \mu \langle \vec{x}, \vec{y} \rangle.
+\end{align*}
+Subtracting the right-hand side from the left hand side we see that
+\begin{equation*}
+(\lambda - \mu) \langle \vec{x}, \vec{y} \rangle = 0.
+\end{equation*}
+This implies that if $\lambda$ and $\mu$ are distinct, then $\langle \vec{x},
+\vec{y} \rangle = 0$.
+:::
+
+### Symmetric matrices and bases
+
+::: {#cor-evector-basis}
+Let $A$ be a symmetric $n \times n$ matrix with real entries. Then the
+eigenvectors of $A$ form a basis of $\mathbb{R}^n$.
+:::
+
+::: {.notes}
+We can only give an incomplete proof of this result. We will show that the
+eigenvectors are linearly independent. The proof is completed by showing that if
+you have any $n$ linearly independent vectors in $\mathbb{R}^n$ then you must
+have a basis.
+
+Denote by $\vec{x}^{(1)}, \ldots \vec{x}^{(n)}$ the $n$ eigenvectors of $A$.
+We want to show that the eigenvectors are linearly independent.
+Suppose that we have real numbers $\alpha_1, \alpha_2, \cdots, \alpha_n$ such
+that:
+\begin{equation}
+\label{eq:evalue-lin}
+\sum_{i=1}^n \alpha_i \vec{x}^{(i)} = \vec{0}.
+\end{equation}
+To show the eigenvectors are linearly independent, we need to show that all
+$\alpha_i = 0$. We can do this by taking the inner product of
+\eqref{eq:evalue-lin} with $\vec{x}^{(j)}$ for *any* $j$:
+\begin{equation*}
+0 = \vec{0} \cdot \vec{x}^{(j)}
+= \left(\sum_{i=1}^n \alpha_i \vec{x}^{(i)}\right) \cdot \vec{x}^{(j)}
+= \sum_{i=1}^n \alpha_i \left( \vec{x^{(i)}} \cdot \vec{x}^{(j)} \right)
+= \alpha_j \vec{x}^{(j)} \cdot \vec{x}^{(j)}.
+\end{equation*}
+Since we have that $|\vec{x}^{(j)}| > 0$, we have $\alpha_j = 0$ and we have
+shown that the eigenvectors are linearly independent.
+:::
+
+## Summary and what's next
+
+- When working with eigenvalue problems it's important to work with complex matrices and vectors.
+
+- Similar matrices have the same eigenvalues and we have a formula for transferring eigenvectors from one matrix to another similar matrix.
+
+- Real symmetric eigenvalues have real eigenvalues and (if distinct) orthogonal eigenvectors.
+
+### Grand strategy
+
+To find eigenvalues and eigenvectors of $A$, our "grand strategy" is to find a sequence of matrices
+$P_1, P_2, \ldots$ to form a sequence of matrices:
+\begin{gather*}
+A \\
+P_1^{-1} A P \\
+P_2^{-1} P_1^{-1} A P_1 P_2 \\
+P_3^{-1} P_2^{-1} P_1^{-1} A P_1 P_2 P_3 \\
+\ldots
+\end{gather*}
+We aim to get all the way to a simple matrix where we read off the eigenvalues
+and eigenvectors.
