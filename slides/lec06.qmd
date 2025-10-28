@@ -261,6 +261,8 @@ P B = \begin{pmatrix}
 - Similar matrices represent the same linear transformation in different bases
   (coordinate systems).
 
+- The matrix $P$ is the *change of basis* matrix.
+
 - If one of the matrices is invertible, the other is also invertible.
 
 ### Key theorem
