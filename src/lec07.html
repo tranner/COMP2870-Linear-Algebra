@@ -459,7 +459,7 @@ A \vec{x} = \lambda \vec{x}.
 <div id="exm-projection" class="theorem example">
 <p><span class="theorem-title"><strong>Example 7.1</strong></span> Let <span class="math inline">\(P\)</span> be the 3x3 matrix that represents projection onto a plane <span class="math inline">\(\Pi =
 \{\vec{x} \in \mathbb{R}^3 : \vec{a} \cdot \vec{x} = 0\}\)</span> (i.e.&nbsp;<span class="math inline">\(P\)</span> maps any point in <span class="math inline">\(\mathbb{R}^3\)</span> to its nearest point in <span class="math inline">\(\Pi\)</span>). What are the eigenvalues and eigenvectors of <span class="math inline">\(P\)</span>?</p>
-<div id="d11c08cd" class="cell" data-caption="Representation of planar projection operator $P$." data-execution_count="2">
+<div id="9fc254be" class="cell" data-caption="Representation of planar projection operator $P$." data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -489,14 +489,16 @@ A = \begin{pmatrix}
 \vec{x} = -\vec{x}\)</span>. This means that <span class="math inline">\(\vec{x}\)</span> is an eigenvector of <span class="math inline">\(A\)</span> and the associated eigenvalue is <span class="math inline">\(-1\)</span>.</li>
 </ul>
 </div>
-<p>{.remark} If we take the product of all eigenvalues of a <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(A\)</span>, we get the determinant of the matrix <span class="math inline">\(A\)</span>: <span class="math display">\[\begin{equation*}
+<div class="proof remark">
+<p><span class="proof-title"><em>Remark</em>. </span>If we take the product of all eigenvalues of a <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(A\)</span>, we get the determinant of the matrix <span class="math inline">\(A\)</span>: <span class="math display">\[\begin{equation*}
 \det A = \lambda_1 \cdot \lambda_2 \cdots \lambda_n.
 \end{equation*}\]</span></p>
 <p>If we add up all the eigenvalues of a <span class="math inline">\(n \times n\)</span> matrix, we get the <em>trace</em> of the matrix <span class="math inline">\(A\)</span>. We can also find the trace by adding up the diagonal components of the matrix: <span class="math display">\[\begin{equation*}
 \lambda_1 + \cdots + \lambda_n = a_{11} + a_{22} + \cdots + a_{nn} =
 \mathrm{trace}(A).
 \end{equation*}\]</span></p>
-<p>Let <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> be two <span class="math inline">\(n \times n\)</span> matrices. Then, we cannot use the eigenvalues of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> to work out the eigenvalues of <span class="math inline">\(A + B\)</span> or the eigenvalues of <span class="math inline">\(A B\)</span>, in general. :::</p>
+<p>Let <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> be two <span class="math inline">\(n \times n\)</span> matrices. Then, we cannot use the eigenvalues of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> to work out the eigenvalues of <span class="math inline">\(A + B\)</span> or the eigenvalues of <span class="math inline">\(A B\)</span>, in general.</p>
+</div>
 </section>
 <section id="how-to-find-eigenvalues-and-eigenvectors" class="level2" data-number="7.2">
 <h2 data-number="7.2" class="anchored" data-anchor-id="how-to-find-eigenvalues-and-eigenvectors"><span class="header-section-number">7.2</span> How to find eigenvalues and eigenvectors</h2>
