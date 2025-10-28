@@ -567,7 +567,7 @@ Figure&nbsp;8.1: Projection of <span class="math inline">\(\vec{a}\)</span> away
 \vec{a}^{(2)} = \begin{pmatrix} 2 \\ -1 \\ 0 \end{pmatrix},
 \vec{a}^{(3)} = \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix}.
 \end{equation*}\]</span> We will manipulate these vectors to form three orthonormal vectors.</p>
-<div id="a6482646" class="cell" data-execution_count="3">
+<div id="197c57a3" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -650,7 +650,7 @@ Figure&nbsp;8.1: Projection of <span class="math inline">\(\vec{a}\)</span> away
 <div id="exr-gram-schmit-ex" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 8.2</strong></span> Verify the orthonormality conditions for <span class="math inline">\(\vec{q}^{(1)}, \vec{q}^{(2)}\)</span> and <span class="math inline">\(\vec{q}^{(3)}\)</span>.</p>
 </div>
-<div id="894cb168" class="cell" data-execution_count="4">
+<div id="e89490a0" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -713,7 +713,7 @@ A = Q R.
 </section>
 <section id="python-qr-factorisation-using-gram-schmidt" class="level3" data-number="8.1.2">
 <h3 data-number="8.1.2" class="anchored" data-anchor-id="python-qr-factorisation-using-gram-schmidt"><span class="header-section-number">8.1.2</span> Python QR factorisation using Gram-Schmidt</h3>
-<div id="5cc558f2" class="cell" data-execution_count="5">
+<div id="66282529" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">def</span> gram_schmidt_qr(A):</span>
 <span id="cb1-2"><a href="#cb1-2"></a>    <span class="co">"""</span></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="co">    Compute the QR factorisation of a square matrix using the classical</span></span>
@@ -756,7 +756,7 @@ A = Q R.
 <span id="cb1-40"><a href="#cb1-40"></a>    <span class="cf">return</span> Q, R</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Let’s test it without our example above:</p>
-<div id="c6763c15" class="cell" data-execution_count="6">
+<div id="be084531" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-stdout">
 <pre><code>A = [  1.0,  2.0,  1.0 ]
     [  0.0, -1.0,  2.0 ]
@@ -777,7 +777,7 @@ Is Q orthonormal? (Q.T @ Q == np.eye(3)) True</code></pre>
 <section id="finding-eigenvalues-and-eigenvectors" class="level2" data-number="8.2">
 <h2 data-number="8.2" class="anchored" data-anchor-id="finding-eigenvalues-and-eigenvectors"><span class="header-section-number">8.2</span> Finding eigenvalues and eigenvectors</h2>
 <p>The algorithm given above says that we use the QR factorisation to iteratively find a sequence of matrices <span class="math inline">\(A^{(j)}\)</span> which <em>should</em> converge to an upper-triangular matrix.</p>
-<div id="e12a1ab4" class="cell" data-execution_count="7">
+<div id="d29f3858" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">def</span> gram_schmidt_eigen(A, maxiter<span class="op">=</span><span class="dv">100</span>, verbose<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb3-2"><a href="#cb3-2"></a>    <span class="co">"""</span></span>
 <span id="cb3-3"><a href="#cb3-3"></a><span class="co">    Compute the eigenvalues and eigenvectors of a square matrix using the QR</span></span>
@@ -857,7 +857,7 @@ Is Q orthonormal? (Q.T @ Q == np.eye(3)) True</code></pre>
 <span id="cb3-77"><a href="#cb3-77"></a>    <span class="cf">return</span> eigenvalues, V, it</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We test this out in code first for the matrix from <a href="lec07.html#exm-char" class="quarto-xref">Example&nbsp;<span>7.3</span></a>:</p>
-<div id="36dfbea5" class="cell" data-execution_count="8">
+<div id="169f27b7" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>A <span class="op">=</span> np.array([[<span class="fl">3.0</span>, <span class="fl">1.0</span>], [<span class="fl">1.0</span>, <span class="fl">3.0</span>]])</span>
 <span id="cb4-2"><a href="#cb4-2"></a>print_array(A)</span>
 <span id="cb4-3"><a href="#cb4-3"></a></span>
@@ -880,7 +880,7 @@ iterations required: 27</code></pre>
 <section id="correctness-and-convergence" class="level2" data-number="8.3">
 <h2 data-number="8.3" class="anchored" data-anchor-id="correctness-and-convergence"><span class="header-section-number">8.3</span> Correctness and convergence</h2>
 <p>Let’s see what happens when we try this same approach for a bigger symmetric matrices. Here we have a test that samples ten different random matrices and computes the average number of iterations, average run time and maximum error in the eigenvalue equation.</p>
-<div id="8e91343f" class="cell" data-execution_count="9">
+<div id="036a88fb" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># replicable random seed</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a>np.random.seed(<span class="dv">42</span>)</span>
 <span id="cb6-3"><a href="#cb6-3"></a></span>
@@ -955,16 +955,16 @@ iterations required: 27</code></pre>
 <span id="cb6-72"><a href="#cb6-72"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>n<span class="sc">:4d}</span><span class="ss">   </span><span class="sc">{</span>runtime<span class="sc">:.6e}</span><span class="ss">  </span><span class="sc">{</span>average_it<span class="sc">:5.1f}</span><span class="ss">  </span><span class="sc">{</span>max_error<span class="sc">:.6e}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>size  time (s)       iter  error
-   2   2.605205e-03   44.6  9.319111e-09
-   4   5.625779e-03   78.1  9.895223e-09
-   8   2.149271e-02  137.7  1.212740e-08
-  16   7.163237e-02  152.7  1.346641e-08
-  32   2.792007e-01  165.6  1.246268e-08
-  64   1.078550e+00  162.3  1.646202e-08
- 128   7.239037e+00  173.8  1.478504e-08</code></pre>
+   2   4.291265e-03   44.6  9.319111e-09
+   4   5.731247e-03   78.1  9.895223e-09
+   8   2.165274e-02  137.7  1.212740e-08
+  16   7.204708e-02  152.7  1.346641e-08
+  32   2.784004e-01  165.6  1.246268e-08
+  64   1.080934e+00  162.3  1.646202e-08
+ 128   7.251496e+00  173.8  1.478504e-08</code></pre>
 </div>
 </div>
-<div id="9c33f7c9" class="cell" data-execution_count="10">
+<div id="f55d8fa8" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
