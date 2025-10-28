@@ -666,7 +666,7 @@ Since we have that $|\vec{x}^{(j)}| > 0$, we have $\alpha_j = 0$ and we have
 shown that the eigenvectors are linearly independent.
 :::
 
-# Summary
+## Summary
 
 - When working with eigenvalue problems it's important to work with complex
   matrices and vectors.
