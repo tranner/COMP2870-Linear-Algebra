@@ -389,6 +389,7 @@ window.Quarto = {
   <li><a href="#how-to-find-eigenvalues-and-eigenvectors" id="toc-how-to-find-eigenvalues-and-eigenvectors" class="nav-link" data-scroll-target="#how-to-find-eigenvalues-and-eigenvectors"><span class="header-section-number">7.2</span> How to find eigenvalues and eigenvectors</a></li>
   <li><a href="#important-theory" id="toc-important-theory" class="nav-link" data-scroll-target="#important-theory"><span class="header-section-number">7.3</span> Important theory</a></li>
   <li><a href="#sec-symmetric-nice" id="toc-sec-symmetric-nice" class="nav-link" data-scroll-target="#sec-symmetric-nice"><span class="header-section-number">7.4</span> Why symmetric matrices are nice</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">8</span> Summary</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/edit/main/src/lec07.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/blob/main/src/lec07.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -458,7 +459,7 @@ A \vec{x} = \lambda \vec{x}.
 <div id="exm-projection" class="theorem example">
 <p><span class="theorem-title"><strong>Example 7.1</strong></span> Let <span class="math inline">\(P\)</span> be the 3x3 matrix that represents projection onto a plane <span class="math inline">\(\Pi =
 \{\vec{x} \in \mathbb{R}^3 : \vec{a} \cdot \vec{x} = 0\}\)</span> (i.e.&nbsp;<span class="math inline">\(P\)</span> maps any point in <span class="math inline">\(\mathbb{R}^3\)</span> to its nearest point in <span class="math inline">\(\Pi\)</span>). What are the eigenvalues and eigenvectors of <span class="math inline">\(P\)</span>?</p>
-<div id="3f25a035" class="cell" data-caption="Representation of planar projection operator $P$." data-execution_count="2">
+<div id="d11c08cd" class="cell" data-caption="Representation of planar projection operator $P$." data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -651,45 +652,86 @@ a_{11} - \lambda &amp; a_{12} &amp; a_{13} &amp; \cdots &amp; a_{1n} \\
 <p>Let’s suppose that we have an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(A\)</span> and we have found <span class="math inline">\(n\)</span> eigenvectors and <span class="math inline">\(n\)</span> eigenvalues (all distinct). Let’s call the eigenvectors by <span class="math inline">\(\vec{x}_{1}, \ldots \vec{x}_{n}\)</span> and the eigenvalues <span class="math inline">\(\lambda_1, \ldots
 \lambda_n\)</span> then we have the equation: <span class="math display">\[\begin{equation*}
 A \vec{x}_j = \lambda_j \vec{x}_j.
-\end{equation*}\]</span> So if we form the matrices <span class="math inline">\(S\)</span> to have columns equal to each eigenvector in turn and <span class="math inline">\(\Lambda\)</span> (pronounced lambda) to be the diagonal matrix with the eigenvalues listed along the diagonal we see that we have: <span class="math display">\[\begin{equation*}
+\end{equation*}\]</span> So if we form the matrices <span class="math inline">\(S\)</span> to have columns equal to each eigenvector in turn and <span class="math inline">\(\Lambda\)</span> (pronounced lambda) to be the diagonal matrix with the eigenvalues listed along the diagonal we see that we have: <span class="math display">\[\begin{equation}
+\label{eq:evalue-matrix}
 A S = S \Lambda.
-\end{equation*}\]</span> If <span class="math inline">\(S\)</span> is invertible, we can multiply on the right by <span class="math inline">\(S^{-1}\)</span> to see that we have <span class="math display">\[\begin{equation}
+\end{equation}\]</span> If <span class="math inline">\(S\)</span> is invertible, we can multiply on the right by <span class="math inline">\(S^{-1}\)</span> to see that we have <span class="math display">\[\begin{equation}
 \label{eq:SLamSinv}
 A = S \Lambda S^{-1}.
 \end{equation}\]</span> This formula shows another factorisation of the matrix <span class="math inline">\(A\)</span> into simpler matrices, very much like we had when we computed the LU-factorisation matrix (<a href="lec04.html#sec-LU-factorisation" class="quarto-xref"><span>Section 4.7</span></a>).</p>
-<p>The equation <span class="math inline">\(\eqref{eq:SLamSinv}\)</span> is an example of a more general idea of <em>similar matrices</em>. We say that two matrices <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are similar if there exists an invertible <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(P\)</span> such that <span class="math display">\[\begin{equation*}
-B = P^{-1} A P.
-\end{equation*}\]</span> Since <span class="math inline">\(P\)</span> is invertible, we can pre-multiply this equation by <span class="math inline">\(P\)</span> and post-multiply by <span class="math inline">\(P^{-1}\)</span> and see that being similar is a symmetric property.</p>
+<p>The equation <span class="math inline">\(\eqref{eq:evalue-matrix}\)</span> is an example of a more general idea of <em>similar matrices</em>.</p>
+<div id="def-similar-matrices" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 7.2</strong></span> We say that two matrices <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are <strong>similar</strong> if there exists an invertible <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(P\)</span> such that <span class="math display">\[\begin{equation*}
+P B = A P.
+\end{equation*}\]</span></p>
+</div>
+<p>Since <span class="math inline">\(P\)</span> is invertible, we can pre-multiply this equation by <span class="math inline">\(P\)</span> and post-multiply by <span class="math inline">\(P^{-1}\)</span> and see that being similar is a symmetric property.</p>
 <div id="lem-eigenvalue-sim" class="theorem lemma">
 <p><span class="theorem-title"><strong>Lemma 7.1</strong></span> The matrix <span class="math inline">\(A\)</span> is similar to the diagonal matrix <span class="math inline">\(\Lambda\)</span> formed by the eigenvalues of <span class="math inline">\(A\)</span>.</p>
-</div>
-<div class="proof">
-<p><span class="proof-title"><em>Proof</em>. </span>From <span class="math inline">\(\eqref{eq:SLamSinv}\)</span>, we have that <span class="math display">\[\begin{equation*}
-\Lambda = S^{-1} A S.
-\end{equation*}\]</span></p>
 </div>
 <p>This leads to a nice theorem which we will use to help compute eigenvectors and eigenvalues of larger matrices:</p>
 <div id="thm-similar" class="theorem">
 <p><span class="theorem-title"><strong>Theorem 7.2</strong></span> If <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are similar matrices then <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> have the same eigenvalues.</p>
 </div>
 <div class="proof">
-<p><span class="proof-title"><em>Proof</em>. </span>We start by writing <span class="math inline">\(B = P^{-1} A P\)</span>. Then we can compute that <span class="math display">\[\begin{equation}
-\label{eq:Bsim-alt}
-B P^{-1} = P^{-1} A.
-\end{equation}\]</span> Let <span class="math inline">\(\lambda\)</span> be an eigenvalue of <span class="math inline">\(A\)</span> with eigenvector <span class="math inline">\(\vec{x}\)</span> and write <span class="math inline">\(\vec{y} = P^{-1} \vec{x}\)</span>. Then we have that <span class="math display">\[\begin{align*}
-B \vec{y} &amp; = B P^{-1} \vec{x} &amp;&amp; \text{(definition of $\vec{y}$)} \\
-&amp; = P^{-1} A \vec{x}  &amp;&amp; \text{(from \eqref{eq:Bsim-alt})} \\
-&amp; = P^{-1} (\lambda \vec{x}) &amp;&amp; \text{(since $\vec{x}$ is an eigenvector)} \\
-&amp; = \lambda P^{-1} \vec{x} &amp;&amp; \text{(rearranging)} \\
-&amp; = \lambda \vec{y} &amp;&amp; \text{(definition of $\vec{y}$)}.
-\end{align*}\]</span> This shows that any eigenvalue of <span class="math inline">\(A\)</span> is an eigenvalue of <span class="math inline">\(B\)</span>. It also gives a formula for how eigenvectors change between <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>.</p>
-<p>To show any eigenvalue of <span class="math inline">\(B\)</span> is an eigenvalue of <span class="math inline">\(A\)</span>, we repeat the calculation with <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> swapped.</p>
+<p><span class="proof-title"><em>Proof</em>. </span>Let <span class="math inline">\(\vec{x}\)</span> be an eigenvector of <span class="math inline">\(B\)</span> with associated eigenvalue <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\vec{y} = P \vec{x}\)</span>. Then <span class="math display">\[\begin{align*}
+A \vec{y} &amp; = A P \vec{x} &amp;&amp; \text{(definition of $\vec{y}$)} \\
+&amp; = P B \vec{x} &amp;&amp; \text{(since $A$ and $B$ are similar)} \\
+&amp; = P \lambda \vec{x} &amp;&amp; \text{(since $\vec{x}$ is an eigenvalue of $B$)} \\
+&amp; = \lambda (P \vec{x}) &amp;&amp; \text{(rearranging)} \\
+&amp; = \lambda \vec{y}.
+\end{align*}\]</span> This shows that any eigenvalue of <span class="math inline">\(B\)</span> is an eigenvalue of <span class="math inline">\(A\)</span>. It also gives a formula for how eigenvectors change between <span class="math inline">\(B\)</span> and <span class="math inline">\(A\)</span>.</p>
+<p>To show any eigenvalue of <span class="math inline">\(A\)</span> is an eigenvalue of <span class="math inline">\(B\)</span>, we repeat the calculation with <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> swapped and replace <span class="math inline">\(P\)</span> by <span class="math inline">\(P^{-1}\)</span>.</p>
 </div>
 <p>The key idea of the methods we will use to compute eigenvalues to apply a sequence of matrices to convert a matrix <span class="math inline">\(A\)</span> into a form similar to <span class="math inline">\(A\)</span> for which reading off the eigenvalues is easier. However, the quality of the algorithms we apply depend heavily on properties of the matrix <span class="math inline">\(A\)</span>.</p>
+<div id="exm-similar-matrices" class="theorem example">
+<p><span class="theorem-title"><strong>Example 7.7</strong></span> The matrices <span class="math display">\[\begin{equation*}
+A = \begin{pmatrix}
+1 &amp; 0 \\ 0 &amp; 2
+\end{pmatrix}
+\quad \text{and} \quad
+B = \begin{pmatrix}
+1 &amp; -2 \\ 0 &amp; 2
+\end{pmatrix}
+\end{equation*}\]</span> are similar.</p>
+<p>Indeed, let <span class="math inline">\(P = \begin{pmatrix} 1 &amp; 2 \\ 0 &amp; 2 \end{pmatrix}\)</span> then <span class="math display">\[\begin{align*}
+P B = \begin{pmatrix}
+1 &amp; 2 \\ 0 &amp; 4
+\end{pmatrix} = A P.
+\end{align*}\]</span></p>
+</div>
+<p>What about the converse direction? If two matrices <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> have the same eigenvalues, are they similar?</p>
+<div id="exm-not-similar" class="theorem example">
+<p><span class="theorem-title"><strong>Example 7.8</strong></span> Are these matrices similar? <span class="math display">\[
+A = \begin{pmatrix} 3 &amp; 1 \\ 0 &amp; 3 \end{pmatrix}
+\quad\text{and}\quad
+B =  \begin{pmatrix} 3 &amp; 0 \\ 0 &amp; 3 \end{pmatrix}.
+\]</span></p>
+<p>We saw before the eigenvalues of <span class="math inline">\(A\)</span> are <span class="math inline">\(3\)</span> and <span class="math inline">\(3\)</span>. We can read off the eigenvalues of <span class="math inline">\(B\)</span> are also <span class="math inline">\(3\)</span> repeated.</p>
+<p>Assume for contradiction that <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are similar so <span class="math inline">\(P B = A P\)</span> for an invertible matrix <span class="math inline">\(P\)</span>. Let <span class="math inline">\(P = \begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix}\)</span>$. Then <span class="math display">\[\begin{align*}
+P B &amp; = \begin{pmatrix} 3 a &amp; 3 b \\ 3 c &amp; 3d \end{pmatrix} \\
+A P &amp; = \begin{pmatrix} 3 a + c &amp; 3 b + d \\ 3c &amp; 3 d \end{pmatrix}.
+\end{align*}\]</span> Equating components we see that <span class="math display">\[\begin{align*}
+3 a &amp; = 3 a + c &amp;&amp; \Rightarrow c = 0 \\
+3 b &amp; = 3 b + d &amp;&amp; \Rightarrow d = 0.
+\end{align*}\]</span> This implies that <span class="math inline">\(P\)</span> has the form <span class="math display">\[\begin{align*}
+P = \begin{pmatrix} a &amp; b \\ 0 &amp; 0 \end{pmatrix},
+\end{align*}\]</span> and <span class="math inline">\(\det P = 0\)</span>. This contradicts that <span class="math inline">\(P\)</span> is invertible so <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are not similar.</p>
+</div>
+<p>However, there is hope in special cases: We know that we can write, <span class="math display">\[\begin{align*}
+A S = S \Lambda \quad\text{and}\quad B R = R \Lambda.
+\end{align*}\]</span> If <span class="math inline">\(R\)</span> is invertible, then <span class="math display">\[\begin{align*}
+A S R^{-1} = S R^{-1} B.
+\end{align*}\]</span> If <span class="math inline">\(S\)</span> is also invertible, then <span class="math inline">\(S R^{-1}\)</span> is also invertible and <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are similar (with <span class="math inline">\(P= S R^{-1}\)</span>).</p>
 </section>
 <section id="sec-symmetric-nice" class="level2" data-number="7.4">
 <h2 data-number="7.4" class="anchored" data-anchor-id="sec-symmetric-nice"><span class="header-section-number">7.4</span> Why symmetric matrices are nice</h2>
 <p>Whilst all our methods are developed for complex matrices, when we restrict to real-valued symmetric matrices, we have this nice result.</p>
+<p>Before we state the result, we need one more definition:</p>
+<div id="def-orthogonal" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 7.3</strong></span> We say two vectors <span class="math inline">\(\vec{a}\)</span> and <span class="math inline">\(\vec{b}\)</span> are <strong>orthogonal</strong> if <span class="math inline">\(\langle \vec{a},
+\vec{b} \rangle = 0\)</span>.</p>
+</div>
 <div id="thm-symmetric" class="theorem">
 <p><span class="theorem-title"><strong>Theorem 7.3</strong></span> Let <span class="math inline">\(A\)</span> be a symmetric matrix (<span class="math inline">\(A^T = A\)</span>) with real entries. Then <span class="math inline">\(A\)</span> has <span class="math inline">\(n\)</span> real eigenvalues (zero imaginary part) and any distinct eigenvectors are orthogonal.</p>
 </div>
@@ -728,7 +770,7 @@ B \vec{y} &amp; = B P^{-1} \vec{x} &amp;&amp; \text{(definition of $\vec{y}$)} \
 \vec{y} \rangle = 0\)</span>.</p>
 </div>
 <div id="cor-evector-basis" class="theorem corollary">
-<p><span class="theorem-title"><strong>Corollary 7.1</strong></span> Let <span class="math inline">\(A\)</span> be a symmetric <span class="math inline">\(n \times n\)</span> matrix with real entries. Then the eigenvectors of <span class="math inline">\(A\)</span> form a basis of <span class="math inline">\(\mathbb{R}^n\)</span>.</p>
+<p><span class="theorem-title"><strong>Corollary 7.1</strong></span> Let <span class="math inline">\(A\)</span> be a symmetric <span class="math inline">\(n \times n\)</span> matrix with real entries with <span class="math inline">\(n\)</span> distinct eigenvectors. Then the eigenvectors of <span class="math inline">\(A\)</span> form a basis of <span class="math inline">\(\mathbb{R}^n\)</span>.</p>
 </div>
 <div class="proof">
 <p><span class="proof-title"><em>Proof</em>. </span>We can only give an incomplete proof of this result. We will show that the eigenvectors are linearly independent. The proof is completed by showing that if you have any <span class="math inline">\(n\)</span> linearly independent vectors in <span class="math inline">\(\mathbb{R}^n\)</span> then you must have a basis.</p>
@@ -742,6 +784,14 @@ B \vec{y} &amp; = B P^{-1} \vec{x} &amp;&amp; \text{(definition of $\vec{y}$)} \
 = \alpha_j \vec{x}^{(j)} \cdot \vec{x}^{(j)}.
 \end{equation*}\]</span> Since we have that <span class="math inline">\(|\vec{x}^{(j)}| &gt; 0\)</span>, we have <span class="math inline">\(\alpha_j = 0\)</span> and we have shown that the eigenvectors are linearly independent.</p>
 </div>
+</section>
+<section id="summary" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Summary</h1>
+<ul>
+<li><p>When working with eigenvalue problems it’s important to work with complex matrices and vectors.</p></li>
+<li><p>Similar matrices have the same eigenvalues and we have a formula for transferring eigenvectors from one matrix to another similar matrix.</p></li>
+<li><p>Real symmetric eigenvalues have real eigenvalues and (if distinct) orthogonal eigenvectors. (Our method will only work for symmetric matrices).</p></li>
+</ul>
 
 
 </section>

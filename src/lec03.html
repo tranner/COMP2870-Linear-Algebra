@@ -522,7 +522,7 @@ O \vec{x} = \vec{0} \neq \vec{b} \quad \text{for any vector} \quad \vec{x}.
 </ol>
 <div id="rem-inverse" class="proof remark">
 <p><span class="proof-title"><em>Remark 3.1</em>. </span>One way to solve a system of linear equations is to compute the inverse of <span class="math inline">\(A\)</span>, <span class="math inline">\(A^{-1}\)</span>, directly, then the solution is found through matrix multiplication: <span class="math inline">\(\vec{x} = A^{-1} \vec{b}\)</span>. Here we compare two simple and one more specialised implementations:</p>
-<div id="cfce125a" class="cell" data-execution_count="2">
+<div id="0789335b" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">def</span> approach1(A, b):</span>
 <span id="cb1-2"><a href="#cb1-2"></a>    <span class="co">"""</span></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="co">    Solve the system of linear equations Ax = b by applying the inverse of A</span></span>
@@ -548,7 +548,7 @@ O \vec{x} = \vec{0} \neq \vec{b} \quad \text{for any vector} \quad \vec{x}.
 <span id="cb1-23"><a href="#cb1-23"></a>    x <span class="op">=</span> sp.sparse.linalg.spsolve(A_sparse, b)</span>
 <span id="cb1-24"><a href="#cb1-24"></a>    <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="3b2537a0" class="cell" data-execution_count="3">
+<div id="a0049cff" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -612,7 +612,7 @@ A = \begin{pmatrix}
 \vec{b} = \begin{pmatrix} -1 \\ 2 \end{pmatrix} \quad
 \vec{c} = \begin{pmatrix} 1 \\ -1 \end{pmatrix}
 \end{align*}\]</span></p>
-<div id="6c001c2b" class="cell" data-execution_count="4">
+<div id="98134a28" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -755,7 +755,7 @@ A = \begin{pmatrix}
 3 &amp; 1 \\ 0 &amp; 3
 \end{pmatrix}
 \]</span> the shape is a parallelogram that looks like this:</p>
-<div id="b96ca180" class="cell" data-execution_count="5">
+<div id="33c55662" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -769,7 +769,7 @@ A = \begin{pmatrix}
 3 &amp; 1 &amp; 1\\ 0 &amp; 3 &amp; 1 \\ 0 &amp; 0 &amp; 3
 \end{pmatrix},
 \]</span> the shape is a parallelopiped given that looks like this:</p>
-<div id="3bb1d44a" class="cell" data-execution_count="6">
+<div id="efe05c04" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -852,7 +852,7 @@ A = \begin{pmatrix}
 <div id="rem-det-python" class="proof remark">
 <p><span class="proof-title"><em>Remark 3.2</em>. </span>Computing determinants numerically is an important topic in it’s own right but we do not focus on this in this module.</p>
 <p>You can use <code>numpy</code> to compute determinants</p>
-<div id="a54c1413" class="cell" data-execution_count="7">
+<div id="1cccf875" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>A <span class="op">=</span> np.array([[<span class="fl">3.0</span>, <span class="fl">1.0</span>], [<span class="fl">0.0</span>, <span class="fl">3.0</span>]])</span>
 <span id="cb2-2"><a href="#cb2-2"></a>np.linalg.det(A)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">

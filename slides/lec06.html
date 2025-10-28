@@ -400,8 +400,8 @@ B = \begin{pmatrix}
 <p>Let <span class="math inline">\(P = \begin{pmatrix} 1 &amp; 2 \\ 0 &amp; 2 \end{pmatrix}\)</span> then</p>
 <p><span class="math display">\[\begin{align*}
 P B = \begin{pmatrix}
-1 &amp; 2 \\ 0 &amp; 4.
-\end{pmatrix} = A P
+1 &amp; 2 \\ 0 &amp; 4
+\end{pmatrix} = A P.
 \end{align*}\]</span></p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -414,6 +414,13 @@ P B = \begin{pmatrix}
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+</section>
+<section id="remark" class="slide level3">
+<h3>Remark</h3>
+<ul>
+<li><p>Similar matrices represent the same linear transformation in different bases (coordinate systems).</p></li>
+<li><p>If one of the matrices is invertible, the other is also invertible.</p></li>
+</ul>
 </section>
 <section id="key-theorem" class="slide level3">
 <h3>Key theorem</h3>
@@ -445,6 +452,37 @@ B \vec{y} &amp; = B P^{-1} \vec{x} &amp;&amp; \text{(definition of $\vec{y}$)} \
       }</style></aside>
 </section>
 <section id="using-eigenvalues-to-help" class="slide level3">
+<h3>Using eigenvalues to help</h3>
+<p>What about the other way round?</p>
+<p>Are these matrices similar? <span class="math display">\[
+A = \begin{pmatrix} 3 &amp; 1 \\ 0 &amp; 3 \end{pmatrix}
+\quad\text{and}\quad
+B =  \begin{pmatrix} 3 &amp; 0 \\ 0 &amp; 3 \end{pmatrix}.
+\]</span></p>
+<aside class="notes">
+<p>We saw before the eigenvalues of <span class="math inline">\(A\)</span> are <span class="math inline">\(3\)</span> and <span class="math inline">\(3\)</span>. We can read off the eigenvalues of <span class="math inline">\(B\)</span> are also <span class="math inline">\(3\)</span> repeated.</p>
+<p>Assume for contradiction that <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are similar so <span class="math inline">\(P B = A P\)</span> for an invertible matrix <span class="math inline">\(P\)</span>. Let <span class="math inline">\(P = \begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix}\)</span>$. Then <span class="math display">\[\begin{align*}
+P B &amp; = \begin{pmatrix} 3 a &amp; 3 b \\ 3 c &amp; 3d \end{pmatrix} \\
+A P &amp; = \begin{pmatrix} 3 a + c &amp; 3 b + d \\ 3c &amp; 3 d \end{pmatrix}.
+\end{align*}\]</span> Equating components we see that <span class="math display">\[\begin{align*}
+3 a &amp; = 3 a + c &amp;&amp; \Rightarrow c = 0 \\
+3 b &amp; = 3 b + d &amp;&amp; \Rightarrow d = 0.
+\end{align*}\]</span> This implies that <span class="math inline">\(P\)</span> has the form <span class="math display">\[\begin{align*}
+P = \begin{pmatrix} a &amp; b \\ 0 &amp; 0 \end{pmatrix},
+\end{align*}\]</span> and <span class="math inline">\(\det P = 0\)</span>. This contradicts that <span class="math inline">\(P\)</span> is invertible so <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are not similar.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="using-eigenvalues-to-help-1" class="slide level3">
 <h3>Using eigenvalues to help</h3>
 <p>Suppose we have two matrices <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> of the same size which we can write as: <span class="math display">\[\begin{align*}
 A S = S \Lambda \quad\text{and}\quad B R = R \Lambda.
@@ -506,7 +544,7 @@ A S R^{-1} = S R^{-1} B.
 <section id="symmetric-matrices-and-bases" class="slide level3">
 <h3>Symmetric matrices and bases</h3>
 <div id="cor-evector-basis" class="theorem corollary">
-<p><span class="theorem-title"><strong>Corollary 1</strong></span> Let <span class="math inline">\(A\)</span> be a symmetric <span class="math inline">\(n \times n\)</span> matrix with real entries. Then the eigenvectors of <span class="math inline">\(A\)</span> form a basis of <span class="math inline">\(\mathbb{R}^n\)</span>.</p>
+<p><span class="theorem-title"><strong>Corollary 1</strong></span> Let <span class="math inline">\(A\)</span> be a symmetric <span class="math inline">\(n \times n\)</span> matrix with real entries and <span class="math inline">\(n\)</span> distinct eigenvectors. Then the eigenvectors of <span class="math inline">\(A\)</span> form a basis of <span class="math inline">\(\mathbb{R}^n\)</span>.</p>
 </div>
 <aside class="notes">
 <p>We can only give an incomplete proof of this result. We will show that the eigenvectors are linearly independent. The proof is completed by showing that if you have any <span class="math inline">\(n\)</span> linearly independent vectors in <span class="math inline">\(\mathbb{R}^n\)</span> then you must have a basis.</p>
@@ -537,7 +575,7 @@ A S R^{-1} = S R^{-1} B.
 <ul>
 <li><p>When working with eigenvalue problems it’s important to work with complex matrices and vectors.</p></li>
 <li><p>Similar matrices have the same eigenvalues and we have a formula for transferring eigenvectors from one matrix to another similar matrix.</p></li>
-<li><p>Real symmetric eigenvalues have real eigenvalues and (if distinct) orthogonal eigenvectors.</p></li>
+<li><p>Real symmetric eigenvalues have real eigenvalues and (if distinct) orthogonal eigenvectors. (Our method will only work for symmetric matrices).</p></li>
 </ul>
 </section>
 <section id="grand-strategy" class="slide level3">
