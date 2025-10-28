@@ -437,9 +437,10 @@ A \vec{x}_j = \lambda_j \vec{x}_j.
 So if we form the matrices $S$ to have columns equal to each eigenvector in turn
 and $\Lambda$ (pronounced lambda) to be the diagonal matrix with the eigenvalues
 listed along the diagonal we see that we have:
-\begin{equation*}
+\begin{equation}
+\label{eq:evalue-matrix}
 A S = S \Lambda.
-\end{equation*}
+\end{equation}
 If $S$ is invertible, we can multiply on the right by $S^{-1}$ to see that we
 have
 \begin{equation}
@@ -450,25 +451,23 @@ This formula shows another factorisation of the matrix $A$ into simpler
 matrices, very much like we had when we computed the LU-factorisation matrix
 (@sec-LU-factorisation).
 
-The equation \eqref{eq:SLamSinv} is an example of a more general idea of
-*similar matrices*. We say that two matrices $A$ and $B$ are similar if there
-exists an invertible $n \times n$ matrix $P$ such that
+The equation \eqref{eq:evalue-matrix} is an example of a more general idea of
+*similar matrices*.
+
+::: {#def-similar-matrices}
+We say that two matrices $A$ and $B$ are **similar** if there exists an
+invertible $n \times n$ matrix $P$ such that
 \begin{equation*}
-B = P^{-1} A P.
+P B = A P.
 \end{equation*}
+:::
+
 Since $P$ is invertible, we can pre-multiply this equation by $P$ and
 post-multiply by $P^{-1}$ and see that being similar is a symmetric property.
 
 ::: {#lem-eigenvalue-sim}
 The matrix $A$ is similar to the diagonal matrix $\Lambda$ formed by the
 eigenvalues of $A$.
-:::
-
-::: {.proof}
-From \eqref{eq:SLamSinv}, we have that
-\begin{equation*}
-\Lambda = S^{-1} A S.
-\end{equation*}
 :::
 
 This leads to a nice theorem which we will use to help compute eigenvectors and
@@ -479,26 +478,20 @@ If $A$ and $B$ are similar matrices then $A$ and $B$ have the same eigenvalues.
 :::
 
 ::: {.proof}
-We start by writing $B = P^{-1} A P$.
-Then we can compute that
-\begin{equation}
-\label{eq:Bsim-alt}
-B P^{-1} = P^{-1} A.
-\end{equation}
-Let $\lambda$ be an eigenvalue of $A$ with eigenvector $\vec{x}$ and write
-$\vec{y} = P^{-1} \vec{x}$. Then we have that
+Let $\vec{x}$ be an eigenvector of $B$ with associated eigenvalue $\lambda$ and $\vec{y} = P \vec{x}$.
+Then
 \begin{align*}
-B \vec{y} & = B P^{-1} \vec{x} && \text{(definition of $\vec{y}$)} \\
-& = P^{-1} A \vec{x}  && \text{(from \eqref{eq:Bsim-alt})} \\
-& = P^{-1} (\lambda \vec{x}) && \text{(since $\vec{x}$ is an eigenvector)} \\
-& = \lambda P^{-1} \vec{x} && \text{(rearranging)} \\
-& = \lambda \vec{y} && \text{(definition of $\vec{y}$)}.
+A \vec{y} & = A P \vec{x} && \text{(definition of $\vec{y}$)} \\
+& = P B \vec{x} && \text{(since $A$ and $B$ are similar)} \\
+& = P \lambda \vec{x} && \text{(since $\vec{x}$ is an eigenvalue of $B$)} \\
+& = \lambda (P \vec{x}) && \text{(rearranging)} \\
+& = \lambda \vec{y}.
 \end{align*}
-This shows that any eigenvalue of $A$ is an eigenvalue of $B$. It also gives a
-formula for how eigenvectors change between $A$ and $B$.
+This shows that any eigenvalue of $B$ is an eigenvalue of $A$. It also gives a
+formula for how eigenvectors change between $B$ and $A$.
 
-To show any eigenvalue of $B$ is an eigenvalue of $A$, we repeat the
-calculation with $A$ and $B$ swapped.
+To show any eigenvalue of $A$ is an eigenvalue of $B$, we repeat the
+calculation with $A$ and $B$ swapped and replace $P$ by $P^{-1}$.
 :::
 
 The key idea of the methods we will use to compute eigenvalues to apply a
@@ -506,10 +499,84 @@ sequence of matrices to convert a matrix $A$ into a form similar to $A$ for
 which reading off the eigenvalues is easier. However, the quality of the
 algorithms we apply depend heavily on properties of the matrix $A$.
 
+::: {#exm-similar-matrices}
+The matrices
+\begin{equation*}
+A = \begin{pmatrix}
+1 & 0 \\ 0 & 2
+\end{pmatrix}
+\quad \text{and} \quad
+B = \begin{pmatrix}
+1 & -2 \\ 0 & 2
+\end{pmatrix}
+\end{equation*}
+are similar.
+
+Indeed, let $P = \begin{pmatrix} 1 & 2 \\ 0 & 2 \end{pmatrix}$ then
+\begin{align*}
+P B = \begin{pmatrix}
+1 & 2 \\ 0 & 4
+\end{pmatrix} = A P.
+\end{align*}
+:::
+
+What about the converse direction? If two matrices $A$ and $B$ have the same
+eigenvalues, are they similar?
+
+::: {#exm-not-similar}
+Are these matrices similar?
+$$
+A = \begin{pmatrix} 3 & 1 \\ 0 & 3 \end{pmatrix}
+\quad\text{and}\quad
+B =  \begin{pmatrix} 3 & 0 \\ 0 & 3 \end{pmatrix}.
+$$
+
+We saw before the eigenvalues of $A$ are $3$ and $3$. We can read off the
+eigenvalues of $B$ are also $3$ repeated.
+
+Assume for contradiction that $A$ and $B$ are similar so $P B = A P$ for an
+invertible matrix $P$.
+Let $P = \begin{pmatrix} a & b \\ c & d \end{pmatrix}$$. Then
+\begin{align*}
+P B & = \begin{pmatrix} 3 a & 3 b \\ 3 c & 3d \end{pmatrix} \\
+A P & = \begin{pmatrix} 3 a + c & 3 b + d \\ 3c & 3 d \end{pmatrix}.
+\end{align*}
+Equating components we see that
+\begin{align*}
+3 a & = 3 a + c && \Rightarrow c = 0 \\
+3 b & = 3 b + d && \Rightarrow d = 0.
+\end{align*}
+This implies that $P$ has the form
+\begin{align*}
+P = \begin{pmatrix} a & b \\ 0 & 0 \end{pmatrix},
+\end{align*}
+and $\det P = 0$. This contradicts that $P$ is invertible so $A$ and $B$ are not
+similar.
+:::
+
+However, there is hope in special cases:
+We know that we can write,
+\begin{align*}
+A S = S \Lambda \quad\text{and}\quad B R = R \Lambda.
+\end{align*}
+If $R$ is invertible, then
+\begin{align*}
+A S R^{-1} = S R^{-1} B.
+\end{align*}
+If $S$ is also invertible, then $S R^{-1}$ is also invertible and $A$ and $B$
+are similar (with $P= S R^{-1}$).
+
 ## Why symmetric matrices are nice {#sec-symmetric-nice}
 
 Whilst all our methods are developed for complex matrices, when we restrict to
 real-valued symmetric matrices, we have this nice result.
+
+Before we state the result, we need one more definition:
+
+::: {#def-orthogonal}
+We say two vectors $\vec{a}$ and $\vec{b}$ are **orthogonal** if $\langle \vec{a},
+\vec{b} \rangle = 0$.
+:::
 
 ::: {#thm-symmetric}
 Let $A$ be a symmetric matrix ($A^T = A$) with real entries. Then $A$ has $n$
@@ -568,8 +635,8 @@ This implies that if $\lambda$ and $\mu$ are distinct, then $\langle \vec{x},
 :::
 
 ::: {#cor-evector-basis}
-Let $A$ be a symmetric $n \times n$ matrix with real entries. Then the
-eigenvectors of $A$ form a basis of $\mathbb{R}^n$.
+Let $A$ be a symmetric $n \times n$ matrix with real entries with $n$ distinct
+eigenvectors. Then the eigenvectors of $A$ form a basis of $\mathbb{R}^n$.
 :::
 
 ::: {.proof}
@@ -598,3 +665,14 @@ $\alpha_i = 0$. We can do this by taking the inner product of
 Since we have that $|\vec{x}^{(j)}| > 0$, we have $\alpha_j = 0$ and we have
 shown that the eigenvectors are linearly independent.
 :::
+
+# Summary
+
+- When working with eigenvalue problems it's important to work with complex
+  matrices and vectors.
+
+- Similar matrices have the same eigenvalues and we have a formula for
+  transferring eigenvectors from one matrix to another similar matrix.
+
+- Real symmetric eigenvalues have real eigenvalues and (if distinct) orthogonal
+  eigenvectors. (Our method will only work for symmetric matrices).

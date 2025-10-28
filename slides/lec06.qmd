@@ -251,10 +251,17 @@ Let $P = \begin{pmatrix} 1 & 2 \\ 0 & 2 \end{pmatrix}$ then
 
 \begin{align*}
 P B = \begin{pmatrix}
-1 & 2 \\ 0 & 4.
-\end{pmatrix} = A P
+1 & 2 \\ 0 & 4
+\end{pmatrix} = A P.
 \end{align*}
 :::
+
+### Remark
+
+- Similar matrices represent the same linear transformation in different bases
+  (coordinate systems).
+
+- If one of the matrices is invertible, the other is also invertible.
 
 ### Key theorem
 
@@ -283,6 +290,41 @@ formula for how eigenvectors change between $A$ and $B$.
 
 To show any eigenvalue of $B$ is an eigenvalue of $A$, we repeat the
 calculation with $A$ and $B$ swapped.
+:::
+
+### Using eigenvalues to help
+
+What about the other way round?
+
+Are these matrices similar?
+$$
+A = \begin{pmatrix} 3 & 1 \\ 0 & 3 \end{pmatrix}
+\quad\text{and}\quad
+B =  \begin{pmatrix} 3 & 0 \\ 0 & 3 \end{pmatrix}.
+$$
+
+::: {.notes}
+We saw before the eigenvalues of $A$ are $3$ and $3$. We can read off the
+eigenvalues of $B$ are also $3$ repeated.
+
+Assume for contradiction that $A$ and $B$ are similar so $P B = A P$ for an
+invertible matrix $P$.
+Let $P = \begin{pmatrix} a & b \\ c & d \end{pmatrix}$$. Then
+\begin{align*}
+P B & = \begin{pmatrix} 3 a & 3 b \\ 3 c & 3d \end{pmatrix} \\
+A P & = \begin{pmatrix} 3 a + c & 3 b + d \\ 3c & 3 d \end{pmatrix}.
+\end{align*}
+Equating components we see that
+\begin{align*}
+3 a & = 3 a + c && \Rightarrow c = 0 \\
+3 b & = 3 b + d && \Rightarrow d = 0.
+\end{align*}
+This implies that $P$ has the form
+\begin{align*}
+P = \begin{pmatrix} a & b \\ 0 & 0 \end{pmatrix},
+\end{align*}
+and $\det P = 0$. This contradicts that $P$ is invertible so $A$ and $B$ are not
+similar.
 :::
 
 ### Using eigenvalues to help
@@ -358,8 +400,8 @@ This implies that if $\lambda$ and $\mu$ are distinct, then $\langle \vec{x},
 ### Symmetric matrices and bases
 
 ::: {#cor-evector-basis}
-Let $A$ be a symmetric $n \times n$ matrix with real entries. Then the
-eigenvectors of $A$ form a basis of $\mathbb{R}^n$.
+Let $A$ be a symmetric $n \times n$ matrix with real entries and $n$ distinct
+eigenvectors. Then the eigenvectors of $A$ form a basis of $\mathbb{R}^n$.
 :::
 
 ::: {.notes}
@@ -395,7 +437,7 @@ shown that the eigenvectors are linearly independent.
 
 - Similar matrices have the same eigenvalues and we have a formula for transferring eigenvectors from one matrix to another similar matrix.
 
-- Real symmetric eigenvalues have real eigenvalues and (if distinct) orthogonal eigenvectors.
+- Real symmetric eigenvalues have real eigenvalues and (if distinct) orthogonal eigenvectors. (Our method will only work for symmetric matrices).
 
 ### Grand strategy
 
