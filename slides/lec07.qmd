@@ -1,0 +1,1028 @@
+---
+echo: false
+title: COMP2870 Theoretical Foundations of Computer Science II
+subtitle: The QR algorithm
+author:
+  - name: Dr. Thomas Ranner (Tom)
+    email: T.Ranner@leeds.ac.uk
+    affiliation: School of Computer Science, University of Leeds
+code-line-numbers: true
+html-math-method: mathjax
+include-in-header: ../mathjax.html
+
+execute:
+  freeze: auto
+  cache: true
+
+format:
+  live-revealjs:
+    slide-level: 3
+    slide-number: true
+    preview-links: auto
+---
+
+# Eigenvectors and eigenvalues: practical solutions
+
+```{python}
+# | echo: false
+import inspect
+import time
+
+import numpy as np
+from matplotlib import pyplot as plt
+from scipy.stats import special_ortho_group
+
+plt.style.use("seaborn-v0_8-colorblind")
+
+
+def print_array(array, array_name=None, end=None):
+    """
+    Nicely print a 2D NumPy array with dynamic precision formatting.
+
+    This function prints a 2D array in a readable, formatted style. It
+    automatically determines the required precision to accurately represent the
+    array values, up to a maximum of 15 decimal places. The printed output
+    includes the array name if provided; otherwise, the function attempts to
+    infer the variable name from the calling scope.
+
+    Parameters
+    ----------
+    array : numpy.ndarray
+        A 2D NumPy array to print.
+    array_name : str, optional
+        The name to display for the array in the output. If ``None`` (default),
+        the function attempts to infer the variable name from the caller's local
+        variables. If it cannot be inferred, defaults to ``"array"``.
+    end : str, optional
+        String appended after the last value in each row, similar to the `end`
+        parameter in Python's built-in ``print`` function. Default is ``None``,
+        which adds a newline.
+    """
+    # find array_name
+    if array_name is None:
+        frame = inspect.currentframe().f_back
+        for name, value in frame.f_locals.items():
+            if value is array:
+                array_name = name
+                break
+    if array_name is None:
+        array_name = "array"
+
+    # determine precision
+    precision = 1
+    while not np.allclose(array, np.round(array, precision)):
+        precision = precision + 1
+        if precision == 16:
+            break
+    format_str = f"{{:{precision + 3}.{precision}f}}"
+
+    if len(array.shape) == 2:
+        n, m = array.shape
+    else:
+        n = array.shape[0]
+
+    for i in range(n):
+        if i == 0:
+            print(f"{array_name} = [ ", end="")
+        else:
+            print(" " * len(array_name) + "   [ ", end="")
+
+        try:
+            print(", ".join([format_str.format(v) for v in array[i]]), end=" ]")
+        except TypeError:
+            print(format_str.format(array[i]), end=" ]")
+        print(end=end)
+
+
+```
+
+```{pyodide}
+#| include: false
+
+import inspect
+
+import numpy as np
+
+def print_array(array, array_name=None, end=None):
+    """
+    Nicely print a 2D NumPy array with dynamic precision formatting.
+
+    This function prints a 2D array in a readable, formatted style. It
+    automatically determines the required precision to accurately represent the
+    array values, up to a maximum of 15 decimal places. The printed output
+    includes the array name if provided; otherwise, the function attempts to
+    infer the variable name from the calling scope.
+
+    Parameters
+    ----------
+    array : numpy.ndarray
+        A 2D NumPy array to print.
+    array_name : str, optional
+        The name to display for the array in the output. If ``None`` (default),
+        the function attempts to infer the variable name from the caller's local
+        variables. If it cannot be inferred, defaults to ``"array"``.
+    end : str, optional
+        String appended after the last value in each row, similar to the `end`
+        parameter in Python's built-in ``print`` function. Default is ``None``,
+        which adds a newline.
+    """
+    # find array_name
+    if array_name is None:
+        frame = inspect.currentframe().f_back
+        for name, value in frame.f_locals.items():
+            if value is array:
+                array_name = name
+                break
+    if array_name is None:
+        array_name = "array"
+
+    # determine precision
+    precision = 1
+    while not np.allclose(array, np.round(array, precision)):
+        precision = precision + 1
+        if precision == 16:
+            break
+    format_str = f"{{:{precision + 3}.{precision}f}}"
+
+    if len(array.shape) == 2:
+        n, m = array.shape
+    else:
+        n = array.shape[0]
+
+    for i in range(n):
+        if i == 0:
+            print(f"{array_name} = [ ", end="")
+        else:
+            print(" " * len(array_name) + "   [ ", end="")
+
+        try:
+            print(", ".join([format_str.format(v) for v in array[i]]), end=" ]")
+        except TypeError:
+            print(format_str.format(array[i]), end=" ]")
+        print(end=end)
+
+
+```
+
+::: {.callout-tip}
+**Module learning outcome:** apply algorithms to compute eigenvectors and
+eigenvalues of large matrices.
+:::
+
+Chapter 8
+
+## The problem
+
+Finding numbers $\lambda$ (eigenvalues) and vectors $\vec{x}$ (eigenvectors)
+which satisfy the equation:
+\begin{equation}
+A \vec{x} = \lambda \vec{x}.
+\end{equation}
+
+### Grand strategy
+
+To find eigenvalues and eigenvectors of $A$, our "grand strategy" is to find a sequence of matrices
+$P_1, P_2, \ldots$ to form a sequence of matrices:
+\begin{gather*}
+A \\
+P_1^{-1} A P \\
+P_2^{-1} P_1^{-1} A P_1 P_2 \\
+P_3^{-1} P_2^{-1} P_1^{-1} A P_1 P_2 P_3 \\
+\ldots
+\end{gather*}
+We aim to get all the way to a simple matrix where we read off the eigenvalues
+and eigenvectors.
+
+### Example
+
+For example, if at level $m$, say, we have transformed $A$ into an upper triangular
+matrix the eigenvalues are the diagonal of the matrix
+\begin{equation*}
+P_m^{-1} P_{m-1}^{-1} \cdots P_2^{-1} P_1^{-1} A P_1 P_2 \cdots P_{m-1} P_m,
+\end{equation*}
+and the eigenvectors are the columns of the matrix
+\begin{equation*}
+S_m = P_1 P_2 \cdots P_{m-1} P_m.
+\end{equation*}
+
+### Orthogonal matrices
+
+In the example below, and many others, we see that we typically want the
+matrices $P_j$ to be **orthogonal** or **orthonormal**.
+
+A (real-valued) matrix $Q$ is orthogonal if $Q^T Q$ is diagonal and a (real-valued)
+matrix $Q$ is orthonormal if $Q^T Q = I_n$.
+
+::: {.notes}
+If $Q$ is orthogonal, it's inverse is $Q^T$.
+:::
+
+### Orthogonal matrices - column view
+
+In other words, if denote by
+$\vec{q}^{(1)}, \ldots, \vec{q}^{(n)}$ the columns of $Q$, then $Q$ is
+*orthogonal* if
+\begin{equation*}
+\vec{q}^{(i)} \cdot \vec{q}^{(j)} = 0 \quad \text{ if } i \neq j,
+\end{equation*}
+and $Q$ is *orthonormal* if
+\begin{equation*}
+\vec{q}^{(i)} \cdot \vec{q}^{(j)} =
+\begin{cases}
+0 & \text{ if } i \neq j \\
+1 & \text{ if } i = j.
+\end{cases}
+\end{equation*}
+
+::: {.notes}
+Orthonormal matrices have the nice property that $Q^{-1} = Q^T$ so we can very
+easily compute their inverse! They also always have a determinant of 1.
+Importantly, we can apply them (or their inverses) without worrying about adding
+extra problems from finite precision.
+
+Examples of orthonormal matrices include matrices which describe rotations.
+:::
+
+### Example
+
+Show that the rotation matrix $R(\theta)$ is orthonormal.
+$$
+R(\theta) =
+\begin{pmatrix}
+\cos \theta & - \sin \theta \\
+\sin \theta & \cos \theta
+\end{pmatrix}.
+$$
+
+::: {.notes}
+We can think two ways:
+
+1. First we know that $R(\theta)$ represents anticlockwise rotation by $\theta$.
+   We calculated earlier that $R(\theta)^T$ represents clockwise rotation by
+   $\theta$ so $R(\theta)^T R(\theta) = I_2$.
+
+2. We can also compute:
+   \begin{align*}
+   R(\theta)^T = \begin{pmatrix} \cos\theta & \sin\theta \\ -\sin\theta &
+   \cos\theta \end{pmatrix},
+   \end{align*}
+   then
+   \begin{align*}
+   R(\theta)^T R(\theta) &=
+   \begin{pmatrix} \cos\theta & \sin\theta \\ -\sin\theta &
+   \cos\theta \end{pmatrix} \begin{pmatrix}
+   \cos \theta & - \sin \theta \\
+   \sin \theta & \cos \theta
+   \end{pmatrix} \\
+   &= \begin{pmatrix}
+   \cos^2\theta + \sin^2\theta & -\cos\theta \sin\theta + \cos\theta \sin\theta \\
+   -\sin\theta \cos\theta + \cos\theta \sin\theta & \cos^2\theta + \sin^2\theta
+   \end{pmatrix} \\
+   &= \begin{pmatrix}
+   1 & 0 \\ 0 & 1
+   \end{pmatrix}.
+   \end{align*}
+:::
+
+## QR algorithm
+
+The QR algorithm is an iterative method for computing eigenvalues and
+eigenvectors.
+
+At each step a matrix is factored into a product in a similar fashion to LU
+factorisation.
+
+In this case, we factor a matrix, $A$ into a product of an orthonormal matrix,
+$Q$, and an upper triangular matrix, $R$:
+$$
+A = Q R.
+$$
+This is *QR factorisation*.
+
+### The algorithm
+
+Given a matrix $A$, the algorithm repeatedly applies QR factorisation. First,
+we set $A^{(0)} = A$, then we successively perform for $k=0, 1, 2, \ldots$:
+
+1. Compute the QR factorisation of $A^{(k)}$ into an orthonormal part and upper
+   triangular part
+   $$
+   A^{(k)} = Q^{(k)} R^{(k)};
+   $$
+
+2. Update the matrix $A^{(k+1)}$ recombining $Q$ and $R$ in the reverse order:
+   $$
+   A^{(k+1)} = R^{(k)} Q^{(k)}.
+   $$
+
+::: {.notes}
+As we take more and more steps, we hope that $A^{(k)}$ converges to an upper
+triangular matrix whose diagonal entries are the eigenvalues of the original
+matrix.
+:::
+
+### How does it work?
+
+Rearranging the first step within each iteration, we see that
+$$
+R^{(k)} = (Q^{(k)})^{-1} A^{(k)} = (Q^{(k)})^T A^{(k)}.
+$$
+Substituting this value of $R^{(k)}$ into the second step gives
+$$
+A^{(k+1)} = (Q^{(k)})^{-1} A^{(k)} Q^{(k)},
+$$
+and we see that at each step we are finding a sequence of similar matrices,
+all with the same eigenvalues.
+
+### How does it work? ii
+
+We can additionally find the
+eigenvectors of $A$ by forming the product
+$$
+Q = Q^{(1)} Q^{(2)} \cdots Q^{(m)}.
+$$
+
+::: {.notes}
+The hard part of the method is computing the QR factorisation. One classical way
+to get a QR factorisation is to use the Gram-Schmidt process. In general, the
+Gram-Schmidt process is used to take a sequence of vectors and form a new
+sequence which is orthonormal. We can apply this to the columns of $A$ to form
+an orthonormal matrix. If we track this process as a matrix-matrix product, we
+find that the other factor is upper triangular.
+:::
+
+### The Gram-Schmidt process
+
+... a classical way to compute a QR factorisation...
+
+::: {.notes}
+The key idea is shown in @fig-projection-away. Given a vector $\vec{a}$ (blue)
+and a vector $\vec{q}$ (green) with length 1. We can compute the projection
+of $\vec{a}$ onto the direction $\vec{q}$ (orange) by
+\begin{align*}
+(\vec{a} \cdot \vec{q}) \vec{q}.
+\end{align*}
+If we subtract this term from $\vec{a}$. We end up with a vector $\vec{u}$ with
+$\vec{u} \cdot \vec{q} = 0$. The difference $\vec{u}$ is given by
+\begin{align*}
+\vec{u} = \vec{a} - (\vec{a} \cdot \vec{q}) \vec{q},
+\end{align*}
+and we can compute that
+\begin{align*}
+\vec{u} \cdot \vec{q}
+& = (\vec{a} - (\vec{a} \cdot \vec{q}) \vec{q}) \cdot \vec{q} \\
+& = (\vec{a} \cdot \vec{q}) - (\vec{a} \cdot \vec{q}) (\vec{q} \cdot \vec{q})
+&& \text{(properties of scalar product)}\\
+& = (\vec{a} \cdot \vec{q}) - (\vec{a} \cdot \vec{q})
+&& \text{(since $\| \vec{q} \| = 1$)} \\
+& = 0.
+\end{align*}
+
+```{python}
+# | echo: false
+# | label: fig-projection-away
+# | fig-cap: Projection of $\vec{a}$ away from $\vec{q}$ onto $\vec{u}$.
+
+a = np.array([0.5, 0.7])
+q = np.array([np.cos(np.pi / 10), np.sin(np.pi / 10)])
+
+Pq_a = np.dot(a, q) * q
+Pqp_a = a - Pq_a
+
+
+def draw_arrow(pt, label, color):
+    plt.arrow(
+        0,
+        0,
+        pt[0],
+        pt[1],
+        head_width=0.05,
+        head_length=0.05,
+        linewidth=2,
+        color=color,
+        ec=color,
+        length_includes_head=True,
+    )
+
+    plt.text(
+        pt[0] / 2 + 0.04 * pt[1] / np.linalg.norm(pt),
+        pt[1] / 2 - 0.04 * pt[0] / np.linalg.norm(pt),
+        label,
+        color=color,
+        va="center",
+        ha="center",
+        rotation=np.arctan2(pt[1], pt[0]) * (180 / np.pi),
+        rotation_mode="anchor",
+        transform_rotates_text=True,
+    )
+
+
+plt.plot(
+    [0.9 * Pq_a[0], 0.9 * Pq_a[0] + 0.1 * Pqp_a[0], Pq_a[0] + 0.1 * Pqp_a[0]],
+    [0.9 * Pq_a[1], 0.9 * Pq_a[1] + 0.1 * Pqp_a[1], Pq_a[1] + 0.1 * Pqp_a[1]],
+    color="0.5",
+)
+plt.plot(
+    [0.9 * Pqp_a[0], 0.9 * Pqp_a[0] + 0.1 * Pq_a[0], Pqp_a[0] + 0.1 * Pq_a[0]],
+    [0.9 * Pqp_a[1], 0.9 * Pqp_a[1] + 0.1 * Pq_a[1], Pqp_a[1] + 0.1 * Pq_a[1]],
+    color="0.5",
+)
+
+draw_arrow(a, "$\\vec{a}$", "C0")
+draw_arrow(q, "$\\vec{q}$", "C1")
+draw_arrow(Pq_a, "$(\\vec{a} \\cdot \\vec{q}) \\vec{q}$", "C2")
+draw_arrow(
+    Pqp_a, "$\\vec{u} = \\vec{a} - (\\vec{a} \\cdot \\vec{q}) \\vec{q}$", "C3"
+)
+
+plt.plot([a[0], Pq_a[0]], [a[1], Pq_a[1]], color="C2", linestyle="--")
+plt.plot([a[0], Pqp_a[0]], [a[1], Pqp_a[1]], color="C3", linestyle="--")
+
+plt.grid(True)
+plt.axis("square")
+
+plt.tight_layout()
+plt.show()
+```
+:::
+
+### Example
+
+Apply Gram-Schmidt to the sequence of vectors
+\begin{equation*}
+\vec{a}^{(1)} = \begin{pmatrix} 1 \\ 0 \\ 1 \end{pmatrix},
+\vec{a}^{(2)} = \begin{pmatrix} 2 \\ -1 \\ 0 \end{pmatrix},
+\vec{a}^{(3)} = \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix}.
+\end{equation*}
+
+```{python}
+# | echo: false
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection="3d")
+A = [
+    np.array([1.0, 0.0, 1.0]),
+    np.array([2.0, -1.0, 0.0]),
+    np.array([1.0, 2.0, 1.0]),
+]
+
+for j, a in enumerate(A):
+    ax.quiver(
+        0,
+        0,
+        0,
+        a[0],
+        a[1],
+        a[2],
+        color=f"C{j}",
+        linewidth=2,
+        label=f"$\\vec{{a}}^{{({j + 1})}}$",
+    )
+
+ax.set_xlim([-2, 2])
+ax.set_ylim([-2, 2])
+ax.set_zlim([-2, 2])
+
+plt.legend()
+
+
+```
+
+::: {.notes}
+
+First, we set $\vec{q}^{(1)} = \vec{a}^{(1)} / \| \vec{a}^{(1)} \|$:
+\begin{align*}
+\| \vec{a}^{(1)} \| = \sqrt{1^2 + 0^2 + 1^2} = \sqrt{2},
+\end{align*}
+so
+\begin{equation*}
+\vec{q}^{(1)} = \begin{pmatrix} \frac{1}{\sqrt{2}} \\ 0 \\
+\frac{1}{\sqrt{2}} \end{pmatrix}.
+\end{equation*}
+
+Second, we want to find $\vec{q}^{(2)}$ which must satisfy that
+$\vec{q}^{(2)} \cdot \vec{q}^{(1)} = 0$. We can do this by subtracting from
+$\vec{a}^{(2)}$ the portion of $\vec{a}^{(2)}$ which points in the direction
+$\vec{q}^{(1)}$. We call this $\vec{u}^{(2)}$:
+\begin{align*}
+\vec{u}^{(2)}
+& = \vec{a}^{(2)} - \left(\vec{a}^{(2)} \cdot \vec{q}^{(1)} \right)
+\vec{q}^{(1)} \\
+& = \begin{pmatrix} 2 \\ -1 \\ 0 \end{pmatrix} -
+\left(\begin{pmatrix} 2 \\ -1 \\ 0 \end{pmatrix} \cdot
+\begin{pmatrix} \frac{1}{\sqrt{2}} \\ 0 \\
+\frac{1}{\sqrt{2}} \end{pmatrix} \right)
+\begin{pmatrix} \frac{1}{\sqrt{2}} \\ 0 \\
+\frac{1}{\sqrt{2}} \end{pmatrix} \\
+& = \begin{pmatrix} 2 \\ -1 \\ 0 \end{pmatrix} -
+\frac{2}{\sqrt{2}}
+\begin{pmatrix} \frac{1}{\sqrt{2}} \\ 0 \\
+\frac{1}{\sqrt{2}} \end{pmatrix} \\
+& = \begin{pmatrix} 2 - \frac{2}{\sqrt{2}} \frac{1}{\sqrt{2}} \\
+-1 - \frac{2}{\sqrt{2}} 0 \\
+0 - \frac{2}{\sqrt{2}} \frac{1}{\sqrt{2}} \end{pmatrix}
+= \begin{pmatrix}
+1 \\ -1 \\ -1
+\end{pmatrix}.
+\end{align*}
+We then normalise $\vec{u}^{(2)}$ to get a unit-length vector $q^{(2)}$:
+\begin{align*}
+\vec{q}^{(2)} & = \vec{u}^{(2)} / \| \vec{u}^{(2)} \|
+= \begin{pmatrix} \frac{1}{\sqrt{3}} \\ \frac{-1}{\sqrt{3}} \\
+\frac{-1}{\sqrt{3}}
+\end{pmatrix}.
+\end{align*}
+
+Third, we will find $q^{(3)}$ which we need to check satisfies $\vec{q}^{(3)}
+\cdot \vec{q}^{(2)} = 0$ and $\vec{q}^{(3)} \cdot \vec{q}^{(1)} = 0$. We can do
+this by subtracting from $\vec{a}^{(3)}$ the portion of $\vec{a}^{(3)}$
+which points in the direction $\vec{q}^{(1)}$ and the portion of $\vec{a}^{(3)}$
+which points in the direction $\vec{q}^{(2)}$. We call this term $\vec{u}^{(3)}$
+\begin{align*}
+\vec{u}^{(3)}
+& = \vec{a}^{(3)} - \left(\vec{a}^{(3)} \cdot \vec{q}^{(1)} \right)
+\vec{q}^{(1)} - \left( \vec{a}^{(3)} \cdot \vec{q}^{(2)} \right) \vec{q}^{(2)}
+\\
+& = \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix} - \left(
+\begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix} \cdot
+\begin{pmatrix} \frac{1}{\sqrt{2}} \\ 0 \\ \frac{1}{\sqrt{2}}
+\end{pmatrix} \right)
+\begin{pmatrix} \frac{1}{\sqrt{2}} \\ 0 \\ \frac{1}{\sqrt{2}}
+\end{pmatrix} - \left(
+\begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix} \cdot
+\begin{pmatrix} \frac{1}{\sqrt{3}} \\ \frac{-1}{\sqrt{3}} \\ \frac{-1}{\sqrt{3}}
+\end{pmatrix} \right)
+\begin{pmatrix} \frac{1}{\sqrt{3}} \\ \frac{-1}{\sqrt{3}} \\ \frac{-1}{\sqrt{3}}
+\end{pmatrix} \\
+& = \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix} - \left(
+\frac{2}{\sqrt{2}} \right)
+\begin{pmatrix} \frac{1}{\sqrt{2}} \\ 0 \\ \frac{1}{\sqrt{2}}
+\end{pmatrix} - \left(
+\frac{-2}{\sqrt{3}}
+\right)
+\begin{pmatrix} \frac{1}{\sqrt{3}} \\ \frac{-1}{\sqrt{3}} \\ \frac{-1}{\sqrt{3}}
+\end{pmatrix} \\
+& = \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix} -
+\begin{pmatrix} 1 \\ 0 \\ 1 \end{pmatrix} -
+\begin{pmatrix} -2/3 \\ 2/3 \\ 2/3 \end{pmatrix}
+= \begin{pmatrix}
+2/3 \\ 4/3 \\ -2/3.
+\end{pmatrix}.
+\end{align*}
+Again, we normalise $\vec{u}^{(3)}$ to get $\vec{q}^{(3)}$:
+\begin{align*}
+\| \vec{u}^{(3)} \| & = \sqrt{(2/3)^2 + (4/3)^2 + (-2/3)^2}
+= \sqrt{4/9 + 16/9 + 4/9} = \sqrt{24/9} \\
+& = \frac{2}{3} \sqrt{6},
+\end{align*}
+so
+\begin{align*}
+\vec{q}^{(3)} & = \begin{pmatrix} \frac{1}{\sqrt{6}} \\
+\frac{2}{\sqrt{6}} \\ \frac{-1}{\sqrt{6}} \end{pmatrix}.
+\end{align*}
+:::
+
+### Exercise
+
+Verify the orthonormality conditions for $\vec{q}^{(1)}, \vec{q}^{(2)}$ and
+$\vec{q}^{(3)}$.
+
+```{python}
+# | echo: false
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection="3d")
+A = [
+    np.array([1.0, 0.0, 1.0]),
+    np.array([2.0, -1.0, 0.0]),
+    np.array([1.0, 2.0, 1.0]),
+]
+U = [A[0]]
+Q = [U[0] / np.linalg.norm(U[0])]
+
+U.append(A[1] - np.dot(A[1], Q[0]) * Q[0])
+Q.append(U[1] / np.linalg.norm(U[1]))
+
+U.append(A[2] - np.dot(A[2], Q[0]) * Q[0] - np.dot(A[2], Q[1]) * Q[1])
+Q.append(U[2] / np.linalg.norm(U[2]))
+
+for j, a in enumerate(A):
+    ax.quiver(
+        0,
+        0,
+        0,
+        a[0],
+        a[1],
+        a[2],
+        color=f"C{j}",
+        linewidth=1,
+        label=f"$\\vec{{a}}^{{({j + 1})}}$",
+        alpha=0.75,
+        linestyle="--",
+    )
+
+for j, q in enumerate(Q):
+    ax.quiver(
+        0,
+        0,
+        0,
+        q[0],
+        q[1],
+        q[2],
+        color=f"C{j}",
+        linewidth=2,
+        label=f"$\\vec{{q}}^{{({j + 1})}}$",
+    )
+
+ax.set_xlim([-2, 2])
+ax.set_ylim([-2, 2])
+ax.set_zlim([-2, 2])
+
+plt.legend()
+
+
+```
+
+### How does this help?
+
+We can consider the matrix $Q$
+whose columns are the vectors $\vec{q}^{(j)}$ and the matrix $A$ whose columns
+are the vectors $\vec{a}^{(j)}$:
+\begin{equation*}
+ Q = \begin{pmatrix}
+ && \\
+ \vec{q}^{(1)} & \vec{q}^{(2)} & \vec{q}^{(3)} \\
+ &&
+ \end{pmatrix}
+ \quad \text{and} \quad
+  A = \begin{pmatrix}
+ && \\
+ \vec{a}^{(1)} & \vec{a}^{(2)} & \vec{a}^{(3)} \\
+ &&
+ \end{pmatrix}
+\end{equation*}
+Then we can compute that
+\begin{align*}
+(Q^T A)_{ij} = \vec{q}^{(j)} \cdot \vec{a}^{(j)}.
+\end{align*}
+
+::: {.notes}
+So
+\begin{align*}
+(Q^T A)
+& = \begin{pmatrix}
+(1, 0, 1)^T \cdot (\tfrac{1}{\sqrt{2}}, 0, \tfrac{1}{\sqrt{2}})^T
+& (2, -1, 0)^T \cdot (\tfrac{1}{\sqrt{2}}, 0, \tfrac{1}{\sqrt{2}})^T
+& (1, 2, 1)^T \cdot (\tfrac{1}{\sqrt{2}}, 0, \tfrac{1}{\sqrt{2}})^T
+\\
+(1, 0, 1)^T \cdot (\tfrac{1}{\sqrt{3}}, \tfrac{-1}{\sqrt{3}},
+\tfrac{-1}{\sqrt{3}})^T
+& (2, -1, 0)^T \cdot (\tfrac{1}{\sqrt{3}}, \tfrac{-1}{\sqrt{3}},
+\tfrac{-1}{\sqrt{3}})^T
+& (1, 2, 1)^T \cdot (\tfrac{1}{\sqrt{3}}, \tfrac{-1}{\sqrt{3}},
+\tfrac{-1}{\sqrt{3}})^T
+\\
+(1, 0, 1)^T \cdot (\tfrac{1}{\sqrt{6}}, \tfrac{2}{\sqrt{6}},
+\tfrac{-1}{\sqrt{6}})^T
+& (2, -1, 0)^T \cdot (\tfrac{1}{\sqrt{6}}, \tfrac{2}{\sqrt{6}},
+\tfrac{-1}{\sqrt{6}})^T
+& (1, 2, 1)^T \cdot (\tfrac{1}{\sqrt{6}}, \tfrac{2}{\sqrt{6}},
+\tfrac{-1}{\sqrt{6}})^T
+\end{pmatrix} \\
+& = \begin{pmatrix}
+\tfrac{2}{\sqrt{2}} & \tfrac{2}{\sqrt{2}} & \tfrac{2}{\sqrt{2}} \\
+0 & \tfrac{3}{\sqrt{3}} & \tfrac{-2}{\sqrt{3}} \\
+0 & 0 & \tfrac{4}{\sqrt{6}}
+\end{pmatrix}.
+\end{align*}
+Hence we have found an upper triangular matrix $R = Q^T A$. Since $Q$ is
+orthonormal, we know $Q^{-1} = Q^T$ and we have a factorisation:
+\begin{equation*}
+A = Q R.
+\end{equation*}
+:::
+
+### Exercise
+
+Continue the QR-factorisation process by computing $B = R Q$ and apply the
+Gram-Schmidt process to the columns of $B$.
+
+### Remark
+
+The Gram-Schmidt algorithm relies on the fact that after each projection there
+should be something left - i.e. $\vec{u}^{(j)}$ should be non-zero.
+
+If $\vec{a}^{(j)}$ is in the span of $\{ \vec{q}^{(1)}, \ldots, \vec{q}^{(j-1)}
+\}$, then the projection onto $\vec{u}^{(j)}$ will give $\vec{0}$.
+
+There are a few ways to test this, but the key idea is that if $A$ is
+non-singular then we will always have $\vec{u}^{(j)} \neq \vec{0}$ -- at least
+in exact-precision calculations...
+
+### Python QR factorisation using Gram-Schmidt
+
+```{pyodide}
+def gram_schmidt_qr(A):
+    """
+    Compute the QR factorisation of a square matrix using the classical
+    Gram-Schmidt process.
+    """
+    n, m = A.shape
+    ...
+```
+
+::: {.notes}
+```{python}
+def gram_schmidt_qr(A):
+    """
+    Compute the QR factorisation of a square matrix using the classical
+    Gram-Schmidt process.
+
+    Parameters
+    ----------
+    A : numpy.ndarray
+        A square 2D NumPy array of shape ``(n, n)`` representing the input
+        matrix.
+
+    Returns
+    -------
+    Q : numpy.ndarray
+        Orthonormal matrix of shape ``(n, n)`` where the columns form an
+        orthonormal basis for the column space of A.
+    R : numpy.ndarray
+        Upper triangular matrix of shape ``(n, n)``.
+    """
+    n, m = A.shape
+    if n != m:
+        raise ValueError(f"the matrix A is not square, {A.shape=}")
+
+    Q = np.empty_like(A)
+    R = np.zeros_like(A)
+
+    for j in range(n):
+        # Start with the j-th column of A
+        u = A[:, j].copy()
+
+        # Orthogonalize against previous q vectors
+        for i in range(j):
+            R[i, j] = np.dot(Q[:, i], A[:, j])  # projection coefficient
+            u -= R[i, j] * Q[:, i]  # subtract the projection
+
+        # Normalize u to get q_j
+        R[j, j] = np.linalg.norm(u)
+        Q[:, j] = u / R[j, j]
+
+    return Q, R
+
+
+```
+:::
+
+### Let's try it out!
+
+Let's test it without our example above:
+```{pyodide}
+# matrix with columns equal to a1, a2 and a3
+A = np.array([[1.0, 2.0, 1.0], [0.0, -1.0, 2.0], [1.0, 0.0, 1.0]])
+
+print_array(A)
+
+Q, R = gram_schmidt_qr(A)
+
+print("QR factorisation:")
+print_array(Q)
+print_array(R)
+
+print("Have we computed a factorisation? (A == Q @ R?)", np.allclose(A, Q @ R))
+print(
+    "Is Q orthonormal? (Q.T @ Q == np.eye(3))", np.allclose(np.eye(3), Q.T @ Q)
+)
+
+
+```
+
+## Finding eigenvalues and eigenvectors
+
+The algorithm given above says that we use the QR factorisation to iteratively
+find a sequence of matrices $A^{(j)}$ which *should* converge to an
+upper-triangular matrix.
+
+```{pyodide}
+def gram_schmidt_eigen(A, maxiter=100, verbose=False):
+    """
+    Compute the eigenvalues and eigenvectors of a square matrix using the QR
+    algorithm with classical Gram-Schmidt QR factorisation.
+    """
+    ...
+
+```
+
+::: {.notes}
+```{python}
+def gram_schmidt_eigen(A, maxiter=100, verbose=False):
+    """
+    Compute the eigenvalues and eigenvectors of a square matrix using the QR
+    algorithm with classical Gram-Schmidt QR factorisation.
+
+    This function implements the basic QR algorithm:
+
+    1. Factorise the matrix `A` into `Q` and `R` using Gram-Schmidt QR
+       factorisation.
+    2. Update the matrix as:
+
+       .. math::
+           A_{k+1} = R_k Q_k
+
+    3. Accumulate the orthonormal transformations in `V` to compute the
+       eigenvectors.
+    4. Iterate until `A` becomes approximately upper triangular or until the
+       maximum number of iterations is reached.
+
+    Once the iteration converges, the diagonal of `A` contains the eigenvalues,
+    and the columns of `V` contain the corresponding eigenvectors.
+
+    Parameters
+    ----------
+    A : numpy.ndarray
+        A square 2D NumPy array of shape ``(n, n)`` representing the input
+        matrix. This matrix will be **modified in place** during the
+        computation.
+    maxiter : int, optional
+        Maximum number of QR iterations to perform. Default is 100.
+    verbose : bool, optional
+        If ``True``, prints intermediate matrices (`A`, `Q`, `R`, and `V`) at
+        each iteration. Useful for debugging and understanding convergence.
+        Default is ``False``.
+
+    Returns
+    -------
+    eigenvalues : numpy.ndarray
+        A 1D NumPy array of length ``n`` containing the eigenvalues of `A`.
+        These are the diagonal elements of the final upper triangular matrix.
+    V : numpy.ndarray
+        A 2D NumPy array of shape ``(n, n)`` whose columns are the normalized
+        eigenvectors corresponding to the eigenvalues.
+    it : int
+        The number of iterations taken by the algorithm.
+    """
+    # identity matrix to store eigenvectors
+    V = np.eye(A.shape[0])
+
+    if verbose:
+        print_array(A)
+
+    it = -1
+    for it in range(maxiter):
+        if verbose:
+            print(f"\n\n{it=}")
+
+        # perform factorisation
+        Q, R = gram_schmidt_qr(A)
+        if verbose:
+            print_array(Q)
+            print_array(R)
+
+        # update A and V in place
+        A = R @ Q
+        V = V @ Q
+
+        if verbose:
+            print_array(A)
+            print_array(V)
+
+        # test for convergence: is A upper triangular up to tolerance 1.0e-8?
+        if np.allclose(A, np.triu(A), atol=1.0e-8):
+            break
+
+    eigenvalues = np.diag(A)
+    return eigenvalues, V, it
+
+
+```
+:::
+
+### Let's try it out
+
+We test this out in code first for the matrix from a previous example:
+
+```{pyodide}
+A = np.array([[3.0, 1.0], [1.0, 3.0]])
+print_array(A)
+
+eigenvalues, eigenvectors, it = gram_schmidt_eigen(A)
+print_array(eigenvalues)
+print_array(eigenvectors)
+print("iterations required:", it)
+
+
+```
+
+::: {.notes}
+These values agree with those from @exm-char. Note that this code normalises
+the eigenvectors to have length one, so we have slightly different values
+for the eigenvectors but still in the same directions.
+:::
+
+## Correctness and convergence
+
+Let's see what happens when we try this same approach for a bigger symmetric
+matrices. Here we have a test that samples ten different random matrices and
+computes the average number of iterations, average run time and maximum error
+in the eigenvalue equation.
+
+### Results
+
+```{python}
+
+# replicable random seed
+np.random.seed(42)
+
+
+def test_accuracy_of_eigensolve(A, eigenvalues, eigenvectors):
+    """
+    test accuracy of solution of eigenvalue problem
+    """
+    residuals = []
+    for i in range(len(eigenvalues)):
+        residual = np.linalg.norm(
+            A @ eigenvectors[:, i] - eigenvalues[i] * eigenvectors[:, i]
+        )
+        residuals.append(residual)
+    return max(residuals)
+
+
+# replicable seed
+repeats = 10
+
+# restart the seed
+np.random.seed(42)
+
+
+def random_symmetric_matrix(n):
+    # generate a random matrix
+    S = special_ortho_group.rvs(n)
+    D = np.diag(np.random.randint(1, 10, (n,)) / 2)
+    A = S.T @ D @ S
+    return A
+
+
+n_values = [2**j for j in range(1, 9)]
+it_values = []
+runtime_values = []
+
+for n in n_values:
+    runtime = 0.0
+    total_its = 0
+    max_error = 0.0
+
+    for _ in range(repeats):
+        # generate new random matrix
+        A = random_symmetric_matrix(n)
+
+        # do and time the solve, ensure converged
+        maxiter = 1000_000
+        start = time.perf_counter()
+        eigenvalues, eigenvectors, it = gram_schmidt_eigen(A, maxiter=maxiter)
+        end = time.perf_counter()
+
+        if it == maxiter - 1:
+            # skip
+            continue
+
+        # store the data
+        runtime += end - start
+        total_its += it
+        max_error = max(
+            max_error,
+            test_accuracy_of_eigensolve(A, eigenvalues, eigenvectors),
+        )
+
+    runtime /= repeats
+    average_it = total_its / repeats
+
+    it_values.append(average_it)
+    runtime_values.append(runtime)
+```
+
+```{python}
+# | echo: false
+
+_, axs = plt.subplots(1, 2)
+
+axs[0].loglog(n_values, it_values, ".-")
+axs[1].loglog(n_values, runtime_values, ".-")
+
+axs[0].set_xlabel("$n$")
+axs[1].set_xlabel("$n$")
+
+axs[0].set_ylabel("average iterations")
+axs[1].set_ylabel("average runtime")
+
+axs[0].grid(True)
+axs[1].grid(True)
+
+plt.tight_layout()
+plt.show()
+```
+
+We see that the method converges very well with a good low accuracy.
