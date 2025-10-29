@@ -619,24 +619,22 @@ equations, especially the differences against the Jacobi method.
 
 Take one iteration of (a) Jacobi iteration; (b) Gauss-Seidel iteration to
 approximate the solution of the following system using the initial guess
-$\vec{x}^{(0)} = (1, 2, 3)^T$:
+$\vec{x}^{(0)} = (0, 1, 1)^T$:
 
 $$
 \begin{pmatrix}
-2 & 1 & 0 \\
-1 & 3 & 1 \\
-0 & 1 & 2
+1 & -2 & 4 \\
+-1 & -2 & -1 \\
+-1 & -5 & 1
 \end{pmatrix}
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
 \end{pmatrix}
  =
 \begin{pmatrix}
-6 \\ 10 \\ 6
+-3 \\ 4 \\ 5
 \end{pmatrix}.
 $$
-
-Note that the exact solution to this system is $x_1 = 2, x_2 = 2, x_3 = 2$.
 
 ### Remarks
 
