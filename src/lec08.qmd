@@ -10,6 +10,7 @@ import time
 
 import numpy as np
 from matplotlib import pyplot as plt
+from scipy.optimize import curve_fit
 from scipy.stats import special_ortho_group
 
 plt.style.use("seaborn-v0_8-colorblind")
@@ -819,10 +820,26 @@ for n in n_values:
 ```{python}
 # | echo: false
 
+
+def power_law(n, a, m):
+    return a * (n**m)
+
+
+popt, pcov = curve_fit(power_law, n_values, runtime_values)
+a_fit, m_fit = popt
+n_fit = np.linspace(min(n_values), max(n_values))
+runtime_fit = power_law(n_fit, a_fit, m_fit)
+
 _, axs = plt.subplots(1, 2)
 
-axs[0].loglog(n_values, it_values, ".-")
-axs[1].loglog(n_values, runtime_values, ".-")
+axs[0].loglog(n_values, it_values, "C0o")
+axs[1].loglog(n_values, runtime_values, "C0o")
+axs[1].loglog(
+    n_fit,
+    runtime_fit,
+    "C0--",
+    label=f"fit: $({a_fit:.2e}) \\times n^{{{m_fit:.2f}}}$",
+)
 
 axs[0].set_xlabel("$n$")
 axs[1].set_xlabel("$n$")
@@ -833,6 +850,7 @@ axs[1].set_ylabel("average runtime")
 axs[0].grid(True)
 axs[1].grid(True)
 
+plt.legend()
 plt.tight_layout()
 plt.show()
 ```
