@@ -683,6 +683,8 @@ for key, z in zz.items():
     if re_txt != "0":
         txt += re_txt
     if im_txt != "0":
+        if txt != "":
+            txt += "+"
         txt += f"{im_txt}i"
     plt.text(np.real(z) + 0.1, np.imag(z) + 0.05, f"${txt}$", color=color)
 
@@ -1017,7 +1019,7 @@ degree $n$ polynomial has $n$ roots over the complex numbers. The $n$ roots of
 the characteristic equation are the $n$ eigenvalues.
 :::
 
-:: {.notes}
+::: {.notes}
 The Abel-Ruffini theorem states that there is no solution in the radicals for a
 general polynomial of degree 5 or higher with arbitrary coefficients. This
 implies that there is no 'nice' closed form for roots of polynomials of degree 5
