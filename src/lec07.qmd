@@ -29,10 +29,10 @@ We are interested in when is the output vector $A \vec{x}$ is *parallel* to
 $\vec{x}$.
 
 ::: {#def-evalues}
-We say that any vector $\vec{x}$ where $A \vec{x}$ is parallel is $\vec{x}$ is
-called an *eigenvector* of $A$. Here by parallel, we mean that there exists a
-number $\lambda$ (which can be positive, negative or zero, real or complex) such
-that
+We say that any vector $\vec{x} \neq \vec{0}$ where $A \vec{x}$ is parallel is
+$\vec{x}$ is called an *eigenvector* of $A$. Here by parallel, we mean that
+there exists a number $\lambda$ (which can be positive, negative or zero, real
+or complex) such that
 \begin{equation}
 \label{eq:evalues}
 A \vec{x} = \lambda \vec{x}.
