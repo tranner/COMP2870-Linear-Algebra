@@ -222,7 +222,44 @@ Dr.&nbsp;Thomas Ranner (Tom)
 </div>
 
 </section>
+<section id="portfolio-updates" class="title-slide slide level1 center">
+<h1>Portfolio updates</h1>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Worksheet</th>
+<th>Submissions</th>
+<th>Passes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Week 1</td>
+<td>220 (71% of students)</td>
+<td>162 (74% of submissions)</td>
+</tr>
+<tr class="even">
+<td>Week 2</td>
+<td>180 (58%)</td>
+<td>82 (46%)</td>
+</tr>
+<tr class="odd">
+<td>Week 3</td>
+<td>148 (48%)</td>
+<td>90 (61%)</td>
+</tr>
+</tbody>
+</table>
+</section>
+
 <section>
+<section id="eigenvalues-and-complex-numbers" class="title-slide slide level1 center">
+<h1>Eigenvalues and complex numbers</h1>
+<blockquote>
+<p>Today: Definition of eigenvalues and eigenvectors and complex numbers</p>
+</blockquote>
+<p>Online notes: 7.1, 7.2, 6.1, 6.2, 6.3, 6.5</p>
+</section>
 <section id="what-is-an-eigenvector" class="title-slide slide level2 center">
 <h2>What is an eigenvector?</h2>
 <p>Let <span class="math inline">\(A\)</span> be an <span class="math inline">\(n \times n\)</span> matrix. We are interested in when is the output vector <span class="math inline">\(A \vec{x}\)</span> is <em>parallel</em> to <span class="math inline">\(\vec{x}\)</span>?</p>
@@ -262,7 +299,7 @@ a &amp; 0 \\ 0 &amp; b
 </div>
 <div id="exm-projection" class="theorem example">
 <p><span class="theorem-title"><strong>Example 2</strong></span> Let <span class="math inline">\(P\)</span> be the 3x3 matrix that represents projection onto a plane <span class="math inline">\(\pi\)</span>. What are the eigenvalues and eigenvectors of <span class="math inline">\(p\)</span>?</p>
-<div id="243db9e0" class="cell" data-execution_count="2">
+<div id="5cbc4202" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -327,8 +364,8 @@ A \vec{x} = \lambda \vec{x}.
 <p>Eigenvalues can be used to understand the geometry behind linear transformations (the action of matrix-vector multiplication).</p>
 <p>They can also be used to find a <em>useful</em> basis (of eigenvectors) when working with large datasets.</p>
 <p>The idea of using eigenvectors to form a basis is a key step in the PageRank algorithm which Google used to revolutionise search algorithms.</p>
-</section></section>
-<section>
+</section>
+
 <section id="characteristic-equation" class="title-slide slide level2 center">
 <h2>Characteristic equation</h2>
 <p>The eigenvalues of a matrix <span class="math inline">\(A\)</span> satisfy the <strong>characteristic equation</strong> given by <span class="math display">\[\begin{equation}
@@ -479,7 +516,8 @@ Q = \begin{pmatrix}
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-</section></section>
+</section>
+</section>
 <section>
 <section id="sec-complex-numbers" class="title-slide slide level1 center">
 <h1>Complex numbers</h1>
@@ -490,7 +528,7 @@ Q = \begin{pmatrix}
 <p>Consider the polynomial equation <span class="math display">\[\begin{equation}
 \lambda^2 + 1 = 0.
 \end{equation}\]</span></p>
-<div id="12b9ebbb" class="cell" data-execution_count="3">
+<div id="8fd4c60e" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -617,7 +655,7 @@ i^2 = (\sqrt{-1})^2 = \sqrt{-1} \sqrt{-1} \neq \sqrt{(-1) \times (-1)} = \sqrt{1
 <p>The complex plane is the two-dimensional space formed by considering the real and imaginary parts of a complex number as two different coordinate axes.</p>
 <div id="exm-plane" class="theorem example">
 <p><span class="theorem-title"><strong>Example 5</strong></span> &nbsp;</p>
-<div id="8479b065" class="cell" data-caption="Examples of complex numbers as points in the complex plane." data-execution_count="4">
+<div id="1f2ba139" class="cell" data-caption="Examples of complex numbers as points in the complex plane." data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -680,7 +718,7 @@ a - bi\)</span>. The complex conjugate is that number we used before when workin
 </section>
 <section id="example-modulus" class="slide level3">
 <h3>Example modulus</h3>
-<div id="4af9bf96" class="cell" data-caption="Examples of moduli of complex numbers as points in the complex plane." data-execution_count="5">
+<div id="ec653516" class="cell" data-caption="Examples of moduli of complex numbers as points in the complex plane." data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -751,7 +789,7 @@ z y
       }</style></aside>
 <p>When talking about a complex number <span class="math inline">\(z\)</span> represented in the complex plane, we know that the modulus <span class="math inline">\(|z|\)</span> represents the radius. We can form an angle <span class="math inline">\(\theta\)</span> to represent the angle of a complex number that we know call the <strong>argument</strong>.</p>
 <p>It can be found by computing arctan2 (a quadrant aware version of arctan) of the real and imaginary parts of <span class="math inline">\(z\)</span>.</p>
-<div id="06e90e22" class="cell" data-execution_count="6">
+<div id="f6b8a8f6" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="bu">print</span>(<span class="st">"angle of 1 + 0i:"</span>, np.arctan2(<span class="dv">1</span>, <span class="dv">0</span>))</span>
 <span id="cb1-2"><a href=""></a><span class="bu">print</span>(<span class="st">"angle of 0 + 1i:"</span>, np.arctan2(<span class="dv">0</span>, <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -762,7 +800,7 @@ angle of 0 + 1i: 0.0</code></pre>
 </section>
 <section id="picture" class="slide level3">
 <h3>Picture</h3>
-<div id="bff33dee" class="cell" data-caption="Examples of arguments of complex numbers as points in the complex plane." data-execution_count="7">
+<div id="cd2a9722" class="cell" data-caption="Examples of arguments of complex numbers as points in the complex plane." data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -875,7 +913,7 @@ x^2 + 1 = 0.
 </section>
 <section id="plot-of-z2-1" class="slide level3">
 <h3>Plot of <span class="math inline">\(z^2 + 1\)</span></h3>
-<div id="9abe11fe" class="cell" data-execution_count="8">
+<div id="e12f4074" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
