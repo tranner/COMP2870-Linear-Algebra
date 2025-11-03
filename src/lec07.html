@@ -449,7 +449,7 @@ window.Quarto = {
 \vec{x} \mapsto A \vec{x}.
 \end{equation*}\]</span> We are interested in when is the output vector <span class="math inline">\(A \vec{x}\)</span> is <em>parallel</em> to <span class="math inline">\(\vec{x}\)</span>.</p>
 <div id="def-evalues" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 7.1</strong></span> We say that any vector <span class="math inline">\(\vec{x}\)</span> where <span class="math inline">\(A \vec{x}\)</span> is parallel is <span class="math inline">\(\vec{x}\)</span> is called an <em>eigenvector</em> of <span class="math inline">\(A\)</span>. Here by parallel, we mean that there exists a number <span class="math inline">\(\lambda\)</span> (which can be positive, negative or zero, real or complex) such that <span class="math display">\[\begin{equation}
+<p><span class="theorem-title"><strong>Definition 7.1</strong></span> We say that any vector <span class="math inline">\(\vec{x} \neq \vec{0}\)</span> where <span class="math inline">\(A \vec{x}\)</span> is parallel is <span class="math inline">\(\vec{x}\)</span> is called an <em>eigenvector</em> of <span class="math inline">\(A\)</span>. Here by parallel, we mean that there exists a number <span class="math inline">\(\lambda\)</span> (which can be positive, negative or zero, real or complex) such that <span class="math display">\[\begin{equation}
 \label{eq:evalues}
 A \vec{x} = \lambda \vec{x}.
 \end{equation}\]</span> We call the associated number <span class="math inline">\(\lambda\)</span> an <em>eigenvalue</em> of <span class="math inline">\(A\)</span>.</p>
@@ -459,7 +459,7 @@ A \vec{x} = \lambda \vec{x}.
 <div id="exm-projection" class="theorem example">
 <p><span class="theorem-title"><strong>Example 7.1</strong></span> Let <span class="math inline">\(P\)</span> be the 3x3 matrix that represents projection onto a plane <span class="math inline">\(\Pi =
 \{\vec{x} \in \mathbb{R}^3 : \vec{a} \cdot \vec{x} = 0\}\)</span> (i.e.&nbsp;<span class="math inline">\(P\)</span> maps any point in <span class="math inline">\(\mathbb{R}^3\)</span> to its nearest point in <span class="math inline">\(\Pi\)</span>). What are the eigenvalues and eigenvectors of <span class="math inline">\(P\)</span>?</p>
-<div id="02d47532" class="cell" data-caption="Representation of planar projection operator $P$." data-execution_count="2">
+<div id="0dd7ea55" class="cell" data-caption="Representation of planar projection operator $P$." data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
