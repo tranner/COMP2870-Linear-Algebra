@@ -20,6 +20,20 @@ format:
     slide-number: true
     preview-links: auto
 ---
+# Portfolio updates
+
+| Worksheet | Submissions           | Passes                   |
+|-----------|-----------------------|--------------------------|
+| Week 1    | 220 (71% of students) | 162 (74% of submissions) |
+| Week 2    | 180 (58%)             | 82 (46%)                 |
+| Week 3    | 148 (48%)             | 90 (61%)                 |
+
+# Eigenvalues and complex numbers
+
+> Today: Definition of eigenvalues and eigenvectors and complex numbers
+
+Online notes: 7.1, 7.2, 6.1, 6.2, 6.3, 6.5
+
 ## What is an eigenvector?
 
 ```{python}
