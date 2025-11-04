@@ -156,6 +156,14 @@ Dr.&nbsp;Thomas Ranner (Tom)
 </div>
 
 </section>
+<section id="complex-matrices-and-vectors" class="title-slide slide level2 center">
+<h2>Complex matrices and vectors</h2>
+<blockquote>
+<p>Today, building theory for our algorithm for solving eigenvalue problems</p>
+</blockquote>
+<p>Online notes: 6.6, 7.3, 7.4</p>
+</section>
+
 <section>
 <section id="complex-vectors-and-matrices" class="title-slide slide level2 center">
 <h2>Complex vectors and matrices</h2>
@@ -222,7 +230,8 @@ Dr.&nbsp;Thomas Ranner (Tom)
 <section id="euclidean-norm-of-a-complex-vector" class="slide level3">
 <h3>Euclidean norm of a complex vector</h3>
 <p>For a complex vector, we define the Euclidean norm as <span class="math display">\[\begin{align*}
-\| \vec{z} \| = \sqrt{ \sum_{i=1}^n |z_i|^2 } = \sqrt{ \langle z, z \rangle }.
+\| \vec{z} \| = \sqrt{ \sum_{i=1}^n |z_i|^2 } = \sqrt{ \langle \vec{z}, \vec{z}
+\rangle }.
 \end{align*}\]</span></p>
 <aside class="notes">
 <p><span class="math display">\[\begin{align*}
@@ -397,10 +406,38 @@ B = \begin{pmatrix}
 \end{pmatrix}
 \end{equation*}\]</span> are similar.</p>
 <aside class="notes">
-<p>Let <span class="math inline">\(P = \begin{pmatrix} 1 &amp; 2 \\ 0 &amp; 2 \end{pmatrix}\)</span> then</p>
-<p><span class="math display">\[\begin{align*}
+<p>Since <span class="math inline">\(A\)</span> is diagonal, we can read off the eigenvalues are <span class="math inline">\(1\)</span> and <span class="math inline">\(2\)</span> and we can take <span class="math inline">\((1, 0)^T\)</span> and <span class="math inline">\((0, 1)^T\)</span> are eigevectors: <span class="math display">\[
+A \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}
+= \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix} \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 2 \end{pmatrix}.
+\]</span></p>
+<p>For <span class="math inline">\(B\)</span>, we can compute the characteristic equation: <span class="math display">\[
+0 = \det (B - \lambda I_2)
+\det \begin{pmatrix} 1 - \lambda &amp; - 2 \\ 0 &amp; 2 \end{pmatrix} = (1 - \lambda)(2 - \lambda).
+\]</span> So we can see the eigenvalues are <span class="math inline">\(1\)</span> and <span class="math inline">\(2\)</span>.</p>
+<p>For <span class="math inline">\(\lambda = 1\)</span>, we can find an eigenvalue by finding a vector <span class="math inline">\((x, y)^T\)</span> that satisfies <span class="math display">\[
+\begin{pmatrix} 0 \\ 0 \end{pmatrix}
+= (B - 1 I_2) \begin{pmatrix} x \\ y \end{pmatrix}
+= \begin{pmatrix} 0 &amp; -2 \\ 0 &amp; 1 \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix}
+= \begin{pmatrix} -2y \\ y \end{pmatrix}.
+\]</span> We see this implies <span class="math inline">\(y = 0\)</span> but any value of <span class="math inline">\(x\)</span> is allowed: so we take <span class="math inline">\(x = 1\)</span>.</p>
+<p>For <span class="math inline">\(\lambda = 2\)</span>, we can find an eigenvalue by finding a vector <span class="math inline">\((x, y)^T\)</span> that satisfies <span class="math display">\[
+\begin{pmatrix} 0 \\ 0 \end{pmatrix}
+= (B - 2 I_2) \begin{pmatrix} x \\ y \end{pmatrix}
+= \begin{pmatrix} -1 &amp; -2 \\ 0 &amp; 0 \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix}
+= \begin{pmatrix} -x - 2y \\ y \end{pmatrix}.
+\]</span> The first component gives <span class="math inline">\(x = -2y\)</span>. So we can take <span class="math inline">\((-2, 1)\)</span> as eigenvector.</p>
+<p>The matrix form of eigenvalue equation gives <span class="math display">\[
+B \begin{pmatrix} 1 &amp; -2 \\ 0 &amp; 1 \end{pmatrix}
+= \begin{pmatrix} 1 &amp; -2 \\ 0 &amp; 1 \end{pmatrix} \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 2 \end{pmatrix}.
+\]</span> We can identify part of the right hand side as <span class="math inline">\(A\)</span>: <span class="math display">\[
+B \begin{pmatrix} 1 &amp; -2 \\ 0 &amp; 1 \end{pmatrix}
+= \begin{pmatrix} 1 &amp; -2 \\ 0 &amp; 1 \end{pmatrix} A.
+\]</span> Let <span class="math inline">\(P = \begin{pmatrix} 1 &amp; -2 \\ 0 &amp; 1 \end{pmatrix}\)</span> - this is our candidate for the similarity definition. We need to check first that <span class="math inline">\(P\)</span> is invertible: <span class="math display">\[
+\det P = 1 \times 1 - (-2) \times 0 = 1.
+\]</span> The determinant is nonzero so <span class="math inline">\(P\)</span> is invertible.</p>
+<p>To finally check, we also compute <span class="math display">\[\begin{align*}
 P B = \begin{pmatrix}
-1 &amp; 2 \\ 0 &amp; 4
+1 &amp; -4 \\ 0 &amp; 2
 \end{pmatrix} = A P.
 \end{align*}\]</span></p>
 <style type="text/css">
@@ -462,7 +499,7 @@ B =  \begin{pmatrix} 3 &amp; 0 \\ 0 &amp; 3 \end{pmatrix}.
 \]</span></p>
 <aside class="notes">
 <p>We saw before the eigenvalues of <span class="math inline">\(A\)</span> are <span class="math inline">\(3\)</span> and <span class="math inline">\(3\)</span>. We can read off the eigenvalues of <span class="math inline">\(B\)</span> are also <span class="math inline">\(3\)</span> repeated.</p>
-<p>Assume for contradiction that <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are similar so <span class="math inline">\(P B = A P\)</span> for an invertible matrix <span class="math inline">\(P\)</span>. Let <span class="math inline">\(P = \begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix}\)</span>$. Then <span class="math display">\[\begin{align*}
+<p>Assume for contradiction that <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are similar so <span class="math inline">\(P B = A P\)</span> for an invertible matrix <span class="math inline">\(P\)</span>. Let <span class="math display">\[P = \begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix}\]</span>. Then <span class="math display">\[\begin{align*}
 P B &amp; = \begin{pmatrix} 3 a &amp; 3 b \\ 3 c &amp; 3d \end{pmatrix} \\
 A P &amp; = \begin{pmatrix} 3 a + c &amp; 3 b + d \\ 3c &amp; 3 d \end{pmatrix}.
 \end{align*}\]</span> Equating components we see that <span class="math display">\[\begin{align*}
@@ -489,7 +526,7 @@ P = \begin{pmatrix} a &amp; b \\ 0 &amp; 0 \end{pmatrix},
 A S = S \Lambda \quad\text{and}\quad B R = R \Lambda.
 \end{align*}\]</span> If <span class="math inline">\(R\)</span> is invertible, then <span class="math display">\[\begin{align*}
 A S R^{-1} = S R^{-1} B.
-\end{align*}\]</span> If <span class="math inline">\(S\)</span> is also invertible, then <span class="math inline">\(S R^{-1}\)</span> is also invertible and <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are similar.</p>
+\end{align*}\]</span> If <span class="math inline">\(S\)</span> is also invertible, then <span class="math inline">\(P = S R^{-1}\)</span> is also invertible and <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are similar.</p>
 </section></section>
 <section>
 <section id="symmetric-matrices" class="title-slide slide level2 center">
