@@ -512,10 +512,58 @@ B = \begin{pmatrix}
 \end{equation*}
 are similar.
 
-Indeed, let $P = \begin{pmatrix} 1 & 2 \\ 0 & 2 \end{pmatrix}$ then
+Since $A$ is diagonal, we can read off the eigenvalues are $1$ and $2$ and we can take $(1, 0)^T$ and $(0, 1)^T$ are eigevectors:
+$$
+A \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}
+= \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} \begin{pmatrix} 1 & 0 \\ 0 & 2 \end{pmatrix}.
+$$
+
+For $B$, we can compute the characteristic equation:
+$$
+0 = \det (B - \lambda I_2)
+\det \begin{pmatrix} 1 - \lambda & - 2 \\ 0 & 2 \end{pmatrix} = (1 - \lambda)(2 - \lambda).
+$$
+So we can see the eigenvalues are $1$ and $2$.
+
+For $\lambda = 1$, we can find an eigenvalue by finding a vector $(x, y)^T$ that satisfies
+$$
+\begin{pmatrix} 0 \\ 0 \end{pmatrix}
+= (B - 1 I_2) \begin{pmatrix} x \\ y \end{pmatrix}
+= \begin{pmatrix} 0 & -2 \\ 0 & 1 \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix}
+= \begin{pmatrix} -2y \\ y \end{pmatrix}.
+$$
+We see this implies $y = 0$ but any value of $x$ is allowed: so we take $x = 1$.
+
+For $\lambda = 2$, we can find an eigenvalue by finding a vector $(x, y)^T$ that satisfies
+$$
+\begin{pmatrix} 0 \\ 0 \end{pmatrix}
+= (B - 2 I_2) \begin{pmatrix} x \\ y \end{pmatrix}
+= \begin{pmatrix} -1 & -2 \\ 0 & 0 \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix}
+= \begin{pmatrix} -x - 2y \\ y \end{pmatrix}.
+$$
+The first component gives $x = -2y$. So we can take $(-2, 1)$ as eigenvector.
+
+The matrix form of eigenvalue equation gives
+$$
+B \begin{pmatrix} 1 & -2 \\ 0 & 1 \end{pmatrix}
+= \begin{pmatrix} 1 & -2 \\ 0 & 1 \end{pmatrix} \begin{pmatrix} 1 & 0 \\ 0 & 2 \end{pmatrix}.
+$$
+We can identify part of the right hand side as $A$:
+$$
+B \begin{pmatrix} 1 & -2 \\ 0 & 1 \end{pmatrix}
+= \begin{pmatrix} 1 & -2 \\ 0 & 1 \end{pmatrix} A.
+$$
+Let $P = \begin{pmatrix} 1 & -2 \\ 0 & 1 \end{pmatrix}$ - this is our candidate for the similarity definition.
+We need to check first that $P$ is invertible:
+$$
+\det P = 1 \times 1 - (-2) \times 0 = 1.
+$$
+The determinant is nonzero so $P$ is invertible.
+
+To finally check, we also compute
 \begin{align*}
 P B = \begin{pmatrix}
-1 & 2 \\ 0 & 4
+1 & -4 \\ 0 & 2
 \end{pmatrix} = A P.
 \end{align*}
 :::
