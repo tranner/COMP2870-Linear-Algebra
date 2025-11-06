@@ -737,61 +737,46 @@ plt.legend()
 
 ### How does this help?
 
-We can consider the matrix $Q$
-whose columns are the vectors $\vec{q}^{(j)}$ and the matrix $A$ whose columns
-are the vectors $\vec{a}^{(j)}$:
-\begin{equation*}
- Q = \begin{pmatrix}
- && \\
- \vec{q}^{(1)} & \vec{q}^{(2)} & \vec{q}^{(3)} \\
- &&
- \end{pmatrix}
- \quad \text{and} \quad
-  A = \begin{pmatrix}
- && \\
- \vec{a}^{(1)} & \vec{a}^{(2)} & \vec{a}^{(3)} \\
- &&
- \end{pmatrix}
-\end{equation*}
-Then we can compute that
+
+We can even do better than simply post computing $R$ through multiplying $Q^T A$.
+Let's revisit the update formula for column $j$:
 \begin{align*}
-(Q^T A)_{ij} = \vec{q}^{(j)} \cdot \vec{a}^{(j)}.
+\vec{u}^{(j)} & = \vec{a}^{(j)} - \sum_{i=1}^{j-1} (\vec{a}^{(j)} \cdot
+\vec{q}^{(i)} ) \vec{q}^{(i)} \\
+\vec{q}^{(j)} & = \frac{\vec{u}^{(j)}}{\|\vec{u}^{(j)}\|}.
 \end{align*}
+Let's define a matrix $R$ by
+$$
+R_{ij} = \begin{cases}
+\vec{a}^{(j)} \cdot \vec{q}^{(i)} & \text{if}\quad i < j \\
+\| \vec{u}^{(j)} \| & \text{if}\quad i = j \\
+0 & \text{if}\quad i > j,
+\end{cases}
+$$
+then ...
 
 ::: {.notes}
-So
 \begin{align*}
-(Q^T A)
-& = \begin{pmatrix}
-(1, 0, 1)^T \cdot (\tfrac{1}{\sqrt{2}}, 0, \tfrac{1}{\sqrt{2}})^T
-& (2, -1, 0)^T \cdot (\tfrac{1}{\sqrt{2}}, 0, \tfrac{1}{\sqrt{2}})^T
-& (1, 2, 1)^T \cdot (\tfrac{1}{\sqrt{2}}, 0, \tfrac{1}{\sqrt{2}})^T
-\\
-(1, 0, 1)^T \cdot (\tfrac{1}{\sqrt{3}}, \tfrac{-1}{\sqrt{3}},
-\tfrac{-1}{\sqrt{3}})^T
-& (2, -1, 0)^T \cdot (\tfrac{1}{\sqrt{3}}, \tfrac{-1}{\sqrt{3}},
-\tfrac{-1}{\sqrt{3}})^T
-& (1, 2, 1)^T \cdot (\tfrac{1}{\sqrt{3}}, \tfrac{-1}{\sqrt{3}},
-\tfrac{-1}{\sqrt{3}})^T
-\\
-(1, 0, 1)^T \cdot (\tfrac{1}{\sqrt{6}}, \tfrac{2}{\sqrt{6}},
-\tfrac{-1}{\sqrt{6}})^T
-& (2, -1, 0)^T \cdot (\tfrac{1}{\sqrt{6}}, \tfrac{2}{\sqrt{6}},
-\tfrac{-1}{\sqrt{6}})^T
-& (1, 2, 1)^T \cdot (\tfrac{1}{\sqrt{6}}, \tfrac{2}{\sqrt{6}},
-\tfrac{-1}{\sqrt{6}})^T
-\end{pmatrix} \\
-& = \begin{pmatrix}
-\tfrac{2}{\sqrt{2}} & \tfrac{2}{\sqrt{2}} & \tfrac{2}{\sqrt{2}} \\
-0 & \tfrac{3}{\sqrt{3}} & \tfrac{-2}{\sqrt{3}} \\
-0 & 0 & \tfrac{4}{\sqrt{6}}
-\end{pmatrix}.
+\vec{u}^{(j)} & = \vec{a}^{(j)} - \sum_{i=1}^{j-1} R_{ij} \vec{q}^{(i)} \\
+\vec{q}^{(j)} & = \frac{\vec{u}^{(j)}}{R_{jj}}.
 \end{align*}
-Hence we have found an upper triangular matrix $R = Q^T A$. Since $Q$ is
-orthonormal, we know $Q^{-1} = Q^T$ and we have a factorisation:
-\begin{equation*}
+The equations can be rearranged to:
+\begin{align*}
+\vec{a}^{(j)} &= \vec{u}^{(j)} + \sum_{i=1}^{j-1} R_{ij} \vec{q}^{(i)} \\
+\vec{u}^{(j)} & = R_{jj} \vec{q}^{(j)}.
+\end{align*}
+Substituting the vaule of $\vec{u}^{(j)}$ into the first equation gives:
+\begin{align*}
+\vec{a}^{(j)} &= R_{jj} \vec{q}^{(j)} + \sum_{i=1}^{j-1} R_{ij} \vec{q}^{(i)} \\
+& = \sum_{i=1}^{j} R_{ij} \vec{q}^{(i)}  \\
+& = \sum_{i=1}^{n} R_{ij} \vec{q}^{(i)}.
+\end{align*}
+Here, in the final equation, we increased the sum up to $n$ using the fact that
+$R_{ij} = 0$ for $i > j$.
+This equation is the same as
+$$
 A = Q R.
-\end{equation*}
+$$
 :::
 
 ### Exercise
