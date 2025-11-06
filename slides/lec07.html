@@ -484,7 +484,7 @@ Figure&nbsp;1: Projection of <span class="math inline">\(\vec{a}\)</span> away f
 \vec{a}^{(2)} = \begin{pmatrix} 2 \\ -1 \\ 0 \end{pmatrix},
 \vec{a}^{(3)} = \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix}.
 \end{equation*}\]</span></p>
-<div id="dc748c3b" class="cell" data-execution_count="3">
+<div id="e92b3d4b" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -580,7 +580,7 @@ Figure&nbsp;1: Projection of <span class="math inline">\(\vec{a}\)</span> away f
 <section id="exercise" class="slide level3">
 <h3>Exercise</h3>
 <p>Verify the orthonormality conditions for <span class="math inline">\(\vec{q}^{(1)}, \vec{q}^{(2)}\)</span> and <span class="math inline">\(\vec{q}^{(3)}\)</span>.</p>
-<div id="f4377739" class="cell" data-execution_count="4">
+<div id="a1940c12" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -592,51 +592,31 @@ Figure&nbsp;1: Projection of <span class="math inline">\(\vec{a}\)</span> away f
 </section>
 <section id="how-does-this-help" class="slide level3">
 <h3>How does this help?</h3>
-<p>We can consider the matrix <span class="math inline">\(Q\)</span> whose columns are the vectors <span class="math inline">\(\vec{q}^{(j)}\)</span> and the matrix <span class="math inline">\(A\)</span> whose columns are the vectors <span class="math inline">\(\vec{a}^{(j)}\)</span>: <span class="math display">\[\begin{equation*}
-Q = \begin{pmatrix}
-&amp;&amp; \\
-\vec{q}^{(1)} &amp; \vec{q}^{(2)} &amp; \vec{q}^{(3)} \\
-&amp;&amp;
-\end{pmatrix}
-\quad \text{and} \quad
-  A = \begin{pmatrix}
-&amp;&amp; \\
-\vec{a}^{(1)} &amp; \vec{a}^{(2)} &amp; \vec{a}^{(3)} \\
-&amp;&amp;
-\end{pmatrix}
-\end{equation*}\]</span> Then we can compute that <span class="math display">\[\begin{align*}
-(Q^T A)_{ij} = \vec{q}^{(j)} \cdot \vec{a}^{(j)}.
-\end{align*}\]</span></p>
+<p>We can even do better than simply post computing <span class="math inline">\(R\)</span> through multiplying <span class="math inline">\(Q^T A\)</span>. Let’s revisit the update formula for column <span class="math inline">\(j\)</span>: <span class="math display">\[\begin{align*}
+\vec{u}^{(j)} &amp; = \vec{a}^{(j)} - \sum_{i=1}^{j-1} (\vec{a}^{(j)} \cdot
+\vec{q}^{(i)} ) \vec{q}^{(i)} \\
+\vec{q}^{(j)} &amp; = \frac{\vec{u}^{(j)}}{\|\vec{u}^{(j)}\|}.
+\end{align*}\]</span> Let’s define a matrix <span class="math inline">\(R\)</span> by <span class="math display">\[
+R_{ij} = \begin{cases}
+\vec{a}^{(j)} \cdot \vec{q}^{(i)} &amp; \text{if}\quad i &lt; j \\
+\| \vec{u}^{(j)} \| &amp; \text{if}\quad i = j \\
+0 &amp; \text{if}\quad i &gt; j,
+\end{cases}
+\]</span> then …</p>
 <aside class="notes">
-<p>So <span class="math display">\[\begin{align*}
-(Q^T A)
-&amp; = \begin{pmatrix}
-(1, 0, 1)^T \cdot (\tfrac{1}{\sqrt{2}}, 0, \tfrac{1}{\sqrt{2}})^T
-&amp; (2, -1, 0)^T \cdot (\tfrac{1}{\sqrt{2}}, 0, \tfrac{1}{\sqrt{2}})^T
-&amp; (1, 2, 1)^T \cdot (\tfrac{1}{\sqrt{2}}, 0, \tfrac{1}{\sqrt{2}})^T
-\\
-(1, 0, 1)^T \cdot (\tfrac{1}{\sqrt{3}}, \tfrac{-1}{\sqrt{3}},
-\tfrac{-1}{\sqrt{3}})^T
-&amp; (2, -1, 0)^T \cdot (\tfrac{1}{\sqrt{3}}, \tfrac{-1}{\sqrt{3}},
-\tfrac{-1}{\sqrt{3}})^T
-&amp; (1, 2, 1)^T \cdot (\tfrac{1}{\sqrt{3}}, \tfrac{-1}{\sqrt{3}},
-\tfrac{-1}{\sqrt{3}})^T
-\\
-(1, 0, 1)^T \cdot (\tfrac{1}{\sqrt{6}}, \tfrac{2}{\sqrt{6}},
-\tfrac{-1}{\sqrt{6}})^T
-&amp; (2, -1, 0)^T \cdot (\tfrac{1}{\sqrt{6}}, \tfrac{2}{\sqrt{6}},
-\tfrac{-1}{\sqrt{6}})^T
-&amp; (1, 2, 1)^T \cdot (\tfrac{1}{\sqrt{6}}, \tfrac{2}{\sqrt{6}},
-\tfrac{-1}{\sqrt{6}})^T
-\end{pmatrix} \\
-&amp; = \begin{pmatrix}
-\tfrac{2}{\sqrt{2}} &amp; \tfrac{2}{\sqrt{2}} &amp; \tfrac{2}{\sqrt{2}} \\
-0 &amp; \tfrac{3}{\sqrt{3}} &amp; \tfrac{-2}{\sqrt{3}} \\
-0 &amp; 0 &amp; \tfrac{4}{\sqrt{6}}
-\end{pmatrix}.
-\end{align*}\]</span> Hence we have found an upper triangular matrix <span class="math inline">\(R = Q^T A\)</span>. Since <span class="math inline">\(Q\)</span> is orthonormal, we know <span class="math inline">\(Q^{-1} = Q^T\)</span> and we have a factorisation: <span class="math display">\[\begin{equation*}
+<p><span class="math display">\[\begin{align*}
+\vec{u}^{(j)} &amp; = \vec{a}^{(j)} - \sum_{i=1}^{j-1} R_{ij} \vec{q}^{(i)} \\
+\vec{q}^{(j)} &amp; = \frac{\vec{u}^{(j)}}{R_{jj}}.
+\end{align*}\]</span> The equations can be rearranged to: <span class="math display">\[\begin{align*}
+\vec{a}^{(j)} &amp;= \vec{u}^{(j)} + \sum_{i=1}^{j-1} R_{ij} \vec{q}^{(i)} \\
+\vec{u}^{(j)} &amp; = R_{jj} \vec{q}^{(j)}.
+\end{align*}\]</span> Substituting the vaule of <span class="math inline">\(\vec{u}^{(j)}\)</span> into the first equation gives: <span class="math display">\[\begin{align*}
+\vec{a}^{(j)} &amp;= R_{jj} \vec{q}^{(j)} + \sum_{i=1}^{j-1} R_{ij} \vec{q}^{(i)} \\
+&amp; = \sum_{i=1}^{j} R_{ij} \vec{q}^{(i)}  \\
+&amp; = \sum_{i=1}^{n} R_{ij} \vec{q}^{(i)}.
+\end{align*}\]</span> Here, in the final equation, we increased the sum up to <span class="math inline">\(n\)</span> using the fact that <span class="math inline">\(R_{ij} = 0\)</span> for <span class="math inline">\(i &gt; j\)</span>. This equation is the same as <span class="math display">\[
 A = Q R.
-\end{equation*}\]</span></p>
+\]</span></p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -787,7 +767,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiQSA9IG5wLmFycmF5KFtbMy4w
 </section>
 <section id="results" class="slide level3">
 <h3>Results</h3>
-<div id="e8ad0ef8" class="cell" data-execution_count="7">
+<div id="288da3f2" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
