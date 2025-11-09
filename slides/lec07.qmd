@@ -21,6 +21,17 @@ format:
     preview-links: auto
 ---
 
+# Portfolio updates
+
+| Worksheet | Submissions           | Passes                   |
+|-----------|-----------------------|--------------------------|
+| Week 1    | 231 (74% of students) | 183 (79% of submissions) |
+| Week 2    | 193 (62%)             | 114 (60%)                |
+| Week 3    | 172 (55%)             | 120 (70%)                |
+| Week 5    | 92 (30%)              | -                        |
+
+**New drop in session: Thursday 1-2pm, Bragg 2.07**
+
 # Eigenvectors and eigenvalues: practical solutions
 
 ```{python}
