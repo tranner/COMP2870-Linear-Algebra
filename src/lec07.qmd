@@ -606,8 +606,8 @@ We say two vectors $\vec{a}$ and $\vec{b}$ are **orthogonal** if $\langle \vec{a
 
 ::: {#thm-symmetric}
 Let $A$ be a symmetric matrix ($A^T = A$) with real entries. Then $A$ has $n$
-real eigenvalues (zero imaginary part) and any distinct eigenvectors are
-orthogonal.
+real eigenvalues (zero imaginary part) and any eigenvectors with distinct
+eigenvalues are orthogonal.
 :::
 
 ::: {.proof}
