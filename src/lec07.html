@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -40,9 +40,9 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-ccb7598c1076c02ad842cf9fb90770d1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -308,9 +308,7 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="../index.html" class="sidebar-logo-link">
-      </a>
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../">COMP2870 Theoretical Foundations: Linear Algebra</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -459,7 +457,7 @@ A \vec{x} = \lambda \vec{x}.
 <div id="exm-projection" class="theorem example">
 <p><span class="theorem-title"><strong>Example 7.1</strong></span> Let <span class="math inline">\(P\)</span> be the 3x3 matrix that represents projection onto a plane <span class="math inline">\(\Pi =
 \{\vec{x} \in \mathbb{R}^3 : \vec{a} \cdot \vec{x} = 0\}\)</span> (i.e.&nbsp;<span class="math inline">\(P\)</span> maps any point in <span class="math inline">\(\mathbb{R}^3\)</span> to its nearest point in <span class="math inline">\(\Pi\)</span>). What are the eigenvalues and eigenvectors of <span class="math inline">\(P\)</span>?</p>
-<div id="3ac86730" class="cell" data-caption="Representation of planar projection operator $P$." data-execution_count="2">
+<div id="a4427266" class="cell" data-caption="Representation of planar projection operator $P$." data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -648,8 +646,8 @@ P B = A P.
 \end{equation*}\]</span></p>
 </div>
 <p>Since <span class="math inline">\(P\)</span> is invertible, we can pre-multiply this equation by <span class="math inline">\(P\)</span> and post-multiply by <span class="math inline">\(P^{-1}\)</span> and see that being similar is a symmetric property.</p>
-<div id="lem-eigenvalue-sim" class="theorem lemma">
-<p><span class="theorem-title"><strong>Lemma 7.1</strong></span> The matrix <span class="math inline">\(A\)</span> is similar to the diagonal matrix <span class="math inline">\(\Lambda\)</span> formed by the eigenvalues of <span class="math inline">\(A\)</span>.</p>
+<div id="rem-eigenvalue-sim" class="proof remark">
+<p><span class="proof-title"><em>Remark 7.1</em>. </span>The matrix form of the eigenvalue equation <span class="math inline">\(\eqref{eq:evalue-matrix}\)</span> says that the matrix <span class="math inline">\(A\)</span> is similar to the diagonal matrix of eigenvalues, <strong>if the matrix <span class="math inline">\(S\)</span> is invertible.</strong></p>
 </div>
 <p>This leads to a nice theorem which we will use to help compute eigenvectors and eigenvalues of larger matrices:</p>
 <div id="thm-similar" class="theorem">

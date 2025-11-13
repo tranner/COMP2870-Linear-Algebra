@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -75,9 +75,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-ccb7598c1076c02ad842cf9fb90770d1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -343,9 +343,7 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="../index.html" class="sidebar-logo-link">
-      </a>
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../">COMP2870 Theoretical Foundations: Linear Algebra</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -522,7 +520,7 @@ O \vec{x} = \vec{0} \neq \vec{b} \quad \text{for any vector} \quad \vec{x}.
 </ol>
 <div id="rem-inverse" class="proof remark">
 <p><span class="proof-title"><em>Remark 3.1</em>. </span>One way to solve a system of linear equations is to compute the inverse of <span class="math inline">\(A\)</span>, <span class="math inline">\(A^{-1}\)</span>, directly, then the solution is found through matrix multiplication: <span class="math inline">\(\vec{x} = A^{-1} \vec{b}\)</span>. Here we compare two simple and one more specialised implementations:</p>
-<div id="eb7d24a0" class="cell" data-execution_count="2">
+<div id="0d287fed" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">def</span> approach1(A, b):</span>
 <span id="cb1-2"><a href="#cb1-2"></a>    <span class="co">"""</span></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="co">    Solve the system of linear equations Ax = b by applying the inverse of A</span></span>
@@ -548,7 +546,7 @@ O \vec{x} = \vec{0} \neq \vec{b} \quad \text{for any vector} \quad \vec{x}.
 <span id="cb1-23"><a href="#cb1-23"></a>    x <span class="op">=</span> sp.sparse.linalg.spsolve(A_sparse, b)</span>
 <span id="cb1-24"><a href="#cb1-24"></a>    <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="1a31a99e" class="cell" data-execution_count="3">
+<div id="fa6359b9" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -612,7 +610,7 @@ A = \begin{pmatrix}
 \vec{b} = \begin{pmatrix} -1 \\ 2 \end{pmatrix} \quad
 \vec{c} = \begin{pmatrix} 1 \\ -1 \end{pmatrix}
 \end{align*}\]</span></p>
-<div id="00005f4b" class="cell" data-execution_count="4">
+<div id="70244bd2" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -755,7 +753,7 @@ A = \begin{pmatrix}
 3 &amp; 1 \\ 0 &amp; 3
 \end{pmatrix}
 \]</span> the shape is a parallelogram that looks like this:</p>
-<div id="b37d5430" class="cell" data-execution_count="5">
+<div id="66695e66" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -769,7 +767,7 @@ A = \begin{pmatrix}
 3 &amp; 1 &amp; 1\\ 0 &amp; 3 &amp; 1 \\ 0 &amp; 0 &amp; 3
 \end{pmatrix},
 \]</span> the shape is a parallelopiped given that looks like this:</p>
-<div id="ca5aac06" class="cell" data-execution_count="6">
+<div id="5ada712a" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -852,7 +850,7 @@ A = \begin{pmatrix}
 <div id="rem-det-python" class="proof remark">
 <p><span class="proof-title"><em>Remark 3.2</em>. </span>Computing determinants numerically is an important topic in it’s own right but we do not focus on this in this module.</p>
 <p>You can use <code>numpy</code> to compute determinants</p>
-<div id="d8ce7a2a" class="cell" data-execution_count="7">
+<div id="961155a4" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>A <span class="op">=</span> np.array([[<span class="fl">3.0</span>, <span class="fl">1.0</span>], [<span class="fl">0.0</span>, <span class="fl">3.0</span>]])</span>
 <span id="cb2-2"><a href="#cb2-2"></a>np.linalg.det(A)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -74,9 +74,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-ccb7598c1076c02ad842cf9fb90770d1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -342,9 +342,7 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="../index.html" class="sidebar-logo-link">
-      </a>
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../">COMP2870 Theoretical Foundations: Linear Algebra</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -567,7 +565,7 @@ Figure&nbsp;8.1: Projection of <span class="math inline">\(\vec{a}\)</span> away
 \vec{a}^{(2)} = \begin{pmatrix} 2 \\ -1 \\ 0 \end{pmatrix},
 \vec{a}^{(3)} = \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix}.
 \end{equation*}\]</span> We will manipulate these vectors to form three orthonormal vectors.</p>
-<div id="0d1277df" class="cell" data-execution_count="3">
+<div id="2f1f095c" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -650,7 +648,7 @@ Figure&nbsp;8.1: Projection of <span class="math inline">\(\vec{a}\)</span> away
 <div id="exr-gram-schmit-ex" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 8.2</strong></span> Verify the orthonormality conditions for <span class="math inline">\(\vec{q}^{(1)}, \vec{q}^{(2)}\)</span> and <span class="math inline">\(\vec{q}^{(3)}\)</span>.</p>
 </div>
-<div id="edb126ae" class="cell" data-execution_count="4">
+<div id="1550a315" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -736,7 +734,7 @@ A = Q R.
 </section>
 <section id="python-qr-factorisation-using-gram-schmidt" class="level3" data-number="8.1.2">
 <h3 data-number="8.1.2" class="anchored" data-anchor-id="python-qr-factorisation-using-gram-schmidt"><span class="header-section-number">8.1.2</span> Python QR factorisation using Gram-Schmidt</h3>
-<div id="5709a981" class="cell" data-execution_count="5">
+<div id="6dbe16aa" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">def</span> gram_schmidt_qr(A):</span>
 <span id="cb1-2"><a href="#cb1-2"></a>    <span class="co">"""</span></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="co">    Compute the QR factorisation of a square matrix using the classical</span></span>
@@ -779,7 +777,7 @@ A = Q R.
 <span id="cb1-40"><a href="#cb1-40"></a>    <span class="cf">return</span> Q, R</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Let’s test it without our example above:</p>
-<div id="e41d8984" class="cell" data-execution_count="6">
+<div id="f5108fe8" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-stdout">
 <pre><code>A = [  1.0,  2.0,  1.0 ]
     [  0.0, -1.0,  2.0 ]
@@ -800,7 +798,7 @@ Is Q orthonormal? (Q.T @ Q == np.eye(3)) True</code></pre>
 <section id="finding-eigenvalues-and-eigenvectors" class="level2" data-number="8.2">
 <h2 data-number="8.2" class="anchored" data-anchor-id="finding-eigenvalues-and-eigenvectors"><span class="header-section-number">8.2</span> Finding eigenvalues and eigenvectors</h2>
 <p>The algorithm given above says that we use the QR factorisation to iteratively find a sequence of matrices <span class="math inline">\(A^{(j)}\)</span> which <em>should</em> converge to an upper-triangular matrix.</p>
-<div id="25fee462" class="cell" data-execution_count="7">
+<div id="060353fb" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">def</span> gram_schmidt_eigen(A, maxiter<span class="op">=</span><span class="dv">100</span>, verbose<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb3-2"><a href="#cb3-2"></a>    <span class="co">"""</span></span>
 <span id="cb3-3"><a href="#cb3-3"></a><span class="co">    Compute the eigenvalues and eigenvectors of a square matrix using the QR</span></span>
@@ -880,7 +878,7 @@ Is Q orthonormal? (Q.T @ Q == np.eye(3)) True</code></pre>
 <span id="cb3-77"><a href="#cb3-77"></a>    <span class="cf">return</span> eigenvalues, V, it</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We test this out in code first for the matrix from <a href="lec07.html#exm-char" class="quarto-xref">Example&nbsp;<span>7.3</span></a>:</p>
-<div id="8fb05008" class="cell" data-execution_count="8">
+<div id="cc1847eb" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>A <span class="op">=</span> np.array([[<span class="fl">3.0</span>, <span class="fl">1.0</span>], [<span class="fl">1.0</span>, <span class="fl">3.0</span>]])</span>
 <span id="cb4-2"><a href="#cb4-2"></a>print_array(A)</span>
 <span id="cb4-3"><a href="#cb4-3"></a></span>
@@ -903,7 +901,7 @@ iterations required: 27</code></pre>
 <section id="correctness-and-convergence" class="level2" data-number="8.3">
 <h2 data-number="8.3" class="anchored" data-anchor-id="correctness-and-convergence"><span class="header-section-number">8.3</span> Correctness and convergence</h2>
 <p>Let’s see what happens when we try this same approach for a bigger symmetric matrices. Here we have a test that samples ten different random matrices and computes the average number of iterations, average run time and maximum error in the eigenvalue equation.</p>
-<div id="c8938bda" class="cell" data-execution_count="9">
+<div id="39ca7697" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># replicable random seed</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a>np.random.seed(<span class="dv">42</span>)</span>
 <span id="cb6-3"><a href="#cb6-3"></a></span>
@@ -978,16 +976,16 @@ iterations required: 27</code></pre>
 <span id="cb6-72"><a href="#cb6-72"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>n<span class="sc">:4d}</span><span class="ss">   </span><span class="sc">{</span>runtime<span class="sc">:.6e}</span><span class="ss">  </span><span class="sc">{</span>average_it<span class="sc">:5.1f}</span><span class="ss">  </span><span class="sc">{</span>max_error<span class="sc">:.6e}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>size  time (s)       iter  error
-   2   3.287279e-03   44.6  9.319111e-09
-   4   5.700168e-03   78.1  9.895223e-09
-   8   2.160185e-02  137.7  1.212740e-08
-  16   7.215008e-02  152.7  1.346641e-08
-  32   2.809552e-01  165.6  1.246268e-08
-  64   1.087435e+00  162.3  1.646202e-08
- 128   7.276107e+00  173.8  1.478504e-08</code></pre>
+   2   2.880248e-03   44.6  9.319111e-09
+   4   5.716145e-03   78.1  9.895223e-09
+   8   2.149148e-02  137.7  1.212740e-08
+  16   7.138927e-02  152.7  1.346641e-08
+  32   2.773091e-01  165.6  1.246268e-08
+  64   1.072034e+00  162.3  1.646202e-08
+ 128   7.210989e+00  173.8  1.478504e-08</code></pre>
 </div>
 </div>
-<div id="b6dd8ca9" class="cell" data-execution_count="10">
+<div id="06a646f8" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
