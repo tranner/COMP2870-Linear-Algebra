@@ -443,9 +443,8 @@ P B = A P.
 Since $P$ is invertible, we can pre-multiply this equation by $P$ and
 post-multiply by $P^{-1}$ and see that being similar is a symmetric property.
 
-::: {#lem-eigenvalue-sim}
-The matrix $A$ is similar to the diagonal matrix $\Lambda$ formed by the
-eigenvalues of $A$.
+::: {#rem-eigenvalue-sim}
+The matrix form of the eigenvalue equation \eqref{eq:evalue-matrix} says that the matrix $A$ is similar to the diagonal matrix of eigenvalues, **if the matrix $S$ is invertible.**
 :::
 
 This leads to a nice theorem which we will use to help compute eigenvectors and
