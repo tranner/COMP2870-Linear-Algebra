@@ -49,12 +49,14 @@ Tutorials
 2. Solution of linear systems (Week 6)
 3. Eigenvalue and eigenvectors (Week 7)
 
-Later this term, week 11, you will complete a project based on the things you've
+Later this term, week 10, you will complete a project based on the things you've
 learnt from this section of the module.
 
 ### Learning outcomes
 
 Candidates should be able to:
+
+TODO - these need updating vastly!
 
 - explain practical challenges working with floating-point numbers;
 - define and identify what it means for a set of vectors to be a basis, spanning
@@ -90,8 +92,6 @@ learning:
   and B.P. Flannery, Cambridge University Press, 2002/1993/1993. *A very
   practical view of the methods we develop in this module which could be used
   for library development*
-
-Other links and resources are given at the end of each section of the notes.
 
 ## Programming
 
@@ -739,6 +739,8 @@ delivering the materials.
 
 You can always find the latest versions at:
 
+TODO update me
+
 - <https://comp2870-2526.github.io/linear-algebra-notes/> (html version)
 - <https://comp2870-2526.github.io/linear-algebra-notes/COMP2870-Theoretical-Foundations--Linear-Algebra.pdf> (pdf version)
 
@@ -783,5 +785,5 @@ def get_version():
 print(f"This version of the notes is {get_version()}.")
 ```
 
-Copyright 2024-2025, Thomas Ranner and University of Leeds, licensed under [CC
+Copyright 2024-2026, Thomas Ranner and University of Leeds, licensed under [CC
 BY 4.0](https://creativecommons.org/licenses/by/4.0/).
