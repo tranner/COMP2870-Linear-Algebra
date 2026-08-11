@@ -3,7 +3,8 @@
 ::: {.callout-tip}
 ## Module learning objective
 
-Explain practical challenges working with floating-point numbers.
+- Explain practical challenges working with floating-point numbers;
+- Recognise situations where care is needed when working with floating-point numbers.
 :::
 
 This topic will not be presented explicitly in lectures; instead, you will study
@@ -13,19 +14,18 @@ the material yourself in Lab Session 1.
 
 ```{python}
 # | echo: false
-from itertools import combinations, product
 
 ```
 
 Computers store numbers with **finite precision**, i.e. using a finite set of
-bits (binary digits), typically 32 or 64 of them. You learned how to store
+bits (binary digits), typically 32 or 64 of them. You learnt how to store
 numbers as floating-point numbers last year in the module COMP1860 Building our
 Digital World.
 
 You will recall that many numbers cannot be stored exactly.
 
-- Some numbers cannot be represented precisely using **any** finite set of
-    digits:\ e.g. $\sqrt{2} = 1.141 42\ldots$, $\pi = 3.141 59\ldots$, etc.
+- Some numbers cannot be represented precisely using **any** finite positional representation of
+    digits:\ e.g. $\sqrt{2} = 1.414 21\ldots$, $\pi = 3.141 59\ldots$, etc.
 - Some cannot be represented precisely in a given number base:\
     e.g. $\frac{1}{9} = 0.111\ldots$ (decimal), $\frac{1}{5} = 0.0011 0011
     \ldots$ (binary).
@@ -40,7 +40,7 @@ order to understand:
 - the errors in their representation;
 - the errors which occur when arithmetic operations are applied to them.
 
-The examples shown here will be in **decimal** by the issues apply to any base,
+The examples shown here will be in **decimal** but the issues apply to any base,
 *e.g.* **binary**.
 
 This is important when trying to solve problems with floating-point numbers, so
@@ -81,37 +81,44 @@ $$ b_1 \neq 0 \quad (0 < b_1 \le \beta -1). $$
 3. **Zero** is always taken to be a special case e.g., $0 = \pm .00\ldots 0
    \times \beta^0$.
 
-Our familiar floating point numbers can be represented using this format too:
+Our familiar floating point numbers can (almost) be represented using this format too:
 
 1. The [IEEE single-precision standard](https://en.wikipedia.org/wiki/IEEE_754)
-   is $(\beta, t, L, U) = (2, 23, -127, 128)$. This is available via
-   `numpy.single`.
+   is $(\beta, t, L, U) = (2, 24, -125, 128)$. This is available via
+   `numpy.float32` or `numpy.single` .
 
 2. The [IEEE double-precision standard](https://en.wikipedia.org/wiki/IEEE_754)
-   is $(\beta, t, L, U) = (2, 52, -1023, 1024)$. This is available via
-   `numpy.double`.
+   is $(\beta, t, L, U) = (2, 53, -1021, 1024)$. This is available via
+   `numpy.float64` or `numpy.double`.
+
+Note these values differ from values in other places so we use the $1. b_1 b_2 \ldots$ normalisation instead of the usual after the binary point notation.
 
 ```{python}
 import numpy as np
 
-a = np.double(1.1)
-print(type(a))
-b = np.single(1.2)
-print(type(b))
-c = np.half(1.3)
-print(type(c))
+for dtype in [np.float16, np.float32, np.float64]:
+    value = dtype(1.1)
+    print(dtype.__name__, value, type(value))
 ```
+
+IEEE 754 floating point formats include signed zeros, subnormal numbers, infinities and NaN values too.
+
 :::
+
 
 You can create double-precision floating point numbers without using `numpy`
 (i.e. 64 bit with the same $\beta, t, L, U$ as above) by calling the [`float`
 function](https://docs.python.org/3/reference/datamodel.html#numbers-real-float),
 or just giving the number in decimal format:
 ```{python}
-(np.double(5.1) == 5.1, np.double(5.1) == 5.1)
+python_value = 5.1
+numpy_value = np.float64(5.1)
+
+print(type(python_value))
+print(type(numpy_value))
+print(python_value == numpy_value)
 ```
-However, in some extreme edge cases, you are unlikely to meet, Python floats do
-not follow the IEEE double-precision standard in some extreme edge cases.
+On most current platforms, Python's built-in float type uses IEEE 754 binary64 arithmetic. However, the Python language specification does not require every implementation and platform to use precisely the same underlying representation.
 
 ::: {#exm-number-system}
 
@@ -120,14 +127,14 @@ Consider the number system given by $(\beta, t, L, U) =
 
 $$ x = \pm .b_1 b_2 \times 10^e \text{ where } -1 \le e \le 2. $$
 
-> a. How many numbers can be represented by this normalised system?
+> a. How many non-zero numbers can be represented by this normalised system?
 
 - The sign can be positive or negative
 - $b_1$ can take on the values $1$ to $9$ (9 options)
 - $b_2$ can take on the values $0$ to $9$ (10 options)
 - $e$ can take on the values $-1, 0, 1, 2$ (4 options)
 
-Overall this gives us: $$ 2 \times 9 \times 10 \times 4 \text{ options } = 720
+Overall this gives: $$ 2 \times 9 \times 10 \times 4 \text{ options } = 720
 \text{ options}. $$
 
 > b. What are the two largest positive numbers in this system?
@@ -149,41 +156,9 @@ The second smallest positive number has $+$ sign, $b_1 = 1$, $b_2 = 1$ and $e =
 > d. What is the smallest possible difference between two numbers in this
 > system?
 
-The smallest difference will be between numbers of the form $+0.10 \ times
+The smallest difference will be between numbers of the form $+0.10 \times
 10^{-1}$ and $+0.11 \times 10^{-1}$ which gives $$ 0.11 \times 10^{-1} - 0.10
 \times 10^{-1} = 0.011 - 0.010 = 0.001. $$
-
-Alternatively, we can brute-force search for this:
-
-```{python}
-# | echo: false
-
-# system is product of sign, b1, b2, e
-system = product([1, -1], range(1, 10), range(0, 10), range(-1, 3))
-
-# find smallest difference between numbers
-min_diff = 99
-min_x, min_y = None, None
-
-for x_representation, y_representation in combinations(system, 2):
-    # extract representation
-    x_sign, x_b1, x_b2, x_e = x_representation
-    y_sign, y_b1, y_b2, y_e = y_representation
-
-    # extract value
-    x_value = x_sign * (x_b1 * 0.1 + x_b2 * 0.01) * 10**x_e
-    y_value = y_sign * (y_b1 * 0.1 + y_b2 * 0.01) * 10**y_e
-
-    # compute difference and store if minimum
-    diff = abs(x_value - y_value)
-    if diff < min_diff:
-        min_diff = diff
-        min_x = f"{'+' if x_sign > 0 else '-'}0.{x_b1}{x_b2} x 10^{{{x_e}}}"
-        min_y = f"{'+' if y_sign > 0 else '-'}0.{y_b1}{y_b2} x 10^{{{y_e}}}"
-
-print(f"The minimum difference {min_diff=:.4f}\nat x={min_x} y={min_y}.")
-```
-
 :::
 
 ::: {#exr-number-system}
@@ -193,7 +168,7 @@ Consider the number system given by $(\beta, t, L, U) =
 
 $$ x = \pm .b_1 b_2 b_3 \times 10^e \text{ where } -3 \le e \le 3. $$
 
-a. How many numbers can be represented by this normalised system?
+a. How many non-zero numbers can be represented by this normalised system?
 
 b. What are the two largest positive numbers in this system?
 
@@ -201,7 +176,7 @@ c. What are the two smallest positive numbers?
 
 d. What is the smallest possible difference between two numbers in this system?
 
-e. What is the smallest possible difference in this system, $x$ and $y$, for
+e. What is the smallest possible difference between two numbers $x$ and $y$ in this system for
 which $x < 100 < y$?
 :::
 
@@ -210,7 +185,7 @@ which $x < 100 < y$?
 ### What about in Python
 
 We find that even with double-precision floating point numbers, we see some
-funniness when working with decimals:
+apparently surprising behaviour when working with decimals:
 
 ```{python}
 a = np.double(0.0)
@@ -226,7 +201,7 @@ print("Is a = 1?", a == 1.0)
 > Why is this output not a surprise?
 
 We also see that even adding up numbers can have different results depending on
-what order we add them:
+the order in which they are added:
 
 ```{python}
 x = np.double(1e30)
@@ -242,7 +217,7 @@ print(f"{x + (y + z)=:.16f}")
 
 :::
 
-## Errors and machine precision
+## Errors, machine precision and unit roundoff
 
 From now on $fl(x)$ will be used to represent the (approximate) stored value of
 $x$. The error in this representation can be expressed in two ways.
@@ -255,8 +230,7 @@ figures) if $t$ is the largest non-negative integer for which
 
 $$ \text{Relative error} < 0.5 \times \beta^{1-t}. $$
 
-It can be proved that if the relative error is equal to $\beta^{-d}$, then
-$fl(x)$ has $d$ correct significant digits.
+More generally, the number of correct significant digits is related to the size of the relative error. A relative error of $\beta^{-d}$ indicates approximately $d$ correct base-$\beta$ significant digits.
 
 In the number system given by $(\beta, t, L, U)$, the nearest (larger)
 representable number to $x = 0.b_1 b_2 b_3 \ldots b_{t-1} b_t \times \beta^e$ is
@@ -270,7 +244,7 @@ Any number $y \in (x, \tilde{x})$ is stored as either $x$ or $\tilde{x}$ by
 - the largest possible error is $\frac{1}{2} \beta^{e-t}$,
 - which means that $| y - fl(y) | \le \frac{1}{2} \beta^{e-t}$.
 
-It follow from $y > x \ge .100 \ldots 00 \times \beta^e = \beta^{e-1}$ that
+It follows from $y > x \ge .100 \ldots 00 \times \beta^e = \beta^{e-1}$ that
 
 $$ \frac{|y - fl(y)|}{|y|} < \frac{1}{2} \frac{\beta^{e-t}}{\beta^{e-1}} =
  \frac{1}{2} \beta^{1-t}, $$
@@ -279,8 +253,11 @@ and this provides a bound on the **relative error**: for any $y$
 
 $$ \frac{|y - fl(y)|}{|y|} < \frac{1}{2} \beta^{1-t}. $$
 
-The last term is known as **machine precision** or **unit roundoff** and is
-often called $eps$. This is obtained in Python with
+The last term is known as **unit roundoff** and is often written as $u$. A related quality is **machine precision epsilon** and is often written as $eps$:
+$$
+eps = \beta^{1-t} = 2 u.
+$$
+This is obtained in Python with
 
 ```{python}
 eps = np.finfo(np.double).eps
@@ -291,19 +268,19 @@ print(eps)
 
 1. The number system $(\beta, t, L, U) = (10, 2, -1, 2)$ gives
 
-    $$ eps = \frac{1}{2} \beta^{1-t} = \frac{1}{2} 10^{1-2} = 0.05. $$
+    $$ eps = \beta^{1-t} = \frac{1}{2} 10^{1-2} = 0.1. $$
 2. The number system $(\beta, t, L, U) = (10, 3, -3, 3)$ gives
 
-    $$ eps = \frac{1}{2} \beta^{1-t} = \frac{1}{2} 10^{1-3} = 0.005. $$
+    $$ eps = \beta^{1-t} = \frac{1}{2} 10^{1-3} = 0.01. $$
 
 3. The number system $(\beta, t, L, U) = (10, 7, 2, 10)$ gives
 
-    $$ eps = \frac{1}{2} \beta^{1-t} = \frac{1}{2} 10^{1-7} = 0.000005. $$
+    $$ eps = \beta^{1-t} = \frac{1}{2} 10^{1-7} = 0.000 001 . $$
 
-4. For some common types in python, we see the following values:
+4. For some common types in Python, we see the following values:
 
 ```{python}
-for dtype in [np.half, np.single, np.double]:
+for dtype in [np.float16, np.float32, np.float64]:
     print(dtype.__name__, np.finfo(dtype).eps)
 ```
 :::
@@ -349,7 +326,7 @@ $$ x = .10 \times 10^2, \quad y = .49 \times 10^0, \quad z = .51 \times 10^0. $$
     $$ fl(x+y) = .10 \times 10^2 = x, \qquad fl(x+z) = .11 \times 10^2 \neq x.
     $$
 
-(Note that $\frac{y}{x} < eps$ but $\frac{z}{x} > eps$.)
+(Note that $\frac{y}{x} < u$ but $\frac{z}{x} > u$.)
 
 Evaluate the following expression in this number system.
 
@@ -370,13 +347,13 @@ $$ x+(y+y), \quad (x+y)+y, \quad x+(z+z), \quad (x+z) +z. $$
  in the system $(\beta, t, L, U) = (10, 2, -3, 3)$.
 
 2. Given the number system $(\beta, t, L, U) = (10, 3, -3, 3)$ and $x =
-.100\times 10^3$, find nonzero numbers $y$ and $z$ from this system for which
+.100\times 10^3$, find non-zero numbers $y$ and $z$ from this system for which
 $fl(x+y) = x$ and $fl(x+z) > x$.
 :::
 
-It is sometimes helpful to think of another machine precision epsilon in other
+It is sometimes helpful to think of machine precision epsilon in another
 way: **Machine precision epsilon** is the smallest positive number $eps$ such
-that $1 + eps > 1$, i.e. it is half the difference between $1$ and the next
+that $1 + eps > 1$, i.e. it is the difference between $1$ and the next
 largest representable number.
 
 Examples:
@@ -388,31 +365,42 @@ Examples:
       - & .10 \times 10^1 & \qquad \leftarrow 1 \\ \hline & .01 \times 10^1 &
         \qquad \leftarrow 0.1 \end{array} $$
 
- so $eps = \frac{1}{2}(0.1) = 0.05$.
+ so $eps = 0.1$.
 
-2. Verify that this approaches gives the previously calculated value for $eps$
+2. Verify that this approach gives the previously calculated value for $eps$
    in the number system given by $(\beta, t, L, U) = (10, 3, -3, 3)$.
 
-## Other "Features" of finite precision
+3. Here is the Python version:
+```{python}
+one = np.float64(1.0)
+next_number = np.nextafter(one, np.inf)
+
+print(f"{one=}")
+print(f"{next_number=}")
+print(f"machine epsilon = {next_number - one}")
+print(f"unit roundoff = {(next_number - one) / 2}")
+```
+
+## Other "Features" of finite precision arithmetic
 
 When working with floating-point numbers there are other things we need to worry
 about, too!
 
 Overflow
 :   The number is too large to be represented, e.g. multiply the largest
-    representable number by 10. This gives `inf` (infinity) with `numpy.double`s
+    representable number by 10. This gives `inf` (infinity) with `numpy.float64`s
     and is usually "fatal".
 
 Underflow
 :   The number is too small to be represented, e.g. divide the smallest
     representable number by 10. This gives $0$ and may not be immediately
-    obvious.
+    obvious. In IEEE 754 arithmetic, it may first be represented as a subnormal number. A sufficiently small result eventually rounds to zero.
 
 Divide by zero
-:   gives a result of `inf`, but $\frac{0}{0}$ gives `nan` (not a number)
+:   when using `numpy` floating point numbers (matching IEEE) gives a result of `inf`, but $\frac{0}{0}$ gives `nan` (not a number), but Python floats instead raise a `ZeroDivisionError`.
 
 Divide by `inf`
-:   gives $0.0$ with no warning
+:   gives $0.0$ with no warning and `inf / inf` produces `NaN`.
 
 ## Is this all academic?
 
@@ -425,8 +413,8 @@ arithmetic...
   software for the US Patriot missile system caused it to fail, contributing to
   the loss of 28 lives.
 
-- In June 1996, the European Space Agency's Ariane Rocket exploded shortly after
-  take-off: the error was due to failing to [handle overflow
+- In June 1996, the European Space Agency's Ariane 5 Rocket exploded shortly after
+  lift-off: the error was due to failing to [handle overflow
   correctly](https://www.bbc.com/future/article/20150505-the-numbers-that-lead-to-disaster).
 
 - In October 2020, a driverless car drove straight into a wall due to [faulty
