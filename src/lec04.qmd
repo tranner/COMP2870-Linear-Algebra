@@ -3,9 +3,9 @@
 ::: {.callout-tip}
 ## Module learning objective
 
-Apply direct and iterative solvers to solve systems of linear equations;
-implement methods using floating point numbers and investigate computational
-cost using computer experiments.
+- Apply Gaussian elimination and backward substitution to solve linear systems;
+- Apply LU factorisation to solve linear systems efficiently;
+- Evaluate the computational cost and numerical stability of direct linear solvers, including the role of pivoting in finite-precision arithmetic.
 :::
 
 ```{python}
@@ -22,7 +22,7 @@ from PIL import Image
 plt.style.use("seaborn-v0_8-colorblind")
 ```
 
-This section deals with first method we will use to solve systems of linear
+This section deals with the first method that we will use to solve systems of linear
 equations. We will see that by using the approach of Gaussian elimination (and
 variations of that method), we can solve any system of linear equations that has
 a solution.
@@ -129,7 +129,7 @@ Consider the system
 Then we have:
 \begin{align*}
 4 \times \text{\eqref{eq:eg1a}} & \rightarrow & 8 x_1 + 12 x_2 & = 16 \\
--15. \times \text{\eqref{eq:eg1b}} & \rightarrow & 4.5 x_2 - 3 x_2 & = -10.5 \\
+-1.5 \times \text{\eqref{eq:eg1b}} & \rightarrow & 4.5 x_2 - 3 x_2 & = -10.5 \\
 \text{\eqref{eq:eg1a}} + \text{\eqref{eq:eg1b}} & \rightarrow &
 -x_1 + 5 x_2 & = 11 \\
 \text{\eqref{eq:eg1b}} + 1.5 \times \text{\eqref{eq:eg1a}} & \rightarrow &
@@ -228,7 +228,7 @@ For a system written in matrix form our three observations mean the following:
   \end{pmatrix}
   $$
 
-  (here we replaced row $w$ by row $2 + 1.5 \times$ row $1$)
+  (here we replaced row $2$ by row $2 + 1.5 \times$ row $1$)
 
   $$
   \begin{pmatrix}
@@ -272,15 +272,15 @@ The algorithm of Gaussian elimination is an ancient method that you may have
 already met at school -- perhaps by a different name. The details of the method
 may seem confusing at first. We are following the ideas of elimination from
 systems of simultaneous equations, but in a way that a computer understands.
-Thinking like a computer is an important point in this section. You will have
+Thinking like a computer is an important concept for computer scientists. You will have
 seen different ideas of how to solve systems of simultaneous equations where the
 first step is to "look at the equations to decide the easiest first step". When
 there are $10^9$ equations, it is not effective for a computer to try to find an
 easy way through the problem. The computer must be given a simple set of
 instructions to follow: this will be our algorithm.
 
-The method is so old, in fact we have evidence of Chinese mathematicians using
-Gaussian elimination in 179CE (From
+The method is so old that in fact we have evidence of Chinese mathematicians using forms of
+Gaussian elimination in 179 CE (From
 [Wikipedia](https://en.wikipedia.org/wiki/Gaussian_elimination)):
 
 > The method of Gaussian elimination appears in the Chinese mathematical text
@@ -309,7 +309,7 @@ headers = {
 }
 
 try:
-    image_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Yanghui_Yongle_Dadian.JPG/1024px-Yanghui_Yongle_Dadian.JPG"
+    image_url = "https://upload.wikimedia.org/wikipedia/commons/3/38/Yanghui_Yongle_Dadian.JPG"
     response = requests.get(image_url, headers=headers)
     response.raise_for_status()
 
@@ -337,7 +337,7 @@ equations, below the diagonal.
    non-zero entries in column 2.
 3. Repeat for row $3, 4, \ldots, n-1$.
 
-After row $n-1$ all entities below the diagonal have been eliminated, so $A$ is
+After row $n-1$, all entries below the diagonal have been eliminated, so $A$ is
 now upper triangular and the resulting system can be solved by backward
 substitution.
 
@@ -424,7 +424,7 @@ $$
 
 The key idea is that:
 
-- Each row $i$ is used to eliminate the entries in column $i$ below $a_{ii}$,
+- Each row $i$ is used to eliminate the entries in column $i$ below the diagonal ($a_{ii}$),
   i.e. it forces $a_{ji} = 0$ for $j > i$.
 
 - The elimination is done by subtracting a multiple of row $i$ from row $j$:
@@ -461,7 +461,7 @@ def system_size(A, b):
         A 2D array of shape ``(n, n)`` representing the coefficient matrix of
         the linear system.
     b : numpy.ndarray
-        A array of shape ``(n, o)`` representing the right-hand side vector.
+        A array of shape ``(n, 1)`` representing the right-hand side vector.
 
     Returns
     -------
@@ -683,7 +683,7 @@ print_array(b)
 print()
 
 print("swapping rows 0 and 1")
-row_swap(A, b, 0, 1)  # remember numpy arrays are indexed starting from zero!
+row_swap(A, b, 0, 1)  # remember NumPy arrays are indexed starting from zero!
 print()
 
 print("new arrays:")
@@ -704,7 +704,7 @@ print_array(b)
 print()
 
 print("row 0 |-> 0.5 * row 0")
-row_scale(A, b, 0, 0.5)  # remember numpy arrays are indexed started from zero!
+row_scale(A, b, 0, 0.5)
 print()
 
 print("new arrays:")
@@ -725,7 +725,7 @@ print_array(b)
 print()
 
 print("row 1 |-> row 1 + 1.5 * row 0")
-row_add(A, b, 1, 1.5, 0)  # remember numpy arrays are indexed started from zero!
+row_add(A, b, 1, 1.5, 0)  # remember NumPy arrays are indexed started from zero!
 print()
 
 print("new arrays:")
@@ -773,7 +773,7 @@ def gaussian_elimination(A, b, verbose=False):
     # find shape of system
     n = system_size(A, b)
 
-    # perform forwards elimination
+    # perform forward elimination
     for i in range(n - 1):
         # eliminate column i
         if verbose:
@@ -842,7 +842,7 @@ b_1 \\ b_2 \\ b_3 \\ \vdots \\ b_n
 \end{pmatrix}.
 $$
 
-Note that first equation is
+Note that the first equation is
 
 $$
 a_{11} x_1 = b_1.
@@ -856,11 +856,10 @@ $$
 
 for each row $i = 1, 2, \ldots, n$ in turn.
 
-- Each calculation requires only previously computed values $x_j$ (and the sum
-  gives a loop for $j < i$.
-- The matrix $A$ **must** have non-zero diagonal entries\
+- Each calculation requires only involves values $x_j$ that have already been computed ($j<i$).
+- The matrix $A$ **must** have non-zero diagonal entries
   i.e. $a_{ii} \neq 0$ for $i = 1, 2, \ldots, n$.
-- **Upper triangular** systems of equations can be solved in similarly.
+- **Upper triangular** systems of equations can be solved similarly.
 
 ::: {#exm-fs}
 Solve the lower triangular system of equations given by
@@ -922,7 +921,7 @@ $$
 - It is simple to solve a lower (upper) triangular system of equations (provided
   the diagonal is non-zero).
 
-- This process is often referred to as **forward** (**backwards**)
+- This process is often referred to as **forward** (**backward**)
   **substitution**.
 
 - A general system of equations (i.e. a full matrix $A$) can be solved rapidly
@@ -961,10 +960,6 @@ def forward_substitution(A, b):
     -------
     x : numpy.ndarray
         A NumPy array of shape ``(n,)`` containing the solution vector.
-    """
-    """
-    solves the system of linear equationa Ax = b assuming that A is lower
-    triangular. returns the solution x
     """
     # get size of system
     n = system_size(A, b)
@@ -1018,12 +1013,13 @@ def backward_substitution(A, b):
     n = system_size(A, b)
 
     # check is upper triangular
-    assert np.allclose(A, np.triu(A))
+    if not np.allclose(A, np.triu(A)):
+        raise ValueError("Matrix A is not upper triangular")
 
     # create solution variable
     x = np.empty_like(b)
 
-    # perform backwards solve
+    # perform backward solve
     for i in range(n - 1, -1, -1):  # iterate over rows backwards
         partial_sum = 0.0
         for j in range(i + 1, n):
@@ -1124,8 +1120,8 @@ print("Does x really solve the original system?", np.allclose(A @ x, b))
 ```
 
 ::: {#exr-ge2}
-Use Gaussian elimination followed by backwards elimination to solve the system:
-\begin{equation*}
+Use Gaussian elimination followed by backward substitution to solve the system:
+$$
 \begin{pmatrix}
 2 & 1 & -1 \\
 4 & 5 & 7 \\
@@ -1137,7 +1133,6 @@ x_1 \\ x_2 \\ x_3
 \begin{pmatrix}
 6 \\ 30 \\ -22
 \end{pmatrix}.
-\end{equation*}.
 $$
 :::
 
@@ -1178,7 +1173,7 @@ for n in sizes:
 
 ```{python}
 # | echo: false
-# | fig-cap: "Runtime cost of applying Gaussian elimination (GE) and backwards
+# | fig-cap: "Runtime cost of applying Gaussian elimination (GE) and backward
 # | solution (BS)."
 
 plt.loglog(sizes, times_GE, "C0o", label="GE")
@@ -1214,7 +1209,7 @@ $\vec{b}$.
 
 Our next algorithm, called LU factorisation, is a way to try to speed up
 Gaussian elimination by reusing information. This can be used when we solve
-systems of equations with the same matrix $A$ but different right hand sides
+systems of equations with the same matrix $A$ but different right-hand sides
 $\vec{b}$ - this is more common than you would think!
 
 Recall the elementary row operations (EROs) from above. Note that the EROs can
@@ -1470,7 +1465,7 @@ $$
 \end{pmatrix}
 \begin{pmatrix}
 x_1 \\ x_2 \\ x_3
-\end{pmatrix}
+\end{pmatrix} =
 \begin{pmatrix}
 12 \\ 3 \\ 4
 \end{pmatrix}
@@ -1546,7 +1541,7 @@ x_1 \\ x_2 \\ x_3
 \end{pmatrix}
 $$
 
-*Problem*. We cannot eliminate the first column by the diagonal by adding
+*Problem*. We cannot eliminate the entries below the diagonal in the first column using
 multiples of row 1 to rows 2 and 3, respectively.
 
 *Solution*. Swap the order of the equations!
@@ -1569,30 +1564,35 @@ multiples of row 1 to rows 2 and 3, respectively.
 
 - Now apply Gaussian elimination
 
-  \begin{align*}
-  \begin{pmatrix}
-  2 & 1 & 0 \\
-  0 & 2 & 1 \\
-  0 & 1.5 & 0
-  \end{pmatrix}
-  \begin{pmatrix}
-  x_1 \\ x_2 \\ x_3
-  \end{pmatrix}
-  &= \begin{pmatrix}
-  4 \\ 7 \\ 3
-  \end{pmatrix} \\
-  \begin{pmatrix}
-  2 & 1 & 0 \\
-  0 & 2 & 1 \\
-  0 & 0 & -0.75
-  \end{pmatrix}
-  \begin{pmatrix}
-  x_1 \\ x_2 \\ x_3
-  \end{pmatrix}
-  &= \begin{pmatrix}
-  4 \\ 7 \\ -2.25
-  \end{pmatrix}.
-  \end{align*}
+    - row 2 $\rightarrow$ row 2 $- 0 \times$ row 1 and row 3 $\rightarrow$ row 3 $-\frac{1}{2}$ row 1:
+    $$
+    \begin{pmatrix}
+    2 & 1 & 0 \\
+    0 & 2 & 1 \\
+    0 & 1.5 & 0
+    \end{pmatrix}
+    \begin{pmatrix}
+    x_1 \\ x_2 \\ x_3
+    \end{pmatrix}
+    = \begin{pmatrix}
+    4 \\ 7 \\ 3
+    \end{pmatrix}
+    $$
+
+    - row 3 $\rightarrow$ row 3 $-\frac{2}{1.5}$ row 2
+    $$
+    \begin{pmatrix}
+    2 & 1 & 0 \\
+    0 & 2 & 1 \\
+    0 & 0 & -0.75
+    \end{pmatrix}
+    \begin{pmatrix}
+    x_1 \\ x_2 \\ x_3
+    \end{pmatrix}
+    = \begin{pmatrix}
+    4 \\ 7 \\ -2.25
+    \end{pmatrix}.
+    $$
 :::
 
 ::: {#exm-finite-precision2}
@@ -1614,31 +1614,37 @@ $$
 
 - Apply Gaussian elimination as usual:
 
-  \begin{align*}
-  \begin{pmatrix}
-  2 & 1 & 1 \\
-  0 & 0 & -1 \\
-  2 & 2 & 0
-  \end{pmatrix}
-  \begin{pmatrix}
-  x_1 \\ x_2 \\ x_3
-  \end{pmatrix}
-  = \begin{pmatrix}
-  3 \\ -1 \\ 2
-  \end{pmatrix}
-  \\
-  \begin{pmatrix}
-  2 & 1 & 1 \\
-  0 & 0 & -1 \\
-  0 & 1 & -1
-  \end{pmatrix}
-  \begin{pmatrix}
-  x_1 \\ x_2 \\ x_3
-  \end{pmatrix}
-  = \begin{pmatrix}
-  3 \\ -1 \\ -1
-  \end{pmatrix}
-  \end{align*}
+    - row 2 $\rightarrow$ row 2 $-2\times$ row 1
+
+    $$
+    \begin{pmatrix}
+    2 & 1 & 1 \\
+    0 & 0 & -1 \\
+    2 & 2 & 0
+    \end{pmatrix}
+    \begin{pmatrix}
+    x_1 \\ x_2 \\ x_3
+    \end{pmatrix}
+    = \begin{pmatrix}
+    3 \\ -1 \\ 2
+    \end{pmatrix}.
+    $$
+
+    - row 3 $\rightarrow$ row 3 $-1\times$ row 1
+
+    $$
+    \begin{pmatrix}
+    2 & 1 & 1 \\
+    0 & 0 & -1 \\
+    0 & 1 & -1
+    \end{pmatrix}
+    \begin{pmatrix}
+    x_1 \\ x_2 \\ x_3
+    \end{pmatrix}
+    = \begin{pmatrix}
+    3 \\ -1 \\ -1
+    \end{pmatrix}.
+    $$
 
 - *Problem*. We cannot eliminate the second column below the diagonal by adding
   a multiple of row 2 to row 3.
@@ -1807,7 +1813,7 @@ Key idea:
 This algorithm will always work when the matrix $A$ is non-singular. Conversely,
 if all of the possible pivot values are zero this implies that the matrix is
 singular and a unique solution does not exist. At each elimination step the row
-multiplies used are guaranteed to be at most one in magnitude so any errors in
+multipliers used are guaranteed to be at most one in magnitude so any errors in
 the representation of the system cannot be amplified by the elimination process.
 As always, solving $A \vec{x} = \vec{b}$ requires that the entries in $\vec{b}$
 are also swapped in the appropriate way.
