@@ -3,9 +3,9 @@
 ::: {.callout-tip}
 ## Module learning objective
 
-Apply direct and iterative solvers to solve systems
-of linear equations; implement methods using floating point numbers and
-investigate computational cost using computer experiments.
+- Derive and apply Jacobi and Gauss-Seidel iterative methods from a matrix splitting of a linear system;
+- Implement iterative solvers for dense and sparse matrices and estimate their computational complexity;
+- Evaluate convergence behaviour and justify the choice of stopping criteria for practical computations.
 :::
 
 ```{python}
@@ -34,7 +34,7 @@ def system_size(A, b):
         A 2D array of shape ``(n, n)`` representing the coefficient matrix of
         the linear system.
     b : numpy.ndarray
-        A array of shape ``(n, o)`` representing the right-hand side vector.
+        A array of shape ``(n, 1)`` representing the right-hand side vector.
 
     Returns
     -------
@@ -123,26 +123,26 @@ def print_array(array, array_name=None, end=None):
 ## Iterative methods
 
 In the previous section we looked at what are known as *direct* methods for
-solving systems of linear equations. They are guaranteed to solve with a fixed
-amount of work (we can even prove this in exact arithmetic!), but this fixed
-amount of work may be **very** large.
+solving systems of linear equations.
+In exact arithmetic, they produce the solution after a finite number of operations,
+but this fixed amount of work may be **very** large.
 
 For a general $n \times n$ system of linear equations $A \vec{x} = \vec{b}$, the
-computation expense of all direct methods if $O(n^3)$. The amount of storage
+computational cost of direct methods is typically $O(n^3)$. The amount of storage
 required for these approaches is $O(n^2)$ which is dominated by the cost of
 storing the matrix $A$. As $n$ becomes larger the storage and computation work
 required limit the practicality of direct approaches.
 
 As an alternative, we will propose some **iterative methods**. Iterative methods
-produce a sequence $(\vec{x}^{(k)})$ of approximations to the solution of the
+produce a sequence $\{\vec{x}^{(k)}\}$ of approximations to the solution of the
 linear system of equations $A \vec{x} = \vec{b}$. The iteration is defined
 recursively and is typically of the form:
 $$
 \vec{x}^{(k+1)} = \vec{F}(\vec{x}^{(k)}),
 $$
 where $\vec{x}^{(k)}$ is now a vector of values and $\vec{F}$ is some vector
-function (which needs to be defined to define the method). We will need to
-choose a starting value $\vec{x}^{(k)}$ but there is often a reasonable
+function (which comes as part of the definition of the method). We will need to
+choose a starting value $\vec{x}^{(0)}$ but there is often a reasonable
 approximation which can be used. Once all this is defined, we still need to
 decide when we need to stop!
 
@@ -155,6 +155,16 @@ $$
 $$
 :::
 
+The methods we consider will have the form:
+
+\begin{equation}
+\label{eq:general-iteration}
+\vec{F}(\vec{x}^{(k)}) = \vec{x}^{(k)} + P (\vec{b} - A \vec{x}^{(k)}).
+\end{equation}
+
+for some matrix $P$.
+We call $\vec{r}^{(k)} = \vec{b} - A \vec{x}^{(k)}$ the **residual**.
+
 ::: {#exm-bad-iterations}
 
 ### Some terrible examples
@@ -165,19 +175,10 @@ well!
 1. Consider
 
    $$
-   \vec{F}(\vec{x}^{(k)}) = \vec{x}^{(k)}.
-   $$
-
-   Each iteration is very cheap to compute but very inaccurate - it never
-   converges!
-
-2. Consider
-
-   $$
    \vec{F}(\vec{x}^{(k)}) = \vec{x}^{(k)} + A^{-1} (\vec{b} - A \vec{x}^{(k)}).
    $$
 
-   Each iteration is very expensive to compute - you have to invert $A$! - but
+   Each iteration is very expensive to compute since it requires applying $A^{-1}$ but
    it converges in just one step since
 
    $$
@@ -189,27 +190,29 @@ well!
    \end{aligned}
    $$
 
+   This example uses $P = A^{-1}$.
+
+2. Consider
+
+   $$
+   \vec{F}(\vec{x}^{(k)}) = \vec{x}^{(k)}.
+   $$
+
+   Each iteration is very cheap to compute but very inaccurate - it never
+   converges!
+
+   This example uses $P = O$ the zero matrix.
+
 :::
 
 The key point here is that we want a method that is both computationally cheap
-and converges quickly to the solution. One way to do this is to construct an
-iteration given by
+and converges quickly to the solution.
+To achieve this we need to choose $P$ so that:
 
-\begin{equation}
-\label{eq:general-iteration}
-\vec{F}(\vec{x}^{(k)}) = \vec{x}^{(k)} + P (\vec{b} - A \vec{x}^{(k)}).
-\end{equation}
-
-for some matrix $P$ such that
-
-- $P$ is easy to compute, or the matrix-vector product $\vec{r} \mapsto P
-   \vec{r}$ is easy to compute,
+- $P$ is easy to compute, or the matrix-vector product $\vec{r}^{(k)} \mapsto P
+   \vec{r}^{(k)}$ is easy to compute,
 - $P$ approximates $A^{-1}$ well enough that the algorithm converges in few
    iterations.
-
-We call $\vec{b} - A \vec{x}^{(k)} = \vec{r}$ the **residual**. Note that the
-above bad examples could be written in the form of \eqref{eq:general-iteration}
-with $P = O$ (the zero matrix) or $P = A^{-1}$.
 
 ## Jacobi iteration
 
@@ -252,7 +255,8 @@ $$
 - Unfortunately, the iteration might not converge!
 :::
 
-The Jacobi iteration updates all elements of $\vec{x}^{(k)}$ *simultaneously* to
+The Jacobi iteration updates all components using the values from iteration $k$.
+It updates all elements of $\vec{x}^{(k)}$ *simultaneously* to
 get $\vec{x}^{(k+1)}$. Writing the method out component by component gives
 
 \begin{align*}
@@ -309,7 +313,7 @@ A_{22} x_2^{(1)} \right) \\
 $$
 So we have $\vec{x}^{(2)} = (1.5625, 0.4375)$.
 
-Note the only difference between the formulae for Iteration 1 and 2 is the
+Note that the only difference between the formulae for Iteration 1 and 2 is the
 iteration number, the superscript in brackets. The exact solution is given by
 $\vec{x} = (1.5, 0.5)^T$.
 :::
@@ -319,13 +323,13 @@ written. We can expand $A$ into $A = L + D + U$, where $L$ and $U$ are the parts
 of the matrix from below and above the diagonal respectively:
 $$
 L_{ij} = \begin{cases}
-A_{ij} &\quad \text{if } i < j \\
-0 &\quad \text{if } i \ge j,
+A_{ij} &\quad \text{if } i > j \\
+0 &\quad \text{if } i \le j,
 \end{cases}
 \qquad
 U_{ij} = \begin{cases}
-A_{ij} &\quad \text{if } i > j \\
-0 &\quad \text{if } i \le j.
+A_{ij} &\quad \text{if } i < j \\
+0 &\quad \text{if } i \ge j.
 \end{cases}
 $$
 Then we can calculate that:
@@ -379,35 +383,13 @@ where $D$ is the diagonal of $A$, $L$ contains the elements below the diagonal,
 and $U$ contains the elements above the diagonal. The componentwise iteration
 above can be written in matrix form as
 $$
-\begin{aligned}
-\vec{x}^{(k+1)} & = \vec{x}^{(k)} + D^{-1} (\vec{b} - L \vec{x}^{(k+1)} - (D + U)
-\vec{x}^{(k)}) \\
-& = \vec{x}^{(k)} - D^{-1} L \vec{x}^{(k+1)} + D^{-1} (\vec{b} - (D + U)
-\vec{x}^{(k)}) \\
-& = \vec{x}^{(k)} - D^{-1} L \vec{x}^{(k+1)} + D^{-1} L \vec{x}^{(k)} + D^{-1}
-(\vec{b} - (L + D + U) \vec{x}^{(k)}) \\
-\vec{x}^{(k+1)} + D^{-1} L \vec{x}^{(k+1)} & = \vec{x}^{(k)} + D^{-1} L
-\vec{x}^{(k)} + D^{-1} (\vec{b} - (L + D + U) \vec{x}^{(k)}) \\
-D^{-1} (D + L) \vec{x}^{(k+1)}  & = D^{-1} (D + L) \vec{x}^{(k)} + D^{-1}
-(\vec{b} - A \vec{x}^{(k)}) \\
-(D + L) \vec{x}^{(k+1)} &= D D^{-1} (D + L) \vec{x}^{(k)} + D D^{-1} (\vec{b}
-- A \vec{x}^{(k)}) \\
-& = (D + L) \vec{x}^{(k)} + (\vec{b} - A \vec{x}^{(k)}) \\
-\vec{x}^{(k+1)} &= (D + L)^{-1} (D + L) \vec{x}^{(k)} + (D + L)^{-1} (\vec{b} -
-A \vec{x}^{(k)}) \\
-& = \vec{x}^{(k)} + (D + L)^{-1} (\vec{b} - A \vec{x}^{(k)}).
-\end{aligned}
-$$
-
-...and hence the **Gauss-Seidel** iteration
-
-$$
 \vec{x}^{(k+1)} = \vec{x}^{(k)} + (D + L)^{-1} (\vec{b} - A \vec{x}^{(k)}).
 $$
 That is, we use $P = (D+L)^{-1}$ in \eqref{eq:general-iteration}.
 
-In general, we do not form the inverse of $D + L$ explicitly here since it is
-more complicated to do so than simply computing the inverse of $D$.
+In practice, we do not form the inverse of $D + L$ explicitly.
+Since $D + L$ is lower triangular, systems involving $D + L$ can be solved efficienctly
+using forward substitution.
 
 ::: {#exm-gauss-seidel-iteration}
 
@@ -446,7 +428,7 @@ Iteration 2:
 
 $$
 \begin{aligned}
-x^{(2)}_1 & = x^{(1)}_1 + \frac{1}{A_{11}} (b_1 - A_{11} x^{(1)}_1 a
+x^{(2)}_1 & = x^{(1)}_1 + \frac{1}{A_{11}} (b_1 - A_{11} x^{(1)}_1
 - A_{12} x^{(1)}_2) \\
           & = 1.25 + \frac{1}{2} (3.5 - 2 \times 1.25 - 1 \times 0.4375)
           = 1.53125 \\
@@ -465,7 +447,7 @@ equations, especially the differences against the Jacobi method.
 
 ::: {#exr-iterations}
 
-Take one iteration of (a) Jacobi iteration; (b) Gauss-Seidel iteration to
+Take one iteration of (a) Jacobi iteration and (b) Gauss-Seidel iteration to
 approximate the solution of the following system using the initial guess
 $\vec{x}^{(0)} = (0, 1, 1)^T$:
 
@@ -498,6 +480,15 @@ $$
 
 - Both iterative algorithms can be made faster and more efficient for sparse
     systems of equations (far more than direct methods).
+:::
+
+::: {#exr-gs-harder}
+1. Show that the componentwise operations written above are equivalent to $P = (D+L)^{-1}$ in \eqref{eq:general-iteration}.
+2. Then show that the componentwise operations are the same as forward substitution applied to \eqref{eq:general-iteration} written as
+   $$
+   \vec{x}^{(k+1)} = \vec{x}^{(k)} + \vec{z}^{(k)}, \qquad
+   (D + L) \vec{z}^{(k)} = (\vec{b} - A \vec{x}^{(k)}).
+   $$
 :::
 
 ## Python version of iterative methods
@@ -661,7 +652,9 @@ matrices can be exploited in order to obtain benefits within iterative methods.
 - The cost per iteration can be reduced from $O(n^2)$.
 
 Recall that a sparse matrix is defined to be such that it has at most $\alpha n$
-non-zero entries (where $\alpha$ is independent of $n$). Typically this happens
+non-zero entries (where $\alpha$ is independent of $n$) -- in other words,
+that the number of nonzero entries grows proportionally to $n$, rather than $n^2$.
+Typically this happens
 when we know there are at most $\alpha$ non-zero entries in any row.
 
 The simplest way in which a sparse matrix is stored is using three arrays:
@@ -1037,7 +1030,7 @@ for n in ns:
     jacobi_iteration(A_dense, b, x0, max_iter=10, verbose=False)
     end_time = time.perf_counter()
 
-    timing_gs_dense.append(end_time - start_time)
+    timing_jac_dense.append(end_time - start_time)
 
     start_time = time.perf_counter()
     gauss_seidel_iteration_sparse(
@@ -1051,7 +1044,7 @@ for n in ns:
     gauss_seidel_iteration(A_dense, b, x0, max_iter=10, verbose=False)
     end_time = time.perf_counter()
 
-    timing_jac_dense.append(end_time - start_time)
+    timing_gs_dense.append(end_time - start_time)
 ```
 
 ```{python}
@@ -1128,9 +1121,9 @@ the *Euclidean norm* of an array (which you met last year!). The Euclidean norm,
 or norm for short, is defined to be the square root of the sum of squares of the
 entries of the array:
 $$
-\| \vec{r} \| = \sqrt{ \sum_{i=1}^n r_i^2 }.
+\| \vec{y} \| = \sqrt{ \sum_{i=1}^n y_i^2 }.
 $$
-where $\vec{r}$ is a vector with $n$ entries.
+where $\vec{y}$ is a vector with $n$ entries.
 
 ::: {#exm-norms}
 
@@ -1176,17 +1169,29 @@ methods) to use, we can use the following stopping criteria:
 - The *change* in values is small enough:
 
     $$
-    \|x^{(k+1)} - \vec{x}^{(k)}\| < tol,
+    \| \vec{x}^{(k+1)} - \vec{x}^{(k)}\| < tol,
     $$
 
 - The *norm of the residual* is small enough:
 
  $$
- \| \vec{r} \| = \| \vec{b} - A \vec{x}^{(k)} \| < tol
+ \| \vec{r}^{(k)} \| = \| \vec{b} - A \vec{x}^{(k)} \| < tol
  $$
 
 In the second and third cases, we call $tol$ the **convergence tolerance** and
 the choice of $tol$ controls the accuracy of the solution.
+
+::: {#rem-error-vs-residual}
+We note that the residual $\vec{r}^{(k)}$ is different to the error $\vec{x} - \vec{x}^{(k)}$.
+The error cannot be computed in general since it requires knowledge of the exact solution $\vec{x}$.
+The residual can be computed and is therefore often used to monitor convergence.
+
+The two are related as using the fact that the residual at the exact solution is $\vec{0}$:
+$$
+\vec{r}^{(k)} = \vec{b} - A \vec{x}^{(k)} = \vec{b} - A \vec{x}^{(k)} - (\vec{b} - A \vec{x}) = A (\vec{x} - \vec{x}^{(k)}).
+$$
+Therefore, the exact relation between the error and residual depends on the properties of $A$.
+:::
 
 ::: {#exr-stopping-discussion}
 
@@ -1263,9 +1268,9 @@ enough" solution.
 
 These basic iterative methods are simple to describe and program but generally
 slow to converge to an accurate answer - typically $O(n)$ iterations are
-required! Their usefulness for general matrix systems is very limited
-therefore - but we have shown their value in the solution of sparse systems
-however.
+required! Their usefulness for general dense matrix systems is very limited.
+However, for sparse systems, they can offer dramatic reductions in both storage
+requirements and computational cost.
 
 More advanced iterative methods do exist but are beyond the scope of this
 module - see Final year projects, MSc projects, PhD, and beyond!
