@@ -1,7 +1,12 @@
 # Complex numbers {#sec-complex-numbers}
 
-This section of the notes supports the final learning outcome around eigenvalues
-and eigenvectors.
+::: {.callout-tip}
+## Module learning objective
+
+- Use complex arithmetic and polar representations to analyse complex numbers algebraically and geometrically.
+- Determine complex roots of polynomial equations using factorisation and the quadratic formula.
+- Work with complex vectors and matrices, including Hermitian products, conjugate transposes, and Hermitian matrices.
+:::
 
 ```{python}
 # | echo: false
@@ -19,7 +24,7 @@ plt.style.use("seaborn-v0_8-colorblind")
 
 A complex number is an element of a number system which extends our familiar
 real number system. Our motivation will be to find eigenvalues and eigenvectors
-which is the next topic in this module. To find eigenvalues, we need to solve of
+which is the next topic in this module. To find eigenvalues, we need to solve
 polynomial equations and it will turn out to be useful to *always* be able to
 get a solution to any polynomial equation.
 
@@ -48,7 +53,7 @@ We can see that this equation has no solution over the real numbers: There are
 no real values $x$ such that $x^2 + 1 = 0$.
 :::
 
-The key idea of complex numbers is to create a new symbol, which we will call
+The key idea is to introduce a new symbol, which we will call
 $i$, or the **imaginary unit** which satisfies:
 \begin{equation*}
  i^2 = -1 \qquad \sqrt{-1} = i.
@@ -56,13 +61,13 @@ $i$, or the **imaginary unit** which satisfies:
 By taking multiples of this imaginary unit, we can create many more new numbers,
 like $3i, \sqrt{5} i$ or $-12 i$. These are examples of **imaginary numbers**.
 
-We form **complex numbers** by adding real and imaginary numbers whilst keeping
-each part separate -- for example, $2 + 3i$, $\frac{1}{2} + \sqrt{5} i$ or $12 -
-12i$.
+A **complex number** is formed by combining a real part and an imaginary part while
+keeping the two components distinct.
+For example, $2 + 3i$, $\frac{1}{2} + \sqrt{5} i$ or $12 - 12i$.
 
 ::: {#def-complex}
-Any number that can be written as $z = a + bi$ with $a, b$ real numbers and $i$
-the imaginary unit is called  *complex number*. In this format, we call $a$ the
+Any number that can be written as $z = a + bi$, with $a, b$ real numbers and $i$
+the imaginary unit, is called  a *complex number*. In this format, we call $a$ the
 **real part** of $z$ and $b$ the **imaginary part** of $z$.
 :::
 
@@ -367,19 +372,19 @@ already seen that
 z y
 & = (a + bi) \times (c + di) = (ac - bd) + (ad + bc)i.
 \end{align*}
-We can compute the square of the modulus of the product $zy$ as
+We can compute the square of the modulus of the product $z y$ as
 \begin{align*}
-|zy|^2
+|z y|^2
 & = (ac - bd)^2 + (ad + bc)^2 \\
 & = a^2 c^2 - 2 abcd + b^2 d^2 + a^2 d^2 + 2 abcd + b^2 c^2 \\
 & = a^2 c^2 + b^2 d^2 + a^2 d^2 + b^2 c^2 \\
-& = (a^2 + b^2) (c^2 + d^2),
+& = (a^2 + b^2) (c^2 + d^2).
 \end{align*}
-and we have computed that $|zy|= |z| |y|$.
+Since moduli are non-negative, taking square roots gives $|z y|= |z| |y|$.
 
-In particular, if $y$ has modulus 1, then $|zy| = |z|$. This means that $zy$ and
+In particular, if $y$ has modulus 1, then $|z y| = |z|$. This means that $z y$ and
 $z$ are the same distance from the origin but 'point' in different directions.
-We can write the real and imaginary parts as $y = c + di = \cos(\theta) + i
+We can write the real and imaginary parts of $y$ (which has $|y|=1$) as $y = c + di = \cos(\theta) + i
 \sin(\theta)$, where $\theta$ is the angle between the positive real axis and
 the line between $0$ and $y$. Then
 \begin{align*}
@@ -389,25 +394,25 @@ z y
 \end{align*}
 Recalling the example of a rotation matrix from @exm-special-matrices, we see
 that multiplying by $y$ is the same as rotating the complex point ($z$) by an
-angle of $\theta$ radians in the anti-clockwise direction.
+angle of $\theta$ radians in the anticlockwise direction.
 
-This leads us to thinking *polar coordinates* for the complex plane. Polar
+This motivates the use of *polar coordinates* for the complex plane. Polar
 coordinates are a different form of coordinates that replace the usual $x$ and
 $y$-directions (up and across) by two values which represent the distance to the
 origin (that we call radius) and angle to the positive $x$-axis (that we call
 the angle). When talking about a complex number $z$ represented in the complex
 plane, we know that the modulus $|z|$ represents the radius. The idea of
-$\theta$ above represents the angle of a complex number that we know call the
+$\theta$ above represents the angle of a complex number that we now call the
 **argument**.
 
 ::: {#def-polar-rep}
-Let $z$ be a complex number. The **polar form** of $z$ is $R (\cos \theta + i
-\sin \theta)$. We call $R$ the modulus of $z$ and $\theta$ is the argument of
-$z$.
+Let $z$ be a complex number. The **polar form** of $z$ is $R (\cos \theta + i \sin \theta)$.
+We call $R$ the modulus of $z$ and $\theta$ is an argument of $z$.
 :::
 
-The representation of the angle unique up to adding integer multiples of $2
-\pi$, since rotating a point by $2 \pi$ about the origin leaves it unchanged.
+The representation of the angle is unique up to adding integer multiples of $2 \pi$,
+since rotating a point by $2 \pi$ about the origin leaves it unchanged.
+We always have $R = |z|$.
 
 ::: {#exm-polar-rep}
 Let $z = 12 -12i$. Then
@@ -494,7 +499,7 @@ plt.show()
 The polar representation of complex numbers then gives us a nice way to
 understand multiplication of complex numbers. If $y \neq 0$, then we can check
 that $\left| \frac{y}{|y|} \right| = 1$ and $\arg{y} = \arg{\frac{y}{|y|}}$.
-Then writing $zy = z \frac{y}{|y|} |y|$, we can use our calculations above to
+Then writing $z y = z \frac{y}{|y|} |y|$, we can use our calculations above to
 infer that multiplying by $y$ corresponds to an anticlockwise rotation by
 $\arg{y}$ then scaling by $|y|$.
 
@@ -509,7 +514,7 @@ The polar form of complex numbers can be further developed thanks to two helpful
 identities. We only state the identities here. There are some examples on the
 worksheet to help your understanding here.
 
-Euler's formula is relates the polar form of a complex number to complex
+Euler's formula relates the polar form of a complex number to complex
 exponentials: Let $x$ be a real number, then
 $$
 \exp (i x) = \cos x + i \sin x.
@@ -529,9 +534,7 @@ Euler's formula is the key important step for showing Euler's identity:
 $$
 \exp(i \pi) = -1.
 $$
-This is shown by applying Euler's formula at $x= \pi$. This is a formula which
-many mathematicians a surprising and beautiful result!
-
+Many mathematicians regard this as a particularly surprising and beautiful identity.
 
 ## Solving polynomial equations
 
@@ -544,7 +547,7 @@ important Theorem:
 
 ### The Fundamental Theorem of Algebra
 
-For any complex numbers $a_0, \ldots, a_n$ not all zero, there is at least one
+For any complex numbers $a_0, \ldots, a_n$ with $a_n \neq 0$, there is at least one
 complex number $z$ which satisfies:
 \begin{equation*}
 a_n z^n + \cdots + a_1 z + a_0 = 0
@@ -622,13 +625,12 @@ z = \frac{+2 \pm \sqrt{(-2)^2 - 4 \times 1 \times 2}}{2} =
 \end{align*}
 
 ::: {#exr-polynomial}
-Find the value of $z$ which satisfy $z^2 - 4z + 20 = 0$.
+Find the values of $z$ which satisfy $z^2 - 4z + 20 = 0$.
 :::
 :::
 
-We will see in later sections that although this is one possible solution to
-compute the eigenvalues for $2 \times 2$ matrices this approach becomes
-infeasible for larger size matrices and we need another approach!
+We will see later that, although this approach can be used to compute the eigenvalues
+of a $2 \times 2$ matrix, it quickly becomes impractical for larger matrices.
 
 ## Complex vectors and matrices
 
@@ -680,7 +682,7 @@ can also compute that for a complex $n$-vector $\vec{z}$ that
 \end{align*}
 So for a complex vector, we define the Euclidean norm as
 \begin{align*}
-\| \vec{z} \| = \sqrt{ \sum_{i=1}^n |z_i|^2 } = \sqrt{ \langle z, z \rangle }.
+\| \vec{z} \| = \sqrt{ \sum_{i=1}^n |z_i|^2 } = \sqrt{ \langle \vec{z}, \vec{z} \rangle }.
 \end{align*}
 
 
