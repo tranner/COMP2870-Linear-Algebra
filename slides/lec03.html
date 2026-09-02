@@ -6,10 +6,10 @@
 <script src="lec03_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="lec03_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="lec03_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="lec03_files/libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="lec03_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="lec03_files/libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
 <link href="lec03_files/libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.26">
+  <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Dr.&nbsp;Thomas Ranner (Tom)">
   <title>COMP2870 Theoretical Foundations of Computer Science II</title>
@@ -19,10 +19,16 @@
   <link rel="stylesheet" href="lec03_files/libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="lec03_files/libs/revealjs/dist/reveal.css">
   <style>
-    code{white-space: pre-wrap;}
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: min(4vw, 1.5em);}
-    div.column{flex: auto; overflow-x: auto;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
     ul.task-list li input[type="checkbox"] {
@@ -97,7 +103,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="lec03_files/libs/revealjs/dist/theme/quarto-534cd8e3a96973385dffff3f4709048d.css">
+  <link rel="stylesheet" href="lec03_files/libs/revealjs/dist/theme/quarto-2740581606dc327e82f18f789b69d8a0.css">
   <link href="lec03_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="lec03_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="lec03_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -210,7 +216,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Dr.&nbsp;Thomas Ranner (Tom) 
+Dr.&nbsp;Thomas Ranner (Tom)
 </div>
 <div class="quarto-title-author-email">
 <a href="mailto:T.Ranner@leeds.ac.uk">T.Ranner@leeds.ac.uk</a>
@@ -451,22 +457,22 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIGZvcndhcmRfc3Vic3Rp
 </script>
 </div>
 <aside class="notes">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="kw">def</span> forward_substitution(A, b):</span>
-<span id="cb1-2"><a href=""></a>    <span class="co"># check is lower triangular</span></span>
-<span id="cb1-3"><a href=""></a>    <span class="cf">if</span> <span class="kw">not</span> np.allclose(A, np.tril(A)):</span>
-<span id="cb1-4"><a href=""></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Matrix A is not lower triangular"</span>)</span>
-<span id="cb1-5"><a href=""></a></span>
-<span id="cb1-6"><a href=""></a>    <span class="co"># create solution variable</span></span>
-<span id="cb1-7"><a href=""></a>    x <span class="op">=</span> np.empty_like(b)</span>
-<span id="cb1-8"><a href=""></a></span>
-<span id="cb1-9"><a href=""></a>    <span class="co"># perform forwards solve</span></span>
-<span id="cb1-10"><a href=""></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
-<span id="cb1-11"><a href=""></a>        partial_sum <span class="op">=</span> <span class="fl">0.0</span></span>
-<span id="cb1-12"><a href=""></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, i):</span>
-<span id="cb1-13"><a href=""></a>            partial_sum <span class="op">+=</span> A[i, j] <span class="op">*</span> x[j]</span>
-<span id="cb1-14"><a href=""></a>        x[i] <span class="op">=</span> <span class="fl">1.0</span> <span class="op">/</span> A[i, i] <span class="op">*</span> (b[i] <span class="op">-</span> partial_sum)</span>
-<span id="cb1-15"><a href=""></a></span>
-<span id="cb1-16"><a href=""></a>    <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="" aria-label="1"></a><span class="kw">def</span> forward_substitution(A, b):</span>
+<span id="cb1-2"><a href="" aria-label="2"></a>    <span class="co"># check is lower triangular</span></span>
+<span id="cb1-3"><a href="" aria-label="3"></a>    <span class="cf">if</span> <span class="kw">not</span> np.allclose(A, np.tril(A)):</span>
+<span id="cb1-4"><a href="" aria-label="4"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Matrix A is not lower triangular"</span>)</span>
+<span id="cb1-5"><a href="" aria-label="5"></a></span>
+<span id="cb1-6"><a href="" aria-label="6"></a>    <span class="co"># create solution variable</span></span>
+<span id="cb1-7"><a href="" aria-label="7"></a>    x <span class="op">=</span> np.empty_like(b)</span>
+<span id="cb1-8"><a href="" aria-label="8"></a></span>
+<span id="cb1-9"><a href="" aria-label="9"></a>    <span class="co"># perform forwards solve</span></span>
+<span id="cb1-10"><a href="" aria-label="10"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb1-11"><a href="" aria-label="11"></a>        partial_sum <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb1-12"><a href="" aria-label="12"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, i):</span>
+<span id="cb1-13"><a href="" aria-label="13"></a>            partial_sum <span class="op">+=</span> A[i, j] <span class="op">*</span> x[j]</span>
+<span id="cb1-14"><a href="" aria-label="14"></a>        x[i] <span class="op">=</span> <span class="fl">1.0</span> <span class="op">/</span> A[i, i] <span class="op">*</span> (b[i] <span class="op">-</span> partial_sum)</span>
+<span id="cb1-15"><a href="" aria-label="15"></a></span>
+<span id="cb1-16"><a href="" aria-label="16"></a>    <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -869,41 +875,41 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIHJvd19zd2FwKEEsIGIs
 </script>
 </div>
 <aside class="notes">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a><span class="kw">def</span> row_swap(A, b, p, q):</span>
-<span id="cb2-2"><a href=""></a>    <span class="co">"""</span></span>
-<span id="cb2-3"><a href=""></a><span class="co">    Swap two rows in a linear system of equations in place.</span></span>
-<span id="cb2-4"><a href=""></a></span>
-<span id="cb2-5"><a href=""></a><span class="co">    This function swaps the rows `p` and `q` of the coefficient matrix `A`</span></span>
-<span id="cb2-6"><a href=""></a><span class="co">    and the right-hand side vector `b` for a linear system of equations</span></span>
-<span id="cb2-7"><a href=""></a><span class="co">    of the form ``Ax = b``. The operation is performed **in place**, modifying</span></span>
-<span id="cb2-8"><a href=""></a><span class="co">    the input arrays directly.</span></span>
-<span id="cb2-9"><a href=""></a></span>
-<span id="cb2-10"><a href=""></a><span class="co">    Parameters</span></span>
-<span id="cb2-11"><a href=""></a><span class="co">    ----------</span></span>
-<span id="cb2-12"><a href=""></a><span class="co">    A : numpy.ndarray</span></span>
-<span id="cb2-13"><a href=""></a><span class="co">        A 2D NumPy array of shape ``(n, n)`` representing the coefficient matrix</span></span>
-<span id="cb2-14"><a href=""></a><span class="co">        of the linear system.</span></span>
-<span id="cb2-15"><a href=""></a><span class="co">    b : numpy.ndarray</span></span>
-<span id="cb2-16"><a href=""></a><span class="co">        A 2D NumPy array of shape ``(n, 1)`` representing the right-hand side</span></span>
-<span id="cb2-17"><a href=""></a><span class="co">        vector of the system.</span></span>
-<span id="cb2-18"><a href=""></a><span class="co">    p : int</span></span>
-<span id="cb2-19"><a href=""></a><span class="co">        The index of the first row to swap. Must satisfy ``0 &lt;= p &lt; n``.</span></span>
-<span id="cb2-20"><a href=""></a><span class="co">    q : int</span></span>
-<span id="cb2-21"><a href=""></a><span class="co">        The index of the second row to swap. Must satisfy ``0 &lt;= q &lt; n``.</span></span>
-<span id="cb2-22"><a href=""></a></span>
-<span id="cb2-23"><a href=""></a><span class="co">    Returns</span></span>
-<span id="cb2-24"><a href=""></a><span class="co">    -------</span></span>
-<span id="cb2-25"><a href=""></a><span class="co">    None</span></span>
-<span id="cb2-26"><a href=""></a><span class="co">        This function modifies `A` and `b` directly and does not return</span></span>
-<span id="cb2-27"><a href=""></a><span class="co">        anything.</span></span>
-<span id="cb2-28"><a href=""></a><span class="co">    """</span></span>
-<span id="cb2-29"><a href=""></a>    <span class="co"># get system size</span></span>
-<span id="cb2-30"><a href=""></a>    n <span class="op">=</span> system_size(A, b)</span>
-<span id="cb2-31"><a href=""></a>    <span class="co"># swap rows of A</span></span>
-<span id="cb2-32"><a href=""></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n):</span>
-<span id="cb2-33"><a href=""></a>        A[p, j], A[q, j] <span class="op">=</span> A[q, j], A[p, j]</span>
-<span id="cb2-34"><a href=""></a>    <span class="co"># swap rows of b</span></span>
-<span id="cb2-35"><a href=""></a>    b[p, <span class="dv">0</span>], b[q, <span class="dv">0</span>] <span class="op">=</span> b[q, <span class="dv">0</span>], b[p, <span class="dv">0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="" aria-label="1"></a><span class="kw">def</span> row_swap(A, b, p, q):</span>
+<span id="cb2-2"><a href="" aria-label="2"></a>    <span class="co">"""</span></span>
+<span id="cb2-3"><a href="" aria-label="3"></a><span class="co">    Swap two rows in a linear system of equations in place.</span></span>
+<span id="cb2-4"><a href="" aria-label="4"></a></span>
+<span id="cb2-5"><a href="" aria-label="5"></a><span class="co">    This function swaps the rows `p` and `q` of the coefficient matrix `A`</span></span>
+<span id="cb2-6"><a href="" aria-label="6"></a><span class="co">    and the right-hand side vector `b` for a linear system of equations</span></span>
+<span id="cb2-7"><a href="" aria-label="7"></a><span class="co">    of the form ``Ax = b``. The operation is performed **in place**, modifying</span></span>
+<span id="cb2-8"><a href="" aria-label="8"></a><span class="co">    the input arrays directly.</span></span>
+<span id="cb2-9"><a href="" aria-label="9"></a></span>
+<span id="cb2-10"><a href="" aria-label="10"></a><span class="co">    Parameters</span></span>
+<span id="cb2-11"><a href="" aria-label="11"></a><span class="co">    ----------</span></span>
+<span id="cb2-12"><a href="" aria-label="12"></a><span class="co">    A : numpy.ndarray</span></span>
+<span id="cb2-13"><a href="" aria-label="13"></a><span class="co">        A 2D NumPy array of shape ``(n, n)`` representing the coefficient matrix</span></span>
+<span id="cb2-14"><a href="" aria-label="14"></a><span class="co">        of the linear system.</span></span>
+<span id="cb2-15"><a href="" aria-label="15"></a><span class="co">    b : numpy.ndarray</span></span>
+<span id="cb2-16"><a href="" aria-label="16"></a><span class="co">        A 2D NumPy array of shape ``(n, 1)`` representing the right-hand side</span></span>
+<span id="cb2-17"><a href="" aria-label="17"></a><span class="co">        vector of the system.</span></span>
+<span id="cb2-18"><a href="" aria-label="18"></a><span class="co">    p : int</span></span>
+<span id="cb2-19"><a href="" aria-label="19"></a><span class="co">        The index of the first row to swap. Must satisfy ``0 &lt;= p &lt; n``.</span></span>
+<span id="cb2-20"><a href="" aria-label="20"></a><span class="co">    q : int</span></span>
+<span id="cb2-21"><a href="" aria-label="21"></a><span class="co">        The index of the second row to swap. Must satisfy ``0 &lt;= q &lt; n``.</span></span>
+<span id="cb2-22"><a href="" aria-label="22"></a></span>
+<span id="cb2-23"><a href="" aria-label="23"></a><span class="co">    Returns</span></span>
+<span id="cb2-24"><a href="" aria-label="24"></a><span class="co">    -------</span></span>
+<span id="cb2-25"><a href="" aria-label="25"></a><span class="co">    None</span></span>
+<span id="cb2-26"><a href="" aria-label="26"></a><span class="co">        This function modifies `A` and `b` directly and does not return</span></span>
+<span id="cb2-27"><a href="" aria-label="27"></a><span class="co">        anything.</span></span>
+<span id="cb2-28"><a href="" aria-label="28"></a><span class="co">    """</span></span>
+<span id="cb2-29"><a href="" aria-label="29"></a>    <span class="co"># get system size</span></span>
+<span id="cb2-30"><a href="" aria-label="30"></a>    n <span class="op">=</span> system_size(A, b)</span>
+<span id="cb2-31"><a href="" aria-label="31"></a>    <span class="co"># swap rows of A</span></span>
+<span id="cb2-32"><a href="" aria-label="32"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb2-33"><a href="" aria-label="33"></a>        A[p, j], A[q, j] <span class="op">=</span> A[q, j], A[p, j]</span>
+<span id="cb2-34"><a href="" aria-label="34"></a>    <span class="co"># swap rows of b</span></span>
+<span id="cb2-35"><a href="" aria-label="35"></a>    b[p, <span class="dv">0</span>], b[q, <span class="dv">0</span>] <span class="op">=</span> b[q, <span class="dv">0</span>], b[p, <span class="dv">0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -938,41 +944,41 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIHJvd19zY2FsZShBLCBi
 </script>
 </div>
 <aside class="notes">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a><span class="kw">def</span> row_scale(A, b, p, k):</span>
-<span id="cb3-2"><a href=""></a>    <span class="co">"""</span></span>
-<span id="cb3-3"><a href=""></a><span class="co">    Scale a row of a linear system by a constant factor in place.</span></span>
-<span id="cb3-4"><a href=""></a></span>
-<span id="cb3-5"><a href=""></a><span class="co">    This function multiplies all entries in row `p` of the coefficient matrix</span></span>
-<span id="cb3-6"><a href=""></a><span class="co">    `A` and the corresponding entry in the right-hand side vector `b` by a</span></span>
-<span id="cb3-7"><a href=""></a><span class="co">    scalar `k`. The operation is performed **in place**, modifying the input</span></span>
-<span id="cb3-8"><a href=""></a><span class="co">    arrays directly.</span></span>
-<span id="cb3-9"><a href=""></a></span>
-<span id="cb3-10"><a href=""></a><span class="co">    Parameters</span></span>
-<span id="cb3-11"><a href=""></a><span class="co">    ----------</span></span>
-<span id="cb3-12"><a href=""></a><span class="co">    A : numpy.ndarray</span></span>
-<span id="cb3-13"><a href=""></a><span class="co">        A 2D NumPy array of shape ``(n, n)`` representing the coefficient matrix</span></span>
-<span id="cb3-14"><a href=""></a><span class="co">        of the linear system.</span></span>
-<span id="cb3-15"><a href=""></a><span class="co">    b : numpy.ndarray</span></span>
-<span id="cb3-16"><a href=""></a><span class="co">        A 2D NumPy array of shape ``(n, 1)`` representing the right-hand side</span></span>
-<span id="cb3-17"><a href=""></a><span class="co">        vector of the system.</span></span>
-<span id="cb3-18"><a href=""></a><span class="co">    p : int</span></span>
-<span id="cb3-19"><a href=""></a><span class="co">        The index of the row to scale. Must satisfy ``0 &lt;= p &lt; n``.</span></span>
-<span id="cb3-20"><a href=""></a><span class="co">    k : float</span></span>
-<span id="cb3-21"><a href=""></a><span class="co">        The scalar multiplier applied to the entire row.</span></span>
-<span id="cb3-22"><a href=""></a></span>
-<span id="cb3-23"><a href=""></a><span class="co">    Returns</span></span>
-<span id="cb3-24"><a href=""></a><span class="co">    -------</span></span>
-<span id="cb3-25"><a href=""></a><span class="co">    None</span></span>
-<span id="cb3-26"><a href=""></a><span class="co">        This function modifies `A` and `b` directly and does not return</span></span>
-<span id="cb3-27"><a href=""></a><span class="co">        anything.</span></span>
-<span id="cb3-28"><a href=""></a><span class="co">    """</span></span>
-<span id="cb3-29"><a href=""></a>    n <span class="op">=</span> system_size(A, b)</span>
-<span id="cb3-30"><a href=""></a></span>
-<span id="cb3-31"><a href=""></a>    <span class="co"># scale row p of A</span></span>
-<span id="cb3-32"><a href=""></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n):</span>
-<span id="cb3-33"><a href=""></a>        A[p, j] <span class="op">=</span> k <span class="op">*</span> A[p, j]</span>
-<span id="cb3-34"><a href=""></a>    <span class="co"># scale row p of b</span></span>
-<span id="cb3-35"><a href=""></a>    b[p, <span class="dv">0</span>] <span class="op">=</span> b[p, <span class="dv">0</span>] <span class="op">*</span> k</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="" aria-label="1"></a><span class="kw">def</span> row_scale(A, b, p, k):</span>
+<span id="cb3-2"><a href="" aria-label="2"></a>    <span class="co">"""</span></span>
+<span id="cb3-3"><a href="" aria-label="3"></a><span class="co">    Scale a row of a linear system by a constant factor in place.</span></span>
+<span id="cb3-4"><a href="" aria-label="4"></a></span>
+<span id="cb3-5"><a href="" aria-label="5"></a><span class="co">    This function multiplies all entries in row `p` of the coefficient matrix</span></span>
+<span id="cb3-6"><a href="" aria-label="6"></a><span class="co">    `A` and the corresponding entry in the right-hand side vector `b` by a</span></span>
+<span id="cb3-7"><a href="" aria-label="7"></a><span class="co">    scalar `k`. The operation is performed **in place**, modifying the input</span></span>
+<span id="cb3-8"><a href="" aria-label="8"></a><span class="co">    arrays directly.</span></span>
+<span id="cb3-9"><a href="" aria-label="9"></a></span>
+<span id="cb3-10"><a href="" aria-label="10"></a><span class="co">    Parameters</span></span>
+<span id="cb3-11"><a href="" aria-label="11"></a><span class="co">    ----------</span></span>
+<span id="cb3-12"><a href="" aria-label="12"></a><span class="co">    A : numpy.ndarray</span></span>
+<span id="cb3-13"><a href="" aria-label="13"></a><span class="co">        A 2D NumPy array of shape ``(n, n)`` representing the coefficient matrix</span></span>
+<span id="cb3-14"><a href="" aria-label="14"></a><span class="co">        of the linear system.</span></span>
+<span id="cb3-15"><a href="" aria-label="15"></a><span class="co">    b : numpy.ndarray</span></span>
+<span id="cb3-16"><a href="" aria-label="16"></a><span class="co">        A 2D NumPy array of shape ``(n, 1)`` representing the right-hand side</span></span>
+<span id="cb3-17"><a href="" aria-label="17"></a><span class="co">        vector of the system.</span></span>
+<span id="cb3-18"><a href="" aria-label="18"></a><span class="co">    p : int</span></span>
+<span id="cb3-19"><a href="" aria-label="19"></a><span class="co">        The index of the row to scale. Must satisfy ``0 &lt;= p &lt; n``.</span></span>
+<span id="cb3-20"><a href="" aria-label="20"></a><span class="co">    k : float</span></span>
+<span id="cb3-21"><a href="" aria-label="21"></a><span class="co">        The scalar multiplier applied to the entire row.</span></span>
+<span id="cb3-22"><a href="" aria-label="22"></a></span>
+<span id="cb3-23"><a href="" aria-label="23"></a><span class="co">    Returns</span></span>
+<span id="cb3-24"><a href="" aria-label="24"></a><span class="co">    -------</span></span>
+<span id="cb3-25"><a href="" aria-label="25"></a><span class="co">    None</span></span>
+<span id="cb3-26"><a href="" aria-label="26"></a><span class="co">        This function modifies `A` and `b` directly and does not return</span></span>
+<span id="cb3-27"><a href="" aria-label="27"></a><span class="co">        anything.</span></span>
+<span id="cb3-28"><a href="" aria-label="28"></a><span class="co">    """</span></span>
+<span id="cb3-29"><a href="" aria-label="29"></a>    n <span class="op">=</span> system_size(A, b)</span>
+<span id="cb3-30"><a href="" aria-label="30"></a></span>
+<span id="cb3-31"><a href="" aria-label="31"></a>    <span class="co"># scale row p of A</span></span>
+<span id="cb3-32"><a href="" aria-label="32"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb3-33"><a href="" aria-label="33"></a>        A[p, j] <span class="op">=</span> k <span class="op">*</span> A[p, j]</span>
+<span id="cb3-34"><a href="" aria-label="34"></a>    <span class="co"># scale row p of b</span></span>
+<span id="cb3-35"><a href="" aria-label="35"></a>    b[p, <span class="dv">0</span>] <span class="op">=</span> b[p, <span class="dv">0</span>] <span class="op">*</span> k</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -1007,44 +1013,44 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIHJvd19hZGQoQSwgYiwg
 </script>
 </div>
 <aside class="notes">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a><span class="kw">def</span> row_add(A, b, p, k, q):</span>
-<span id="cb4-2"><a href=""></a>    <span class="co">"""</span></span>
-<span id="cb4-3"><a href=""></a><span class="co">    Perform an in-place row addition operation on a linear system.</span></span>
-<span id="cb4-4"><a href=""></a></span>
-<span id="cb4-5"><a href=""></a><span class="co">    This function applies the elementary row operation:</span></span>
-<span id="cb4-6"><a href=""></a></span>
-<span id="cb4-7"><a href=""></a><span class="co">    ``row_p ← row_p + k * row_q``</span></span>
-<span id="cb4-8"><a href=""></a></span>
-<span id="cb4-9"><a href=""></a><span class="co">    where `row_p` and `row_q` are rows in the coefficient matrix `A` and the</span></span>
-<span id="cb4-10"><a href=""></a><span class="co">    right-hand side vector `b`. It updates the entries of `A` and `b`</span></span>
-<span id="cb4-11"><a href=""></a><span class="co">    **in place**, directly modifying the original data.</span></span>
-<span id="cb4-12"><a href=""></a></span>
-<span id="cb4-13"><a href=""></a><span class="co">    Parameters</span></span>
-<span id="cb4-14"><a href=""></a><span class="co">    ----------</span></span>
-<span id="cb4-15"><a href=""></a><span class="co">    A : numpy.ndarray</span></span>
-<span id="cb4-16"><a href=""></a><span class="co">        A 2D NumPy array of shape ``(n, n)`` representing the coefficient matrix</span></span>
-<span id="cb4-17"><a href=""></a><span class="co">        of the linear system.</span></span>
-<span id="cb4-18"><a href=""></a><span class="co">    b : numpy.ndarray</span></span>
-<span id="cb4-19"><a href=""></a><span class="co">        A 2D NumPy array of shape ``(n, 1)`` representing the right-hand side</span></span>
-<span id="cb4-20"><a href=""></a><span class="co">        vector of the system.</span></span>
-<span id="cb4-21"><a href=""></a><span class="co">    p : int</span></span>
-<span id="cb4-22"><a href=""></a><span class="co">        The index of the row to be updated (destination row). Must satisfy</span></span>
-<span id="cb4-23"><a href=""></a><span class="co">        ``0 &lt;= p &lt; n``.</span></span>
-<span id="cb4-24"><a href=""></a><span class="co">    k : float</span></span>
-<span id="cb4-25"><a href=""></a><span class="co">        The scalar multiplier applied to `row_q` before adding it to `row_p`.</span></span>
-<span id="cb4-26"><a href=""></a><span class="co">    q : int</span></span>
-<span id="cb4-27"><a href=""></a><span class="co">        The index of the source row to be scaled and added. Must satisfy</span></span>
-<span id="cb4-28"><a href=""></a><span class="co">        ``0 &lt;= q &lt; n``.</span></span>
-<span id="cb4-29"><a href=""></a><span class="co">    """</span></span>
-<span id="cb4-30"><a href=""></a>    n <span class="op">=</span> system_size(A, b)</span>
-<span id="cb4-31"><a href=""></a></span>
-<span id="cb4-32"><a href=""></a>    <span class="co"># Perform the row operation</span></span>
-<span id="cb4-33"><a href=""></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n):</span>
-<span id="cb4-34"><a href=""></a>        A[p, j] <span class="op">=</span> A[p, j] <span class="op">+</span> k <span class="op">*</span> A[q, j]</span>
-<span id="cb4-35"><a href=""></a></span>
-<span id="cb4-36"><a href=""></a>    <span class="co"># Update the corresponding value in b</span></span>
-<span id="cb4-37"><a href=""></a>    b[p, <span class="dv">0</span>] <span class="op">=</span> b[p, <span class="dv">0</span>] <span class="op">+</span> k <span class="op">*</span> b[q, <span class="dv">0</span>]</span>
-<span id="cb4-38"><a href=""></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="" aria-label="1"></a><span class="kw">def</span> row_add(A, b, p, k, q):</span>
+<span id="cb4-2"><a href="" aria-label="2"></a>    <span class="co">"""</span></span>
+<span id="cb4-3"><a href="" aria-label="3"></a><span class="co">    Perform an in-place row addition operation on a linear system.</span></span>
+<span id="cb4-4"><a href="" aria-label="4"></a></span>
+<span id="cb4-5"><a href="" aria-label="5"></a><span class="co">    This function applies the elementary row operation:</span></span>
+<span id="cb4-6"><a href="" aria-label="6"></a></span>
+<span id="cb4-7"><a href="" aria-label="7"></a><span class="co">    ``row_p ← row_p + k * row_q``</span></span>
+<span id="cb4-8"><a href="" aria-label="8"></a></span>
+<span id="cb4-9"><a href="" aria-label="9"></a><span class="co">    where `row_p` and `row_q` are rows in the coefficient matrix `A` and the</span></span>
+<span id="cb4-10"><a href="" aria-label="10"></a><span class="co">    right-hand side vector `b`. It updates the entries of `A` and `b`</span></span>
+<span id="cb4-11"><a href="" aria-label="11"></a><span class="co">    **in place**, directly modifying the original data.</span></span>
+<span id="cb4-12"><a href="" aria-label="12"></a></span>
+<span id="cb4-13"><a href="" aria-label="13"></a><span class="co">    Parameters</span></span>
+<span id="cb4-14"><a href="" aria-label="14"></a><span class="co">    ----------</span></span>
+<span id="cb4-15"><a href="" aria-label="15"></a><span class="co">    A : numpy.ndarray</span></span>
+<span id="cb4-16"><a href="" aria-label="16"></a><span class="co">        A 2D NumPy array of shape ``(n, n)`` representing the coefficient matrix</span></span>
+<span id="cb4-17"><a href="" aria-label="17"></a><span class="co">        of the linear system.</span></span>
+<span id="cb4-18"><a href="" aria-label="18"></a><span class="co">    b : numpy.ndarray</span></span>
+<span id="cb4-19"><a href="" aria-label="19"></a><span class="co">        A 2D NumPy array of shape ``(n, 1)`` representing the right-hand side</span></span>
+<span id="cb4-20"><a href="" aria-label="20"></a><span class="co">        vector of the system.</span></span>
+<span id="cb4-21"><a href="" aria-label="21"></a><span class="co">    p : int</span></span>
+<span id="cb4-22"><a href="" aria-label="22"></a><span class="co">        The index of the row to be updated (destination row). Must satisfy</span></span>
+<span id="cb4-23"><a href="" aria-label="23"></a><span class="co">        ``0 &lt;= p &lt; n``.</span></span>
+<span id="cb4-24"><a href="" aria-label="24"></a><span class="co">    k : float</span></span>
+<span id="cb4-25"><a href="" aria-label="25"></a><span class="co">        The scalar multiplier applied to `row_q` before adding it to `row_p`.</span></span>
+<span id="cb4-26"><a href="" aria-label="26"></a><span class="co">    q : int</span></span>
+<span id="cb4-27"><a href="" aria-label="27"></a><span class="co">        The index of the source row to be scaled and added. Must satisfy</span></span>
+<span id="cb4-28"><a href="" aria-label="28"></a><span class="co">        ``0 &lt;= q &lt; n``.</span></span>
+<span id="cb4-29"><a href="" aria-label="29"></a><span class="co">    """</span></span>
+<span id="cb4-30"><a href="" aria-label="30"></a>    n <span class="op">=</span> system_size(A, b)</span>
+<span id="cb4-31"><a href="" aria-label="31"></a></span>
+<span id="cb4-32"><a href="" aria-label="32"></a>    <span class="co"># Perform the row operation</span></span>
+<span id="cb4-33"><a href="" aria-label="33"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb4-34"><a href="" aria-label="34"></a>        A[p, j] <span class="op">=</span> A[p, j] <span class="op">+</span> k <span class="op">*</span> A[q, j]</span>
+<span id="cb4-35"><a href="" aria-label="35"></a></span>
+<span id="cb4-36"><a href="" aria-label="36"></a>    <span class="co"># Update the corresponding value in b</span></span>
+<span id="cb4-37"><a href="" aria-label="37"></a>    b[p, <span class="dv">0</span>] <span class="op">=</span> b[p, <span class="dv">0</span>] <span class="op">+</span> k <span class="op">*</span> b[q, <span class="dv">0</span>]</span>
+<span id="cb4-38"><a href="" aria-label="38"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -1080,58 +1086,58 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIGdhdXNzaWFuX2VsaW1p
 </script>
 </div>
 <aside class="notes">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href=""></a><span class="kw">def</span> gaussian_elimination(A, b, verbose<span class="op">=</span><span class="va">False</span>):</span>
-<span id="cb5-2"><a href=""></a>    <span class="co">"""</span></span>
-<span id="cb5-3"><a href=""></a><span class="co">    Perform Gaussian elimination to reduce a linear system to upper triangular</span></span>
-<span id="cb5-4"><a href=""></a><span class="co">    form.</span></span>
-<span id="cb5-5"><a href=""></a></span>
-<span id="cb5-6"><a href=""></a><span class="co">    This function performs **forward elimination** to transform the coefficient</span></span>
-<span id="cb5-7"><a href=""></a><span class="co">    matrix `A` into an upper triangular matrix, while applying the same</span></span>
-<span id="cb5-8"><a href=""></a><span class="co">    operations to the right-hand side vector `b`. This is the first step in</span></span>
-<span id="cb5-9"><a href=""></a><span class="co">    solving a linear system of equations of the form ``Ax = b`` using Gaussian</span></span>
-<span id="cb5-10"><a href=""></a><span class="co">    elimination.</span></span>
-<span id="cb5-11"><a href=""></a></span>
-<span id="cb5-12"><a href=""></a><span class="co">    Parameters</span></span>
-<span id="cb5-13"><a href=""></a><span class="co">    ----------</span></span>
-<span id="cb5-14"><a href=""></a><span class="co">    A : numpy.ndarray</span></span>
-<span id="cb5-15"><a href=""></a><span class="co">        A 2D NumPy array of shape ``(n, n)`` representing the coefficient matrix</span></span>
-<span id="cb5-16"><a href=""></a><span class="co">        of the system.</span></span>
-<span id="cb5-17"><a href=""></a><span class="co">    b : numpy.ndarray</span></span>
-<span id="cb5-18"><a href=""></a><span class="co">        A 2D NumPy array of shape ``(n, 1)`` representing the right-hand side</span></span>
-<span id="cb5-19"><a href=""></a><span class="co">        vector.</span></span>
-<span id="cb5-20"><a href=""></a><span class="co">    verbose : bool, optional</span></span>
-<span id="cb5-21"><a href=""></a><span class="co">        If ``True``, prints detailed information about each elimination step,</span></span>
-<span id="cb5-22"><a href=""></a><span class="co">        including the row operations performed and the intermediate forms of</span></span>
-<span id="cb5-23"><a href=""></a><span class="co">        `A` and `b`. Default is ``False``.</span></span>
-<span id="cb5-24"><a href=""></a></span>
-<span id="cb5-25"><a href=""></a><span class="co">    Returns</span></span>
-<span id="cb5-26"><a href=""></a><span class="co">    -------</span></span>
-<span id="cb5-27"><a href=""></a><span class="co">    None</span></span>
-<span id="cb5-28"><a href=""></a><span class="co">        This function modifies `A` and `b` **in place** and does not return</span></span>
-<span id="cb5-29"><a href=""></a><span class="co">        anything.</span></span>
-<span id="cb5-30"><a href=""></a><span class="co">    """</span></span>
-<span id="cb5-31"><a href=""></a>    <span class="co"># find shape of system</span></span>
-<span id="cb5-32"><a href=""></a>    n <span class="op">=</span> system_size(A, b)</span>
-<span id="cb5-33"><a href=""></a></span>
-<span id="cb5-34"><a href=""></a>    <span class="co"># perform forwards elimination</span></span>
-<span id="cb5-35"><a href=""></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n <span class="op">-</span> <span class="dv">1</span>):</span>
-<span id="cb5-36"><a href=""></a>        <span class="co"># eliminate column i</span></span>
-<span id="cb5-37"><a href=""></a>        <span class="cf">if</span> verbose:</span>
-<span id="cb5-38"><a href=""></a>            <span class="bu">print</span>(<span class="ss">f"eliminating column </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb5-39"><a href=""></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i <span class="op">+</span> <span class="dv">1</span>, n):</span>
-<span id="cb5-40"><a href=""></a>            <span class="co"># row j</span></span>
-<span id="cb5-41"><a href=""></a>            factor <span class="op">=</span> A[j, i] <span class="op">/</span> A[i, i]</span>
-<span id="cb5-42"><a href=""></a>            <span class="cf">if</span> verbose:</span>
-<span id="cb5-43"><a href=""></a>                <span class="bu">print</span>(<span class="ss">f"  row </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss"> |-&gt; row </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>factor<span class="sc">}</span><span class="ss"> * row </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb5-44"><a href=""></a>            row_add(A, b, j, <span class="op">-</span>factor, i)</span>
-<span id="cb5-45"><a href=""></a></span>
-<span id="cb5-46"><a href=""></a>        <span class="cf">if</span> verbose:</span>
-<span id="cb5-47"><a href=""></a>            <span class="bu">print</span>()</span>
-<span id="cb5-48"><a href=""></a>            <span class="bu">print</span>(<span class="st">"new system"</span>)</span>
-<span id="cb5-49"><a href=""></a>            print_array(A)</span>
-<span id="cb5-50"><a href=""></a>            print_array(b)</span>
-<span id="cb5-51"><a href=""></a>            <span class="bu">print</span>()</span>
-<span id="cb5-52"><a href=""></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="" aria-label="1"></a><span class="kw">def</span> gaussian_elimination(A, b, verbose<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb5-2"><a href="" aria-label="2"></a>    <span class="co">"""</span></span>
+<span id="cb5-3"><a href="" aria-label="3"></a><span class="co">    Perform Gaussian elimination to reduce a linear system to upper triangular</span></span>
+<span id="cb5-4"><a href="" aria-label="4"></a><span class="co">    form.</span></span>
+<span id="cb5-5"><a href="" aria-label="5"></a></span>
+<span id="cb5-6"><a href="" aria-label="6"></a><span class="co">    This function performs **forward elimination** to transform the coefficient</span></span>
+<span id="cb5-7"><a href="" aria-label="7"></a><span class="co">    matrix `A` into an upper triangular matrix, while applying the same</span></span>
+<span id="cb5-8"><a href="" aria-label="8"></a><span class="co">    operations to the right-hand side vector `b`. This is the first step in</span></span>
+<span id="cb5-9"><a href="" aria-label="9"></a><span class="co">    solving a linear system of equations of the form ``Ax = b`` using Gaussian</span></span>
+<span id="cb5-10"><a href="" aria-label="10"></a><span class="co">    elimination.</span></span>
+<span id="cb5-11"><a href="" aria-label="11"></a></span>
+<span id="cb5-12"><a href="" aria-label="12"></a><span class="co">    Parameters</span></span>
+<span id="cb5-13"><a href="" aria-label="13"></a><span class="co">    ----------</span></span>
+<span id="cb5-14"><a href="" aria-label="14"></a><span class="co">    A : numpy.ndarray</span></span>
+<span id="cb5-15"><a href="" aria-label="15"></a><span class="co">        A 2D NumPy array of shape ``(n, n)`` representing the coefficient matrix</span></span>
+<span id="cb5-16"><a href="" aria-label="16"></a><span class="co">        of the system.</span></span>
+<span id="cb5-17"><a href="" aria-label="17"></a><span class="co">    b : numpy.ndarray</span></span>
+<span id="cb5-18"><a href="" aria-label="18"></a><span class="co">        A 2D NumPy array of shape ``(n, 1)`` representing the right-hand side</span></span>
+<span id="cb5-19"><a href="" aria-label="19"></a><span class="co">        vector.</span></span>
+<span id="cb5-20"><a href="" aria-label="20"></a><span class="co">    verbose : bool, optional</span></span>
+<span id="cb5-21"><a href="" aria-label="21"></a><span class="co">        If ``True``, prints detailed information about each elimination step,</span></span>
+<span id="cb5-22"><a href="" aria-label="22"></a><span class="co">        including the row operations performed and the intermediate forms of</span></span>
+<span id="cb5-23"><a href="" aria-label="23"></a><span class="co">        `A` and `b`. Default is ``False``.</span></span>
+<span id="cb5-24"><a href="" aria-label="24"></a></span>
+<span id="cb5-25"><a href="" aria-label="25"></a><span class="co">    Returns</span></span>
+<span id="cb5-26"><a href="" aria-label="26"></a><span class="co">    -------</span></span>
+<span id="cb5-27"><a href="" aria-label="27"></a><span class="co">    None</span></span>
+<span id="cb5-28"><a href="" aria-label="28"></a><span class="co">        This function modifies `A` and `b` **in place** and does not return</span></span>
+<span id="cb5-29"><a href="" aria-label="29"></a><span class="co">        anything.</span></span>
+<span id="cb5-30"><a href="" aria-label="30"></a><span class="co">    """</span></span>
+<span id="cb5-31"><a href="" aria-label="31"></a>    <span class="co"># find shape of system</span></span>
+<span id="cb5-32"><a href="" aria-label="32"></a>    n <span class="op">=</span> system_size(A, b)</span>
+<span id="cb5-33"><a href="" aria-label="33"></a></span>
+<span id="cb5-34"><a href="" aria-label="34"></a>    <span class="co"># perform forwards elimination</span></span>
+<span id="cb5-35"><a href="" aria-label="35"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n <span class="op">-</span> <span class="dv">1</span>):</span>
+<span id="cb5-36"><a href="" aria-label="36"></a>        <span class="co"># eliminate column i</span></span>
+<span id="cb5-37"><a href="" aria-label="37"></a>        <span class="cf">if</span> verbose:</span>
+<span id="cb5-38"><a href="" aria-label="38"></a>            <span class="bu">print</span>(<span class="ss">f"eliminating column </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-39"><a href="" aria-label="39"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i <span class="op">+</span> <span class="dv">1</span>, n):</span>
+<span id="cb5-40"><a href="" aria-label="40"></a>            <span class="co"># row j</span></span>
+<span id="cb5-41"><a href="" aria-label="41"></a>            factor <span class="op">=</span> A[j, i] <span class="op">/</span> A[i, i]</span>
+<span id="cb5-42"><a href="" aria-label="42"></a>            <span class="cf">if</span> verbose:</span>
+<span id="cb5-43"><a href="" aria-label="43"></a>                <span class="bu">print</span>(<span class="ss">f"  row </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss"> |-&gt; row </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>factor<span class="sc">}</span><span class="ss"> * row </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-44"><a href="" aria-label="44"></a>            row_add(A, b, j, <span class="op">-</span>factor, i)</span>
+<span id="cb5-45"><a href="" aria-label="45"></a></span>
+<span id="cb5-46"><a href="" aria-label="46"></a>        <span class="cf">if</span> verbose:</span>
+<span id="cb5-47"><a href="" aria-label="47"></a>            <span class="bu">print</span>()</span>
+<span id="cb5-48"><a href="" aria-label="48"></a>            <span class="bu">print</span>(<span class="st">"new system"</span>)</span>
+<span id="cb5-49"><a href="" aria-label="49"></a>            print_array(A)</span>
+<span id="cb5-50"><a href="" aria-label="50"></a>            print_array(b)</span>
+<span id="cb5-51"><a href="" aria-label="51"></a>            <span class="bu">print</span>()</span>
+<span id="cb5-52"><a href="" aria-label="52"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -1213,7 +1219,7 @@ x_1 \\ x_2 \\ x_3
 </section>
 <section id="timing-plot" class="slide level3">
 <h3>Timing plot</h3>
-<div id="d19fff5c" class="cell" data-execution_count="3">
+<div id="e1c7158d" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -1554,7 +1560,7 @@ x_1 \\ x_2
 <section id="how-bad-is-it" class="slide level3">
 <h3>How bad is it?</h3>
 <p>This is a genuine problem we see in the code versions too!</p>
-<div id="11ae0454" class="cell" data-execution_count="4">
+<div id="5440a3df" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-stdout">
 <pre><code>without row swapping:
 eps=1.0e-02, x.T = [  1.0,  2.0 ], Solution? True
@@ -1971,7 +1977,7 @@ W10=
         margin: 0.1,
 
         math: {
-          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js',
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],

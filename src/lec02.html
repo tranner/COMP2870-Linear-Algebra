@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,10 +10,16 @@
 
 <title>2&nbsp; Floating point number systems – COMP2870 Theoretical Foundations: Linear Algebra</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -70,19 +76,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../index.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-ccb7598c1076c02ad842cf9fb90770d1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-6543c591f586cb3d6e99e55162843527.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-ccb7598c1076c02ad842cf9fb90770d1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-a8878b26a82a3acfb551e36b2a05926d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-b4c4def0ec3a69273d171d94c37b6dce.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-a8878b26a82a3acfb551e36b2a05926d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -119,7 +124,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -420,8 +425,8 @@ window.Quarto = {
   <ul>
   <li><a href="#finite-precision-number-systems" id="toc-finite-precision-number-systems" class="nav-link active" data-scroll-target="#finite-precision-number-systems"><span class="header-section-number">2.1</span> Finite precision number systems</a></li>
   <li><a href="#normalised-systems" id="toc-normalised-systems" class="nav-link" data-scroll-target="#normalised-systems"><span class="header-section-number">2.2</span> Normalised systems</a></li>
-  <li><a href="#errors-and-machine-precision" id="toc-errors-and-machine-precision" class="nav-link" data-scroll-target="#errors-and-machine-precision"><span class="header-section-number">2.3</span> Errors and machine precision</a></li>
-  <li><a href="#other-features-of-finite-precision" id="toc-other-features-of-finite-precision" class="nav-link" data-scroll-target="#other-features-of-finite-precision"><span class="header-section-number">2.4</span> Other “Features” of finite precision</a></li>
+  <li><a href="#errors-machine-precision-and-unit-roundoff" id="toc-errors-machine-precision-and-unit-roundoff" class="nav-link" data-scroll-target="#errors-machine-precision-and-unit-roundoff"><span class="header-section-number">2.3</span> Errors, machine precision and unit roundoff</a></li>
+  <li><a href="#other-features-of-finite-precision-arithmetic" id="toc-other-features-of-finite-precision-arithmetic" class="nav-link" data-scroll-target="#other-features-of-finite-precision-arithmetic"><span class="header-section-number">2.4</span> Other “Features” of finite precision arithmetic</a></li>
   <li><a href="#is-this-all-academic" id="toc-is-this-all-academic" class="nav-link" data-scroll-target="#is-this-all-academic"><span class="header-section-number">2.5</span> Is this all academic?</a></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">2.6</span> Summary</a>
   <ul class="collapse">
@@ -476,16 +481,19 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Explain practical challenges working with floating-point numbers.</p>
+<ul>
+<li>Explain practical challenges working with floating-point numbers;</li>
+<li>Recognise situations where care is needed when working with floating-point numbers.</li>
+</ul>
 </div>
 </div>
 <p>This topic will not be presented explicitly in lectures; instead, you will study the material yourself in Lab Session 1.</p>
 <section id="finite-precision-number-systems" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="finite-precision-number-systems"><span class="header-section-number">2.1</span> Finite precision number systems</h2>
-<p>Computers store numbers with <strong>finite precision</strong>, i.e.&nbsp;using a finite set of bits (binary digits), typically 32 or 64 of them. You learned how to store numbers as floating-point numbers last year in the module COMP1860 Building our Digital World.</p>
+<p>Computers store numbers with <strong>finite precision</strong>, i.e.&nbsp;using a finite set of bits (binary digits), typically 32 or 64 of them. You learnt how to store numbers as floating-point numbers last year in the module COMP1860 Building our Digital World.</p>
 <p>You will recall that many numbers cannot be stored exactly.</p>
 <ul>
-<li>Some numbers cannot be represented precisely using <strong>any</strong> finite set of digits:&nbsp;e.g.&nbsp;<span class="math inline">\(\sqrt{2} = 1.141 42\ldots\)</span>, <span class="math inline">\(\pi = 3.141 59\ldots\)</span>, etc.</li>
+<li>Some numbers cannot be represented precisely using <strong>any</strong> finite positional representation of digits:&nbsp;e.g.&nbsp;<span class="math inline">\(\sqrt{2} = 1.414 21\ldots\)</span>, <span class="math inline">\(\pi = 3.141 59\ldots\)</span>, etc.</li>
 <li>Some cannot be represented precisely in a given number base:<br>
 e.g.&nbsp;<span class="math inline">\(\frac{1}{9} = 0.111\ldots\)</span> (decimal), <span class="math inline">\(\frac{1}{5} = 0.0011 0011
   \ldots\)</span> (binary).</li>
@@ -497,7 +505,7 @@ e.g.&nbsp;<span class="math inline">\(\frac{1}{9} = 0.111\ldots\)</span> (decima
 <li>the errors in their representation;</li>
 <li>the errors which occur when arithmetic operations are applied to them.</li>
 </ul>
-<p>The examples shown here will be in <strong>decimal</strong> by the issues apply to any base, <em>e.g.</em> <strong>binary</strong>.</p>
+<p>The examples shown here will be in <strong>decimal</strong> but the issues apply to any base, <em>e.g.</em> <strong>binary</strong>.</p>
 <p>This is important when trying to solve problems with floating-point numbers, so that we learn how to avoid the key pitfalls.</p>
 </section>
 <section id="normalised-systems" class="level2" data-number="2.2">
@@ -528,42 +536,48 @@ x = \pm 0.b_1 b_2 b_3 \ldots b_{t-1} b_t \times \beta^e.
 <li><strong>Zero</strong> is always taken to be a special case e.g., <span class="math inline">\(0 = \pm .00\ldots 0
 \times \beta^0\)</span>.</li>
 </ol>
-<p>Our familiar floating point numbers can be represented using this format too:</p>
+<p>Our familiar floating point numbers can (almost) be represented using this format too:</p>
 <ol type="1">
-<li><p>The <a href="https://en.wikipedia.org/wiki/IEEE_754">IEEE single-precision standard</a> is <span class="math inline">\((\beta, t, L, U) = (2, 23, -127, 128)\)</span>. This is available via <code>numpy.single</code>.</p></li>
-<li><p>The <a href="https://en.wikipedia.org/wiki/IEEE_754">IEEE double-precision standard</a> is <span class="math inline">\((\beta, t, L, U) = (2, 52, -1023, 1024)\)</span>. This is available via <code>numpy.double</code>.</p></li>
+<li><p>The <a href="https://en.wikipedia.org/wiki/IEEE_754">IEEE single-precision standard</a> is <span class="math inline">\((\beta, t, L, U) = (2, 24, -125, 128)\)</span>. This is available via <code>numpy.float32</code> or <code>numpy.single</code> .</p></li>
+<li><p>The <a href="https://en.wikipedia.org/wiki/IEEE_754">IEEE double-precision standard</a> is <span class="math inline">\((\beta, t, L, U) = (2, 53, -1021, 1024)\)</span>. This is available via <code>numpy.float64</code> or <code>numpy.double</code>.</p></li>
 </ol>
-<div id="6f6b594b" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a>a <span class="op">=</span> np.double(<span class="fl">1.1</span>)</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="bu">print</span>(<span class="bu">type</span>(a))</span>
-<span id="cb1-5"><a href="#cb1-5"></a>b <span class="op">=</span> np.single(<span class="fl">1.2</span>)</span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="bu">print</span>(<span class="bu">type</span>(b))</span>
-<span id="cb1-7"><a href="#cb1-7"></a>c <span class="op">=</span> np.half(<span class="fl">1.3</span>)</span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="bu">print</span>(<span class="bu">type</span>(c))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Note these values differ from values in other places so we use the <span class="math inline">\(1. b_1 b_2 \ldots\)</span> normalisation instead of the usual after the binary point notation.</p>
+<div id="b2a21bb9" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-label="2"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="cf">for</span> dtype <span class="kw">in</span> [np.float16, np.float32, np.float64]:</span>
+<span id="cb1-4"><a href="#cb1-4" aria-label="4"></a>    value <span class="op">=</span> dtype(<span class="fl">1.1</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-label="5"></a>    <span class="bu">print</span>(dtype.<span class="va">__name__</span>, value, <span class="bu">type</span>(value))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;class 'numpy.float64'&gt;
-&lt;class 'numpy.float32'&gt;
-&lt;class 'numpy.float16'&gt;</code></pre>
+<pre><code>float16 1.1 &lt;class 'numpy.float16'&gt;
+float32 1.1 &lt;class 'numpy.float32'&gt;
+float64 1.1 &lt;class 'numpy.float64'&gt;</code></pre>
 </div>
 </div>
+<p>IEEE 754 floating point formats include signed zeros, subnormal numbers, infinities and NaN values too.</p>
 </div>
 <p>You can create double-precision floating point numbers without using <code>numpy</code> (i.e.&nbsp;64 bit with the same <span class="math inline">\(\beta, t, L, U\)</span> as above) by calling the <a href="https://docs.python.org/3/reference/datamodel.html#numbers-real-float"><code>float</code> function</a>, or just giving the number in decimal format:</p>
-<div id="f03fa34f" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>(np.double(<span class="fl">5.1</span>) <span class="op">==</span> <span class="fl">5.1</span>, np.double(<span class="fl">5.1</span>) <span class="op">==</span> <span class="fl">5.1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>(np.True_, np.True_)</code></pre>
+<div id="170ff4c9" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a>python_value <span class="op">=</span> <span class="fl">5.1</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-label="2"></a>numpy_value <span class="op">=</span> np.float64(<span class="fl">5.1</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-label="3"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-label="4"></a><span class="bu">print</span>(<span class="bu">type</span>(python_value))</span>
+<span id="cb3-5"><a href="#cb3-5" aria-label="5"></a><span class="bu">print</span>(<span class="bu">type</span>(numpy_value))</span>
+<span id="cb3-6"><a href="#cb3-6" aria-label="6"></a><span class="bu">print</span>(python_value <span class="op">==</span> numpy_value)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'float'&gt;
+&lt;class 'numpy.float64'&gt;
+True</code></pre>
 </div>
 </div>
-<p>However, in some extreme edge cases, you are unlikely to meet, Python floats do not follow the IEEE double-precision standard in some extreme edge cases.</p>
+<p>On most current platforms, Python’s built-in float type uses IEEE 754 binary64 arithmetic. However, the Python language specification does not require every implementation and platform to use precisely the same underlying representation.</p>
 <div id="exm-number-system" class="theorem example">
 <p><span class="theorem-title"><strong>Example 2.2</strong></span> Consider the number system given by <span class="math inline">\((\beta, t, L, U) =
 (10, 2, -1, 2)\)</span> which gives</p>
 <p><span class="math display">\[ x = \pm .b_1 b_2 \times 10^e \text{ where } -1 \le e \le 2. \]</span></p>
 <blockquote class="blockquote">
 <ol type="a">
-<li>How many numbers can be represented by this normalised system?</li>
+<li>How many non-zero numbers can be represented by this normalised system?</li>
 </ol>
 </blockquote>
 <ul>
@@ -572,7 +586,7 @@ x = \pm 0.b_1 b_2 b_3 \ldots b_{t-1} b_t \times \beta^e.
 <li><span class="math inline">\(b_2\)</span> can take on the values <span class="math inline">\(0\)</span> to <span class="math inline">\(9\)</span> (10 options)</li>
 <li><span class="math inline">\(e\)</span> can take on the values <span class="math inline">\(-1, 0, 1, 2\)</span> (4 options)</li>
 </ul>
-<p>Overall this gives us: <span class="math display">\[ 2 \times 9 \times 10 \times 4 \text{ options } = 720
+<p>Overall this gives: <span class="math display">\[ 2 \times 9 \times 10 \times 4 \text{ options } = 720
 \text{ options}. \]</span></p>
 <blockquote class="blockquote">
 <ol start="2" type="a">
@@ -594,40 +608,33 @@ x = \pm 0.b_1 b_2 b_3 \ldots b_{t-1} b_t \times \beta^e.
 <li>What is the smallest possible difference between two numbers in this system?</li>
 </ol>
 </blockquote>
-<p>The smallest difference will be between numbers of the form <span class="math inline">\(+0.10 \ times
+<p>The smallest difference will be between numbers of the form <span class="math inline">\(+0.10 \times
 10^{-1}\)</span> and <span class="math inline">\(+0.11 \times 10^{-1}\)</span> which gives <span class="math display">\[ 0.11 \times 10^{-1} - 0.10
 \times 10^{-1} = 0.011 - 0.010 = 0.001. \]</span></p>
-<p>Alternatively, we can brute-force search for this:</p>
-<div id="6cdbe008" class="cell" data-execution_count="4">
-<div class="cell-output cell-output-stdout">
-<pre><code>The minimum difference min_diff=0.0010
-at x=+0.57 x 10^{-1} y=+0.58 x 10^{-1}.</code></pre>
-</div>
-</div>
 </div>
 <div id="exr-number-system" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 2.1</strong></span> Consider the number system given by <span class="math inline">\((\beta, t, L, U) =
 (10, 3, -3, 3)\)</span> which gives</p>
 <p><span class="math display">\[ x = \pm .b_1 b_2 b_3 \times 10^e \text{ where } -3 \le e \le 3. \]</span></p>
 <ol type="a">
-<li><p>How many numbers can be represented by this normalised system?</p></li>
+<li><p>How many non-zero numbers can be represented by this normalised system?</p></li>
 <li><p>What are the two largest positive numbers in this system?</p></li>
 <li><p>What are the two smallest positive numbers?</p></li>
 <li><p>What is the smallest possible difference between two numbers in this system?</p></li>
-<li><p>What is the smallest possible difference in this system, <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>, for which <span class="math inline">\(x &lt; 100 &lt; y\)</span>?</p></li>
+<li><p>What is the smallest possible difference between two numbers <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> in this system for which <span class="math inline">\(x &lt; 100 &lt; y\)</span>?</p></li>
 </ol>
 </div>
 <div id="exm-python" class="theorem example">
-<p><span class="theorem-title"><strong>Example 2.3 (What about in Python)</strong></span> We find that even with double-precision floating point numbers, we see some funniness when working with decimals:</p>
-<div id="e96e146a" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>a <span class="op">=</span> np.double(<span class="fl">0.0</span>)</span>
-<span id="cb6-2"><a href="#cb6-2"></a></span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="co"># add 0.1 ten times to get 1?</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
-<span id="cb6-5"><a href="#cb6-5"></a>    a <span class="op">=</span> a <span class="op">+</span> np.double(<span class="fl">0.1</span>)</span>
-<span id="cb6-6"><a href="#cb6-6"></a>    <span class="bu">print</span>(a)</span>
-<span id="cb6-7"><a href="#cb6-7"></a></span>
-<span id="cb6-8"><a href="#cb6-8"></a><span class="bu">print</span>(<span class="st">"Is a = 1?"</span>, a <span class="op">==</span> <span class="fl">1.0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><span class="theorem-title"><strong>Example 2.3 (What about in Python)</strong></span> We find that even with double-precision floating point numbers, we see some apparently surprising behaviour when working with decimals:</p>
+<div id="8d92f9bb" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a>a <span class="op">=</span> np.double(<span class="fl">0.0</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-label="2"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-label="3"></a><span class="co"># add 0.1 ten times to get 1?</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-label="4"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
+<span id="cb5-5"><a href="#cb5-5" aria-label="5"></a>    a <span class="op">=</span> a <span class="op">+</span> np.double(<span class="fl">0.1</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-label="6"></a>    <span class="bu">print</span>(a)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-label="7"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-label="8"></a><span class="bu">print</span>(<span class="st">"Is a = 1?"</span>, a <span class="op">==</span> <span class="fl">1.0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>0.1
 0.2
@@ -645,33 +652,33 @@ Is a = 1? False</code></pre>
 <blockquote class="blockquote">
 <p>Why is this output not a surprise?</p>
 </blockquote>
-<p>We also see that even adding up numbers can have different results depending on what order we add them:</p>
-<div id="807eb4b7" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>x <span class="op">=</span> np.double(<span class="fl">1e30</span>)</span>
-<span id="cb8-2"><a href="#cb8-2"></a>y <span class="op">=</span> np.double(<span class="op">-</span><span class="fl">1e30</span>)</span>
-<span id="cb8-3"><a href="#cb8-3"></a>z <span class="op">=</span> np.double(<span class="fl">1.0</span>)</span>
-<span id="cb8-4"><a href="#cb8-4"></a></span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>(x <span class="op">+</span> y) <span class="op">+</span> z<span class="op">=</span><span class="sc">:.16f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>We also see that even adding up numbers can have different results depending on the order in which they are added:</p>
+<div id="d5e5afa7" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-label="1"></a>x <span class="op">=</span> np.double(<span class="fl">1e30</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-label="2"></a>y <span class="op">=</span> np.double(<span class="op">-</span><span class="fl">1e30</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-label="3"></a>z <span class="op">=</span> np.double(<span class="fl">1.0</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-label="4"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-label="5"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>(x <span class="op">+</span> y) <span class="op">+</span> z<span class="op">=</span><span class="sc">:.16f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(x + y) + z=1.0000000000000000</code></pre>
 </div>
 </div>
-<div id="44e072a5" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>x <span class="op">+</span> (y <span class="op">+</span> z)<span class="op">=</span><span class="sc">:.16f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="d9904c54" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-label="1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>x <span class="op">+</span> (y <span class="op">+</span> z)<span class="op">=</span><span class="sc">:.16f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>x + (y + z)=0.0000000000000000</code></pre>
 </div>
 </div>
 </div>
 </section>
-<section id="errors-and-machine-precision" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="errors-and-machine-precision"><span class="header-section-number">2.3</span> Errors and machine precision</h2>
+<section id="errors-machine-precision-and-unit-roundoff" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="errors-machine-precision-and-unit-roundoff"><span class="header-section-number">2.3</span> Errors, machine precision and unit roundoff</h2>
 <p>From now on <span class="math inline">\(fl(x)\)</span> will be used to represent the (approximate) stored value of <span class="math inline">\(x\)</span>. The error in this representation can be expressed in two ways.</p>
 <p><span class="math display">\[ \begin{aligned} \text{Absolute error} &amp;= | fl(x) - x | \\ \text{Relative
 error} &amp;= \frac{| fl(x) - x |}{|x|}. \end{aligned} \]</span></p>
 <p>The number <span class="math inline">\(fl(x)\)</span> is said to approximate <span class="math inline">\(x\)</span> to <span class="math inline">\(t\)</span> <strong>significant digits</strong> (or figures) if <span class="math inline">\(t\)</span> is the largest non-negative integer for which</p>
 <p><span class="math display">\[ \text{Relative error} &lt; 0.5 \times \beta^{1-t}. \]</span></p>
-<p>It can be proved that if the relative error is equal to <span class="math inline">\(\beta^{-d}\)</span>, then <span class="math inline">\(fl(x)\)</span> has <span class="math inline">\(d\)</span> correct significant digits.</p>
+<p>More generally, the number of correct significant digits is related to the size of the relative error. A relative error of <span class="math inline">\(\beta^{-d}\)</span> indicates approximately <span class="math inline">\(d\)</span> correct base-<span class="math inline">\(\beta\)</span> significant digits.</p>
 <p>In the number system given by <span class="math inline">\((\beta, t, L, U)\)</span>, the nearest (larger) representable number to <span class="math inline">\(x = 0.b_1 b_2 b_3 \ldots b_{t-1} b_t \times \beta^e\)</span> is</p>
 <p><span class="math display">\[ \tilde{x} = x + .\underbrace{000\ldots01}_{t \text{ digits}} \times \beta^e =
 x + \beta^{e-t} \]</span></p>
@@ -680,15 +687,17 @@ x + \beta^{e-t} \]</span></p>
 <li>the largest possible error is <span class="math inline">\(\frac{1}{2} \beta^{e-t}\)</span>,</li>
 <li>which means that <span class="math inline">\(| y - fl(y) | \le \frac{1}{2} \beta^{e-t}\)</span>.</li>
 </ul>
-<p>It follow from <span class="math inline">\(y &gt; x \ge .100 \ldots 00 \times \beta^e = \beta^{e-1}\)</span> that</p>
+<p>It follows from <span class="math inline">\(y &gt; x \ge .100 \ldots 00 \times \beta^e = \beta^{e-1}\)</span> that</p>
 <p><span class="math display">\[ \frac{|y - fl(y)|}{|y|} &lt; \frac{1}{2} \frac{\beta^{e-t}}{\beta^{e-1}} =
 \frac{1}{2} \beta^{1-t}, \]</span></p>
 <p>and this provides a bound on the <strong>relative error</strong>: for any <span class="math inline">\(y\)</span></p>
 <p><span class="math display">\[ \frac{|y - fl(y)|}{|y|} &lt; \frac{1}{2} \beta^{1-t}. \]</span></p>
-<p>The last term is known as <strong>machine precision</strong> or <strong>unit roundoff</strong> and is often called <span class="math inline">\(eps\)</span>. This is obtained in Python with</p>
-<div id="0de2d041" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>eps <span class="op">=</span> np.finfo(np.double).eps</span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="bu">print</span>(eps)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The last term is known as <strong>unit roundoff</strong> and is often written as <span class="math inline">\(u\)</span>. A related quality is <strong>machine precision epsilon</strong> and is often written as <span class="math inline">\(eps\)</span>: <span class="math display">\[
+eps = \beta^{1-t} = 2 u.
+\]</span> This is obtained in Python with</p>
+<div id="0ad83286" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-label="1"></a>eps <span class="op">=</span> np.finfo(np.double).eps</span>
+<span id="cb11-2"><a href="#cb11-2" aria-label="2"></a><span class="bu">print</span>(eps)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>2.220446049250313e-16</code></pre>
 </div>
@@ -697,16 +706,16 @@ x + \beta^{e-t} \]</span></p>
 <p><span class="theorem-title"><strong>Example 2.4</strong></span> &nbsp;</p>
 <ol type="1">
 <li><p>The number system <span class="math inline">\((\beta, t, L, U) = (10, 2, -1, 2)\)</span> gives</p>
-<p><span class="math display">\[ eps = \frac{1}{2} \beta^{1-t} = \frac{1}{2} 10^{1-2} = 0.05. \]</span></p></li>
+<p><span class="math display">\[ eps = \beta^{1-t} = \frac{1}{2} 10^{1-2} = 0.1. \]</span></p></li>
 <li><p>The number system <span class="math inline">\((\beta, t, L, U) = (10, 3, -3, 3)\)</span> gives</p>
-<p><span class="math display">\[ eps = \frac{1}{2} \beta^{1-t} = \frac{1}{2} 10^{1-3} = 0.005. \]</span></p></li>
+<p><span class="math display">\[ eps = \beta^{1-t} = \frac{1}{2} 10^{1-3} = 0.01. \]</span></p></li>
 <li><p>The number system <span class="math inline">\((\beta, t, L, U) = (10, 7, 2, 10)\)</span> gives</p>
-<p><span class="math display">\[ eps = \frac{1}{2} \beta^{1-t} = \frac{1}{2} 10^{1-7} = 0.000005. \]</span></p></li>
-<li><p>For some common types in python, we see the following values:</p></li>
+<p><span class="math display">\[ eps = \beta^{1-t} = \frac{1}{2} 10^{1-7} = 0.000 001 . \]</span></p></li>
+<li><p>For some common types in Python, we see the following values:</p></li>
 </ol>
-<div id="d2b6149b" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a><span class="cf">for</span> dtype <span class="kw">in</span> [np.half, np.single, np.double]:</span>
-<span id="cb14-2"><a href="#cb14-2"></a>    <span class="bu">print</span>(dtype.<span class="va">__name__</span>, np.finfo(dtype).eps)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fb2e0e01" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-label="1"></a><span class="cf">for</span> dtype <span class="kw">in</span> [np.float16, np.float32, np.float64]:</span>
+<span id="cb13-2"><a href="#cb13-2" aria-label="2"></a>    <span class="bu">print</span>(dtype.<span class="va">__name__</span>, np.finfo(dtype).eps)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>float16 0.000977
 float32 1.1920929e-07
@@ -716,14 +725,14 @@ float64 2.220446049250313e-16</code></pre>
 </div>
 <div id="rmk-eps">
 <p>Machine precision epsilon (<span class="math inline">\(eps\)</span>) gives us an upper bound for the error in the representation of a floating-point number in a particular system. We note that this is different to the smallest possible numbers that we can store!</p>
-<div id="396086f9" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>eps <span class="op">=</span> np.finfo(np.double).eps</span>
-<span id="cb16-2"><a href="#cb16-2"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>eps<span class="op">=</span><span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb16-3"><a href="#cb16-3"></a></span>
-<span id="cb16-4"><a href="#cb16-4"></a>smaller <span class="op">=</span> eps</span>
-<span id="cb16-5"><a href="#cb16-5"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>):</span>
-<span id="cb16-6"><a href="#cb16-6"></a>    smaller <span class="op">=</span> smaller <span class="op">/</span> <span class="fl">10.0</span></span>
-<span id="cb16-7"><a href="#cb16-7"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>smaller<span class="op">=</span><span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="232d681b" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-label="1"></a>eps <span class="op">=</span> np.finfo(np.double).eps</span>
+<span id="cb15-2"><a href="#cb15-2" aria-label="2"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>eps<span class="op">=</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-label="3"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-label="4"></a>smaller <span class="op">=</span> eps</span>
+<span id="cb15-5"><a href="#cb15-5" aria-label="5"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>):</span>
+<span id="cb15-6"><a href="#cb15-6" aria-label="6"></a>    smaller <span class="op">=</span> smaller <span class="op">/</span> <span class="fl">10.0</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-label="7"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>smaller<span class="op">=</span><span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>eps=np.float64(2.220446049250313e-16)
 smaller=np.float64(2.2204460492503132e-17)
@@ -747,7 +756,7 @@ smaller=np.float64(2.2204460492503133e-21)</code></pre>
 <p><span class="math display">\[ fl(x+y) = .10 \times 10^2 = x, \qquad fl(x+z) = .11 \times 10^2 \neq x.
   \]</span></p></li>
 </ul>
-<p>(Note that <span class="math inline">\(\frac{y}{x} &lt; eps\)</span> but <span class="math inline">\(\frac{z}{x} &gt; eps\)</span>.)</p>
+<p>(Note that <span class="math inline">\(\frac{y}{x} &lt; u\)</span> but <span class="math inline">\(\frac{z}{x} &gt; u\)</span>.)</p>
 <p>Evaluate the following expression in this number system.</p>
 <p><span class="math display">\[ x+(y+y), \quad (x+y)+y, \quad x+(z+z), \quad (x+z) +z. \]</span></p>
 <p>(Also note the benefits of adding the <em>smallest</em> terms first!)</p>
@@ -762,10 +771,10 @@ smaller=np.float64(2.2204460492503133e-21)</code></pre>
 <p>in the system <span class="math inline">\((\beta, t, L, U) = (10, 2, -3, 3)\)</span>.</p>
 <ol start="2" type="1">
 <li>Given the number system <span class="math inline">\((\beta, t, L, U) = (10, 3, -3, 3)\)</span> and <span class="math inline">\(x =
-.100\times 10^3\)</span>, find nonzero numbers <span class="math inline">\(y\)</span> and <span class="math inline">\(z\)</span> from this system for which <span class="math inline">\(fl(x+y) = x\)</span> and <span class="math inline">\(fl(x+z) &gt; x\)</span>.</li>
+.100\times 10^3\)</span>, find non-zero numbers <span class="math inline">\(y\)</span> and <span class="math inline">\(z\)</span> from this system for which <span class="math inline">\(fl(x+y) = x\)</span> and <span class="math inline">\(fl(x+z) &gt; x\)</span>.</li>
 </ol>
 </div>
-<p>It is sometimes helpful to think of another machine precision epsilon in other way: <strong>Machine precision epsilon</strong> is the smallest positive number <span class="math inline">\(eps\)</span> such that <span class="math inline">\(1 + eps &gt; 1\)</span>, i.e.&nbsp;it is half the difference between <span class="math inline">\(1\)</span> and the next largest representable number.</p>
+<p>It is sometimes helpful to think of machine precision epsilon in another way: <strong>Machine precision epsilon</strong> is the smallest positive number <span class="math inline">\(eps\)</span> such that <span class="math inline">\(1 + eps &gt; 1\)</span>, i.e.&nbsp;it is the difference between <span class="math inline">\(1\)</span> and the next largest representable number.</p>
 <p>Examples:</p>
 <ol type="1">
 <li><p>For the number system <span class="math inline">\((\beta, t, L, U) = (10, 2, -1, 2)\)</span>,</p>
@@ -774,30 +783,46 @@ smaller=np.float64(2.2204460492503133e-21)</code></pre>
    - &amp; .10 \times 10^1 &amp; \qquad \leftarrow 1 \\ \hline &amp; .01 \times 10^1 &amp;
      \qquad \leftarrow 0.1 \end{array} \]</span></p></li>
 </ol>
-<p>so <span class="math inline">\(eps = \frac{1}{2}(0.1) = 0.05\)</span>.</p>
+<p>so <span class="math inline">\(eps = 0.1\)</span>.</p>
 <ol start="2" type="1">
-<li>Verify that this approaches gives the previously calculated value for <span class="math inline">\(eps\)</span> in the number system given by <span class="math inline">\((\beta, t, L, U) = (10, 3, -3, 3)\)</span>.</li>
+<li><p>Verify that this approach gives the previously calculated value for <span class="math inline">\(eps\)</span> in the number system given by <span class="math inline">\((\beta, t, L, U) = (10, 3, -3, 3)\)</span>.</p></li>
+<li><p>Here is the Python version:</p></li>
 </ol>
+<div id="1d37fa81" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-label="1"></a>one <span class="op">=</span> np.float64(<span class="fl">1.0</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-label="2"></a>next_number <span class="op">=</span> np.nextafter(one, np.inf)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-label="3"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-label="4"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>one<span class="op">=</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-label="5"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>next_number<span class="op">=</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-label="6"></a><span class="bu">print</span>(<span class="ss">f"machine epsilon = </span><span class="sc">{</span>next_number <span class="op">-</span> one<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-label="7"></a><span class="bu">print</span>(<span class="ss">f"unit roundoff = </span><span class="sc">{</span>(next_number <span class="op">-</span> one) <span class="op">/</span> <span class="dv">2</span><span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>one=np.float64(1.0)
+next_number=np.float64(1.0000000000000002)
+machine epsilon = 2.220446049250313e-16
+unit roundoff = 1.1102230246251565e-16</code></pre>
+</div>
+</div>
 </section>
-<section id="other-features-of-finite-precision" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="other-features-of-finite-precision"><span class="header-section-number">2.4</span> Other “Features” of finite precision</h2>
+<section id="other-features-of-finite-precision-arithmetic" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="other-features-of-finite-precision-arithmetic"><span class="header-section-number">2.4</span> Other “Features” of finite precision arithmetic</h2>
 <p>When working with floating-point numbers there are other things we need to worry about, too!</p>
 <dl>
 <dt>Overflow</dt>
 <dd>
-The number is too large to be represented, e.g.&nbsp;multiply the largest representable number by 10. This gives <code>inf</code> (infinity) with <code>numpy.double</code>s and is usually “fatal”.
+The number is too large to be represented, e.g.&nbsp;multiply the largest representable number by 10. This gives <code>inf</code> (infinity) with <code>numpy.float64</code>s and is usually “fatal”.
 </dd>
 <dt>Underflow</dt>
 <dd>
-The number is too small to be represented, e.g.&nbsp;divide the smallest representable number by 10. This gives <span class="math inline">\(0\)</span> and may not be immediately obvious.
+The number is too small to be represented, e.g.&nbsp;divide the smallest representable number by 10. This gives <span class="math inline">\(0\)</span> and may not be immediately obvious. In IEEE 754 arithmetic, it may first be represented as a subnormal number. A sufficiently small result eventually rounds to zero.
 </dd>
 <dt>Divide by zero</dt>
 <dd>
-gives a result of <code>inf</code>, but <span class="math inline">\(\frac{0}{0}\)</span> gives <code>nan</code> (not a number)
+when using <code>numpy</code> floating point numbers (matching IEEE) gives a result of <code>inf</code>, but <span class="math inline">\(\frac{0}{0}\)</span> gives <code>nan</code> (not a number), but Python floats instead raise a <code>ZeroDivisionError</code>.
 </dd>
 <dt>Divide by <code>inf</code></dt>
 <dd>
-gives <span class="math inline">\(0.0\)</span> with no warning
+gives <span class="math inline">\(0.0\)</span> with no warning and <code>inf / inf</code> produces <code>NaN</code>.
 </dd>
 </dl>
 </section>
@@ -806,7 +831,7 @@ gives <span class="math inline">\(0.0\)</span> with no warning
 <p><strong>No!</strong> There are many examples of major software errors that have occurred due to programmers not understanding the issues associated with computer arithmetic…</p>
 <ul>
 <li><p>In February 1991, a <a href="https://www-users.cse.umn.edu/~arnold/disasters/patriot.html">basic rounding error</a> within software for the US Patriot missile system caused it to fail, contributing to the loss of 28 lives.</p></li>
-<li><p>In June 1996, the European Space Agency’s Ariane Rocket exploded shortly after take-off: the error was due to failing to <a href="https://www.bbc.com/future/article/20150505-the-numbers-that-lead-to-disaster">handle overflow correctly</a>.</p></li>
+<li><p>In June 1996, the European Space Agency’s Ariane 5 Rocket exploded shortly after lift-off: the error was due to failing to <a href="https://www.bbc.com/future/article/20150505-the-numbers-that-lead-to-disaster">handle overflow correctly</a>.</p></li>
 <li><p>In October 2020, a driverless car drove straight into a wall due to <a href="https://sinews.siam.org/Details-Page/a-new-ieee-754-standard-for-floating-point-arithmetic-in-an-ever-changing-world">faulty handling of a floating-point error</a>.</p></li>
 </ul>
 </section>

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,16 +10,57 @@
 
 <title>7&nbsp; Eigenvectors and eigenvalues – COMP2870 Theoretical Foundations: Linear Algebra</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -35,19 +76,18 @@ ul.task-list li input[type="checkbox"] {
 <link href="../src/lec06.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-ccb7598c1076c02ad842cf9fb90770d1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-6543c591f586cb3d6e99e55162843527.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-ccb7598c1076c02ad842cf9fb90770d1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-a8878b26a82a3acfb551e36b2a05926d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-b4c4def0ec3a69273d171d94c37b6dce.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-a8878b26a82a3acfb551e36b2a05926d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -84,7 +124,7 @@ ul.task-list li input[type="checkbox"] {
 </script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -384,10 +424,12 @@ window.Quarto = {
    
   <ul>
   <li><a href="#key-definitions" id="toc-key-definitions" class="nav-link active" data-scroll-target="#key-definitions"><span class="header-section-number">7.1</span> Key definitions</a></li>
-  <li><a href="#how-to-find-eigenvalues-and-eigenvectors" id="toc-how-to-find-eigenvalues-and-eigenvectors" class="nav-link" data-scroll-target="#how-to-find-eigenvalues-and-eigenvectors"><span class="header-section-number">7.2</span> How to find eigenvalues and eigenvectors</a></li>
-  <li><a href="#important-theory" id="toc-important-theory" class="nav-link" data-scroll-target="#important-theory"><span class="header-section-number">7.3</span> Important theory</a></li>
-  <li><a href="#sec-symmetric-nice" id="toc-sec-symmetric-nice" class="nav-link" data-scroll-target="#sec-symmetric-nice"><span class="header-section-number">7.4</span> Why symmetric matrices are nice</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">7.5</span> Summary</a></li>
+  <li><a href="#why-does-a-computer-scientist-need-to-know-about-eigenvalues" id="toc-why-does-a-computer-scientist-need-to-know-about-eigenvalues" class="nav-link" data-scroll-target="#why-does-a-computer-scientist-need-to-know-about-eigenvalues"><span class="header-section-number">7.2</span> Why does a computer scientist need to know about eigenvalues</a></li>
+  <li><a href="#how-to-find-eigenvalues-and-eigenvectors" id="toc-how-to-find-eigenvalues-and-eigenvectors" class="nav-link" data-scroll-target="#how-to-find-eigenvalues-and-eigenvectors"><span class="header-section-number">7.3</span> How to find eigenvalues and eigenvectors</a></li>
+  <li><a href="#important-theory" id="toc-important-theory" class="nav-link" data-scroll-target="#important-theory"><span class="header-section-number">7.4</span> Important theory</a></li>
+  <li><a href="#similar-matrices" id="toc-similar-matrices" class="nav-link" data-scroll-target="#similar-matrices"><span class="header-section-number">7.5</span> Similar matrices</a></li>
+  <li><a href="#sec-symmetric-nice" id="toc-sec-symmetric-nice" class="nav-link" data-scroll-target="#sec-symmetric-nice"><span class="header-section-number">7.6</span> Eigenvalues of symmetric matrices</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">7.7</span> Summary</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/edit/main/src/lec07.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/blob/main/src/lec07.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -437,27 +479,29 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Apply algorithms to compute eigenvectors and eigenvalues of large matrices.</p>
+<ul>
+<li>Compute eigenvalues and eigenvectors of small matrices by hand using characteristic polynomials.</li>
+<li>Explain how similarity transformations preserve eigenvalues and motivate practical algorithms for larger matrices.</li>
+<li>Recognise matrices with favourable eigenvalue structure, such as triangular and symmetric matrices.</li>
+</ul>
 </div>
 </div>
 <p>This section of the notes will introduce our second big linear algebra problem. Throughout, we will be considering a square (<span class="math inline">\(n\times n\)</span>) matrix.</p>
 <section id="key-definitions" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="key-definitions"><span class="header-section-number">7.1</span> Key definitions</h2>
-<p>For this problem, we will think of a matrix <span class="math inline">\(A\)</span> acting on functions <span class="math inline">\(\vec{x}\)</span>: <span class="math display">\[\begin{equation*}
-\vec{x} \mapsto A \vec{x}.
-\end{equation*}\]</span> We are interested in when is the output vector <span class="math inline">\(A \vec{x}\)</span> is <em>parallel</em> to <span class="math inline">\(\vec{x}\)</span>.</p>
+<p>We are thinking of a matrix <span class="math inline">\(A\)</span>. We are interested in when the matrix-vector product <span class="math inline">\(A \vec{x}\)</span> is <em>parallel</em> to <span class="math inline">\(\vec{x}\)</span>.</p>
 <div id="def-evalues" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 7.1</strong></span> We say that any vector <span class="math inline">\(\vec{x} \neq \vec{0}\)</span> where <span class="math inline">\(A \vec{x}\)</span> is parallel is <span class="math inline">\(\vec{x}\)</span> is called an <em>eigenvector</em> of <span class="math inline">\(A\)</span>. Here by parallel, we mean that there exists a number <span class="math inline">\(\lambda\)</span> (which can be positive, negative or zero, real or complex) such that <span class="math display">\[\begin{equation}
+<p><span class="theorem-title"><strong>Definition 7.1</strong></span> We say that any non-zero vector <span class="math inline">\(\vec{x}\)</span> is an <em>eigenvector</em> of <span class="math inline">\(A\)</span> if <span class="math inline">\(A \vec{x}\)</span> is parallel to <span class="math inline">\(\vec{x}\)</span>. Here by parallel, we mean that there exists a number <span class="math inline">\(\lambda\)</span> (which can be positive, negative or zero, real or complex) such that <span class="math display">\[\begin{equation}
 \label{eq:evalues}
 A \vec{x} = \lambda \vec{x}.
 \end{equation}\]</span> We call the associated number <span class="math inline">\(\lambda\)</span> an <em>eigenvalue</em> of <span class="math inline">\(A\)</span>.</p>
 <p>We will later see that an <span class="math inline">\(n \times n\)</span> square matrix always has <span class="math inline">\(n\)</span> eigenvalues (which may not always be distinct).</p>
 </div>
-<p>If <span class="math inline">\(A \vec{x} = \vec{0}\)</span>, then <span class="math inline">\(\vec{x}\)</span> is an eigenvector associated with the eigenvalue <span class="math inline">\(0\)</span>. In fact, we know that <span class="math inline">\(0\)</span> is an eigenvalue of <span class="math inline">\(A\)</span> if, and only if, <span class="math inline">\(A\)</span> is singular.</p>
+<p>If there exists a nonzero vector <span class="math inline">\(\vec{x}\)</span> with <span class="math inline">\(A \vec{x} = \vec{0}\)</span>, then <span class="math inline">\(\vec{x}\)</span> is an eigenvector associated with the eigenvalue <span class="math inline">\(0\)</span>. In fact, we know that <span class="math inline">\(0\)</span> is an eigenvalue of <span class="math inline">\(A\)</span> if, and only if, <span class="math inline">\(A\)</span> is singular.</p>
 <div id="exm-projection" class="theorem example">
 <p><span class="theorem-title"><strong>Example 7.1</strong></span> Let <span class="math inline">\(P\)</span> be the 3x3 matrix that represents projection onto a plane <span class="math inline">\(\Pi =
 \{\vec{x} \in \mathbb{R}^3 : \vec{a} \cdot \vec{x} = 0\}\)</span> (i.e.&nbsp;<span class="math inline">\(P\)</span> maps any point in <span class="math inline">\(\mathbb{R}^3\)</span> to its nearest point in <span class="math inline">\(\Pi\)</span>). What are the eigenvalues and eigenvectors of <span class="math inline">\(P\)</span>?</p>
-<div id="a4427266" class="cell" data-caption="Representation of planar projection operator $P$." data-execution_count="2">
+<div id="6b7a9233" class="cell" data-caption="Representation of planar projection operator $P$." data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -468,11 +512,11 @@ A \vec{x} = \lambda \vec{x}.
 </div>
 <ul>
 <li>if <span class="math inline">\(\vec{x}\)</span> is in the plane <span class="math inline">\(\Pi\)</span>, then <span class="math inline">\(P \vec{x} = \vec{x}\)</span>. This means that <span class="math inline">\(\vec{x}\)</span> is an eigenvector and the associated eigenvalue is <span class="math inline">\(1\)</span>.</li>
-<li>if <span class="math inline">\(\vec{y}\)</span> is perpendicular to the plane <span class="math inline">\(\Pi\)</span>, then <span class="math inline">\(P \vec{y} = \vec{0}\)</span>. this means that <span class="math inline">\(\vec{y}\)</span> is an eigenvector and the associated eigenvalue is <span class="math inline">\(0\)</span>.</li>
+<li>if <span class="math inline">\(\vec{y}\)</span> is perpendicular to the plane <span class="math inline">\(\Pi\)</span>, then <span class="math inline">\(P \vec{y} = \vec{0}\)</span>. This means that <span class="math inline">\(\vec{y}\)</span> is an eigenvector and the associated eigenvalue is <span class="math inline">\(0\)</span>.</li>
 </ul>
 <p>Let <span class="math inline">\(\vec{y}\)</span> be perpendicular to <span class="math inline">\(\Pi\)</span> (so that <span class="math inline">\(P \vec{y} = \vec{0}\)</span> and <span class="math inline">\(\vec{y}\)</span> is an eigenvector of <span class="math inline">\(P\)</span>), then for any number <span class="math inline">\(s\)</span>, we can compute <span class="math display">\[\begin{equation*}
 P (s \vec{y}) = s P \vec{y} = s \vec{0} = \vec{0}.
-\end{equation*}\]</span> This means that <span class="math inline">\(s \vec{y}\)</span> is also an eigenvector of <span class="math inline">\(P\)</span> associated to the eigenvalue <span class="math inline">\(0\)</span>. As a consequence when we compute eigenvectors, we need to take care to <em>normalise</em> the vector to ensure we get a unique answer.</p>
+\end{equation*}\]</span> This means that <span class="math inline">\(s \vec{y}\)</span> is also an eigenvector of <span class="math inline">\(P\)</span> associated with the eigenvalue <span class="math inline">\(0\)</span>. As a consequence, when we compute eigenvectors, we need to take care to <em>normalise</em> the vector to ensure we get a unique answer.</p>
 <p>We end up with a two-dimensional space of eigenvectors (i.e., the plane <span class="math inline">\(\Pi\)</span>) associated with eigenvalue <span class="math inline">\(1\)</span> and a one-dimensional space of eigenvectors (i.e., the line perpendicular to <span class="math inline">\(\Pi\)</span>) associated with the eigenvalue <span class="math inline">\(0\)</span>.</p>
 </div>
 <div id="exm-permuatation" class="theorem example">
@@ -498,11 +542,89 @@ A = \begin{pmatrix}
 <p>Let <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> be two <span class="math inline">\(n \times n\)</span> matrices. Then, we cannot use the eigenvalues of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> to work out the eigenvalues of <span class="math inline">\(A + B\)</span> or the eigenvalues of <span class="math inline">\(A B\)</span>, in general.</p>
 </div>
 </section>
-<section id="how-to-find-eigenvalues-and-eigenvectors" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="how-to-find-eigenvalues-and-eigenvectors"><span class="header-section-number">7.2</span> How to find eigenvalues and eigenvectors</h2>
+<section id="why-does-a-computer-scientist-need-to-know-about-eigenvalues" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="why-does-a-computer-scientist-need-to-know-about-eigenvalues"><span class="header-section-number">7.2</span> Why does a computer scientist need to know about eigenvalues</h2>
+<p>Eigenvalues and eigenvectors can be used to encode information about a dataset into a lower dimensional representation. Take, for example, the health record of a patient which might contain many dimensions of data (e.g.&nbsp;height, weight, resting heart rate, different blood test results, diet and exercise information). This dataset will be hard to compute with because these columns are not independent (more on this later in the Statistics section of the module) and the large dimension makes computation expensive. One way to reduce the dimensionality is through projecting the dataset onto a small number of directions which come from the eigenvectors of a related matrix (the covariance or correlation matrix). This is called principal component analysis (PCA) and you will learn more about this in a project later in this module.</p>
+<p>We demonstrate briefly here how PCA can work for compressing an image. Consider this image of the Bragg building:</p>
+<p>Step 1: we load the image and do some normalisation:</p>
+<div id="15893d49" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a>image_url <span class="op">=</span> <span class="st">"https://thumb.wikimedia.org/wikipedia/commons/thumb/3/31/Sir_William_Henry_Bragg_Building_-_Main_entrance_-_July_2022.jpg/960px-Sir_William_Henry_Bragg_Building_-_Main_entrance_-_July_2022.jpg"</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-label="2"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-label="3"></a>response <span class="op">=</span> requests.get(image_url, headers<span class="op">=</span>{<span class="st">"User-Agent"</span>: <span class="st">"Mozilla/5.0"</span>})</span>
+<span id="cb1-4"><a href="#cb1-4" aria-label="4"></a>img <span class="op">=</span> Image.<span class="bu">open</span>(BytesIO(response.content)).convert(<span class="st">"L"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-label="5"></a>img <span class="op">=</span> img.resize((<span class="dv">300</span>, <span class="dv">300</span>))  <span class="co"># reduce size</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-label="6"></a>img_array <span class="op">=</span> np.asarray(img, dtype<span class="op">=</span>np.float64) <span class="op">/</span> <span class="fl">255.0</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-label="7"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-label="8"></a>plt.title(<span class="st">"Original image"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-label="9"></a>plt.imshow(img_array, cmap<span class="op">=</span><span class="st">"gray"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-label="10"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-label="11"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec07_files/figure-html/cell-4-output-1.png" width="389" height="409" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Step 2: we compute the covariance matrix</p>
+<div id="e2438ff9" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a>mean_vector <span class="op">=</span> np.mean(img_array, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-label="2"></a>centered_data <span class="op">=</span> img_array <span class="op">-</span> mean_vector</span>
+<span id="cb2-3"><a href="#cb2-3" aria-label="3"></a>cov_matrix <span class="op">=</span> np.cov(centered_data, rowvar<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Step 3: compute eigenvalues and eigenvectors</p>
+<div id="cdc52688" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a>eigenvalues, eigenvectors <span class="op">=</span> np.linalg.eig(cov_matrix)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-label="2"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-label="3"></a><span class="co"># Sort eigenvalues and eigenvectors in descending order</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-label="4"></a>sorted_indices <span class="op">=</span> np.argsort(eigenvalues)[::<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-label="5"></a>eigenvalues <span class="op">=</span> eigenvalues[sorted_indices]</span>
+<span id="cb3-6"><a href="#cb3-6" aria-label="6"></a>eigenvectors <span class="op">=</span> eigenvectors[:, sorted_indices]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Step 4: reconstruct the image using the top k components</p>
+<div id="0a045f75" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a><span class="kw">def</span> reconstruct_image(data, eigenvectors, mean_vector, k):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-label="2"></a>    <span class="co">"""</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-label="3"></a><span class="co">    Reconstructs the image using the top k eigenvectors.</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-label="4"></a><span class="co">    """</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-label="5"></a>    top_eigenvectors <span class="op">=</span> eigenvectors[:, :k]</span>
+<span id="cb4-6"><a href="#cb4-6" aria-label="6"></a>    compressed_data <span class="op">=</span> data <span class="op">@</span> top_eigenvectors</span>
+<span id="cb4-7"><a href="#cb4-7" aria-label="7"></a>    reconstructed <span class="op">=</span> compressed_data <span class="op">@</span> top_eigenvectors.T <span class="op">+</span> mean_vector</span>
+<span id="cb4-8"><a href="#cb4-8" aria-label="8"></a>    <span class="cf">return</span> reconstructed</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Step 5: display the results for different numbers of eigenvectors:</p>
+<div id="4b75b8e3" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a>k_values <span class="op">=</span> [<span class="dv">5</span>, <span class="dv">20</span>, <span class="dv">50</span>]</span>
+<span id="cb5-2"><a href="#cb5-2" aria-label="2"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-label="3"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">8</span>))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-label="4"></a>plt.subplot(<span class="dv">1</span>, <span class="bu">len</span>(k_values), <span class="dv">1</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-label="5"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-label="6"></a><span class="cf">for</span> i, k <span class="kw">in</span> <span class="bu">enumerate</span>(k_values):</span>
+<span id="cb5-7"><a href="#cb5-7" aria-label="7"></a>    reconstructed_img <span class="op">=</span> reconstruct_image(</span>
+<span id="cb5-8"><a href="#cb5-8" aria-label="8"></a>        centered_data, eigenvectors, mean_vector, k</span>
+<span id="cb5-9"><a href="#cb5-9" aria-label="9"></a>    )</span>
+<span id="cb5-10"><a href="#cb5-10" aria-label="10"></a>    plt.subplot(<span class="dv">1</span>, <span class="bu">len</span>(k_values), i <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-label="11"></a>    plt.imshow(reconstructed_img, cmap<span class="op">=</span><span class="st">"gray"</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-label="12"></a>    plt.title(<span class="ss">f"k = </span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-label="13"></a>    plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-label="14"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-label="15"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lec07_files/figure-html/cell-8-output-1.png" width="912" height="302" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We see that even with a very small number of values we can start to recognise our building!</p>
+</section>
+<section id="how-to-find-eigenvalues-and-eigenvectors" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="how-to-find-eigenvalues-and-eigenvectors"><span class="header-section-number">7.3</span> How to find eigenvalues and eigenvectors</h2>
 <p>To compute eigenvalues and eigenvectors, we start from <span class="math inline">\(\eqref{eq:evalues}\)</span> and move everything to the left-hand side and use the identity matrix <span class="math inline">\((I_n)\)</span>: <span class="math display">\[\begin{equation*}
 (A - \lambda I_n) \vec{x} = \vec{0}.
-\end{equation*}\]</span> This tells us that if we want to find an eigenvalue of <span class="math inline">\(A\)</span>, then we need to find a number <span class="math inline">\(\lambda\)</span> such that <span class="math inline">\((A - \lambda I_n)\)</span> can multiply a non-zero vector and give us back the zero-vector. This happens when <span class="math inline">\((A - \lambda I)\)</span> is <em>singular</em> (<a href="lec03.html#thm-det" class="quarto-xref">Theorem&nbsp;<span>3.3</span></a>).</p>
+\end{equation*}\]</span> This tells us that if we want to find an eigenvalue of <span class="math inline">\(A\)</span>, then we need to find a number <span class="math inline">\(\lambda\)</span> such that <span class="math inline">\((A - \lambda I_n)\)</span> can multiply a non-zero vector and give us back the zero-vector. This happens when <span class="math inline">\((A - \lambda I_n)\)</span> is <em>singular</em> (<a href="lec03.html#thm-det" class="quarto-xref">Theorem&nbsp;<span>3.3</span></a>).</p>
 <p>As we saw earlier one way to test if a matrix is singular, is if the determinant is 0. This gives us a test we can use to determine eigenvalues: <span class="math display">\[\begin{equation}
 \label{eq:char}
 \det( A - \lambda I_n ) = 0.
@@ -510,7 +632,7 @@ A = \begin{pmatrix}
 <p>We call <span class="math inline">\(\eqref{eq:char}\)</span> the <em>characteristic equation</em> or <em>eigenvalue equation</em>. We will see that <span class="math inline">\(\eqref{eq:char}\)</span> gives us a degree <span class="math inline">\(n\)</span> polynomial equation in <span class="math inline">\(\lambda\)</span>.</p>
 <p>Once we have found an eigenvalue by solving the characteristic equation for a value <span class="math inline">\(\lambda^*\)</span>, we need to find a vector <span class="math inline">\(\vec{x}\)</span> such that <span class="math display">\[\begin{equation*}
 (A - \lambda^*) \vec{x} = \vec{0}.
-\end{equation*}\]</span> In general, this is possible using a variation of Gaussian elimination with pivoting, but we do not explore this method in this module.</p>
+\end{equation*}\]</span> In general, this is possible using a variation of Gaussian elimination with pivoting, but we do not explore this method in this module. All the examples of finding eigenvectors we will see, you will be able to solve simply by inspection.</p>
 <div id="exm-char" class="theorem example">
 <p><span class="theorem-title"><strong>Example 7.3</strong></span> Let <span class="math inline">\(A\)</span> be the matrix given by <span class="math display">\[\begin{equation*}
 A = \begin{pmatrix}
@@ -523,37 +645,36 @@ A = \begin{pmatrix}
 3 - \lambda &amp; 1 \\ 1 &amp; 3 - \lambda
 \end{pmatrix} \\
 &amp; = (3 - \lambda)(3 - \lambda) - 1 \times 1 \\
-&amp; = \lambda^2 + 6 \lambda + 8.
+&amp; = \lambda^2 - 6 \lambda + 8.
 \end{align*}\]</span> So we want to find values <span class="math inline">\(\lambda\)</span> such that <span class="math display">\[\begin{equation*}
-\det(A - \lambda I_n) =\lambda^2 + 6 \lambda + 8 = 0.
-\end{equation*}\]</span> We can read off, by factorisation, that the values of <span class="math inline">\(\lambda\)</span> are <span class="math inline">\(4\)</span> and <span class="math inline">\(2\)</span>.</p>
+\det(A - \lambda I_n) =\lambda^2 - 6 \lambda + 8 = 0.
+\end{equation*}\]</span> By factorisation, we can read off that the values of <span class="math inline">\(\lambda\)</span> are <span class="math inline">\(4\)</span> and <span class="math inline">\(2\)</span>.</p>
 <p>We can now start computing the associated eigenvectors.</p>
 <p>To find the eigenvector associated with the eigenvalue <span class="math inline">\(4\)</span>. We see that <span class="math display">\[\begin{equation*}
 A - 4 I_n = \begin{pmatrix} -1 &amp; 1 \\ 1 &amp; -1 \end{pmatrix}.
 \end{equation*}\]</span> We can identify that <span class="math inline">\((A - 4I_n) (1, 1)^T = \vec{0}\)</span>. So <span class="math inline">\((1, 1)\)</span> is an eigenvector associated with <span class="math inline">\(4\)</span>.</p>
 <p>To find the eigenvector associated with the eigenvalue <span class="math inline">\(2\)</span>. We see that <span class="math display">\[\begin{equation*}
 A - 2I_n = \begin{pmatrix} 1 &amp; 1 \\ 1 &amp; 1 \end{pmatrix}.
-\end{equation*}\]</span> We can identify that <span class="math inline">\((A - 2 I_n) (-1, 1)^T = \vec{0}\)</span>. So <span class="math inline">\((-1, 1)\)</span> is an eigenvector associated with <span class="math inline">\(2\)</span>.</p>
+\end{equation*}\]</span> We can identify that <span class="math inline">\((A - 2 I_n) (-1, 1)^T = \vec{0}\)</span>. So <span class="math inline">\((-1, 1)^T\)</span> is an eigenvector associated with <span class="math inline">\(2\)</span>.</p>
 </div>
 <p>We note that this example is actually surprisingly similar to <a href="#exm-permuatation" class="quarto-xref">Example&nbsp;<span>7.2</span></a>. We see that the eigenvectors are actually the same! We can see that the matrices are related too: <span class="math display">\[\begin{equation*}
 \begin{pmatrix}
 0 &amp; 1 \\ 1 &amp; 0 \\
-\end{pmatrix}
--3 I
+\end{pmatrix} + 3 I_n
 = \begin{pmatrix}
 3 &amp; 1 \\ 1 &amp; 3
 \end{pmatrix}.
 \end{equation*}\]</span> So we can compute that if <span class="math inline">\(A \vec{x} = \lambda \vec{x}\)</span> then <span class="math display">\[\begin{equation*}
-(A + 3 I) \vec{x} = \lambda \vec{x} + 3 \vec{x} = (\lambda + 3) \vec{x}.
-\end{equation*}\]</span> So we see that <span class="math inline">\(\vec{x}\)</span> is also an eigenvector of <span class="math inline">\(A\)</span> and the associated eigenvector is <span class="math inline">\(\lambda + 3\)</span>.</p>
+(A + 3 I_n) \vec{x} = \lambda \vec{x} + 3 \vec{x} = (\lambda + 3) \vec{x}.
+\end{equation*}\]</span> So we see that <span class="math inline">\(\vec{x}\)</span> is also an eigenvector of <span class="math inline">\(A + 3 I_n\)</span> and the associated eigenvalue is <span class="math inline">\(\lambda + 3\)</span>.</p>
 <p>Although this procedure gives us back eigenvalues there are cases where we have to be careful. We have seen one example above with a two-dimensional eigenspace associated with one eigenvector (<a href="#exm-projection" class="quarto-xref">Example&nbsp;<span>7.1</span></a>). Here are two other cases we must be careful:</p>
 <div id="exm-rotation" class="theorem example">
-<p><span class="theorem-title"><strong>Example 7.4</strong></span> Let <span class="math inline">\(Q\)</span> denote the <span class="math inline">\(2 \times 2\)</span> matrix that rotates any vector by <span class="math inline">\(\pi/2\)</span> (<span class="math inline">\(=90^\circ\)</span>): <span class="math display">\[\begin{equation*}
+<p><span class="theorem-title"><strong>Example 7.4</strong></span> Let <span class="math inline">\(Q\)</span> denote the <span class="math inline">\(2 \times 2\)</span> matrix that rotates any vector anticlockwise by <span class="math inline">\(\pi/2\)</span> (<span class="math inline">\(=90^\circ\)</span>): <span class="math display">\[\begin{equation*}
 Q = \begin{pmatrix}
 0 &amp; -1 \\ 1 &amp; 0
 \end{pmatrix}.
 \end{equation*}\]</span> Our intuition says that there can be no vectors that when rotated by <span class="math inline">\(\pi/2\)</span> give something parallel to the input vector, but we can still compute: <span class="math display">\[\begin{equation*}
-\det Q = \det \begin{pmatrix}
+\det (Q - \lambda I_n) = \det \begin{pmatrix}
 -\lambda &amp; -1 \\ 1 &amp; -\lambda
 \end{pmatrix}
 = \lambda^2 + 1.
@@ -571,7 +692,7 @@ A = \begin{pmatrix}
 A - 3 I_n = \begin{pmatrix}
 0 &amp; 1 \\ 0 &amp; 0
 \end{pmatrix}.
-\end{equation*}\]</span> we can identify one eigenvector <span class="math inline">\((1, 0)^T\)</span>, but there is no other eigenvector (in a different direction)! Indeed, we can compute that: <span class="math display">\[\begin{align*}
+\end{equation*}\]</span> We can identify one eigenvector <span class="math inline">\((1, 0)^T\)</span>, but there is no other eigenvector (in a different direction)! Indeed, we can compute that: <span class="math display">\[\begin{align*}
 (A - 3 I_n) \begin{pmatrix}
 x \\ y
 \end{pmatrix}
@@ -616,11 +737,11 @@ a_{11} - \lambda &amp; a_{12} &amp; a_{13} &amp; \cdots &amp; a_{1n} \\
 \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
 0 &amp; 0 &amp; 0 &amp; \cdots &amp; a_{nn} - \lambda \end{pmatrix} \\
 &amp; = \prod_{i=1}^n (a_{ii} - \lambda).
-\end{align*}\]</span> So we can read off that the eigenvalues of an upper triangular matrix are simply the diagonal coefficients.</p>
+\end{align*}\]</span> Therefore, the characteristic polynomial factors completely without any further computation. So we can read off that the eigenvalues of an upper triangular matrix are simply the diagonal coefficients.</p>
 </div>
 </section>
-<section id="important-theory" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="important-theory"><span class="header-section-number">7.3</span> Important theory</h2>
+<section id="important-theory" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="important-theory"><span class="header-section-number">7.4</span> Important theory</h2>
 <p>We have established a way to identify eigenvalues and eigenvectors for an arbitrary square matrix. This method can be used to prove the existence of eigenvalues.</p>
 <div id="thm-existence" class="theorem">
 <p><span class="theorem-title"><strong>Theorem 7.1</strong></span> Any square <span class="math inline">\(n \times n\)</span> matrix has <span class="math inline">\(n\)</span> complex eigenvalues (possibly not distinct).</p>
@@ -628,24 +749,27 @@ a_{11} - \lambda &amp; a_{12} &amp; a_{13} &amp; \cdots &amp; a_{1n} \\
 <div class="proof">
 <p><span class="proof-title"><em>Proof</em>. </span>For any matrix the characteristic equation <span class="math inline">\(\eqref{eq:char}\)</span> is a degree <span class="math inline">\(n\)</span> polynomial. The Fundamental Theorem of Algebra (<a href="lec06.html#thm-fund-alg" class="quarto-xref">Theorem&nbsp;<span>6.1</span></a>) tells us that any degree <span class="math inline">\(n\)</span> polynomial has <span class="math inline">\(n\)</span> roots over the complex numbers. The <span class="math inline">\(n\)</span> roots of the characteristic equation are the <span class="math inline">\(n\)</span> eigenvalues.</p>
 </div>
-<p>The Abel-Ruffini theorem states that there is no solution in the radicals for a general polynomial of degree 5 or higher with arbitrary coefficients. This implies that there is no ‘nice’ closed form for roots of polynomials of degree 5 or higher. So, if we want an algorithm to find eigenvalues and eigenvectors of larger matrices then we need to do something else!</p>
+<p>The Abel-Ruffini theorem states that there is no solution in the radicals for a general polynomial of degree 5 or higher with arbitrary coefficients. This implies that there is no ‘nice’ closed form for roots of polynomials of degree 5 or higher. So, if we want an algorithm to find eigenvalues and eigenvectors of larger matrices then we need a different approach!</p>
+</section>
+<section id="similar-matrices" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="similar-matrices"><span class="header-section-number">7.5</span> Similar matrices</h2>
 <p>Let’s suppose that we have an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(A\)</span> and we have found <span class="math inline">\(n\)</span> eigenvectors and <span class="math inline">\(n\)</span> eigenvalues (all distinct). Let’s call the eigenvectors by <span class="math inline">\(\vec{x}_{1}, \ldots \vec{x}_{n}\)</span> and the eigenvalues <span class="math inline">\(\lambda_1, \ldots
 \lambda_n\)</span> then we have the equation: <span class="math display">\[\begin{equation*}
 A \vec{x}_j = \lambda_j \vec{x}_j.
-\end{equation*}\]</span> So if we form the matrices <span class="math inline">\(S\)</span> to have columns equal to each eigenvector in turn and <span class="math inline">\(\Lambda\)</span> (pronounced lambda) to be the diagonal matrix with the eigenvalues listed along the diagonal we see that we have: <span class="math display">\[\begin{equation}
+\end{equation*}\]</span> So if we form the matrices <span class="math inline">\(S\)</span> to have columns equal to each eigenvector in turn and <span class="math inline">\(\Lambda\)</span> (this is the capital version of <span class="math inline">\(\lambda\)</span>) to be the diagonal matrix with the eigenvalues listed along the diagonal we see that we have: <span class="math display">\[\begin{equation}
 \label{eq:evalue-matrix}
 A S = S \Lambda.
 \end{equation}\]</span> If <span class="math inline">\(S\)</span> is invertible, we can multiply on the right by <span class="math inline">\(S^{-1}\)</span> to see that we have <span class="math display">\[\begin{equation}
 \label{eq:SLamSinv}
 A = S \Lambda S^{-1}.
 \end{equation}\]</span> This formula shows another factorisation of the matrix <span class="math inline">\(A\)</span> into simpler matrices, very much like we had when we computed the LU-factorisation matrix (<a href="lec04.html#sec-LU-factorisation" class="quarto-xref"><span>Section 4.7</span></a>).</p>
-<p>The equation <span class="math inline">\(\eqref{eq:evalue-matrix}\)</span> is an example of a more general idea of <em>similar matrices</em>.</p>
+<p>The equation <span class="math inline">\(\eqref{eq:evalue-matrix}\)</span> is an example of a more general idea of <em>similar matrices</em>. The matrix <span class="math inline">\(S\)</span>, above, plays the role of <span class="math inline">\(P\)</span> in the definition here.</p>
 <div id="def-similar-matrices" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 7.2</strong></span> We say that two matrices <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are <strong>similar</strong> if there exists an invertible <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(P\)</span> such that <span class="math display">\[\begin{equation*}
 P B = A P.
 \end{equation*}\]</span></p>
 </div>
-<p>Since <span class="math inline">\(P\)</span> is invertible, we can pre-multiply this equation by <span class="math inline">\(P\)</span> and post-multiply by <span class="math inline">\(P^{-1}\)</span> and see that being similar is a symmetric property.</p>
+<p>Since <span class="math inline">\(P\)</span> is invertible, we can pre-multiply this equation by <span class="math inline">\(P^{-1}\)</span> to obtain <span class="math inline">\(B = P^{-1} A P\)</span>, and post-multiply by <span class="math inline">\(P^{-1}\)</span> to obtain <span class="math inline">\(A = P B P^{-1}\)</span>. Thus, we infer that being similar is a symmetric property.</p>
 <div id="rem-eigenvalue-sim" class="proof remark">
 <p><span class="proof-title"><em>Remark 7.1</em>. </span>The matrix form of the eigenvalue equation <span class="math inline">\(\eqref{eq:evalue-matrix}\)</span> says that the matrix <span class="math inline">\(A\)</span> is similar to the diagonal matrix of eigenvalues, <strong>if the matrix <span class="math inline">\(S\)</span> is invertible.</strong></p>
 </div>
@@ -657,13 +781,13 @@ P B = A P.
 <p><span class="proof-title"><em>Proof</em>. </span>Let <span class="math inline">\(\vec{x}\)</span> be an eigenvector of <span class="math inline">\(B\)</span> with associated eigenvalue <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\vec{y} = P \vec{x}\)</span>. Then <span class="math display">\[\begin{align*}
 A \vec{y} &amp; = A P \vec{x} &amp;&amp; \text{(definition of $\vec{y}$)} \\
 &amp; = P B \vec{x} &amp;&amp; \text{(since $A$ and $B$ are similar)} \\
-&amp; = P \lambda \vec{x} &amp;&amp; \text{(since $\vec{x}$ is an eigenvalue of $B$)} \\
+&amp; = P \lambda \vec{x} &amp;&amp; \text{(since $\vec{x}$ is an eigenvector of $B$)} \\
 &amp; = \lambda (P \vec{x}) &amp;&amp; \text{(rearranging)} \\
 &amp; = \lambda \vec{y}.
 \end{align*}\]</span> This shows that any eigenvalue of <span class="math inline">\(B\)</span> is an eigenvalue of <span class="math inline">\(A\)</span>. It also gives a formula for how eigenvectors change between <span class="math inline">\(B\)</span> and <span class="math inline">\(A\)</span>.</p>
 <p>To show any eigenvalue of <span class="math inline">\(A\)</span> is an eigenvalue of <span class="math inline">\(B\)</span>, we repeat the calculation with <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> swapped and replace <span class="math inline">\(P\)</span> by <span class="math inline">\(P^{-1}\)</span>.</p>
 </div>
-<p>The key idea of the methods we will use to compute eigenvalues to apply a sequence of matrices to convert a matrix <span class="math inline">\(A\)</span> into a form similar to <span class="math inline">\(A\)</span> for which reading off the eigenvalues is easier. However, the quality of the algorithms we apply depend heavily on properties of the matrix <span class="math inline">\(A\)</span>.</p>
+<p>The key idea behind the methods we will use to compute eigenvalues is to apply a sequence of matrices to convert a matrix <span class="math inline">\(A\)</span> into a form similar to <span class="math inline">\(A\)</span> for which reading off the eigenvalues is easier. However, the quality of the algorithms we apply depend heavily on properties of the matrix <span class="math inline">\(A\)</span>.</p>
 <div id="exm-similar-matrices" class="theorem example">
 <p><span class="theorem-title"><strong>Example 7.7</strong></span> The matrices <span class="math display">\[\begin{equation*}
 A = \begin{pmatrix}
@@ -674,13 +798,13 @@ B = \begin{pmatrix}
 1 &amp; -2 \\ 0 &amp; 2
 \end{pmatrix}
 \end{equation*}\]</span> are similar.</p>
-<p>Since <span class="math inline">\(A\)</span> is diagonal, we can read off the eigenvalues are <span class="math inline">\(1\)</span> and <span class="math inline">\(2\)</span> and we can take <span class="math inline">\((1, 0)^T\)</span> and <span class="math inline">\((0, 1)^T\)</span> are eigevectors: <span class="math display">\[
+<p>Since <span class="math inline">\(A\)</span> is diagonal, we can read off the eigenvalues are <span class="math inline">\(1\)</span> and <span class="math inline">\(2\)</span> and we can take <span class="math inline">\((1, 0)^T\)</span> and <span class="math inline">\((0, 1)^T\)</span> are eigenvectors: <span class="math display">\[
 A \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}
 = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix} \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 2 \end{pmatrix}.
 \]</span></p>
 <p>For <span class="math inline">\(B\)</span>, we can compute the characteristic equation: <span class="math display">\[
 0 = \det (B - \lambda I_2)
-\det \begin{pmatrix} 1 - \lambda &amp; - 2 \\ 0 &amp; 2 \end{pmatrix} = (1 - \lambda)(2 - \lambda).
+= \det \begin{pmatrix} 1 - \lambda &amp; - 2 \\ 0 &amp; 2 - \lambda \end{pmatrix} = (1 - \lambda)(2 - \lambda).
 \]</span> So we can see the eigenvalues are <span class="math inline">\(1\)</span> and <span class="math inline">\(2\)</span>.</p>
 <p>For <span class="math inline">\(\lambda = 1\)</span>, we can find an eigenvalue by finding a vector <span class="math inline">\((x, y)^T\)</span> that satisfies <span class="math display">\[
 \begin{pmatrix} 0 \\ 0 \end{pmatrix}
@@ -692,7 +816,7 @@ A \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}
 \begin{pmatrix} 0 \\ 0 \end{pmatrix}
 = (B - 2 I_2) \begin{pmatrix} x \\ y \end{pmatrix}
 = \begin{pmatrix} -1 &amp; -2 \\ 0 &amp; 0 \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix}
-= \begin{pmatrix} -x - 2y \\ y \end{pmatrix}.
+= \begin{pmatrix} -x - 2y \\ 0 \end{pmatrix}.
 \]</span> The first component gives <span class="math inline">\(x = -2y\)</span>. So we can take <span class="math inline">\((-2, 1)\)</span> as eigenvector.</p>
 <p>The matrix form of eigenvalue equation gives <span class="math display">\[
 B \begin{pmatrix} 1 &amp; -2 \\ 0 &amp; 1 \end{pmatrix}
@@ -731,10 +855,10 @@ P = \begin{pmatrix} a &amp; b \\ 0 &amp; 0 \end{pmatrix},
 A S = S \Lambda \quad\text{and}\quad B R = R \Lambda.
 \end{align*}\]</span> If <span class="math inline">\(R\)</span> is invertible, then <span class="math display">\[\begin{align*}
 A S R^{-1} = S R^{-1} B.
-\end{align*}\]</span> If <span class="math inline">\(S\)</span> is also invertible, then <span class="math inline">\(S R^{-1}\)</span> is also invertible and <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are similar (with <span class="math inline">\(P= S R^{-1}\)</span>).</p>
+\end{align*}\]</span> If <span class="math inline">\(S\)</span> is also invertible, then <span class="math inline">\(S R^{-1}\)</span> is also invertible and <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are similar (with <span class="math inline">\(P= S R^{-1}\)</span>). In fact, this is the idea we used in <a href="#exm-similar-matrices" class="quarto-xref">Example&nbsp;<span>7.7</span></a>.</p>
 </section>
-<section id="sec-symmetric-nice" class="level2" data-number="7.4">
-<h2 data-number="7.4" class="anchored" data-anchor-id="sec-symmetric-nice"><span class="header-section-number">7.4</span> Why symmetric matrices are nice</h2>
+<section id="sec-symmetric-nice" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="sec-symmetric-nice"><span class="header-section-number">7.6</span> Eigenvalues of symmetric matrices</h2>
 <p>Whilst all our methods are developed for complex matrices, when we restrict to real-valued symmetric matrices, we have this nice result.</p>
 <p>Before we state the result, we need one more definition:</p>
 <div id="def-orthogonal" class="theorem definition">
@@ -744,10 +868,11 @@ A S R^{-1} = S R^{-1} B.
 <div id="thm-symmetric" class="theorem">
 <p><span class="theorem-title"><strong>Theorem 7.3</strong></span> Let <span class="math inline">\(A\)</span> be a symmetric matrix (<span class="math inline">\(A^T = A\)</span>) with real entries. Then <span class="math inline">\(A\)</span> has <span class="math inline">\(n\)</span> real eigenvalues (zero imaginary part) and any eigenvectors with distinct eigenvalues are orthogonal.</p>
 </div>
+<p>Knowing the proof of this result is not essential for this module and is only included here for interest.</p>
 <div class="proof">
 <p><span class="proof-title"><em>Proof</em>. </span>Let <span class="math inline">\(\lambda\)</span> be an eigenvalue of <span class="math inline">\(A\)</span> with eigenvector <span class="math inline">\(\vec{x}\)</span>. Recall that <span class="math inline">\(\vec{x} \neq 0\)</span>. Then, since <span class="math inline">\(A\)</span> has real values, we can compute that: <span class="math display">\[\begin{equation*}
-\bar{(A \vec{x})}_i = \bar{\left(\sum_{j=1}^n A_{ji} x_i\right)}
-= \sum_{j=1}^n A_{ji} \bar{x_i} = (A \bar{\vec{x}})_i.
+\bar{(A \vec{x})}_i = \bar{\left(\sum_{j=1}^n A_{ij} x_j\right)}
+= \sum_{j=1}^n A_{ij} \bar{x_j} = (A \bar{\vec{x}})_i.
 \end{equation*}\]</span> We also note that any real, symmetric matrix is automatically Hermitian.</p>
 <p>Then we see that <span class="math display">\[\begin{align*}
 \lambda \langle \vec{x}, \vec{x} \rangle
@@ -779,7 +904,7 @@ A S R^{-1} = S R^{-1} B.
 \vec{y} \rangle = 0\)</span>.</p>
 </div>
 <div id="cor-evector-basis" class="theorem corollary">
-<p><span class="theorem-title"><strong>Corollary 7.1</strong></span> Let <span class="math inline">\(A\)</span> be a symmetric <span class="math inline">\(n \times n\)</span> matrix with real entries with <span class="math inline">\(n\)</span> distinct eigenvectors. Then the eigenvectors of <span class="math inline">\(A\)</span> form a basis of <span class="math inline">\(\mathbb{R}^n\)</span>.</p>
+<p><span class="theorem-title"><strong>Corollary 7.1</strong></span> Let <span class="math inline">\(A\)</span> be a symmetric <span class="math inline">\(n \times n\)</span> matrix with real entries with <span class="math inline">\(n\)</span> distinct eigenvalues. Then the eigenvectors of <span class="math inline">\(A\)</span> form a basis of <span class="math inline">\(\mathbb{R}^n\)</span>.</p>
 </div>
 <div class="proof">
 <p><span class="proof-title"><em>Proof</em>. </span>We can only give an incomplete proof of this result. We will show that the eigenvectors are linearly independent. The proof is completed by showing that if you have any <span class="math inline">\(n\)</span> linearly independent vectors in <span class="math inline">\(\mathbb{R}^n\)</span> then you must have a basis.</p>
@@ -794,12 +919,12 @@ A S R^{-1} = S R^{-1} B.
 \end{equation*}\]</span> Since we have that <span class="math inline">\(|\vec{x}^{(j)}| &gt; 0\)</span>, we have <span class="math inline">\(\alpha_j = 0\)</span> and we have shown that the eigenvectors are linearly independent.</p>
 </div>
 </section>
-<section id="summary" class="level2" data-number="7.5">
-<h2 data-number="7.5" class="anchored" data-anchor-id="summary"><span class="header-section-number">7.5</span> Summary</h2>
+<section id="summary" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="summary"><span class="header-section-number">7.7</span> Summary</h2>
 <ul>
 <li><p>When working with eigenvalue problems it’s important to work with complex matrices and vectors.</p></li>
 <li><p>Similar matrices have the same eigenvalues and we have a formula for transferring eigenvectors from one matrix to another similar matrix.</p></li>
-<li><p>Real symmetric eigenvalues have real eigenvalues and (if distinct) orthogonal eigenvectors. (Our method will only work for symmetric matrices).</p></li>
+<li><p>Real symmetric matrices have real eigenvalues and (if distinct) orthogonal eigenvectors. (Our method will only work for symmetric matrices).</p></li>
 </ul>
 
 

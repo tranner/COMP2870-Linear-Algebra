@@ -6,10 +6,10 @@
 <script src="lec07_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="lec07_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="lec07_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="lec07_files/libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="lec07_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="lec07_files/libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
 <link href="lec07_files/libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.26">
+  <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Dr.&nbsp;Thomas Ranner (Tom)">
   <title>COMP2870 Theoretical Foundations of Computer Science II</title>
@@ -19,10 +19,16 @@
   <link rel="stylesheet" href="lec07_files/libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="lec07_files/libs/revealjs/dist/reveal.css">
   <style>
-    code{white-space: pre-wrap;}
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: min(4vw, 1.5em);}
-    div.column{flex: auto; overflow-x: auto;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
     ul.task-list li input[type="checkbox"] {
@@ -31,7 +37,7 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="lec07_files/libs/revealjs/dist/theme/quarto-534cd8e3a96973385dffff3f4709048d.css">
+  <link rel="stylesheet" href="lec07_files/libs/revealjs/dist/theme/quarto-2740581606dc327e82f18f789b69d8a0.css">
   <link href="lec07_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="lec07_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="lec07_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -144,7 +150,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Dr.&nbsp;Thomas Ranner (Tom) 
+Dr.&nbsp;Thomas Ranner (Tom)
 </div>
 <div class="quarto-title-author-email">
 <a href="mailto:T.Ranner@leeds.ac.uk">T.Ranner@leeds.ac.uk</a>
@@ -520,7 +526,7 @@ Figure&nbsp;1: Projection of <span class="math inline">\(\vec{a}\)</span> away f
 \vec{a}^{(2)} = \begin{pmatrix} 2 \\ -1 \\ 0 \end{pmatrix},
 \vec{a}^{(3)} = \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix}.
 \end{equation*}\]</span></p>
-<div id="f7a5f821" class="cell" data-execution_count="3">
+<div id="416031d0" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -616,7 +622,7 @@ Figure&nbsp;1: Projection of <span class="math inline">\(\vec{a}\)</span> away f
 <section id="exercise" class="slide level3">
 <h3>Exercise</h3>
 <p>Verify the orthonormality conditions for <span class="math inline">\(\vec{q}^{(1)}, \vec{q}^{(2)}\)</span> and <span class="math inline">\(\vec{q}^{(3)}\)</span>.</p>
-<div id="cae274b2" class="cell" data-execution_count="4">
+<div id="ca6c4ca4" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -803,7 +809,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiQSA9IG5wLmFycmF5KFtbMy4w
 </section>
 <section id="results" class="slide level3">
 <h3>Results</h3>
-<div id="0e308f76" class="cell" data-execution_count="7">
+<div id="65168c83" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1034,7 +1040,7 @@ W10=
         margin: 0.1,
 
         math: {
-          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js',
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],
