@@ -4,16 +4,24 @@ echo: false
 # Eigenvectors and eigenvalues
 
 ```{python}
+from io import BytesIO
+
 import matplotlib.pyplot as plt
 import numpy as np
+import requests
+from PIL import Image
 
 plt.style.use("seaborn-v0_8-colorblind")
+
+
 ```
 
 ::: {.callout-tip}
 ## Module learning outcome:
 
-Apply algorithms to compute eigenvectors and eigenvalues of large matrices.
+- Compute eigenvalues and eigenvectors of small matrices by hand using characteristic polynomials.
+- Explain how similarity transformations preserve eigenvalues and motivate practical algorithms for larger matrices.
+- Recognise matrices with favourable eigenvalue structure, such as triangular and symmetric matrices.
 :::
 
 This section of the notes will introduce our second big linear algebra problem.
@@ -21,16 +29,13 @@ Throughout, we will be considering a square ($n\times n$) matrix.
 
 ## Key definitions
 
-For this problem, we will think of a matrix $A$ acting on functions $\vec{x}$:
-\begin{equation*}
-\vec{x} \mapsto A \vec{x}.
-\end{equation*}
-We are interested in when is the output vector $A \vec{x}$ is *parallel* to
+We are thinking of a matrix $A$.
+We are interested in when the matrix-vector product $A \vec{x}$ is *parallel* to
 $\vec{x}$.
 
 ::: {#def-evalues}
-We say that any vector $\vec{x} \neq \vec{0}$ where $A \vec{x}$ is parallel is
-$\vec{x}$ is called an *eigenvector* of $A$. Here by parallel, we mean that
+We say that any non-zero vector $\vec{x}$ is an *eigenvector* of $A$ if $A \vec{x}$ is parallel to
+$\vec{x}$. Here by parallel, we mean that
 there exists a number $\lambda$ (which can be positive, negative or zero, real
 or complex) such that
 \begin{equation}
@@ -43,9 +48,9 @@ We will later see that an $n \times n$ square matrix always has $n$ eigenvalues
 (which may not always be distinct).
 :::
 
-If $A \vec{x} = \vec{0}$, then $\vec{x}$ is an eigenvector associated with the
-eigenvalue $0$. In fact, we know that $0$ is an eigenvalue of $A$ if, and only
-if, $A$ is singular.
+If there exists a nonzero vector $\vec{x}$ with $A \vec{x} = \vec{0}$, then
+$\vec{x}$ is an eigenvector associated with the eigenvalue $0$. In fact, we know
+that $0$ is an eigenvalue of $A$ if, and only if, $A$ is singular.
 
 ::: {#exm-projection}
 Let $P$ be the 3x3 matrix that represents projection onto a plane $\Pi =
@@ -122,7 +127,7 @@ plot_3d_plane_and_vectors()
 - if $\vec{x}$ is in the plane $\Pi$, then $P \vec{x} = \vec{x}$. This means
   that $\vec{x}$ is an eigenvector and the associated eigenvalue is $1$.
 - if $\vec{y}$ is perpendicular to the plane $\Pi$, then $P \vec{y} = \vec{0}$.
-  this means that $\vec{y}$ is an eigenvector and the associated eigenvalue is
+  This means that $\vec{y}$ is an eigenvector and the associated eigenvalue is
   $0$.
 
 Let $\vec{y}$ be perpendicular to $\Pi$ (so that $P \vec{y} = \vec{0}$ and
@@ -130,8 +135,8 @@ $\vec{y}$ is an eigenvector of $P$), then for any number $s$, we can compute
 \begin{equation*}
 P (s \vec{y}) = s P \vec{y} = s \vec{0} = \vec{0}.
 \end{equation*}
-This means that $s \vec{y}$ is also an eigenvector of $P$ associated to the
-eigenvalue $0$. As a consequence when we compute eigenvectors, we need to take
+This means that $s \vec{y}$ is also an eigenvector of $P$ associated with the
+eigenvalue $0$. As a consequence, when we compute eigenvectors, we need to take
 care to *normalise* the vector to ensure we get a unique answer.
 
 We end up with a two-dimensional space of eigenvectors (i.e., the plane $\Pi$)
@@ -178,6 +183,97 @@ eigenvalues of $A$ and $B$ to work out the eigenvalues of $A + B$ or the
 eigenvalues of $A B$, in general.
 :::
 
+## Why does a computer scientist need to know about eigenvalues
+
+Eigenvalues and eigenvectors can be used to encode information about a dataset
+into a lower dimensional representation. Take, for example, the health record
+of a patient which might contain many dimensions of data (e.g. height, weight,
+resting heart rate, different blood test results, diet and exercise information).
+This dataset will be hard to compute with because these columns are not independent
+(more on this later in the Statistics section of the module) and the large
+dimension makes computation expensive. One way to reduce the dimensionality is
+through projecting the dataset onto a small number of directions which come from
+the eigenvectors of a related matrix (the covariance or correlation matrix). This is called
+principal component analysis (PCA) and you will learn more about this in a project
+later in this module.
+
+We demonstrate briefly here how PCA can work for compressing an image.
+Consider this image of the Bragg building:
+
+Step 1: we load the image and do some normalisation:
+```{python}
+# | echo: True
+image_url = "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/31/Sir_William_Henry_Bragg_Building_-_Main_entrance_-_July_2022.jpg/960px-Sir_William_Henry_Bragg_Building_-_Main_entrance_-_July_2022.jpg"
+
+response = requests.get(image_url, headers={"User-Agent": "Mozilla/5.0"})
+img = Image.open(BytesIO(response.content)).convert("L")
+img = img.resize((300, 300))  # reduce size
+img_array = np.asarray(img, dtype=np.float64) / 255.0
+
+plt.title("Original image")
+plt.imshow(img_array, cmap="gray")
+plt.axis("off")
+plt.show()
+```
+
+Step 2: we compute the covariance matrix
+```{python}
+# | echo: True
+mean_vector = np.mean(img_array, axis=0)
+centered_data = img_array - mean_vector
+cov_matrix = np.cov(centered_data, rowvar=False)
+```
+
+Step 3: compute eigenvalues and eigenvectors
+```{python}
+# | echo: True
+eigenvalues, eigenvectors = np.linalg.eig(cov_matrix)
+
+# Sort eigenvalues and eigenvectors in descending order
+sorted_indices = np.argsort(eigenvalues)[::-1]
+eigenvalues = eigenvalues[sorted_indices]
+eigenvectors = eigenvectors[:, sorted_indices]
+
+
+```
+
+Step 4: reconstruct the image using the top k components
+```{python}
+# | echo: True
+def reconstruct_image(data, eigenvectors, mean_vector, k):
+    """
+    Reconstructs the image using the top k eigenvectors.
+    """
+    top_eigenvectors = eigenvectors[:, :k]
+    compressed_data = data @ top_eigenvectors
+    reconstructed = compressed_data @ top_eigenvectors.T + mean_vector
+    return reconstructed
+
+
+```
+
+Step 5: display the results for different numbers of eigenvectors:
+```{python}
+# | echo: True
+k_values = [5, 20, 50]
+
+plt.figure(figsize=(12, 8))
+plt.subplot(1, len(k_values), 1)
+
+for i, k in enumerate(k_values):
+    reconstructed_img = reconstruct_image(
+        centered_data, eigenvectors, mean_vector, k
+    )
+    plt.subplot(1, len(k_values), i + 1)
+    plt.imshow(reconstructed_img, cmap="gray")
+    plt.title(f"k = {k}")
+    plt.axis("off")
+
+plt.show()
+```
+
+We see that even with a very small number of values we can start to recognise our building!
+
 ## How to find eigenvalues and eigenvectors
 
 To compute eigenvalues and eigenvectors, we start from \eqref{eq:evalues} and
@@ -187,7 +283,7 @@ move everything to the left-hand side and use the identity matrix $(I_n)$:
 \end{equation*}
 This tells us that if we want to find an eigenvalue of $A$, then we need to find
 a number $\lambda$ such that $(A - \lambda I_n)$ can multiply a non-zero vector
-and give us back the zero-vector. This happens when $(A - \lambda I)$ is
+and give us back the zero-vector. This happens when $(A - \lambda I_n)$ is
 *singular* (@thm-det).
 
 As we saw earlier one way to test if a matrix is singular, is if the determinant
@@ -211,6 +307,8 @@ value $\lambda^*$, we need to find a vector $\vec{x}$ such that
 \end{equation*}
 In general, this is possible using a variation of Gaussian elimination with
 pivoting, but we do not explore this method in this module.
+All the examples of finding eigenvectors we will see, you will be able to solve
+simply by inspection.
 
 ::: {#exm-char}
 Let $A$ be the matrix given by
@@ -227,13 +325,13 @@ Then, we can compute that
 3 - \lambda & 1 \\ 1 & 3 - \lambda
 \end{pmatrix} \\
 & = (3 - \lambda)(3 - \lambda) - 1 \times 1 \\
-& = \lambda^2 + 6 \lambda + 8.
+& = \lambda^2 - 6 \lambda + 8.
 \end{align*}
 So we want to find values $\lambda$ such that
 \begin{equation*}
-\det(A - \lambda I_n) =\lambda^2 + 6 \lambda + 8 = 0.
+\det(A - \lambda I_n) =\lambda^2 - 6 \lambda + 8 = 0.
 \end{equation*}
-We can read off, by factorisation, that the values of $\lambda$ are $4$ and $2$.
+By factorisation, we can read off that the values of $\lambda$ are $4$ and $2$.
 
 We can now start computing the associated eigenvectors.
 
@@ -249,7 +347,7 @@ To find the eigenvector associated with the eigenvalue $2$. We see that
 A - 2I_n = \begin{pmatrix} 1 & 1 \\ 1 & 1 \end{pmatrix}.
 \end{equation*}
 We can identify that $(A - 2 I_n) (-1, 1)^T = \vec{0}$.
-So $(-1, 1)$ is an eigenvector associated with $2$.
+So $(-1, 1)^T$ is an eigenvector associated with $2$.
 :::
 
 We note that this example is actually surprisingly similar to @exm-permuatation.
@@ -258,18 +356,17 @@ are related too:
 \begin{equation*}
 \begin{pmatrix}
 0 & 1 \\ 1 & 0 \\
-\end{pmatrix}
--3 I
+\end{pmatrix} + 3 I_n
 = \begin{pmatrix}
 3 & 1 \\ 1 & 3
 \end{pmatrix}.
 \end{equation*}
 So we can compute that if $A \vec{x} = \lambda \vec{x}$ then
 \begin{equation*}
-(A + 3 I) \vec{x} = \lambda \vec{x} + 3 \vec{x} = (\lambda + 3) \vec{x}.
+(A + 3 I_n) \vec{x} = \lambda \vec{x} + 3 \vec{x} = (\lambda + 3) \vec{x}.
 \end{equation*}
-So we see that $\vec{x}$ is also an eigenvector of $A$ and the associated
-eigenvector is $\lambda + 3$.
+So we see that $\vec{x}$ is also an eigenvector of $A + 3 I_n$ and the associated
+eigenvalue is $\lambda + 3$.
 
 Although this procedure gives us back eigenvalues there are cases where we have
 to be careful. We have seen one example above with a two-dimensional eigenspace
@@ -277,7 +374,7 @@ associated with one eigenvector (@exm-projection). Here are two other cases we
 must be careful:
 
 ::: {#exm-rotation}
-Let $Q$ denote the $2 \times 2$ matrix that rotates any vector by $\pi/2$
+Let $Q$ denote the $2 \times 2$ matrix that rotates any vector anticlockwise by $\pi/2$
 ($=90^\circ$):
 \begin{equation*}
 Q = \begin{pmatrix}
@@ -287,7 +384,7 @@ Q = \begin{pmatrix}
 Our intuition says that there can be no vectors that when rotated by $\pi/2$
 give something parallel to the input vector, but we can still compute:
 \begin{equation*}
-\det Q = \det \begin{pmatrix}
+\det (Q - \lambda I_n) = \det \begin{pmatrix}
 -\lambda & -1 \\ 1 & -\lambda
 \end{pmatrix}
 = \lambda^2 + 1.
@@ -316,7 +413,7 @@ A - 3 I_n = \begin{pmatrix}
 0 & 1 \\ 0 & 0
 \end{pmatrix}.
 \end{equation*}
-we can identify one eigenvector $(1, 0)^T$, but there is no other eigenvector
+We can identify one eigenvector $(1, 0)^T$, but there is no other eigenvector
 (in a different direction)! Indeed, we can compute that:
 \begin{align*}
 (A - 3 I_n) \begin{pmatrix}
@@ -377,6 +474,7 @@ a_{11} - \lambda & a_{12} & a_{13} & \cdots & a_{1n} \\
 0 & 0 & 0 & \cdots & a_{nn} - \lambda \end{pmatrix} \\
  & = \prod_{i=1}^n (a_{ii} - \lambda).
 \end{align*}
+Therefore, the characteristic polynomial factors completely without any further computation.
 So we can read off that the eigenvalues of an upper triangular matrix are simply
 the diagonal coefficients.
 :::
@@ -403,7 +501,9 @@ The Abel-Ruffini theorem states that there is no solution in the radicals for a
 general polynomial of degree 5 or higher with arbitrary coefficients. This
 implies that there is no 'nice' closed form for roots of polynomials of degree 5
 or higher. So, if we want an algorithm to find eigenvalues and eigenvectors of
-larger matrices then we need to do something else!
+larger matrices then we need a different approach!
+
+## Similar matrices
 
 Let's suppose that we have an $n \times n$ matrix $A$ and we have found $n$
 eigenvectors and $n$ eigenvalues (all distinct). Let's call the eigenvectors by
@@ -413,7 +513,7 @@ $\vec{x}_{1}, \ldots \vec{x}_{n}$ and the eigenvalues $\lambda_1, \ldots
 A \vec{x}_j = \lambda_j \vec{x}_j.
 \end{equation*}
 So if we form the matrices $S$ to have columns equal to each eigenvector in turn
-and $\Lambda$ (pronounced lambda) to be the diagonal matrix with the eigenvalues
+and $\Lambda$ (this is the capital version of $\lambda$) to be the diagonal matrix with the eigenvalues
 listed along the diagonal we see that we have:
 \begin{equation}
 \label{eq:evalue-matrix}
@@ -430,7 +530,7 @@ matrices, very much like we had when we computed the LU-factorisation matrix
 (@sec-LU-factorisation).
 
 The equation \eqref{eq:evalue-matrix} is an example of a more general idea of
-*similar matrices*.
+*similar matrices*. The matrix $S$, above, plays the role of $P$ in the definition here.
 
 ::: {#def-similar-matrices}
 We say that two matrices $A$ and $B$ are **similar** if there exists an
@@ -440,8 +540,9 @@ P B = A P.
 \end{equation*}
 :::
 
-Since $P$ is invertible, we can pre-multiply this equation by $P$ and
-post-multiply by $P^{-1}$ and see that being similar is a symmetric property.
+Since $P$ is invertible, we can pre-multiply this equation by $P^{-1}$ to obtain
+$B = P^{-1} A P$, and post-multiply by $P^{-1}$ to obtain $A = P B P^{-1}$.
+Thus, we infer that being similar is a symmetric property.
 
 ::: {#rem-eigenvalue-sim}
 The matrix form of the eigenvalue equation \eqref{eq:evalue-matrix} says that the matrix $A$ is similar to the diagonal matrix of eigenvalues, **if the matrix $S$ is invertible.**
@@ -460,7 +561,7 @@ Then
 \begin{align*}
 A \vec{y} & = A P \vec{x} && \text{(definition of $\vec{y}$)} \\
 & = P B \vec{x} && \text{(since $A$ and $B$ are similar)} \\
-& = P \lambda \vec{x} && \text{(since $\vec{x}$ is an eigenvalue of $B$)} \\
+& = P \lambda \vec{x} && \text{(since $\vec{x}$ is an eigenvector of $B$)} \\
 & = \lambda (P \vec{x}) && \text{(rearranging)} \\
 & = \lambda \vec{y}.
 \end{align*}
@@ -471,7 +572,7 @@ To show any eigenvalue of $A$ is an eigenvalue of $B$, we repeat the
 calculation with $A$ and $B$ swapped and replace $P$ by $P^{-1}$.
 :::
 
-The key idea of the methods we will use to compute eigenvalues to apply a
+The key idea behind the methods we will use to compute eigenvalues is to apply a
 sequence of matrices to convert a matrix $A$ into a form similar to $A$ for
 which reading off the eigenvalues is easier. However, the quality of the
 algorithms we apply depend heavily on properties of the matrix $A$.
@@ -489,7 +590,7 @@ B = \begin{pmatrix}
 \end{equation*}
 are similar.
 
-Since $A$ is diagonal, we can read off the eigenvalues are $1$ and $2$ and we can take $(1, 0)^T$ and $(0, 1)^T$ are eigevectors:
+Since $A$ is diagonal, we can read off the eigenvalues are $1$ and $2$ and we can take $(1, 0)^T$ and $(0, 1)^T$ are eigenvectors:
 $$
 A \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}
 = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} \begin{pmatrix} 1 & 0 \\ 0 & 2 \end{pmatrix}.
@@ -498,7 +599,7 @@ $$
 For $B$, we can compute the characteristic equation:
 $$
 0 = \det (B - \lambda I_2)
-\det \begin{pmatrix} 1 - \lambda & - 2 \\ 0 & 2 \end{pmatrix} = (1 - \lambda)(2 - \lambda).
+= \det \begin{pmatrix} 1 - \lambda & - 2 \\ 0 & 2 - \lambda \end{pmatrix} = (1 - \lambda)(2 - \lambda).
 $$
 So we can see the eigenvalues are $1$ and $2$.
 
@@ -516,7 +617,7 @@ $$
 \begin{pmatrix} 0 \\ 0 \end{pmatrix}
 = (B - 2 I_2) \begin{pmatrix} x \\ y \end{pmatrix}
 = \begin{pmatrix} -1 & -2 \\ 0 & 0 \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix}
-= \begin{pmatrix} -x - 2y \\ y \end{pmatrix}.
+= \begin{pmatrix} -x - 2y \\ 0 \end{pmatrix}.
 $$
 The first component gives $x = -2y$. So we can take $(-2, 1)$ as eigenvector.
 
@@ -590,8 +691,9 @@ A S R^{-1} = S R^{-1} B.
 \end{align*}
 If $S$ is also invertible, then $S R^{-1}$ is also invertible and $A$ and $B$
 are similar (with $P= S R^{-1}$).
+In fact, this is the idea we used in @exm-similar-matrices.
 
-## Why symmetric matrices are nice {#sec-symmetric-nice}
+## Eigenvalues of symmetric matrices {#sec-symmetric-nice}
 
 Whilst all our methods are developed for complex matrices, when we restrict to
 real-valued symmetric matrices, we have this nice result.
@@ -609,12 +711,15 @@ real eigenvalues (zero imaginary part) and any eigenvectors with distinct
 eigenvalues are orthogonal.
 :::
 
+Knowing the proof of this result is not essential for this module and is only
+included here for interest.
+
 ::: {.proof}
 Let $\lambda$ be an eigenvalue of $A$ with eigenvector $\vec{x}$. Recall that
 $\vec{x} \neq 0$. Then, since $A$ has real values, we can compute that:
 \begin{equation*}
-\bar{(A \vec{x})}_i = \bar{\left(\sum_{j=1}^n A_{ji} x_i\right)}
-= \sum_{j=1}^n A_{ji} \bar{x_i} = (A \bar{\vec{x}})_i.
+\bar{(A \vec{x})}_i = \bar{\left(\sum_{j=1}^n A_{ij} x_j\right)}
+= \sum_{j=1}^n A_{ij} \bar{x_j} = (A \bar{\vec{x}})_i.
 \end{equation*}
 We also note that any real, symmetric matrix is automatically Hermitian.
 
@@ -661,7 +766,7 @@ This implies that if $\lambda$ and $\mu$ are distinct, then $\langle \vec{x},
 
 ::: {#cor-evector-basis}
 Let $A$ be a symmetric $n \times n$ matrix with real entries with $n$ distinct
-eigenvectors. Then the eigenvectors of $A$ form a basis of $\mathbb{R}^n$.
+eigenvalues. Then the eigenvectors of $A$ form a basis of $\mathbb{R}^n$.
 :::
 
 ::: {.proof}
@@ -699,5 +804,5 @@ shown that the eigenvectors are linearly independent.
 - Similar matrices have the same eigenvalues and we have a formula for
   transferring eigenvectors from one matrix to another similar matrix.
 
-- Real symmetric eigenvalues have real eigenvalues and (if distinct) orthogonal
+- Real symmetric matrices have real eigenvalues and (if distinct) orthogonal
   eigenvectors. (Our method will only work for symmetric matrices).
