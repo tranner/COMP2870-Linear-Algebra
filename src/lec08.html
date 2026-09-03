@@ -422,13 +422,17 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#qr-algorithm" id="toc-qr-algorithm" class="nav-link active" data-scroll-target="#qr-algorithm"><span class="header-section-number">8.1</span> QR algorithm</a>
+  <li><a href="#recall-the-eigenvalue-problem" id="toc-recall-the-eigenvalue-problem" class="nav-link active" data-scroll-target="#recall-the-eigenvalue-problem"><span class="header-section-number">8.1</span> Recall: the eigenvalue problem</a></li>
+  <li><a href="#the-grand-strategy" id="toc-the-grand-strategy" class="nav-link" data-scroll-target="#the-grand-strategy"><span class="header-section-number">8.2</span> The grand strategy</a></li>
+  <li><a href="#qr-algorithm" id="toc-qr-algorithm" class="nav-link" data-scroll-target="#qr-algorithm"><span class="header-section-number">8.3</span> QR algorithm</a>
   <ul class="collapse">
-  <li><a href="#the-gram-schmidt-process" id="toc-the-gram-schmidt-process" class="nav-link" data-scroll-target="#the-gram-schmidt-process"><span class="header-section-number">8.1.1</span> The Gram-Schmidt process</a></li>
-  <li><a href="#python-qr-factorisation-using-gram-schmidt" id="toc-python-qr-factorisation-using-gram-schmidt" class="nav-link" data-scroll-target="#python-qr-factorisation-using-gram-schmidt"><span class="header-section-number">8.1.2</span> Python QR factorisation using Gram-Schmidt</a></li>
+  <li><a href="#the-gram-schmidt-process" id="toc-the-gram-schmidt-process" class="nav-link" data-scroll-target="#the-gram-schmidt-process"><span class="header-section-number">8.3.1</span> The Gram-Schmidt process</a></li>
+  <li><a href="#applying-the-qr-algorithm-by-hand" id="toc-applying-the-qr-algorithm-by-hand" class="nav-link" data-scroll-target="#applying-the-qr-algorithm-by-hand"><span class="header-section-number">8.3.2</span> Applying the QR algorithm by hand</a></li>
+  <li><a href="#python-qr-factorisation-using-gram-schmidt" id="toc-python-qr-factorisation-using-gram-schmidt" class="nav-link" data-scroll-target="#python-qr-factorisation-using-gram-schmidt"><span class="header-section-number">8.3.3</span> Python QR factorisation using Gram-Schmidt</a></li>
   </ul></li>
-  <li><a href="#finding-eigenvalues-and-eigenvectors" id="toc-finding-eigenvalues-and-eigenvectors" class="nav-link" data-scroll-target="#finding-eigenvalues-and-eigenvectors"><span class="header-section-number">8.2</span> Finding eigenvalues and eigenvectors</a></li>
-  <li><a href="#correctness-and-convergence" id="toc-correctness-and-convergence" class="nav-link" data-scroll-target="#correctness-and-convergence"><span class="header-section-number">8.3</span> Correctness and convergence</a></li>
+  <li><a href="#finding-eigenvalues-and-eigenvectors" id="toc-finding-eigenvalues-and-eigenvectors" class="nav-link" data-scroll-target="#finding-eigenvalues-and-eigenvectors"><span class="header-section-number">8.4</span> Finding eigenvalues and eigenvectors</a></li>
+  <li><a href="#correctness-and-convergence" id="toc-correctness-and-convergence" class="nav-link" data-scroll-target="#correctness-and-convergence"><span class="header-section-number">8.5</span> Correctness and convergence</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">8.6</span> Summary</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/edit/main/src/lec08.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/blob/main/src/lec08.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -474,19 +478,27 @@ window.Quarto = {
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Tip
+<span class="screen-reader-only">Tip</span>Module learning objective
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Module learning outcome:</strong> apply algorithms to compute eigenvectors and eigenvalues of large matrices.</p>
+<ul>
+<li>Derive and apply the Gram-Schmidt process to compute a QR factorisation of a matrix by hand.</li>
+<li>Implement the QR algorithm in Python and evaluate its correctness and computational feasibility on large matrices.</li>
+</ul>
 </div>
 </div>
+<section id="recall-the-eigenvalue-problem" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="recall-the-eigenvalue-problem"><span class="header-section-number">8.1</span> Recall: the eigenvalue problem</h2>
 <p>In the previous lecture, we defined the eigenvalue problem for a matrix <span class="math inline">\(A\)</span>: Finding numbers <span class="math inline">\(\lambda\)</span> (eigenvalues) and vectors <span class="math inline">\(\vec{x}\)</span> (eigenvectors) which satisfy the equation: <span class="math display">\[\begin{equation}
 A \vec{x} = \lambda \vec{x}.
-\end{equation}\]</span> We saw one starting point for finding eigenvalues is to find the roots of the characteristic equation: a polynomial of degree <span class="math inline">\(n\)</span> for an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(A\)</span>. However, we have already seen that this approach will be infeasible for large matrices. Instead, we will find a sequence of similar matrices to <span class="math inline">\(A\)</span> such that we can read off the eigenvalues from the final matrix.</p>
+\end{equation}\]</span> We saw one starting point for finding eigenvalues is to find the roots of the characteristic equation: a polynomial of degree <span class="math inline">\(n\)</span> for an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(A\)</span>. However, we have already seen that this approach will be infeasible for large matrices – and matrices arising in practice are often large. Recall, for example, the image-compression demonstration from the last lecture: even a modest <span class="math inline">\(300 \times 300\)</span>-pixel image led to an eigenvalue problem for a <span class="math inline">\(300 \times 300\)</span> covariance matrix, and a characteristic polynomial of degree <span class="math inline">\(300\)</span> is not something we can find the roots of directly. Instead, we will find a sequence of similar matrices to <span class="math inline">\(A\)</span> such that we can read off the eigenvalues from the final matrix.</p>
+</section>
+<section id="the-grand-strategy" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="the-grand-strategy"><span class="header-section-number">8.2</span> The grand strategy</h2>
 <p>In equations, we can say our “grand strategy” is to find a sequence of matrices <span class="math inline">\(P_1, P_2, \ldots\)</span> to form a sequence of matrices: <span class="math display">\[\begin{equation}
 \label{eq:similarity_transform}
-A, P_1^{-1} A P, P_2^{-1} P_1^{-1} A P_1 P_2, P_3^{-1} P_2^{-1} P_1^{-1} A P_1
+A, \quad P_1^{-1} A P_1, \quad P_2^{-1} P_1^{-1} A P_1 P_2, \quad P_3^{-1} P_2^{-1} P_1^{-1} A P_1
 P_2 P_3, \ldots
 \end{equation}\]</span> We aim to get all the way to a simple matrix where we read off the eigenvalues and eigenvectors.</p>
 <p>For example, if at level <span class="math inline">\(m\)</span>, say, we have transformed <span class="math inline">\(A\)</span> into a diagonal matrix the eigenvalues are the diagonal of the matrix <span class="math display">\[\begin{equation*}
@@ -495,49 +507,53 @@ P_m^{-1} P_{m-1}^{-1} \cdots P_2^{-1} P_1^{-1} A P_1 P_2 \cdots P_{m-1} P_m,
 S_m = P_1 P_2 \cdots P_{m-1} P_m.
 \end{equation*}\]</span> We have seen a similar example for upper triangular matrices (<a href="lec07.html#exm-triangular-evalues" class="quarto-xref">Example&nbsp;<span>7.6</span></a>).</p>
 <div id="rem-orthogonal-matrices-are-good" class="proof remark">
-<p><span class="proof-title"><em>Remark 8.1</em>. </span>In the example below, and many others, we see that we typically want the matrices <span class="math inline">\(P_j\)</span> to be <strong>orthogonal</strong> or <strong>orthonormal</strong>.</p>
-<p>A (real-valued) matrix <span class="math inline">\(Q\)</span> is orthogonal if <span class="math inline">\(Q^T Q\)</span> is diagonal and a (real-valued) matrix <span class="math inline">\(Q\)</span> is orthonormal if <span class="math inline">\(Q^T Q = I_n\)</span>.</p>
-<p>In other words, if denote by <span class="math inline">\(\vec{q}^{(1)}, \ldots, \vec{q}^{(n)}\)</span> the columns of <span class="math inline">\(Q\)</span>, then <span class="math inline">\(Q\)</span> is orthogonal if <span class="math display">\[\begin{equation*}
-\vec{q}^{(i)} \cdot \vec{q}^{(j)} = 0 \quad \text{ if } i \neq j,
-\end{equation*}\]</span> and <span class="math inline">\(Q\)</span> is orthonormal if <span class="math display">\[\begin{equation*}
+<p><span class="proof-title"><em>Remark 8.1</em>. </span>In the example below, and many others, we see that we typically want the matrices <span class="math inline">\(P_j\)</span> to be <strong>orthogonal</strong>.</p>
+<p>A (real-valued) matrix <span class="math inline">\(Q\)</span> is orthogonal if <span class="math inline">\(Q^T Q = I_n\)</span>.</p>
+<p>In other words, if we denote by <span class="math inline">\(\vec{q}^{(1)}, \ldots, \vec{q}^{(n)}\)</span> the columns of <span class="math inline">\(Q\)</span>, then <span class="math inline">\(Q\)</span> is orthogonal if the columns are <em>orthonormal</em>: <span class="math display">\[\begin{equation*}
 \vec{q}^{(i)} \cdot \vec{q}^{(j)} =
 \begin{cases}
 0 &amp; \text{ if } i \neq j \\
 1 &amp; \text{ if } i = j.
 \end{cases}
 \end{equation*}\]</span></p>
-<p>Orthonormal matrices have the nice property that <span class="math inline">\(Q^{-1} = Q^T\)</span> so we can very easily compute their inverse! They also always have a determinant of 1. Importantly, we can apply them (or their inverses) without worrying about adding extra problems from finite precision.</p>
-<p>Examples of orthonormal matrices include matrices which describe rotations.</p>
+<p>Orthogonal matrices have the nice property that <span class="math inline">\(Q^{-1} = Q^T\)</span> so we can very easily compute their inverse! They also always have a determinant of <span class="math inline">\(\pm 1\)</span>. Importantly, we can apply them (or their inverses) without worrying about adding extra problems from finite precision.</p>
+<p>A standard example of an orthogonal matrix is a rotation matrix. The matrix <span class="math display">\[
+R(\theta) = \begin{pmatrix}
+\cos \theta &amp; -\sin \theta \\
+\sin \theta &amp; \cos \theta
+\end{pmatrix}
+\]</span> rotates any vector in <span class="math inline">\(\mathbb{R}^2\)</span> anticlockwise by an angle <span class="math inline">\(\theta\)</span>.</p>
 <div id="exr-rotation-orthonormal" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 8.1</strong></span> Show that the rotation matrix <span class="math inline">\(R(\theta)\)</span> from <a href="../index.html#exm-special-matrices" class="quarto-xref">Example&nbsp;<span>1.3</span></a> is orthonormal.</p>
+<p><span class="theorem-title"><strong>Exercise 8.1</strong></span> Show that the rotation matrix <span class="math inline">\(R(\theta)\)</span> is orthogonal.</p>
 </div>
 </div>
-<section id="qr-algorithm" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="qr-algorithm"><span class="header-section-number">8.1</span> QR algorithm</h2>
-<p>The QR algorithm is an iterative method for computing eigenvalues and eigenvectors. At each step a matrix is factored into a product in a similar fashion to LU factorisation (<a href="lec04.html#sec-LU-factorisation" class="quarto-xref"><span>Section 4.7</span></a>). In this case, we factor a matrix, <span class="math inline">\(A\)</span> into a product of an orthonormal matrix, <span class="math inline">\(Q\)</span>, and an upper triangular matrix, <span class="math inline">\(R\)</span>: <span class="math display">\[
+</section>
+<section id="qr-algorithm" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="qr-algorithm"><span class="header-section-number">8.3</span> QR algorithm</h2>
+<p>The QR algorithm is an iterative method for computing eigenvalues and eigenvectors. At each step a matrix is factorised in a similar fashion to LU factorisation (<a href="lec04.html#sec-LU-factorisation" class="quarto-xref"><span>Section 4.7</span></a>). In this case, we factor a matrix, <span class="math inline">\(A\)</span> into a product of an orthogonal matrix, <span class="math inline">\(Q\)</span>, and an upper triangular matrix, <span class="math inline">\(R\)</span>: <span class="math display">\[
 A = Q R.
 \]</span> This is <em>QR factorisation</em>.</p>
 <p>Given a matrix <span class="math inline">\(A\)</span>, the algorithm repeatedly applies QR factorisation. First, we set <span class="math inline">\(A^{(0)} = A\)</span>, then we successively perform for <span class="math inline">\(k=0, 1, 2, \ldots\)</span>:</p>
 <ol type="1">
-<li><p>Compute the QR factorisation of <span class="math inline">\(A^{(k)}\)</span> into an orthonormal part and upper triangular part <span class="math display">\[
+<li><p>Compute the QR factorisation of <span class="math inline">\(A^{(k)}\)</span> into an orthogonal part and upper triangular part <span class="math display">\[
 A^{(k)} = Q^{(k)} R^{(k)};
 \]</span></p></li>
-<li><p>Update the matrix <span class="math inline">\(A^{(k+1)}\)</span> recombining <span class="math inline">\(Q\)</span> and <span class="math inline">\(R\)</span> in the reverse order: <span class="math display">\[
+<li><p>Update the matrix <span class="math inline">\(A^{(k+1)}\)</span> by recombining <span class="math inline">\(Q\)</span> and <span class="math inline">\(R\)</span> in the reverse order: <span class="math display">\[
 A^{(k+1)} = R^{(k)} Q^{(k)}.
 \]</span></p></li>
 </ol>
-<p>As we take more and more steps, we hope that <span class="math inline">\(A^{(k)}\)</span> converges to an upper triangular matrix whose diagonal entries are the eigenvalues of the original matrix.</p>
+<p>As we take more and more steps, we hope that <span class="math inline">\(A^{(k)}\)</span> converges to an upper triangular matrix whose diagonal entries are the eigenvalues of the original matrix. For a real symmetric matrix, the limit is in fact diagonal.</p>
 <p>Rearranging the first step within each iteration, we see that <span class="math display">\[
 R^{(k)} = (Q^{(k)})^{-1} A^{(k)} = (Q^{(k)})^T A^{(k)}.
 \]</span> Substituting this value of <span class="math inline">\(R^{(k)}\)</span> into the second step gives <span class="math display">\[
 A^{(k+1)} = (Q^{(k)})^{-1} A^{(k)} Q^{(k)},
-\]</span> and we see that at each step we are finding a sequence of similar matrices, all with the same eigenvalues ({<a href="lec07.html#thm-similar" class="quarto-xref">Theorem&nbsp;<span>7.2</span></a>}). We can additionally find the eigenvectors of <span class="math inline">\(A\)</span> by forming the product <span class="math display">\[
-Q = Q^{(1)} Q^{(2)} \cdots Q^{(m)}.
-\]</span></p>
-<p>The hard part of the method is computing the QR factorisation. One classical way to get a QR factorisation is to use the Gram-Schmidt process. In general, the Gram-Schmidt process is used to take a sequence of vectors and form a new sequence which is orthonormal. We can apply this to the columns of <span class="math inline">\(A\)</span> to form an orthonormal matrix. If we track this process as a matrix-matrix product, we find that the other factor is upper triangular.</p>
-<section id="the-gram-schmidt-process" class="level3" data-number="8.1.1">
-<h3 data-number="8.1.1" class="anchored" data-anchor-id="the-gram-schmidt-process"><span class="header-section-number">8.1.1</span> The Gram-Schmidt process</h3>
-<p>The key idea is shown in <a href="#fig-projection-away" class="quarto-xref">Figure&nbsp;<span>8.1</span></a>. Given a vector <span class="math inline">\(\vec{a}\)</span> (blue) and a vector <span class="math inline">\(\vec{q}\)</span> (green) with length 1. We can compute the projection of <span class="math inline">\(\vec{a}\)</span> onto the direction <span class="math inline">\(\vec{q}\)</span> (orange) by <span class="math display">\[\begin{align*}
+\]</span> and we see that at each step we are finding a sequence of similar matrices, all with the same eigenvalues (<a href="lec07.html#thm-similar" class="quarto-xref">Theorem&nbsp;<span>7.2</span></a>). For a symmetric matrix, the accumulated product <span class="math display">\[
+Q = Q^{(0)} Q^{(1)} Q^{(2)} \cdots Q^{(m)}
+\]</span> converges to a matrix whose columns are eigenvectors of <span class="math inline">\(A\)</span>.</p>
+<p>The hard part of the method is computing the QR factorisation. One classical way to get a QR factorisation is to use the Gram-Schmidt process. In general, the Gram-Schmidt process is used to take a sequence of vectors and form a new sequence which is orthonormal. We can apply this to the columns of <span class="math inline">\(A\)</span> to form an orthogonal matrix. If we track this process as a matrix-matrix product, we find that the other factor is upper triangular.</p>
+<section id="the-gram-schmidt-process" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="the-gram-schmidt-process"><span class="header-section-number">8.3.1</span> The Gram-Schmidt process</h3>
+<p>The key idea is shown in <a href="#fig-projection-away" class="quarto-xref">Figure&nbsp;<span>8.1</span></a>. Given a vector <span class="math inline">\(\vec{a}\)</span> (blue) and a vector <span class="math inline">\(\vec{q}\)</span> (green) with length 1. We can compute the projection of <span class="math inline">\(\vec{a}\)</span> onto the line spanned by <span class="math inline">\(\vec{q}\)</span> (orange) by <span class="math display">\[\begin{align*}
 (\vec{a} \cdot \vec{q}) \vec{q}.
 \end{align*}\]</span> If we subtract this term from <span class="math inline">\(\vec{a}\)</span>. We end up with a vector <span class="math inline">\(\vec{u}\)</span> with <span class="math inline">\(\vec{u} \cdot \vec{q} = 0\)</span>. The difference <span class="math inline">\(\vec{u}\)</span> is given by <span class="math display">\[\begin{align*}
 \vec{u} = \vec{a} - (\vec{a} \cdot \vec{q}) \vec{q},
@@ -549,7 +565,7 @@ Q = Q^{(1)} Q^{(2)} \cdots Q^{(m)}.
 &amp; = (\vec{a} \cdot \vec{q}) - (\vec{a} \cdot \vec{q})
 &amp;&amp; \text{(since $\| \vec{q} \| = 1$)} \\
 &amp; = 0.
-\end{align*}\]</span></p>
+\end{align*}\]</span> We see that we have found a vector <span class="math inline">\(\vec{u}\)</span> which is orthogonal to <span class="math inline">\(\vec{q}\)</span>.</p>
 <div id="cell-fig-projection-away" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div id="fig-projection-away" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -564,13 +580,14 @@ Figure&nbsp;8.1: Projection of <span class="math inline">\(\vec{a}\)</span> away
 </div>
 </div>
 </div>
+<p>The Gram-Schmidt process works by repeatedly applying this idea to a sequence of vectors to form a new sequence of orthonormal vectors.</p>
 <div id="exm-gram-schmidt" class="theorem example">
 <p><span class="theorem-title"><strong>Example 8.1</strong></span> Consider the sequence of vectors <span class="math display">\[\begin{equation*}
 \vec{a}^{(1)} = \begin{pmatrix} 1 \\ 0 \\ 1 \end{pmatrix},
 \vec{a}^{(2)} = \begin{pmatrix} 2 \\ -1 \\ 0 \end{pmatrix},
 \vec{a}^{(3)} = \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix}.
 \end{equation*}\]</span> We will manipulate these vectors to form three orthonormal vectors.</p>
-<div id="0ea8269b" class="cell" data-execution_count="3">
+<div id="d59bc6bf" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -605,13 +622,13 @@ Figure&nbsp;8.1: Projection of <span class="math inline">\(\vec{a}\)</span> away
 = \begin{pmatrix}
 1 \\ -1 \\ -1
 \end{pmatrix}.
-\end{align*}\]</span> We then normalise <span class="math inline">\(\vec{u}^{(2)}\)</span> to get a unit-length vector <span class="math inline">\(q^{(2)}\)</span>: <span class="math display">\[\begin{align*}
+\end{align*}\]</span> We then normalise <span class="math inline">\(\vec{u}^{(2)}\)</span> to get a unit-length vector <span class="math inline">\(\vec{q}^{(2)}\)</span>: <span class="math display">\[\begin{align*}
 \vec{q}^{(2)} &amp; = \vec{u}^{(2)} / \| \vec{u}^{(2)} \|
 = \begin{pmatrix} \frac{1}{\sqrt{3}} \\ \frac{-1}{\sqrt{3}} \\
 \frac{-1}{\sqrt{3}}
 \end{pmatrix}.
 \end{align*}\]</span></p>
-<p>Third, we will find <span class="math inline">\(q^{(3)}\)</span> which we need to check satisfies <span class="math inline">\(\vec{q}^{(3)}
+<p>Third, we will find <span class="math inline">\(\vec{q}^{(3)}\)</span> which we need to check satisfies <span class="math inline">\(\vec{q}^{(3)}
 \cdot \vec{q}^{(2)} = 0\)</span> and <span class="math inline">\(\vec{q}^{(3)} \cdot \vec{q}^{(1)} = 0\)</span>. We can do this by subtracting from <span class="math inline">\(\vec{a}^{(3)}\)</span> the portion of <span class="math inline">\(\vec{a}^{(3)}\)</span> which points in the direction <span class="math inline">\(\vec{q}^{(1)}\)</span> and the portion of <span class="math inline">\(\vec{a}^{(3)}\)</span> which points in the direction <span class="math inline">\(\vec{q}^{(2)}\)</span>. We call this term <span class="math inline">\(\vec{u}^{(3)}\)</span> <span class="math display">\[\begin{align*}
 \vec{u}^{(3)}
 &amp; = \vec{a}^{(3)} - \left(\vec{a}^{(3)} \cdot \vec{q}^{(1)} \right)
@@ -640,7 +657,7 @@ Figure&nbsp;8.1: Projection of <span class="math inline">\(\vec{a}\)</span> away
 \begin{pmatrix} 1 \\ 0 \\ 1 \end{pmatrix} -
 \begin{pmatrix} -2/3 \\ 2/3 \\ 2/3 \end{pmatrix}
 = \begin{pmatrix}
-2/3 \\ 4/3 \\ -2/3.
+2/3 \\ 4/3 \\ -2/3
 \end{pmatrix}.
 \end{align*}\]</span> Again, we normalise <span class="math inline">\(\vec{u}^{(3)}\)</span> to get <span class="math inline">\(\vec{q}^{(3)}\)</span>: <span class="math display">\[\begin{align*}
 \| \vec{u}^{(3)} \| &amp; = \sqrt{(2/3)^2 + (4/3)^2 + (-2/3)^2}
@@ -653,7 +670,7 @@ Figure&nbsp;8.1: Projection of <span class="math inline">\(\vec{a}\)</span> away
 <div id="exr-gram-schmit-ex" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 8.2</strong></span> Verify the orthonormality conditions for <span class="math inline">\(\vec{q}^{(1)}, \vec{q}^{(2)}\)</span> and <span class="math inline">\(\vec{q}^{(3)}\)</span>.</p>
 </div>
-<div id="45f8ea65" class="cell" data-execution_count="4">
+<div id="708331df" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -675,7 +692,7 @@ Q = \begin{pmatrix}
 &amp;&amp;
 \end{pmatrix}
 \end{equation*}\]</span> Then we can compute that <span class="math display">\[\begin{align*}
-(Q^T A)_{ij} = \vec{q}^{(j)} \cdot \vec{a}^{(j)}.
+(Q^T A)_{ij} = \vec{q}^{(i)} \cdot \vec{a}^{(j)}.
 \end{align*}\]</span> So <span class="math display">\[\begin{align*}
 (Q^T A)
 &amp; = \begin{pmatrix}
@@ -702,14 +719,14 @@ Q = \begin{pmatrix}
 0 &amp; \tfrac{3}{\sqrt{3}} &amp; \tfrac{-2}{\sqrt{3}} \\
 0 &amp; 0 &amp; \tfrac{4}{\sqrt{6}}
 \end{pmatrix}.
-\end{align*}\]</span> Hence we have found an upper triangular matrix <span class="math inline">\(R = Q^T A\)</span>. Since <span class="math inline">\(Q\)</span> is orthonormal, we know <span class="math inline">\(Q^{-1} = Q^T\)</span> and we have a factorisation: <span class="math display">\[\begin{equation*}
+\end{align*}\]</span> Hence we have found an upper triangular matrix <span class="math inline">\(R = Q^T A\)</span>. Since <span class="math inline">\(Q\)</span> is orthogonal, we know <span class="math inline">\(Q^{-1} = Q^T\)</span> and we have a factorisation: <span class="math display">\[\begin{equation*}
 A = Q R.
 \end{equation*}\]</span></p>
 <div id="exr-gramm-schmidt" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 8.3</strong></span> Continue the QR-factorisation process by computing <span class="math inline">\(B = R Q\)</span> and apply the Gram-Schmidt process to the columns of <span class="math inline">\(B\)</span>.</p>
 </div>
 </div>
-<p>We can even do better than simply post computing <span class="math inline">\(R\)</span> through multiplying <span class="math inline">\(Q^T A\)</span>. Let’s revisit the update formula for column <span class="math inline">\(j\)</span>: <span class="math display">\[\begin{align*}
+<p>We can even do better than simply computing <span class="math inline">\(R\)</span> afterwards through multiplying <span class="math inline">\(Q^T A\)</span>. Let’s revisit the update formula for column <span class="math inline">\(j\)</span>: <span class="math display">\[\begin{align*}
 \vec{u}^{(j)} &amp; = \vec{a}^{(j)} - \sum_{i=1}^{j-1} (\vec{a}^{(j)} \cdot
 \vec{q}^{(i)} ) \vec{q}^{(i)} \\
 \vec{q}^{(j)} &amp; = \frac{\vec{u}^{(j)}}{\|\vec{u}^{(j)}\|}.
@@ -725,7 +742,7 @@ R_{ij} = \begin{cases}
 \end{align*}\]</span> The equations can be rearranged to: <span class="math display">\[\begin{align*}
 \vec{a}^{(j)} &amp;= \vec{u}^{(j)} + \sum_{i=1}^{j-1} R_{ij} \vec{q}^{(i)} \\
 \vec{u}^{(j)} &amp; = R_{jj} \vec{q}^{(j)}.
-\end{align*}\]</span> Substituting the vaule of <span class="math inline">\(\vec{u}^{(j)}\)</span> into the first equation gives: <span class="math display">\[\begin{align*}
+\end{align*}\]</span> Substituting the value of <span class="math inline">\(\vec{u}^{(j)}\)</span> into the first equation gives: <span class="math display">\[\begin{align*}
 \vec{a}^{(j)} &amp;= R_{jj} \vec{q}^{(j)} + \sum_{i=1}^{j-1} R_{ij} \vec{q}^{(i)} \\
 &amp; = \sum_{i=1}^{j} R_{ij} \vec{q}^{(i)}  \\
 &amp; = \sum_{i=1}^{n} R_{ij} \vec{q}^{(i)}.
@@ -734,12 +751,52 @@ A = Q R.
 \]</span></p>
 <div class="proof remark">
 <p><span class="proof-title"><em>Remark</em>. </span>The Gram-Schmidt algorithm relies on the fact that after each projection there should be something left - i.e.&nbsp;<span class="math inline">\(\vec{u}^{(j)}\)</span> should be non-zero. If <span class="math inline">\(\vec{a}^{(j)}\)</span> is in the span of <span class="math inline">\(\{ \vec{q}^{(1)}, \ldots, \vec{q}^{(j-1)}
-\}\)</span>, then the projection onto <span class="math inline">\(\vec{u}^{(j)}\)</span> will give <span class="math inline">\(\vec{0}\)</span>. There are a few ways to test this, but the key idea is that if <span class="math inline">\(A\)</span> is non-singular then we will always have <span class="math inline">\(\vec{u}^{(j)} \neq \vec{0}\)</span> – at least in exact-precision calculations…</p>
+\}\)</span>, then the projection leaves <span class="math inline">\(\vec{u}^{(j)} = \vec{0}\)</span>. There are a few ways to test this, but the key idea is that if <span class="math inline">\(A\)</span> is non-singular then we will always have <span class="math inline">\(\vec{u}^{(j)} \neq \vec{0}\)</span> – at least in exact-precision calculations…</p>
 </div>
 </section>
-<section id="python-qr-factorisation-using-gram-schmidt" class="level3" data-number="8.1.2">
-<h3 data-number="8.1.2" class="anchored" data-anchor-id="python-qr-factorisation-using-gram-schmidt"><span class="header-section-number">8.1.2</span> Python QR factorisation using Gram-Schmidt</h3>
-<div id="eb1e7cf7" class="cell" data-execution_count="5">
+<section id="applying-the-qr-algorithm-by-hand" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="applying-the-qr-algorithm-by-hand"><span class="header-section-number">8.3.2</span> Applying the QR algorithm by hand</h3>
+<p>In <a href="#exr-gramm-schmidt" class="quarto-xref">Exercise&nbsp;<span>8.3</span></a> above, you computed <span class="math inline">\(B = R Q\)</span> from the QR factorisation <span class="math inline">\(A = QR\)</span> found in <a href="#exm-gram-schmidt" class="quarto-xref">Example&nbsp;<span>8.1</span></a>. That step – factorise, then recombine in the opposite order – is <em>exactly</em> one step of the QR algorithm: it is the update rule <span class="math inline">\(A^{(k+1)} = R^{(k)} Q^{(k)}\)</span> from earlier in this section, applied with <span class="math inline">\(A^{(0)}\)</span> equal to the matrix formed from <span class="math inline">\(\vec{a}^{(1)}, \vec{a}^{(2)}, \vec{a}^{(3)}\)</span>.</p>
+<p>To see the QR algorithm actually converge, it helps to track a smaller matrix over several iterations. Let’s apply it to the <span class="math inline">\(2 \times 2\)</span> matrix from <a href="lec07.html#exm-char" class="quarto-xref">Example&nbsp;<span>7.3</span></a>, <span class="math display">\[\begin{equation*}
+A^{(0)} = \begin{pmatrix} 3 &amp; 1 \\ 1 &amp; 3 \end{pmatrix},
+\end{equation*}\]</span> whose eigenvalues we already know, by direct calculation, are <span class="math inline">\(4\)</span> and <span class="math inline">\(2\)</span>.</p>
+<p><strong>Step 1: factorise <span class="math inline">\(A^{(0)} = Q^{(0)} R^{(0)}\)</span>.</strong> Applying the Gram-Schmidt process to the two columns <span class="math inline">\(\vec{a}^{(1)} = (3, 1)^T\)</span> and <span class="math inline">\(\vec{a}^{(2)} = (1, 3)^T\)</span>: <span class="math display">\[\begin{align*}
+\vec{q}^{(1)} &amp; = \frac{\vec{a}^{(1)}}{\|\vec{a}^{(1)}\|}
+= \frac{1}{\sqrt{10}} \begin{pmatrix} 3 \\ 1 \end{pmatrix}, \\
+\vec{u}^{(2)} &amp; = \vec{a}^{(2)} - \left(\vec{a}^{(2)} \cdot \vec{q}^{(1)}\right)
+\vec{q}^{(1)}
+= \begin{pmatrix} 1 \\ 3 \end{pmatrix} - \frac{6}{10}
+\begin{pmatrix} 3 \\ 1 \end{pmatrix}
+= \begin{pmatrix} -4/5 \\ 12/5 \end{pmatrix}, \\
+\vec{q}^{(2)} &amp; = \frac{\vec{u}^{(2)}}{\|\vec{u}^{(2)}\|}
+= \frac{1}{\sqrt{10}} \begin{pmatrix} -1 \\ 3 \end{pmatrix}.
+\end{align*}\]</span> So <span class="math display">\[\begin{equation*}
+Q^{(0)} = \frac{1}{\sqrt{10}} \begin{pmatrix} 3 &amp; -1 \\ 1 &amp; 3 \end{pmatrix},
+\qquad
+R^{(0)} = \frac{\sqrt{10}}{5} \begin{pmatrix} 5 &amp; 3 \\ 0 &amp; 4 \end{pmatrix}.
+\end{equation*}\]</span></p>
+<p><strong>Step 2: recombine <span class="math inline">\(A^{(1)} = R^{(0)} Q^{(0)}\)</span>.</strong> <span class="math display">\[\begin{align*}
+A^{(1)}
+&amp; = \frac{\sqrt{10}}{5} \begin{pmatrix} 5 &amp; 3 \\ 0 &amp; 4 \end{pmatrix}
+\cdot \frac{1}{\sqrt{10}} \begin{pmatrix} 3 &amp; -1 \\ 1 &amp; 3 \end{pmatrix}
+= \frac{1}{5} \begin{pmatrix} 5 &amp; 3 \\ 0 &amp; 4 \end{pmatrix}
+\begin{pmatrix} 3 &amp; -1 \\ 1 &amp; 3 \end{pmatrix} \\
+&amp; = \frac{1}{5} \begin{pmatrix} 18 &amp; 4 \\ 4 &amp; 12 \end{pmatrix}
+= \begin{pmatrix} 3.6 &amp; 0.8 \\ 0.8 &amp; 2.4 \end{pmatrix}.
+\end{align*}\]</span></p>
+<p>Two things are worth checking:</p>
+<ul>
+<li>The trace is preserved: <span class="math inline">\(\mathrm{trace}(A^{(0)}) = 3 + 3 = 6\)</span> and <span class="math inline">\(\mathrm{trace}(A^{(1)}) = 3.6 + 2.4 = 6\)</span>. This is a consequence of <span class="math inline">\(A^{(1)}\)</span> being similar to <span class="math inline">\(A^{(0)}\)</span> (<a href="lec07.html#thm-similar" class="quarto-xref">Theorem&nbsp;<span>7.2</span></a>): similar matrices have the same eigenvalues, and the trace is the sum of the eigenvalues, so it cannot change under a similarity transformation.</li>
+<li>The off-diagonal entries have shrunk, from <span class="math inline">\(1\)</span> to <span class="math inline">\(0.8\)</span>: <span class="math inline">\(A^{(1)}\)</span> is closer to being diagonal than <span class="math inline">\(A^{(0)}\)</span> was.</li>
+</ul>
+<p>Repeating the process (we will let Python do the arithmetic below), the off-diagonal entries continue to shrink – to about <span class="math inline">\(0.47\)</span> after the second iteration and <span class="math inline">\(0.25\)</span> after the third – and <span class="math inline">\(A^{(k)}\)</span> converges towards <span class="math inline">\(\begin{pmatrix} 4 &amp; 0 \\ 0 &amp; 2 \end{pmatrix}\)</span>: exactly the eigenvalues we found by hand in <a href="lec07.html#exm-char" class="quarto-xref">Example&nbsp;<span>7.3</span></a>.</p>
+<div id="exr-qr-iteration" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 8.4</strong></span> Perform one more iteration of the QR algorithm by hand: compute the QR factorisation of <span class="math inline">\(A^{(1)}\)</span> found above, and use it to compute <span class="math inline">\(A^{(2)}\)</span>. Check that your answer is consistent with the value quoted above for the off-diagonal entries of <span class="math inline">\(A^{(2)}\)</span>.</p>
+</div>
+</section>
+<section id="python-qr-factorisation-using-gram-schmidt" class="level3" data-number="8.3.3">
+<h3 data-number="8.3.3" class="anchored" data-anchor-id="python-qr-factorisation-using-gram-schmidt"><span class="header-section-number">8.3.3</span> Python QR factorisation using Gram-Schmidt</h3>
+<div id="e991f426" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="kw">def</span> gram_schmidt_qr(A):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a>    <span class="co">"""</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="co">    Compute the QR factorisation of a square matrix using the classical</span></span>
@@ -754,7 +811,7 @@ A = Q R.
 <span id="cb1-12"><a href="#cb1-12" aria-label="12"></a><span class="co">    Returns</span></span>
 <span id="cb1-13"><a href="#cb1-13" aria-label="13"></a><span class="co">    -------</span></span>
 <span id="cb1-14"><a href="#cb1-14" aria-label="14"></a><span class="co">    Q : numpy.ndarray</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-label="15"></a><span class="co">        Orthonormal matrix of shape ``(n, n)`` where the columns form an</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-label="15"></a><span class="co">        orthogonal matrix of shape ``(n, n)`` where the columns form an</span></span>
 <span id="cb1-16"><a href="#cb1-16" aria-label="16"></a><span class="co">        orthonormal basis for the column space of A.</span></span>
 <span id="cb1-17"><a href="#cb1-17" aria-label="17"></a><span class="co">    R : numpy.ndarray</span></span>
 <span id="cb1-18"><a href="#cb1-18" aria-label="18"></a><span class="co">        Upper triangular matrix of shape ``(n, n)``.</span></span>
@@ -782,7 +839,7 @@ A = Q R.
 <span id="cb1-40"><a href="#cb1-40" aria-label="40"></a>    <span class="cf">return</span> Q, R</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Let’s test it without our example above:</p>
-<div id="2a032e04" class="cell" data-execution_count="6">
+<div id="2478cd8c" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-stdout">
 <pre><code>A = [  1.0,  2.0,  1.0 ]
     [  0.0, -1.0,  2.0 ]
@@ -795,16 +852,16 @@ R = [  1.41421,  1.41421,  1.41421 ]
     [  0.00000,  1.73205, -1.15470 ]
     [  0.00000,  0.00000,  1.63299 ]
 Have we computed a factorisation? (A ≈ Q @ R) True
-Is Q orthonormal? (Q.T @ Q ≈ np.eye(3)) True</code></pre>
+Is Q orthogonal? (Q.T @ Q ≈ np.eye(3)) True</code></pre>
 </div>
 </div>
-<p>Note that due to rounding errors, that <span class="math inline">\(A\)</span> is not exactly equal to <span class="math inline">\(Q R\)</span> and <span class="math inline">\(Q\)</span> is not exactly orthormal.</p>
+<p>Note that due to rounding errors, <span class="math inline">\(A\)</span> is not exactly equal to <span class="math inline">\(Q R\)</span> and <span class="math inline">\(Q\)</span> is not exactly orthogonal.</p>
 </section>
 </section>
-<section id="finding-eigenvalues-and-eigenvectors" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="finding-eigenvalues-and-eigenvectors"><span class="header-section-number">8.2</span> Finding eigenvalues and eigenvectors</h2>
-<p>The algorithm given above says that we use the QR factorisation to iteratively find a sequence of matrices <span class="math inline">\(A^{(j)}\)</span> which <em>should</em> converge to an upper-triangular matrix.</p>
-<div id="7c01243a" class="cell" data-execution_count="7">
+<section id="finding-eigenvalues-and-eigenvectors" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="finding-eigenvalues-and-eigenvectors"><span class="header-section-number">8.4</span> Finding eigenvalues and eigenvectors</h2>
+<p>The algorithm given above says that we use the QR factorisation to iteratively find a sequence of matrices <span class="math inline">\(A^{(k)}\)</span> which <em>should</em> converge to an upper-triangular matrix.</p>
+<div id="d270d647" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a><span class="kw">def</span> gram_schmidt_eigen(A, maxiter<span class="op">=</span><span class="dv">100</span>, verbose<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb3-2"><a href="#cb3-2" aria-label="2"></a>    <span class="co">"""</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-label="3"></a><span class="co">    Compute the eigenvalues and eigenvectors of a square matrix using the QR</span></span>
@@ -819,7 +876,7 @@ Is Q orthonormal? (Q.T @ Q ≈ np.eye(3)) True</code></pre>
 <span id="cb3-12"><a href="#cb3-12" aria-label="12"></a><span class="co">       .. math::</span></span>
 <span id="cb3-13"><a href="#cb3-13" aria-label="13"></a><span class="co">           A_{k+1} = R_k Q_k</span></span>
 <span id="cb3-14"><a href="#cb3-14" aria-label="14"></a></span>
-<span id="cb3-15"><a href="#cb3-15" aria-label="15"></a><span class="co">    3. Accumulate the orthonormal transformations in `V` to compute the</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-label="15"></a><span class="co">    3. Accumulate the orthogonal transformations in `V` to compute the</span></span>
 <span id="cb3-16"><a href="#cb3-16" aria-label="16"></a><span class="co">       eigenvectors.</span></span>
 <span id="cb3-17"><a href="#cb3-17" aria-label="17"></a><span class="co">    4. Iterate until `A` becomes approximately upper triangular or until the</span></span>
 <span id="cb3-18"><a href="#cb3-18" aria-label="18"></a><span class="co">       maximum number of iterations is reached.</span></span>
@@ -831,60 +888,59 @@ Is Q orthonormal? (Q.T @ Q ≈ np.eye(3)) True</code></pre>
 <span id="cb3-24"><a href="#cb3-24" aria-label="24"></a><span class="co">    ----------</span></span>
 <span id="cb3-25"><a href="#cb3-25" aria-label="25"></a><span class="co">    A : numpy.ndarray</span></span>
 <span id="cb3-26"><a href="#cb3-26" aria-label="26"></a><span class="co">        A square 2D NumPy array of shape ``(n, n)`` representing the input</span></span>
-<span id="cb3-27"><a href="#cb3-27" aria-label="27"></a><span class="co">        matrix. This matrix will be **modified in place** during the</span></span>
-<span id="cb3-28"><a href="#cb3-28" aria-label="28"></a><span class="co">        computation.</span></span>
-<span id="cb3-29"><a href="#cb3-29" aria-label="29"></a><span class="co">    maxiter : int, optional</span></span>
-<span id="cb3-30"><a href="#cb3-30" aria-label="30"></a><span class="co">        Maximum number of QR iterations to perform. Default is 100.</span></span>
-<span id="cb3-31"><a href="#cb3-31" aria-label="31"></a><span class="co">    verbose : bool, optional</span></span>
-<span id="cb3-32"><a href="#cb3-32" aria-label="32"></a><span class="co">        If ``True``, prints intermediate matrices (`A`, `Q`, `R`, and `V`) at</span></span>
-<span id="cb3-33"><a href="#cb3-33" aria-label="33"></a><span class="co">        each iteration. Useful for debugging and understanding convergence.</span></span>
-<span id="cb3-34"><a href="#cb3-34" aria-label="34"></a><span class="co">        Default is ``False``.</span></span>
-<span id="cb3-35"><a href="#cb3-35" aria-label="35"></a></span>
-<span id="cb3-36"><a href="#cb3-36" aria-label="36"></a><span class="co">    Returns</span></span>
-<span id="cb3-37"><a href="#cb3-37" aria-label="37"></a><span class="co">    -------</span></span>
-<span id="cb3-38"><a href="#cb3-38" aria-label="38"></a><span class="co">    eigenvalues : numpy.ndarray</span></span>
-<span id="cb3-39"><a href="#cb3-39" aria-label="39"></a><span class="co">        A 1D NumPy array of length ``n`` containing the eigenvalues of `A`.</span></span>
-<span id="cb3-40"><a href="#cb3-40" aria-label="40"></a><span class="co">        These are the diagonal elements of the final upper triangular matrix.</span></span>
-<span id="cb3-41"><a href="#cb3-41" aria-label="41"></a><span class="co">    V : numpy.ndarray</span></span>
-<span id="cb3-42"><a href="#cb3-42" aria-label="42"></a><span class="co">        A 2D NumPy array of shape ``(n, n)`` whose columns are the normalized</span></span>
-<span id="cb3-43"><a href="#cb3-43" aria-label="43"></a><span class="co">        eigenvectors corresponding to the eigenvalues.</span></span>
-<span id="cb3-44"><a href="#cb3-44" aria-label="44"></a><span class="co">    it : int</span></span>
-<span id="cb3-45"><a href="#cb3-45" aria-label="45"></a><span class="co">        The number of iterations taken by the algorithm.</span></span>
-<span id="cb3-46"><a href="#cb3-46" aria-label="46"></a><span class="co">    """</span></span>
-<span id="cb3-47"><a href="#cb3-47" aria-label="47"></a>    <span class="co"># identity matrix to store eigenvectors</span></span>
-<span id="cb3-48"><a href="#cb3-48" aria-label="48"></a>    V <span class="op">=</span> np.eye(A.shape[<span class="dv">0</span>])</span>
-<span id="cb3-49"><a href="#cb3-49" aria-label="49"></a></span>
-<span id="cb3-50"><a href="#cb3-50" aria-label="50"></a>    <span class="cf">if</span> verbose:</span>
-<span id="cb3-51"><a href="#cb3-51" aria-label="51"></a>        print_array(A)</span>
-<span id="cb3-52"><a href="#cb3-52" aria-label="52"></a></span>
-<span id="cb3-53"><a href="#cb3-53" aria-label="53"></a>    it <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
-<span id="cb3-54"><a href="#cb3-54" aria-label="54"></a>    <span class="cf">for</span> it <span class="kw">in</span> <span class="bu">range</span>(maxiter):</span>
-<span id="cb3-55"><a href="#cb3-55" aria-label="55"></a>        <span class="cf">if</span> verbose:</span>
-<span id="cb3-56"><a href="#cb3-56" aria-label="56"></a>            <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n\n</span><span class="sc">{</span>it<span class="op">=</span><span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb3-57"><a href="#cb3-57" aria-label="57"></a></span>
-<span id="cb3-58"><a href="#cb3-58" aria-label="58"></a>        <span class="co"># perform factorisation</span></span>
-<span id="cb3-59"><a href="#cb3-59" aria-label="59"></a>        Q, R <span class="op">=</span> gram_schmidt_qr(A)</span>
-<span id="cb3-60"><a href="#cb3-60" aria-label="60"></a>        <span class="cf">if</span> verbose:</span>
-<span id="cb3-61"><a href="#cb3-61" aria-label="61"></a>            print_array(Q)</span>
-<span id="cb3-62"><a href="#cb3-62" aria-label="62"></a>            print_array(R)</span>
-<span id="cb3-63"><a href="#cb3-63" aria-label="63"></a></span>
-<span id="cb3-64"><a href="#cb3-64" aria-label="64"></a>        <span class="co"># update A and V in place</span></span>
-<span id="cb3-65"><a href="#cb3-65" aria-label="65"></a>        A <span class="op">=</span> R <span class="op">@</span> Q</span>
-<span id="cb3-66"><a href="#cb3-66" aria-label="66"></a>        V <span class="op">=</span> V <span class="op">@</span> Q</span>
-<span id="cb3-67"><a href="#cb3-67" aria-label="67"></a></span>
-<span id="cb3-68"><a href="#cb3-68" aria-label="68"></a>        <span class="cf">if</span> verbose:</span>
-<span id="cb3-69"><a href="#cb3-69" aria-label="69"></a>            print_array(A)</span>
-<span id="cb3-70"><a href="#cb3-70" aria-label="70"></a>            print_array(V)</span>
-<span id="cb3-71"><a href="#cb3-71" aria-label="71"></a></span>
-<span id="cb3-72"><a href="#cb3-72" aria-label="72"></a>        <span class="co"># test for convergence: is A upper triangular up to tolerance 1.0e-8?</span></span>
-<span id="cb3-73"><a href="#cb3-73" aria-label="73"></a>        <span class="cf">if</span> np.allclose(A, np.triu(A), atol<span class="op">=</span><span class="fl">1.0e-8</span>):</span>
-<span id="cb3-74"><a href="#cb3-74" aria-label="74"></a>            <span class="cf">break</span></span>
-<span id="cb3-75"><a href="#cb3-75" aria-label="75"></a></span>
-<span id="cb3-76"><a href="#cb3-76" aria-label="76"></a>    eigenvalues <span class="op">=</span> np.diag(A)</span>
-<span id="cb3-77"><a href="#cb3-77" aria-label="77"></a>    <span class="cf">return</span> eigenvalues, V, it</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-27"><a href="#cb3-27" aria-label="27"></a><span class="co">        matrix.</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-label="28"></a><span class="co">    maxiter : int, optional</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-label="29"></a><span class="co">        Maximum number of QR iterations to perform. Default is 100.</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-label="30"></a><span class="co">    verbose : bool, optional</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-label="31"></a><span class="co">        If ``True``, prints intermediate matrices (`A`, `Q`, `R`, and `V`) at</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-label="32"></a><span class="co">        each iteration. Useful for debugging and understanding convergence.</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-label="33"></a><span class="co">        Default is ``False``.</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-label="34"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-label="35"></a><span class="co">    Returns</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-label="36"></a><span class="co">    -------</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-label="37"></a><span class="co">    eigenvalues : numpy.ndarray</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-label="38"></a><span class="co">        A 1D NumPy array of length ``n`` containing the eigenvalues of `A`.</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-label="39"></a><span class="co">        These are the diagonal elements of the final upper triangular matrix.</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-label="40"></a><span class="co">    V : numpy.ndarray</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-label="41"></a><span class="co">        A 2D NumPy array of shape ``(n, n)`` whose columns are the normalized</span></span>
+<span id="cb3-42"><a href="#cb3-42" aria-label="42"></a><span class="co">        eigenvectors corresponding to the eigenvalues.</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-label="43"></a><span class="co">    it : int</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-label="44"></a><span class="co">        The number of iterations taken by the algorithm.</span></span>
+<span id="cb3-45"><a href="#cb3-45" aria-label="45"></a><span class="co">    """</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-label="46"></a>    <span class="co"># identity matrix to store eigenvectors</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-label="47"></a>    V <span class="op">=</span> np.eye(A.shape[<span class="dv">0</span>])</span>
+<span id="cb3-48"><a href="#cb3-48" aria-label="48"></a></span>
+<span id="cb3-49"><a href="#cb3-49" aria-label="49"></a>    <span class="cf">if</span> verbose:</span>
+<span id="cb3-50"><a href="#cb3-50" aria-label="50"></a>        print_array(A)</span>
+<span id="cb3-51"><a href="#cb3-51" aria-label="51"></a></span>
+<span id="cb3-52"><a href="#cb3-52" aria-label="52"></a>    it <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb3-53"><a href="#cb3-53" aria-label="53"></a>    <span class="cf">for</span> it <span class="kw">in</span> <span class="bu">range</span>(maxiter):</span>
+<span id="cb3-54"><a href="#cb3-54" aria-label="54"></a>        <span class="cf">if</span> verbose:</span>
+<span id="cb3-55"><a href="#cb3-55" aria-label="55"></a>            <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n\n</span><span class="sc">{</span>it<span class="op">=</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-56"><a href="#cb3-56" aria-label="56"></a></span>
+<span id="cb3-57"><a href="#cb3-57" aria-label="57"></a>        <span class="co"># perform factorisation</span></span>
+<span id="cb3-58"><a href="#cb3-58" aria-label="58"></a>        Q, R <span class="op">=</span> gram_schmidt_qr(A)</span>
+<span id="cb3-59"><a href="#cb3-59" aria-label="59"></a>        <span class="cf">if</span> verbose:</span>
+<span id="cb3-60"><a href="#cb3-60" aria-label="60"></a>            print_array(Q)</span>
+<span id="cb3-61"><a href="#cb3-61" aria-label="61"></a>            print_array(R)</span>
+<span id="cb3-62"><a href="#cb3-62" aria-label="62"></a></span>
+<span id="cb3-63"><a href="#cb3-63" aria-label="63"></a>        <span class="co"># update A and V in place</span></span>
+<span id="cb3-64"><a href="#cb3-64" aria-label="64"></a>        A <span class="op">=</span> R <span class="op">@</span> Q</span>
+<span id="cb3-65"><a href="#cb3-65" aria-label="65"></a>        V <span class="op">=</span> V <span class="op">@</span> Q</span>
+<span id="cb3-66"><a href="#cb3-66" aria-label="66"></a></span>
+<span id="cb3-67"><a href="#cb3-67" aria-label="67"></a>        <span class="cf">if</span> verbose:</span>
+<span id="cb3-68"><a href="#cb3-68" aria-label="68"></a>            print_array(A)</span>
+<span id="cb3-69"><a href="#cb3-69" aria-label="69"></a>            print_array(V)</span>
+<span id="cb3-70"><a href="#cb3-70" aria-label="70"></a></span>
+<span id="cb3-71"><a href="#cb3-71" aria-label="71"></a>        <span class="co"># test for convergence: is A upper triangular up to tolerance 1.0e-8?</span></span>
+<span id="cb3-72"><a href="#cb3-72" aria-label="72"></a>        <span class="cf">if</span> np.allclose(A, np.triu(A), atol<span class="op">=</span><span class="fl">1.0e-8</span>):</span>
+<span id="cb3-73"><a href="#cb3-73" aria-label="73"></a>            <span class="cf">break</span></span>
+<span id="cb3-74"><a href="#cb3-74" aria-label="74"></a></span>
+<span id="cb3-75"><a href="#cb3-75" aria-label="75"></a>    eigenvalues <span class="op">=</span> np.diag(A)</span>
+<span id="cb3-76"><a href="#cb3-76" aria-label="76"></a>    <span class="cf">return</span> eigenvalues, V, it</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>We test this out in code first for the matrix from <a href="lec07.html#exm-char" class="quarto-xref">Example&nbsp;<span>7.3</span></a>:</p>
-<div id="623e8466" class="cell" data-execution_count="8">
+<p>We test this out in code first for the same <span class="math inline">\(2 \times 2\)</span> matrix from <a href="lec07.html#exm-char" class="quarto-xref">Example&nbsp;<span>7.3</span></a> that we iterated by hand above:</p>
+<div id="3c73d9bb" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a>A <span class="op">=</span> np.array([[<span class="fl">3.0</span>, <span class="fl">1.0</span>], [<span class="fl">1.0</span>, <span class="fl">3.0</span>]])</span>
 <span id="cb4-2"><a href="#cb4-2" aria-label="2"></a>print_array(A)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-label="3"></a></span>
@@ -904,10 +960,10 @@ iterations required: 27</code></pre>
 </div>
 <p>These values agree with those from <a href="lec07.html#exm-char" class="quarto-xref">Example&nbsp;<span>7.3</span></a>. Note that this code normalises the eigenvectors to have length one, so we have slightly different values for the eigenvectors but still in the same directions.</p>
 </section>
-<section id="correctness-and-convergence" class="level2" data-number="8.3">
-<h2 data-number="8.3" class="anchored" data-anchor-id="correctness-and-convergence"><span class="header-section-number">8.3</span> Correctness and convergence</h2>
-<p>Let’s see what happens when we try this same approach for a bigger symmetric matrices. Here we have a test that samples ten different random matrices and computes the average number of iterations, average run time and maximum error in the eigenvalue equation.</p>
-<div id="1893a004" class="cell" data-execution_count="9">
+<section id="correctness-and-convergence" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="correctness-and-convergence"><span class="header-section-number">8.5</span> Correctness and convergence</h2>
+<p>Let’s see what happens when we try this same approach for bigger symmetric matrices. Here we have a test that samples ten different random matrices and computes the average number of iterations, average run time and maximum error in the eigenvalue equation.</p>
+<div id="40a77d69" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a><span class="co"># replicable random seed</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-label="2"></a>np.random.seed(<span class="dv">42</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-label="3"></a></span>
@@ -982,16 +1038,16 @@ iterations required: 27</code></pre>
 <span id="cb6-72"><a href="#cb6-72" aria-label="72"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>n<span class="sc">:4d}</span><span class="ss">   </span><span class="sc">{</span>runtime<span class="sc">:.6e}</span><span class="ss">  </span><span class="sc">{</span>average_it<span class="sc">:5.1f}</span><span class="ss">  </span><span class="sc">{</span>max_error<span class="sc">:.6e}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>size  time (s)       iter  error
-   2   1.217585e-03   44.6  9.319110e-09
-   4   3.144362e-03   78.1  9.895223e-09
-   8   1.279824e-02  137.7  1.212740e-08
-  16   4.354450e-02  152.7  1.346641e-08
-  32   1.704047e-01  165.6  1.246268e-08
-  64   6.598106e-01  162.3  1.646201e-08
- 128   5.020400e+00  173.8  1.478504e-08</code></pre>
+   2   1.331754e-03   44.6  9.319110e-09
+   4   3.558745e-03   78.1  9.895223e-09
+   8   1.497051e-02  137.7  1.212740e-08
+  16   5.216142e-02  152.7  1.346641e-08
+  32   2.086007e-01  165.6  1.246268e-08
+  64   8.204960e-01  162.3  1.646201e-08
+ 128   5.006340e+00  173.8  1.478504e-08</code></pre>
 </div>
 </div>
-<div id="e3ff0c05" class="cell" data-execution_count="10">
+<div id="a17358f9" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1000,7 +1056,16 @@ iterations required: 27</code></pre>
 </div>
 </div>
 </div>
-<p>We see that the method converges very well with a good low accuracy.</p>
+<p>We see that the method converges reliably and to a good level of accuracy, even as the matrix size <span class="math inline">\(n\)</span> grows – a very different picture to the characteristic-equation approach, which becomes infeasible once <span class="math inline">\(n\)</span> is more than a handful.</p>
+</section>
+<section id="summary" class="level2" data-number="8.6">
+<h2 data-number="8.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">8.6</span> Summary</h2>
+<ul>
+<li><p>The “grand strategy” for finding eigenvalues of large matrices is to build a sequence of matrices similar to <span class="math inline">\(A\)</span> (<a href="lec07.html#thm-similar" class="quarto-xref">Theorem&nbsp;<span>7.2</span></a>), aiming for a triangular (or diagonal) matrix whose eigenvalues can simply be read off the diagonal (<a href="lec07.html#exm-triangular-evalues" class="quarto-xref">Example&nbsp;<span>7.6</span></a>).</p></li>
+<li><p>The QR algorithm builds this sequence by repeatedly factorising <span class="math inline">\(A^{(k)} = Q^{(k)} R^{(k)}\)</span> into an orthogonal matrix <span class="math inline">\(Q^{(k)}\)</span> and an upper triangular matrix <span class="math inline">\(R^{(k)}\)</span>, then recombining them in the opposite order, <span class="math inline">\(A^{(k+1)} = R^{(k)} Q^{(k)}\)</span>. Because <span class="math inline">\(Q^{(k)}\)</span> is orthogonal, each <span class="math inline">\(A^{(k+1)}\)</span> is similar to <span class="math inline">\(A^{(k)}\)</span>, so every matrix in the sequence has the same eigenvalues as the original <span class="math inline">\(A\)</span>.</p></li>
+<li><p>The Gram-Schmidt process gives us a concrete, implementable way to compute a QR factorisation: it turns the columns of <span class="math inline">\(A\)</span> into an orthonormal set of vectors <span class="math inline">\(Q\)</span>, tracking the projection coefficients used along the way in an upper triangular matrix <span class="math inline">\(R\)</span>.</p></li>
+<li><p>Our Python implementation confirms, empirically, that the QR algorithm is both correct (it reproduces the eigenvalues and eigenvectors found by hand) and feasible: unlike solving the characteristic equation directly, we can apply our method to large matrices.</p></li>
+</ul>
 
 
 </section>

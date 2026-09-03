@@ -501,7 +501,7 @@ A \vec{x} = \lambda \vec{x}.
 <div id="exm-projection" class="theorem example">
 <p><span class="theorem-title"><strong>Example 7.1</strong></span> Let <span class="math inline">\(P\)</span> be the 3x3 matrix that represents projection onto a plane <span class="math inline">\(\Pi =
 \{\vec{x} \in \mathbb{R}^3 : \vec{a} \cdot \vec{x} = 0\}\)</span> (i.e.&nbsp;<span class="math inline">\(P\)</span> maps any point in <span class="math inline">\(\mathbb{R}^3\)</span> to its nearest point in <span class="math inline">\(\Pi\)</span>). What are the eigenvalues and eigenvectors of <span class="math inline">\(P\)</span>?</p>
-<div id="6b7a9233" class="cell" data-caption="Representation of planar projection operator $P$." data-execution_count="2">
+<div id="4b7690e1" class="cell" data-caption="Representation of planar projection operator $P$." data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -547,7 +547,7 @@ A = \begin{pmatrix}
 <p>Eigenvalues and eigenvectors can be used to encode information about a dataset into a lower dimensional representation. Take, for example, the health record of a patient which might contain many dimensions of data (e.g.&nbsp;height, weight, resting heart rate, different blood test results, diet and exercise information). This dataset will be hard to compute with because these columns are not independent (more on this later in the Statistics section of the module) and the large dimension makes computation expensive. One way to reduce the dimensionality is through projecting the dataset onto a small number of directions which come from the eigenvectors of a related matrix (the covariance or correlation matrix). This is called principal component analysis (PCA) and you will learn more about this in a project later in this module.</p>
 <p>We demonstrate briefly here how PCA can work for compressing an image. Consider this image of the Bragg building:</p>
 <p>Step 1: we load the image and do some normalisation:</p>
-<div id="15893d49" class="cell" data-execution_count="3">
+<div id="fe1d68c0" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a>image_url <span class="op">=</span> <span class="st">"https://thumb.wikimedia.org/wikipedia/commons/thumb/3/31/Sir_William_Henry_Bragg_Building_-_Main_entrance_-_July_2022.jpg/960px-Sir_William_Henry_Bragg_Building_-_Main_entrance_-_July_2022.jpg"</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-label="3"></a>response <span class="op">=</span> requests.get(image_url, headers<span class="op">=</span>{<span class="st">"User-Agent"</span>: <span class="st">"Mozilla/5.0"</span>})</span>
@@ -568,13 +568,13 @@ A = \begin{pmatrix}
 </div>
 </div>
 <p>Step 2: we compute the covariance matrix</p>
-<div id="e2438ff9" class="cell" data-execution_count="4">
+<div id="b5f8d884" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a>mean_vector <span class="op">=</span> np.mean(img_array, axis<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-label="2"></a>centered_data <span class="op">=</span> img_array <span class="op">-</span> mean_vector</span>
 <span id="cb2-3"><a href="#cb2-3" aria-label="3"></a>cov_matrix <span class="op">=</span> np.cov(centered_data, rowvar<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Step 3: compute eigenvalues and eigenvectors</p>
-<div id="cdc52688" class="cell" data-execution_count="5">
+<div id="ab6f58c0" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a>eigenvalues, eigenvectors <span class="op">=</span> np.linalg.eig(cov_matrix)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-label="2"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-label="3"></a><span class="co"># Sort eigenvalues and eigenvectors in descending order</span></span>
@@ -583,7 +583,7 @@ A = \begin{pmatrix}
 <span id="cb3-6"><a href="#cb3-6" aria-label="6"></a>eigenvectors <span class="op">=</span> eigenvectors[:, sorted_indices]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Step 4: reconstruct the image using the top k components</p>
-<div id="0a045f75" class="cell" data-execution_count="6">
+<div id="f0eeac37" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a><span class="kw">def</span> reconstruct_image(data, eigenvectors, mean_vector, k):</span>
 <span id="cb4-2"><a href="#cb4-2" aria-label="2"></a>    <span class="co">"""</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-label="3"></a><span class="co">    Reconstructs the image using the top k eigenvectors.</span></span>
@@ -594,7 +594,7 @@ A = \begin{pmatrix}
 <span id="cb4-8"><a href="#cb4-8" aria-label="8"></a>    <span class="cf">return</span> reconstructed</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Step 5: display the results for different numbers of eigenvectors:</p>
-<div id="4b75b8e3" class="cell" data-execution_count="7">
+<div id="da611fdc" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a>k_values <span class="op">=</span> [<span class="dv">5</span>, <span class="dv">20</span>, <span class="dv">50</span>]</span>
 <span id="cb5-2"><a href="#cb5-2" aria-label="2"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-label="3"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">8</span>))</span>
