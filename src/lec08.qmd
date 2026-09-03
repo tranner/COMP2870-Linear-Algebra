@@ -78,9 +78,15 @@ def print_array(array, array_name=None, end=None):
 ```
 
 ::: {.callout-tip}
-**Module learning outcome:** apply algorithms to compute eigenvectors and
-eigenvalues of large matrices.
+## Module learning objective
+
+- Derive and apply the Gram-Schmidt process to compute a QR factorisation of a
+  matrix by hand.
+- Implement the QR algorithm in Python and evaluate its correctness and
+  computational feasibility on large matrices.
 :::
+
+## Recall: the eigenvalue problem
 
 In the previous lecture, we defined the eigenvalue problem for a matrix $A$:
 Finding numbers $\lambda$ (eigenvalues) and vectors $\vec{x}$ (eigenvectors)
@@ -91,14 +97,21 @@ A \vec{x} = \lambda \vec{x}.
 We saw one starting point for finding eigenvalues is to find the roots of the
 characteristic equation: a polynomial of degree $n$ for an $n \times n$ matrix
 $A$. However, we have already seen that this approach will be infeasible for
-large matrices. Instead, we will find a sequence of similar matrices to $A$ such
-that we can read off the eigenvalues from the final matrix.
+large matrices -- and matrices arising in practice are often large. Recall,
+for example, the image-compression demonstration from the last lecture: even a
+modest $300 \times 300$-pixel image led to an eigenvalue problem for a
+$300 \times 300$ covariance matrix, and a characteristic polynomial of degree
+$300$ is not something we can find the roots of directly. Instead, we will find
+a sequence of similar matrices to $A$ such that we can read off the eigenvalues
+from the final matrix.
+
+## The grand strategy
 
 In equations, we can say our "grand strategy" is to find a sequence of matrices
 $P_1, P_2, \ldots$ to form a sequence of matrices:
 \begin{equation}
 \label{eq:similarity_transform}
-A, P_1^{-1} A P, P_2^{-1} P_1^{-1} A P_1 P_2, P_3^{-1} P_2^{-1} P_1^{-1} A P_1
+A, \quad P_1^{-1} A P_1, \quad P_2^{-1} P_1^{-1} A P_1 P_2, \quad P_3^{-1} P_2^{-1} P_1^{-1} A P_1
 P_2 P_3, \ldots
 \end{equation}
 We aim to get all the way to a simple matrix where we read off the eigenvalues
@@ -118,18 +131,13 @@ We have seen a similar example for upper triangular matrices
 
 ::: {#rem-orthogonal-matrices-are-good}
 In the example below, and many others, we see that we typically want the
-matrices $P_j$ to be **orthogonal** or **orthonormal**.
+matrices $P_j$ to be **orthogonal**.
 
-A (real-valued) matrix $Q$ is orthogonal if $Q^T Q$ is diagonal and a (real-valued)
-matrix $Q$ is orthonormal if $Q^T Q = I_n$.
+A (real-valued) matrix $Q$ is orthogonal if $Q^T Q = I_n$.
 
-In other words, if denote by
+In other words, if we denote by
 $\vec{q}^{(1)}, \ldots, \vec{q}^{(n)}$ the columns of $Q$, then $Q$ is
-orthogonal if
-\begin{equation*}
-\vec{q}^{(i)} \cdot \vec{q}^{(j)} = 0 \quad \text{ if } i \neq j,
-\end{equation*}
-and $Q$ is orthonormal if
+orthogonal if the columns are *orthonormal*:
 \begin{equation*}
 \vec{q}^{(i)} \cdot \vec{q}^{(j)} =
 \begin{cases}
@@ -138,16 +146,22 @@ and $Q$ is orthonormal if
 \end{cases}
 \end{equation*}
 
-Orthonormal matrices have the nice property that $Q^{-1} = Q^T$ so we can very
-easily compute their inverse! They also always have a determinant of 1.
+Orthogonal matrices have the nice property that $Q^{-1} = Q^T$ so we can very
+easily compute their inverse! They also always have a determinant of $\pm 1$.
 Importantly, we can apply them (or their inverses) without worrying about adding
 extra problems from finite precision.
 
-Examples of orthonormal matrices include matrices which describe rotations.
+A standard example of an orthogonal matrix is a rotation matrix. The matrix
+$$
+R(\theta) = \begin{pmatrix}
+\cos \theta & -\sin \theta \\
+\sin \theta & \cos \theta
+\end{pmatrix}
+$$
+rotates any vector in $\mathbb{R}^2$ anticlockwise by an angle $\theta$.
 
 ::: {#exr-rotation-orthonormal}
-Show that the rotation matrix $R(\theta)$ from @exm-special-matrices is
-orthonormal.
+Show that the rotation matrix $R(\theta)$ is orthogonal.
 :::
 :::
 
@@ -155,9 +169,9 @@ orthonormal.
 
 The QR algorithm is an iterative method for computing eigenvalues and
 eigenvectors.
-At each step a matrix is factored into a product in a similar fashion to LU
+At each step a matrix is factorised in a similar fashion to LU
 factorisation (@sec-LU-factorisation). In this case, we factor a matrix, $A$ into
-a product of an orthonormal matrix, $Q$, and an upper triangular matrix, $R$:
+a product of an orthogonal matrix, $Q$, and an upper triangular matrix, $R$:
 $$
 A = Q R.
 $$
@@ -166,20 +180,20 @@ This is *QR factorisation*.
 Given a matrix $A$, the algorithm repeatedly applies QR factorisation. First,
 we set $A^{(0)} = A$, then we successively perform for $k=0, 1, 2, \ldots$:
 
-1. Compute the QR factorisation of $A^{(k)}$ into an orthonormal part and upper
+1. Compute the QR factorisation of $A^{(k)}$ into an orthogonal part and upper
    triangular part
    $$
    A^{(k)} = Q^{(k)} R^{(k)};
    $$
 
-2. Update the matrix $A^{(k+1)}$ recombining $Q$ and $R$ in the reverse order:
+2. Update the matrix $A^{(k+1)}$ by recombining $Q$ and $R$ in the reverse order:
    $$
    A^{(k+1)} = R^{(k)} Q^{(k)}.
    $$
 
 As we take more and more steps, we hope that $A^{(k)}$ converges to an upper
 triangular matrix whose diagonal entries are the eigenvalues of the original
-matrix.
+matrix. For a real symmetric matrix, the limit is in fact diagonal.
 
 Rearranging the first step within each iteration, we see that
 $$
@@ -190,24 +204,25 @@ $$
 A^{(k+1)} = (Q^{(k)})^{-1} A^{(k)} Q^{(k)},
 $$
 and we see that at each step we are finding a sequence of similar matrices,
-all with the same eigenvalues ({@thm-similar}). We can additionally find the
-eigenvectors of $A$ by forming the product
+all with the same eigenvalues (@thm-similar).
+For a symmetric matrix, the accumulated product
 $$
-Q = Q^{(1)} Q^{(2)} \cdots Q^{(m)}.
+Q = Q^{(0)} Q^{(1)} Q^{(2)} \cdots Q^{(m)}
 $$
+converges to a matrix whose columns are eigenvectors of $A$.
 
 The hard part of the method is computing the QR factorisation. One classical way
 to get a QR factorisation is to use the Gram-Schmidt process. In general, the
 Gram-Schmidt process is used to take a sequence of vectors and form a new
 sequence which is orthonormal. We can apply this to the columns of $A$ to form
-an orthonormal matrix. If we track this process as a matrix-matrix product, we
+an orthogonal matrix. If we track this process as a matrix-matrix product, we
 find that the other factor is upper triangular.
 
 ### The Gram-Schmidt process
 
 The key idea is shown in @fig-projection-away. Given a vector $\vec{a}$ (blue)
 and a vector $\vec{q}$ (green) with length 1. We can compute the projection
-of $\vec{a}$ onto the direction $\vec{q}$ (orange) by
+of $\vec{a}$ onto the line spanned by $\vec{q}$ (orange) by
 \begin{align*}
 (\vec{a} \cdot \vec{q}) \vec{q}.
 \end{align*}
@@ -226,6 +241,7 @@ and we can compute that
 && \text{(since $\| \vec{q} \| = 1$)} \\
 & = 0.
 \end{align*}
+We see that we have found a vector $\vec{u}$ which is orthogonal to $\vec{q}$.
 
 ```{python}
 # | echo: false
@@ -293,6 +309,9 @@ plt.axis("square")
 plt.tight_layout()
 plt.show()
 ```
+
+The Gram-Schmidt process works by repeatedly applying this idea to a sequence of
+vectors to form a new sequence of orthonormal vectors.
 
 ::: {#exm-gram-schmidt}
 Consider the sequence of vectors
@@ -371,7 +390,7 @@ $\vec{q}^{(1)}$. We call this $\vec{u}^{(2)}$:
 1 \\ -1 \\ -1
 \end{pmatrix}.
 \end{align*}
-We then normalise $\vec{u}^{(2)}$ to get a unit-length vector $q^{(2)}$:
+We then normalise $\vec{u}^{(2)}$ to get a unit-length vector $\vec{q}^{(2)}$:
 \begin{align*}
 \vec{q}^{(2)} & = \vec{u}^{(2)} / \| \vec{u}^{(2)} \|
 = \begin{pmatrix} \frac{1}{\sqrt{3}} \\ \frac{-1}{\sqrt{3}} \\
@@ -379,7 +398,7 @@ We then normalise $\vec{u}^{(2)}$ to get a unit-length vector $q^{(2)}$:
 \end{pmatrix}.
 \end{align*}
 
-Third, we will find $q^{(3)}$ which we need to check satisfies $\vec{q}^{(3)}
+Third, we will find $\vec{q}^{(3)}$ which we need to check satisfies $\vec{q}^{(3)}
 \cdot \vec{q}^{(2)} = 0$ and $\vec{q}^{(3)} \cdot \vec{q}^{(1)} = 0$. We can do
 this by subtracting from $\vec{a}^{(3)}$ the portion of $\vec{a}^{(3)}$
 which points in the direction $\vec{q}^{(1)}$ and the portion of $\vec{a}^{(3)}$
@@ -412,7 +431,7 @@ which points in the direction $\vec{q}^{(2)}$. We call this term $\vec{u}^{(3)}$
 \begin{pmatrix} 1 \\ 0 \\ 1 \end{pmatrix} -
 \begin{pmatrix} -2/3 \\ 2/3 \\ 2/3 \end{pmatrix}
 = \begin{pmatrix}
-2/3 \\ 4/3 \\ -2/3.
+2/3 \\ 4/3 \\ -2/3
 \end{pmatrix}.
 \end{align*}
 Again, we normalise $\vec{u}^{(3)}$ to get $\vec{q}^{(3)}$:
@@ -506,7 +525,7 @@ are the vectors $\vec{a}^{(j)}$:
 \end{equation*}
 Then we can compute that
 \begin{align*}
-(Q^T A)_{ij} = \vec{q}^{(j)} \cdot \vec{a}^{(j)}.
+(Q^T A)_{ij} = \vec{q}^{(i)} \cdot \vec{a}^{(j)}.
 \end{align*}
 So
 \begin{align*}
@@ -537,7 +556,7 @@ So
 \end{pmatrix}.
 \end{align*}
 Hence we have found an upper triangular matrix $R = Q^T A$. Since $Q$ is
-orthonormal, we know $Q^{-1} = Q^T$ and we have a factorisation:
+orthogonal, we know $Q^{-1} = Q^T$ and we have a factorisation:
 \begin{equation*}
 A = Q R.
 \end{equation*}
@@ -548,7 +567,7 @@ Gram-Schmidt process to the columns of $B$.
 :::
 :::
 
-We can even do better than simply post computing $R$ through multiplying $Q^T A$.
+We can even do better than simply computing $R$ afterwards through multiplying $Q^T A$.
 Let's revisit the update formula for column $j$:
 \begin{align*}
 \vec{u}^{(j)} & = \vec{a}^{(j)} - \sum_{i=1}^{j-1} (\vec{a}^{(j)} \cdot
@@ -573,7 +592,7 @@ The equations can be rearranged to:
 \vec{a}^{(j)} &= \vec{u}^{(j)} + \sum_{i=1}^{j-1} R_{ij} \vec{q}^{(i)} \\
 \vec{u}^{(j)} & = R_{jj} \vec{q}^{(j)}.
 \end{align*}
-Substituting the vaule of $\vec{u}^{(j)}$ into the first equation gives:
+Substituting the value of $\vec{u}^{(j)}$ into the first equation gives:
 \begin{align*}
 \vec{a}^{(j)} &= R_{jj} \vec{q}^{(j)} + \sum_{i=1}^{j-1} R_{ij} \vec{q}^{(i)} \\
 & = \sum_{i=1}^{j} R_{ij} \vec{q}^{(i)}  \\
@@ -590,10 +609,82 @@ $$
 The Gram-Schmidt algorithm relies on the fact that after each projection there
 should be something left - i.e. $\vec{u}^{(j)}$ should be non-zero. If
 $\vec{a}^{(j)}$ is in the span of $\{ \vec{q}^{(1)}, \ldots, \vec{q}^{(j-1)}
-\}$, then the projection onto $\vec{u}^{(j)}$ will give $\vec{0}$. There are a
+\}$, then the projection  leaves $\vec{u}^{(j)} = \vec{0}$. There are a
 few ways to test this, but the key idea is that if $A$ is non-singular then we
 will always have $\vec{u}^{(j)} \neq \vec{0}$ -- at least in exact-precision
 calculations...
+:::
+
+### Applying the QR algorithm by hand
+
+In @exr-gramm-schmidt above, you computed $B = R Q$ from the QR factorisation
+$A = QR$ found in @exm-gram-schmidt. That step -- factorise, then recombine in
+the opposite order -- is *exactly* one step of the QR algorithm: it is the
+update rule $A^{(k+1)} = R^{(k)} Q^{(k)}$ from earlier in this section, applied
+with $A^{(0)}$ equal to the matrix formed from
+$\vec{a}^{(1)}, \vec{a}^{(2)}, \vec{a}^{(3)}$.
+
+To see the QR algorithm actually converge, it helps to track a smaller matrix
+over several iterations. Let's apply it to the $2 \times 2$ matrix from
+@exm-char,
+\begin{equation*}
+A^{(0)} = \begin{pmatrix} 3 & 1 \\ 1 & 3 \end{pmatrix},
+\end{equation*}
+whose eigenvalues we already know, by direct calculation, are $4$ and $2$.
+
+**Step 1: factorise $A^{(0)} = Q^{(0)} R^{(0)}$.** Applying the Gram-Schmidt
+process to the two columns $\vec{a}^{(1)} = (3, 1)^T$ and
+$\vec{a}^{(2)} = (1, 3)^T$:
+\begin{align*}
+\vec{q}^{(1)} & = \frac{\vec{a}^{(1)}}{\|\vec{a}^{(1)}\|}
+= \frac{1}{\sqrt{10}} \begin{pmatrix} 3 \\ 1 \end{pmatrix}, \\
+\vec{u}^{(2)} & = \vec{a}^{(2)} - \left(\vec{a}^{(2)} \cdot \vec{q}^{(1)}\right)
+\vec{q}^{(1)}
+= \begin{pmatrix} 1 \\ 3 \end{pmatrix} - \frac{6}{10}
+\begin{pmatrix} 3 \\ 1 \end{pmatrix}
+= \begin{pmatrix} -4/5 \\ 12/5 \end{pmatrix}, \\
+\vec{q}^{(2)} & = \frac{\vec{u}^{(2)}}{\|\vec{u}^{(2)}\|}
+= \frac{1}{\sqrt{10}} \begin{pmatrix} -1 \\ 3 \end{pmatrix}.
+\end{align*}
+So
+\begin{equation*}
+Q^{(0)} = \frac{1}{\sqrt{10}} \begin{pmatrix} 3 & -1 \\ 1 & 3 \end{pmatrix},
+\qquad
+R^{(0)} = \frac{\sqrt{10}}{5} \begin{pmatrix} 5 & 3 \\ 0 & 4 \end{pmatrix}.
+\end{equation*}
+
+**Step 2: recombine $A^{(1)} = R^{(0)} Q^{(0)}$.**
+\begin{align*}
+A^{(1)}
+& = \frac{\sqrt{10}}{5} \begin{pmatrix} 5 & 3 \\ 0 & 4 \end{pmatrix}
+\cdot \frac{1}{\sqrt{10}} \begin{pmatrix} 3 & -1 \\ 1 & 3 \end{pmatrix}
+= \frac{1}{5} \begin{pmatrix} 5 & 3 \\ 0 & 4 \end{pmatrix}
+\begin{pmatrix} 3 & -1 \\ 1 & 3 \end{pmatrix} \\
+& = \frac{1}{5} \begin{pmatrix} 18 & 4 \\ 4 & 12 \end{pmatrix}
+= \begin{pmatrix} 3.6 & 0.8 \\ 0.8 & 2.4 \end{pmatrix}.
+\end{align*}
+
+Two things are worth checking:
+
+- The trace is preserved: $\mathrm{trace}(A^{(0)}) = 3 + 3 = 6$ and
+  $\mathrm{trace}(A^{(1)}) = 3.6 + 2.4 = 6$. This is a consequence of
+  $A^{(1)}$ being similar to $A^{(0)}$ (@thm-similar): similar matrices have
+  the same eigenvalues, and the trace is the sum of the eigenvalues, so it
+  cannot change under a similarity transformation.
+- The off-diagonal entries have shrunk, from $1$ to $0.8$: $A^{(1)}$ is closer
+  to being diagonal than $A^{(0)}$ was.
+
+Repeating the process (we will let Python do the arithmetic below), the
+off-diagonal entries continue to shrink -- to about $0.47$ after the second
+iteration and $0.25$ after the third -- and $A^{(k)}$ converges towards
+$\begin{pmatrix} 4 & 0 \\ 0 & 2 \end{pmatrix}$: exactly the eigenvalues we found
+by hand in @exm-char.
+
+::: {#exr-qr-iteration}
+Perform one more iteration of the QR algorithm by hand: compute the QR
+factorisation of $A^{(1)}$ found above, and use it to compute $A^{(2)}$. Check
+that your answer is consistent with the value quoted above for the
+off-diagonal entries of $A^{(2)}$.
 :::
 
 ### Python QR factorisation using Gram-Schmidt
@@ -613,7 +704,7 @@ def gram_schmidt_qr(A):
     Returns
     -------
     Q : numpy.ndarray
-        Orthonormal matrix of shape ``(n, n)`` where the columns form an
+        orthogonal matrix of shape ``(n, n)`` where the columns form an
         orthonormal basis for the column space of A.
     R : numpy.ndarray
         Upper triangular matrix of shape ``(n, n)``.
@@ -659,19 +750,17 @@ print_array(Q)
 print_array(R)
 
 print("Have we computed a factorisation? (A ≈ Q @ R)", np.allclose(A, Q @ R))
-print(
-    "Is Q orthonormal? (Q.T @ Q ≈ np.eye(3))", np.allclose(np.eye(3), Q.T @ Q)
-)
+print("Is Q orthogonal? (Q.T @ Q ≈ np.eye(3))", np.allclose(np.eye(3), Q.T @ Q))
 
 
 ```
 
-Note that due to rounding errors, that $A$ is not exactly equal to $Q R$ and $Q$ is not exactly orthormal.
+Note that due to rounding errors, $A$ is not exactly equal to $Q R$ and $Q$ is not exactly orthogonal.
 
 ## Finding eigenvalues and eigenvectors
 
 The algorithm given above says that we use the QR factorisation to iteratively
-find a sequence of matrices $A^{(j)}$ which *should* converge to an
+find a sequence of matrices $A^{(k)}$ which *should* converge to an
 upper-triangular matrix.
 
 ```{python}
@@ -689,7 +778,7 @@ def gram_schmidt_eigen(A, maxiter=100, verbose=False):
        .. math::
            A_{k+1} = R_k Q_k
 
-    3. Accumulate the orthonormal transformations in `V` to compute the
+    3. Accumulate the orthogonal transformations in `V` to compute the
        eigenvectors.
     4. Iterate until `A` becomes approximately upper triangular or until the
        maximum number of iterations is reached.
@@ -701,8 +790,7 @@ def gram_schmidt_eigen(A, maxiter=100, verbose=False):
     ----------
     A : numpy.ndarray
         A square 2D NumPy array of shape ``(n, n)`` representing the input
-        matrix. This matrix will be **modified in place** during the
-        computation.
+        matrix.
     maxiter : int, optional
         Maximum number of QR iterations to perform. Default is 100.
     verbose : bool, optional
@@ -756,7 +844,8 @@ def gram_schmidt_eigen(A, maxiter=100, verbose=False):
 
 ```
 
-We test this out in code first for the matrix from @exm-char:
+We test this out in code first for the same $2 \times 2$ matrix from @exm-char
+that we iterated by hand above:
 
 ```{python}
 A = np.array([[3.0, 1.0], [1.0, 3.0]])
@@ -776,7 +865,7 @@ for the eigenvectors but still in the same directions.
 
 ## Correctness and convergence
 
-Let's see what happens when we try this same approach for a bigger symmetric
+Let's see what happens when we try this same approach for bigger symmetric
 matrices. Here we have a test that samples ten different random matrices and
 computes the average number of iterations, average run time and maximum error
 in the eigenvalue equation.
@@ -895,4 +984,31 @@ plt.tight_layout()
 plt.show()
 ```
 
-We see that the method converges very well with a good low accuracy.
+We see that the method converges reliably and to a good level of accuracy, even
+as the matrix size $n$ grows -- a very different picture to the
+characteristic-equation approach, which becomes infeasible once $n$ is more
+than a handful.
+
+## Summary
+
+- The "grand strategy" for finding eigenvalues of large matrices is to build a
+  sequence of matrices similar to $A$ (@thm-similar), aiming for a
+  triangular (or diagonal) matrix whose eigenvalues can simply be read off the
+  diagonal (@exm-triangular-evalues).
+
+- The QR algorithm builds this sequence by repeatedly factorising
+  $A^{(k)} = Q^{(k)} R^{(k)}$ into an orthogonal matrix $Q^{(k)}$ and an upper
+  triangular matrix $R^{(k)}$, then recombining them in the opposite order,
+  $A^{(k+1)} = R^{(k)} Q^{(k)}$. Because $Q^{(k)}$ is orthogonal, each
+  $A^{(k+1)}$ is similar to $A^{(k)}$, so every matrix in the sequence has the
+  same eigenvalues as the original $A$.
+
+- The Gram-Schmidt process gives us a concrete, implementable way to compute a
+  QR factorisation: it turns the columns of $A$ into an orthonormal set of
+  vectors $Q$, tracking the projection coefficients used along the way in an
+  upper triangular matrix $R$.
+
+- Our Python implementation confirms, empirically, that the QR algorithm is
+  both correct (it reproduces the eigenvalues and eigenvectors found by
+  hand) and feasible: unlike solving the characteristic equation directly,
+  we can apply our method to large matrices.
