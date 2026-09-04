@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a8878b26a82a3acfb551e36b2a05926d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-b4c4def0ec3a69273d171d94c37b6dce.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a8878b26a82a3acfb551e36b2a05926d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-062875f239ea1425fc94a2957f100e3c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-93aabb57e2814e4fd099a6e580d1b293.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-062875f239ea1425fc94a2957f100e3c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -423,16 +423,12 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#definition-of-systems-of-linear-equations" id="toc-definition-of-systems-of-linear-equations" class="nav-link active" data-scroll-target="#definition-of-systems-of-linear-equations"><span class="header-section-number">3.1</span> Definition of systems of linear equations</a></li>
-  <li><a href="#can-we-do-it" id="toc-can-we-do-it" class="nav-link" data-scroll-target="#can-we-do-it"><span class="header-section-number">3.2</span> Can we do it?</a>
-  <ul class="collapse">
-  <li><a href="#the-span-of-a-set-of-vectors" id="toc-the-span-of-a-set-of-vectors" class="nav-link" data-scroll-target="#the-span-of-a-set-of-vectors"><span class="header-section-number">3.2.1</span> The span of a set of vectors</a></li>
-  <li><a href="#linear-independence" id="toc-linear-independence" class="nav-link" data-scroll-target="#linear-independence"><span class="header-section-number">3.2.2</span> Linear independence</a></li>
-  <li><a href="#when-vectors-form-a-basis" id="toc-when-vectors-form-a-basis" class="nav-link" data-scroll-target="#when-vectors-form-a-basis"><span class="header-section-number">3.2.3</span> When vectors form a basis</a></li>
-  <li><a href="#another-characterisation-the-determinant" id="toc-another-characterisation-the-determinant" class="nav-link" data-scroll-target="#another-characterisation-the-determinant"><span class="header-section-number">3.2.4</span> Another characterisation: the determinant</a></li>
-  </ul></li>
-  <li><a href="#special-types-of-matrices" id="toc-special-types-of-matrices" class="nav-link" data-scroll-target="#special-types-of-matrices"><span class="header-section-number">3.3</span> Special types of matrices</a></li>
-  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">3.4</span> Further reading</a></li>
+  <li><a href="#systems-of-linear-equations" id="toc-systems-of-linear-equations" class="nav-link active" data-scroll-target="#systems-of-linear-equations"><span class="header-section-number">3.1</span> Systems of linear equations</a></li>
+  <li><a href="#matrix-inverse" id="toc-matrix-inverse" class="nav-link" data-scroll-target="#matrix-inverse"><span class="header-section-number">3.2</span> Matrix inverse</a></li>
+  <li><a href="#the-determinant" id="toc-the-determinant" class="nav-link" data-scroll-target="#the-determinant"><span class="header-section-number">3.3</span> The determinant</a></li>
+  <li><a href="#special-types-of-matrices" id="toc-special-types-of-matrices" class="nav-link" data-scroll-target="#special-types-of-matrices"><span class="header-section-number">3.4</span> Special types of matrices</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">3.5</span> Summary</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">3.6</span> Further reading</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/edit/main/src/lec03.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/blob/main/src/lec03.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/COMP2870-2526/linear-algebra-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -482,11 +478,16 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Define and identify what it means for a set of vectors to be a basis, spanning set or linearly independent.</p>
+<ul>
+<li>Formulate a system of linear equations in matrix form <span class="math inline">\(A\vec{x}=\vec{b}\)</span>.</li>
+<li>Compute the determinant of small matrices by and determine whether a square matrix is invertible using its determinant.</li>
+<li>Explain the difference between solving a system directly and computing a matrix inverse.</li>
+<li>Recognise common matrix structures such as triangular and sparse matrices.</li>
+</ul>
 </div>
 </div>
-<section id="definition-of-systems-of-linear-equations" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="definition-of-systems-of-linear-equations"><span class="header-section-number">3.1</span> Definition of systems of linear equations</h2>
+<section id="systems-of-linear-equations" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="systems-of-linear-equations"><span class="header-section-number">3.1</span> Systems of linear equations</h2>
 <p>Given an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(A\)</span> and an <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\vec{b}\)</span>, find the <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\vec{x}\)</span> which satisfies: <span class="math display">\[\begin{equation}
 \label{eq:sle}
 A \vec{x} = \vec{b}.
@@ -509,23 +510,121 @@ a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n &amp; = b_n.
 <li><p>The <strong>right-hand side</strong> values <span class="math inline">\(b_i\)</span> are known and are given to you as part of the problem.</p></li>
 <li><p><span class="math inline">\(x_1, x_2, x_3, \ldots, x_n\)</span> are <strong>not</strong> known and are what you need to find to solve the problem.</p></li>
 </ul>
+<p>Many computational algorithms require the solution of linear equations, e.g.&nbsp;in fields such as</p>
+<ul>
+<li>scientific computation;</li>
+<li>network design and optimisation;</li>
+<li>graphics and visualisation;</li>
+<li>machine learning.</li>
+</ul>
+<p>Typically, these systems are <em>very</em> large, with millions or billions of unknowns in some scientific and engineering applications.</p>
+<p>It is therefore important that this problem can be solved</p>
+<ul>
+<li>accurately: we are allowed to make small errors but not big errors;</li>
+<li>efficiently: we need to find the answer quickly;</li>
+<li>reliably: we need to know that our algorithm will give us an answer that we are happy with.</li>
+</ul>
+<p>In this part of the module we will consider <em>square</em> systems of equations for which the number of equations is equal to the number of unknowns. In this case the following statements are equivalent:</p>
+<ul>
+<li>The linear system <span class="math inline">\(A \vec{x} = \vec{b}\)</span> has a unique solution, for any right-hand side vector <span class="math inline">\(\vec{b}\)</span>.</li>
+<li>There exists a matrix (let’s call it <span class="math inline">\(A^{-1}\)</span> the inverse of <span class="math inline">\(A\)</span>) such that <span class="math inline">\(A^{-1} A = I_n\)</span>, and we say that the matrix <span class="math inline">\(A\)</span> is invertible.</li>
+<li>The matrix <span class="math inline">\(A\)</span> is non-singular.</li>
+</ul>
+<p>We will see further statements also equivalent to these later in this section of the module.</p>
+<div id="exm-temperature" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.1 (Temperature in a sealed room)</strong></span> Suppose we wish to estimate the temperature distribution inside an object:</p>
+<div id="d789ebdc" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lec03_files/figure-html/cell-3-output-1.png" width="665" height="332" class="figure-img"></p>
+<figcaption>Image showing temperature sample points and relations in a room.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>We can place a network of points inside the object and use the following model: the temperature at each interior point is the average of its neighbours.</p>
+<p>This example leads to the system:</p>
+<p><span class="math display">\[
+\begin{pmatrix}
+1 &amp; -1/6 &amp; -1/6 &amp; 0 &amp; -1/6 &amp; 0 &amp; 0 \\
+-1/6 &amp; 1 &amp; -1/6 &amp; -1/6 &amp; 0 &amp; -1/6 &amp; 0 \\
+-1/4 &amp; -1/4 &amp; 1 &amp; 0 &amp; -1/4 &amp; -1/4 &amp; 0 \\
+0 &amp; -1/5 &amp; 0 &amp; 1 &amp; 0 &amp; -1/5 &amp; 0 \\
+-1/6 &amp; 0 &amp; -1/6 &amp; 0 &amp; 1 &amp; -1/6 &amp; -1/6 \\
+0 &amp; -1/8 &amp; -1/8 &amp; -1/8 &amp; -1/8 &amp; 1 &amp; -1/8 \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; -1/5 &amp; -1/5 &amp; 1
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6 \\ x_7
+\end{pmatrix}
+= \begin{pmatrix}
+400/6 \\ 100/6 \\ 0 \\ 0 \\ 100/6 \\ 0 \\ 0
+\end{pmatrix}.
+\]</span></p>
+</div>
+<div id="exm-traffic" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.2 (Traffic network)</strong></span> Suppose we wish to monitor the flow of traffic in a city centre:</p>
+<div id="8a8747b5" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lec03_files/figure-html/cell-4-output-1.png" width="662" height="469" class="figure-img"></p>
+<figcaption>Example network showing traffic flow in a city</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>As the above example shows, it is not necessary to monitor every single road. If we know all of the <span class="math inline">\(y\)</span> values, we can calculate the <span class="math inline">\(x\)</span> values!</p>
+<p>This example leads to the system:</p>
+<p><span class="math display">\[
+\begin{pmatrix}
+1 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+1 &amp; -1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 0 &amp; -1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; -1 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; -1 \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 1
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6 \\ x_7 \\ x_8
+\end{pmatrix}
+= \begin{pmatrix}
+y_5 \\ y_{12} - y_6 \\ y_8 - y_7 \\ y_{11} - y_4 \\
+y_{11} + y_{12} - y_{10} \\ y_9 \\ y_2 - y_3 \\ y_1
+\end{pmatrix}.
+\]</span></p>
+</div>
 </section>
-<section id="can-we-do-it" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="can-we-do-it"><span class="header-section-number">3.2</span> Can we do it?</h2>
-<p>Our first question might be: Is it possible to solve <span class="math inline">\(\eqref{eq:sle}\)</span>?</p>
-<p>We know a few simple cases where we can answer this question very quickly:</p>
-<ol type="1">
-<li>If <span class="math inline">\(A = I_n\)</span>, the <span class="math inline">\(n \times n\)</span> <em>identity matrix</em>, then we <em>can</em> solve this problem: <span class="math display">\[\vec{x} = \vec{b}.\]</span></li>
-<li>If <span class="math inline">\(A = O\)</span>, the <span class="math inline">\(n \times n\)</span> <em>zero matrix</em>, and <span class="math inline">\(\vec{b} \neq \vec{0}\)</span>, the zero vector, then there are no solutions to the problem: <span class="math display">\[
-O \vec{x} = \vec{0} \neq \vec{b} \quad \text{for any vector} \quad \vec{x}.
-\]</span></li>
-<li>If <span class="math inline">\(A\)</span> is <em>invertible</em>, with inverse <span class="math inline">\(A^{-1}\)</span>, then we <em>can</em> solve this problem: <span class="math display">\[
-\vec{x} = A^{-1} \vec{b}.
-\]</span> However, in general, this is a <em>terrible</em> idea and we will see algorithms that are more efficient than finding the inverse of <span class="math inline">\(A\)</span>.</li>
-</ol>
-<div id="rem-inverse" class="proof remark">
-<p><span class="proof-title"><em>Remark 3.1</em>. </span>One way to solve a system of linear equations is to compute the inverse of <span class="math inline">\(A\)</span>, <span class="math inline">\(A^{-1}\)</span>, directly, then the solution is found through matrix multiplication: <span class="math inline">\(\vec{x} = A^{-1} \vec{b}\)</span>. Here we compare two simple and one more specialised implementations:</p>
-<div id="9f0f48d1" class="cell" data-execution_count="2">
+<section id="matrix-inverse" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="matrix-inverse"><span class="header-section-number">3.2</span> Matrix inverse</h2>
+<p>One way to solve a system of linear equations is to compute the inverse of <span class="math inline">\(A\)</span>, <span class="math inline">\(A^{-1}\)</span>, directly, then the solution can be obtained through matrix multiplication: <span class="math inline">\(\vec{x} = A^{-1} \vec{b}\)</span>.</p>
+<p>In two dimensions this is a simple procedure. Denote by <span class="math display">\[
+A = \begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix},
+\]</span> then <span class="math display">\[
+A^{-1} = \frac{1}{ad - bc} \begin{pmatrix} d &amp; -b \\ -c &amp; a \end{pmatrix}.
+\]</span> Indeed, we see that <span class="math display">\[\begin{align*}
+A^{-1} A
+&amp; = \frac{1}{ad - bc} \begin{pmatrix} d &amp; -b \\ -c &amp; a \end{pmatrix}
+\begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix} \\
+&amp; = \frac{1}{ad - bc} \begin{pmatrix} da - bc &amp; db - bd \\  -ca + ac &amp; -bc + ad \end{pmatrix} \\
+&amp; = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}.
+\end{align*}\]</span></p>
+<div id="exm-2x2-inverse" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.3</strong></span> The inverse of the matrix <span class="math display">\[\begin{pmatrix} 3 &amp; 1 \\ 1 &amp; 3 \end{pmatrix}\]</span> is <span class="math display">\[
+\frac{1}{3\times 3-1\times 1}
+\begin{pmatrix}
+3 &amp; -1 \\ -1 &amp; 3
+\end{pmatrix} =
+\begin{pmatrix}
+\frac{3}{8} &amp; -\frac{1}{8} \\ -\frac{1}{8} &amp; \frac{3}{8}
+\end{pmatrix}.
+\]</span></p>
+</div>
+<p>There are general formulae for computing larger matrix inverses but it turns out using these to solve systems of linear equations is a bad idea! Here we compare two simple and one more specialised implementations:</p>
+<div id="65f9b028" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="kw">def</span> approach1(A, b):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a>    <span class="co">"""</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="co">    Solve the system of linear equations Ax = b by applying the inverse of A</span></span>
@@ -551,218 +650,31 @@ O \vec{x} = \vec{0} \neq \vec{b} \quad \text{for any vector} \quad \vec{x}.
 <span id="cb1-23"><a href="#cb1-23" aria-label="23"></a>    x <span class="op">=</span> sp.sparse.linalg.spsolve(A_sparse, b)</span>
 <span id="cb1-24"><a href="#cb1-24" aria-label="24"></a>    <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="96035435" class="cell" data-execution_count="3">
+<div id="196b1eae" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="lec03_files/figure-html/cell-4-output-1.png" width="601" height="431" class="figure-img"></p>
+<p><img src="lec03_files/figure-html/cell-6-output-1.png" width="601" height="431" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-</div>
-<p>There are tools to help us determine when a matrix is invertible which arise naturally when considering about what <span class="math inline">\(A \vec{x} = \vec{b}\)</span> means! We have to go back to the basic operations on vectors.</p>
-<p>There are two fundamental operations you can do on vectors: addition and scalar multiplication. Consider the vectors: <span class="math display">\[\begin{align*}
-\vec{a} = \begin{pmatrix} 2 \\ 1 \\ 2 \end{pmatrix}, \quad
-\vec{b} = \begin{pmatrix} 1 \\ 2 \\ 4 \end{pmatrix}, \quad
-\vec{c} = \begin{pmatrix} 4 \\ 2 \\ 6 \end{pmatrix}.
-\end{align*}\]</span> Then, we can easily compute the following <em>linear combinations</em>: <span class="math display">\[\begin{align}
-\label{eq:vector-linear-comb-a}
-\vec{a} + \vec{b} &amp; = \begin{pmatrix} 3 \\ 3 \\ 6 \end{pmatrix} \\
-\label{eq:vector-linear-comb-b}
-\vec{c} - 2 \vec{a} &amp; = \begin{pmatrix} 0 \\ 0 \\ 2 \end{pmatrix} \\
-\label{eq:vector-linear-comb-c}
-\vec{a} + 2 \vec{b} + 2 \vec{c} &amp;= \begin{pmatrix} 12 \\ 9 \\ 22 \end{pmatrix}.
-\end{align}\]</span> Now if we write <span class="math inline">\(A\)</span> for the <span class="math inline">\(3 \times 3\)</span>-matrix whose columns are <span class="math inline">\(\vec{a},
-\vec{b}, \vec{c}\)</span>: <span class="math display">\[\begin{align*}
+<p>We see that using <code>np.linalg.solve</code> to actually solve the equation instead of computing the inverse and then applying the inverse is always faster for the problems considered here. We also see that the specialised solver can do much better than either approach here.</p>
+</section>
+<section id="the-determinant" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="the-determinant"><span class="header-section-number">3.3</span> The determinant</h2>
+<p>One easy way to test if a matrix is invertible (or that a system of linear equations has a unique solution) is to use the determinant. The determinant of a matrix <span class="math inline">\(A\)</span> can be interpreted geometrically as the signed area, volume, or hypervolume of the parallelogram, parallelepiped, or higher-dimensional analogue generated by the columns of <span class="math inline">\(A\)</span>.</p>
+<div id="exm-parallelepiped" class="theorem example">
+<p><span class="theorem-title"><strong>Example 3.4</strong></span> For <span class="math inline">\(A\)</span> given by <span class="math display">\[
 A = \begin{pmatrix}
-&amp;&amp; \\ \vec{a} &amp; \vec{b} &amp; \vec{c} \\ &amp;&amp;
-\end{pmatrix}
-= \begin{pmatrix}
-2 &amp; 1 &amp; 4 \\
-1 &amp; 2 &amp; 2 \\
-2 &amp; 4 &amp; 6
-\end{pmatrix},
-\end{align*}\]</span> then the three equations <span class="math inline">\(\eqref{eq:vector-linear-comb-a}\)</span>, <span class="math inline">\(\eqref{eq:vector-linear-comb-b}\)</span>, <span class="math inline">\(\eqref{eq:vector-linear-comb-c}\)</span>, can be written as <span class="math display">\[\begin{align*}
-\vec{a} + \vec{b} &amp; = 1 \vec{a} + 1 \vec{b} + 0 \vec{c}
-= A \begin{pmatrix} 1 \\ 1 \\ 0 \end{pmatrix}, \\
-\vec{c} - 2\vec{a} &amp; = -2 \vec{a} + 0 \vec{b} + 1 \vec{c}
-= A \begin{pmatrix} -2 \\ 0 \\ 1 \end{pmatrix}, \\
-\vec{a} + 2 \vec{b} + 2 \vec{c} &amp; = 1 \vec{a} + 2 \vec{b} + 2 \vec{c}
-= A \begin{pmatrix} 1 \\ 2 \\ 2
-\end{pmatrix}.
-\end{align*}\]</span> In other words,</p>
-<blockquote class="blockquote">
-<p>We can write any linear combination of vectors as a matrix-vector multiply,</p>
-</blockquote>
-<p>or if we reverse the process,</p>
-<blockquote class="blockquote">
-<p>We can write matrix-vector multiplication as a linear combination of the columns of the matrix.</p>
-</blockquote>
-<p>This rephrasing means that solving the system <span class="math inline">\(A \vec{x} = \vec{b}\)</span> is equivalent to finding a linear combination of the columns of <span class="math inline">\(A\)</span> which is equal to <span class="math inline">\(b\)</span>. So, our question about whether we can solve <span class="math inline">\(\eqref{eq:sle}\)</span>, can also be rephrased as: does there exist a linear combination of the columns of <span class="math inline">\(A\)</span> which is equal to <span class="math inline">\(\vec{b}\)</span>? We will next write this condition mathematically using the concept of <em>span</em>.</p>
-<section id="the-span-of-a-set-of-vectors" class="level3" data-number="3.2.1">
-<h3 data-number="3.2.1" class="anchored" data-anchor-id="the-span-of-a-set-of-vectors"><span class="header-section-number">3.2.1</span> The span of a set of vectors</h3>
-<div id="def-span" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 3.1</strong></span> Given a set of vectors of the same size, <span class="math inline">\(S = \{ \vec{v}_1,
-\ldots, \vec{v}_k \}\)</span>, we say the <em>span</em> of <span class="math inline">\(S\)</span> is the set of all vectors which are linear combinations of vectors in <span class="math inline">\(S\)</span>: <span class="math display">\[\begin{equation}
-\mathrm{span}(S) = \left\{ \sum_{i=1}^k x_i \vec{v}_i : x_i \in \mathbb{R}
-\text{ for } i = 1, \ldots, k \right\}.
-\end{equation}\]</span></p>
-</div>
-<div id="exm-span" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.1</strong></span> Consider three new vectors <span class="math display">\[\begin{align*}
-\vec{a} = \begin{pmatrix} 2 \\ 3 \end{pmatrix} \quad
-\vec{b} = \begin{pmatrix} -1 \\ 2 \end{pmatrix} \quad
-\vec{c} = \begin{pmatrix} 1 \\ -1 \end{pmatrix}
-\end{align*}\]</span></p>
-<div id="a8b0e08f" class="cell" data-execution_count="4">
-<div class="cell-output cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="lec03_files/figure-html/cell-5-output-1.png" width="592" height="434" class="figure-img"></p>
-<figcaption>Three example vectors in a plane.</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<ol type="1">
-<li><p>Let <span class="math inline">\(S = \{ \vec{a} \}\)</span>, then <span class="math inline">\(\mathrm{span}(S) = \{ x \vec{a} : x \in
-\mathbb{R} \}\)</span>. Geometrically, we can think of the span of a single vector to be an infinite straight line which passes through the origin and <span class="math inline">\(\vec{a}\)</span>.</p></li>
-<li><p>Let <span class="math inline">\(S = \{ \vec{a}, \vec{b} \}\)</span>, then <span class="math inline">\(\mathrm{span}(S) = \mathbb{R}^2\)</span>. To see this is true, we first see that <span class="math inline">\(\mathrm{span}(S)\)</span> is contained in <span class="math inline">\(\mathbb{R}^2\)</span> since any <span class="math inline">\(2\)</span>-vectors added together and the scalar multiplication of a <span class="math inline">\(2\)</span>-vector also form a <span class="math inline">\(2\)</span>-vector. For the opposite inclusion, consider an arbitrary point <span class="math inline">\(\vec{y} = \begin{pmatrix} y_1 \\ y_2
-\end{pmatrix} \in \mathbb{R}^2\)</span> then <span class="math display">\[\begin{align}
-\nonumber
-\frac{2 y_1 + y_2}{7} \vec{a} + \frac{-3 y_1 + 2 y_2}{7} \vec{b}
-= \frac{2 y_1 + y_2}{7} \begin{pmatrix} 2 \\ 3 \end{pmatrix}
-+ \frac{-3 y_1 + 2 y_2}{7} \begin{pmatrix} -1 \\ 2 \end{pmatrix} \\
-= \begin{pmatrix}
-\frac{4 y_1 + 2 y_2}{7} + \frac{3 y_1 - 2 y_2}{7} \\
-\label{eq:y-combo}
-\frac{6 y_1 + 3 y_2}{7} + \frac{-6 y_1 + 4 y_2}{7}
-\end{pmatrix}
-= \begin{pmatrix} y_1 \\ y_2 \end{pmatrix} = \vec{y}.
-\end{align}\]</span> This calculation shows, that we can always form a linear combination of <span class="math inline">\(\vec{a}\)</span> and <span class="math inline">\(\vec{b}\)</span> which results in <span class="math inline">\(\vec{y}\)</span>.</p></li>
-<li><p>Let <span class="math inline">\(S = \{ \vec{a}, \vec{b}, \vec{c} \}\)</span>, then <span class="math inline">\(\mathrm{span}(S) =
-\mathbb{R}^2\)</span>. Since <span class="math inline">\(\vec{c} \in \mathrm{span}(\{\vec{a}, \vec{b}\})\)</span>, any linear combination of <span class="math inline">\(\vec{a}, \vec{b}, \vec{c}\)</span> has an equivalent combination of just <span class="math inline">\(\vec{a}\)</span> and <span class="math inline">\(\vec{b}\)</span>. In formulae, we can see that by applying the formula from <span class="math inline">\(\eqref{eq:y-combo}\)</span>, we have <span class="math display">\[\begin{align*}
-\vec{c} = \frac{1}{7} \vec{a} - \frac{5}{7} \vec{b}.
-\end{align*}\]</span> So we have, if <span class="math inline">\(\vec{y} \in \mathrm{span}(S)\)</span>, then <span class="math display">\[\begin{align*}
-\vec{y} = x_1 \vec{a} + x_2 \vec{b} + x_3 \vec{c} &amp; \Rightarrow \vec{y}
-= (x_1 + \frac{1}{7} x_3) \vec{a} + (x_2 - \frac{5}{7} x_3) \vec{b},
-\end{align*}\]</span> so <span class="math inline">\(\vec{y} \in \mathrm{span}(\{\vec{a}, \vec{b}\})\)</span>. Conversely, if <span class="math inline">\(\vec{y}
-\in \mathrm{span}(\{\vec{a}, \vec{b}\})\)</span>, then <span class="math display">\[\begin{align*}
-\vec{y} = x_1 \vec{a} + x_2 \vec{b} &amp; \Rightarrow \vec{y}
-= x_1 \vec{a} + x_2 \vec{b} + 0
-\vec{c}.
-\end{align*}\]</span> So the span of <span class="math inline">\(S = \mathrm{span}(\{\vec{a}, \vec{b}\})
-= \mathbb{R}^2\)</span>. Notice that we this final linear combination of <span class="math inline">\(\vec{a},
-\vec{b}\)</span> and <span class="math inline">\(\vec{c}\)</span> to form <span class="math inline">\(\vec{y}\)</span> is not unique.</p></li>
-</ol>
-</div>
-<p>Our first statement is that <span class="math inline">\(\eqref{eq:sle}\)</span> has a solution if <span class="math inline">\(\vec{b}\)</span> is in the span of the columns of <span class="math inline">\(A\)</span>. However, as we saw with <a href="#exm-span" class="quarto-xref">Example&nbsp;<span>3.1</span></a>, Part 3, we are not guaranteed that the linear combination is unique! For this we need a further condition.</p>
-</section>
-<section id="linear-independence" class="level3" data-number="3.2.2">
-<h3 data-number="3.2.2" class="anchored" data-anchor-id="linear-independence"><span class="header-section-number">3.2.2</span> Linear independence</h3>
-<div id="def-linear-indep" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 3.2</strong></span> Given a set of vectors of the same size, <span class="math inline">\(S = \{\vec{v}_1, \ldots, \vec{v}_k
-\}\)</span>, we say that <span class="math inline">\(S\)</span> is <em>linearly dependent</em>, if there exist numbers <span class="math inline">\(x_1, x_2,
-\ldots x_k\)</span>, not all zero, such that <span class="math display">\[\begin{align*}
-\sum_{i=1}^k x_i \vec{v}_i = \vec{0}.
-\end{align*}\]</span> The set <span class="math inline">\(S\)</span> is <em>linearly independent</em> if it is not linearly dependent.</p>
-<div id="exr-linear-indep-def" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.1</strong></span> Can you write the definition of a linearly independent set of vectors explicitly?</p>
-</div>
-</div>
-<div id="exm-linear-indep" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.2</strong></span> Continuing from <a href="#exm-span" class="quarto-xref">Example&nbsp;<span>3.1</span></a>.</p>
-<ol type="1">
-<li><p>Let <span class="math inline">\(S = \{ \vec{a}, \vec{b} \}\)</span>, then <span class="math inline">\(S\)</span> is linearly independent. Indeed, let <span class="math inline">\(x_1, x_2\)</span> be real numbers such that <span class="math display">\[\begin{align*}
-x_1 \vec{a} + x_2 \vec{b} = \vec{0},
-\end{align*}\]</span> then, <span class="math display">\[\begin{align*}
-2 x_1 - x_2 &amp; = 0 &amp;&amp; 3 x_1 + 2 x_2 &amp; = 0
-\end{align*}\]</span> The first equation says that <span class="math inline">\(x_2 = 2 x_1\)</span>, which when substituted into the second equation gives <span class="math inline">\(3 x_1 + 4 x_1 = 7 x_1 = 0\)</span>. Together this implies that <span class="math inline">\(x_1 = x_2 = 0\)</span>. Put simply this means that if we do have a linear combination of <span class="math inline">\(\vec{a}\)</span> and <span class="math inline">\(\vec{b}\)</span> which is equal zero, then the corresponding scalar multiples are all zero.</p></li>
-<li><p>Let <span class="math inline">\(S = \{ \vec{a}, \vec{b}, \vec{c} \}\)</span>, then <span class="math inline">\(S\)</span> is linearly dependent. We have previously seen that: <span class="math display">\[\begin{align*}
-\vec{c} = \frac{1}{7} \vec{a} - \frac{5}{7} \vec{b},
-\end{align*}\]</span> which we can rearrange to say that <span class="math display">\[\begin{align*}
-\frac{1}{7} \vec{a} - \frac{5}{7} \vec{b} - \vec{c} = \vec{0}.
-\end{align*}\]</span> We see that the definition of linear dependence is satisfied for <span class="math inline">\(x_1 = \frac{1}{7}, x_2 = -\frac{5}{7}, x_3 = -1\)</span> which are all nonzero.</p></li>
-</ol>
-</div>
-<p>So linear independence removes the multiplicity (or non-uniqueness) in how we form linear combinations! The ideas of linear independence and spanning lead us to the final definition of this section.</p>
-</section>
-<section id="when-vectors-form-a-basis" class="level3" data-number="3.2.3">
-<h3 data-number="3.2.3" class="anchored" data-anchor-id="when-vectors-form-a-basis"><span class="header-section-number">3.2.3</span> When vectors form a basis</h3>
-<div id="def-basis" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 3.3</strong></span> We say that a set of <span class="math inline">\(n\)</span>-vectors <span class="math inline">\(S\)</span> is a <em>basis</em> of a set of <span class="math inline">\(n\)</span>-vectors <span class="math inline">\(V\)</span> if the span of <span class="math inline">\(S\)</span> is <span class="math inline">\(V\)</span> and <span class="math inline">\(S\)</span> is linearly independent.</p>
-</div>
-<div id="exm-basis" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.3</strong></span> &nbsp;</p>
-<ol type="1">
-<li><p>From <a href="#exm-span" class="quarto-xref">Example&nbsp;<span>3.1</span></a>, we have that <span class="math inline">\(S = \{ \vec{a}, \vec{b} \}\)</span> is a basis of <span class="math inline">\(\mathbb{R}^2\)</span>.</p></li>
-<li><p>Another (perhaps simpler) basis of <span class="math inline">\(\mathbb{R}^2\)</span> are the coordinate axes: <span class="math display">\[\begin{align*}
-\vec{e}_1 = \begin{pmatrix} 1 \\ 0 \end{pmatrix} \quad
-\text{and} \quad \vec{e}_2 = \begin{pmatrix} 0 \\ 1 \end{pmatrix}.
-\end{align*}\]</span></p></li>
-<li><p>Later, when we work with at eigenvectors and eigenvalues we will see that there are other convenient bases (plural of basis) to work with.</p></li>
-</ol>
-</div>
-<p>We phrase the idea that the existence and uniqueness of linear combinations together depend on the underlying set being a basis mathematically in the following Theorem:</p>
-<div id="thm-basis-expansion" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 3.1</strong></span> Let <span class="math inline">\(S\)</span> be a basis of <span class="math inline">\(V\)</span>. Then any vector in <span class="math inline">\(V\)</span> can be written <em>uniquely</em> as a linear combination of entries in <span class="math inline">\(S\)</span>.</p>
-</div>
-<div id="exm-basis-expansion" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.4</strong></span> &nbsp;</p>
-<ol type="1">
-<li><p>From the main examples (<a href="#exm-span" class="quarto-xref">Example&nbsp;<span>3.1</span></a>) in this section, we have that <span class="math inline">\(S = \{ \vec{a}, \vec{b}
-\}\)</span> is a basis of <span class="math inline">\(\mathbb{R}^2\)</span> and we already know the formula for how to write <span class="math inline">\(\vec{y}\)</span> as a unique combination of <span class="math inline">\(\vec{a}\)</span> and <span class="math inline">\(\vec{b}\)</span>: it is given in <span class="math inline">\(\eqref{eq:y-combo}\)</span>.</p></li>
-<li><p>For the simpler example of the coordinate axes: <span class="math display">\[\begin{align*}
-\vec{e}_1 =
-\begin{pmatrix} 1 \\ 0 \end{pmatrix} \quad \text{and} \quad
-\vec{e}_2 =
-\begin{pmatrix} 0 \\ 1 \end{pmatrix},
-\end{align*}\]</span> we have that for any <span class="math inline">\(\vec{y} = \begin{pmatrix} y_1 \\ y_2 \end{pmatrix} \in \mathbb{R}^2\)</span> <span class="math display">\[\begin{align*}
-\vec{y} = \begin{pmatrix} y_1 \\ y_2 \end{pmatrix}
-= y_1 \begin{pmatrix} 1 \\ 0 \end{pmatrix} +
-y_2 \begin{pmatrix} 0 \\ 1 \end{pmatrix} = y_1 \vec{e}_1 + y_2 \vec{e}_2.
-\end{align*}\]</span></p></li>
-</ol>
-</div>
-<div class="proof">
-<p><span class="proof-title"><em>Proof</em> (Proof of <a href="#thm-basis-expansion" class="quarto-xref">Theorem&nbsp;<span>3.1</span></a>). </span>Let <span class="math inline">\(\vec{y}\)</span> be a vector in <span class="math inline">\(V\)</span> and label <span class="math inline">\(S = \{ \vec{v}_1, \ldots \vec{v}_k
-\}\)</span>. Since <span class="math inline">\(S\)</span> forms a basis of <span class="math inline">\(V\)</span>, <span class="math inline">\(\vec{y} \in \mathrm{span}(S)\)</span> so there exists numbers <span class="math inline">\(x_1, \ldots, x_k\)</span> such that <span class="math display">\[\begin{align}
-\label{eq:basis_pf_x}
-\vec{y} = \sum_{i=1}^k x_i \vec{v}_i.
-\end{align}\]</span> Suppose that there exists another set of number <span class="math inline">\(z_1, \ldots z_k\)</span> such that <span class="math display">\[\begin{align}
-\label{eq:basis_pf_z}
-\vec{y} = \sum_{i=1}^k z_i \vec{v}_i.
-\end{align}\]</span> Taking the difference of <span class="math inline">\(\eqref{eq:basis_pf_x}\)</span> and <span class="math inline">\(\eqref{eq:basis_pf_z}\)</span>, we see that <span class="math display">\[\begin{align}
-\vec{0} = \sum_{i=1}^k (x_i - z_i) \vec{v}_i.
-\end{align}\]</span> Since <span class="math inline">\(S\)</span> is linearly independent, this implies <span class="math inline">\(x_i = z_i\)</span> for <span class="math inline">\(i = 1, \ldots,
-k\)</span>, and we have shown that there is only one linear combination of the vectors <span class="math inline">\(\{ \vec{v}_i \}\)</span> to form <span class="math inline">\(\vec{y}\)</span>.</p>
-</div>
-<p>There is a theorem that says that the number of vectors in any basis of a given ‘nice’ set of vectors <span class="math inline">\(V\)</span> is the same, but is beyond the scope of this module!</p>
-<div id="thm-uniq-solution" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 3.2</strong></span> Let <span class="math inline">\(A\)</span> be a <span class="math inline">\(n \times n\)</span>-matrix. If the columns of <span class="math inline">\(A\)</span> form a basis of <span class="math inline">\(\mathbb{R}^n\)</span>, then there exists a unique <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\vec{x}\)</span> which satisfies <span class="math inline">\(A \vec{x} = \vec{b}\)</span>.</p>
-</div>
-<p>We do not give full details of the proof here since all the key ideas are already given above.</p>
-</section>
-<section id="another-characterisation-the-determinant" class="level3" data-number="3.2.4">
-<h3 data-number="3.2.4" class="anchored" data-anchor-id="another-characterisation-the-determinant"><span class="header-section-number">3.2.4</span> Another characterisation: the determinant</h3>
-<p>Let <span class="math inline">\(\vec{e}_j\)</span> be the (column) vector in <span class="math inline">\(\mathbb{R}^n\)</span> which has 0 for all coefficients apart from the <span class="math inline">\(j\)</span>th place: <span class="math display">\[
-\vec{e}_j = (0, \ldots, 0, \underbrace{1}_{\text{$j$th place}}, 0, \ldots, 0).
-\]</span> Then, we can compute that for any <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(A\)</span> that we have the <span class="math inline">\(i\)</span>th component of <span class="math inline">\(A \vec{e}_j\)</span> is given by <span class="math display">\[\begin{align*}
-(A \vec{e}_j)_i = \sum_{k=1}^n A_{ik} (\vec{e}_j)_k = A_{ij}.
-\end{align*}\]</span> That is that <span class="math inline">\(A \vec{e}_j\)</span> gives the <span class="math inline">\(j\)</span>th column of the matrix <span class="math inline">\(A\)</span>.</p>
-<p>One geometric way to see that the columns of <span class="math inline">\(A\)</span> form a basis is to explore the shape of polytope with edges away from the origin given by the columns of <span class="math inline">\(A\)</span> (hyper-parallelopiped).</p>
-<div id="exm-parallelopiped" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.5</strong></span> For <span class="math inline">\(A\)</span> given by <span class="math display">\[
-A = \begin{pmatrix}
-3 &amp; 1 \\ 0 &amp; 3
+3 &amp; 1 \\ 1 &amp; 3
 \end{pmatrix}
 \]</span> the shape is a parallelogram that looks like this:</p>
-<div id="3cdb653f" class="cell" data-execution_count="5">
+<div id="f0728faf" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="lec03_files/figure-html/cell-6-output-1.png" width="562" height="416" class="figure-img"></p>
+<p><img src="lec03_files/figure-html/cell-7-output-1.png" width="562" height="416" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -771,20 +683,20 @@ A = \begin{pmatrix}
 A = \begin{pmatrix}
 3 &amp; 1 &amp; 1\\ 0 &amp; 3 &amp; 1 \\ 0 &amp; 0 &amp; 3
 \end{pmatrix},
-\]</span> the shape is a parallelopiped given that looks like this:</p>
-<div id="0146324c" class="cell" data-execution_count="6">
+\]</span> the shape is a parallelepiped given that looks like this:</p>
+<div id="84d325e9" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="lec03_files/figure-html/cell-7-output-1.png" width="402" height="401" class="figure-img"></p>
+<p><img src="lec03_files/figure-html/cell-8-output-1.png" width="402" height="401" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 </div>
-<p>If we are given an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(A\)</span>, its <span class="math inline">\(n\)</span> columns form a basis of <span class="math inline">\(\mathbb{R}^n\)</span> if, and only if, the area/volume/hyper-volume of the associated hyper-parallelepiped is nonzero. Roughly speaking this follows since if the area/volume/hyper-volume is zero then two of the column vectors must point in the same direction. This property is so important that the area/volume/hyper-volume of the hyper-parallelepiped associated with the matrix <span class="math inline">\(A\)</span> has a special name: the <em>determinant</em> of <span class="math inline">\(A\)</span> and we write <span class="math inline">\(\det A\)</span>.</p>
+<p>If we are given an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(A\)</span>, it is invertible if, and only if, the area/volume/hypervolume of the associated parallelogram/parallelepiped is nonzero. The quantity measuring the signed area, volume, or hypervolume of the associated parallelepiped is called the determinant of <span class="math inline">\(A\)</span>, denoted <span class="math inline">\(\det A\)</span>:</p>
 <div id="def-determinant" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 3.4</strong></span> Let <span class="math inline">\(A\)</span> be a square <span class="math inline">\(n \times n\)</span> matrix.</p>
+<p><span class="theorem-title"><strong>Definition 3.1</strong></span> Let <span class="math inline">\(A\)</span> be a square <span class="math inline">\(n \times n\)</span> matrix.</p>
 <p>If <span class="math inline">\(n = 2\)</span>, <span class="math display">\[\begin{equation}
 \det A = \det \begin{pmatrix} a_{11} &amp; a_{12} \\ a_{21} &amp; a_{22} \end{pmatrix}
 = a_{11} a_{22} - a_{21} a_{12}.
@@ -798,18 +710,18 @@ a_{31} &amp; a_{32} &amp; a_{33}
 a_{31}) + a_{13} (a_{21} a_{32} - a_{22} a_{31}).
 \end{align*}\]</span></p>
 <p>For general <span class="math inline">\(n\)</span>, the determinant can be found by, for example, Laplace expansions <span class="math display">\[
-\det A = \sum_{j=1}^n (-1)^{j+1} a_{1,j} m_{1,j},
-\]</span> where <span class="math inline">\(a_{1,j}\)</span> is the entry of the first row and <span class="math inline">\(j\)</span>th column of <span class="math inline">\(A\)</span> and <span class="math inline">\(m_{1,j}\)</span> is the determinant of the submatrix obtained by removing the first row and the <span class="math inline">\(j\)</span>th column from <span class="math inline">\(A\)</span>.</p>
+\det A = \sum_{j=1}^n (-1)^{j+1} a_{1,j} M_{1,j},
+\]</span> where <span class="math inline">\(a_{1,j}\)</span> is the entry of the first row and <span class="math inline">\(j\)</span>th column of <span class="math inline">\(A\)</span> and <span class="math inline">\(M_{1,j}\)</span> is the the determinant of the submatrix obtained by removing the first row and the <span class="math inline">\(j\)</span>th column from <span class="math inline">\(A\)</span>.</p>
 </div>
 <div id="exm-determinant" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.6</strong></span> &nbsp;</p>
+<p><span class="theorem-title"><strong>Example 3.5</strong></span> &nbsp;</p>
 <ol type="1">
 <li><p>Let <span class="math inline">\(A\)</span> be given by <span class="math display">\[
 A = \begin{pmatrix}
-3 &amp; 1 \\ 0 &amp; 3
+3 &amp; 1 \\ 1 &amp; 3
 \end{pmatrix}.
 \]</span> Then we can compute that <span class="math display">\[
-\det A = 3 \times 3 - 1 \times 0 = 9 - 0 = 9.
+\det A = 3 \times 3 - 1 \times 1 = 9 - 1 = 8.
 \]</span></p></li>
 <li><p>Let <span class="math inline">\(A\)</span> be given by <span class="math display">\[
 A = \begin{pmatrix}
@@ -822,7 +734,7 @@ A = \begin{pmatrix}
 &amp; = 3 \times 9 - 1 \times 0 + 1 \times 0 = 27.
 \end{align*}\]</span></p>
 <div id="exr-determinant" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.2</strong></span> Compute the determinant of <span class="math display">\[
+<p><span class="theorem-title"><strong>Exercise 3.1</strong></span> Compute the determinant of <span class="math display">\[
 \begin{pmatrix}
 2 &amp; -1 &amp; 3 \\
 3 &amp; 2 &amp; -4 \\
@@ -832,16 +744,10 @@ A = \begin{pmatrix}
 </div></li>
 </ol>
 </div>
-<p>We have been inaccurate in what we have said before. Strictly speaking the determinant we have defined here is the <em>signed</em> area/volume/hyper-volume of the associated hyper-parallelepiped, and we can recover the actual volume by taking <span class="math inline">\(| \det A |\)</span>.</p>
-<div id="thm-det" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 3.3</strong></span> Let <span class="math inline">\(A\)</span> be an <span class="math inline">\(n \times n\)</span> matrix and <span class="math inline">\(\vec{b}\)</span> be an <span class="math inline">\(n\)</span>-column vector. The following are equivalent:</p>
-<ol type="1">
-<li><span class="math inline">\(A \vec{x} = \vec{b}\)</span> has a unique solution.</li>
-<li>The columns of <span class="math inline">\(A\)</span> form a basis of <span class="math inline">\(\mathbb{R}^n\)</span>.</li>
-<li><span class="math inline">\(\det A \neq 0\)</span>.</li>
-</ol>
-</div>
-<p>This proof is beyond the scope of this course.</p>
+<p>This gives us an additional criterion to determine if our systems have a unique solution: A square matrix <span class="math inline">\(A\)</span> is invertible if and only if <span class="math display">\[
+\det A \neq 0.
+\]</span></p>
+<p>We have been inaccurate in what we have said before. Strictly speaking the determinant we have defined here is the <em>signed</em> area/volume/hypervolume of the associated parallelepiped, and we can recover the actual volume by taking <span class="math inline">\(| \det A |\)</span>.</p>
 <p>We do have the following rule for manipulating determinants too:</p>
 <ul>
 <li>Let <span class="math inline">\(A, B\)</span> be square <span class="math inline">\(n \times n\)</span>-matrices then <span class="math inline">\(\det (AB) = \det A \det B\)</span>.</li>
@@ -850,27 +756,26 @@ A = \begin{pmatrix}
 <li>Let <span class="math inline">\(A\)</span> be an invertible square matrix, then <span class="math inline">\(\det (A^{-1}) = \frac{1}{\det A}\)</span>.</li>
 </ul>
 <div id="exr-det-rules" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.3</strong></span> Prove these three rules for manipulating determinants for <span class="math inline">\(2 \times 2\)</span> matrices by direct calculation.</p>
+<p><span class="theorem-title"><strong>Exercise 3.2</strong></span> Prove these three rules for manipulating determinants for <span class="math inline">\(2 \times 2\)</span> matrices by direct calculation.</p>
 </div>
 <div id="rem-det-python" class="proof remark">
-<p><span class="proof-title"><em>Remark 3.2</em>. </span>Computing determinants numerically is an important topic in it’s own right but we do not focus on this in this module.</p>
+<p><span class="proof-title"><em>Remark 3.1</em>. </span>Computing determinants numerically is an important topic in its own right but we do not focus on this in this module.</p>
 <p>You can use <code>numpy</code> to compute determinants</p>
-<div id="5d240269" class="cell" data-execution_count="7">
+<div id="5416970f" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a>A <span class="op">=</span> np.array([[<span class="fl">3.0</span>, <span class="fl">1.0</span>], [<span class="fl">0.0</span>, <span class="fl">3.0</span>]])</span>
 <span id="cb2-2"><a href="#cb2-2" aria-label="2"></a>np.linalg.det(A)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>np.float64(9.000000000000002)</code></pre>
 </div>
 </div>
 </div>
 </section>
-</section>
-<section id="special-types-of-matrices" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="special-types-of-matrices"><span class="header-section-number">3.3</span> Special types of matrices</h2>
+<section id="special-types-of-matrices" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="special-types-of-matrices"><span class="header-section-number">3.4</span> Special types of matrices</h2>
 <p>The general matrix <span class="math inline">\(A\)</span> before the examples is known as a <strong>full</strong> matrix: any of its components <span class="math inline">\(a_{ij}\)</span> might be nonzero.</p>
 <p>Almost always, the problem being solved leads to a matrix with a particular structure of entries: Some entries may be known to be zero. If this is the case then it is often possible to use this knowledge to improve the efficiency of the algorithm (in terms of both speed and/or storage).</p>
 <div id="exm-triangular-matrix" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.7 (Triangular matrix)</strong></span> One common (and important) structure takes the form</p>
+<p><span class="theorem-title"><strong>Example 3.6 (Triangular matrix)</strong></span> One common (and important) structure takes the form</p>
 <p><span class="math display">\[
 A = \begin{pmatrix}
 a_{11} &amp; 0 &amp; 0 &amp; \cdots &amp; 0 \\ a_{21} &amp; a_{22} &amp; 0 &amp; \cdots &amp;
@@ -887,14 +792,14 @@ a_{11} &amp; 0 &amp; 0 &amp; \cdots &amp; 0 \\ a_{21} &amp; a_{22} &amp; 0 &amp;
 </ul>
 </div>
 <div id="exm-sparse-matrix" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.8 (Sparse matrices)</strong></span> <strong>Sparse matrices</strong> are prevalent in any application which relies on some form of <em>graph</em> structure (see both the temperature, <a href="../index.html#exm-temperature" class="quarto-xref">Example&nbsp;<span>1.4</span></a>, and traffic network examples, <a href="../index.html#exm-traffic" class="quarto-xref">Example&nbsp;<span>1.5</span></a>).</p>
+<p><span class="theorem-title"><strong>Example 3.7 (Sparse matrices)</strong></span> <strong>Sparse matrices</strong> are prevalent in any application which relies on some form of <em>graph</em> structure (see both the temperature, <a href="#exm-temperature" class="quarto-xref">Example&nbsp;<span>3.1</span></a>, and traffic network examples, <a href="#exm-traffic" class="quarto-xref">Example&nbsp;<span>3.2</span></a>).</p>
 <ul>
 <li><p>The <span class="math inline">\(a_{ij}\)</span> typically represents some form of “communication” between vertices <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> of the graph, so the element is only nonzero if the vertices are connected.</p></li>
 <li><p>There is no generic pattern for these entries, though there is usually one that is specific to the problem solved.</p></li>
 <li><p>Usually, <span class="math inline">\(a_{ii} \neq 0\)</span> - the diagonal is nonzero.</p></li>
 <li><p>A “large” portion of the matrix is zero.</p>
 <ul>
-<li>A full <span class="math inline">\(n \times n\)</span> matrix has <span class="math inline">\(n^2\)</span> nonzero entries.</li>
+<li>A full <span class="math inline">\(n \times n\)</span> matrix may have <span class="math inline">\(n^2\)</span> nonzero entries.</li>
 <li>A sparse <span class="math inline">\(n \times n\)</span> has <span class="math inline">\(\alpha n\)</span> nonzero entries, where <span class="math inline">\(\alpha \ll
     n\)</span>.</li>
 </ul></li>
@@ -908,8 +813,16 @@ a_{11} &amp; 0 &amp; 0 &amp; \cdots &amp; 0 \\ a_{21} &amp; a_{22} &amp; 0 &amp;
 <li><p>In subsequent lectures, we will see that, for <em>sparse</em> matrix systems, alternative solution techniques are available.</p></li>
 </ul>
 </section>
-<section id="further-reading" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">3.4</span> Further reading</h2>
+<section id="summary" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="summary"><span class="header-section-number">3.5</span> Summary</h2>
+<ul>
+<li>We have introduced the terminology for systems of linear equations and given some application areas where examples may arise.</li>
+<li>We have seen that we can solve simple systems of linear equations using the matrix inverse but this is not advised for larger systems.</li>
+<li>Finally, we have introduced the determinant as a way of checking that systems of linear equations have a unique solution.</li>
+</ul>
+</section>
+<section id="further-reading" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">3.6</span> Further reading</h2>
 <ul>
 <li>Gregory Gundersen <a href="http://gregorygundersen.com/blog/2020/12/09/matrix-inversion/">Why shouldn’t I invert that matrix?</a>, 2020.</li>
 </ul>

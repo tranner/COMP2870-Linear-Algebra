@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a8878b26a82a3acfb551e36b2a05926d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-b4c4def0ec3a69273d171d94c37b6dce.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a8878b26a82a3acfb551e36b2a05926d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-062875f239ea1425fc94a2957f100e3c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-93aabb57e2814e4fd099a6e580d1b293.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-062875f239ea1425fc94a2957f100e3c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -558,7 +558,7 @@ D_{ii} = A_{ii} \quad \text{and} \quad D_{ij} = 0 \text{ for } i \neq j.
 <p><span class="proof-title"><em>Remark</em>. </span></p>
 <ul>
 <li><p>The cost of one iteration is <span class="math inline">\(O(n^2)\)</span> for a full matrix, and this is dominated by the matrix-vector product <span class="math inline">\(A \vec{x}^{(k)}\)</span>.</p></li>
-<li><p>This cost can be reduced to <span class="math inline">\(O(n)\)</span> if the matrix <span class="math inline">\(A\)</span> is sparse - this is when iterative methods are especially attractive (<a href="lec03.html#exm-sparse-matrix" class="quarto-xref">Example&nbsp;<span>3.8</span></a>).</p></li>
+<li><p>This cost can be reduced to <span class="math inline">\(O(n)\)</span> if the matrix <span class="math inline">\(A\)</span> is sparse - this is when iterative methods are especially attractive (<a href="lec03.html#exm-sparse-matrix" class="quarto-xref">Example&nbsp;<span>3.7</span></a>).</p></li>
 <li><p>The amount of work also depends on the number of iterations required to get a “satisfactory” solution.</p>
 <ul>
 <li>The number of iterations depends on the matrix;
@@ -666,7 +666,7 @@ b_n - \sum_{j=1}^{n-1} A_{nj} x_j^{(k+1)} - A_{nn} x_n^{(k)}
 <p>Consider the system <span class="math inline">\(A \vec{x}= b\)</span> with the matrix <span class="math inline">\(A\)</span> split as <span class="math inline">\(A = L + D + U\)</span>, where <span class="math inline">\(D\)</span> is the diagonal of <span class="math inline">\(A\)</span>, <span class="math inline">\(L\)</span> contains the elements below the diagonal, and <span class="math inline">\(U\)</span> contains the elements above the diagonal. The componentwise iteration above can be written in matrix form as <span class="math display">\[
 \vec{x}^{(k+1)} = \vec{x}^{(k)} + (D + L)^{-1} (\vec{b} - A \vec{x}^{(k)}).
 \]</span> That is, we use <span class="math inline">\(P = (D+L)^{-1}\)</span> in <span class="math inline">\(\eqref{eq:general-iteration}\)</span>.</p>
-<p>In practice, we do not form the inverse of <span class="math inline">\(D + L\)</span> explicitly. Since <span class="math inline">\(D + L\)</span> is lower triangular, systems involving <span class="math inline">\(D + L\)</span> can be solved efficienctly using forward substitution.</p>
+<p>In practice, we do not form the inverse of <span class="math inline">\(D + L\)</span> explicitly. Since <span class="math inline">\(D + L\)</span> is lower triangular, systems involving <span class="math inline">\(D + L\)</span> can be solved efficiently using forward substitution.</p>
 <div id="exm-gauss-seidel-iteration" class="theorem example">
 <p><span class="theorem-title"><strong>Example 5.3</strong></span> Take two iterations of Gauss-Seidel iteration to approximate the solution of the following system using the initial guess <span class="math inline">\(\vec{x}^{(0)} = (1, 1)^T\)</span>:</p>
 <p><span class="math display">\[
@@ -711,6 +711,16 @@ x^{(2)}_2 &amp; = x^{(1)}_2 + \frac{1}{A_{22}} (b_2 - A_{21} x^{(2)}_1
 <li>What happens if the initial estimate is altered to <span class="math inline">\(\vec{x}^{(0)} = (2, 1)^T\)</span>.</li>
 </ul>
 </div>
+<div class="proof remark">
+<p><span class="proof-title"><em>Remark</em>. </span></p>
+<ul>
+<li><p>On the examples <a href="#exm-jacobi-iteration" class="quarto-xref">Example&nbsp;<span>5.2</span></a> and <a href="#exm-gauss-seidel-iteration" class="quarto-xref">Example&nbsp;<span>5.3</span></a>, both methods converge, but relatively slowly. They might not converge at all!</p></li>
+<li><p>We will discuss convergence and when to stop later.</p></li>
+<li><p>The Gauss-Seidel iteration generally out-performs the Jacobi iteration.</p></li>
+<li><p>Performance can depend on the order in which the equations are written.</p></li>
+<li><p>Both iterative algorithms can be made faster and more efficient for sparse systems of equations (far more than direct methods).</p></li>
+</ul>
+</div>
 <div id="exr-iterations" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 5.1</strong></span> Take one iteration of (a) Jacobi iteration and (b) Gauss-Seidel iteration to approximate the solution of the following system using the initial guess <span class="math inline">\(\vec{x}^{(0)} = (0, 1, 1)^T\)</span>:</p>
 <p><span class="math display">\[
@@ -728,16 +738,6 @@ x_1 \\ x_2 \\ x_3
 \end{pmatrix}.
 \]</span></p>
 </div>
-<div class="proof remark">
-<p><span class="proof-title"><em>Remark</em>. </span></p>
-<ul>
-<li><p>Here, both methods converge, but relatively slowly. They might not converge at all!</p></li>
-<li><p>We will discuss convergence and when to stop later.</p></li>
-<li><p>The Gauss-Seidel iteration generally out-performs the Jacobi iteration.</p></li>
-<li><p>Performance can depend on the order in which the equations are written.</p></li>
-<li><p>Both iterative algorithms can be made faster and more efficient for sparse systems of equations (far more than direct methods).</p></li>
-</ul>
-</div>
 <div id="exr-gs-harder" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 5.2</strong></span> &nbsp;</p>
 <ol type="1">
@@ -751,7 +751,7 @@ x_1 \\ x_2 \\ x_3
 </section>
 <section id="python-version-of-iterative-methods" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="python-version-of-iterative-methods"><span class="header-section-number">5.4</span> Python version of iterative methods</h2>
-<div id="b3399610" class="cell" data-execution_count="2">
+<div id="a3a95e48" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="kw">def</span> jacobi_iteration(A, b, x0, max_iter, verbose<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a>    <span class="co">"""</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="co">    Solve a linear system Ax = b using the Jacobi iterative method.</span></span>
@@ -878,7 +878,7 @@ x_1 \\ x_2 \\ x_3
 <span id="cb1-124"><a href="#cb1-124" aria-label="124"></a></span>
 <span id="cb1-125"><a href="#cb1-125" aria-label="125"></a>    <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="afc783be" class="cell" data-execution_count="3">
+<div id="376ec33b" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a>A <span class="op">=</span> np.array([[<span class="fl">2.0</span>, <span class="fl">1.0</span>], [<span class="op">-</span><span class="fl">1.0</span>, <span class="fl">4.0</span>]])</span>
 <span id="cb2-2"><a href="#cb2-2" aria-label="2"></a>b <span class="op">=</span> np.array([[<span class="fl">3.5</span>], [<span class="fl">0.5</span>]])</span>
 <span id="cb2-3"><a href="#cb2-3" aria-label="3"></a>x0 <span class="op">=</span> np.array([[<span class="fl">1.0</span>], [<span class="fl">1.0</span>]])</span>
@@ -912,7 +912,7 @@ after iter=4: x.T = [  1.49994,  0.49998 ]
 </section>
 <section id="sparse-matrices" class="level2" data-number="5.5">
 <h2 data-number="5.5" class="anchored" data-anchor-id="sparse-matrices"><span class="header-section-number">5.5</span> Sparse Matrices</h2>
-<p>We met sparse matrices as an example of a special matrix format when we first thought about systems of linear equations (<a href="lec03.html#exm-sparse-matrix" class="quarto-xref">Example&nbsp;<span>3.8</span></a>). Sparse matrices are very common in applications and have a structure which is very useful when used with iterative methods. There are two main ways in which sparse matrices can be exploited in order to obtain benefits within iterative methods.</p>
+<p>We met sparse matrices as an example of a special matrix format when we first thought about systems of linear equations (<a href="lec03.html#exm-sparse-matrix" class="quarto-xref">Example&nbsp;<span>3.7</span></a>). Sparse matrices are very common in applications and have a structure which is very useful when used with iterative methods. There are two main ways in which sparse matrices can be exploited in order to obtain benefits within iterative methods.</p>
 <ul>
 <li><p>The storage can be reduced from <span class="math inline">\(O(n^2)\)</span>.</p></li>
 <li><p>The cost per iteration can be reduced from <span class="math inline">\(O(n^2)\)</span>.</p></li>
@@ -936,7 +936,7 @@ after iter=4: x.T = [  1.49994,  0.49998 ]
 <section id="python-experiments" class="level3" data-number="5.5.1">
 <h3 data-number="5.5.1" class="anchored" data-anchor-id="python-experiments"><span class="header-section-number">5.5.1</span> Python experiments</h3>
 <p>First let’s adapt our implementations to use this sparse matrix format:</p>
-<div id="bb5e3c32" class="cell" data-execution_count="5">
+<div id="7323d0d7" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a><span class="kw">def</span> jacobi_iteration_sparse(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-label="2"></a>    A_real, I_row, I_col, b, x0, max_iter, verbose<span class="op">=</span><span class="va">False</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-label="3"></a>):</span>
@@ -1087,7 +1087,7 @@ after iter=4: x.T = [  1.49994,  0.49998 ]
 <span id="cb5-148"><a href="#cb5-148" aria-label="148"></a>    <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Then we can test the two different implementations of the methods:</p>
-<div id="a387b8e4" class="cell" data-execution_count="7">
+<div id="bfec61dd" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a><span class="co"># random matrix</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-label="2"></a>n <span class="op">=</span> <span class="dv">4</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-label="3"></a>nonzero <span class="op">=</span> <span class="dv">10</span></span>
@@ -1175,7 +1175,7 @@ after iter=4: x.T = [  0.87982,  0.73779,  0.36688,  0.36332 ]
 </div>
 <p>We see that we get the same results!</p>
 <p>Now let us see how long it takes to get a solution. The following plot shows the run times of using the two different implementations of the Jacobi method, each for 10 iterations. We see that, as expected, the run time of the dense formulation is <span class="math inline">\(O(n^2)\)</span> and the run time of the sparse formulation is <span class="math inline">\(O(n)\)</span>.</p>
-<div id="f545891b" class="cell" data-execution_count="9">
+<div id="bdaa9377" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">

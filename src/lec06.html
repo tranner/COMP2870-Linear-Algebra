@@ -50,9 +50,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a8878b26a82a3acfb551e36b2a05926d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-b4c4def0ec3a69273d171d94c37b6dce.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a8878b26a82a3acfb551e36b2a05926d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-062875f239ea1425fc94a2957f100e3c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-93aabb57e2814e4fd099a6e580d1b293.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-062875f239ea1425fc94a2957f100e3c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -447,7 +447,7 @@ window.Quarto = {
 <ul>
 <li>Use complex arithmetic and polar representations to analyse complex numbers algebraically and geometrically.</li>
 <li>Determine complex roots of polynomial equations using factorisation and the quadratic formula.</li>
-<li>Work with complex vectors and matrices, including Hermitian products, conjugate transposes, and Hermitian matrices.</li>
+<li>Manipulate complex vectors and matrices including computing Hermitian products, conjugate transposes, and Hermitian matrices.</li>
 </ul>
 </div>
 </div>
@@ -458,7 +458,7 @@ window.Quarto = {
 <p><span class="theorem-title"><strong>Example 6.1</strong></span> Consider the polynomial equation <span class="math display">\[\begin{equation}
 x^2 + 1 = 0.
 \end{equation}\]</span></p>
-<div id="d6aebd37" class="cell" data-execution_count="2">
+<div id="0100965b" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -585,7 +585,7 @@ i^2 = (\sqrt{-1})^2 = \sqrt{-1} \sqrt{-1} \neq \sqrt{(-1) \times (-1)} = \sqrt{1
 <p>The complex plane is the two-dimensional space formed by considering the real and imaginary parts of a complex number as two different coordinate axes.</p>
 <div id="exm-plane" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.5</strong></span> &nbsp;</p>
-<div id="491dd518" class="cell" data-caption="Examples of complex numbers as points in the complex plane." data-execution_count="3">
+<div id="cb65739b" class="cell" data-caption="Examples of complex numbers as points in the complex plane." data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -600,9 +600,9 @@ i^2 = (\sqrt{-1})^2 = \sqrt{-1} \sqrt{-1} \neq \sqrt{(-1) \times (-1)} = \sqrt{1
 a - bi\)</span>. The complex conjugate is that number we used before when working out how to divide complex numbers.</p>
 <div id="exm-conjugate" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.6</strong></span> The complex conjugate of <span class="math inline">\(2 + 3i\)</span> is <span class="math inline">\(2 - 3i\)</span>. The complex conjugate of <span class="math inline">\(12 - 12i\)</span> is <span class="math inline">\(12 + 12i\)</span>.</p>
+</div>
 <div id="exr-conjugate" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 6.5</strong></span> Find the complex conjugates of <span class="math inline">\(3 + 6i\)</span> and <span class="math inline">\(-3.5 + 2i\)</span>.</p>
-</div>
 </div>
 <p>We have already seen that the complex conjugate of a complex number is helpful when performing division of complex numbers. The reason is that computing the product of a number and its conjugate always gives a real, positive number: <span class="math display">\[\begin{align*}
 &amp; (a + bi) \times (a - bi) \\
@@ -617,7 +617,7 @@ a - bi\)</span>. The complex conjugate is that number we used before when workin
 \end{equation}\]</span></p>
 <div id="exm-modulus" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.7</strong></span> &nbsp;</p>
-<div id="c2e59975" class="cell" data-caption="Examples of moduli of complex numbers as points in the complex plane." data-execution_count="4">
+<div id="666525ee" class="cell" data-caption="Examples of moduli of complex numbers as points in the complex plane." data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -626,11 +626,11 @@ a - bi\)</span>. The complex conjugate is that number we used before when workin
 </div>
 </div>
 </div>
+</div>
 <div id="exr-modulus" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 6.6</strong></span> Find the value of <span class="math display">\[\begin{equation}
 |3 + 6i| \quad \text{and} \quad |-3.5 + 2i|.
 \end{equation}\]</span></p>
-</div>
 </div>
 <p>Consider two complex numbers <span class="math inline">\(z = a + bi\)</span> and <span class="math inline">\(y = c + di\)</span>. Then, we have already seen that <span class="math display">\[\begin{align*}
 z y
@@ -665,13 +665,13 @@ z y
 = 12 \sqrt{2} \left( \frac{1}{\sqrt{2}} + i \frac{-1}{\sqrt{2}} \right)
 = 12 - 12i.
 \end{equation*}\]</span></p>
-<div id="exr-poly-rep" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 6.7</strong></span> Compute the modulus and argument of <span class="math inline">\(2\)</span>, <span class="math inline">\(3i\)</span> and <span class="math inline">\(4 + 4i\)</span>.</p>
 </div>
+<div id="exr-polar-rep" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 6.7</strong></span> Compute the modulus and argument of <span class="math inline">\(2\)</span>, <span class="math inline">\(3i\)</span> and <span class="math inline">\(4 + 4i\)</span>.</p>
 </div>
 <div id="exm-arg" class="theorem example">
 <p><span class="theorem-title"><strong>Example 6.9</strong></span> &nbsp;</p>
-<div id="19575326" class="cell" data-caption="Examples of arguments of complex numbers as points in the complex plane." data-execution_count="5">
+<div id="bfcbbbf5" class="cell" data-caption="Examples of arguments of complex numbers as points in the complex plane." data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -718,7 +718,7 @@ x^2 + 1 = 0.
 &amp; i^2 + 1 = 0 \\
 &amp; (-i)^2 + 1 = (-1)^2 i^2 + 1 = i^2 + 1 = 0.
 \end{align*}\]</span></p>
-<div id="88c762d4" class="cell" data-execution_count="6">
+<div id="eb5418a6" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -735,9 +735,9 @@ x^2 + 1 = 0.
 z = \frac{+2 \pm \sqrt{(-2)^2 - 4 \times 1 \times 2}}{2} =
 \frac{2 \pm \sqrt{-4}}{2} = \frac{2 \pm 2 \sqrt{-1}}{2} = 1 \pm i.
 \end{align*}\]</span></p>
+</div>
 <div id="exr-polynomial" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 6.9</strong></span> Find the values of <span class="math inline">\(z\)</span> which satisfy <span class="math inline">\(z^2 - 4z + 20 = 0\)</span>.</p>
-</div>
 </div>
 <p>We will see later that, although this approach can be used to compute the eigenvalues of a <span class="math inline">\(2 \times 2\)</span> matrix, it quickly becomes impractical for larger matrices.</p>
 </section>
@@ -759,10 +759,10 @@ z = \frac{+2 \pm \sqrt{(-2)^2 - 4 \times 1 \times 2}}{2} =
 \\
 &amp; = (10 + 10i) + (10 - 5i) + (-1 - 7i) = 19 - 2i.
 \end{align*}\]</span></p>
+</div>
 <div id="exr-hermitian-product" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 6.10</strong></span> Find the Hermitian product of <span class="math inline">\(\vec{c} = (3 + i, -2 + 2i, 4 - i)^T\)</span> and <span class="math inline">\(\vec{d}
 = (-1 + 3i, 2 + 6i, 2i)^T\)</span>.</p>
-</div>
 </div>
 <p>Recalling the definition of modulus of a complex number <span class="math inline">\(\eqref{eq:modulus}\)</span>, we can also compute that for a complex <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\vec{z}\)</span> that <span class="math display">\[\begin{align*}
 \langle \vec{z}, \vec{z} \rangle
