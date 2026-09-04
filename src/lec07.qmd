@@ -284,7 +284,7 @@ move everything to the left-hand side and use the identity matrix $(I_n)$:
 This tells us that if we want to find an eigenvalue of $A$, then we need to find
 a number $\lambda$ such that $(A - \lambda I_n)$ can multiply a non-zero vector
 and give us back the zero-vector. This happens when $(A - \lambda I_n)$ is
-*singular* (@thm-det).
+*singular*.
 
 As we saw earlier one way to test if a matrix is singular, is if the determinant
 is 0. This gives us a test we can use to determine eigenvalues:
