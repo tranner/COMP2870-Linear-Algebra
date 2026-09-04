@@ -17,7 +17,7 @@ plt.style.use("seaborn-v0_8-colorblind")
 ```
 
 ::: {.callout-tip}
-## Module learning outcome:
+## Module learning outcome
 
 - Compute eigenvalues and eigenvectors of small matrices by hand using characteristic polynomials.
 - Explain how similarity transformations preserve eigenvalues and motivate practical algorithms for larger matrices.

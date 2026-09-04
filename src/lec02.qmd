@@ -12,11 +12,6 @@ the material yourself in Lab Session 1.
 
 ## Finite precision number systems
 
-```{python}
-# | echo: false
-
-```
-
 Computers store numbers with **finite precision**, i.e. using a finite set of
 bits (binary digits), typically 32 or 64 of them. You learnt how to store
 numbers as floating-point numbers last year in the module COMP1860 Building our
@@ -101,7 +96,7 @@ for dtype in [np.float16, np.float32, np.float64]:
     print(dtype.__name__, value, type(value))
 ```
 
-IEEE 754 floating point formats include signed zeros, subnormal numbers, infinities and NaN values too.
+IEEE 754 floating point formats include signed zeros, subnormal numbers, infinities and NaN values too. We do not deal with these here ideas in this lecture.
 
 :::
 
@@ -253,7 +248,7 @@ and this provides a bound on the **relative error**: for any $y$
 
 $$ \frac{|y - fl(y)|}{|y|} < \frac{1}{2} \beta^{1-t}. $$
 
-The last term is known as **unit roundoff** and is often written as $u$. A related quality is **machine precision epsilon** and is often written as $eps$:
+The last term is known as **unit roundoff** and is often written as $u$. A related quantity is **machine precision epsilon** and is often written as $eps$:
 $$
 eps = \beta^{1-t} = 2 u.
 $$
@@ -268,14 +263,14 @@ print(eps)
 
 1. The number system $(\beta, t, L, U) = (10, 2, -1, 2)$ gives
 
-    $$ eps = \beta^{1-t} = \frac{1}{2} 10^{1-2} = 0.1. $$
+    $$ eps = \beta^{1-t} = 10^{1-2} = 0.1. $$
 2. The number system $(\beta, t, L, U) = (10, 3, -3, 3)$ gives
 
-    $$ eps = \beta^{1-t} = \frac{1}{2} 10^{1-3} = 0.01. $$
+    $$ eps = \beta^{1-t} = 10^{1-3} = 0.01. $$
 
 3. The number system $(\beta, t, L, U) = (10, 7, 2, 10)$ gives
 
-    $$ eps = \beta^{1-t} = \frac{1}{2} 10^{1-7} = 0.000 001 . $$
+    $$ eps = \beta^{1-t} = 10^{1-7} = 0.000 001 . $$
 
 4. For some common types in Python, we see the following values:
 
@@ -394,7 +389,8 @@ Overflow
 Underflow
 :   The number is too small to be represented, e.g. divide the smallest
     representable number by 10. This gives $0$ and may not be immediately
-    obvious. In IEEE 754 arithmetic, it may first be represented as a subnormal number. A sufficiently small result eventually rounds to zero.
+    obvious. You may want to read up on subnormal numbers to understand
+    how this works in practice.
 
 Divide by zero
 :   when using `numpy` floating point numbers (matching IEEE) gives a result of `inf`, but $\frac{0}{0}$ gives `nan` (not a number), but Python floats instead raise a `ZeroDivisionError`.

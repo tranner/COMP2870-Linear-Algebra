@@ -151,17 +151,15 @@ easily compute their inverse! They also always have a determinant of $\pm 1$.
 Importantly, we can apply them (or their inverses) without worrying about adding
 extra problems from finite precision.
 
-A standard example of an orthogonal matrix is a rotation matrix. The matrix
+::: {#exr-rotation-orthonormal}
+A standard example of an orthogonal matrix is a rotation matrix (recall @exm-special-matrices).
+Show that the rotation matrix $R(\theta)$ is orthogonal:
 $$
 R(\theta) = \begin{pmatrix}
 \cos \theta & -\sin \theta \\
 \sin \theta & \cos \theta
 \end{pmatrix}
 $$
-rotates any vector in $\mathbb{R}^2$ anticlockwise by an angle $\theta$.
-
-::: {#exr-rotation-orthonormal}
-Show that the rotation matrix $R(\theta)$ is orthogonal.
 :::
 :::
 
@@ -734,7 +732,7 @@ def gram_schmidt_qr(A):
 
 ```
 
-Let's test it without our example above:
+Let's test it with our example above:
 ```{python}
 # | echo: false
 

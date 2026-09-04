@@ -261,10 +261,10 @@ how to divide complex numbers.
 ::: {#exm-conjugate}
 The complex conjugate of $2 + 3i$ is $2 - 3i$.
 The complex conjugate of $12 - 12i$ is $12 + 12i$.
+:::
 
 ::: {#exr-conjugate}
 Find the complex conjugates of $3 + 6i$ and $-3.5 + 2i$.
-:::
 :::
 
 We have already seen that the complex conjugate of a complex number is helpful
@@ -357,13 +357,14 @@ ax.set_aspect("equal", adjustable="box")
 
 plt.show()
 ```
+:::
+
 
 ::: {#exr-modulus}
 Find the value of
 \begin{equation}
 |3 + 6i| \quad \text{and} \quad |-3.5 + 2i|.
 \end{equation}
-:::
 :::
 
 Consider two complex numbers $z = a + bi$ and $y = c + di$. Then, we have
@@ -431,10 +432,10 @@ so
 = 12 \sqrt{2} \left( \frac{1}{\sqrt{2}} + i \frac{-1}{\sqrt{2}} \right)
 = 12 - 12i.
 \end{equation*}
-
-::: {#exr-poly-rep}
-Compute the modulus and argument of $2$, $3i$ and $4 + 4i$.
 :::
+
+::: {#exr-polar-rep}
+Compute the modulus and argument of $2$, $3i$ and $4 + 4i$.
 :::
 
 ::: {#exm-arg}
@@ -623,10 +624,10 @@ To find the values of $z$ which satisfy $z^2 - 2z + 2 = 0$, we see:
 z = \frac{+2 \pm \sqrt{(-2)^2 - 4 \times 1 \times 2}}{2} =
 \frac{2 \pm \sqrt{-4}}{2} = \frac{2 \pm 2 \sqrt{-1}}{2} = 1 \pm i.
 \end{align*}
+:::
 
 ::: {#exr-polynomial}
 Find the values of $z$ which satisfy $z^2 - 4z + 20 = 0$.
-:::
 :::
 
 We will see later that, although this approach can be used to compute the eigenvalues
@@ -667,11 +668,11 @@ Let $\vec{a} = (1 + 2i, 2 + i, 3 - 4i)^T$ and $\vec{b} =
 \\
 & = (10 + 10i) + (10 - 5i) + (-1 - 7i) = 19 - 2i.
 \end{align*}
+:::
 
 ::: {#exr-hermitian-product}
 Find the Hermitian product of $\vec{c} = (3 + i, -2 + 2i, 4 - i)^T$ and $\vec{d}
 = (-1 + 3i, 2 + 6i, 2i)^T$.
-:::
 :::
 
 Recalling the definition of modulus of a complex number \eqref{eq:modulus}, we

@@ -388,7 +388,7 @@ $$
 That is, we use $P = (D+L)^{-1}$ in \eqref{eq:general-iteration}.
 
 In practice, we do not form the inverse of $D + L$ explicitly.
-Since $D + L$ is lower triangular, systems involving $D + L$ can be solved efficienctly
+Since $D + L$ is lower triangular, systems involving $D + L$ can be solved efficiently
 using forward substitution.
 
 ::: {#exm-gauss-seidel-iteration}
@@ -445,6 +445,21 @@ equations, especially the differences against the Jacobi method.
 - What happens if the initial estimate is altered to $\vec{x}^{(0)} = (2, 1)^T$.
 :::
 
+::: remark
+
+- On the examples @exm-jacobi-iteration and @exm-gauss-seidel-iteration, both methods converge, but relatively slowly. They might not converge at
+    all!
+
+- We will discuss convergence and when to stop later.
+
+- The Gauss-Seidel iteration generally out-performs the Jacobi iteration.
+
+- Performance can depend on the order in which the equations are written.
+
+- Both iterative algorithms can be made faster and more efficient for sparse
+    systems of equations (far more than direct methods).
+:::
+
 ::: {#exr-iterations}
 
 Take one iteration of (a) Jacobi iteration and (b) Gauss-Seidel iteration to
@@ -465,21 +480,6 @@ x_1 \\ x_2 \\ x_3
 -3 \\ 4 \\ 5
 \end{pmatrix}.
 $$
-:::
-
-::: remark
-
-- Here, both methods converge, but relatively slowly. They might not converge at
-    all!
-
-- We will discuss convergence and when to stop later.
-
-- The Gauss-Seidel iteration generally out-performs the Jacobi iteration.
-
-- Performance can depend on the order in which the equations are written.
-
-- Both iterative algorithms can be made faster and more efficient for sparse
-    systems of equations (far more than direct methods).
 :::
 
 ::: {#exr-gs-harder}

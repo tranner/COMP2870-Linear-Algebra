@@ -129,7 +129,7 @@ Consider the system
 Then we have:
 \begin{align*}
 4 \times \text{\eqref{eq:eg1a}} & \rightarrow & 8 x_1 + 12 x_2 & = 16 \\
--1.5 \times \text{\eqref{eq:eg1b}} & \rightarrow & 4.5 x_2 - 3 x_2 & = -10.5 \\
+-1.5 \times \text{\eqref{eq:eg1b}} & \rightarrow & 4.5 x_1 - 3 x_2 & = -10.5 \\
 \text{\eqref{eq:eg1a}} + \text{\eqref{eq:eg1b}} & \rightarrow &
 -x_1 + 5 x_2 & = 11 \\
 \text{\eqref{eq:eg1b}} + 1.5 \times \text{\eqref{eq:eg1a}} & \rightarrow &
@@ -461,7 +461,7 @@ def system_size(A, b):
         A 2D array of shape ``(n, n)`` representing the coefficient matrix of
         the linear system.
     b : numpy.ndarray
-        A array of shape ``(n, 1)`` representing the right-hand side vector.
+        An array of shape ``(n, 1)`` representing the right-hand side vector.
 
     Returns
     -------
@@ -856,7 +856,7 @@ $$
 
 for each row $i = 1, 2, \ldots, n$ in turn.
 
-- Each calculation requires only involves values $x_j$ that have already been computed ($j<i$).
+- Each calculation only involves values $x_j$ that have already been computed ($j<i$).
 - The matrix $A$ **must** have non-zero diagonal entries
   i.e. $a_{ii} \neq 0$ for $i = 1, 2, \ldots, n$.
 - **Upper triangular** systems of equations can be solved similarly.
@@ -895,7 +895,7 @@ $$
 x_1 &= \frac{b_1}{a_{11}} = \frac{2}{2} = 1 \\
 x_2 &= \frac{b_2 - a_{21} x_1}{a_{22}}
 = \frac{7 - 1 \times 1}{2} = \frac{6}{2} = 3 \\
-x_3 &= \frac{b_3 - a_{31} x_1 - a_{32} x_2}{a_33}
+x_3 &= \frac{b_3 - a_{31} x_1 - a_{32} x_2}{a_{33}}
 = \frac{26 - 2 \times 1 - 4 \times 3}{6}  = \frac{12}{6}
 = 2
 \end{aligned}
@@ -1136,7 +1136,7 @@ x_1 \\ x_2 \\ x_3
 $$
 :::
 
-## The cost of Gaussian Elimination
+## The cost of Gaussian elimination
 
 Gaussian elimination (GE) is unnecessarily expensive when it is applied to many
 systems of equations with the same matrix $A$ but different right-hand sides
@@ -1149,6 +1149,8 @@ $\vec{b}$.
 
 ```{python}
 # | echo: false
+# consistent seed for testing
+np.random.seed(42)
 
 sizes = [2**j for j in range(1, 10)]
 times_GE, times_BS = [], []
@@ -1164,7 +1166,7 @@ for n in sizes:
     end_time = time.perf_counter()
     times_GE.append(end_time - start_time)
 
-    # perform backward subsitution
+    # perform backward substitution
     start_time = time.perf_counter()
     backward_substitution(A, b)
     end_time = time.perf_counter()
@@ -1579,7 +1581,7 @@ multiples of row 1 to rows 2 and 3, respectively.
     \end{pmatrix}
     $$
 
-    - row 3 $\rightarrow$ row 3 $-\frac{2}{1.5}$ row 2
+    - row 3 $\rightarrow$ row 3 $-\frac{1.5}{2}$ row 2
     $$
     \begin{pmatrix}
     2 & 1 & 0 \\
@@ -1960,9 +1962,34 @@ $$
 ```{python}
 def gaussian_elimination_with_pivoting(A, b, verbose=False):
     """
-    perform Gaussian elimnation with pivoting to reduce the system of linear
-    equations Ax=b to upper triangular form.
-    use verbose to print out intermediate representations
+    Perform Gaussian elimination with partial pivoting to reduce a linear
+    system to upper triangular form.
+
+    This function performs **forward elimination** to transform the coefficient
+    matrix `A` into an upper triangular matrix, while applying the same
+    operations to the right-hand side vector `b`. Before eliminating each
+    column, rows are swapped so that the entry of largest absolute value is
+    used as the pivot (**partial pivoting**), improving numerical stability
+    compared to :func:`gaussian_elimination`.
+
+    Parameters
+    ----------
+    A : numpy.ndarray
+        A 2D NumPy array of shape ``(n, n)`` representing the coefficient matrix
+        of the system.
+    b : numpy.ndarray
+        A 2D NumPy array of shape ``(n, 1)`` representing the right-hand side
+        vector.
+    verbose : bool, optional
+        If ``True``, prints detailed information about each elimination step,
+        including the row swaps and row operations performed and the
+        intermediate forms of `A` and `b`. Default is ``False``.
+
+    Returns
+    -------
+    None
+        This function modifies `A` and `b` **in place** and does not return
+        anything.
     """
     # find shape of system
     n = system_size(A, b)
@@ -2004,7 +2031,7 @@ def gaussian_elimination_with_pivoting(A, b, verbose=False):
 
 ```
 
-Gaussian elimination without pivoting following by back subsitution:
+Gaussian elimination without pivoting following by back substitution:
 
 ```{python}
 eps = 1.0e-14
@@ -2038,7 +2065,7 @@ b = np.array([[7.0], [9.9 + eps], [11.0]])
 print("Does x solve the original system?", np.allclose(A @ x, b))
 ```
 
-Gaussian elimination with pivoting following by back subsitution:
+Gaussian elimination with pivoting following by back substitution:
 
 ```{python}
 eps = 1.0e-14
@@ -2071,6 +2098,13 @@ A = np.array([[10.0, -7.0, 0.0], [-3.0, 2.1 - eps, 6.0], [5.0, -1.0, 5.0]])
 b = np.array([[7.0], [9.9 + eps], [11.0]])
 print("Does x solve the original system?", np.allclose(A @ x, b))
 ```
+
+## Summary
+
+We have introduced some methods for solving systems of linear equations based manipulating the system into an upper triangular form and then applying backwards substitution.
+The methods require a fixed amount of work but that amount will tend to be large for large systems.
+We have seen that care must be taken when working with floating point numbers to ensure accurate results.
+Next we will see an alternative approach which often works much more quickly in a range of different practical scenarios.
 
 ## Further reading
 

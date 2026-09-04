@@ -23,6 +23,340 @@ plt.style.use("seaborn-v0_8-colorblind")
 
 ```
 
+### Systems of linear equations
+
+Given an $n \times n$ matrix $A$ and an $n$-vector $\vec{b}$, find the
+$n$-vector $\vec{x}$ which satisfies:
+\begin{equation}
+\label{eq:sle}
+A \vec{x} = \vec{b}.
+\end{equation}
+
+We can also write \eqref{eq:sle} as a system of linear equations:
+\begin{align*}
+\text{Equation 1:} &&
+a_{11} x_1 + a_{12} x_2 + a_{13} x_3 + \cdots + a_{1n} x_n & = b_1 \\
+\text{Equation 2:} &&
+a_{21} x_1 + a_{22} x_2 + a_{23} x_3 + \cdots + a_{2n} x_n & = b_2 \\
+\vdots \\
+\text{Equation i:} &&
+a_{i1} x_1 + a_{i2} x_2 + a_{i3} x_3 + \cdots + a_{in} x_n & = b_i \\
+\vdots \\
+\text{Equation n:} &&
+a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n & = b_n.
+\end{align*}
+
+**Notes**:
+
+- The values $a_{ij}$ are known as **coefficients**.
+
+- The **right hand side** values $b_i$ are known and are given to you as part
+    of the problem.
+
+- $x_1, x_2, x_3, \ldots, x_n$ are **not** known and are what you need to find
+    to solve the problem.
+
+Many computational algorithms require the solution of linear equations, e.g. in
+fields such as
+
+- Scientific computation;
+- Network design and optimisation;
+- Graphics and visualisation;
+- Machine learning.
+
+Typically, these systems are *very* large ($n \approx 10^9$).
+
+It is therefore important that this problem can be solved
+
+- accurately: we are allowed to make small errors but not big errors;
+- efficiently: we need to find the answer quickly;
+- reliably: we need to know that our algorithm will give us an answer that we
+    are happy with.
+
+::: {#exm-temperature}
+
+#### Temperature in a sealed room
+
+Suppose we wish to estimate the temperature distribution inside an object:
+
+```{python}
+# | fig-cap: Image showing temperature sample points and relations in a room.
+R = np.sqrt(0.5)
+c = np.array([0.5, 0.5])
+d = np.pi / 6
+p = np.pi / 4
+
+pts = (
+    [np.array([0.0, 0.0]), np.array([0.5, 0.0])]
+    + [
+        c + R * np.array([np.cos(n * d + p), np.sin(n * d + p)])
+        for n in range(-3, 4)
+    ]
+    + [np.array([0.0, 0.5])]
+)
+
+
+temperatures = [
+    200,
+    100,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    100,
+]
+
+interior_pts = [
+    [0.25, 0.25],
+    [0.75, 0.25],
+    [0.5, 0.5],
+    [1.0, 0.5],
+    [0.25, 0.75],
+    [0.75, 0.75],
+    [0.5, 1.0],
+]
+
+edges = [
+    [0, 1],
+    [0, 10],
+    [0, 9],
+    [1, 10],
+    [1, 11],
+    [1, 2],
+    [2, 11],
+    [2, 13],
+    [2, 3],
+    [3, 13],
+    [3, 4],
+    [4, 13],
+    [4, 15],
+    [4, 5],
+    [5, 15],
+    [5, 6],
+    [6, 15],
+    [6, 16],
+    [6, 7],
+    [7, 16],
+    [7, 8],
+    [8, 16],
+    [8, 14],
+    [8, 9],
+    [9, 14],
+    [9, 10],
+    [10, 11],
+    [10, 12],
+    [10, 14],
+    [11, 12],
+    [11, 15],
+    [11, 13],
+    [12, 14],
+    [12, 15],
+    [13, 15],
+    [14, 15],
+    [14, 16],
+    [15, 16],
+]
+
+fig, axs = plt.subplots(1, 2)
+
+
+axs[0].fill([pt[0] for pt in pts], [pt[1] for pt in pts], edgecolor="black")
+
+for pt, t in zip(pts, temperatures, strict=False):
+    axs[0].plot(pt[0], pt[1], "ko")
+    offset = 0.1 * (pt - c) / np.linalg.norm(pt - c)
+    axs[0].text(
+        pt[0] + offset[0],
+        pt[1] + offset[1],
+        t,
+        ha="center",
+        bbox={"facecolor": "white", "boxstyle": "round,pad=0.2"},
+    )
+
+for pt, t in zip(pts, temperatures, strict=False):
+    axs[1].plot(pt[0], pt[1], "ko")
+    offset = 0.1 * (pt - c) / np.linalg.norm(pt - c)
+    axs[1].text(
+        pt[0] + offset[0],
+        pt[1] + offset[1],
+        t,
+        ha="center",
+        bbox={"facecolor": "white", "boxstyle": "round,pad=0.2"},
+    )
+
+for j, pt in enumerate(interior_pts):
+    axs[1].plot(pt[0], pt[1], "ko")
+    axs[1].text(
+        pt[0] + 0.06,
+        pt[1] + 0.06,
+        f"$x_{{{j + 1}}}$",
+        ha="center",
+        bbox={"facecolor": "white", "boxstyle": "round,pad=0.2"},
+    )
+
+all_pts = pts + interior_pts
+
+for e in edges:
+    pt_A, pt_B = all_pts[e[0]], all_pts[e[1]]
+    axs[1].plot([pt_A[0], pt_B[0]], [pt_A[1], pt_B[1]], "k")
+
+for ax in axs:
+    ax.set_axis_off()
+    ax.set_aspect("equal")
+
+plt.tight_layout()
+plt.show()
+```
+
+We can place a network of points inside the object and use the following model:
+the temperature at each interior point is the average of its neighbours.
+
+This example leads to the system:
+
+$$
+\begin{pmatrix}
+1 & -1/6 & -1/6 & 0 & -1/6 & 0 & 0 \\
+-1/6 & 1 & -1/6 & -1/6 & 0 & -1/6 & 0 \\
+-1/4 & -1/4 & 1 & 0 & -1/4 & -1/4 & 0 \\
+0 & -1/5 & 0 & 1 & 0 & -1/5 & 0 \\
+-1/6 & 0 & -1/6 & 0 & 1 & -1/6 & -1/6 \\
+0 & -1/8 & -1/8 & -1/8 & -1/8 & 1 & -1/8 \\
+0 & 0 & 0 & 0 & -1/5 & -1/5 & 1
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6 \\ x_7
+\end{pmatrix}
+= \begin{pmatrix}
+400/6 \\ 100/6 \\ 0 \\ 0 \\ 100/6 \\ 0 \\ 0
+\end{pmatrix}.
+$$
+:::
+
+::: {#exm-traffic}
+
+#### Traffic network
+
+Suppose we wish to monitor the flow of traffic in a city centre:
+
+```{python}
+# | fig-cap: Example network showing traffic flow in a city
+dx = 1.0
+dy = 0.7
+head_proportion = 0.75
+
+pts = np.array(
+    [
+        [dx, 0.0],
+        [2 * dx, 0.0],
+        [0.0, dy],
+        [dx, dy],
+        [2 * dx, dy],
+        [0.0, 2 * dy],
+        [dx, 2 * dy],
+        [2 * dx, 2 * dy],
+    ]
+)
+
+arrows = [  # x arrows
+    [np.array([2 * dx, 2 * dy]), np.array([-dx, 0.0]), "$x_1$"],
+    [np.array([dx, 2 * dy]), np.array([-dx, 0.0]), "$x_2$"],
+    [np.array([2 * dx, 2 * dy]), np.array([0.0, -dy]), "$x_3$"],
+    [np.array([0.0, 2 * dy]), np.array([0.0, -dy]), "$x_4$"],
+    [np.array([dx, dy]), np.array([-dx, 0.0]), "$x_5$"],
+    [np.array([2 * dx, dy]), np.array([0.0, -dy]), "$x_6$"],
+    [np.array([dx, dy]), np.array([0.0, -dy]), "$x_7$"],
+    [np.array([2 * dx, 0.0]), np.array([-dx, 0.0]), "$x_8$"],
+    # y arrows
+    [np.array([dx, 0]), np.array([0.0, -dy]), "$y_1$"],
+    [np.array([2 * dx, 0]), np.array([0.0, -dy]), "$y_2$"],
+    [np.array([2 * dx + dx, 0]), np.array([-dx, 0.0]), "$y_3$"],
+    [np.array([2 * dx + dx, dy]), np.array([-dx, 0.0]), "$y_4$"],
+    [np.array([2 * dx + dx, 2 * dy + dy]), np.array([-dx, -dy]), "$y_5$"],
+    [np.array([dx, 2 * dy + dy]), np.array([0.0, -dy]), "$y_6$"],
+    [np.array([0.0, 2 * dy + dy]), np.array([0.0, -dy]), "$y_7$"],
+    [np.array([0.0, 2 * dy]), np.array([-dx, 0.0]), "$y_8$"],
+    [np.array([0.0, dy]), np.array([-dx, 0.0]), "$y_9$"],
+    [np.array([dx, dy]), np.array([-dx, -dy]), "$y_{10}$"],
+    [np.array([2 * dx, dy]), np.array([-dx, 0.0]), "$y_{11}$"],
+    [np.array([dx, 2 * dy]), np.array([0.0, -dy]), "$y_{12}$"],
+]
+
+for pt in pts:
+    plt.plot(pt[0], pt[1], "ko")
+
+for arrow in arrows:
+    start, direction, label = arrow
+    if "x" in label:
+        color = "C0"
+    elif "y" in label:
+        color = "C1"
+    plt.arrow(
+        start[0],
+        start[1],
+        direction[0] * head_proportion,
+        direction[1] * head_proportion,
+        length_includes_head=True,
+        head_width=0.05,
+        facecolor=color,
+    )
+    plt.arrow(
+        start[0] + direction[0] * head_proportion,
+        start[1] + direction[1] * head_proportion,
+        direction[0] * (1 - head_proportion),
+        direction[1] * (1 - head_proportion),
+        length_includes_head=True,
+        head_width=0.0,
+    )
+    plt.text(
+        start[0] + direction[0] / 2,
+        start[1] + direction[1] / 2,
+        label,
+        ha="center",
+        va="center",
+        bbox={"facecolor": "white", "boxstyle": "round,pad=0.2"},
+    )
+
+ax = plt.gca()
+ax.set_axis_off()
+ax.set_aspect("equal")
+
+plt.tight_layout()
+plt.show()
+
+
+```
+
+As the above example shows, it is not necessary to monitor every single road.
+If we know all of the $y$ values, we can calculate the $x$ values!
+
+This example leads to the system:
+
+$$
+\begin{pmatrix}
+1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+1 & -1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+0 & 1 & 0 & -1 & 0 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 & 0 & -1 & 0 & 0 \\
+0 & 0 & 0 & 0 & 1 & 0 & 1 & 0 \\
+0 & 0 & 0 & 1 & 1 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 & 1 & 0 & -1 \\
+0 & 0 & 0 & 0 & 0 & 0 & 1 & 1
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6 \\ x_7 \\ x_8
+\end{pmatrix}
+= \begin{pmatrix}
+y_5 \\ y_{12} - y_6 \\ y_8 - y_7 \\ y_{11} - y_4 \\
+y_{11} + y_{12} - y_{10} \\ y_9 \\ y_2 - y_3 \\ y_1
+\end{pmatrix}.
+$$
+:::
+
+---
+
 ## Definition of systems of linear equations
 
 Given an $n \times n$ matrix $A$ and an $n$-vector $\vec{b}$, find the
