@@ -7,7 +7,7 @@ echo: false
 ## Module learning objective
 
 - Formulate a system of linear equations in matrix form $A\vec{x}=\vec{b}$.
-- Determine whether a square matrix is invertible using its determinant.
+- Compute the determinant of small matrices by and determine whether a square matrix is invertible using its determinant.
 - Explain the difference between solving a system directly and computing a matrix inverse.
 - Recognise common matrix structures such as triangular and sparse matrices.
 :::

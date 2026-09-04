@@ -82,8 +82,8 @@ def print_array(array, array_name=None, end=None):
 
 - Derive and apply the Gram-Schmidt process to compute a QR factorisation of a
   matrix by hand.
-- Implement the QR algorithm in Python and evaluate its correctness and
-  computational feasibility on large matrices.
+- Implement the QR algorithm in Python and evaluate its computational feasibility on large matrices.
+- Understand how the QR algorithm preserves eigenvalues using similarity
 :::
 
 ## Recall: the eigenvalue problem

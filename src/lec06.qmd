@@ -5,7 +5,7 @@
 
 - Use complex arithmetic and polar representations to analyse complex numbers algebraically and geometrically.
 - Determine complex roots of polynomial equations using factorisation and the quadratic formula.
-- Work with complex vectors and matrices, including Hermitian products, conjugate transposes, and Hermitian matrices.
+- Manipulate complex vectors and matrices including computing Hermitian products, conjugate transposes, and Hermitian matrices.
 :::
 
 ```{python}
