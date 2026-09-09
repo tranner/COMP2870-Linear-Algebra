@@ -44,8 +44,8 @@ def system_size(A, b):
     Raises
     ------
     ValueError
-        If `A` is not square or if the size of `b` does not match the number of
-        rows in `A`.
+        If `A` is not square or if the size of `b` does not match the
+        number of rows in `A`.
     """
 
     # Validate that A is a 2D square matrix
@@ -54,7 +54,7 @@ def system_size(A, b):
 
     n, m = A.shape
     if n != m:
-        raise ValueError(f"Matrix A must be square, but got A.shape={A.shape}")
+        raise ValueError(f"Matrix A must be square, got A.shape={A.shape}")
 
     if b.shape[0] != n:
         raise ValueError(
@@ -516,15 +516,15 @@ def jacobi_iteration(A, b, x0, max_iter, verbose=False):
         A 2D NumPy array of shape ``(n, n)`` representing the coefficient
         matrix.
     b : numpy.ndarray
-        A 1D or 2D NumPy array of shape ``(n,)`` or ``(n, 1)`` representing the
-        right-hand side vector.
+        A 1D or 2D NumPy array of shape ``(n,)`` or ``(n, 1)`` representing
+        the right-hand side vector.
     x0 : numpy.ndarray
         Initial guess for the solution, same shape as ``b``.
     max_iter : int
         Maximum number of iterations to perform.
     verbose : bool, optional
-        If ``True``, prints the value of the solution vector at each iteration.
-        Default is ``False``.
+        If ``True``, prints the value of the solution vector at each
+        iteration. Default is ``False``.
 
     Returns
     -------
@@ -579,15 +579,15 @@ def gauss_seidel_iteration(A, b, x0, max_iter, verbose=False):
         A 2D NumPy array of shape ``(n, n)`` representing the coefficient
         matrix.
     b : numpy.ndarray
-        A 1D or 2D NumPy array of shape ``(n,)`` or ``(n, 1)`` representing the
-        right-hand side vector.
+        A 1D or 2D NumPy array of shape ``(n,)`` or ``(n, 1)`` representing
+        the right-hand side vector.
     x0 : numpy.ndarray
         Initial guess for the solution, same shape as ``b``.
     max_iter : int
         Maximum number of iterations to perform.
     verbose : bool, optional
-        If ``True``, prints the value of the solution vector at each iteration.
-        Default is ``False``.
+        If ``True``, prints the value of the solution vector at each
+        iteration. Default is ``False``.
 
     Returns
     -------
@@ -774,8 +774,8 @@ def jacobi_iteration_sparse(
     max_iter : int
         Maximum number of iterations to perform.
     verbose : bool, optional
-        If ``True``, prints the solution vector after each iteration. Default is
-        ``False``.
+        If ``True``, prints the solution vector after each iteration.
+        Default is ``False``.
 
     Returns
     -------
@@ -819,7 +819,8 @@ def gauss_seidel_iteration_sparse(
     A_real, I_row, I_col, b, x0, max_iter, verbose=False
 ):
     """
-    Solve a sparse linear system Ax = b using the Gauss-Seidel iterative method.
+    Solve a sparse linear system Ax = b using the Gauss-Seidel iterative
+    method.
 
     The system is represented in **sparse COO (coordinate) format** with:
     - `A_real`: non-zero values
@@ -849,8 +850,8 @@ def gauss_seidel_iteration_sparse(
     max_iter : int
         Maximum number of iterations to perform.
     verbose : bool, optional
-        If ``True``, prints the solution vector after each iteration. Default is
-        ``False``.
+        If ``True``, prints the solution vector after each iteration.
+        Default is ``False``.
 
     Returns
     -------

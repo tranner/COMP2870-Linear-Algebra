@@ -471,8 +471,8 @@ def system_size(A, b):
     Raises
     ------
     ValueError
-        If `A` is not square or if the size of `b` does not match the number of
-        rows in `A`.
+        If `A` is not square or if the size of `b` does not match the
+        number of rows in `A`.
     """
 
     # Validate that A is a 2D square matrix
@@ -481,7 +481,7 @@ def system_size(A, b):
 
     n, m = A.shape
     if n != m:
-        raise ValueError(f"Matrix A must be square, but got A.shape={A.shape}")
+        raise ValueError(f"Matrix A must be square, got A.shape={A.shape}")
 
     if b.shape[0] != n:
         raise ValueError(
@@ -566,8 +566,8 @@ def row_swap(A, b, p, q):
     Parameters
     ----------
     A : numpy.ndarray
-        A 2D NumPy array of shape ``(n, n)`` representing the coefficient matrix
-        of the linear system.
+        A 2D NumPy array of shape ``(n, n)`` representing the coefficient
+        matrix of the linear system.
     b : numpy.ndarray
         A 2D NumPy array of shape ``(n, 1)`` representing the right-hand side
         vector of the system.
@@ -603,8 +603,8 @@ def row_scale(A, b, p, k):
     Parameters
     ----------
     A : numpy.ndarray
-        A 2D NumPy array of shape ``(n, n)`` representing the coefficient matrix
-        of the linear system.
+        A 2D NumPy array of shape ``(n, n)`` representing the coefficient
+        matrix of the linear system.
     b : numpy.ndarray
         A 2D NumPy array of shape ``(n, 1)`` representing the right-hand side
         vector of the system.
@@ -643,8 +643,8 @@ def row_add(A, b, p, k, q):
     Parameters
     ----------
     A : numpy.ndarray
-        A 2D NumPy array of shape ``(n, n)`` representing the coefficient matrix
-        of the linear system.
+        A 2D NumPy array of shape ``(n, n)`` representing the coefficient
+        matrix of the linear system.
     b : numpy.ndarray
         A 2D NumPy array of shape ``(n, 1)`` representing the right-hand side
         vector of the system.
@@ -725,7 +725,8 @@ print_array(b)
 print()
 
 print("row 1 |-> row 1 + 1.5 * row 0")
-row_add(A, b, 1, 1.5, 0)  # remember NumPy arrays are indexed started from zero!
+# remember NumPy arrays are indexed starting from zero!
+row_add(A, b, 1, 1.5, 0)
 print()
 
 print("new arrays:")
@@ -745,17 +746,17 @@ def gaussian_elimination(A, b, verbose=False):
     Perform Gaussian elimination to reduce a linear system to upper triangular
     form.
 
-    This function performs **forward elimination** to transform the coefficient
-    matrix `A` into an upper triangular matrix, while applying the same
-    operations to the right-hand side vector `b`. This is the first step in
-    solving a linear system of equations of the form ``Ax = b`` using Gaussian
-    elimination.
+    This function performs **forward elimination** to transform the
+    coefficient matrix `A` into an upper triangular matrix, while applying
+    the same operations to the right-hand side vector `b`. This is the
+    first step in solving a linear system of equations of the form
+    ``Ax = b`` using Gaussian elimination.
 
     Parameters
     ----------
     A : numpy.ndarray
-        A 2D NumPy array of shape ``(n, n)`` representing the coefficient matrix
-        of the system.
+        A 2D NumPy array of shape ``(n, n)`` representing the coefficient
+        matrix of the system.
     b : numpy.ndarray
         A 2D NumPy array of shape ``(n, 1)`` representing the right-hand side
         vector.
@@ -1965,18 +1966,18 @@ def gaussian_elimination_with_pivoting(A, b, verbose=False):
     Perform Gaussian elimination with partial pivoting to reduce a linear
     system to upper triangular form.
 
-    This function performs **forward elimination** to transform the coefficient
-    matrix `A` into an upper triangular matrix, while applying the same
-    operations to the right-hand side vector `b`. Before eliminating each
-    column, rows are swapped so that the entry of largest absolute value is
-    used as the pivot (**partial pivoting**), improving numerical stability
-    compared to :func:`gaussian_elimination`.
+    This function performs **forward elimination** to transform the
+    coefficient matrix `A` into an upper triangular matrix, while applying
+    the same operations to the right-hand side vector `b`. Before
+    eliminating each column, rows are swapped so that the entry of largest
+    absolute value is used as the pivot (**partial pivoting**), improving
+    numerical stability compared to :func:`gaussian_elimination`.
 
     Parameters
     ----------
     A : numpy.ndarray
-        A 2D NumPy array of shape ``(n, n)`` representing the coefficient matrix
-        of the system.
+        A 2D NumPy array of shape ``(n, n)`` representing the coefficient
+        matrix of the system.
     b : numpy.ndarray
         A 2D NumPy array of shape ``(n, 1)`` representing the right-hand side
         vector.

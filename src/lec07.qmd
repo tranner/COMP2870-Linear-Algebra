@@ -4,11 +4,8 @@ echo: false
 # Eigenvectors and eigenvalues
 
 ```{python}
-from io import BytesIO
-
 import matplotlib.pyplot as plt
 import numpy as np
-import requests
 from PIL import Image
 
 plt.style.use("seaborn-v0_8-colorblind")
@@ -203,10 +200,7 @@ Consider this image of the Bragg building:
 Step 1: we load the image and do some normalisation:
 ```{python}
 # | echo: True
-image_url = "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/31/Sir_William_Henry_Bragg_Building_-_Main_entrance_-_July_2022.jpg/960px-Sir_William_Henry_Bragg_Building_-_Main_entrance_-_July_2022.jpg"
-
-response = requests.get(image_url, headers={"User-Agent": "Mozilla/5.0"})
-img = Image.open(BytesIO(response.content)).convert("L")
+img = Image.open("images/bragg-building.jpg").convert("L")
 img = img.resize((300, 300))  # reduce size
 img_array = np.asarray(img, dtype=np.float64) / 255.0
 

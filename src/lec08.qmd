@@ -747,8 +747,10 @@ print("QR factorisation:")
 print_array(Q)
 print_array(R)
 
-print("Have we computed a factorisation? (A ≈ Q @ R)", np.allclose(A, Q @ R))
-print("Is Q orthogonal? (Q.T @ Q ≈ np.eye(3))", np.allclose(np.eye(3), Q.T @ Q))
+print("Have we computed a factorisation? (A ~= Q @ R)", np.allclose(A, Q @ R))
+print(
+    "Is Q orthogonal? (Q.T @ Q ~= np.eye(3))", np.allclose(np.eye(3), Q.T @ Q)
+)
 
 
 ```
@@ -781,8 +783,9 @@ def gram_schmidt_eigen(A, maxiter=100, verbose=False):
     4. Iterate until `A` becomes approximately upper triangular or until the
        maximum number of iterations is reached.
 
-    Once the iteration converges, the diagonal of `A` contains the eigenvalues,
-    and the columns of `V` contain the corresponding eigenvectors.
+    Once the iteration converges, the diagonal of `A` contains the
+    eigenvalues, and the columns of `V` contain the corresponding
+    eigenvectors.
 
     Parameters
     ----------
