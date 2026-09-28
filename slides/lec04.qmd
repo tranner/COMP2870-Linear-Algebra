@@ -1,29 +1,13 @@
 ---
-echo: false
 title: COMP2870 Theoretical Foundations of Computer Science II
 subtitle: Iterative solvers for systems of linear equations
-author:
-  - name: Dr. Thomas Ranner (Tom)
-    email: T.Ranner@leeds.ac.uk
-    affiliation: School of Computer Science, University of Leeds
-code-line-numbers: true
-html-math-method: mathjax
-include-in-header: ../mathjax.html
-
-execute:
-  freeze: auto
-  cache: true
-
-format:
-  live-revealjs:
-    slide-level: 3
-    slide-number: true
-    preview-links: auto
 
 pyodide:
     packages:
         - numpy
         - scipy
+
+format: live-revealjs
 ---
 
 # Iterative solutions of linear equations
@@ -47,7 +31,7 @@ import numpy as np
 import scipy as sp
 from matplotlib import pyplot as plt
 
-plt.style.use("seaborn-v0_8-colorblind")
+plt.style.use("theme/comp2870.mplstyle")
 
 
 def system_size(A, b):
@@ -159,7 +143,7 @@ import numpy as np
 import scipy as sp
 from matplotlib import pyplot as plt
 
-plt.style.use("seaborn-v0_8-colorblind")
+plt.style.use("theme/comp2870.mplstyle")
 
 
 def print_array(array, array_name=None, end=None):

@@ -1,0 +1,42 @@
+# Quarto project for the lecture slides, separate from the book in the repo root.
+# Settings here are shared by every deck; each lecXX.qmd sets its own title,
+# subtitle and `format: live-revealjs`.
+echo: false
+author:
+  - name: Dr. Thomas Ranner (Tom)
+    email: T.Ranner@leeds.ac.uk
+    affiliation: School of Computer Science, University of Leeds
+code-line-numbers: true
+html-math-method: mathjax
+include-in-header: ../mathjax.html
+
+execute:
+  freeze: auto
+  cache: true
+
+theme: [default, theme/comp2870.scss]
+highlight-style: theme/comp2870.theme
+slide-level: 3
+
+# full-bleed accent backgrounds; these mirror $blue and $purple in
+# theme/comp2870.scss (both >= 8.4:1 against $cream text)
+title-slide-attributes:
+  data-background-color: "#004C77"
+section-background-color: "#782E57"
+filters:
+  - theme/section-backgrounds.lua
+slide-number: true
+preview-links: auto
+
+# Apple Pencil annotation (_extensions/annotate): `{.write}` on a slide heading
+# gives it a faint grid; the pen button in the corner opens the tools. Defaults are in the extension's
+# _extension.yml; override any of them here, e.g. `mouse: true` to test on a laptop.
+revealjs-plugins:
+  - annotate
+  - vevox
+annotate:
+  mouse: false
+
+# Vevox polls (_extensions/vevox): `{.vevox}` on a slide heading adds joining
+# instructions and a poll pop-up. Each lecture sets `vevox: session:` in its
+# front matter; a module-wide session could go here instead.

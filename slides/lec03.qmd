@@ -1,28 +1,12 @@
 ---
-echo: false
 title: COMP2870 Theoretical Foundations of Computer Science II
 subtitle: Direct solvers for systems of linear equations
-author:
-  - name: Dr. Thomas Ranner (Tom)
-    email: T.Ranner@leeds.ac.uk
-    affiliation: School of Computer Science, University of Leeds
-code-line-numbers: true
-html-math-method: mathjax
-include-in-header: ../mathjax.html
-
-execute:
-  freeze: auto
-  cache: true
-
-format:
-  live-revealjs:
-    slide-level: 3
-    slide-number: true
-    preview-links: auto
 
 pyodide:
     packages:
         - numpy
+
+format: live-revealjs
 ---
 
 # Direct solvers for systems of linear equations
@@ -46,7 +30,7 @@ import time
 import numpy as np
 from matplotlib import pyplot as plt
 
-plt.style.use("seaborn-v0_8-colorblind")
+plt.style.use("theme/comp2870.mplstyle")
 ```
 
 ## Reminder of the problem

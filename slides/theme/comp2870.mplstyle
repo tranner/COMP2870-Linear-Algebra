@@ -1,0 +1,35 @@
+# COMP2870 slide plots: Okabe-Ito colours with a marker cycle so series
+# never rely on colour alone. Large text and thick lines for projectors.
+
+axes.prop_cycle: cycler(color=["0072B2", "D55E00", "009E73", "CC79A7", "E69F00", "56B4E9"], marker=["o", "s", "^", "D", "v", "P"])
+
+lines.linewidth: 3
+lines.markersize: 9
+
+font.family: sans-serif
+font.sans-serif: Atkinson Hyperlegible, DejaVu Sans, Arial, sans-serif
+font.size: 20
+axes.labelsize: 22
+axes.titlesize: 24
+xtick.labelsize: 20
+ytick.labelsize: 20
+legend.fontsize: 20
+
+text.color: 1A1A1A
+axes.labelcolor: 1A1A1A
+axes.edgecolor: 1A1A1A
+axes.linewidth: 1.5
+xtick.color: 1A1A1A
+ytick.color: 1A1A1A
+
+figure.facecolor: FBF8F0
+axes.facecolor: FBF8F0
+savefig.facecolor: FBF8F0
+
+axes.grid: False
+grid.color: BBBBBB
+grid.linewidth: 1
+
+legend.frameon: False
+
+figure.dpi: 150

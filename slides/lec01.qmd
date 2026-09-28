@@ -1,20 +1,13 @@
 ---
-echo: false
 title: COMP2870 Theoretical Foundations of Computer Science II
 subtitle: Introduction to Linear Algebra
-author:
-  - name: Dr. Thomas Ranner (Tom)
-    email: T.Ranner@leeds.ac.uk
-    affiliation: School of Computer Science, University of Leeds
-code-line-numbers: true
-html-math-method: mathjax
-include-in-header: ../mathjax.html
 
-format:
-  live-revealjs:
-    slide-level: 3
-    slide-number: true
-    preview-links: auto
+format: live-revealjs
+
+# Vevox session for this lecture (can also be set on the iPad in the poll pop-up)
+vevox:
+  session: "180-532-136"
+  presenter: "https://universityofleeds.vevox.com/#/present/967253"
 ---
 hi
 
@@ -28,7 +21,7 @@ Teams messages are fine too.
 import numpy as np
 from matplotlib import pyplot as plt
 
-plt.style.use("seaborn-v0_8-colorblind")
+plt.style.use("theme/comp2870.mplstyle")
 ```
 
 ## Contents of this submodule
@@ -62,7 +55,7 @@ Candidates should be able to:
   cost using computer experiments;
 - apply and understand algorithms to compute eigenvectors and eigenvalues of large matrices.
 
-### Textbooks and other resources
+### Textbooks and other resources {.smaller}
 
 - [Introduction to Linear
   Algebra](https://leeds.primo.exlibrisgroup.com/permalink/44LEE_INST/13rlbcs/alma991011421399705181)
@@ -95,8 +88,8 @@ delivering the materials.
 
 You can always find the latest versions at:
 
-- <https://comp2870-2526.github.io/linear-algebra-notes/> (html version)
-- <https://comp2870-2526.github.io/linear-algebra-notes/COMP2870-Theoretical-Foundations--Linear-Algebra.pdf> (pdf version)
+[HTML version](https://comp2870-2627.github.io/linear-algebra-notes/){.icon-link .icon-html title="HTML version"}
+[PDF version](https://comp2870-2627.github.io/linear-algebra-notes/COMP2870-Theoretical-Foundations--Linear-Algebra.pdf){.icon-link .icon-pdf title="PDF version"}
 
 Please either email me ([T.Ranner@leeds.ac.uk](mailto:T.Ranner@leeds.ac.uk)) or
 use the [github
@@ -184,6 +177,8 @@ then smaller h
 
 ## Reminder of matrices and vectors
 
+### Matrices {.write}
+
 ::: {#def-matrix}
 A *matrix* is a rectangular array of numbers called *entries*
 or *elements* of the matrix. A matrix with $m$ rows and $n$ columns is called an
@@ -214,7 +209,11 @@ each other we mean the matrix product).
 :::
 :::
 
-### Vectors
+### Quick question {.vevox vevox-label="Matrix sizes"}
+
+Which of the sums and products of $A$, $B$ and $C$ are defined? Vote on Vevox.
+
+### Vectors {.write}
 
 ::: {#def-vector}
 A *column vector*, often just called a *vector*, is a matrix
@@ -290,7 +289,7 @@ $n$-vector $\vec{x}$ which satisfies:
 A \vec{x} = \vec{b}.
 \end{equation}
 
-### Fully written out format
+### Fully written out format {.smaller}
 
 We can also write \eqref{eq:sle} as a system of linear equations:
 \begin{align*}

@@ -28,6 +28,13 @@ _build_slide qmd_filename:
 	mv {{ without_extension(qmd_filename) }}.html _output/{{ without_extension(qmd_filename) }}.html
 	mv {{ without_extension(qmd_filename) }}_files _output/{{ without_extension(qmd_filename) }}_files
 
+slides_port := "4300"
+
+# live preview the slides project (all decks) on slides_port, or just one deck,
+# e.g. just _preview_slides slides/lec03.qmd
+_preview_slides qmd_filename="slides":
+	uv run quarto preview {{ qmd_filename }} --port {{ slides_port }} --host 0.0.0.0 --no-browser
+
 # remove all output files
 clean:
 	rm -rf _output _freeze

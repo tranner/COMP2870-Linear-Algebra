@@ -1,24 +1,8 @@
 ---
-echo: false
 title: COMP2870 Theoretical Foundations of Computer Science II
 subtitle: Complex matrices and vectors
-author:
-  - name: Dr. Thomas Ranner (Tom)
-    email: T.Ranner@leeds.ac.uk
-    affiliation: School of Computer Science, University of Leeds
-code-line-numbers: true
-html-math-method: mathjax
-include-in-header: ../mathjax.html
 
-execute:
-  freeze: auto
-  cache: true
-
-format:
-  live-revealjs:
-    slide-level: 3
-    slide-number: true
-    preview-links: auto
+format: live-revealjs
 ---
 
 ## Complex matrices and vectors

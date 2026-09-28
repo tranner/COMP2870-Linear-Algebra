@@ -1,24 +1,8 @@
 ---
-echo: false
 title: COMP2870 Theoretical Foundations of Computer Science II
 subtitle: Eigenvalues and complex numbers
-author:
-  - name: Dr. Thomas Ranner (Tom)
-    email: T.Ranner@leeds.ac.uk
-    affiliation: School of Computer Science, University of Leeds
-code-line-numbers: true
-html-math-method: mathjax
-include-in-header: ../mathjax.html
 
-execute:
-  freeze: auto
-  cache: true
-
-format:
-  live-revealjs:
-    slide-level: 3
-    slide-number: true
-    preview-links: auto
+format: live-revealjs
 ---
 # Portfolio updates
 
@@ -43,7 +27,7 @@ import matplotlib.colors as mcolors
 import numpy as np
 from matplotlib import pyplot as plt
 
-plt.style.use("seaborn-v0_8-colorblind")
+plt.style.use("theme/comp2870.mplstyle")
 ```
 
 Let $A$ be an $n \times n$ matrix. We are interested in when is the output vector $A \vec{x}$ is *parallel* to

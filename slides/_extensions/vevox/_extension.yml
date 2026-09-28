@@ -1,0 +1,21 @@
+title: Vevox
+author: Tom Ranner
+version: 0.1.0
+quarto-required: ">=1.4.0"
+contributes:
+  revealjs-plugins:
+    - name: RevealVevox
+      script:
+        # qrcode-generator 1.4.4 by Kazuhiko Arase (MIT), vendored
+        - qrcode.js
+        - vevox.js
+      stylesheet:
+        - vevox.css
+      config:
+        vevox:
+          # 9-digit session ID students join with; set per lecture in the
+          # front matter, once in slides/_quarto.yml, or on the iPad in the pop-up
+          session: ""
+          # presenter page opened by the pop-up's "Presenter" button
+          presenter: ""
+          presenterHome: "https://universityofleeds.vevox.com/"

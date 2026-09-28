@@ -1,0 +1,36 @@
+title: Annotate
+author: Tom Ranner
+version: 0.1.0
+quarto-required: ">=1.4.0"
+contributes:
+  revealjs-plugins:
+    - name: RevealAnnotate
+      script:
+        - annotate.js
+      stylesheet:
+        - annotate.css
+      config:
+        annotate:
+          # grid square size in slide px; 50 divides the 1050 x 700 slide exactly
+          gridSize: 50
+          gridColor: "rgba(26, 26, 26, 0.05)"
+          gridBackground: "#FBF8F0"
+          # "auto" is ink on light slides and cream on dark ones
+          colors: ["auto", "#004C77", "#793600", "#00543D", "#782E57"]
+          autoLight: "#1A1A1A"
+          autoDark: "#FBF8F0"
+          # pen widths in slide px (the canvas is 1050 x 700)
+          widths: [2, 3.5, 6]
+          highlighterColor: "#F5C400"
+          highlighterWidth: 22
+          eraserRadius: 6
+          # scribble-to-erase thresholds
+          scribbleReversals: 4
+          scribbleRatio: 3
+          # share of a stroke that must lie inside the scribble to be erased
+          scribbleCoverage: 0.6
+          # ignore finger touches for this long after the pencil lifts (palm)
+          palmDelay: 400
+          # let the mouse draw too (desktop testing only)
+          mouse: false
+          toolbarPosition: top
