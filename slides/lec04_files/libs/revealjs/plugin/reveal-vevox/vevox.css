@@ -1,0 +1,283 @@
+/* Vevox poll pop-up (see vevox.js); colours follow the COMP2870 theme */
+
+.vevox-overlay,
+.reveal .vevox-slide {
+  --vevox-ink: #1A1A1A;
+  --vevox-bg: #FBF8F0;
+  --vevox-tint: #F0EBDD;
+  --vevox-blue: #004C77;
+}
+
+/* ---- on the poll slide: joining instructions and an open button ---- */
+
+.reveal .vevox-slide {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1em 2em;
+  margin-top: 0.5em;
+}
+
+.reveal .vevox-slide .vevox-join {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+.reveal .vevox-slide .vevox-qr {
+  width: 220px;
+  height: 220px;
+}
+
+.reveal .vevox-slide .vevox-join-text p {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.reveal .vevox-slide .vevox-open {
+  min-height: 2.2em;
+  padding: 0.3em 1.2em;
+  border: 3px solid var(--vevox-blue);
+  border-radius: 0.4em;
+  background: var(--vevox-blue);
+  color: var(--vevox-bg);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.reveal .vevox-slide .vevox-open:hover {
+  background: var(--vevox-ink);
+  border-color: var(--vevox-ink);
+}
+
+.reveal .vevox-slide .vevox-open:focus-visible {
+  outline: 4px solid var(--vevox-blue);
+  outline-offset: 3px;
+}
+
+/* QR code in the theme colours: blue on cream (8.6:1, easy to scan) */
+.vevox-qr-bg {
+  fill: var(--vevox-bg);
+}
+
+.vevox-qr-dots {
+  fill: var(--vevox-blue);
+}
+
+/* shared joining text */
+.vevox-join-label {
+  font-size: 0.7em;
+  color: #4A4A4A;
+}
+
+.vevox-join-site,
+.vevox-join-id {
+  font-weight: 700;
+  color: var(--vevox-ink);
+}
+
+.vevox-join-id {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.vevox-missing {
+  color: #4A4A4A;
+  font-style: italic;
+}
+
+/* ---- the pop-up ---- */
+
+.vevox-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 900; /* below the annotate toolbar (1000) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(env(safe-area-inset-top, 0px) + 3vh) 3vw calc(env(safe-area-inset-bottom, 0px) + 3vh);
+  background: rgba(26, 26, 26, 0.45);
+  font: 20px/1.3 "Atkinson Hyperlegible", system-ui, sans-serif;
+  color: var(--vevox-ink);
+}
+
+.vevox-overlay[hidden] {
+  display: none;
+}
+
+.vevox-panel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  border: 3px solid var(--vevox-ink);
+  border-radius: 12px;
+  background: var(--vevox-bg);
+  overflow: hidden;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+}
+
+.vevox-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-bottom: 2px solid var(--vevox-tint);
+}
+
+.vevox-title {
+  flex: 1 1 auto;
+  margin: 0;
+  font-size: 1.2em;
+  font-weight: 700;
+}
+
+.vevox-overlay button {
+  min-height: 44px;
+  padding: 0 14px;
+  border: 2px solid var(--vevox-ink);
+  border-radius: 22px;
+  background: var(--vevox-bg);
+  color: var(--vevox-ink);
+  font: inherit;
+  cursor: pointer;
+}
+
+.vevox-overlay button:hover {
+  background: var(--vevox-tint);
+}
+
+.vevox-overlay button:focus-visible,
+.vevox-overlay input:focus-visible {
+  outline: 3px solid var(--vevox-blue);
+  outline-offset: 2px;
+}
+
+.vevox-overlay .vevox-close {
+  min-width: 44px;
+  padding: 0;
+}
+
+.vevox-settings {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  padding: 10px 12px;
+  background: var(--vevox-tint);
+}
+
+.vevox-settings[hidden] {
+  display: none;
+}
+
+.vevox-settings label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vevox-settings input {
+  min-height: 40px;
+  padding: 0 10px;
+  border: 2px solid var(--vevox-ink);
+  border-radius: 6px;
+  background: #FFFFFF;
+  color: var(--vevox-ink);
+  font: inherit;
+}
+
+.vevox-settings input[name="session"] {
+  width: 9em;
+}
+
+.vevox-settings input[name="presenter"] {
+  width: min(28em, 60vw);
+}
+
+.vevox-settings-note {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 0.8em;
+  color: #4A4A4A;
+}
+
+.vevox-body {
+  flex: 1 1 auto;
+  display: flex;
+  min-height: 0;
+}
+
+/* joining instructions: big enough to read and scan from the back */
+.vevox-overlay .vevox-join {
+  flex: 0 0 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.6em;
+  padding: 16px;
+  border-right: 2px solid var(--vevox-tint);
+  text-align: center;
+  font-size: clamp(20px, 2.4vw, 34px);
+}
+
+.vevox-overlay .vevox-join-text p {
+  margin: 0;
+}
+
+.vevox-overlay .vevox-join-id {
+  font-size: 1.5em;
+}
+
+.vevox-overlay .vevox-qr {
+  width: 100%;
+  max-height: 55vh;
+}
+
+.vevox-poll {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.vevox-poll iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #FFFFFF;
+}
+
+/* narrow screens: joining instructions above the poll */
+@media (max-width: 700px) {
+  .vevox-body {
+    flex-direction: column;
+  }
+
+  .vevox-overlay .vevox-join {
+    flex: 0 0 auto;
+    flex-direction: row;
+    border-right: 0;
+    border-bottom: 2px solid var(--vevox-tint);
+  }
+
+  .vevox-overlay .vevox-qr {
+    width: 120px;
+  }
+}
+
+/* PDF: keep the joining instructions, drop the button and pop-up */
+html.print-pdf .vevox-open,
+html.print-pdf .vevox-overlay {
+  display: none !important;
+}
+
+@media print {
+  .vevox-open,
+  .vevox-overlay {
+    display: none !important;
+  }
+}

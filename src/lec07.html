@@ -85,9 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-062875f239ea1425fc94a2957f100e3c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-93aabb57e2814e4fd099a6e580d1b293.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-062875f239ea1425fc94a2957f100e3c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-a6f100b5d6e3d98030a58895675f20fd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-1c8eb764f676b4e07be2fd759a77d777.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-a6f100b5d6e3d98030a58895675f20fd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -501,7 +501,7 @@ A \vec{x} = \lambda \vec{x}.
 <div id="exm-projection" class="theorem example">
 <p><span class="theorem-title"><strong>Example 7.1</strong></span> Let <span class="math inline">\(P\)</span> be the 3x3 matrix that represents projection onto a plane <span class="math inline">\(\Pi =
 \{\vec{x} \in \mathbb{R}^3 : \vec{a} \cdot \vec{x} = 0\}\)</span> (i.e.&nbsp;<span class="math inline">\(P\)</span> maps any point in <span class="math inline">\(\mathbb{R}^3\)</span> to its nearest point in <span class="math inline">\(\Pi\)</span>). What are the eigenvalues and eigenvectors of <span class="math inline">\(P\)</span>?</p>
-<div id="f2bb61aa" class="cell" data-caption="Representation of planar projection operator $P$." data-execution_count="2">
+<div id="a39b58e8" class="cell" data-caption="Representation of planar projection operator $P$." data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -547,18 +547,15 @@ A = \begin{pmatrix}
 <p>Eigenvalues and eigenvectors can be used to encode information about a dataset into a lower dimensional representation. Take, for example, the health record of a patient which might contain many dimensions of data (e.g.&nbsp;height, weight, resting heart rate, different blood test results, diet and exercise information). This dataset will be hard to compute with because these columns are not independent (more on this later in the Statistics section of the module) and the large dimension makes computation expensive. One way to reduce the dimensionality is through projecting the dataset onto a small number of directions which come from the eigenvectors of a related matrix (the covariance or correlation matrix). This is called principal component analysis (PCA) and you will learn more about this in a project later in this module.</p>
 <p>We demonstrate briefly here how PCA can work for compressing an image. Consider this image of the Bragg building:</p>
 <p>Step 1: we load the image and do some normalisation:</p>
-<div id="27d9faf5" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a>image_url <span class="op">=</span> <span class="st">"https://thumb.wikimedia.org/wikipedia/commons/thumb/3/31/Sir_William_Henry_Bragg_Building_-_Main_entrance_-_July_2022.jpg/960px-Sir_William_Henry_Bragg_Building_-_Main_entrance_-_July_2022.jpg"</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-label="2"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-label="3"></a>response <span class="op">=</span> requests.get(image_url, headers<span class="op">=</span>{<span class="st">"User-Agent"</span>: <span class="st">"Mozilla/5.0"</span>})</span>
-<span id="cb1-4"><a href="#cb1-4" aria-label="4"></a>img <span class="op">=</span> Image.<span class="bu">open</span>(BytesIO(response.content)).convert(<span class="st">"L"</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-label="5"></a>img <span class="op">=</span> img.resize((<span class="dv">300</span>, <span class="dv">300</span>))  <span class="co"># reduce size</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-label="6"></a>img_array <span class="op">=</span> np.asarray(img, dtype<span class="op">=</span>np.float64) <span class="op">/</span> <span class="fl">255.0</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-label="7"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-label="8"></a>plt.title(<span class="st">"Original image"</span>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-label="9"></a>plt.imshow(img_array, cmap<span class="op">=</span><span class="st">"gray"</span>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-label="10"></a>plt.axis(<span class="st">"off"</span>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-label="11"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="6ae6d68f" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a>img <span class="op">=</span> Image.<span class="bu">open</span>(<span class="st">"images/bragg-building.jpg"</span>).convert(<span class="st">"L"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-label="2"></a>img <span class="op">=</span> img.resize((<span class="dv">300</span>, <span class="dv">300</span>))  <span class="co"># reduce size</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-label="3"></a>img_array <span class="op">=</span> np.asarray(img, dtype<span class="op">=</span>np.float64) <span class="op">/</span> <span class="fl">255.0</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-label="4"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-label="5"></a>plt.title(<span class="st">"Original image"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-label="6"></a>plt.imshow(img_array, cmap<span class="op">=</span><span class="st">"gray"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-label="7"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-label="8"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -568,13 +565,13 @@ A = \begin{pmatrix}
 </div>
 </div>
 <p>Step 2: we compute the covariance matrix</p>
-<div id="953fb9fb" class="cell" data-execution_count="4">
+<div id="3eeb1d25" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-label="1"></a>mean_vector <span class="op">=</span> np.mean(img_array, axis<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-label="2"></a>centered_data <span class="op">=</span> img_array <span class="op">-</span> mean_vector</span>
 <span id="cb2-3"><a href="#cb2-3" aria-label="3"></a>cov_matrix <span class="op">=</span> np.cov(centered_data, rowvar<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Step 3: compute eigenvalues and eigenvectors</p>
-<div id="e076ad2f" class="cell" data-execution_count="5">
+<div id="04326c2c" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a>eigenvalues, eigenvectors <span class="op">=</span> np.linalg.eig(cov_matrix)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-label="2"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-label="3"></a><span class="co"># Sort eigenvalues and eigenvectors in descending order</span></span>
@@ -583,7 +580,7 @@ A = \begin{pmatrix}
 <span id="cb3-6"><a href="#cb3-6" aria-label="6"></a>eigenvectors <span class="op">=</span> eigenvectors[:, sorted_indices]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Step 4: reconstruct the image using the top k components</p>
-<div id="c43ff3dc" class="cell" data-execution_count="6">
+<div id="fc130bd6" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a><span class="kw">def</span> reconstruct_image(data, eigenvectors, mean_vector, k):</span>
 <span id="cb4-2"><a href="#cb4-2" aria-label="2"></a>    <span class="co">"""</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-label="3"></a><span class="co">    Reconstructs the image using the top k eigenvectors.</span></span>
@@ -594,7 +591,7 @@ A = \begin{pmatrix}
 <span id="cb4-8"><a href="#cb4-8" aria-label="8"></a>    <span class="cf">return</span> reconstructed</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Step 5: display the results for different numbers of eigenvectors:</p>
-<div id="a76c11b8" class="cell" data-execution_count="7">
+<div id="a75ebaca" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-label="1"></a>k_values <span class="op">=</span> [<span class="dv">5</span>, <span class="dv">20</span>, <span class="dv">50</span>]</span>
 <span id="cb5-2"><a href="#cb5-2" aria-label="2"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-label="3"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">8</span>))</span>

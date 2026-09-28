@@ -6,7 +6,7 @@
 <script src="lec07_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="lec07_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="lec07_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="lec07_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="lec07_files/libs/quarto-html/quarto-syntax-highlighting-8aca0b0a8b84f7107b5bd209819888f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="lec07_files/libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
 <link href="lec07_files/libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.10.18">
@@ -37,10 +37,12 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="lec07_files/libs/revealjs/dist/theme/quarto-2740581606dc327e82f18f789b69d8a0.css">
+  <link rel="stylesheet" href="lec07_files/libs/revealjs/dist/theme/quarto-6bd527c3678a3b2648203ef07dcaa767.css">
   <link href="lec07_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="lec07_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="lec07_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="lec07_files/libs/revealjs/plugin/reveal-annotate/annotate.css" rel="stylesheet">
+  <link href="lec07_files/libs/revealjs/plugin/reveal-vevox/vevox.css" rel="stylesheet">
   <link href="lec07_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
     .reveal div.sourceCode {
@@ -143,7 +145,7 @@
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" class="quarto-title-block center">
+<section id="title-slide" data-background-color="#004C77" class="quarto-title-block center">
   <h1 class="title">COMP2870 Theoretical Foundations of Computer Science II</h1>
   <p class="subtitle">The QR algorithm</p>
 
@@ -162,7 +164,7 @@ Dr.&nbsp;Thomas Ranner (Tom)
 </div>
 
 </section>
-<section id="portfolio-updates" class="title-slide slide level1 center">
+<section id="portfolio-updates" class="title-slide slide level1 center" data-background-color="#782E57">
 <h1>Portfolio updates</h1>
 <table class="caption-top">
 <thead>
@@ -199,7 +201,7 @@ Dr.&nbsp;Thomas Ranner (Tom)
 </section>
 
 <section>
-<section id="eigenvectors-and-eigenvalues-practical-solutions" class="title-slide slide level1 center">
+<section id="eigenvectors-and-eigenvalues-practical-solutions" class="title-slide slide level1 center" data-background-color="#782E57">
 <h1>Eigenvectors and eigenvalues: practical solutions</h1>
 <div>
 <div id="pyodide-1" class="exercise-cell">
@@ -224,7 +226,7 @@ eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiaW5jbHVkZSI6ZmFs
 </div>
 <p>Chapter 8</p>
 </section>
-<section id="the-problem" class="title-slide slide level2 center">
+<section id="the-problem" class="title-slide slide level2 center" data-background-color="#782E57">
 <h2>The problem</h2>
 <p>Finding numbers <span class="math inline">\(\lambda\)</span> (eigenvalues) and vectors <span class="math inline">\(\vec{x}\)</span> (eigenvectors) which satisfy the equation: <span class="math display">\[\begin{equation}
 A \vec{x} = \lambda \vec{x}.
@@ -249,7 +251,7 @@ S_m = P_1 P_2 \cdots P_{m-1} P_m.
 \end{equation*}\]</span></p>
 </section>
 
-<section id="symmetric-matrices" class="title-slide slide level2 center">
+<section id="symmetric-matrices" class="title-slide slide level2 center" data-background-color="#782E57">
 <h2>Symmetric matrices</h2>
 <div id="thm-symmetric" class="theorem">
 <p><span class="theorem-title"><strong>Theorem 1</strong></span> Let <span class="math inline">\(A\)</span> be a symmetric matrix (<span class="math inline">\(A^T = A\)</span>) with real entries. Then <span class="math inline">\(A\)</span> has <span class="math inline">\(n\)</span> real eigenvalues (zero imaginary part) and any eigenvectors with distinct eigenvalues are orthogonal.</p>
@@ -416,7 +418,7 @@ R(\theta)^T R(\theta) &amp;=
       }</style></aside>
 </section>
 
-<section id="qr-algorithm" class="title-slide slide level2 center">
+<section id="qr-algorithm" class="title-slide slide level2 center" data-background-color="#782E57">
 <h2>QR algorithm</h2>
 <p>The QR algorithm is an iterative method for computing eigenvalues and eigenvectors.</p>
 <p>At each step a matrix is factored into a product in a similar fashion to LU factorisation.</p>
@@ -498,7 +500,7 @@ Q = Q^{(1)} Q^{(2)} \cdots Q^{(m)}.
 <div id="fig-projection-away" class="quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-float-fig">
 <div aria-describedby="fig-projection-away-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img data-src="lec07_files/figure-revealjs/fig-projection-away-output-1.png" width="487" height="470">
+<img data-src="lec07_files/figure-revealjs/fig-projection-away-output-1.png" width="744" height="688">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-projection-away-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Projection of <span class="math inline">\(\vec{a}\)</span> away from <span class="math inline">\(\vec{q}\)</span> onto <span class="math inline">\(\vec{u}\)</span>.
@@ -526,11 +528,11 @@ Figure&nbsp;1: Projection of <span class="math inline">\(\vec{a}\)</span> away f
 \vec{a}^{(2)} = \begin{pmatrix} 2 \\ -1 \\ 0 \end{pmatrix},
 \vec{a}^{(3)} = \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix}.
 \end{equation*}\]</span></p>
-<div id="b67fea66" class="cell" data-execution_count="3">
+<div id="050f0518" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lec07_files/figure-revealjs/cell-4-output-1.png" width="408" height="401"></p>
+<p><img data-src="lec07_files/figure-revealjs/cell-4-output-1.png" width="644" height="646"></p>
 </figure>
 </div>
 </div>
@@ -622,11 +624,11 @@ Figure&nbsp;1: Projection of <span class="math inline">\(\vec{a}\)</span> away f
 <section id="exercise" class="slide level3">
 <h3>Exercise</h3>
 <p>Verify the orthonormality conditions for <span class="math inline">\(\vec{q}^{(1)}, \vec{q}^{(2)}\)</span> and <span class="math inline">\(\vec{q}^{(3)}\)</span>.</p>
-<div id="d60aeaea" class="cell" data-execution_count="4">
+<div id="4b65c8c3" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lec07_files/figure-revealjs/cell-5-output-1.png" width="408" height="401"></p>
+<p><img data-src="lec07_files/figure-revealjs/cell-5-output-1.png" width="644" height="646"></p>
 </figure>
 </div>
 </div>
@@ -746,7 +748,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBtYXRyaXggd2l0aCBjb2x1
       }</style></aside>
 </section>
 
-<section id="finding-eigenvalues-and-eigenvectors" class="title-slide slide level2 center">
+<section id="finding-eigenvalues-and-eigenvectors" class="title-slide slide level2 center" data-background-color="#782E57">
 <h2>Finding eigenvalues and eigenvectors</h2>
 <div>
 <div id="pyodide-6" class="exercise-cell">
@@ -803,17 +805,17 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiQSA9IG5wLmFycmF5KFtbMy4w
       }</style></aside>
 </section>
 
-<section id="correctness-and-convergence" class="title-slide slide level2 center">
+<section id="correctness-and-convergence" class="title-slide slide level2 center" data-background-color="#782E57">
 <h2>Correctness and convergence</h2>
 <p>Let’s see what happens when we try this same approach for a bigger symmetric matrices. Here we have a test that samples ten different random matrices and computes the average number of iterations, average run time and maximum error in the eigenvalue equation.</p>
 </section>
 <section id="results" class="slide level3">
 <h3>Results</h3>
-<div id="9bf19407" class="cell" data-execution_count="7">
+<div id="3105428f" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lec07_files/figure-revealjs/cell-8-output-1.png" width="949" height="468"></p>
+<p><img data-src="lec07_files/figure-revealjs/cell-8-output-1.png" width="1527" height="688"></p>
 </figure>
 </div>
 </div>
@@ -865,6 +867,9 @@ W10=
   <script src="lec07_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
   <script src="lec07_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
   <script src="lec07_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="lec07_files/libs/revealjs/plugin/reveal-annotate/annotate.js"></script>
+  <script src="lec07_files/libs/revealjs/plugin/reveal-vevox/qrcode.js"></script>
+  <script src="lec07_files/libs/revealjs/plugin/reveal-vevox/vevox.js"></script>
   <script src="lec07_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
@@ -887,6 +892,8 @@ W10=
 'autoAnimateUnmatched': true,
 'jumpToSlide': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'annotate': {"gridSize":50,"gridColor":"rgba(26, 26, 26, 0.05)","gridBackground":"#FBF8F0","colors":["auto","#004C77","#793600","#00543D","#782E57"],"autoLight":"#1A1A1A","autoDark":"#FBF8F0","widths":[2,3.5,6],"highlighterColor":"#F5C400","highlighterWidth":22,"eraserRadius":6,"scribbleReversals":4,"scribbleRatio":3,"scribbleCoverage":0.6,"palmDelay":400,"mouse":false,"toolbarPosition":"top"},
+'vevox': {"session":"","presenter":"","presenterHome":"https://universityofleeds.vevox.com/"},
 'smaller': false,
  
         // Display controls in the bottom right corner
@@ -1057,7 +1064,7 @@ W10=
         },
 
         // reveal.js plugins
-        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealAnnotate, RevealVevox, QuartoSupport,
 
           RevealMath,
           RevealNotes,
@@ -1072,8 +1079,8 @@ W10=
     <script type="module">
     if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
     window._ojs.paths.runtimeToDoc = "../../..";
-    window._ojs.paths.runtimeToRoot = "../../../..";
-    window._ojs.paths.docToRoot = "..";
+    window._ojs.paths.runtimeToRoot = "../../..";
+    window._ojs.paths.docToRoot = "";
     window._ojs.selfContained = false;
     window._ojs.runtime.interpretFromScriptTags();
     </script>

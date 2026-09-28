@@ -1,0 +1,213 @@
+/* Pencil annotation layer and toolbar for reveal.js (see annotate.js) */
+
+.annotate-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 30;
+  pointer-events: none;
+}
+
+/* Writing slides: a light square grid over exactly the slide area (where ink
+   can go). The default 50px divides the 1050 x 700 slide, so the lines meet
+   every edge; the inset shadow draws the right and bottom edge lines. */
+.reveal .slides > .annotate-grid,
+html.print-pdf .reveal .backgrounds .slide-background.write .slide-background-content,
+html.print-pdf .reveal .backgrounds .slide-background.grid-slide .slide-background-content {
+  background-color: var(--annotate-grid-background, #FBF8F0);
+  background-image:
+    linear-gradient(var(--annotate-grid-color, rgba(26, 26, 26, 0.05)) 1px, transparent 1px),
+    linear-gradient(90deg, var(--annotate-grid-color, rgba(26, 26, 26, 0.05)) 1px, transparent 1px);
+  /* reveal defaults backgrounds to a single, non-repeating image */
+  background-size: var(--annotate-grid-size, 50px) var(--annotate-grid-size, 50px);
+  background-repeat: repeat;
+}
+
+/* the grid starts at the slide's top-left corner, under the slide content */
+.reveal .slides > .annotate-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-position: 0 0;
+  box-shadow: inset -1px -1px 0 var(--annotate-grid-color, rgba(26, 26, 26, 0.05));
+}
+
+.reveal .slides > .annotate-grid[hidden] {
+  display: none;
+}
+
+/* the PDF page is the slide, so the grid covers it */
+html.print-pdf .reveal .backgrounds .slide-background.write .slide-background-content,
+html.print-pdf .reveal .backgrounds .slide-background.grid-slide .slide-background-content {
+  background-position: 0 0;
+}
+
+/* non-Apple pens (after first use) and touch-draw mode: no browser panning,
+   zooming or selecting, so strokes aren't cancelled; reveal's swipes are JS */
+html.annotate-pen-device,
+html.annotate-pen-device body,
+html.annotate-touch-draw,
+html.annotate-touch-draw body {
+  touch-action: none;
+}
+
+/* no selection, callouts or magnifier while the pencil is down */
+html.annotate-drawing,
+html.annotate-drawing * {
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+}
+
+.annotate-toolbar {
+  --annotate-ink: #1A1A1A;
+  --annotate-bg: #FBF8F0;
+  --annotate-tint: #F0EBDD;
+  --annotate-accent: #004C77;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  max-width: calc(100vw - 32px);
+  padding: 4px 8px;
+  border: 2px solid var(--annotate-ink);
+  border-radius: 28px;
+  background: var(--annotate-bg);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+  font: 16px/1 "Atkinson Hyperlegible", system-ui, sans-serif;
+  color: var(--annotate-ink);
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.annotate-toolbar.annotate-top {
+  top: calc(env(safe-area-inset-top, 0px) + 6px);
+}
+
+.annotate-toolbar.annotate-bottom {
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 6px);
+}
+
+/* collapsed: only the toggle, tucked in the corner */
+.annotate-toolbar.annotate-collapsed {
+  left: auto;
+  right: calc(env(safe-area-inset-right, 0px) + 10px);
+  transform: none;
+  padding: 2px;
+}
+
+.annotate-toolbar.annotate-collapsed > :not(.annotate-toggle) {
+  display: none;
+}
+
+.annotate-toolbar button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 44px;
+  padding: 0 6px;
+  border: 2px solid transparent;
+  border-radius: 22px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.annotate-toolbar button svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.annotate-toolbar button:hover {
+  background: var(--annotate-tint);
+}
+
+.annotate-toolbar button:focus-visible {
+  outline: 3px solid var(--annotate-accent);
+  outline-offset: 1px;
+}
+
+.annotate-toolbar button[aria-pressed="true"] {
+  border-color: var(--annotate-ink);
+  background: var(--annotate-tint);
+}
+
+.annotate-toolbar button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.annotate-toolbar button[hidden] {
+  display: none;
+}
+
+/* touch-draw mode is on: flag it even when the toolbar is folded */
+.annotate-toolbar.annotate-touch-on .annotate-toggle {
+  border-color: #793600;
+}
+
+/* waiting for the second tap of a two-tap action */
+.annotate-toolbar button.annotate-confirm {
+  border-color: #793600;
+  background: #793600;
+  color: var(--annotate-bg);
+  padding: 0 12px;
+}
+
+.annotate-swatch {
+  display: block;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--annotate-ink);
+}
+
+.annotate-sep {
+  width: 2px;
+  height: 28px;
+  margin: 0 4px;
+  background: var(--annotate-tint);
+}
+
+.annotate-debug {
+  position: fixed;
+  left: 8px;
+  bottom: 8px;
+  z-index: 1000;
+  max-width: 360px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: rgba(26, 26, 26, 0.85);
+  color: #FBF8F0;
+  font: 13px/1.4 ui-monospace, Menlo, monospace;
+  white-space: pre-wrap;
+  pointer-events: none;
+}
+
+html.print-pdf .annotate-toolbar,
+html.print-pdf .annotate-canvas,
+html.print-pdf .annotate-debug {
+  display: none !important;
+}
+
+@media print {
+  .annotate-toolbar,
+  .annotate-debug {
+    display: none !important;
+  }
+}

@@ -6,7 +6,7 @@
 <script src="lec02_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="lec02_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="lec02_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="lec02_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="lec02_files/libs/quarto-html/quarto-syntax-highlighting-8aca0b0a8b84f7107b5bd209819888f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="lec02_files/libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
 <link href="lec02_files/libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.10.18">
@@ -37,10 +37,12 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="lec02_files/libs/revealjs/dist/theme/quarto-2740581606dc327e82f18f789b69d8a0.css">
+  <link rel="stylesheet" href="lec02_files/libs/revealjs/dist/theme/quarto-6bd527c3678a3b2648203ef07dcaa767.css">
   <link href="lec02_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="lec02_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="lec02_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="lec02_files/libs/revealjs/plugin/reveal-annotate/annotate.css" rel="stylesheet">
+  <link href="lec02_files/libs/revealjs/plugin/reveal-vevox/vevox.css" rel="stylesheet">
   <link href="lec02_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
     .reveal div.sourceCode {
@@ -143,7 +145,7 @@
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" class="quarto-title-block center">
+<section id="title-slide" data-background-color="#004C77" class="quarto-title-block center">
   <h1 class="title">COMP2870 Theoretical Foundations of Computer Science II</h1>
   <p class="subtitle">Introduction to systems of linear equations</p>
 
@@ -163,7 +165,7 @@ Dr.&nbsp;Thomas Ranner (Tom)
 
 </section>
 <section>
-<section id="introduction-to-systems-of-linear-equations" class="title-slide slide level1 center">
+<section id="introduction-to-systems-of-linear-equations" class="title-slide slide level1 center" data-background-color="#782E57">
 <h1>Introduction to systems of linear equations</h1>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
@@ -180,7 +182,7 @@ Dr.&nbsp;Thomas Ranner (Tom)
 </div>
 <p>Chapter 3</p>
 </section>
-<section id="definition-of-systems-of-linear-equations" class="title-slide slide level2 center">
+<section id="definition-of-systems-of-linear-equations" class="title-slide slide level2 center" data-background-color="#782E57">
 <h2>Definition of systems of linear equations</h2>
 <p>Given an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(A\)</span> and an <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\vec{b}\)</span>, find the <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\vec{x}\)</span> which satisfies: <span class="math display">\[\begin{equation}
 \label{eq:sle}
@@ -211,7 +213,7 @@ a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n &amp; = b_n.
 </ul>
 </section>
 
-<section id="can-we-do-it" class="title-slide slide level2 center">
+<section id="can-we-do-it" class="title-slide slide level2 center" data-background-color="#782E57">
 <h2>Can we do it?</h2>
 <p>Our first question might be: Is it possible to solve <span class="math inline">\(\eqref{eq:sle}\)</span>?</p>
 <p>We know a few simple cases where we can answer this question very quickly:</p>
@@ -237,18 +239,18 @@ O \vec{x} = \vec{0} \neq \vec{b} \quad \text{for any vector} \quad \vec{x}.
 </section>
 <section id="how-about-finding-the-inverse-of-a" class="slide level3">
 <h3>How about finding the inverse of <span class="math inline">\(A\)</span>?</h3>
-<div id="7442b7d2" class="cell" data-execution_count="3">
+<div id="e3d55372" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lec02_files/figure-revealjs/cell-4-output-1.png" width="822" height="431"></p>
+<p><img data-src="lec02_files/figure-revealjs/cell-4-output-1.png" width="1369" height="715"></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
 
-<section id="key-definitions" class="title-slide slide level2 center">
+<section id="key-definitions" class="title-slide slide level2 center" data-background-color="#782E57">
 <h2>Key definitions</h2>
 
 </section>
@@ -365,6 +367,9 @@ W10=
   <script src="lec02_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
   <script src="lec02_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
   <script src="lec02_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="lec02_files/libs/revealjs/plugin/reveal-annotate/annotate.js"></script>
+  <script src="lec02_files/libs/revealjs/plugin/reveal-vevox/qrcode.js"></script>
+  <script src="lec02_files/libs/revealjs/plugin/reveal-vevox/vevox.js"></script>
   <script src="lec02_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
@@ -387,6 +392,8 @@ W10=
 'autoAnimateUnmatched': true,
 'jumpToSlide': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'annotate': {"gridSize":50,"gridColor":"rgba(26, 26, 26, 0.05)","gridBackground":"#FBF8F0","colors":["auto","#004C77","#793600","#00543D","#782E57"],"autoLight":"#1A1A1A","autoDark":"#FBF8F0","widths":[2,3.5,6],"highlighterColor":"#F5C400","highlighterWidth":22,"eraserRadius":6,"scribbleReversals":4,"scribbleRatio":3,"scribbleCoverage":0.6,"palmDelay":400,"mouse":false,"toolbarPosition":"top"},
+'vevox': {"session":"","presenter":"","presenterHome":"https://universityofleeds.vevox.com/"},
 'smaller': false,
  
         // Display controls in the bottom right corner
@@ -557,7 +564,7 @@ W10=
         },
 
         // reveal.js plugins
-        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealAnnotate, RevealVevox, QuartoSupport,
 
           RevealMath,
           RevealNotes,
@@ -572,8 +579,8 @@ W10=
     <script type="module">
     if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
     window._ojs.paths.runtimeToDoc = "../../..";
-    window._ojs.paths.runtimeToRoot = "../../../..";
-    window._ojs.paths.docToRoot = "..";
+    window._ojs.paths.runtimeToRoot = "../../..";
+    window._ojs.paths.docToRoot = "";
     window._ojs.selfContained = false;
     window._ojs.runtime.interpretFromScriptTags();
     </script>

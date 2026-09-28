@@ -6,7 +6,7 @@
 <script src="lec06_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="lec06_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="lec06_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="lec06_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="lec06_files/libs/quarto-html/quarto-syntax-highlighting-8aca0b0a8b84f7107b5bd209819888f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="lec06_files/libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
 <link href="lec06_files/libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.10.18">
@@ -37,10 +37,12 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="lec06_files/libs/revealjs/dist/theme/quarto-2740581606dc327e82f18f789b69d8a0.css">
+  <link rel="stylesheet" href="lec06_files/libs/revealjs/dist/theme/quarto-6bd527c3678a3b2648203ef07dcaa767.css">
   <link href="lec06_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="lec06_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="lec06_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="lec06_files/libs/revealjs/plugin/reveal-annotate/annotate.css" rel="stylesheet">
+  <link href="lec06_files/libs/revealjs/plugin/reveal-vevox/vevox.css" rel="stylesheet">
   <link href="lec06_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
     .reveal div.sourceCode {
@@ -143,7 +145,7 @@
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" class="quarto-title-block center">
+<section id="title-slide" data-background-color="#004C77" class="quarto-title-block center">
   <h1 class="title">COMP2870 Theoretical Foundations of Computer Science II</h1>
   <p class="subtitle">Complex matrices and vectors</p>
 
@@ -162,7 +164,7 @@ Dr.&nbsp;Thomas Ranner (Tom)
 </div>
 
 </section>
-<section id="complex-matrices-and-vectors" class="title-slide slide level2 center">
+<section id="complex-matrices-and-vectors" class="title-slide slide level2 center" data-background-color="#782E57">
 <h2>Complex matrices and vectors</h2>
 <blockquote>
 <p>Today, building theory for our algorithm for solving eigenvalue problems</p>
@@ -171,7 +173,7 @@ Dr.&nbsp;Thomas Ranner (Tom)
 </section>
 
 <section>
-<section id="complex-vectors-and-matrices" class="title-slide slide level2 center">
+<section id="complex-vectors-and-matrices" class="title-slide slide level2 center" data-background-color="#782E57">
 <h2>Complex vectors and matrices</h2>
 <div id="def-complex-vectors-matrices" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 1</strong></span> &nbsp;</p>
@@ -337,7 +339,7 @@ A \vec{x} \cdot \vec{y}
 \end{equation*}\]</span></p>
 </section></section>
 <section>
-<section id="back-to-the-eigenvalue-problem" class="title-slide slide level2 center">
+<section id="back-to-the-eigenvalue-problem" class="title-slide slide level2 center" data-background-color="#782E57">
 <h2>Back to the eigenvalue problem</h2>
 <p>Finding numbers <span class="math inline">\(\lambda\)</span> (eigenvalues) and vectors <span class="math inline">\(\vec{x}\)</span> (eigenvectors) which satisfy the equation: <span class="math display">\[\begin{equation}
 A \vec{x} = \lambda \vec{x}.
@@ -535,7 +537,7 @@ A S R^{-1} = S R^{-1} B.
 \end{align*}\]</span> If <span class="math inline">\(S\)</span> is also invertible, then <span class="math inline">\(P = S R^{-1}\)</span> is also invertible and <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are similar.</p>
 </section></section>
 <section>
-<section id="symmetric-matrices" class="title-slide slide level2 center">
+<section id="symmetric-matrices" class="title-slide slide level2 center" data-background-color="#782E57">
 <h2>Symmetric matrices</h2>
 <div id="thm-symmetric" class="theorem">
 <p><span class="theorem-title"><strong>Theorem 2</strong></span> Let <span class="math inline">\(A\)</span> be a symmetric matrix with real entries. Then <span class="math inline">\(A\)</span> has <span class="math inline">\(n\)</span> real eigenvalues and any distinct eigenvalues are orthogonal.</p>
@@ -614,7 +616,7 @@ A S R^{-1} = S R^{-1} B.
       }</style></aside>
 </section></section>
 <section>
-<section id="summary-and-whats-next" class="title-slide slide level2 center">
+<section id="summary-and-whats-next" class="title-slide slide level2 center" data-background-color="#782E57">
 <h2>Summary and what’s next</h2>
 <ul>
 <li><p>When working with eigenvalue problems it’s important to work with complex matrices and vectors.</p></li>
@@ -661,6 +663,9 @@ W10=
   <script src="lec06_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
   <script src="lec06_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
   <script src="lec06_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="lec06_files/libs/revealjs/plugin/reveal-annotate/annotate.js"></script>
+  <script src="lec06_files/libs/revealjs/plugin/reveal-vevox/qrcode.js"></script>
+  <script src="lec06_files/libs/revealjs/plugin/reveal-vevox/vevox.js"></script>
   <script src="lec06_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
@@ -683,6 +688,8 @@ W10=
 'autoAnimateUnmatched': true,
 'jumpToSlide': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'annotate': {"gridSize":50,"gridColor":"rgba(26, 26, 26, 0.05)","gridBackground":"#FBF8F0","colors":["auto","#004C77","#793600","#00543D","#782E57"],"autoLight":"#1A1A1A","autoDark":"#FBF8F0","widths":[2,3.5,6],"highlighterColor":"#F5C400","highlighterWidth":22,"eraserRadius":6,"scribbleReversals":4,"scribbleRatio":3,"scribbleCoverage":0.6,"palmDelay":400,"mouse":false,"toolbarPosition":"top"},
+'vevox': {"session":"","presenter":"","presenterHome":"https://universityofleeds.vevox.com/"},
 'smaller': false,
  
         // Display controls in the bottom right corner
@@ -853,7 +860,7 @@ W10=
         },
 
         // reveal.js plugins
-        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealAnnotate, RevealVevox, QuartoSupport,
 
           RevealMath,
           RevealNotes,
@@ -868,8 +875,8 @@ W10=
     <script type="module">
     if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
     window._ojs.paths.runtimeToDoc = "../../..";
-    window._ojs.paths.runtimeToRoot = "../../../..";
-    window._ojs.paths.docToRoot = "..";
+    window._ojs.paths.runtimeToRoot = "../../..";
+    window._ojs.paths.docToRoot = "";
     window._ojs.selfContained = false;
     window._ojs.runtime.interpretFromScriptTags();
     </script>
