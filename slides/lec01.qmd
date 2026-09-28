@@ -6,7 +6,7 @@ format: live-revealjs
 
 # Vevox session for this lecture (can also be set on the iPad in the poll pop-up)
 vevox:
-  session: "180-532-136"
+  session: ""
   presenter: "https://universityofleeds.vevox.com/#/present/967253"
 ---
 hi
@@ -28,32 +28,31 @@ plt.style.use("theme/comp2870.mplstyle")
 
 > This part of the module will deal with numerical algorithms that involve matrices. The study of this type of problem is called *(numerical) linear algebra*.
 
+::: {.notes}
 We will approach these problems using a combination of theoretical ideas and practical
 solutions, thinking through the lens of real-world applications.
 
 As a consequence, to succeed in linear algebra, you will do some programming (using
 Python) and some pen-and-paper theoretical work, too.
+:::
 
 ### Support for this part of the module
 
 - Weekly labs (1 hour): Mondays or Tuesdays
 - Tutorials (1 hour): Mondays or Tuesday
-- Maths lunch hour: Wednesday 1-2pm, Bragg GR.25
+- Maths lunch hour: Mondays 1-2pm and Wednesday 1-2pm, Bragg GR.18
 
-Later this term, week 11, you will complete a project based on the things you've
+Later this term, week 10, you will complete a project based on the things you've
 learnt from this section of the module.
 
-### Learning outcomes
+### Key topics
 
-Candidates should be able to:
-
-- explain practical challenges working with floating-point numbers;
-- define and identify what it means for a set of vectors to be a basis, spanning
-  set or linearly independent;
-- apply direct and iterative solvers to solve systems of linear equations;
-  implement methods using floating point numbers and investigate computational
-  cost using computer experiments;
-- apply and understand algorithms to compute eigenvectors and eigenvalues of large matrices.
+1. Floating point numbers
+2. Direct methods for systems of linear equations
+3. Iterative methods for systems of linear equations
+4. Complex numbers
+5. Eigenvalues
+6. The QR algorithm
 
 ### Textbooks and other resources {.smaller}
 
@@ -86,14 +85,14 @@ Candidates should be able to:
 I expect minor adjustments to be made to both throughout the progress of
 delivering the materials.
 
-You can always find the latest versions at:
+You can always find the latest versions in minerva:
 
 [HTML version](https://comp2870-2627.github.io/linear-algebra-notes/){.icon-link .icon-html title="HTML version"}
 [PDF version](https://comp2870-2627.github.io/linear-algebra-notes/COMP2870-Theoretical-Foundations--Linear-Algebra.pdf){.icon-link .icon-pdf title="PDF version"}
 
 Please either email me ([T.Ranner@leeds.ac.uk](mailto:T.Ranner@leeds.ac.uk)) or
 use the [github
-repository](https://github.com/COMP2870-2526/linear-algebra-notes) to report any
+repository](https://github.com/COMP2870-2627/linear-algebra-notes) to report any
 corrections.
 
 ### Programming
@@ -107,6 +106,15 @@ to revise some of your notes from last year on these topics.
 <div>
 We will also be working with *floating-point numbers*. You will have met the definition of a floating point number last year (COMP1850) - we will see that doing maths with floating-point numbers has real consequences (see first lab!)
 </div>
+:::
+
+## Floating point numbers
+
+::: {.callout-tip}
+## Module learning objective
+
+- Explain practical challenges working with floating-point numbers;
+- Recognise situations where care is needed when working with floating-point numbers.
 :::
 
 ### Sample problems working with floating point numbers i
@@ -129,9 +137,13 @@ We will also be working with *floating-point numbers*. You will have met the def
 If we add something positive to one do we always get an answer greater than one?
 ``` {pyodide}
 value = 1.0
+iter = 0
 while 1.0 + value > 1.0:
     value = value / 2
-    print(f"{value:.16e} {1.0+value:.16f}")
+    iter += 1
+    print(f"{iter:2d} {value:.16e} {1.0+value:.16f}")
+
+print(f"stopped after {iter} iterations")
 ```
 
 ### Sample problems working with floating point numbers iii
@@ -170,12 +182,15 @@ then smaller h
 
 ### Here's the video
 
+<iframe src="https://clips.twitch.tv/embed?clip=FunAmazingWrenFrankerZ&parent=comp2870-2627.github.io"
+frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="620"></iframe>
 <a href="https://www.twitch.tv/roborace/clip/FunAmazingWrenFrankerZ">
-<iframe src="https://clips.twitch.tv/embed?clip=FunAmazingWrenFrankerZ&parent=www.example.com" frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="620"></iframe>
 <p>Video</p>
 </a>
 
 ## Reminder of matrices and vectors
+
+> - Recall basic definitions of matrices and vectors
 
 ### Matrices {.write}
 
@@ -201,7 +216,6 @@ C = \begin{pmatrix} 4 & 1 & 8 & -1 \\
 \end{align*}
 
 ::: {#exr-matrix}
-
 1. Compute, if defined, $A + B$, $B + C$.
 2. Compute, if defined, $A B$, $B A$, $B C$ (here, by writing matrices next to
 each other we mean the matrix product).
@@ -281,6 +295,11 @@ $\vec{b}$, $\vec{a} \otimes \vec{b}$ is an $n \times n$ with entries:
 :::
 
 ## Systems of linear equations
+
+> - Define key terms associated with systems of linear equations;
+> - Understand why a computer scientist should know about systems of linear equations.
+
+### The problem
 
 Given an $n \times n$ matrix $A$ and an $n$-vector $\vec{b}$, find the
 $n$-vector $\vec{x}$ which satisfies:
