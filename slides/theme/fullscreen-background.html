@@ -1,0 +1,32 @@
+<script>
+// On an iPad in full screen the slide is letterboxed and the bars show the
+// page background (cream), which stands out on the coloured title/section
+// slides. Make the page background follow the current slide's background,
+// and tell Safari the matching tint and light/dark scheme so the text in its
+// tab and status bars flips to stay readable.
+document.addEventListener('DOMContentLoaded', () => {
+  let themeColor = document.querySelector('meta[name="theme-color"]');
+  if (!themeColor) {
+    themeColor = document.createElement('meta');
+    themeColor.name = 'theme-color';
+    document.head.appendChild(themeColor);
+  }
+
+  const sync = () => {
+    const slide = Reveal.getCurrentSlide();
+    const bg = Reveal.getSlideBackground(slide);
+    const color = bg && getComputedStyle(bg).backgroundColor;
+    const value = color && color !== 'rgba(0, 0, 0, 0)' ? color : '';
+    document.documentElement.style.backgroundColor = value;
+    document.body.style.backgroundColor = value;
+
+    // reveal marks slides whose background is dark with this class
+    const dark = slide.classList.contains('has-dark-background');
+    document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+    themeColor.content = value || getComputedStyle(document.body).backgroundColor;
+  };
+  Reveal.on('ready', sync);
+  Reveal.on('slidechanged', sync);
+  if (Reveal.isReady()) sync();
+});
+</script>

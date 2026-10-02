@@ -9,6 +9,8 @@ author:
 code-line-numbers: true
 html-math-method: mathjax
 include-in-header: ../mathjax.html
+# keeps the letterbox bars (e.g. iPad full screen) the colour of the slide
+include-after-body: theme/fullscreen-background.html
 
 execute:
   freeze: auto
