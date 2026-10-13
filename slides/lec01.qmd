@@ -97,16 +97,13 @@ corrections.
 
 ### Programming
 
-::: {.incremental}
-<div>
 We will make extensive use of [`Python`](https://www.python.org/) and
 [`numpy`](https://numpy.org/) during this section of the module. It may help you
 to revise some of your notes from last year on these topics.
-</div>
-<div>
-We will also be working with *floating-point numbers*. You will have met the definition of a floating point number last year (COMP1850) - we will see that doing maths with floating-point numbers has real consequences (see first lab!)
-</div>
-:::
+
+. . .
+
+We will also be working with *floating-point numbers*. You will have met the definition of a floating point number last year (COMP1850) - we will see that doing maths with floating-point numbers has real consequences (see first lab and the next few slides!)
 
 ## Floating point numbers
 
@@ -190,7 +187,7 @@ frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="620"><
 
 ## Reminder of matrices and vectors
 
-> - Recall basic definitions of matrices and vectors
+> Recall basic definitions of matrices and vectors
 
 ### Matrices {.write}
 
@@ -224,8 +221,6 @@ each other we mean the matrix product).
 :::
 
 ### Quick question {.vevox vevox-label="Matrix sizes"}
-
-Which of the sums and products of $A$, $B$ and $C$ are defined? Vote on Vevox.
 
 ### Vectors {.write}
 
@@ -368,7 +363,11 @@ p = np.pi / 4
 pts = (
     [np.array([0.0, 0.0]), np.array([0.5, 0.0])]
     + [
-        c + R * np.array([np.cos(n * d + p), np.sin(n * d + p)])
+        c
+        + R
+        * np.array(
+            [np.cos(n * d + p), np.sin(n * d + p)]
+        )
         for n in range(-3, 4)
     ]
     + [np.array([0.0, 0.5])]
@@ -442,7 +441,11 @@ edges = [
 fig, axs = plt.subplots(1, 2)
 
 
-axs[0].fill([pt[0] for pt in pts], [pt[1] for pt in pts], edgecolor="black")
+axs[0].fill(
+    [pt[0] for pt in pts],
+    [pt[1] for pt in pts],
+    edgecolor="black",
+)
 
 for pt, t in zip(pts, temperatures, strict=False):
     axs[0].plot(pt[0], pt[1], "ko")
@@ -452,7 +455,10 @@ for pt, t in zip(pts, temperatures, strict=False):
         pt[1] + offset[1],
         t,
         ha="center",
-        bbox={"facecolor": "white", "boxstyle": "round,pad=0.2"},
+        bbox={
+            "facecolor": "white",
+            "boxstyle": "round,pad=0.2",
+        },
     )
 
 for pt, t in zip(pts, temperatures, strict=False):
@@ -463,7 +469,10 @@ for pt, t in zip(pts, temperatures, strict=False):
         pt[1] + offset[1],
         t,
         ha="center",
-        bbox={"facecolor": "white", "boxstyle": "round,pad=0.2"},
+        bbox={
+            "facecolor": "white",
+            "boxstyle": "round,pad=0.2",
+        },
     )
 
 for j, pt in enumerate(interior_pts):
@@ -473,14 +482,19 @@ for j, pt in enumerate(interior_pts):
         pt[1] + 0.06,
         f"$x_{{{j + 1}}}$",
         ha="center",
-        bbox={"facecolor": "white", "boxstyle": "round,pad=0.2"},
+        bbox={
+            "facecolor": "white",
+            "boxstyle": "round,pad=0.2",
+        },
     )
 
 all_pts = pts + interior_pts
 
 for e in edges:
     pt_A, pt_B = all_pts[e[0]], all_pts[e[1]]
-    axs[1].plot([pt_A[0], pt_B[0]], [pt_A[1], pt_B[1]], "k")
+    axs[1].plot(
+        [pt_A[0], pt_B[0]], [pt_A[1], pt_B[1]], "k"
+    )
 
 for ax in axs:
     ax.set_axis_off()
@@ -542,27 +556,95 @@ pts = np.array(
 )
 
 arrows = [  # x arrows
-    [np.array([2 * dx, 2 * dy]), np.array([-dx, 0.0]), "$x_1$"],
-    [np.array([dx, 2 * dy]), np.array([-dx, 0.0]), "$x_2$"],
-    [np.array([2 * dx, 2 * dy]), np.array([0.0, -dy]), "$x_3$"],
-    [np.array([0.0, 2 * dy]), np.array([0.0, -dy]), "$x_4$"],
+    [
+        np.array([2 * dx, 2 * dy]),
+        np.array([-dx, 0.0]),
+        "$x_1$",
+    ],
+    [
+        np.array([dx, 2 * dy]),
+        np.array([-dx, 0.0]),
+        "$x_2$",
+    ],
+    [
+        np.array([2 * dx, 2 * dy]),
+        np.array([0.0, -dy]),
+        "$x_3$",
+    ],
+    [
+        np.array([0.0, 2 * dy]),
+        np.array([0.0, -dy]),
+        "$x_4$",
+    ],
     [np.array([dx, dy]), np.array([-dx, 0.0]), "$x_5$"],
-    [np.array([2 * dx, dy]), np.array([0.0, -dy]), "$x_6$"],
+    [
+        np.array([2 * dx, dy]),
+        np.array([0.0, -dy]),
+        "$x_6$",
+    ],
     [np.array([dx, dy]), np.array([0.0, -dy]), "$x_7$"],
-    [np.array([2 * dx, 0.0]), np.array([-dx, 0.0]), "$x_8$"],
+    [
+        np.array([2 * dx, 0.0]),
+        np.array([-dx, 0.0]),
+        "$x_8$",
+    ],
     # y arrows
     [np.array([dx, 0]), np.array([0.0, -dy]), "$y_1$"],
-    [np.array([2 * dx, 0]), np.array([0.0, -dy]), "$y_2$"],
-    [np.array([2 * dx + dx, 0]), np.array([-dx, 0.0]), "$y_3$"],
-    [np.array([2 * dx + dx, dy]), np.array([-dx, 0.0]), "$y_4$"],
-    [np.array([2 * dx + dx, 2 * dy + dy]), np.array([-dx, -dy]), "$y_5$"],
-    [np.array([dx, 2 * dy + dy]), np.array([0.0, -dy]), "$y_6$"],
-    [np.array([0.0, 2 * dy + dy]), np.array([0.0, -dy]), "$y_7$"],
-    [np.array([0.0, 2 * dy]), np.array([-dx, 0.0]), "$y_8$"],
-    [np.array([0.0, dy]), np.array([-dx, 0.0]), "$y_9$"],
-    [np.array([dx, dy]), np.array([-dx, -dy]), "$y_{10}$"],
-    [np.array([2 * dx, dy]), np.array([-dx, 0.0]), "$y_{11}$"],
-    [np.array([dx, 2 * dy]), np.array([0.0, -dy]), "$y_{12}$"],
+    [
+        np.array([2 * dx, 0]),
+        np.array([0.0, -dy]),
+        "$y_2$",
+    ],
+    [
+        np.array([2 * dx + dx, 0]),
+        np.array([-dx, 0.0]),
+        "$y_3$",
+    ],
+    [
+        np.array([2 * dx + dx, dy]),
+        np.array([-dx, 0.0]),
+        "$y_4$",
+    ],
+    [
+        np.array([2 * dx + dx, 2 * dy + dy]),
+        np.array([-dx, -dy]),
+        "$y_5$",
+    ],
+    [
+        np.array([dx, 2 * dy + dy]),
+        np.array([0.0, -dy]),
+        "$y_6$",
+    ],
+    [
+        np.array([0.0, 2 * dy + dy]),
+        np.array([0.0, -dy]),
+        "$y_7$",
+    ],
+    [
+        np.array([0.0, 2 * dy]),
+        np.array([-dx, 0.0]),
+        "$y_8$",
+    ],
+    [
+        np.array([0.0, dy]),
+        np.array([-dx, 0.0]),
+        "$y_9$",
+    ],
+    [
+        np.array([dx, dy]),
+        np.array([-dx, -dy]),
+        "$y_{10}$",
+    ],
+    [
+        np.array([2 * dx, dy]),
+        np.array([-dx, 0.0]),
+        "$y_{11}$",
+    ],
+    [
+        np.array([dx, 2 * dy]),
+        np.array([0.0, -dy]),
+        "$y_{12}$",
+    ],
 ]
 
 for pt in pts:
@@ -597,7 +679,10 @@ for arrow in arrows:
         label,
         ha="center",
         va="center",
-        bbox={"facecolor": "white", "boxstyle": "round,pad=0.2"},
+        bbox={
+            "facecolor": "white",
+            "boxstyle": "round,pad=0.2",
+        },
     )
 
 ax = plt.gca()

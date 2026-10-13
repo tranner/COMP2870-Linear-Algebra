@@ -28,7 +28,10 @@ section-background-color: "#782E57"
 filters:
   - theme/section-backgrounds.lua
 slide-number: true
-preview-links: auto
+# links open in a new tab rather than reveal's iframe overlay, which most
+# sites refuse to load in
+preview-links: false
+link-external-newwindow: true
 
 # Apple Pencil annotation (_extensions/annotate): `{.write}` on a slide heading
 # gives it a faint grid; the pen button in the corner opens the tools. Defaults are in the extension's

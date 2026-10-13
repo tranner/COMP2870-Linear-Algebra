@@ -7,11 +7,13 @@ format: live-revealjs
 
 ## Complex matrices and vectors
 
-> Today, building theory for our algorithm for solving eigenvalue problems
+::: {.callout-tip}
+## Module learning objective
 
-Online notes: 6.6, 7.3, 7.4
+- Manipulate complex vectors and matrices including computing Hermitian products, conjugate transposes, and Hermitian matrices.
+:::
 
-## Complex vectors and matrices
+### Complex vectors and matrices
 
 ::: {#def-complex-vectors-matrices}
 - A complex matrix is a matrix whose entries are complex numbers.
@@ -40,7 +42,7 @@ $\vec{a}$ and the complex conjugate of $\vec{b}$.
 of $\vec{a}$ and $\vec{b}$ is equal to the scalar product of $\vec{a}$ and
 $\vec{b}$.
 
-### Example
+### Example {.small .write}
 
 Find the Hermitian product of
 $\vec{a} = (1 + 2i, 2 + i, 3 - 4i)^T$ and
@@ -172,6 +174,12 @@ Repeating the above calculations, we can see that if $A$ is Hermitian then
 \end{equation*}
 
 ## Back to the eigenvalue problem
+
+::: {.callout-tip}
+## Module learning objective
+
+- Explain how similarity transformations preserve eigenvalues and motivate practical algorithms for larger matrices.
+:::
 
 Finding numbers $\lambda$ (eigenvalues) and vectors $\vec{x}$ (eigenvectors)
 which satisfy the equation:
@@ -382,6 +390,14 @@ are similar.
 
 ## Symmetric matrices
 
+::: {.callout-tip}
+## Module learning objective
+
+- Recognise matrices with favourable eigenvalue structure, such as triangular and **symmetric** matrices.
+:::
+
+---
+
 ::: {#thm-symmetric}
 Let $A$ be a symmetric matrix with real entries. Then $A$ has $n$ real
 eigenvalues and any distinct eigenvalues are orthogonal.
@@ -437,11 +453,11 @@ This implies that if $\lambda$ and $\mu$ are distinct, then $\langle \vec{x},
 \vec{y} \rangle = 0$.
 :::
 
-### Symmetric matrices and bases
+### Symmetric matrices and coordinate systems
 
 ::: {#cor-evector-basis}
 Let $A$ be a symmetric $n \times n$ matrix with real entries and $n$ distinct
-eigenvectors. Then the eigenvectors of $A$ form a basis of $\mathbb{R}^n$.
+eigenvectors. Then the eigenvectors of $A$ form a coordinate system of $\mathbb{R}^n$.
 :::
 
 ::: {.notes}

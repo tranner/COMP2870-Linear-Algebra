@@ -15,9 +15,9 @@ format: live-revealjs
 ::: {.callout-tip}
 ## Module learning objective
 
-Apply direct and iterative solvers to solve systems
-of linear equations; implement methods using floating point numbers and
-investigate computational cost using computer experiments.
+- Derive and apply Jacobi and Gauss-Seidel iterative methods from a matrix splitting of a linear system;
+- Implement iterative solvers for dense and sparse matrices and estimate their computational complexity;
+- Evaluate convergence behaviour and justify the choice of stopping criteria for practical computations.
 :::
 
 Chapter 5
@@ -64,11 +64,15 @@ def system_size(A, b):
 
     # Validate that A is a 2D square matrix
     if A.ndim != 2:
-        raise ValueError(f"Matrix A must be 2D, but got {A.ndim}D array")
+        raise ValueError(
+            f"Matrix A must be 2D, but got {A.ndim}D array"
+        )
 
     n, m = A.shape
     if n != m:
-        raise ValueError(f"Matrix A must be square, but got A.shape={A.shape}")
+        raise ValueError(
+            f"Matrix A must be square, but got A.shape={A.shape}"
+        )
 
     if b.shape[0] != n:
         raise ValueError(
@@ -114,7 +118,9 @@ def print_array(array, array_name=None, end=None):
 
     # determine precision
     precision = 1
-    while not np.allclose(array, np.round(array, precision)):
+    while not np.allclose(
+        array, np.round(array, precision)
+    ):
         precision = precision + 1
         if precision == 16:
             break
@@ -126,9 +132,16 @@ def print_array(array, array_name=None, end=None):
         if i == 0:
             print(f"{array_name} = [ ", end="")
         else:
-            print(" " * len(array_name) + "   [ ", end="")
+            print(
+                " " * len(array_name) + "   [ ", end=""
+            )
 
-        print(", ".join([format_str.format(v) for v in array[i]]), end=" ]")
+        print(
+            ", ".join(
+                [format_str.format(v) for v in array[i]]
+            ),
+            end=" ]",
+        )
         print(end=end)
 
 
@@ -181,7 +194,9 @@ def print_array(array, array_name=None, end=None):
 
     # determine precision
     precision = 1
-    while not np.allclose(array, np.round(array, precision)):
+    while not np.allclose(
+        array, np.round(array, precision)
+    ):
         precision = precision + 1
         if precision == 16:
             break
@@ -193,9 +208,16 @@ def print_array(array, array_name=None, end=None):
         if i == 0:
             print(f"{array_name} = [ ", end="")
         else:
-            print(" " * len(array_name) + "   [ ", end="")
+            print(
+                " " * len(array_name) + "   [ ", end=""
+            )
 
-        print(", ".join([format_str.format(v) for v in array[i]]), end=" ]")
+        print(
+            ", ".join(
+                [format_str.format(v) for v in array[i]]
+            ),
+            end=" ]",
+        )
         print(end=end)
 
 
@@ -251,32 +273,34 @@ def system_size_sparse(A_real, I_row, I_col, b):
 
 ```
 
-## Iterative methods
-
-In the previous section we looked at what are known as *direct* methods for
-solving systems of linear equations. They are guaranteed to solve with a fixed
-amount of work (we can even prove this in exact arithmetic!), but this fixed
-amount of work may be **very** large.
-
-For a general $n \times n$ system of linear equations $A \vec{x} = \vec{b}$, the
-computation expense of all direct methods if $O(n^3)$. The amount of storage
-required for these approaches is $O(n^2)$ which is dominated by the cost of
-storing the matrix $A$. As $n$ becomes larger the storage and computation work
-required limit the practicality of direct approaches.
-
 ### Iterative methods
+
+|          | Direct methods                         |
+|----------|----------------------------------------|
+| Examples | Gaussian elimination, LU factorisation |
+| Cost     | $O(n^3)$                               |
+| Storage  | $O(n^2)$ (storing the matrix)          |
+
+. . .
 
 As an alternative, we will propose some **iterative methods**.
 
-Iterative methods produce a sequence $(\vec{x}^{(k)})$ of approximations to the
-solution of the linear system of equations $A \vec{x} = \vec{b}$.
+Finds a sequence $\vec{x}^{(k)}$ with $\vec{x}^{(k)} \to \vec{x}^*$ for $A \vec{x}^* = \vec{b}$.
 
-The iteration is defined recursively and is typically of the form:
+The iteration is defined recursively:
 $$
-\vec{x}^{(k+1)} = \vec{F}(\vec{x}^{(k)}),
+\vec{x}^{(k+1)} = \vec{F}(\vec{x}^{(k)}).
 $$
-where $\vec{x}^{(k)}$ is now a vector of values and $\vec{F}$ is some vector
-function
+
+::: {.notes}
+::: {#rem-iteration-notation}
+We use a value in brackets in the superscript to denote the iteration number to
+avoid confusion between the iteration number and the component of the vector:
+$$
+\vec{x}^{(k)} = (\vec{x}^{(k)}_1, \vec{x}^{(k)}_2, \ldots, \vec{x}^{(k)}_n).
+$$
+:::
+:::
 
 ### Iterative method choices
 
@@ -286,14 +310,6 @@ We will need to define
 - the function $\vec{F}$
 - we still need to decide when we need to stop!
 
-
-::: {#rem-iteration-notation}
-We use a value in brackets in the superscript to denote the iteration number to
-avoid confusion between the iteration number and the component of the vector:
-$$
-\vec{x}^{(k)} = (\vec{x}^{(k)}_1, \vec{x}^{(k)}_2, \ldots, \vec{x}^{(k)}_n).
-$$
-:::
 
 ### Some terrible examples
 
@@ -322,10 +338,9 @@ well!
 
    $$
    \begin{aligned}
-   A \vec{x}^{(k+1)} & = A \vec{x}^{(k)} + A A^{-1} (\vec{b} - A \vec{x}^{(k)})
+   A \vec{x}^{(1)} & = A \vec{x}^{(0)} + A A^{-1} (\vec{b} - A \vec{x}^{(0)})
    \\
-   & = A \vec{x}^{(k)} + \vec{b} - A \vec{x}^{(k)} \\
-   & = \vec{b}.
+   & = A \vec{x}^{(0)} + \vec{b} - A \vec{x}^{(0)} \vec{b}.
    \end{aligned}
    $$
 
@@ -342,16 +357,24 @@ for some matrix $P$ such that
 
 - $P$ is easy to compute, or the matrix-vector product $\vec{r} \mapsto P
    \vec{r}$ is easy to compute (we call $\vec{b} - A \vec{x}^{(k)} = \vec{r}$
-   the **residual**.),
+   the **residual**),
 - $P$ approximates $A^{-1}$ well enough that the algorithm converges in few
    iterations.
 
-::: {style="font-size:75%"}
+::: {.notes}
 Note that the above bad examples could be written in the form of
 \eqref{eq:general-iteration} with $P = O$ (the zero matrix) or $P = A^{-1}$.
 :::
 
 ## Jacobi iteration
+
+::: {.callout-tip}
+### Module learning objective
+
+- Derive and apply **Jacobi** and Gauss-Seidel iterative methods from a matrix splitting of a linear system.
+:::
+
+---
 
 One straightforward choice for $P$ in \eqref{eq:general-iteration} is given by
 the Jacobi method where we take $P = D^{-1}$ where $D$ is the diagonal of $A$:
@@ -364,6 +387,10 @@ The **Jacobi iteration** is given by
 $$
 \vec{x}^{(k+1)} = \vec{x}^{(k)} + D^{-1}(\vec{b} - A \vec{x}^{(k)})
 $$
+
+::: {.aside}
+$\vec{F}(\vec{x}^{(k)}) = \vec{x}^{(k)} + P (\vec{b} - A \vec{x}^{(k)})$ (1). $P \approx A^{-1}$, $\vec{r} \mapsto P\vec{r}$ cheap.
+:::
 
 ### Jacobi iteration
 
@@ -434,6 +461,23 @@ x_1 \\ x_2
 \end{pmatrix}
 $$
 
+### Example {.smaller .write}
+
+$$
+\begin{pmatrix}
+2 & 1 \\ -1 & 4
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\ x_2
+\end{pmatrix}
+ =
+\begin{pmatrix}
+3.5 \\ 0.5
+\end{pmatrix},
+\qquad
+\vec{x}^{(0)} = \begin{pmatrix} 1 \\ 1 \end{pmatrix}.
+$$
+
 ::: {.notes}
 Starting from $\vec{x}^{(0)} = (1, 1)^T$, the first iteration is
 $$
@@ -481,8 +525,9 @@ A_{ij} &\quad \text{if } i > j \\
 \end{cases}
 $$
 
-### Rewriting Jacobi iteration ii
+### Rewriting Jacobi iteration ii {.write}
 
+::: {.notes}
 Then we can calculate that:
 $$
 \begin{aligned}
@@ -495,7 +540,6 @@ $$
 \end{aligned}
 $$
 
-::: {.notes}
 In this formulation, we do not explicitly form the residual as part of the
 computations. In practical situations, this may be a simpler formulation we can
 use if we have knowledge of the coefficients of $A$, rather than just the
@@ -503,6 +547,14 @@ matrix-vector product.
 :::
 
 ## Gauss-Seidel iteration
+
+::: {.callout-tip}
+### Module learning objective
+
+- Derive and apply Jacobi and **Gauss-Seidel** iterative methods from a matrix splitting of a linear system.
+:::
+
+---
 
 As an alternative to Jacobi iteration, the iteration might use $x_i^{(k+1)}$ as
 soon as it is calculated (rather than using the previous iteration):
@@ -534,15 +586,14 @@ b_n - \sum_{j=1}^{n-1} A_{nj} x_j^{(k+1)} - A_{nn} x_n^{(k)}
 
 Consider the system $A \vec{x}= b$ with the matrix $A$ split as $A = L + D + U$,
 where $D$ is the diagonal of $A$, $L$ contains the elements below the diagonal,
-and $U$ contains the elements above the diagonal. The componentwise iteration
-above can be written in matrix form as
+and $U$ contains the elements above the diagonal. Gauss-Seidel iteration is:
 $$
 \vec{x}^{(k+1)} = \vec{x}^{(k)} + (D + L)^{-1} (\vec{b} - A \vec{x}^{(k)}).
 $$
-That is, we use $P = (D+L)^{-1}$ in \eqref{eq:general-iteration}.
 
-In general, we do not form the inverse of $D + L$ explicitly here since it is
-more complicated to do so than simply computing the inverse of $D$.
+::: {.aside}
+$\vec{F}(\vec{x}^{(k)}) = \vec{x}^{(k)} + P (\vec{b} - A \vec{x}^{(k)})$ (1). $P \approx A^{-1}$, $\vec{r} \mapsto P\vec{r}$ cheap.
+:::
 
 ### Example
 
@@ -560,6 +611,22 @@ x_1 \\ x_2
 \begin{pmatrix}
 3.5 \\ 0.5
 \end{pmatrix}
+$$
+
+### Example {.smaller .write}
+
+$$
+\begin{pmatrix}
+2 & 1 \\ -1 & 4
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\ x_2
+\end{pmatrix}
+ =
+\begin{pmatrix}
+3.5 \\ 0.5
+\end{pmatrix},
+\vec{x}^{(0)} = \begin{pmatrix} 1 \\ 1 \end{pmatrix}.
 $$
 
 ::: {.notes}
@@ -634,15 +701,25 @@ $$
 - Both iterative algorithms can be made faster and more efficient for sparse
     systems of equations (far more than direct methods).
 
-## Python version of Jacobi iteration
+## Python versions
+
+::: {.callout-tip}
+### Module learning objective
+- Implement iterative solvers for dense and sparse matrices and estimate their computational complexity
+:::
+
+### Jacobi iteration
 
 ```{pyodide}
 def jacobi_iteration(A, b, x0, max_iter, verbose=False):
     """
-    Solve a linear system Ax = b using the Jacobi iterative method.
+    Solve a linear system Ax = b using the Jacobi
+    iterative method.
     """
     n = system_size(A, b)
     ...
+
+
 ```
 
 ::: {.notes}
@@ -679,11 +756,15 @@ def system_size(A, b):
 
     # Validate that A is a 2D square matrix
     if A.ndim != 2:
-        raise ValueError(f"Matrix A must be 2D, but got {A.ndim}D array")
+        raise ValueError(
+            f"Matrix A must be 2D, but got {A.ndim}D array"
+        )
 
     n, m = A.shape
     if n != m:
-        raise ValueError(f"Matrix A must be square, but got A.shape={A.shape}")
+        raise ValueError(
+            f"Matrix A must be square, but got A.shape={A.shape}"
+        )
 
     if b.shape[0] != n:
         raise ValueError(
@@ -696,7 +777,8 @@ def system_size(A, b):
 
 def jacobi_iteration(A, b, x0, max_iter, verbose=False):
     """
-    Solve a linear system Ax = b using the Jacobi iterative method.
+    Solve a linear system Ax = b using the Jacobi
+    iterative method.
 
     The Jacobi method is an iterative algorithm for solving the linear system:
 
@@ -745,7 +827,9 @@ def jacobi_iteration(A, b, x0, max_iter, verbose=False):
             Axi = 0.0
             for j in range(n):
                 Axi += A[i, j] * x[j]
-            xnew[i] = x[i] + 1.0 / (A[i, i]) * (b[i] - Axi)
+            xnew[i] = x[i] + 1.0 / (A[i, i]) * (
+                b[i] - Axi
+            )
         x = xnew.copy()
 
         if verbose:
@@ -758,20 +842,27 @@ def jacobi_iteration(A, b, x0, max_iter, verbose=False):
 ```
 :::
 
-## Python version of Gauss-Seidel iteration
+### Gauss-Seidel iteration
 
 ```{pyodide}
-def gauss_seidel_iteration(A, b, x0, max_iter, verbose=False):
+def gauss_seidel_iteration(
+    A, b, x0, max_iter, verbose=False
+):
     """
-    Solve a linear system Ax = b using the Gauss-Seidel iterative method.
+    Solve a linear system Ax = b using the
+    Gauss-Seidel iterative method.
     """
     n = system_size(A, b)
     ...
+
+
 ```
 
 ::: {.notes}
 ```{python}
-def gauss_seidel_iteration(A, b, x0, max_iter, verbose=False):
+def gauss_seidel_iteration(
+    A, b, x0, max_iter, verbose=False
+):
     """
     Solve a linear system Ax = b using the Gauss-Seidel iterative method.
 
@@ -827,7 +918,9 @@ def gauss_seidel_iteration(A, b, x0, max_iter, verbose=False):
                 Axi += A[i, j] * xnew[j]
             for j in range(i, n):
                 Axi += A[i, j] * x[j]
-            xnew[i] = x[i] + 1.0 / (A[i, i]) * (b[i] - Axi)
+            xnew[i] = x[i] + 1.0 / (A[i, i]) * (
+                b[i] - Axi
+            )
         x = xnew.copy()
 
         if verbose:
@@ -858,13 +951,13 @@ print()
 
 ```
 
-## Sparse matrices
+### Sparse matrices
 
 **Sparse matrices** are prevalent in any application which relies on some form
 of *graph* structure (see both the
-[temperature](https://comp2870-2526.github.io/linear-algebra-notes/#exm-temperature)
+[temperature](https://comp2870-2627.github.io/linear-algebra-notes/#exm-temperature)
 and [traffic
-network](https://comp2870-2526.github.io/linear-algebra-notes/#exm-traffic)
+network](https://comp2870-2627.github.io/linear-algebra-notes/#exm-traffic)
 examples).
 
 - The $a_{ij}$ typically represents some form of "communication" between
@@ -883,7 +976,7 @@ examples).
   - A sparse $n \times n$ has $\alpha n$ nonzero entries, where $\alpha \ll
         n$.
 
-### Sparse Matrices
+### Sparse matrices
 
 There are two main ways in which sparse
 matrices can be exploited in order to obtain benefits within iterative methods.
@@ -892,7 +985,7 @@ matrices can be exploited in order to obtain benefits within iterative methods.
 
 - The cost per iteration can be reduced from $O(n^2)$.
 
-### Storing a spare matrix
+### Storing a spare matrix {.smaller}
 
 The simplest way in which a sparse matrix is stored is using three arrays:
 
@@ -902,6 +995,8 @@ The simplest way in which a sparse matrix is stored is using three arrays:
     corresponding entry in the real array;
 - an array of integers (`I_col` say) that stores the column numbers of the
     corresponding entry in the real array.
+
+. . .
 
 This requires just $3 \alpha n$ units of storage - i.e. $O(n)$. This is called
 the COO (coordinate) format.
@@ -985,14 +1080,19 @@ def jacobi_iteration_sparse(
     A_real, I_row, I_col, b, x0, max_iter, verbose=False
 ):
     """
-    Solve a sparse linear system Ax = b using the Jacobi iterative method.
+    Solve a sparse linear system Ax = b using the
+    Jacobi iterative method.
     """
-    n, nonzero = system_size_sparse(A_real, I_row, I_col, b)
+    n, nonzero = system_size_sparse(
+        A_real, I_row, I_col, b
+    )
+
 
  ```
 
  ```{pyodide}
  #| include: false
+
 
 def gauss_seidel_iteration_sparse(
     A_real, I_row, I_col, b, x0, max_iter, verbose=False
@@ -1036,7 +1136,9 @@ def gauss_seidel_iteration_sparse(
     x : numpy.ndarray
         Approximated solution vector after `max_iter` iterations.
     """
-    n, nonzero = system_size_sparse(A_real, I_row, I_col, b)
+    n, nonzero = system_size_sparse(
+        A_real, I_row, I_col, b
+    )
 
     x = x0.copy()
     xnew = np.empty_like(x)
@@ -1050,12 +1152,20 @@ def gauss_seidel_iteration_sparse(
         Ax = np.zeros_like(x)
         for k in range(nonzero):
             if I_row[k] < I_col[k]:
-                Ax[I_row[k]] = Ax[I_row[k]] + A_real[k] * xnew[I_col[k]]
+                Ax[I_row[k]] = (
+                    Ax[I_row[k]]
+                    + A_real[k] * xnew[I_col[k]]
+                )
             else:
-                Ax[I_row[k]] = Ax[I_row[k]] + A_real[k] * x[I_col[k]]
+                Ax[I_row[k]] = (
+                    Ax[I_row[k]]
+                    + A_real[k] * x[I_col[k]]
+                )
 
         for i in range(n):
-            xnew[i] = x[i] + 1.0 / (A[i, i]) * (b[i] - Ax[i])
+            xnew[i] = x[i] + 1.0 / (A[i, i]) * (
+                b[i] - Ax[i]
+            )
         x = xnew.copy()
 
         if verbose:
@@ -1085,7 +1195,9 @@ def random_sparse_system(n, nonzero):
 
     # fill diagonal first
     for i in range(n):
-        value = np.random.randint(low=1.0, high=10.0) / 2
+        value = (
+            np.random.randint(low=1.0, high=10.0) / 2
+        )
         A_real.append(value)
         I_row.append(i)
         I_col.append(i)
@@ -1116,7 +1228,9 @@ def random_sparse_system(n, nonzero):
     x = np.ones((n, 1))
     b = np.zeros_like(x)
     for k in range(nonzero):
-        b[I_row[k]] = b[I_row[k]] + A_real[k] * x[I_col[k]]
+        b[I_row[k]] = (
+            b[I_row[k]] + A_real[k] * x[I_col[k]]
+        )
 
     return A_real, I_row, I_col, b
 
@@ -1132,7 +1246,9 @@ def to_dense(A_real, I_row, I_col):
 # random matrix
 n = 4
 nonzero = 10
-A_real, I_row, I_col, b = random_sparse_system(n, nonzero)
+A_real, I_row, I_col, b = random_sparse_system(
+    n, nonzero
+)
 print("sparse matrix:")
 print("A_real =", A_real)
 print("I_row = ", I_row)
@@ -1150,13 +1266,23 @@ x0 = np.zeros((n, 1))
 
 print("jacobi with sparse matrix")
 x_sparse = jacobi_iteration_sparse(
-    A_real, I_row, I_col, b, x0, max_iter=5, verbose=True
+    A_real,
+    I_row,
+    I_col,
+    b,
+    x0,
+    max_iter=5,
+    verbose=True,
 )
 print()
 
 print("jacobi with dense matrix")
-x_dense = jacobi_iteration(A_dense, b, x0, max_iter=5, verbose=True)
+x_dense = jacobi_iteration(
+    A_dense, b, x0, max_iter=5, verbose=True
+)
 print()
+
+
 ```
 
 ::: {.notes}
@@ -1218,7 +1344,9 @@ def jacobi_iteration_sparse(
     x : numpy.ndarray
         Approximated solution vector after `max_iter` iterations.
     """
-    n, nonzero = system_size_sparse(A_real, I_row, I_col, b)
+    n, nonzero = system_size_sparse(
+        A_real, I_row, I_col, b
+    )
 
     x = x0.copy()
     xnew = np.empty_like(x)
@@ -1238,7 +1366,9 @@ def jacobi_iteration_sparse(
         # precompute Ax
         Ax = np.zeros_like(x)
         for k in range(nonzero):
-            Ax[I_row[k]] = Ax[I_row[k]] + A_real[k] * x[I_col[k]]
+            Ax[I_row[k]] = (
+                Ax[I_row[k]] + A_real[k] * x[I_col[k]]
+            )
 
         for i in range(n):
             xnew[i] = x[i] + 1.0 / D[i] * (b[i] - Ax[i])
@@ -1261,7 +1391,9 @@ def random_sparse_system(n, nonzero):
 
     # fill diagonal first
     for i in range(n):
-        value = np.random.randint(low=1.0, high=10.0) / 2
+        value = (
+            np.random.randint(low=1.0, high=10.0) / 2
+        )
         A_real.append(value)
         I_row.append(i)
         I_col.append(i)
@@ -1292,7 +1424,9 @@ def random_sparse_system(n, nonzero):
     x = np.ones((n, 1))
     b = np.zeros_like(x)
     for k in range(nonzero):
-        b[I_row[k]] = b[I_row[k]] + A_real[k] * x[I_col[k]]
+        b[I_row[k]] = (
+            b[I_row[k]] + A_real[k] * x[I_col[k]]
+        )
 
     return A_real, I_row, I_col, b
 
@@ -1309,12 +1443,20 @@ timing_dense = []
 for n in ns:
     # generate random nonzero matrix
     nonzero = 3 * n
-    A_real, I_row, I_col, b = random_sparse_system(n, nonzero)
+    A_real, I_row, I_col, b = random_sparse_system(
+        n, nonzero
+    )
     x0 = np.zeros((n, 1))
 
     start_time = time.perf_counter()
     jacobi_iteration_sparse(
-        A_real, I_row, I_col, b, x0, max_iter=10, verbose=False
+        A_real,
+        I_row,
+        I_col,
+        b,
+        x0,
+        max_iter=10,
+        verbose=False,
     )
     end_time = time.perf_counter()
 
@@ -1322,7 +1464,9 @@ for n in ns:
 
     A_dense = to_dense(A_real, I_row, I_col)
     start_time = time.perf_counter()
-    jacobi_iteration(A_dense, b, x0, max_iter=10, verbose=False)
+    jacobi_iteration(
+        A_dense, b, x0, max_iter=10, verbose=False
+    )
     end_time = time.perf_counter()
 
     timing_dense.append(end_time - start_time)
@@ -1333,12 +1477,12 @@ for n in ns:
 plt.loglog(ns, timing_sparse, "C1o", label="sparse")
 plt.loglog(ns, timing_dense, "C0o", label="dense")
 
-poly_sparse = np.poly1d([np.polyfit(ns, timing_sparse, 1)[0], 0])(
-    np.array(ns, dtype=np.double)
-)
-poly_dense = np.poly1d([np.polyfit(ns, timing_dense, 2)[0], 0, 0])(
-    np.array(ns, dtype=np.double)
-)
+poly_sparse = np.poly1d(
+    [np.polyfit(ns, timing_sparse, 1)[0], 0]
+)(np.array(ns, dtype=np.double))
+poly_dense = np.poly1d(
+    [np.polyfit(ns, timing_dense, 2)[0], 0, 0]
+)(np.array(ns, dtype=np.double))
 
 plt.loglog(ns, poly_sparse, "C1--", label="$O(n)$")
 plt.loglog(ns, poly_dense, "C0--", label="$O(n^2)$")
@@ -1352,6 +1496,14 @@ plt.show()
 ```
 
 ## Convergence of an iterative method
+
+::: {.callout-tip}
+## Module learning objective
+
+- Evaluate convergence behaviour and justify the choice of stopping criteria for practical computations.
+:::
+
+---
 
 In general the iteration takes the form
 $$
@@ -1381,7 +1533,7 @@ $$
 $$
 where $\vec{r}$ is a vector with $n$ entries.
 
-### Examples
+### Examples {.smaller .write}
 
 Consider the following sequence $\vec{x}^{(k)}$:
 
@@ -1409,11 +1561,37 @@ $$
 
 - What is $\|\vec{x}^{(1)} - \vec{x}^{(0)}\|$? What is $\|\vec{x}^{(5)} - \vec{x}^{(4)}\|$?
 
+### Examples {.smaller .write}
+
+Consider the following sequence $\vec{x}^{(k)}$:
+
+$$
+\begin{pmatrix}
+1 \\ -1
+\end{pmatrix},
+\begin{pmatrix}
+1.5 \\ 0.5
+\end{pmatrix},
+\begin{pmatrix}
+1.75 \\ 0.25
+\end{pmatrix},
+\begin{pmatrix}
+1.875 \\ 0.125
+\end{pmatrix},
+\begin{pmatrix}
+1.9375 \\ -0.0625
+\end{pmatrix},
+\begin{pmatrix}
+1.96875 \\ -0.03125
+\end{pmatrix},
+\ldots
+$$
+
 Let $\vec{x} = \begin{pmatrix} 2 \\ 0 \end{pmatrix}$.
 
 - What is $\|\vec{x} - \vec{x}^{(3)}\|$? What is $\|\vec{x} - \vec{x}^{(4)}\|$? What is $\|\vec{x} - \vec{x}^{(5)}\|$?
 
-### Non-convergence
+### Non-convergence {.smaller}
 
 In general there are two possible reasons that an iteration may fail to converge.
 
@@ -1466,6 +1644,8 @@ In general there are two possible reasons that an iteration may fail to converge
   \ldots
   $$
 
+---
+
 In addition to testing for convergence it is also necessary to include tests for
 failure to converge.
 
@@ -1474,7 +1654,7 @@ failure to converge.
 - Impose a maximum number of iterations to ensure that the loop is not repeated
   forever!
 
-## Summary
+## Summary {.smaller}
 
 - Many real-world problems cannot be solved using direct methods. Iterative methods can often be used instead!
 

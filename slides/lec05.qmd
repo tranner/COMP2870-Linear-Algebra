@@ -4,21 +4,11 @@ subtitle: Eigenvalues and complex numbers
 
 format: live-revealjs
 ---
-# Portfolio updates
-
-| Worksheet | Submissions           | Passes                   |
-|-----------|-----------------------|--------------------------|
-| Week 1    | 220 (71% of students) | 162 (74% of submissions) |
-| Week 2    | 180 (58%)             | 82 (46%)                 |
-| Week 3    | 148 (48%)             | 90 (61%)                 |
-
 # Eigenvalues and complex numbers
 
-> Today: Definition of eigenvalues and eigenvectors and complex numbers
+Chapter 6.1-6.5 and 7.1-3
 
-Online notes: 7.1, 7.2, 6.1, 6.2, 6.3, 6.5
-
-## What is an eigenvector?
+## What are eigenvectors and eigenvalues?
 
 ```{python}
 import re
@@ -26,6 +16,7 @@ import re
 import matplotlib.colors as mcolors
 import numpy as np
 from matplotlib import pyplot as plt
+from PIL import Image
 
 plt.style.use("theme/comp2870.mplstyle")
 ```
@@ -115,7 +106,9 @@ def plot_3d_plane_and_vectors():
     # Vector in the plane
     in_plane_vector = np.array([1, -1, 0])
     in_plane_vector = (
-        in_plane_vector - np.dot(in_plane_vector, normal_vector) * normal_vector
+        in_plane_vector
+        - np.dot(in_plane_vector, normal_vector)
+        * normal_vector
     )
     # Vector orthogonal to the plane (same as normal)
     orthogonal_vector = normal_vector
@@ -123,11 +116,23 @@ def plot_3d_plane_and_vectors():
     # Plot vectors
     def draw_vector(v, color, label):
         ax.quiver(
-            0, 0, 0, v[0], v[1], v[2], color=color, label=label, linewidth=2
+            0,
+            0,
+            0,
+            v[0],
+            v[1],
+            v[2],
+            color=color,
+            label=label,
+            linewidth=2,
         )
 
-    draw_vector(in_plane_vector, "C1", "In-plane vector")
-    draw_vector(orthogonal_vector, "C2", "Normal vector")
+    draw_vector(
+        in_plane_vector, "C1", "In-plane vector"
+    )
+    draw_vector(
+        orthogonal_vector, "C2", "Normal vector"
+    )
 
     ax.set_xlim([-2.5, 2.5])
     ax.set_ylim([-2.5, 2.5])
@@ -136,8 +141,12 @@ def plot_3d_plane_and_vectors():
     ax.legend()
     ax.set_title("Sample plane and normal vector")
 
-    ax.set_facecolor((0, 0, 0, 0))  # Transparent axis background
-    fig.patch.set_alpha(0)  # Transparent figure background
+    ax.set_facecolor(
+        (0, 0, 0, 0)
+    )  # Transparent axis background
+    fig.patch.set_alpha(
+        0
+    )  # Transparent figure background
 
     plt.tight_layout()
     plt.show()
@@ -218,24 +227,129 @@ A \vec{x} = \lambda \vec{x}.
 We call the associated number $\lambda$ an *eigenvalue* of $A$.
 :::
 
-### Importance of eigenvalues
+### Why does a computer scientist need to know about eigenvalues
 
-Eigenvalues can be used to understand the geometry behind linear transformations
-(the action of matrix-vector multiplication).
+One way to reduce the dimensionality is
+through projecting the dataset onto a small number of directions which come from
+the eigenvectors of a related matrix (the covariance or correlation matrix). This is called
+principal component analysis (PCA) and you will learn more about this in a project
+later in this module.
 
-They can also be used to find a *useful* basis (of eigenvectors) when working
-with large datasets.
+> **Key idea.** The new directions form a carefully chosen **coordinate system**.
 
-The idea of using eigenvectors to form a basis is a key step in the PageRank
-algorithm which Google used to revolutionise search algorithms.
+### Our home
+
+We demonstrate briefly here how PCA can work for compressing an image.
+Consider this image of the Bragg building:
+
+```{python}
+# | echo: False
+img = Image.open(
+    "../src/images/bragg-building.jpg"
+).convert("L")
+img = img.resize((300, 300))  # reduce size
+img_array = np.asarray(img, dtype=np.float64) / 255.0
+
+plt.imshow(img_array, cmap="gray")
+plt.axis("off")
+plt.show()
+```
+---
+
+```{python}
+# | echo: False
+mean_vector = np.mean(img_array, axis=0)
+centered_data = img_array - mean_vector
+cov_matrix = np.cov(centered_data, rowvar=False)
+```
+
+We store information about the image by computing eigenvalues and eigenvectors of what's called the "covariance matrix" of the columns of the matrix.
+```{python}
+# | echo: False
+eigenvalues, eigenvectors = np.linalg.eig(cov_matrix)
+
+# Sort eigenvalues and eigenvectors in descending order
+sorted_indices = np.argsort(eigenvalues)[::-1]
+eigenvalues = eigenvalues[sorted_indices]
+eigenvectors = eigenvectors[:, sorted_indices]
+
+plt.subplot(1, 2, 1)
+plt.imshow(cov_matrix)
+plt.title("Covariance matrix")
+
+plt.subplot(1, 2, 2)
+for i in range(5):
+    plt.plot(eigenvectors[i], label=f"eigenvector {i}")
+plt.legend()
+
+plt.tight_layout()
+plt.show()
+
+
+```
+
+---
+
+Then we can reconstruct the image using the top $k$ components
+```{python}
+# | echo: False
+def reconstruct_image(
+    data, eigenvectors, mean_vector, k
+):
+    """
+    Reconstructs the image using the top k eigenvectors.
+    """
+    top_eigenvectors = eigenvectors[:, :k]
+    compressed_data = data @ top_eigenvectors
+    reconstructed = (
+        compressed_data @ top_eigenvectors.T
+        + mean_vector
+    )
+    return reconstructed
+
+
+```
+
+```{python}
+# | echo: False
+k_values = [5, 20, 50]
+
+plt.figure(figsize=(12, 8))
+plt.subplot(1, len(k_values), 1)
+
+for i, k in enumerate(k_values):
+    reconstructed_img = reconstruct_image(
+        centered_data, eigenvectors, mean_vector, k
+    )
+    plt.subplot(1, len(k_values), i + 1)
+    plt.imshow(reconstructed_img, cmap="gray")
+    plt.title(f"k = {k}")
+    plt.axis("off")
+
+plt.show()
+```
+
+We see that even with a very small number of values we can start to recognise our building!
 
 ## Characteristic equation
+
+::: {.callout-tip}
+## Module learning objective
+
+- Compute eigenvalues and eigenvectors of small matrices by hand using characteristic polynomials.
+:::
+
+### {.write}
 
 The eigenvalues of a matrix $A$ satisfy the **characteristic equation** given by
 \begin{equation}
 \label{eq:char}
 \det( A - \lambda I_n ) = 0.
 \end{equation}
+
+::: {.aside}
+Eigenvalue equation: $A \vec{x} = \lambda \vec{x}$
+:::
 
 ::: {.notes}
 To compute eigenvalues and eigenvectors, we start from \eqref{eq:evalues} and
@@ -271,7 +385,7 @@ In general, this is possible using a variation of Gaussian elimination with
 pivoting, but we do not explore this method in this module.
 :::
 
-### Example 1
+### Example 1 {.small .write}
 
 Find the eigenvalues and eigenvectors of the matrix
 \begin{equation*}
@@ -333,7 +447,7 @@ So we see that $\vec{x}$ is also an eigenvector of $A$ and the associated
 eigenvector is $\lambda + 3$.
 :::
 
-### Example 2
+### Example 2 {.small .write}
 
 Let $B$ be the $2 \times 2$ matrix given by
 \begin{equation*}
@@ -380,7 +494,7 @@ $$
 \begin{pmatrix} 9 & -2 \\ -2 & 6 \end{pmatrix}.
 $$
 
-### Example 3
+### Example 3 {.small .write}
 
 Let $Q$ denote the $2 \times 2$ matrix that rotates any vector by $\pi/2$
 ($=90^\circ$):
@@ -406,9 +520,15 @@ So we can find eigenvalues by finding the values $\lambda$ such that
 \end{equation*}
 :::
 
-# Complex numbers {#sec-complex-numbers}
+## Complex numbers {#sec-complex-numbers}
 
-## Basic definitions
+::: {.callout-tip}
+## Module learning objective
+
+- Use complex arithmetic and polar representations to analyse complex numbers algebraically and geometrically.
+:::
+
+### Basic definitions
 
 Consider the polynomial equation
 \begin{equation}
@@ -460,7 +580,7 @@ the imaginary unit is called  *complex number*. In this format, we call $a$ the
 We notice that all real numbers $x$ must also be complex numbers since $x = x +
 0 i$.
 
-### History
+### History {.smaller}
 
 Among the first recorded uses of complex numbers in European mathematics was by
 an Italian mathematician, Gerolamo Cardano, in around 1545. He later described
@@ -481,24 +601,24 @@ What are the real and imaginary parts of these numbers?
 3. $5$
 4. $7i$
 
-## Calculations with complex numbers
+### Calculations with complex numbers {.write}
 
 Addition and subtraction are relatively straightforward: we treat the real and
 imaginary parts separately.
 
 Compute
 \begin{align*}
-(2 + 3i) + (12 - 12i) &= \\
-(2 + 3i) - (12 - 12i) &= \\
-6 (2 + 3i) &= \\
-\frac{12 - 12i}{6} & = \phantom{XX}.
+(2 + 3i) + (12 - 12i) &= \phantom{15 - 9i} \\
+(2 + 3i) - (12 - 12i) &= \phantom{-10 - 9i} \\
+6 (2 + 3i) &= \phantom{12 + 18i} \\
+\frac{12 - 12i}{6} & = \phantom{2 - 2i}
 \end{align*}
 
 ### Exercises
 
 Compute $(3+6i) + (-3.5 + 2i)$ and $(3 + 6i) - (-3.5 + 2i)$.
 
-### Multiplication of complex numbers
+### Multiplication of complex numbers {.write}
 
 For multiplication between complex numbers, things are harder. We expand
 brackets and apply the rule that $i^2 = -1$:
@@ -540,18 +660,13 @@ i^2 = (\sqrt{-1})^2 = \sqrt{-1} \sqrt{-1} \neq \sqrt{(-1) \times (-1)} = \sqrt{1
 \end{equation*}
 In fact, we have that $\sqrt{x} \sqrt{y} = \sqrt{xy}$ only if $x, y > 0$.
 
-## A geometric picture
+### A geometric picture
 
 The idea of adding complex numbers by considering real and imaginary parts
 separately is reminiscent of adding two-dimensional vectors. For this reason, it
 is often helpful to think of complex numbers as points in *the complex plane*.
 
 ### Complex plane
-
-The complex plane is the two-dimensional space formed by considering the real
-and imaginary parts of a complex number as two different coordinate axes.
-
-::: {#exm-plane}
 
 ```{python}
 # | echo: false
@@ -567,7 +682,10 @@ zz = {
 for txt, z in zz.items():
     line = plt.plot(np.real(z), np.imag(z), "o")
     plt.text(
-        np.real(z) + 0.1, np.imag(z) + 0.05, txt, color=line[0].get_color()
+        np.real(z) + 0.1,
+        np.imag(z) + 0.05,
+        txt,
+        color=line[0].get_color(),
     )
 
 plt.xlabel("Real part")
@@ -576,22 +694,21 @@ plt.grid()
 plt.show()
 ```
 
-:::
-
 ::: {.notes}
 Adding complex numbers looks just like adding two dimensional vectors! We can
 also use this geometric picture to help with some further operations.
 :::
 
-### Complex conjugate
+### Complex conjugate {.write}
 
 The *complex conjugate* of a complex number $z = a + bi$ is given by $\bar{z} =
-a - bi$. The complex conjugate is that number we used before when working out
-how to divide complex numbers.
+a - bi$.
 
 ::: {#exm-conjugate}
 Find the complex conjugate of (i) $2 + 3i$ and (ii) $12 - 12i$
 :::
+
+. . .
 
 ::: {#exr-conjugate}
 Find the complex conjugates of (i) $3 + 6i$ and (ii) $-3.5 + 2i$.
@@ -660,7 +777,9 @@ for key, z in zz.items():
 
     # Create the modulus label
     key = key.replace(" ", "")
-    match = re.fullmatch(r"([+-]?\d*\.?\d+)\+([-]?\d*\.?\d+)i", key)
+    match = re.fullmatch(
+        r"([+-]?\d*\.?\d+)\+([-]?\d*\.?\d+)i", key
+    )
     re_txt, im_txt = match.group(1), match.group(2)
 
     txt = ""
@@ -670,7 +789,12 @@ for key, z in zz.items():
         if txt != "":
             txt += "+"
         txt += f"{im_txt}i"
-    plt.text(np.real(z) + 0.1, np.imag(z) + 0.05, f"${txt}$", color=color)
+    plt.text(
+        np.real(z) + 0.1,
+        np.imag(z) + 0.05,
+        f"${txt}$",
+        color=color,
+    )
 
     label = f"$|{txt}| = \\sqrt{{{a**2 + b**2}}}$"
     ax.text(
@@ -743,7 +867,7 @@ that multiplying by $y$ is the same as rotating the complex point ($z$) by an
 angle of $\theta$ radians in the anti-clockwise direction.
 :::
 
-### Polar representation
+### Polar representation {.smaller}
 
 ::: {.notes}
 This leads us to thinking *polar coordinates* for the complex plane. Polar
@@ -799,7 +923,12 @@ for key, z in zz.items():
     ax.plot([0, a], [0, b], "--", color=color)
 
     t = np.linspace(0, arg)
-    plt.plot(plot_radius * np.cos(t), plot_radius * np.sin(t), color=color)
+    plt.plot(
+        plot_radius * np.cos(t),
+        plot_radius * np.sin(t),
+        "-",
+        color=color,
+    )
 
     ax.text(
         (plot_radius + 0.15) * np.cos(0.8 * arg),
@@ -833,7 +962,7 @@ $z$.
 The representation of the angle unique up to adding integer multiples of $2
 \pi$, since rotating a point by $2 \pi$ about the origin leaves it unchanged.
 
-### Example
+### Example {.write}
 
 Find the polar form of $z = 12 - 12i$.
 
@@ -859,37 +988,29 @@ so
 ### Exercise
 Compute the modulus and argument of $2$, $3i$ and $4 + 4i$.
 
-### Geometric view of complex multiplication
+### Geometric view of complex multiplication {.write}
 
 The polar representation of complex numbers then gives us a nice way to
 understand multiplication of complex numbers.
 
+::: {.notes}
 If $y \neq 0$, then we can check that $\left| \frac{y}{|y|} \right| = 1$ and
 $\arg{y} = \arg{\frac{y}{|y|}}$.
 
 Then writing $zy = z \frac{y}{|y|} |y|$, we can use our calculations above to
 infer that multiplying by $y$ corresponds to an anticlockwise rotation by
 $\arg{y}$ then scaling by $|y|$.
-
-## Euler's formula
-
-Euler's formula is relates the polar form of a complex number to complex
-exponentials: Let $x$ be a real number, then
-$$
-\exp (i x) = \cos x + i \sin x.
-$$
-
-### Euler's identity
-
-Euler's formula is the key important step for showing Euler's identity:
-$$
-\exp(i \pi) = -1.
-$$
-This is shown by applying Euler's formula at $x= \pi$. This is a formula which
-many mathematicians a surprising and beautiful result!
-
+:::
 
 ## Solving polynomial equations
+
+::: {.callout-tip}
+## Module learning objective
+
+- Determine complex roots of polynomial equations using factorisation and the quadratic formula.
+:::
+
+---
 
 ::: {#thm-fund-alg}
 
@@ -906,12 +1027,14 @@ a_n z^n + \cdots + a_1 z + a_0 = 0
 This is not true over the real numbers!
 :::
 
-### Revisiting the rotation example
+### Revisiting the rotation example {.write}
 
-Consider the polynomial equation
-\begin{equation}
-x^2 + 1 = 0.
-\end{equation}
+$$
+\text{Matrix} \quad Q = \begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}
+$$
+$$
+\text{Characteristic equation} \quad\lambda^2 + 1 = 0.
+$$
 
 ::: {.notes}
 We saw before that this equation has no solution over the real numbers, but the
@@ -927,6 +1050,7 @@ which is a complex number. In fact it has two solutions - $i$ and $-i$:
 
 ```{python}
 # | echo: false
+# | fig-cap: Contour Plot of $|z^2 + 1|$ Over the Complex Plane
 
 
 # Define the complex function f(z) = z^2 + 1
@@ -951,14 +1075,22 @@ norm = mcolors.TwoSlopeNorm(vmin=0, vcenter=1, vmax=10)
 fig, ax = plt.subplots()
 ax.plot(0, 1, "ro")
 ax.plot(0, -1, "ro")
-contourf = ax.pcolormesh(X, Y, F, cmap="RdYlGn", alpha=0.5, norm=norm)
-contour = ax.contour(X, Y, F, levels=30, cmap="RdYlGn", norm=norm)
+contourf = ax.pcolormesh(
+    X, Y, F, cmap="RdYlGn", alpha=0.5, norm=norm
+)
+contour = ax.contour(
+    X, Y, F, levels=30, cmap="RdYlGn", norm=norm
+)
 ax.axhline(0, color="black", linewidth=0.5)
 ax.axvline(0, color="black", linewidth=0.5)
-ax.set_title("Contour Plot of $|z^2 + 1|$ Over the Complex Plane")
 ax.set_xlabel("Real part")
 ax.set_ylabel("Imaginary part")
-fig.colorbar(contourf, ax=ax, label="$|z^2 + 1|$", ticks=[0, 0.5, 1, 5, 10])
+fig.colorbar(
+    contourf,
+    ax=ax,
+    label="$|z^2 + 1|$",
+    ticks=[0, 0.5, 1, 5, 10],
+)
 
 plt.tight_layout()
 plt.show()
@@ -969,7 +1101,7 @@ Notice that along the real line (Imaginary part $=0$), the value of the function
 is always above 1.
 :::
 
-### Quadratic formula
+### Quadratic formula {.write}
 
 In general, to find complex roots of other quadratic equations, we can apply the
 quadratic formula:

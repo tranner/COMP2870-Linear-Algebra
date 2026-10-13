@@ -9,15 +9,7 @@ pyodide:
 format: live-revealjs
 ---
 
-# Direct solvers for systems of linear equations
-
-::: {.callout-tip}
-## Module learning objective
-
-Apply **direct** and iterative solvers to solve systems of linear equations;
-implement methods using floating point numbers and investigate computational
-cost using computer experiments.
-:::
+## Direct solvers for systems of linear equations
 
 Chapter 4
 
@@ -33,7 +25,7 @@ from matplotlib import pyplot as plt
 plt.style.use("theme/comp2870.mplstyle")
 ```
 
-## Reminder of the problem
+### Reminder of the problem {.smaller}
 
 Recall the problem is to solve a set of $n$ **linear** equations for $n$ unknown
 values $x_j$, for $j=1, 2, \ldots, n$.
@@ -73,21 +65,12 @@ $$
  \end{pmatrix}.
 $$
 
-## Special types of matrices
+## Solving triangular systems of equations
 
-The general matrix $A$ before the examples is known as a **full** matrix: any of
-its components $a_{ij}$ might be nonzero.
-
-### Triangular matrix
-
-One common (and important) structure takes the form
-
-$$
-A = \begin{pmatrix}
-a_{11} & 0 & 0 & \cdots & 0 \\ a_{21} & a_{22} & 0 & \cdots &
- 0 \\ a_{31} & a_{32} & a_{33} & \cdots & 0 \\ \vdots & \vdots & \vdots & \ddots
- & \vdots \\ a_{n1} & a_{n2} & a_{n3} & \cdots & a_{nn} \end{pmatrix}.
- $$
+::: {.callout-tip}
+### Module learning objective
+- Apply Gaussian elimination and **backward substitution** to solve linear systems;
+:::
 
 ### Triangular matrix
 
@@ -99,14 +82,7 @@ a_{11} & 0 & 0 & \cdots & 0 \\ a_{21} & a_{22} & 0 & \cdots &
 - The *transpose* of this matrix is an **upper triangular** matrix and can be
 treated in a very similar manner.
 
-- Note that the determinant of a triangular matrix is simply the product of
-  diagonal coefficients:
-  $$
-  \det A = a_{11} a_{22} \cdots a_{nn} = \prod_{i=1}^n a_{ii}.
-  $$
-
-
-## Solving triangular systems of equations
+---
 
 A general *lower triangular* system of equations has $a_{ij} = 0$ for $j > i$
 and takes the form:
@@ -151,7 +127,7 @@ for each row $i = 1, 2, \ldots, n$ in turn.
 - **Upper triangular** systems of equations can be solved in similarly.
 :::
 
-### Example
+### Example {.smaller}
 
 Solve the lower triangular system of equations given by
 
@@ -177,6 +153,16 @@ x_1 \\ x_2 \\ x_3
 \begin{pmatrix}
 2 \\ 7 \\ 26
 \end{pmatrix}.
+$$
+
+### Example {.write .smaller}
+
+$$
+\begin{aligned}
+ 2 x_1 && && &= 2 \\
+ x_1 &+& 2 x_2 && &= 7 \\
+ 2 x_1 &+& 4 x_2 &+& 6 x_3 &= 26
+\end{aligned}
 $$
 
 ::: {.notes}
@@ -228,6 +214,7 @@ import inspect
 
 import numpy as np
 
+
 def system_size(A, b):
     """
     Validate the dimensions of a linear system and return its size.
@@ -258,11 +245,15 @@ def system_size(A, b):
 
     # Validate that A is a 2D square matrix
     if A.ndim != 2:
-        raise ValueError(f"Matrix A must be 2D, but got {A.ndim}D array")
+        raise ValueError(
+            f"Matrix A must be 2D, but got {A.ndim}D array"
+        )
 
     n, m = A.shape
     if n != m:
-        raise ValueError(f"Matrix A must be square, but got A.shape={A.shape}")
+        raise ValueError(
+            f"Matrix A must be square, but got A.shape={A.shape}"
+        )
 
     if b.shape[0] != n:
         raise ValueError(
@@ -308,7 +299,9 @@ def print_array(array, array_name=None, end=None):
 
     # determine precision
     precision = 1
-    while not np.allclose(array, np.round(array, precision)):
+    while not np.allclose(
+        array, np.round(array, precision)
+    ):
         precision = precision + 1
         if precision == 16:
             break
@@ -320,9 +313,16 @@ def print_array(array, array_name=None, end=None):
         if i == 0:
             print(f"{array_name} = [ ", end="")
         else:
-            print(" " * len(array_name) + "   [ ", end="")
+            print(
+                " " * len(array_name) + "   [ ", end=""
+            )
 
-        print(", ".join([format_str.format(v) for v in array[i]]), end=" ]")
+        print(
+            ", ".join(
+                [format_str.format(v) for v in array[i]]
+            ),
+            end=" ]",
+        )
         print(end=end)
 
 
@@ -338,6 +338,7 @@ print_array(A)
 print_array(b)
 print("system size is ", system_size(A, b))
 
+
 ```
 
 ### Forward substitution
@@ -348,13 +349,15 @@ linear equations:
 ```{pyodide}
 def forward_substitution(A, b):
     """
-    Solve a lower triangular system of linear equations using forward
-    substitution.
+    Solve a lower triangular system of linear
+    equations using forward substitution.
     """
     # get size of system
     n = system_size(A, b)
 
     ...
+
+
 ```
 
 ::: {.notes}
@@ -380,6 +383,7 @@ def forward_substitution(A, b):
 
 ```{pyodide}
 #| include: false
+
 
 def backward_substitution(A, b):
     """
@@ -419,7 +423,9 @@ def backward_substitution(A, b):
     x = np.empty_like(b)
 
     # perform backwards solve
-    for i in range(n - 1, -1, -1):  # iterate over rows backwards
+    for i in range(
+        n - 1, -1, -1
+    ):  # iterate over rows backwards
         partial_sum = 0.0
         for j in range(i + 1, n):
             partial_sum += A[i, j] * x[j]
@@ -433,7 +439,9 @@ def backward_substitution(A, b):
 ### Test it out!
 
 ```{pyodide}
-A = np.array([[2.0, 0.0, 0.0], [1.0, 2.0, 0.0], [2.0, 4.0, 6.0]])
+A = np.array(
+    [[2.0, 0.0, 0.0], [1.0, 2.0, 0.0], [2.0, 4.0, 6.0]]
+)
 b = np.array([[2.0], [7.0], [26.0]])
 
 print("The system is given by:")
@@ -449,7 +457,12 @@ print("The solution using forward substitution is:")
 print_array(x)
 print()
 
-print("Does x really solve the system?", np.allclose(A @ x, b))
+print(
+    "Does x really solve the system?",
+    np.allclose(A @ x, b),
+)
+
+
 ```
 
 ### The big plan for a general matrix!
@@ -462,6 +475,10 @@ represents the right-hand-side values.
 > which is then easy to solve!
 
 ## Elementary row operations
+
+> - Apply a sequence of elementary row operations to manipulate a system of linear equations.
+
+---
 
 Consider equation $p$ of the above system:
 
@@ -477,7 +494,7 @@ $$
 
 Note three things...
 
-## Elementary row operations ii
+---
 
 Consider equation $p$ of the above system:
 
@@ -493,7 +510,7 @@ $$
 
 - The order in which we choose to write the $n$ equations is irrelevant
 
-## Elementary row operations iii
+---
 
 Consider equation $p$ of the above system:
 
@@ -513,7 +530,7 @@ $$
   k a_{p1} x_1 + k a_{p2} x_2 + k a_{p3} x_3 + \cdots + k a_{pn} x_n = k b_p.
   $$
 
-## Elementary row operations iv
+---
 
 Consider equation $p$ of the above system:
 
@@ -529,14 +546,14 @@ $$
 
 - We can add any two equations:
 
- $$
+ \begin{multline*}
  (a_{p1} + a_{q1}) x_1 + (a_{p2} + a_{q2}) x_2 + \cdots + (a_{pn} +
- a_{qn}) x_n = b_p + b_q.
- $$
+ a_{qn}) x_n \\
+ = b_p + b_q.
+ \end{multline*}
 
-### Example
+### Example {.write}
 
-Consider the system
 \begin{align}
 2 x_1 + 3 x_2 & = 4  \label{eq:eg1a} \\
 -3 x_1 + 2 x_2 & = 7 \label{eq:eg1b}.
@@ -554,7 +571,8 @@ Then we have:
 \end{align*}
 :::
 
-### Exercise
+### Exercise {.smaller}
+
 Consider the system
 \begin{align}
 x_1 + 2 x_2 & = 1 \label{eq:eg2a} \\
@@ -672,7 +690,7 @@ For a system written in matrix form our three observations mean the following:
   (here we replaced row $2$ by row $2 + (-4) \times$ row $1$)
 :::
 
-### Our grand plan - refined
+### Our grand plan - refined {.smaller}
 
 Our strategy for solving systems of linear equations using Gaussian elimination
 is based on the following ideas:
@@ -687,6 +705,13 @@ is based on the following ideas:
   as **forward elimination** or (more commonly) as **Gaussian elimination**.
 
 ## Gaussian elimination
+
+::: {.callout-tip}
+### Module learning objective
+- Apply Gaussian elimination and **backward substitution** to solve linear systems;
+:::
+
+### Some history... {.smaller}
 
 The method is so old, in fact we have evidence of Chinese mathematicians using
 Gaussian elimination in 179CE (From
@@ -710,14 +735,26 @@ equations, below the diagonal.
    non-zero entries in column 2.
 3. Repeat for row $3, 4, \ldots, n-1$.
 
-After row $n-1$ all entities below the diagonal have been eliminated, so $A$ is
-now upper triangular and the resulting system can be solved by backward
-substitution.
+After row $n-1$, all entities below the diagonal have been eliminated.
 
 ### Example
 
 Use Gaussian elimination to reduce the following system of equations to upper
 triangular form:
+
+$$
+\begin{pmatrix}
+ 2 & 1 & 4 \\ 1 & 2 & 2 \\ 2 & 4 & 6
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\ x_2 \\ x_3
+\end{pmatrix} =
+\begin{pmatrix}
+12 \\ 9 \\ 22
+\end{pmatrix}.
+$$
+
+### Example {.smaller .write}
 
 $$
 \begin{pmatrix}
@@ -828,10 +865,12 @@ The key idea is that:
 ```{pyodide}
 def row_swap(A, b, p, q):
     """
-    Swap two rows (p and q) in a linear system of equations in place.
+    Swap two rows (p and q) in a linear system of
+    equations in place.
     """
     n = system_size(A, b)
     ...
+
 
 ```
 
@@ -887,13 +926,16 @@ print_array(b)
 print()
 
 print("swapping rows 0 and 1")
-row_swap(A, b, 0, 1)  # remember numpy arrays are indexed starting from zero!
+# remember numpy arrays are indexed from zero!
+row_swap(A, b, 0, 1)
 print()
 
 print("new arrays:")
 print_array(A)
 print_array(b)
 print()
+
+
 ```
 
 ### Row scaling
@@ -901,10 +943,12 @@ print()
 ```{pyodide}
 def row_scale(A, b, p, k):
     """
-    Scale a row (p) of a linear system by a constant factor (k) in place.
+    Scale a row (p) of a linear system by a constant
+    factor (k) in place.
     """
     n = system_size(A, b)
     ...
+
 
 ```
 
@@ -960,13 +1004,16 @@ print_array(b)
 print()
 
 print("row 0 |-> 0.5 * row 0")
-row_scale(A, b, 0, 0.5)  # remember numpy arrays are indexed started from zero!
+# remember numpy arrays are indexed from zero!
+row_scale(A, b, 0, 0.5)
 print()
 
 print("new arrays:")
 print_array(A)
 print_array(b)
 print()
+
+
 ```
 
 ### Row adding
@@ -974,11 +1021,13 @@ print()
 ```{pyodide}
 def row_add(A, b, p, k, q):
     """
-    Perform an in-place row addition operation on a linear system.
+    Perform an in-place row addition operation on a
+    linear system.
     row_p ← row_p + k * row_q
     """
     n = system_size(A, b)
     ...
+
 
 ```
 
@@ -1038,7 +1087,8 @@ print_array(b)
 print()
 
 print("row 1 |-> row 1 + 1.5 * row 0")
-row_add(A, b, 1, 1.5, 0)  # remember numpy arrays are indexed started from zero!
+# remember numpy arrays are indexed from zero!
+row_add(A, b, 1, 1.5, 0)
 print()
 
 print("new arrays:")
@@ -1054,13 +1104,22 @@ print()
 Now we can define our Gaussian elimination function. We update the values
 in-place to avoid extra memory allocations.
 
+::: {.aside}
+$$
+(\text{row } j) \leftarrow (\text{row } j) - \frac{a_{ji}}{a_{ii}}
+(\text{row } i).
+$$
+:::
+
 ```{pyodide}
 def gaussian_elimination(A, b, verbose=False):
     """
-    Perform Gaussian elimination to reduce a linear system to upper triangular
-    form.
+    Perform Gaussian elimination to reduce a linear
+    system to upper triangular form.
     """
     ...
+
+
 ```
 
 ::: {.notes}
@@ -1107,7 +1166,10 @@ def gaussian_elimination(A, b, verbose=False):
             # row j
             factor = A[j, i] / A[i, i]
             if verbose:
-                print(f"  row {j} |-> row {j} - {factor} * row {i}")
+                print(
+                    f"  row {j} |-> row {j}"
+                    f" - {factor} * row {i}"
+                )
             row_add(A, b, j, -factor, i)
 
         if verbose:
@@ -1125,7 +1187,9 @@ def gaussian_elimination(A, b, verbose=False):
 We can try our code on Example 1:
 
 ```{pyodide}
-A = np.array([[2.0, 1.0, 4.0], [1.0, 2.0, 2.0], [2.0, 4.0, 6.0]])
+A = np.array(
+    [[2.0, 1.0, 4.0], [1.0, 2.0, 2.0], [2.0, 4.0, 6.0]]
+)
 b = np.array([[12.0], [9.0], [22.0]])
 
 print("starting system:")
@@ -1143,15 +1207,15 @@ print_array(b)
 print()
 
 # test that A is really upper triangular
-print("Is A really upper triangular?", np.allclose(A, np.triu(A)))
+print(
+    "Is A really upper triangular?",
+    np.allclose(A, np.triu(A)),
+)
 
 
 ```
 
-## Combining Gaussian elimination and backward substitution
-
-Our grand strategy can now come together so we have a method to solve systems of
-linear equations:
+### Combining Gaussian elimination and backward substitution
 
 Given a system of linear equations $A\vec{x} = \vec{b}$;
 
@@ -1163,6 +1227,7 @@ Given a system of linear equations $A\vec{x} = \vec{b}$;
 
 ```{pyodide}
 #| include: false
+
 
 def row_swap(A, b, p, q):
     """
@@ -1319,7 +1384,9 @@ def gaussian_elimination(A, b, verbose=False):
             # row j
             factor = A[j, i] / A[i, i]
             if verbose:
-                print(f"  row {j} |-> row {j} - {factor} * row {i}")
+                print(
+                    f"  row {j} |-> row {j} - {factor} * row {i}"
+                )
             row_add(A, b, j, -factor, i)
 
         if verbose:
@@ -1368,7 +1435,9 @@ def backward_substitution(A, b):
     x = np.empty_like(b)
 
     # perform backwards solve
-    for i in range(n - 1, -1, -1):  # iterate over rows backwards
+    for i in range(
+        n - 1, -1, -1
+    ):  # iterate over rows backwards
         partial_sum = 0.0
         for j in range(i + 1, n):
             partial_sum += A[i, j] * x[j]
@@ -1382,7 +1451,9 @@ def backward_substitution(A, b):
 We can use our code to test this:
 
 ```{pyodide}
-A = np.array([[2.0, 1.0, 4.0], [1.0, 2.0, 2.0], [2.0, 4.0, 6.0]])
+A = np.array(
+    [[2.0, 1.0, 4.0], [1.0, 2.0, 2.0], [2.0, 4.0, 6.0]]
+)
 b = np.array([[12.0], [9.0], [22.0]])
 
 print("starting system:")
@@ -1407,9 +1478,14 @@ print("solution using backward substitution:")
 print_array(x)
 print()
 
-A = np.array([[2.0, 1.0, 4.0], [1.0, 2.0, 2.0], [2.0, 4.0, 6.0]])
+A = np.array(
+    [[2.0, 1.0, 4.0], [1.0, 2.0, 2.0], [2.0, 4.0, 6.0]]
+)
 b = np.array([[12.0], [9.0], [22.0]])
-print("Does x really solve the original system?", np.allclose(A @ x, b))
+print(
+    "Does x really solve the original system?",
+    np.allclose(A @ x, b),
+)
 ```
 
 ### Exercise
@@ -1430,6 +1506,14 @@ x_1 \\ x_2 \\ x_3
 \end{equation*}
 
 ## The cost of Gaussian Elimination
+
+::: {.callout-tip}
+### Module learning objective
+
+- Evaluate the computational cost and numerical stability of direct linear solvers, including the role of pivoting in finite-precision arithmetic.
+:::
+
+---
 
 Gaussian elimination (GE) is unnecessarily expensive when it is applied to many
 systems of equations with the same matrix $A$ but different right-hand sides
@@ -1476,11 +1560,15 @@ def system_size(A, b):
 
     # Validate that A is a 2D square matrix
     if A.ndim != 2:
-        raise ValueError(f"Matrix A must be 2D, but got {A.ndim}D array")
+        raise ValueError(
+            f"Matrix A must be 2D, but got {A.ndim}D array"
+        )
 
     n, m = A.shape
     if n != m:
-        raise ValueError(f"Matrix A must be square, but got A.shape={A.shape}")
+        raise ValueError(
+            f"Matrix A must be square, but got A.shape={A.shape}"
+        )
 
     if b.shape[0] != n:
         raise ValueError(
@@ -1526,7 +1614,9 @@ def print_array(array, array_name=None, end=None):
 
     # determine precision
     precision = 1
-    while not np.allclose(array, np.round(array, precision)):
+    while not np.allclose(
+        array, np.round(array, precision)
+    ):
         precision = precision + 1
         if precision == 16:
             break
@@ -1538,9 +1628,16 @@ def print_array(array, array_name=None, end=None):
         if i == 0:
             print(f"{array_name} = [ ", end="")
         else:
-            print(" " * len(array_name) + "   [ ", end="")
+            print(
+                " " * len(array_name) + "   [ ", end=""
+            )
 
-        print(", ".join([format_str.format(v) for v in array[i]]), end=" ]")
+        print(
+            ", ".join(
+                [format_str.format(v) for v in array[i]]
+            ),
+            end=" ]",
+        )
         print(end=end)
 
 
@@ -1699,7 +1796,9 @@ def gaussian_elimination(A, b, verbose=False):
             # row j
             factor = A[j, i] / A[i, i]
             if verbose:
-                print(f"  row {j} |-> row {j} - {factor} * row {i}")
+                print(
+                    f"  row {j} |-> row {j} - {factor} * row {i}"
+                )
             row_add(A, b, j, -factor, i)
 
         if verbose:
@@ -1748,7 +1847,9 @@ def backward_substitution(A, b):
     x = np.empty_like(b)
 
     # perform backwards solve
-    for i in range(n - 1, -1, -1):  # iterate over rows backwards
+    for i in range(
+        n - 1, -1, -1
+    ):  # iterate over rows backwards
         partial_sum = 0.0
         for j in range(i + 1, n):
             partial_sum += A[i, j] * x[j]
@@ -1783,8 +1884,15 @@ for n in sizes:
 # | fig-cap: "Runtime cost of applying Gaussian elimination (GE) and backwards
 # | solution (BS)."
 
-plt.loglog(sizes, times_GE, "C0o", label="GE")
-plt.loglog(sizes, times_BS, "C1o", label="BS")
+plt.loglog(
+    sizes, times_GE, "C0o", label="Gaussian elimination"
+)
+plt.loglog(
+    sizes,
+    times_BS,
+    "C1o",
+    label="Backwards subsitution",
+)
 
 coefficients_GE = np.polyfit(sizes, times_GE, 3)
 coefficients_BS = np.polyfit(sizes, times_BS, 2)
@@ -1792,9 +1900,13 @@ polynomial_GE = np.poly1d([coefficients_GE[0], 0, 0, 0])
 polynomial_BS = np.poly1d([coefficients_BS[0], 0, 0])
 
 # Generate x values for plotting the polynomial line
-GE_poly = polynomial_GE(np.array(sizes, dtype=np.double))
+GE_poly = polynomial_GE(
+    np.array(sizes, dtype=np.double)
+)
 plt.loglog(sizes, GE_poly, "C0--", label="$O(n^3)$")
-BS_poly = polynomial_BS(np.array(sizes, dtype=np.double))
+BS_poly = polynomial_BS(
+    np.array(sizes, dtype=np.double)
+)
 plt.loglog(sizes, BS_poly, "C1--", label="$O(n^2)$")
 
 plt.xlabel("$n$")
@@ -1809,6 +1921,13 @@ plt.show()
 ```
 
 ## LU factorisation {#sec-LU-factorisation}
+
+::: {.callout-tip}
+### Module learning objective
+- Apply LU factorisation to solve linear systems efficiently.
+:::
+
+---
 
 Recall the elementary row operations (EROs) from above. Note that the EROs can
 be produced by left multiplication with a suitable matrix:
@@ -1827,7 +1946,7 @@ be produced by left multiplication with a suitable matrix:
   \end{pmatrix}
   $$
 
-### Elementary row operations (visited)
+### {.smaller}
 
 - Row swap:
 
@@ -1843,6 +1962,8 @@ be produced by left multiplication with a suitable matrix:
   \end{pmatrix}
   $$
 
+---
+
 - Multiply row by $\alpha$:
 
   $$
@@ -1856,6 +1977,8 @@ be produced by left multiplication with a suitable matrix:
   \alpha a & \alpha b & \alpha c \\ d & e & f \\ g & h & i
   \end{pmatrix}
   $$
+
+### {.smaller}
 
 - $\alpha \times \text{row } p + \text{row } q$:
 
@@ -1907,7 +2030,13 @@ $O(n^3)$ operations).
 
 ## Effects of finite precision arithmetic
 
-Consider the following linear system of equations
+::: {.callout-tip}
+### Module learning objective
+
+- Evaluate the computational cost and numerical stability of direct linear solvers, including the role of pivoting in finite-precision arithmetic.
+:::
+
+### Example 1 {.smaller .write}
 
 $$
 \begin{pmatrix}
@@ -1973,9 +2102,7 @@ multiples of row 1 to rows 2 and 3, respectively.
   \end{align*}
 :::
 
-### Example 2
-
-Consider another system of equations
+### Example 2 {.smaller .write}
 
 $$
 \begin{pmatrix}
@@ -2052,10 +2179,7 @@ Avoiding zero-division might be a familiar aspect of Gaussian elimination, but
 there is an additional reason to apply pivoting when working with floating point
 numbers:
 
-### Example 3
-
-Consider using Gaussian elimination to solve the linear system of equations
-given by
+### Example 3 {.smaller .write}
 
 $$
 \begin{pmatrix}
@@ -2095,9 +2219,7 @@ where $\varepsilon \neq 1$.
   significant rounding errors into the computation.
 :::
 
-### Example 3 ii
-
-Use Gaussian elimination to solve the linear system of equations given by
+### Example 3 ii {.smaller .write}
 
 $$
 \begin{pmatrix}
@@ -2143,7 +2265,15 @@ This is a genuine problem we see in the code versions too!
 # | echo: false
 
 print("without row swapping:")
-for eps in [1.0e-2, 1.0e-4, 1.0e-6, 1.0e-8, 1.0e-10, 1.0e-12, 1.0e-14]:
+for eps in [
+    1.0e-2,
+    1.0e-4,
+    1.0e-6,
+    1.0e-8,
+    1.0e-10,
+    1.0e-12,
+    1.0e-14,
+]:
     A = np.array([[eps, 1.0], [1.0, 1.0]])
     b = np.array([[2.0 + eps], [3.0]])
 
@@ -2158,7 +2288,15 @@ for eps in [1.0e-2, 1.0e-4, 1.0e-6, 1.0e-8, 1.0e-10, 1.0e-12, 1.0e-14]:
 print()
 
 print("with row swapping:")
-for eps in [1.0e-2, 1.0e-4, 1.0e-6, 1.0e-8, 1.0e-10, 1.0e-12, 1.0e-14]:
+for eps in [
+    1.0e-2,
+    1.0e-4,
+    1.0e-6,
+    1.0e-8,
+    1.0e-10,
+    1.0e-12,
+    1.0e-14,
+]:
     A = np.array([[1.0, 1.0], [eps, 1.0]])
     b = np.array([[3.0], [2.0 + eps]])
 
@@ -2171,6 +2309,8 @@ for eps in [1.0e-2, 1.0e-4, 1.0e-6, 1.0e-8, 1.0e-10, 1.0e-12, 1.0e-14]:
     b = np.array([[3.0], [2.0 + eps]])
     print("Solution?", np.allclose(A @ x, b))
 print()
+
+
 ```
 
 ### Remarks
@@ -2204,7 +2344,7 @@ As always, solving $A \vec{x} = \vec{b}$ requires that the entries in $\vec{b}$
 are also swapped in the appropriate way.
 :::
 
-### Example
+### Example {.smaller}
 
 Consider the linear system of equations given by
 
@@ -2341,11 +2481,15 @@ $$
 ### Python code for Gaussian elimination with pivoting
 
 ```{pyodide}
-def gaussian_elimination_with_pivoting(A, b, verbose=False):
+def gaussian_elimination_with_pivoting(
+    A, b, verbose=False
+):
     """
-    perform Gaussian elimnation with pivoting to reduce the system of linear
-    equations Ax=b to upper triangular form.
-    use verbose to print out intermediate representations
+    perform Gaussian elimination with pivoting to
+    reduce the system of linear equations Ax=b to
+    upper triangular form.
+    use verbose to print out intermediate
+    representations
     """
     # find shape of system
     n = system_size(A, b)
@@ -2359,7 +2503,10 @@ def gaussian_elimination_with_pivoting(A, b, verbose=False):
             # row j
             factor = A[j, i] / A[i, i]
             if verbose:
-                print(f"  row {j} |-> row {j} - {factor} * row {i}")
+                print(
+                    f"  row {j} |-> row {j}"
+                    f" - {factor} * row {i}"
+                )
             row_add(A, b, j, -factor, i)
 
         if verbose:
@@ -2377,7 +2524,13 @@ Gaussian elimination without pivoting following by back subsitution:
 
 ```{pyodide}
 eps = 1.0e-14
-A = np.array([[10.0, -7.0, 0.0], [-3.0, 2.1 - eps, 6.0], [5.0, -1.0, 5.0]])
+A = np.array(
+    [
+        [10.0, -7.0, 0.0],
+        [-3.0, 2.1 - eps, 6.0],
+        [5.0, -1.0, 5.0],
+    ]
+)
 b = np.array([[7.0], [9.9 + eps], [11.0]])
 
 print("starting system:")
@@ -2385,7 +2538,9 @@ print_array(A)
 print_array(b)
 print()
 
-print("performing Gaussian elimination without pivoting")
+print(
+    "performing Gaussian elimination without pivoting"
+)
 gaussian_elimination(A, b, verbose=True)
 print()
 
@@ -2402,16 +2557,31 @@ print("solution using backward substitution:")
 print_array(x)
 print()
 
-A = np.array([[10.0, -7.0, 0.0], [-3.0, 2.1 - eps, 6.0], [5.0, -1.0, 5.0]])
+A = np.array(
+    [
+        [10.0, -7.0, 0.0],
+        [-3.0, 2.1 - eps, 6.0],
+        [5.0, -1.0, 5.0],
+    ]
+)
 b = np.array([[7.0], [9.9 + eps], [11.0]])
-print("Does x solve the original system?", np.allclose(A @ x, b))
+print(
+    "Does x solve the original system?",
+    np.allclose(A @ x, b),
+)
 ```
 
 Gaussian elimination with pivoting following by back subsitution:
 
 ```{pyodide}
 eps = 1.0e-14
-A = np.array([[10.0, -7.0, 0.0], [-3.0, 2.1 - eps, 6.0], [5.0, -1.0, 5.0]])
+A = np.array(
+    [
+        [10.0, -7.0, 0.0],
+        [-3.0, 2.1 - eps, 6.0],
+        [5.0, -1.0, 5.0],
+    ]
+)
 b = np.array([[7.0], [9.9 + eps], [11.0]])
 
 print("starting system:")
@@ -2436,7 +2606,23 @@ print("solution using backward substitution:")
 print_array(x)
 print()
 
-A = np.array([[10.0, -7.0, 0.0], [-3.0, 2.1 - eps, 6.0], [5.0, -1.0, 5.0]])
+A = np.array(
+    [
+        [10.0, -7.0, 0.0],
+        [-3.0, 2.1 - eps, 6.0],
+        [5.0, -1.0, 5.0],
+    ]
+)
 b = np.array([[7.0], [9.9 + eps], [11.0]])
-print("Does x solve the original system?", np.allclose(A @ x, b))
+print(
+    "Does x solve the original system?",
+    np.allclose(A @ x, b),
+)
 ```
+
+## Summary {.smaller}
+
+- We have introduced some methods for solving systems of linear equations based manipulating the system into an upper triangular form and then applying backwards substitution.
+- The methods require a fixed amount of work but that amount will tend to be large for large systems.
+- We have seen that care must be taken when working with floating point numbers to ensure accurate results.
+- Next we will see an alternative approach which often works much more quickly in a range of different practical scenarios.

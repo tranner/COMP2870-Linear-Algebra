@@ -1,0 +1,27 @@
+# Linear algebra slides
+
+```{python}
+#| output: asis
+import glob
+
+import yaml
+
+files = sorted(glob.glob("lec*.qmd"))
+
+for file in files:
+    html = file.replace("qmd", "html")
+
+    with open(file) as f:
+        lines = f.readlines()
+        end_yml_line_number = lines[1:].index("---\n")
+        yaml_block = "\n".join(
+            lines[1:end_yml_line_number]
+        )
+        metadata = yaml.load(
+            yaml_block, Loader=yaml.SafeLoader
+        )
+        subtitle = metadata["subtitle"]
+
+    title = f"`{html}`: {subtitle}"
+    print(f"- [{title}]({html})")
+```

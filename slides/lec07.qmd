@@ -5,18 +5,16 @@ subtitle: The QR algorithm
 format: live-revealjs
 ---
 
-# Portfolio updates
-
-| Worksheet | Submissions           | Passes                   |
-|-----------|-----------------------|--------------------------|
-| Week 1    | 234 (75% of students) | 183 (78% of submissions) |
-| Week 2    | 194 (62%)             | 114 (59%)                |
-| Week 3    | 172 (55%)             | 120 (70%)                |
-| Week 5    | 99 (32%)              | -                        |
-
-**New drop in session: Thursday 1-2pm, Bragg 2.07**
-
 # Eigenvectors and eigenvalues: practical solutions
+
+::: {.callout-tip}
+## Module learning objective
+
+- Derive and apply the Gram-Schmidt process to compute a QR factorisation of a
+  matrix by hand.
+- Implement the QR algorithm in Python and evaluate its computational feasibility on large matrices.
+- Understand how the QR algorithm preserves eigenvalues using similarity
+:::
 
 ```{python}
 # | echo: false
@@ -25,7 +23,6 @@ import time
 
 import numpy as np
 from matplotlib import pyplot as plt
-from scipy.optimize import curve_fit
 from scipy.stats import special_ortho_group
 
 plt.style.use("theme/comp2870.mplstyle")
@@ -66,7 +63,9 @@ def print_array(array, array_name=None, end=None):
 
     # determine precision
     precision = 1
-    while not np.allclose(array, np.round(array, precision)):
+    while not np.allclose(
+        array, np.round(array, precision)
+    ):
         precision = precision + 1
         if precision == 16:
             break
@@ -81,10 +80,20 @@ def print_array(array, array_name=None, end=None):
         if i == 0:
             print(f"{array_name} = [ ", end="")
         else:
-            print(" " * len(array_name) + "   [ ", end="")
+            print(
+                " " * len(array_name) + "   [ ", end=""
+            )
 
         try:
-            print(", ".join([format_str.format(v) for v in array[i]]), end=" ]")
+            print(
+                ", ".join(
+                    [
+                        format_str.format(v)
+                        for v in array[i]
+                    ]
+                ),
+                end=" ]",
+            )
         except TypeError:
             print(format_str.format(array[i]), end=" ]")
         print(end=end)
@@ -98,6 +107,7 @@ def print_array(array, array_name=None, end=None):
 import inspect
 
 import numpy as np
+
 
 def print_array(array, array_name=None, end=None):
     """
@@ -134,7 +144,9 @@ def print_array(array, array_name=None, end=None):
 
     # determine precision
     precision = 1
-    while not np.allclose(array, np.round(array, precision)):
+    while not np.allclose(
+        array, np.round(array, precision)
+    ):
         precision = precision + 1
         if precision == 16:
             break
@@ -149,10 +161,20 @@ def print_array(array, array_name=None, end=None):
         if i == 0:
             print(f"{array_name} = [ ", end="")
         else:
-            print(" " * len(array_name) + "   [ ", end="")
+            print(
+                " " * len(array_name) + "   [ ", end=""
+            )
 
         try:
-            print(", ".join([format_str.format(v) for v in array[i]]), end=" ]")
+            print(
+                ", ".join(
+                    [
+                        format_str.format(v)
+                        for v in array[i]
+                    ]
+                ),
+                end=" ]",
+            )
         except TypeError:
             print(format_str.format(array[i]), end=" ]")
         print(end=end)
@@ -160,14 +182,9 @@ def print_array(array, array_name=None, end=None):
 
 ```
 
-::: {.callout-tip}
-**Module learning outcome:** apply algorithms to compute eigenvectors and
-eigenvalues of large matrices.
-:::
-
 Chapter 8
 
-## The problem
+### The problem
 
 Finding numbers $\lambda$ (eigenvalues) and vectors $\vec{x}$ (eigenvectors)
 which satisfy the equation:
@@ -189,6 +206,10 @@ P_3^{-1} P_2^{-1} P_1^{-1} A P_1 P_2 P_3 \\
 We aim to get all the way to a simple matrix where we read off the eigenvalues
 and eigenvectors.
 
+::: {.aside}
+Thm. Similar matrices have the same eigenvalues.
+:::
+
 ### Example
 
 For example, if at level $m$, say, we have transformed $A$ into an upper triangular
@@ -200,98 +221,6 @@ and the eigenvectors are the columns of the matrix
 \begin{equation*}
 S_m = P_1 P_2 \cdots P_{m-1} P_m.
 \end{equation*}
-
-## Symmetric matrices
-
-::: {#thm-symmetric}
-Let $A$ be a symmetric matrix ($A^T = A$) with real entries. Then $A$ has $n$
-real eigenvalues (zero imaginary part) and any eigenvectors with distinct
-eigenvalues are orthogonal.
-:::
-
-::: {.notes}
-Let $\lambda$ be an eigenvalue of $A$ with eigenvector $\vec{x}$. Recall that
-$\vec{x} \neq 0$. Then, since $A$ has real values, we can compute that:
-\begin{equation*}
-\bar{(A \vec{x})}_i = \bar{\left(\sum_{j=1}^n A_{ji} x_i\right)}
-= \sum_{j=1}^n A_{ji} \bar{x_i} = (A \bar{\vec{x}})_i.
-\end{equation*}
-We also note that any real, symmetric matrix is automatically Hermitian.
-
-Then we see that
-\begin{align*}
-\lambda \langle \vec{x}, \vec{x} \rangle
-& = \langle (\lambda \vec{x}), \vec{x} \rangle
-&& \text{(from definition of Hermitian product)}\\
-& = \langle (A \vec{x}), \vec{x} \rangle
-&& \text{(definition of eigenvalue and eigenvector)} \\
-& = \langle \vec{x}, A \vec{x} \rangle
-&& \text{(symmetry of $A$)} \\
-& = \langle \vec{x}, \lambda \vec{x} \rangle
-&& \text{(definition of eigenvalue and eigenvector)} \\
-& = \bar{\lambda} \langle \vec{x}, \vec{x} \rangle
-&& \text{(from definition of Hermitian product)}.
-\end{align*}
-Since, $\langle \vec{x}, \vec{x} \rangle > 0$ (recall $\vec{x} \neq 0$), we can
-divide by $\langle \vec{x}, \vec{x} \rangle$ so infer that
-\begin{equation*}
-\lambda = \bar{\lambda}.
-\end{equation*}
-
-Next, let $\vec{x}$ and $\vec{y}$ be eigenvectors of $A$ with distinct,
-eigenvalues $\lambda$ and $\mu$, respectively. From the first part of the proof,
-we know that $\lambda$ and $\mu$ are real. We compute that
-\begin{align*}
-\lambda \langle \vec{x}, \vec{y} \rangle
-& = \langle \lambda \vec{x}, \vec{y} \rangle \\
-& = \langle A \vec{x}, \vec{y} \rangle \\
-& = \langle \vec{x}, A^H \vec{y} \rangle \\
-& = \langle \vec{x}, A \vec{y} \rangle \\
-& = \langle \vec{x}, \mu \vec{y} \rangle \\
-& = \bar{\mu} \langle \vec{x}, \vec{y} \rangle \\
-& = \mu \langle \vec{x}, \vec{y} \rangle.
-\end{align*}
-Subtracting the right-hand side from the left hand side we see that
-\begin{equation*}
-(\lambda - \mu) \langle \vec{x}, \vec{y} \rangle = 0.
-\end{equation*}
-This implies that if $\lambda$ and $\mu$ are distinct, then $\langle \vec{x},
-\vec{y} \rangle = 0$.
-:::
-
-### Symmetric matrices and bases
-
-::: {#cor-evector-basis}
-Let $A$ be a symmetric $n \times n$ matrix with real entries and $n$ distinct
-eigenvectors. Then the eigenvectors of $A$ form a basis of $\mathbb{R}^n$.
-:::
-
-::: {.notes}
-We can only give an incomplete proof of this result. We will show that the
-eigenvectors are linearly independent. The proof is completed by showing that if
-you have any $n$ linearly independent vectors in $\mathbb{R}^n$ then you must
-have a basis.
-
-Denote by $\vec{x}^{(1)}, \ldots \vec{x}^{(n)}$ the $n$ eigenvectors of $A$.
-We want to show that the eigenvectors are linearly independent.
-Suppose that we have real numbers $\alpha_1, \alpha_2, \cdots, \alpha_n$ such
-that:
-\begin{equation}
-\label{eq:evalue-lin}
-\sum_{i=1}^n \alpha_i \vec{x}^{(i)} = \vec{0}.
-\end{equation}
-To show the eigenvectors are linearly independent, we need to show that all
-$\alpha_i = 0$. We can do this by taking the inner product of
-\eqref{eq:evalue-lin} with $\vec{x}^{(j)}$ for *any* $j$:
-\begin{equation*}
-0 = \vec{0} \cdot \vec{x}^{(j)}
-= \left(\sum_{i=1}^n \alpha_i \vec{x}^{(i)}\right) \cdot \vec{x}^{(j)}
-= \sum_{i=1}^n \alpha_i \left( \vec{x^{(i)}} \cdot \vec{x}^{(j)} \right)
-= \alpha_j \vec{x}^{(j)} \cdot \vec{x}^{(j)}.
-\end{equation*}
-Since we have that $|\vec{x}^{(j)}| > 0$, we have $\alpha_j = 0$ and we have
-shown that the eigenvectors are linearly independent.
-:::
 
 ### Orthogonal matrices
 
@@ -331,7 +260,7 @@ extra problems from finite precision.
 Examples of orthonormal matrices include matrices which describe rotations.
 :::
 
-### Example
+### Example {.small .write}
 
 Show that the rotation matrix $R(\theta)$ is orthonormal.
 $$
@@ -374,7 +303,15 @@ We can think two ways:
 
 ## QR algorithm
 
-The QR algorithm is an iterative method for computing eigenvalues and
+::: {.callout-tip}
+## Module learning objective
+
+- Understand how the QR algorithm preserves eigenvalues using similarity.
+:::
+
+---
+
+The QR algorithm is an *iterative method* for computing eigenvalues and
 eigenvectors.
 
 At each step a matrix is factored into a product in a similar fashion to LU
@@ -439,7 +376,13 @@ an orthonormal matrix. If we track this process as a matrix-matrix product, we
 find that the other factor is upper triangular.
 :::
 
-### The Gram-Schmidt process
+## The Gram-Schmidt process
+
+::: {.callout-tip}
+### Module learning objective
+
+- Derive and apply the Gram-Schmidt process to compute a QR factorisation of a
+:::
 
 ... a classical way to compute a QR factorisation...
 
@@ -499,32 +442,63 @@ def draw_arrow(pt, label, color):
         color=color,
         va="center",
         ha="center",
-        rotation=np.arctan2(pt[1], pt[0]) * (180 / np.pi),
+        rotation=np.arctan2(pt[1], pt[0])
+        * (180 / np.pi),
         rotation_mode="anchor",
         transform_rotates_text=True,
     )
 
 
 plt.plot(
-    [0.9 * Pq_a[0], 0.9 * Pq_a[0] + 0.1 * Pqp_a[0], Pq_a[0] + 0.1 * Pqp_a[0]],
-    [0.9 * Pq_a[1], 0.9 * Pq_a[1] + 0.1 * Pqp_a[1], Pq_a[1] + 0.1 * Pqp_a[1]],
+    [
+        0.9 * Pq_a[0],
+        0.9 * Pq_a[0] + 0.1 * Pqp_a[0],
+        Pq_a[0] + 0.1 * Pqp_a[0],
+    ],
+    [
+        0.9 * Pq_a[1],
+        0.9 * Pq_a[1] + 0.1 * Pqp_a[1],
+        Pq_a[1] + 0.1 * Pqp_a[1],
+    ],
     color="0.5",
 )
 plt.plot(
-    [0.9 * Pqp_a[0], 0.9 * Pqp_a[0] + 0.1 * Pq_a[0], Pqp_a[0] + 0.1 * Pq_a[0]],
-    [0.9 * Pqp_a[1], 0.9 * Pqp_a[1] + 0.1 * Pq_a[1], Pqp_a[1] + 0.1 * Pq_a[1]],
+    [
+        0.9 * Pqp_a[0],
+        0.9 * Pqp_a[0] + 0.1 * Pq_a[0],
+        Pqp_a[0] + 0.1 * Pq_a[0],
+    ],
+    [
+        0.9 * Pqp_a[1],
+        0.9 * Pqp_a[1] + 0.1 * Pq_a[1],
+        Pqp_a[1] + 0.1 * Pq_a[1],
+    ],
     color="0.5",
 )
 
 draw_arrow(a, "$\\vec{a}$", "C0")
 draw_arrow(q, "$\\vec{q}$", "C1")
-draw_arrow(Pq_a, "$(\\vec{a} \\cdot \\vec{q}) \\vec{q}$", "C2")
 draw_arrow(
-    Pqp_a, "$\\vec{u} = \\vec{a} - (\\vec{a} \\cdot \\vec{q}) \\vec{q}$", "C3"
+    Pq_a, "$(\\vec{a} \\cdot \\vec{q}) \\vec{q}$", "C2"
+)
+draw_arrow(
+    Pqp_a,
+    "$\\vec{u} = \\vec{a} - (\\vec{a} \\cdot \\vec{q}) \\vec{q}$",
+    "C3",
 )
 
-plt.plot([a[0], Pq_a[0]], [a[1], Pq_a[1]], color="C2", linestyle="--")
-plt.plot([a[0], Pqp_a[0]], [a[1], Pqp_a[1]], color="C3", linestyle="--")
+plt.plot(
+    [a[0], Pq_a[0]],
+    [a[1], Pq_a[1]],
+    color="C2",
+    linestyle="--",
+)
+plt.plot(
+    [a[0], Pqp_a[0]],
+    [a[1], Pqp_a[1]],
+    color="C3",
+    linestyle="--",
+)
 
 plt.grid(True)
 plt.axis("square")
@@ -691,7 +665,11 @@ Q = [U[0] / np.linalg.norm(U[0])]
 U.append(A[1] - np.dot(A[1], Q[0]) * Q[0])
 Q.append(U[1] / np.linalg.norm(U[1]))
 
-U.append(A[2] - np.dot(A[2], Q[0]) * Q[0] - np.dot(A[2], Q[1]) * Q[1])
+U.append(
+    A[2]
+    - np.dot(A[2], Q[0]) * Q[0]
+    - np.dot(A[2], Q[1]) * Q[1]
+)
 Q.append(U[2] / np.linalg.norm(U[2]))
 
 for j, a in enumerate(A):
@@ -797,11 +775,13 @@ in exact-precision calculations...
 ```{pyodide}
 def gram_schmidt_qr(A):
     """
-    Compute the QR factorisation of a square matrix using the classical
-    Gram-Schmidt process.
+    Compute the QR factorisation of a square matrix
+    using the classical Gram-Schmidt process.
     """
     n, m = A.shape
     ...
+
+
 ```
 
 ::: {.notes}
@@ -827,7 +807,9 @@ def gram_schmidt_qr(A):
     """
     n, m = A.shape
     if n != m:
-        raise ValueError(f"the matrix A is not square, {A.shape=}")
+        raise ValueError(
+            f"the matrix A is not square, {A.shape=}"
+        )
 
     Q = np.empty_like(A)
     R = np.zeros_like(A)
@@ -838,8 +820,12 @@ def gram_schmidt_qr(A):
 
         # Orthogonalize against previous q vectors
         for i in range(j):
-            R[i, j] = np.dot(Q[:, i], A[:, j])  # projection coefficient
-            u -= R[i, j] * Q[:, i]  # subtract the projection
+            R[i, j] = np.dot(
+                Q[:, i], A[:, j]
+            )  # projection coefficient
+            u -= (
+                R[i, j] * Q[:, i]
+            )  # subtract the projection
 
         # Normalize u to get q_j
         R[j, j] = np.linalg.norm(u)
@@ -856,7 +842,9 @@ def gram_schmidt_qr(A):
 Let's test it without our example above:
 ```{pyodide}
 # matrix with columns equal to a1, a2 and a3
-A = np.array([[1.0, 2.0, 1.0], [0.0, -1.0, 2.0], [1.0, 0.0, 1.0]])
+A = np.array(
+    [[1.0, 2.0, 1.0], [0.0, -1.0, 2.0], [1.0, 0.0, 1.0]]
+)
 
 print_array(A)
 
@@ -866,9 +854,13 @@ print("QR factorisation:")
 print_array(Q)
 print_array(R)
 
-print("Have we computed a factorisation? (A == Q @ R?)", np.allclose(A, Q @ R))
 print(
-    "Is Q orthonormal? (Q.T @ Q == np.eye(3))", np.allclose(np.eye(3), Q.T @ Q)
+    "Have we computed a factorisation? (A == Q @ R?)",
+    np.allclose(A, Q @ R),
+)
+print(
+    "Is Q orthonormal? (Q.T @ Q == np.eye(3))",
+    np.allclose(np.eye(3), Q.T @ Q),
 )
 
 
@@ -877,7 +869,9 @@ print(
 ::: {.notes}
 ```{pyodide}
 # matrix with columns equal to a1, a2 and a3
-A = np.array([[1.0, 2.0, 1.0], [0.0, -1.0, 2.0], [1.0, 0.0, 1.0]])
+A = np.array(
+    [[1.0, 2.0, 1.0], [0.0, -1.0, 2.0], [1.0, 0.0, 1.0]]
+)
 
 print_array(A)
 
@@ -887,25 +881,40 @@ print("QR factorisation:")
 print_array(Q)
 print_array(R)
 
-print("Have we computed a factorisation? (A == Q @ R?)", np.allclose(A, Q @ R))
 print(
-    "Is Q orthonormal? (Q.T @ Q == np.eye(3))", np.allclose(np.eye(3), Q.T @ Q)
+    "Have we computed a factorisation? (A == Q @ R?)",
+    np.allclose(A, Q @ R),
 )
+print(
+    "Is Q orthonormal? (Q.T @ Q == np.eye(3))",
+    np.allclose(np.eye(3), Q.T @ Q),
+)
+
 
 ```
 :::
 
 ## Finding eigenvalues and eigenvectors
 
+::: {.callout-tip}
+## Module learning objective
+
+- Implement the QR algorithm in Python and evaluate its computational feasibility on large matrices.
+:::
+
+---
+
 ```{pyodide}
 #| min-lines: 15
 #| max-lines: 15
 def gram_schmidt_eigen(A, maxiter=100, verbose=False):
     """
-    Compute the eigenvalues and eigenvectors of a square matrix using the QR
-    algorithm with classical Gram-Schmidt QR factorisation.
+    Compute the eigenvalues and eigenvectors of a
+    square matrix using the QR algorithm with
+    classical Gram-Schmidt QR factorisation.
     """
     ...
+
 
 ```
 
@@ -1015,7 +1024,7 @@ normalises the eigenvectors to have length one, so we have slightly different
 values for the eigenvectors but still in the same directions.
 :::
 
-## Correctness and convergence
+### Correctness and convergence
 
 Let's see what happens when we try this same approach for a bigger symmetric
 matrices. Here we have a test that samples ten different random matrices and
@@ -1048,7 +1057,9 @@ def gram_schmidt_qr(A):
     """
     n, m = A.shape
     if n != m:
-        raise ValueError(f"the matrix A is not square, {A.shape=}")
+        raise ValueError(
+            f"the matrix A is not square, {A.shape=}"
+        )
 
     Q = np.empty_like(A)
     R = np.zeros_like(A)
@@ -1059,8 +1070,12 @@ def gram_schmidt_qr(A):
 
         # Orthogonalize against previous q vectors
         for i in range(j):
-            R[i, j] = np.dot(Q[:, i], A[:, j])  # projection coefficient
-            u -= R[i, j] * Q[:, i]  # subtract the projection
+            R[i, j] = np.dot(
+                Q[:, i], A[:, j]
+            )  # projection coefficient
+            u -= (
+                R[i, j] * Q[:, i]
+            )  # subtract the projection
 
         # Normalize u to get q_j
         R[j, j] = np.linalg.norm(u)
@@ -1157,14 +1172,17 @@ def gram_schmidt_eigen(A, maxiter=100, verbose=False):
 np.random.seed(42)
 
 
-def test_accuracy_of_eigensolve(A, eigenvalues, eigenvectors):
+def test_accuracy_of_eigensolve(
+    A, eigenvalues, eigenvectors
+):
     """
     test accuracy of solution of eigenvalue problem
     """
     residuals = []
     for i in range(len(eigenvalues)):
         residual = np.linalg.norm(
-            A @ eigenvectors[:, i] - eigenvalues[i] * eigenvectors[:, i]
+            A @ eigenvectors[:, i]
+            - eigenvalues[i] * eigenvectors[:, i]
         )
         residuals.append(residual)
     return max(residuals)
@@ -1201,7 +1219,9 @@ for n in n_values:
         # do and time the solve, ensure converged
         maxiter = 1000_000
         start = time.perf_counter()
-        eigenvalues, eigenvectors, it = gram_schmidt_eigen(A, maxiter=maxiter)
+        eigenvalues, eigenvectors, it = (
+            gram_schmidt_eigen(A, maxiter=maxiter)
+        )
         end = time.perf_counter()
 
         if it == maxiter - 1:
@@ -1213,7 +1233,9 @@ for n in n_values:
         total_its += it
         max_error = max(
             max_error,
-            test_accuracy_of_eigensolve(A, eigenvalues, eigenvectors),
+            test_accuracy_of_eigensolve(
+                A, eigenvalues, eigenvectors
+            ),
         )
 
     runtime /= repeats
@@ -1231,8 +1253,11 @@ def power_law(n, a, m):
     return a * (n**m)
 
 
-popt, pcov = curve_fit(power_law, n_values, runtime_values)
-a_fit, m_fit = popt
+# fit a straight line in log-log space: log t = m log n + log a
+m_fit, log_a_fit = np.polyfit(
+    np.log(n_values), np.log(runtime_values), 1
+)
+a_fit = np.exp(log_a_fit)
 n_fit = np.linspace(min(n_values), max(n_values))
 runtime_fit = power_law(n_fit, a_fit, m_fit)
 
@@ -1264,3 +1289,27 @@ plt.show()
 ::: {.notes}
 We see that the method converges very well with a good low accuracy.
 :::
+
+## Summary
+
+- The "grand strategy" for finding eigenvalues of large matrices is to build a
+  sequence of matrices similar to $A$, aiming for a
+  triangular (or diagonal) matrix whose eigenvalues can simply be read off the
+  diagonal.
+
+- The QR algorithm builds this sequence by repeatedly factorising
+  $A^{(k)} = Q^{(k)} R^{(k)}$ into an orthogonal matrix $Q^{(k)}$ and an upper
+  triangular matrix $R^{(k)}$, then recombining them in the opposite order,
+  $A^{(k+1)} = R^{(k)} Q^{(k)}$. Because $Q^{(k)}$ is orthogonal, each
+  $A^{(k+1)}$ is similar to $A^{(k)}$, so every matrix in the sequence has the
+  same eigenvalues as the original $A$.
+
+- The Gram-Schmidt process gives us a concrete, implementable way to compute a
+  QR factorisation: it turns the columns of $A$ into an orthonormal set of
+  vectors $Q$, tracking the projection coefficients used along the way in an
+  upper triangular matrix $R$.
+
+- Our Python implementation confirms, empirically, that the QR algorithm is
+  both correct (it reproduces the eigenvalues and eigenvectors found by
+  hand) and feasible: unlike solving the characteristic equation directly,
+  we can apply our method to large matrices.

@@ -46,7 +46,7 @@ $code-color: $ink;
 $code-bg: $code-tint;
 $code-block-bg: $code-tint;
 $code-block-border-color: $muted;
-$code-block-font-size: 0.76em; // 32px at the root size
+$code-block-font-size: 0.667em; // 28px at the root size, i.e. the floor
 
 $callout-color-tip: $blue;
 
@@ -136,7 +136,7 @@ $callout-color-tip: $blue;
 
 // ---- code blocks ----
 .reveal pre {
-  font-size: max(#{$floor}, 0.76em);
+  font-size: max(#{$floor}, 0.667em);
   line-height: 1.35;
 }
 
@@ -159,7 +159,7 @@ $callout-color-tip: $blue;
 
 // ---- live (pyodide) editor: same palette and cues as static code ----
 .reveal .card.exercise-editor {
-  --exercise-font-size: 32px;
+  --exercise-font-size: #{$floor};
   --exercise-main-color: #{$ink};
   --exercise-main-bg: #{$code-tint};
   --exercise-cap-bg: #{$cream};

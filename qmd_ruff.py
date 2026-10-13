@@ -6,6 +6,7 @@ import sys
 
 NO_CODE_PREFIX = "###--no code--### "
 NO_QA_SUFFIX = " # noqa: E501"
+CODE_FENCES = ("```{python}", "```{pyodide}")
 
 
 def qmd_to_py(infile, outfile):
@@ -20,11 +21,15 @@ def qmd_to_py(infile, outfile):
                 if "```" in line:
                     incode = False
                     f.write(NO_CODE_PREFIX + line[:-1] + NO_QA_SUFFIX + "\n")
+                elif line.lstrip().startswith("#|"):
+                    # quarto-live only reads pyodide cell options written
+                    # exactly as "#|", so keep ruff from turning them into "# |"
+                    f.write(NO_CODE_PREFIX + line[:-1] + NO_QA_SUFFIX + "\n")
                 else:
                     f.write(line)
 
             else:
-                if "```{python}" in line:
+                if any(fence in line for fence in CODE_FENCES):
                     incode = True
 
                 f.write(NO_CODE_PREFIX + line[:-1] + NO_QA_SUFFIX + "\n")

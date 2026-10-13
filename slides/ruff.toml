@@ -1,0 +1,16 @@
+# Slide code blocks fit 56 characters per line at the theme's code font size
+# (see $code-block-font-size in theme/comp2870.scss). Everything else comes
+# from the project settings in ../pyproject.toml.
+extend = "../pyproject.toml"
+line-length = 56
+
+# The formatter can't wrap docstrings or comments, so only flag those past the
+# book's 80 characters; otherwise every hidden setup block fails the hook.
+[lint.pycodestyle]
+max-line-length = 80
+
+# Slides build code up in pieces: functions appear first as stubs (unused
+# arguments and variables, a `...` body) and are redefined later, and imports
+# can sit in a later block than the code that comes first in the file.
+[lint]
+ignore = ["ARG001", "E402", "F811", "F841"]
