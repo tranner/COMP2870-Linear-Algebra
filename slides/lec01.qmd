@@ -6,7 +6,7 @@ format: live-revealjs
 
 # Vevox session for this lecture (can also be set on the iPad in the poll pop-up)
 vevox:
-  session: ""
+  session: "180532136"
   presenter: "https://universityofleeds.vevox.com/#/present/967253"
 ---
 hi
@@ -291,7 +291,12 @@ $\vec{b}$, $\vec{a} \otimes \vec{b}$ is an $n \times n$ with entries:
 
 ## Systems of linear equations
 
-> - Define key terms associated with systems of linear equations;
+::: {.callout-tip}
+## Module learning objective
+
+- Formulate a sytem of linear equations in matrix form $A \vec{x} = \vec{b}$.
+:::
+
 > - Understand why a computer scientist should know about systems of linear equations.
 
 ### The problem

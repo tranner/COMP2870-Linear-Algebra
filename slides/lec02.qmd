@@ -3,15 +3,13 @@ title: COMP2870 Theoretical Foundations of Computer Science II
 subtitle: Introduction to systems of linear equations
 
 format: live-revealjs
+
+
+# Vevox session for this lecture (can also be set on the iPad in the poll pop-up)
+vevox:
+  session: "160916204"
 ---
-# Introduction to systems of linear equations
-
-::: {.callout-tip}
-## Module learning objective
-
-Define and identify what it means for a set of vectors to be a basis, spanning
-set or linearly independent.
-:::
+## Introduction to systems of linear equations
 
 Chapter 3
 
@@ -21,13 +19,17 @@ import time
 import numpy as np
 import scipy as sp
 from matplotlib import pyplot as plt
+from mpl_toolkits.mplot3d.art3d import (
+    Poly3DCollection,
+    PolyCollection,
+)
 
 plt.style.use("theme/comp2870.mplstyle")
 
 
 ```
 
-## Definition of systems of linear equations
+### Definition of systems of linear equations
 
 Given an $n \times n$ matrix $A$ and an $n$-vector $\vec{b}$, find the
 $n$-vector $\vec{x}$ which satisfies:
@@ -36,7 +38,7 @@ $n$-vector $\vec{x}$ which satisfies:
 A \vec{x} = \vec{b}.
 \end{equation}
 
-### Expanded format:
+### Expanded format {.smaller}
 
 We can also write \eqref{eq:sle} as a system of linear equations:
 \begin{align*}
@@ -52,44 +54,61 @@ a_{i1} x_1 + a_{i2} x_2 + a_{i3} x_3 + \cdots + a_{in} x_n & = b_i \\
 a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n & = b_n.
 \end{align*}
 
-### Notes
+::: {.notes}
+coefficients $a_{ij}$
 
-- The values $a_{ij}$ are known as **coefficients**.
+rhs $b_j$
 
-- The **right-hand side** values $b_i$ are known and are given to you as part
-    of the problem.
+unknowns $x_i$
+:::
 
-- $x_1, x_2, x_3, \ldots, x_n$ are **not** known and are what you need to find
-    to solve the problem.
+## Matrix inverse
 
-## Can we do it?
+::: {.callout-tip}
+## Module learning objective
 
-Our first question might be: Is it possible to solve \eqref{eq:sle}?
+- Explain the difference between solving a system directly and computing a matrix inverse
+:::
 
-We know a few simple cases where we can answer this question very quickly:
+### $A^{-1}$ {.write}
 
-1. If $A = I_n$, the $n \times n$ *identity matrix*, then we *can* solve this
-   problem: $$\vec{x} = \vec{b}.$$
+We want to find a matrix $A^{-1}$ such that $A^{-1} A = A A ^{-1} = I_n$
 
-### Can we do it?
+. . .
 
-2. If $A = O$, the $n \times n$ *zero matrix*, and $\vec{b} \neq \vec{0}$, the
-   zero vector, then there are no solutions to the problem:
-   $$
-   O \vec{x} = \vec{0} \neq \vec{b} \quad \text{for any vector} \quad \vec{x}.
-   $$
-
-### Can we do it?
-
-3. If $A$ is *invertible*, with inverse $A^{-1}$, then we *can* solve this
-   problem:
-   $$
-   \vec{x} = A^{-1} \vec{b}.
-   $$
-   However, in general, this is a *terrible* idea and we will see algorithms
-   that are more efficient than finding the inverse of $A$.
+Then starting from $A \vec{x} = \vec{b}$, we see
 
 ### How about finding the inverse of $A$?
+
+In two dimensions, the procedure is simple...
+
+For $A = \begin{pmatrix} a & b \\ c & d \end{pmatrix}$,
+
+$$
+A^{-1} = \frac{1}{ad - bc} \begin{pmatrix} d & - b \\ -c & a \end{pmatrix}.
+$$
+
+### Example {.smaller .write}
+
+Find the inverse of the matrix $\begin{pmatrix} 3 & 1 \\ 1 & 3 \end{pmatrix}$.
+
+::: {.aside}
+A^{-1} = \frac{1}{ad - bc} \begin{pmatrix} d & - b \\ -c & a \end{pmatrix}.
+:::
+
+### Exercise {.vevox vevox-label="Matrix inverse"}
+
+Find the inverse of the matrix $\begin{pmatrix} 2 & 1 \\ 3 & 4 \end{pmatrix}$.
+
+::: {.aside}
+$A^{-1} = \frac{1}{ad - bc} \begin{pmatrix} d & - b \\ -c & a \end{pmatrix}.$
+:::
+
+### How about larger matrices?
+
+There are general formulae for computing inverses of larger matrices but it turns out using these to solve systems of linear equations is a bad idea!
+
+### Example
 
 ```{python}
 # | echo: False
@@ -161,10 +180,10 @@ for size in sizes:
 
 # plot results
 plt.loglog(sizes, times1, label="$A^{-1} \\vec{b}$")
-plt.loglog(sizes, times2, label="simple alg.")
-plt.loglog(sizes, times3, label="specialised alg.")
+plt.loglog(sizes, times2, label="simple algorithm")
+plt.loglog(sizes, times3, label="specialised algorithm")
 
-plt.xlabel("size")
+plt.xlabel("size, $n$")
 plt.ylabel("time (s)")
 plt.legend()
 plt.grid(True)
@@ -172,49 +191,34 @@ plt.grid(True)
 plt.show()
 ```
 
-## Key definitions
+### Avoid finding an inverse
 
-### Span of vectors
+In the next few lectures, we will find alternative ways to solve systems of linear equations which do not explicity form the inverse of $A$.
 
-::: {#def-span}
-Given a set of vectors of the same size, $S = \{ \vec{v}_1,
-\ldots, \vec{v}_k \}$, we say the *span* of $S$ is the set of all vectors which
-are linear combinations of vectors in $S$:
-\begin{equation}
-\mathrm{span}(S) = \left\{ \sum_{i=1}^k x_i \vec{v}_i : x_i \in \mathbb{R}
-\text{ for } i = 1, \ldots, k \right\}.
-\end{equation}
+. . .
+
+> ... there are very few circumstances in which one should compute $A^{-1}$ ... it is faster and more accurate to solve the system by LU factorization with partial pivoting than by inverting $A$.
+>
+> <small>Nick Higham, [Seven sins of numerical linear algebra](https://nhigham.com/2022/10/11/seven-sins-of-numerical-linear-algebra/)</small>
+
+## The determinant
+
+::: {.callout-tip}
+## Module learning objective
+
+- Compute the determinant of small matrices by and determine whether a square matrix is invertible using its determinant.
 :::
 
-### Linear dependence of vectors
+### When is finding an inverse possible?
 
-::: {#def-linear-indep}
-Given a set of vectors of the same size, $S = \{\vec{v}_1, \ldots, \vec{v}_k
-\}$, we say that $S$ is *linearly dependent*, if there exist numbers $x_1, x_2,
-\ldots x_k$, not all zero, such that
-\begin{align*}
-\sum_{i=1}^k x_i \vec{v}_i = \vec{0}.
-\end{align*}
-The set $S$ is *linearly independent* if it is not linearly dependent.
-:::
+One question we might ask when faced with a system of linear equations is: **does this system of equations have a (unique) solution?**
 
-### Basis
+. . .
 
-::: {#def-basis}
-We say that a set of $n$-vectors $S$ is a *basis* of a set of $n$-vectors $V$ if
-the span of $S$ is $V$ and $S$ is linearly independent.
-:::
+This is equivalent to asking **does $A$ have an inverse?**
 
-::: {#thm-basis-expansion}
-Let $S$ be a basis of $V$. Then any vector in $V$ can
-be written *uniquely* as a linear combination of entries in $S$.
-:::
+### Definitions
 
-
-
-### Another characterisation: the determinant
-
-::: {#def-determinant}
 Let $A$ be a square $n \times n$ matrix.
 
 If $n = 2$,
@@ -222,9 +226,8 @@ If $n = 2$,
 \det A = \det \begin{pmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{pmatrix}
 = a_{11} a_{22} - a_{21} a_{12}.
 \end{equation}
-:::
 
-### Definition part 2
+---
 
 If $n = 3$,
 \begin{align*}
@@ -232,39 +235,362 @@ If $n = 3$,
 a_{21} & a_{22} & a_{23} \\
 a_{31} & a_{32} & a_{33}
 \end{pmatrix} \\
-& = a_{11} (a_{22} a_{33} - a_{23} a_{32}) - a_{12} (a_{21} a_{33} - a_{23}
-a_{31}) \\
-& \qquad + a_{13} (a_{21} a_{32} - a_{22} - a_{31}).
+& = a_{11} (a_{22} a_{33} - a_{23} a_{32}) \\
+& \qquad - a_{12} (a_{21} a_{33} - a_{23} a_{31}) \\
+& \qquad + a_{13} (a_{21} a_{32} - a_{22} a_{31}).
 \end{align*}
 
-### Definition part 3
+---
 
 For general $n$, the determinant can be found by, for example, Laplace expansions
 $$
-\det A = \sum_{j=1}^n (-1)^{j+1} a_{1,j} m_{1,j},
+\det A = \sum_{j=1}^n (-1)^{j+1} a_{1,j} M_{1,j},
 $$
 where $a_{1,j}$ is the entry of the first row and $j$th column of $A$ and
-$m_{1,j}$ is the determinant of the submatrix obtained by removing the first row
+$M_{1,j}$ is the the determinant of the submatrix obtained by removing the first row
 and the $j$th column from $A$.
 
-### Key theorem
+### Example i {.smaller .write}
 
-::: {#thm-det}
-Let $A$ be an $n \times n$ matrix and $\vec{b}$ be an $n$-column vector.
-The following are equivalent:
+$A = \begin{pmatrix} 3 & 1 \\ 1 & 3 \end{pmatrix}$
 
-1. $A \vec{x} = \vec{b}$ has a unique solution.
-2. The columns of $A$ form a basis of $\mathbb{R}^n$.
-3. $\det A \neq 0$.
+::: {.aside}
+$\det A = a_{11} a_{22} - a_{21} a_{12}$
 :::
 
-### Determinant in `numpy`
+### Example ii {.smaller .write}
 
-```{pyodide}
-import numpy as np
+$A = \begin{pmatrix} 3 & 1 & 1\\ 0 & 3 & 1 \\ 0 & 0 & 3 \end{pmatrix}$
 
-A = np.array([[3.0, 1.0], [0.0, 3.0]])
-np.linalg.det(A)
+::: {.aside}
+$\det A = a_{11} (a_{22} a_{33} - a_{23} a_{32}) - a_{12} (a_{21} a_{33} - a_{23} a_{31}) + a_{13} (a_{21} a_{32} - a_{22} a_{31})$
+:::
+
+### Exercise {.vevox vevox-label="Matrix determinant" .smaller}
+
+Compute the determinant of
+$$
+\begin{pmatrix}
+2 & -1 & 3 \\
+3 & 2 & -4 \\
+5 & 1 & 1
+\end{pmatrix}.
+$$
+
+::: {.aside}
+$\det A = a_{11} (a_{22} a_{33} - a_{23} a_{32}) - a_{12} (a_{21} a_{33} - a_{23} a_{31}) + a_{13} (a_{21} a_{32} - a_{22} a_{31})$
+:::
+
+### A geometric picture ($n=2$)
+
+::: {.columns}
+:::: {.column width="40%"}
+For $A$ given by
+$$
+A = \begin{pmatrix}
+3 & 1 \\ 1 & 3
+\end{pmatrix}
+$$
+the columns form a *parallelogram*
+::::
+
+:::: {.column width="60%"}
+```{python}
+# Define the vectors for the parallelepiped
+Ax1 = np.array([3, 1])  # along x-axis
+Ax2 = np.array([1, 3])  # in xy-plane
+
+# Define the origin
+origin = np.array([0, 0])
+
+# Generate the 8 vertices of the parallelepiped
+vertices = [
+    origin,
+    Ax1,
+    Ax1 + Ax2,
+    Ax2,
+]
+
+# Define the 6 faces of the parallelepiped
+faces = [vertices]
+
+# Create the 3D plot
+fig = plt.figure()
+ax = fig.add_subplot(111)
+
+# Draw the parallelepiped
+ax.add_collection(
+    PolyCollection(
+        faces,
+        facecolors="C0",
+        edgecolors=(1, 1, 1, 1),
+        alpha=0.3,
+    )
+)
+
+# Draw the three base vectors with different colors
+ax.quiver(
+    *origin,
+    *Ax1,
+    color="C1",
+    linewidth=2,
+    label="column 1",
+    angles="xy",
+    scale_units="xy",
+    scale=1,
+)
+ax.quiver(
+    *origin,
+    *Ax2,
+    color="C2",
+    linewidth=2,
+    label="column 2",
+    angles="xy",
+    scale_units="xy",
+    scale=1,
+)
+
+# Label the vectors at their tips
+ax.text(
+    *(Ax1 * 1.05), "column 1", color="C1", fontsize=12
+)
+ax.text(
+    *(Ax2 * 1.05), "column 2", color="C2", fontsize=12
+)
+
+# Set limits for better visualization
+ax.set_xlim([0, 5])
+ax.set_ylim([0, 5])
+
+plt.show()
 ```
+::::
+:::
 
-You will also see different ways to compute determinants in the lab sessions!
+### A geometric picture ($n=3$)
+
+::: {.columns}
+:::: {.column width="40%"}
+For $A$ given by
+$$
+A = \begin{pmatrix}
+3 & 1 & 1\\ 0 & 3 & 1 \\ 0 & 0 & 3
+\end{pmatrix},
+$$
+the columns form a *parallelepiped*
+::::
+
+:::: {.column width="40%"}
+```{python}
+# Define the vectors for the parallelepiped
+Ax1 = np.array([3, 0, 0])  # along x-axis
+Ax2 = np.array([1, 3, 0])  # in xy-plane
+Ax3 = np.array([1, 1, 3])  # 3D vector
+
+# Define the origin
+origin = np.array([0, 0, 0])
+
+# Generate the 8 vertices of the parallelepiped
+vertices = [
+    origin,
+    Ax1,
+    Ax2,
+    Ax3,
+    Ax1 + Ax2,
+    Ax1 + Ax3,
+    Ax2 + Ax3,
+    Ax1 + Ax2 + Ax3,
+]
+
+# Define the 6 faces of the parallelepiped
+faces = [
+    [
+        vertices[0],
+        vertices[1],
+        vertices[4],
+        vertices[2],
+    ],
+    [
+        vertices[0],
+        vertices[1],
+        vertices[5],
+        vertices[3],
+    ],
+    [
+        vertices[0],
+        vertices[2],
+        vertices[6],
+        vertices[3],
+    ],
+    [
+        vertices[7],
+        vertices[4],
+        vertices[1],
+        vertices[5],
+    ],
+    [
+        vertices[7],
+        vertices[6],
+        vertices[2],
+        vertices[4],
+    ],
+    [
+        vertices[7],
+        vertices[6],
+        vertices[3],
+        vertices[5],
+    ],
+]
+
+# Create the 3D plot
+fig = plt.figure()
+ax = fig.add_subplot(111, projection="3d")
+
+# Draw the parallelepiped
+ax.add_collection3d(
+    Poly3DCollection(
+        faces,
+        facecolors="C0",
+        edgecolors="black",
+        alpha=0.3,
+    )
+)
+
+# Draw the three base vectors with different colors
+ax.quiver(
+    *origin,
+    *Ax1,
+    color="C1",
+    linewidth=2,
+    label="$A \\vec{x}_1$",
+)
+ax.quiver(
+    *origin,
+    *Ax2,
+    color="C2",
+    linewidth=2,
+    label="$A \\vec{x}_2$",
+)
+ax.quiver(
+    *origin,
+    *Ax3,
+    color="C3",
+    linewidth=2,
+    label="$A \\vec{x}_3$",
+)
+
+# Label the vectors at their tips
+ax.text(
+    *(Ax1 * 1.05), "column 1", color="C1", fontsize=12
+)
+ax.text(
+    *(Ax2 * 1.05), "column 2", color="C2", fontsize=12
+)
+ax.text(
+    *(Ax3 * 1.05), "column 3", color="C3", fontsize=12
+)
+
+# Set limits for better visualization
+ax.set_xlim([0, 5])
+ax.set_ylim([0, 5])
+ax.set_zlim([0, 5])
+
+plt.show()
+```
+::::
+:::
+
+### Relation to determinant
+
+> The determinant of a matrix $A$ can be interpreted geometrically as the *signed* area, volume, or hypervolume of the parallelogram, parallelepiped, or higher-dimensional analogue generated by the columns of $A$.
+
+. . .
+
+So if the area/volume/... of this shape is nonzero then the determinant is nonzero!
+
+### Properties
+
+Let $A$ and $B$ be square $n \times n$ matrices.
+
+1. $\det (AB) = \det A \det B$
+2. $\det (cA) = c^n \det A$, for $c \in \mathbb{R}$
+3. $\det (A^{-1}) = \frac{1}{\det A}$ if $A$ is invertible
+
+### Consequences for systems of linear equations
+
+::: {#thm-unique-solution}
+The system of linear equations $A \vec{x} = \vec{b}$ has a unique solution for any right hand side $\vec{b}$ if and only if $\det A \neq 0$.
+:::
+
+## Special types of matrices
+
+::: {.callout-tip}
+## Module learning objective
+
+- Recognise common matrix structures such as triangular and sparse matrices.
+:::
+
+### Triangular matrices {.smaller}
+
+One important structure takes the form
+
+$$
+A = \begin{pmatrix}
+a_{11} & 0 & 0 & \cdots & 0 \\ a_{21} & a_{22} & 0 & \cdots &
+ 0 \\ a_{31} & a_{32} & a_{33} & \cdots & 0 \\ \vdots & \vdots & \vdots & \ddots
+ & \vdots \\ a_{n1} & a_{n2} & a_{n3} & \cdots & a_{nn} \end{pmatrix}
+ $$
+
+- A is a **lower triangular** matrix. Every entry above the leading diagonal
+    is zero:
+
+    $$ a_{ij} = 0 \quad \text{ for } \quad j > i. $$
+
+- The *transpose* of this matrix is an **upper triangular** matrix and can be
+treated in a very similar manner.
+
+### Sparse matrices
+
+**Sparse matrices** are prevalent in any application which relies on some
+form of *graph* structure:
+
+- The $a_{ij}$ typically represents some form of "communication" between
+    vertices $i$ and $j$ of the graph, so the element is only nonzero if the
+    vertices are connected.
+
+- There is no generic pattern for these entries, though there is usually one
+    that is specific to the problem solved.
+
+---
+
+- Usually, $a_{ii} \neq 0$ - the diagonal is nonzero.
+
+- A "large" portion of the matrix is zero.
+  - A full $n \times n$ matrix may have $n^2$ nonzero entries.
+  - A sparse $n \times n$ has $\alpha n$ nonzero entries, where $\alpha \ll
+        n$.
+- Many special techniques exist for handling sparse matrices, some of which
+can be used automatically within Python ([`scipy.sparse`
+documentation](https://docs.scipy.org/doc/scipy/reference/sparse.html))
+
+
+### So what?
+
+- In the next section we will discuss a general numerical algorithm for the
+    solution of linear systems of equations.
+
+- This will involve **reducing** the problem to one involving a **triangular
+    matrix**, which, as we show below, is relatively easy to solve.
+
+- In subsequent lectures, we will see that, for *sparse* matrix systems,
+    alternative solution techniques are available.
+
+
+## Summary
+
+- We have introduced the terminology for systems of linear equations and given
+  some application areas where examples may arise.
+- We have seen that we can solve simple systems of linear equations using the
+  matrix inverse but this is not advised for larger systems.
+- Finally, we have introduced the determinant as a way of checking that systems
+  of linear equations have a unique solution.
