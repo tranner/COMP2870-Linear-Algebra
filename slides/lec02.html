@@ -6,10 +6,10 @@
 <script src="lec02_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="lec02_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="lec02_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="lec02_files/libs/quarto-html/quarto-syntax-highlighting-8aca0b0a8b84f7107b5bd209819888f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="lec02_files/libs/quarto-html/quarto-syntax-highlighting-4e4c60b5dd7092195ce9752dcb315cb4.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="lec02_files/libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
 <link href="lec02_files/libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.10.18">
+  <meta name="generator" content="quarto-1.10.19">
 
   <meta name="author" content="Dr.&nbsp;Thomas Ranner (Tom)">
   <title>COMP2870 Theoretical Foundations of Computer Science II</title>
@@ -37,7 +37,7 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="lec02_files/libs/revealjs/dist/theme/quarto-6bd527c3678a3b2648203ef07dcaa767.css">
+  <link rel="stylesheet" href="lec02_files/libs/revealjs/dist/theme/quarto-4b9ef474e09cf9553ce6ee23e3821425.css">
   <link href="lec02_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="lec02_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="lec02_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -165,32 +165,19 @@ Dr.&nbsp;Thomas Ranner (Tom)
 
 </section>
 <section>
-<section id="introduction-to-systems-of-linear-equations" class="title-slide slide level1 center" data-background-color="#782E57">
-<h1>Introduction to systems of linear equations</h1>
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Module learning objective</strong></p>
-</div>
-<div class="callout-content">
-<p>Define and identify what it means for a set of vectors to be a basis, spanning set or linearly independent.</p>
-</div>
-</div>
-</div>
+<section id="introduction-to-systems-of-linear-equations" class="title-slide slide level2 center" data-background-color="#782E57">
+<h2>Introduction to systems of linear equations</h2>
 <p>Chapter 3</p>
 </section>
-<section id="definition-of-systems-of-linear-equations" class="title-slide slide level2 center" data-background-color="#782E57">
-<h2>Definition of systems of linear equations</h2>
+<section id="definition-of-systems-of-linear-equations" class="slide level3">
+<h3>Definition of systems of linear equations</h3>
 <p>Given an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(A\)</span> and an <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\vec{b}\)</span>, find the <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\vec{x}\)</span> which satisfies: <span class="math display">\[\begin{equation}
 \label{eq:sle}
 A \vec{x} = \vec{b}.
 \end{equation}\]</span></p>
 </section>
-<section id="expanded-format" class="slide level3">
-<h3>Expanded format:</h3>
+<section id="expanded-format" class="slide level3 smaller">
+<h3>Expanded format</h3>
 <p>We can also write <span class="math inline">\(\eqref{eq:sle}\)</span> as a system of linear equations: <span class="math display">\[\begin{align*}
 \text{Equation 1:} &amp;&amp;
 a_{11} x_1 + a_{12} x_2 + a_{13} x_3 + \cdots + a_{1n} x_n &amp; = b_1 \\
@@ -203,43 +190,79 @@ a_{i1} x_1 + a_{i2} x_2 + a_{i3} x_3 + \cdots + a_{in} x_n &amp; = b_i \\
 \text{Equation n:} &amp;&amp;
 a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n &amp; = b_n.
 \end{align*}\]</span></p>
-</section>
-<section id="notes" class="slide level3">
-<h3>Notes</h3>
+<aside class="notes">
+<p>coefficients <span class="math inline">\(a_{ij}\)</span></p>
+<p>rhs <span class="math inline">\(b_j\)</span></p>
+<p>unknowns <span class="math inline">\(x_i\)</span></p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="matrix-inverse" class="title-slide slide level2 center" data-background-color="#782E57">
+<h2>Matrix inverse</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Module learning objective</strong></p>
+</div>
+<div class="callout-content">
 <ul>
-<li><p>The values <span class="math inline">\(a_{ij}\)</span> are known as <strong>coefficients</strong>.</p></li>
-<li><p>The <strong>right-hand side</strong> values <span class="math inline">\(b_i\)</span> are known and are given to you as part of the problem.</p></li>
-<li><p><span class="math inline">\(x_1, x_2, x_3, \ldots, x_n\)</span> are <strong>not</strong> known and are what you need to find to solve the problem.</p></li>
+<li>Explain the difference between solving a system directly and computing a matrix inverse</li>
 </ul>
+</div>
+</div>
+</div>
 </section>
-
-<section id="can-we-do-it" class="title-slide slide level2 center" data-background-color="#782E57">
-<h2>Can we do it?</h2>
-<p>Our first question might be: Is it possible to solve <span class="math inline">\(\eqref{eq:sle}\)</span>?</p>
-<p>We know a few simple cases where we can answer this question very quickly:</p>
-<ol type="1">
-<li>If <span class="math inline">\(A = I_n\)</span>, the <span class="math inline">\(n \times n\)</span> <em>identity matrix</em>, then we <em>can</em> solve this problem: <span class="math display">\[\vec{x} = \vec{b}.\]</span></li>
-</ol>
-</section>
-<section id="can-we-do-it-1" class="slide level3">
-<h3>Can we do it?</h3>
-<ol start="2" type="1">
-<li>If <span class="math inline">\(A = O\)</span>, the <span class="math inline">\(n \times n\)</span> <em>zero matrix</em>, and <span class="math inline">\(\vec{b} \neq \vec{0}\)</span>, the zero vector, then there are no solutions to the problem: <span class="math display">\[
-O \vec{x} = \vec{0} \neq \vec{b} \quad \text{for any vector} \quad \vec{x}.
-\]</span></li>
-</ol>
-</section>
-<section id="can-we-do-it-2" class="slide level3">
-<h3>Can we do it?</h3>
-<ol start="3" type="1">
-<li>If <span class="math inline">\(A\)</span> is <em>invertible</em>, with inverse <span class="math inline">\(A^{-1}\)</span>, then we <em>can</em> solve this problem: <span class="math display">\[
-\vec{x} = A^{-1} \vec{b}.
-\]</span> However, in general, this is a <em>terrible</em> idea and we will see algorithms that are more efficient than finding the inverse of <span class="math inline">\(A\)</span>.</li>
-</ol>
+<section id="a-1" class="slide level3 write">
+<h3><span class="math inline">\(A^{-1}\)</span></h3>
+<p>We want to find a matrix <span class="math inline">\(A^{-1}\)</span> such that <span class="math inline">\(A^{-1} A = A A ^{-1} = I_n\)</span></p>
+<div class="fragment">
+<p>Then starting from <span class="math inline">\(A \vec{x} = \vec{b}\)</span>, we see</p>
+</div>
 </section>
 <section id="how-about-finding-the-inverse-of-a" class="slide level3">
 <h3>How about finding the inverse of <span class="math inline">\(A\)</span>?</h3>
-<div id="e3d55372" class="cell" data-execution_count="3">
+<p>In two dimensions, the procedure is simple…</p>
+<p>For <span class="math inline">\(A = \begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix}\)</span>,</p>
+<p><span class="math display">\[
+A^{-1} = \frac{1}{ad - bc} \begin{pmatrix} d &amp; - b \\ -c &amp; a \end{pmatrix}.
+\]</span></p>
+</section>
+<section id="example" class="slide level3 smaller write">
+<h3>Example</h3>
+<p>Find the inverse of the matrix <span class="math inline">\(\begin{pmatrix} 3 &amp; 1 \\ 1 &amp; 3 \end{pmatrix}\)</span>.</p>
+
+<aside><div>
+A^{-1} =
+<span class="math display">\[\begin{pmatrix} d &amp; - b \\ -c &amp; a \end{pmatrix}\]</span>
+<p>.</p>
+</div></aside></section>
+<section id="exercise" class="slide level3 vevox" data-vevox-label="Matrix inverse">
+<h3>Exercise</h3>
+<p>Find the inverse of the matrix <span class="math inline">\(\begin{pmatrix} 2 &amp; 1 \\ 3 &amp; 4 \end{pmatrix}\)</span>.</p>
+
+<aside><div>
+<p><span class="math inline">\(A^{-1} = \frac{1}{ad - bc} \begin{pmatrix} d &amp; - b \\ -c &amp; a \end{pmatrix}.\)</span></p>
+</div></aside></section>
+<section id="how-about-larger-matrices" class="slide level3">
+<h3>How about larger matrices?</h3>
+<p>There are general formulae for computing inverses of larger matrices but it turns out using these to solve systems of linear equations is a bad idea!</p>
+</section>
+<section id="example-1" class="slide level3">
+<h3>Example</h3>
+<div id="d0cc6d93" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -249,96 +272,234 @@ O \vec{x} = \vec{0} \neq \vec{b} \quad \text{for any vector} \quad \vec{x}.
 </div>
 </div>
 </section>
-
-<section id="key-definitions" class="title-slide slide level2 center" data-background-color="#782E57">
-<h2>Key definitions</h2>
-
-</section>
-<section id="span-of-vectors" class="slide level3">
-<h3>Span of vectors</h3>
-<div id="def-span" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 1</strong></span> Given a set of vectors of the same size, <span class="math inline">\(S = \{ \vec{v}_1,
-\ldots, \vec{v}_k \}\)</span>, we say the <em>span</em> of <span class="math inline">\(S\)</span> is the set of all vectors which are linear combinations of vectors in <span class="math inline">\(S\)</span>: <span class="math display">\[\begin{equation}
-\mathrm{span}(S) = \left\{ \sum_{i=1}^k x_i \vec{v}_i : x_i \in \mathbb{R}
-\text{ for } i = 1, \ldots, k \right\}.
-\end{equation}\]</span></p>
+<section id="avoid-finding-an-inverse" class="slide level3">
+<h3>Avoid finding an inverse</h3>
+<p>In the next few lectures, we will find alternative ways to solve systems of linear equations which do not explicity form the inverse of <span class="math inline">\(A\)</span>.</p>
+<div class="fragment">
+<blockquote>
+<p>… there are very few circumstances in which one should compute <span class="math inline">\(A^{-1}\)</span> … it is faster and more accurate to solve the system by LU factorization with partial pivoting than by inverting <span class="math inline">\(A\)</span>.</p>
+<p><small>Nick Higham, <a href="https://nhigham.com/2022/10/11/seven-sins-of-numerical-linear-algebra/">Seven sins of numerical linear algebra</a></small></p>
+</blockquote>
+</div>
+</section></section>
+<section>
+<section id="the-determinant" class="title-slide slide level2 center" data-background-color="#782E57">
+<h2>The determinant</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Module learning objective</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Compute the determinant of small matrices by and determine whether a square matrix is invertible using its determinant.</li>
+</ul>
+</div>
+</div>
 </div>
 </section>
-<section id="linear-dependence-of-vectors" class="slide level3">
-<h3>Linear dependence of vectors</h3>
-<div id="def-linear-indep" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 2</strong></span> Given a set of vectors of the same size, <span class="math inline">\(S = \{\vec{v}_1, \ldots, \vec{v}_k
-\}\)</span>, we say that <span class="math inline">\(S\)</span> is <em>linearly dependent</em>, if there exist numbers <span class="math inline">\(x_1, x_2,
-\ldots x_k\)</span>, not all zero, such that <span class="math display">\[\begin{align*}
-\sum_{i=1}^k x_i \vec{v}_i = \vec{0}.
-\end{align*}\]</span> The set <span class="math inline">\(S\)</span> is <em>linearly independent</em> if it is not linearly dependent.</p>
+<section id="when-is-finding-an-inverse-possible" class="slide level3">
+<h3>When is finding an inverse possible?</h3>
+<p>One question we might ask when faced with a system of linear equations is: <strong>does this system of equations have a (unique) solution?</strong></p>
+<div class="fragment">
+<p>This is equivalent to asking <strong>does <span class="math inline">\(A\)</span> have an inverse?</strong></p>
 </div>
 </section>
-<section id="basis" class="slide level3">
-<h3>Basis</h3>
-<div id="def-basis" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 3</strong></span> We say that a set of <span class="math inline">\(n\)</span>-vectors <span class="math inline">\(S\)</span> is a <em>basis</em> of a set of <span class="math inline">\(n\)</span>-vectors <span class="math inline">\(V\)</span> if the span of <span class="math inline">\(S\)</span> is <span class="math inline">\(V\)</span> and <span class="math inline">\(S\)</span> is linearly independent.</p>
-</div>
-<div id="thm-basis-expansion" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 1</strong></span> Let <span class="math inline">\(S\)</span> be a basis of <span class="math inline">\(V\)</span>. Then any vector in <span class="math inline">\(V\)</span> can be written <em>uniquely</em> as a linear combination of entries in <span class="math inline">\(S\)</span>.</p>
-</div>
-</section>
-<section id="another-characterisation-the-determinant" class="slide level3">
-<h3>Another characterisation: the determinant</h3>
-<div id="def-determinant" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 4</strong></span> Let <span class="math inline">\(A\)</span> be a square <span class="math inline">\(n \times n\)</span> matrix.</p>
+<section id="definitions" class="slide level3">
+<h3>Definitions</h3>
+<p>Let <span class="math inline">\(A\)</span> be a square <span class="math inline">\(n \times n\)</span> matrix.</p>
 <p>If <span class="math inline">\(n = 2\)</span>, <span class="math display">\[\begin{equation}
 \det A = \det \begin{pmatrix} a_{11} &amp; a_{12} \\ a_{21} &amp; a_{22} \end{pmatrix}
 = a_{11} a_{22} - a_{21} a_{12}.
 \end{equation}\]</span></p>
-</div>
 </section>
-<section id="definition-part-2" class="slide level3">
-<h3>Definition part 2</h3>
+<section class="slide level3">
+
 <p>If <span class="math inline">\(n = 3\)</span>, <span class="math display">\[\begin{align*}
 \det A &amp; = \det \begin{pmatrix} a_{11} &amp; a_{12} &amp; a_{13} \\
 a_{21} &amp; a_{22} &amp; a_{23} \\
 a_{31} &amp; a_{32} &amp; a_{33}
 \end{pmatrix} \\
-&amp; = a_{11} (a_{22} a_{33} - a_{23} a_{32}) - a_{12} (a_{21} a_{33} - a_{23}
-a_{31}) \\
-&amp; \qquad + a_{13} (a_{21} a_{32} - a_{22} - a_{31}).
+&amp; = a_{11} (a_{22} a_{33} - a_{23} a_{32}) \\
+&amp; \qquad - a_{12} (a_{21} a_{33} - a_{23} a_{31}) \\
+&amp; \qquad + a_{13} (a_{21} a_{32} - a_{22} a_{31}).
 \end{align*}\]</span></p>
 </section>
-<section id="definition-part-3" class="slide level3">
-<h3>Definition part 3</h3>
+<section class="slide level3">
+
 <p>For general <span class="math inline">\(n\)</span>, the determinant can be found by, for example, Laplace expansions <span class="math display">\[
-\det A = \sum_{j=1}^n (-1)^{j+1} a_{1,j} m_{1,j},
-\]</span> where <span class="math inline">\(a_{1,j}\)</span> is the entry of the first row and <span class="math inline">\(j\)</span>th column of <span class="math inline">\(A\)</span> and <span class="math inline">\(m_{1,j}\)</span> is the determinant of the submatrix obtained by removing the first row and the <span class="math inline">\(j\)</span>th column from <span class="math inline">\(A\)</span>.</p>
+\det A = \sum_{j=1}^n (-1)^{j+1} a_{1,j} M_{1,j},
+\]</span> where <span class="math inline">\(a_{1,j}\)</span> is the entry of the first row and <span class="math inline">\(j\)</span>th column of <span class="math inline">\(A\)</span> and <span class="math inline">\(M_{1,j}\)</span> is the the determinant of the submatrix obtained by removing the first row and the <span class="math inline">\(j\)</span>th column from <span class="math inline">\(A\)</span>.</p>
 </section>
-<section id="key-theorem" class="slide level3">
-<h3>Key theorem</h3>
-<div id="thm-det" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 2</strong></span> Let <span class="math inline">\(A\)</span> be an <span class="math inline">\(n \times n\)</span> matrix and <span class="math inline">\(\vec{b}\)</span> be an <span class="math inline">\(n\)</span>-column vector. The following are equivalent:</p>
-<ol type="1">
-<li><span class="math inline">\(A \vec{x} = \vec{b}\)</span> has a unique solution.</li>
-<li>The columns of <span class="math inline">\(A\)</span> form a basis of <span class="math inline">\(\mathbb{R}^n\)</span>.</li>
-<li><span class="math inline">\(\det A \neq 0\)</span>.</li>
-</ol>
-</div>
-</section>
-<section id="determinant-in-numpy" class="slide level3">
-<h3>Determinant in <code>numpy</code></h3>
+<section id="example-i" class="slide level3 smaller write">
+<h3>Example i</h3>
+<p><span class="math inline">\(A = \begin{pmatrix} 3 &amp; 1 \\ 1 &amp; 3 \end{pmatrix}\)</span></p>
+
+<aside><div>
+<p><span class="math inline">\(\det A = a_{11} a_{22} - a_{21} a_{12}\)</span></p>
+</div></aside></section>
+<section id="example-ii" class="slide level3 smaller write">
+<h3>Example ii</h3>
+<p><span class="math inline">\(A = \begin{pmatrix} 3 &amp; 1 &amp; 1\\ 0 &amp; 3 &amp; 1 \\ 0 &amp; 0 &amp; 3 \end{pmatrix}\)</span></p>
+
+<aside><div>
+<p><span class="math inline">\(\det A = a_{11} (a_{22} a_{33} - a_{23} a_{32}) - a_{12} (a_{21} a_{33} - a_{23} a_{31}) + a_{13} (a_{21} a_{32} - a_{22} a_{31})\)</span></p>
+</div></aside></section>
+<section id="exercise-1" class="slide level3 vevox smaller" data-vevox-label="Matrix determinant">
+<h3>Exercise</h3>
+<p>Compute the determinant of <span class="math display">\[
+\begin{pmatrix}
+2 &amp; -1 &amp; 3 \\
+3 &amp; 2 &amp; -4 \\
+5 &amp; 1 &amp; 1
+\end{pmatrix}.
+\]</span></p>
+
+<aside><div>
+<p><span class="math inline">\(\det A = a_{11} (a_{22} a_{33} - a_{23} a_{32}) - a_{12} (a_{21} a_{33} - a_{23} a_{31}) + a_{13} (a_{21} a_{32} - a_{22} a_{31})\)</span></p>
+</div></aside></section>
+<section id="a-geometric-picture-n2" class="slide level3">
+<h3>A geometric picture (<span class="math inline">\(n=2\)</span>)</h3>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>For <span class="math inline">\(A\)</span> given by <span class="math display">\[
+A = \begin{pmatrix}
+3 &amp; 1 \\ 1 &amp; 3
+\end{pmatrix}
+\]</span> the columns form a <em>parallelogram</em></p>
+</div><div class="column" style="width:60%;">
+<div id="f029e9bd" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
 <div>
-<div id="pyodide-1" class="exercise-cell">
-
+<figure>
+<p><img data-src="lec02_files/figure-revealjs/cell-5-output-1.png" width="1246" height="678"></p>
+</figure>
 </div>
-<script type="pyodide-1-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG51bXB5IGFzIG5wXG5cbkEgPSBucC5hcnJheShbWzMuMCwgMS4wXSwgWzAuMCwgMy4wXV0pXG5ucC5saW5hbGcuZGV0KEEpIn0=
-</script>
 </div>
-<p>You will also see different ways to compute determinants in the lab sessions!</p>
+</div>
+</div></div>
+</section>
+<section id="a-geometric-picture-n3" class="slide level3">
+<h3>A geometric picture (<span class="math inline">\(n=3\)</span>)</h3>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>For <span class="math inline">\(A\)</span> given by <span class="math display">\[
+A = \begin{pmatrix}
+3 &amp; 1 &amp; 1\\ 0 &amp; 3 &amp; 1 \\ 0 &amp; 0 &amp; 3
+\end{pmatrix},
+\]</span> the columns form a <em>parallelepiped</em></p>
+</div><div class="column" style="width:40%;">
+<div id="19935e75" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec02_files/figure-revealjs/cell-6-output-1.png" width="631" height="639"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="relation-to-determinant" class="slide level3">
+<h3>Relation to determinant</h3>
+<blockquote>
+<p>The determinant of a matrix <span class="math inline">\(A\)</span> can be interpreted geometrically as the <em>signed</em> area, volume, or hypervolume of the parallelogram, parallelepiped, or higher-dimensional analogue generated by the columns of <span class="math inline">\(A\)</span>.</p>
+</blockquote>
+<div class="fragment">
+<p>So if the area/volume/… of this shape is nonzero then the determinant is nonzero!</p>
+</div>
+</section>
+<section id="properties" class="slide level3">
+<h3>Properties</h3>
+<p>Let <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> be square <span class="math inline">\(n \times n\)</span> matrices.</p>
+<ol type="1">
+<li><span class="math inline">\(\det (AB) = \det A \det B\)</span></li>
+<li><span class="math inline">\(\det (cA) = c^n \det A\)</span>, for <span class="math inline">\(c \in \mathbb{R}\)</span></li>
+<li><span class="math inline">\(\det (A^{-1}) = \frac{1}{\det A}\)</span> if <span class="math inline">\(A\)</span> is invertible</li>
+</ol>
+</section>
+<section id="consequences-for-systems-of-linear-equations" class="slide level3">
+<h3>Consequences for systems of linear equations</h3>
+<div id="thm-unique-solution" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 1</strong></span> The system of linear equations <span class="math inline">\(A \vec{x} = \vec{b}\)</span> has a unique solution for any right hand side <span class="math inline">\(\vec{b}\)</span> if and only if <span class="math inline">\(\det A \neq 0\)</span>.</p>
+</div>
+</section></section>
+<section>
+<section id="special-types-of-matrices" class="title-slide slide level2 center" data-background-color="#782E57">
+<h2>Special types of matrices</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Module learning objective</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Recognise common matrix structures such as triangular and sparse matrices.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="triangular-matrices" class="slide level3 smaller">
+<h3>Triangular matrices</h3>
+<p>One important structure takes the form</p>
+<p><span class="math display">\[
+A = \begin{pmatrix}
+a_{11} &amp; 0 &amp; 0 &amp; \cdots &amp; 0 \\ a_{21} &amp; a_{22} &amp; 0 &amp; \cdots &amp;
+0 \\ a_{31} &amp; a_{32} &amp; a_{33} &amp; \cdots &amp; 0 \\ \vdots &amp; \vdots &amp; \vdots &amp; \ddots
+&amp; \vdots \\ a_{n1} &amp; a_{n2} &amp; a_{n3} &amp; \cdots &amp; a_{nn} \end{pmatrix}
+\]</span></p>
+<ul>
+<li><p>A is a <strong>lower triangular</strong> matrix. Every entry above the leading diagonal is zero:</p>
+<p><span class="math display">\[ a_{ij} = 0 \quad \text{ for } \quad j &gt; i. \]</span></p></li>
+<li><p>The <em>transpose</em> of this matrix is an <strong>upper triangular</strong> matrix and can be treated in a very similar manner.</p></li>
+</ul>
+</section>
+<section id="sparse-matrices" class="slide level3">
+<h3>Sparse matrices</h3>
+<p><strong>Sparse matrices</strong> are prevalent in any application which relies on some form of <em>graph</em> structure:</p>
+<ul>
+<li><p>The <span class="math inline">\(a_{ij}\)</span> typically represents some form of “communication” between vertices <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> of the graph, so the element is only nonzero if the vertices are connected.</p></li>
+<li><p>There is no generic pattern for these entries, though there is usually one that is specific to the problem solved.</p></li>
+</ul>
+</section>
+<section class="slide level3">
 
-<script type="pyodide-data">
-eyJvcHRpb25zIjp7ImluZGV4VVJMIjoiaHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L3B5b2RpZGUvdjAuMjYuMS9mdWxsLyJ9LCJwYWNrYWdlcyI6eyJwa2dzIjpbInB5b2RpZGVfaHR0cCIsIm1pY3JvcGlwIiwiaXB5dGhvbiJdfX0=
-</script>
+<ul>
+<li><p>Usually, <span class="math inline">\(a_{ii} \neq 0\)</span> - the diagonal is nonzero.</p></li>
+<li><p>A “large” portion of the matrix is zero.</p>
+<ul>
+<li>A full <span class="math inline">\(n \times n\)</span> matrix may have <span class="math inline">\(n^2\)</span> nonzero entries.</li>
+<li>A sparse <span class="math inline">\(n \times n\)</span> has <span class="math inline">\(\alpha n\)</span> nonzero entries, where <span class="math inline">\(\alpha \ll
+    n\)</span>.</li>
+</ul></li>
+<li><p>Many special techniques exist for handling sparse matrices, some of which can be used automatically within Python (<a href="https://docs.scipy.org/doc/scipy/reference/sparse.html"><code>scipy.sparse</code> documentation</a>)</p></li>
+</ul>
+</section>
+<section id="so-what" class="slide level3">
+<h3>So what?</h3>
+<ul>
+<li><p>In the next section we will discuss a general numerical algorithm for the solution of linear systems of equations.</p></li>
+<li><p>This will involve <strong>reducing</strong> the problem to one involving a <strong>triangular matrix</strong>, which, as we show below, is relatively easy to solve.</p></li>
+<li><p>In subsequent lectures, we will see that, for <em>sparse</em> matrix systems, alternative solution techniques are available.</p></li>
+</ul>
+</section></section>
+<section id="summary" class="title-slide slide level2 center" data-background-color="#782E57">
+<h2>Summary</h2>
+<ul>
+<li>We have introduced the terminology for systems of linear equations and given some application areas where examples may arise.</li>
+<li>We have seen that we can solve simple systems of linear equations using the matrix inverse but this is not advised for larger systems.</li>
+<li>Finally, we have introduced the determinant as a way of checking that systems of linear equations have a unique solution.</li>
+</ul>
+
 <script type="ojs-module-contents">
-eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJweW9kaWRlLTEiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8xID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMS1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzEgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzEsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLXByZWx1ZGUiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJweW9kaWRlT2pzID0ge1xuICBjb25zdCB7XG4gICAgUHlvZGlkZUV2YWx1YXRvcixcbiAgICBQeW9kaWRlRW52aXJvbm1lbnRNYW5hZ2VyLFxuICAgIHNldHVwUHl0aG9uLFxuICAgIHN0YXJ0UHlvZGlkZVdvcmtlcixcbiAgICBiNjREZWNvZGUsXG4gICAgY29sbGFwc2VQYXRoLFxuICB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzdGF0dXNDb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChcImV4ZXJjaXNlLWxvYWRpbmctc3RhdHVzXCIpO1xuICBjb25zdCBpbmRpY2F0b3JDb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChcImV4ZXJjaXNlLWxvYWRpbmctaW5kaWNhdG9yXCIpO1xuICBpbmRpY2F0b3JDb250YWluZXIuY2xhc3NMaXN0LnJlbW92ZShcImQtbm9uZVwiKTtcblxuICBsZXQgc3RhdHVzVGV4dCA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJkaXZcIilcbiAgc3RhdHVzVGV4dC5jbGFzc0xpc3QgPSBcImV4ZXJjaXNlLWxvYWRpbmctZGV0YWlsc1wiO1xuICBzdGF0dXNUZXh0ID0gc3RhdHVzQ29udGFpbmVyLmFwcGVuZENoaWxkKHN0YXR1c1RleHQpO1xuICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYEluaXRpYWxpc2VgO1xuXG4gIC8vIEhvaXN0IGluZGljYXRvciBvdXQgZnJvbSBmaW5hbCBzbGlkZSB3aGVuIHJ1bm5pbmcgdW5kZXIgcmV2ZWFsXG4gIGNvbnN0IHJldmVhbFN0YXR1cyA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoXCIucmV2ZWFsIC5leGVyY2lzZS1sb2FkaW5nLWluZGljYXRvclwiKTtcbiAgaWYgKHJldmVhbFN0YXR1cykge1xuICAgIHJldmVhbFN0YXR1cy5yZW1vdmUoKTtcbiAgICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKFwiLnJldmVhbCA+IC5zbGlkZXNcIikuYXBwZW5kQ2hpbGQocmV2ZWFsU3RhdHVzKTtcbiAgfVxuXG4gIC8vIE1ha2UgYW55IHJldmVhbCBzbGlkZXMgd2l0aCBsaXZlIGNlbGxzIHNjcm9sbGFibGVcbiAgZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbChcIi5yZXZlYWwgLmV4ZXJjaXNlLWNlbGxcIikuZm9yRWFjaCgoZWwpID0+IHtcbiAgICBlbC5jbG9zZXN0KCdzZWN0aW9uLnNsaWRlJykuY2xhc3NMaXN0LmFkZChcInNjcm9sbGFibGVcIik7XG4gIH0pXG5cbiAgLy8gUHlvZGlkZSBzdXBwbGVtZW50YWwgZGF0YSBhbmQgb3B0aW9uc1xuICBjb25zdCBkYXRhQ29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLWRhdGFcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBkYXRhID0gSlNPTi5wYXJzZShiNjREZWNvZGUoZGF0YUNvbnRlbnQpKTtcblxuICAvLyBHcmFiIGxpc3Qgb2YgcmVzb3VyY2VzIHRvIGJlIGRvd25sb2FkZWRcbiAgY29uc3QgZmlsZXNDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInZmcy1maWxlXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgZmlsZXMgPSBKU09OLnBhcnNlKGI2NERlY29kZShmaWxlc0NvbnRlbnQpKTtcblxuICBsZXQgcHlvZGlkZVByb21pc2UgPSAoYXN5bmMgKCkgPT4ge1xuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgUHlvZGlkZWA7XG4gICAgY29uc3QgcHlvZGlkZSA9IGF3YWl0IHN0YXJ0UHlvZGlkZVdvcmtlcihkYXRhLm9wdGlvbnMpO1xuXG4gICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBwYWNrYWdlOiBtaWNyb3BpcGA7XG4gICAgYXdhaXQgcHlvZGlkZS5sb2FkUGFja2FnZShcIm1pY3JvcGlwXCIpO1xuICAgIGNvbnN0IG1pY3JvcGlwID0gYXdhaXQgcHlvZGlkZS5weWltcG9ydChcIm1pY3JvcGlwXCIpO1xuICAgIGF3YWl0IGRhdGEucGFja2FnZXMucGtncy5tYXAoKHBrZykgPT4gKCkgPT4ge1xuICAgICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBwYWNrYWdlOiAke3BrZ31gO1xuICAgICAgcmV0dXJuIG1pY3JvcGlwLmluc3RhbGwocGtnKTtcbiAgICB9KS5yZWR1Y2UoKGN1ciwgbmV4dCkgPT4gY3VyLnRoZW4obmV4dCksIFByb21pc2UucmVzb2x2ZSgpKTtcbiAgICBhd2FpdCBtaWNyb3BpcC5kZXN0cm95KCk7XG5cbiAgICAvLyBEb3dubG9hZCBhbmQgaW5zdGFsbCByZXNvdXJjZXNcbiAgICBhd2FpdCBmaWxlcy5tYXAoKGZpbGUpID0+IGFzeW5jICgpID0+IHtcbiAgICAgIGNvbnN0IG5hbWUgPSBmaWxlLnN1YnN0cmluZyhmaWxlLmxhc3RJbmRleE9mKCcvJykgKyAxKTtcbiAgICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgcmVzb3VyY2U6ICR7bmFtZX1gO1xuICAgICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBmZXRjaChmaWxlKTtcbiAgICAgIGlmICghcmVzcG9uc2Uub2spIHtcbiAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBDYW4ndCBkb3dubG9hZCBcXGAke2ZpbGV9XFxgLiBFcnJvciAke3Jlc3BvbnNlLnN0YXR1c306IFwiJHtyZXNwb25zZS5zdGF0dXNUZXh0fVwiLmApO1xuICAgICAgfVxuICAgICAgY29uc3QgZGF0YSA9IGF3YWl0IHJlc3BvbnNlLmFycmF5QnVmZmVyKCk7XG5cbiAgICAgIC8vIFN0b3JlIFVSTHMgaW4gdGhlIGN3ZCB3aXRob3V0IGFueSBzdWJkaXJlY3Rvcnkgc3RydWN0dXJlXG4gICAgICBpZiAoZmlsZS5pbmNsdWRlcyhcIjovL1wiKSkge1xuICAgICAgICBmaWxlID0gbmFtZTtcbiAgICAgIH1cblxuICAgICAgLy8gQ29sbGFwc2UgaGlnaGVyIGRpcmVjdG9yeSBzdHJ1Y3R1cmVcbiAgICAgIGZpbGUgPSBjb2xsYXBzZVBhdGgoZmlsZSk7XG5cbiAgICAgIC8vIENyZWF0ZSBkaXJlY3RvcnkgdHJlZSwgaWdub3JpbmcgXCJkaXJlY3RvcnkgZXhpc3RzXCIgVkZTIGVycm9yc1xuICAgICAgY29uc3QgcGFydHMgPSBmaWxlLnNwbGl0KCcvJykuc2xpY2UoMCwgLTEpO1xuICAgICAgbGV0IHBhdGggPSAnJztcbiAgICAgIHdoaWxlIChwYXJ0cy5sZW5ndGggPiAwKSB7XG4gICAgICAgIHBhdGggKz0gcGFydHMuc2hpZnQoKSArICcvJztcbiAgICAgICAgdHJ5IHtcbiAgICAgICAgICBhd2FpdCBweW9kaWRlLkZTLm1rZGlyKHBhdGgpO1xuICAgICAgICB9IGNhdGNoIChlKSB7XG4gICAgICAgICAgaWYgKGUubmFtZSAhPT0gXCJFcnJub0Vycm9yXCIpIHRocm93IGU7XG4gICAgICAgICAgaWYgKGUuZXJybm8gIT09IDIwKSB7XG4gICAgICAgICAgICBjb25zdCBlcnJvclRleHRQdHIgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuX3N0cmVycm9yKGUuZXJybm8pO1xuICAgICAgICAgICAgY29uc3QgZXJyb3JUZXh0ID0gYXdhaXQgcHlvZGlkZS5fbW9kdWxlLlVURjhUb1N0cmluZyhlcnJvclRleHRQdHIpO1xuICAgICAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBGaWxlc3lzdGVtIEVycm9yICR7ZS5lcnJub30gXCIke2Vycm9yVGV4dH1cIi5gKTtcbiAgICAgICAgICB9XG4gICAgICAgIH1cbiAgICAgIH1cblxuICAgICAgLy8gV3JpdGUgdGhpcyBmaWxlIHRvIHRoZSBWRlNcbiAgICAgIHRyeSB7XG4gICAgICAgIHJldHVybiBhd2FpdCBweW9kaWRlLkZTLndyaXRlRmlsZShmaWxlLCBuZXcgVWludDhBcnJheShkYXRhKSk7XG4gICAgICB9IGNhdGNoIChlKSB7XG4gICAgICAgIGlmIChlLm5hbWUgIT09IFwiRXJybm9FcnJvclwiKSB0aHJvdyBlO1xuICAgICAgICBjb25zdCBlcnJvclRleHRQdHIgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuX3N0cmVycm9yKGUuZXJybm8pO1xuICAgICAgICBjb25zdCBlcnJvclRleHQgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuVVRGOFRvU3RyaW5nKGVycm9yVGV4dFB0cik7XG4gICAgICAgIHRocm93IG5ldyBFcnJvcihgRmlsZXN5c3RlbSBFcnJvciAke2UuZXJybm99IFwiJHtlcnJvclRleHR9XCIuYCk7XG4gICAgICB9XG4gICAgfSkucmVkdWNlKChjdXIsIG5leHQpID0+IGN1ci50aGVuKG5leHQpLCBQcm9taXNlLnJlc29sdmUoKSk7XG5cbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYFB5b2RpZGUgZW52aXJvbm1lbnQgc2V0dXBgO1xuICAgIGF3YWl0IHNldHVwUHl0aG9uKHB5b2RpZGUpO1xuXG4gICAgc3RhdHVzVGV4dC5yZW1vdmUoKTtcbiAgICBpZiAoc3RhdHVzQ29udGFpbmVyLmNoaWxkcmVuLmxlbmd0aCA9PSAwKSB7XG4gICAgICBzdGF0dXNDb250YWluZXIucGFyZW50Tm9kZS5yZW1vdmUoKTtcbiAgICB9XG4gICAgcmV0dXJuIHB5b2RpZGU7XG4gIH0pKCkuY2F0Y2goKGVycikgPT4ge1xuICAgIHN0YXR1c1RleHQuc3R5bGUuY29sb3IgPSBcInZhcigtLWV4ZXJjaXNlLWVkaXRvci1obC1lciwgI0FEMDAwMClcIjtcbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gZXJyLm1lc3NhZ2U7XG4gICAgLy9pbmRpY2F0b3JDb250YWluZXIucXVlcnlTZWxlY3RvcihcIi5zcGlubmVyLWdyb3dcIikuY2xhc3NMaXN0LmFkZChcImQtbm9uZVwiKTtcbiAgICB0aHJvdyBlcnI7XG4gIH0pO1xuXG4gIC8vIEtlZXAgdHJhY2sgb2YgaW5pdGlhbCBPSlMgYmxvY2sgcmVuZGVyXG4gIGNvbnN0IHJlbmRlcmVkT2pzID0ge307XG5cbiAgY29uc3QgcHJvY2VzcyA9IGFzeW5jIChjb250ZXh0LCBpbnB1dHMpID0+IHtcbiAgICBjb25zdCBweW9kaWRlID0gYXdhaXQgcHlvZGlkZVByb21pc2U7XG4gICAgY29uc3QgZXZhbHVhdG9yID0gbmV3IFB5b2RpZGVFdmFsdWF0b3IocHlvZGlkZSwgY29udGV4dCk7XG4gICAgYXdhaXQgZXZhbHVhdG9yLnByb2Nlc3MoaW5wdXRzKTtcbiAgICByZXR1cm4gZXZhbHVhdG9yLmNvbnRhaW5lcjtcbiAgfVxuXG4gIHJldHVybiB7XG4gICAgcHlvZGlkZVByb21pc2UsXG4gICAgcmVuZGVyZWRPanMsXG4gICAgcHJvY2VzcyxcbiAgfTtcbn1cbiJ9XX0=
+eyJjb250ZW50cyI6W119
 </script>
 <div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
 <div id="exercise-loading-status" class="d-flex gap-2">
@@ -351,7 +512,6 @@ eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJweW9kaWRlLTEiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2RO
 <script type="vfs-file">
 W10=
 </script>
-</section>
 </section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
@@ -385,7 +545,7 @@ W10=
       // https://revealjs.com/config/
       Reveal.initialize({
 'controlsAuto': true,
-'previewLinksAuto': true,
+'previewLinksAuto': false,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
@@ -393,7 +553,7 @@ W10=
 'jumpToSlide': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
 'annotate': {"gridSize":50,"gridColor":"rgba(26, 26, 26, 0.05)","gridBackground":"#FBF8F0","colors":["auto","#004C77","#793600","#00543D","#782E57"],"autoLight":"#1A1A1A","autoDark":"#FBF8F0","widths":[2,3.5,6],"highlighterColor":"#F5C400","highlighterWidth":22,"eraserRadius":6,"scribbleReversals":4,"scribbleRatio":3,"scribbleCoverage":0.6,"palmDelay":400,"mouse":false,"toolbarPosition":"top"},
-'vevox': {"session":"","presenter":"","presenterHome":"https://universityofleeds.vevox.com/"},
+'vevox': {"session":"160916204","presenter":"","presenterHome":"https://universityofleeds.vevox.com/"},
 'smaller': false,
  
         // Display controls in the bottom right corner
@@ -573,6 +733,38 @@ W10=
         ]
       });
     </script>
+    <script>
+    // On an iPad in full screen the slide is letterboxed and the bars show the
+    // page background (cream), which stands out on the coloured title/section
+    // slides. Make the page background follow the current slide's background,
+    // and tell Safari the matching tint and light/dark scheme so the text in its
+    // tab and status bars flips to stay readable.
+    document.addEventListener('DOMContentLoaded', () => {
+      let themeColor = document.querySelector('meta[name="theme-color"]');
+      if (!themeColor) {
+        themeColor = document.createElement('meta');
+        themeColor.name = 'theme-color';
+        document.head.appendChild(themeColor);
+      }
+
+      const sync = () => {
+        const slide = Reveal.getCurrentSlide();
+        const bg = Reveal.getSlideBackground(slide);
+        const color = bg && getComputedStyle(bg).backgroundColor;
+        const value = color && color !== 'rgba(0, 0, 0, 0)' ? color : '';
+        document.documentElement.style.backgroundColor = value;
+        document.body.style.backgroundColor = value;
+
+        // reveal marks slides whose background is dark with this class
+        const dark = slide.classList.contains('has-dark-background');
+        document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+        themeColor.content = value || getComputedStyle(document.body).backgroundColor;
+      };
+      Reveal.on('ready', sync);
+      Reveal.on('slidechanged', sync);
+      if (Reveal.isReady()) sync();
+    });
+    </script>
     <script type="ojs-module-contents">
     eyJjb250ZW50cyI6W119
     </script>
@@ -668,6 +860,11 @@ W10=
               if (link.dataset.originalHref !== undefined) {
                 link.href = link.dataset.originalHref;
               }
+                // target, if specified
+                link.setAttribute("target", "_blank");
+                if (link.getAttribute("rel") === null) {
+                  link.setAttribute("rel", "noopener");
+                }
             }
           }
         function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {

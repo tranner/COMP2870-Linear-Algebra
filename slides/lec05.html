@@ -6,10 +6,10 @@
 <script src="lec05_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="lec05_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="lec05_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="lec05_files/libs/quarto-html/quarto-syntax-highlighting-8aca0b0a8b84f7107b5bd209819888f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="lec05_files/libs/quarto-html/quarto-syntax-highlighting-4e4c60b5dd7092195ce9752dcb315cb4.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="lec05_files/libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
 <link href="lec05_files/libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.10.18">
+  <meta name="generator" content="quarto-1.10.19">
 
   <meta name="author" content="Dr.&nbsp;Thomas Ranner (Tom)">
   <title>COMP2870 Theoretical Foundations of Computer Science II</title>
@@ -103,7 +103,7 @@
     code span.vs { color: #00543d; } /* VerbatimString */
     code span.wa { color: #782e57; font-weight: bold; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="lec05_files/libs/revealjs/dist/theme/quarto-6bd527c3678a3b2648203ef07dcaa767.css">
+  <link rel="stylesheet" href="lec05_files/libs/revealjs/dist/theme/quarto-4b9ef474e09cf9553ce6ee23e3821425.css">
   <link href="lec05_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="lec05_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="lec05_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -230,46 +230,13 @@ Dr.&nbsp;Thomas Ranner (Tom)
 </div>
 
 </section>
-<section id="portfolio-updates" class="title-slide slide level1 center" data-background-color="#782E57">
-<h1>Portfolio updates</h1>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Worksheet</th>
-<th>Submissions</th>
-<th>Passes</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Week 1</td>
-<td>220 (71% of students)</td>
-<td>162 (74% of submissions)</td>
-</tr>
-<tr class="even">
-<td>Week 2</td>
-<td>180 (58%)</td>
-<td>82 (46%)</td>
-</tr>
-<tr class="odd">
-<td>Week 3</td>
-<td>148 (48%)</td>
-<td>90 (61%)</td>
-</tr>
-</tbody>
-</table>
-</section>
-
 <section>
 <section id="eigenvalues-and-complex-numbers" class="title-slide slide level1 center" data-background-color="#782E57">
 <h1>Eigenvalues and complex numbers</h1>
-<blockquote>
-<p>Today: Definition of eigenvalues and eigenvectors and complex numbers</p>
-</blockquote>
-<p>Online notes: 7.1, 7.2, 6.1, 6.2, 6.3, 6.5</p>
+<p>Chapter 6.1-6.5 and 7.1-3</p>
 </section>
-<section id="what-is-an-eigenvector" class="title-slide slide level2 center" data-background-color="#782E57">
-<h2>What is an eigenvector?</h2>
+<section id="what-are-eigenvectors-and-eigenvalues" class="title-slide slide level2 center" data-background-color="#782E57">
+<h2>What are eigenvectors and eigenvalues?</h2>
 <p>Let <span class="math inline">\(A\)</span> be an <span class="math inline">\(n \times n\)</span> matrix. We are interested in when is the output vector <span class="math inline">\(A \vec{x}\)</span> is <em>parallel</em> to <span class="math inline">\(\vec{x}\)</span>?</p>
 <aside class="notes">
 <p>For this problem, we will think of a matrix <span class="math inline">\(A\)</span> acting on functions <span class="math inline">\(\vec{x}\)</span>: <span class="math display">\[\begin{equation*}
@@ -307,7 +274,7 @@ a &amp; 0 \\ 0 &amp; b
 </div>
 <div id="exm-projection" class="theorem example">
 <p><span class="theorem-title"><strong>Example 2</strong></span> Let <span class="math inline">\(P\)</span> be the 3x3 matrix that represents projection onto a plane <span class="math inline">\(\pi\)</span>. What are the eigenvalues and eigenvectors of <span class="math inline">\(p\)</span>?</p>
-<div id="a5223905" class="cell" data-execution_count="2">
+<div id="457742fc" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -367,19 +334,79 @@ A \vec{x} = \lambda \vec{x}.
 \end{equation}\]</span> We call the associated number <span class="math inline">\(\lambda\)</span> an <em>eigenvalue</em> of <span class="math inline">\(A\)</span>.</p>
 </div>
 </section>
-<section id="importance-of-eigenvalues" class="slide level3">
-<h3>Importance of eigenvalues</h3>
-<p>Eigenvalues can be used to understand the geometry behind linear transformations (the action of matrix-vector multiplication).</p>
-<p>They can also be used to find a <em>useful</em> basis (of eigenvectors) when working with large datasets.</p>
-<p>The idea of using eigenvectors to form a basis is a key step in the PageRank algorithm which Google used to revolutionise search algorithms.</p>
+<section id="why-does-a-computer-scientist-need-to-know-about-eigenvalues" class="slide level3">
+<h3>Why does a computer scientist need to know about eigenvalues</h3>
+<p>One way to reduce the dimensionality is through projecting the dataset onto a small number of directions which come from the eigenvectors of a related matrix (the covariance or correlation matrix). This is called principal component analysis (PCA) and you will learn more about this in a project later in this module.</p>
+<blockquote>
+<p><strong>Key idea.</strong> The new directions form a carefully chosen <strong>coordinate system</strong>.</p>
+</blockquote>
+</section>
+<section id="our-home" class="slide level3">
+<h3>Our home</h3>
+<p>We demonstrate briefly here how PCA can work for compressing an image. Consider this image of the Bragg building:</p>
+<div id="1f85c4f6" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec05_files/figure-revealjs/cell-4-output-1.png" width="607" height="607"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level3">
+
+<p>We store information about the image by computing eigenvalues and eigenvectors of what’s called the “covariance matrix” of the columns of the matrix.</p>
+<div id="3cf05af0" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec05_files/figure-revealjs/cell-6-output-1.png" width="1438" height="708"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level3">
+
+<p>Then we can reconstruct the image using the top <span class="math inline">\(k\)</span> components</p>
+<div id="c4c8ee67" class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec05_files/figure-revealjs/cell-8-output-1.png" width="1425" height="490"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We see that even with a very small number of values we can start to recognise our building!</p>
 </section>
 
 <section id="characteristic-equation" class="title-slide slide level2 center" data-background-color="#782E57">
 <h2>Characteristic equation</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Module learning objective</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Compute eigenvalues and eigenvectors of small matrices by hand using characteristic polynomials.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="section" class="slide level3 write">
+<h3></h3>
 <p>The eigenvalues of a matrix <span class="math inline">\(A\)</span> satisfy the <strong>characteristic equation</strong> given by <span class="math display">\[\begin{equation}
 \label{eq:char}
 \det( A - \lambda I_n ) = 0.
 \end{equation}\]</span></p>
+
 <aside class="notes">
 <p>To compute eigenvalues and eigenvectors, we start from <span class="math inline">\(\eqref{eq:evalues}\)</span> and move everything to the left-hand side and use the identity matrix <span class="math inline">\((I_n)\)</span>: <span class="math display">\[\begin{equation*}
 (A - \lambda I_n) \vec{x} = \vec{0}.
@@ -403,8 +430,10 @@ A \vec{x} = \lambda \vec{x}.
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-</section>
-<section id="example-1" class="slide level3">
+<aside><div>
+<p>Eigenvalue equation: <span class="math inline">\(A \vec{x} = \lambda \vec{x}\)</span></p>
+</div></aside></section>
+<section id="example-1" class="slide level3 small write">
 <h3>Example 1</h3>
 <p>Find the eigenvalues and eigenvectors of the matrix <span class="math display">\[\begin{equation*}
 A = \begin{pmatrix}
@@ -452,7 +481,7 @@ A - 2I_n = \begin{pmatrix} 1 &amp; 1 \\ 1 &amp; 1 \end{pmatrix}.
           display:block!important;
       }</style></aside>
 </section>
-<section id="example-2" class="slide level3">
+<section id="example-2" class="slide level3 small write">
 <h3>Example 2</h3>
 <p>Let <span class="math inline">\(B\)</span> be the <span class="math inline">\(2 \times 2\)</span> matrix given by <span class="math display">\[\begin{equation*}
 B = \begin{pmatrix}
@@ -497,7 +526,7 @@ y \\ 0
 \begin{pmatrix} 9 &amp; -2 \\ -2 &amp; 6 \end{pmatrix}.
 \]</span></p>
 </section>
-<section id="example-3" class="slide level3">
+<section id="example-3" class="slide level3 small write">
 <h3>Example 3</h3>
 <p>Let <span class="math inline">\(Q\)</span> denote the <span class="math inline">\(2 \times 2\)</span> matrix that rotates any vector by <span class="math inline">\(\pi/2\)</span> (<span class="math inline">\(=90^\circ\)</span>): <span class="math display">\[\begin{equation*}
 Q = \begin{pmatrix}
@@ -525,22 +554,35 @@ Q = \begin{pmatrix}
           display:block!important;
       }</style></aside>
 </section>
-</section>
-<section>
-<section id="sec-complex-numbers" class="title-slide slide level1 center" data-background-color="#782E57">
-<h1>Complex numbers</h1>
 
+<section id="sec-complex-numbers" class="title-slide slide level2 center" data-background-color="#782E57">
+<h2>Complex numbers</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Module learning objective</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Use complex arithmetic and polar representations to analyse complex numbers algebraically and geometrically.</li>
+</ul>
+</div>
+</div>
+</div>
 </section>
-<section id="basic-definitions" class="title-slide slide level2 center" data-background-color="#782E57">
-<h2>Basic definitions</h2>
+<section id="basic-definitions" class="slide level3">
+<h3>Basic definitions</h3>
 <p>Consider the polynomial equation <span class="math display">\[\begin{equation}
 \lambda^2 + 1 = 0.
 \end{equation}\]</span></p>
-<div id="1947a817" class="cell" data-execution_count="3">
+<div id="c3490b81" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="lec05_files/figure-revealjs/cell-4-output-1.png" width="1326" height="715"></p>
+<p><img data-src="lec05_files/figure-revealjs/cell-9-output-1.png" width="1326" height="715"></p>
 <figcaption>Plot of <span class="math inline">\(\lambda^2 + 1\)</span>.</figcaption>
 </figure>
 </div>
@@ -576,7 +618,7 @@ i^2 = -1 \qquad \sqrt{-1} = i.
 <p>We notice that all real numbers <span class="math inline">\(x\)</span> must also be complex numbers since <span class="math inline">\(x = x +
 0 i\)</span>.</p>
 </section>
-<section id="history" class="slide level3">
+<section id="history" class="slide level3 smaller">
 <h3>History</h3>
 <p>Among the first recorded uses of complex numbers in European mathematics was by an Italian mathematician, Gerolamo Cardano, in around 1545. He later described complex numbers as being “as subtle as they are useless” and “mental torment”.</p>
 <p>The term imaginary was coined by René Descartes in 1637:</p>
@@ -594,22 +636,21 @@ i^2 = -1 \qquad \sqrt{-1} = i.
 <li><span class="math inline">\(7i\)</span></li>
 </ol>
 </section>
-
-<section id="calculations-with-complex-numbers" class="title-slide slide level2 center" data-background-color="#782E57">
-<h2>Calculations with complex numbers</h2>
+<section id="calculations-with-complex-numbers" class="slide level3 write">
+<h3>Calculations with complex numbers</h3>
 <p>Addition and subtraction are relatively straightforward: we treat the real and imaginary parts separately.</p>
 <p>Compute <span class="math display">\[\begin{align*}
-(2 + 3i) + (12 - 12i) &amp;= \\
-(2 + 3i) - (12 - 12i) &amp;= \\
-6 (2 + 3i) &amp;= \\
-\frac{12 - 12i}{6} &amp; = \phantom{XX}.
+(2 + 3i) + (12 - 12i) &amp;= \phantom{15 - 9i} \\
+(2 + 3i) - (12 - 12i) &amp;= \phantom{-10 - 9i} \\
+6 (2 + 3i) &amp;= \phantom{12 + 18i} \\
+\frac{12 - 12i}{6} &amp; = \phantom{2 - 2i}
 \end{align*}\]</span></p>
 </section>
 <section id="exercises" class="slide level3">
 <h3>Exercises</h3>
 <p>Compute <span class="math inline">\((3+6i) + (-3.5 + 2i)\)</span> and <span class="math inline">\((3 + 6i) - (-3.5 + 2i)\)</span>.</p>
 </section>
-<section id="multiplication-of-complex-numbers" class="slide level3">
+<section id="multiplication-of-complex-numbers" class="slide level3 write">
 <h3>Multiplication of complex numbers</h3>
 <p>For multiplication between complex numbers, things are harder. We expand brackets and apply the rule that <span class="math inline">\(i^2 = -1\)</span>:</p>
 <p><strong>Example.</strong> Compute <span class="math inline">\((2 + 3i) \times (12 - 12i)\)</span>.</p>
@@ -653,23 +694,18 @@ i^2 = (\sqrt{-1})^2 = \sqrt{-1} \sqrt{-1} \neq \sqrt{(-1) \times (-1)} = \sqrt{1
 = 1.
 \end{equation*}\]</span> In fact, we have that <span class="math inline">\(\sqrt{x} \sqrt{y} = \sqrt{xy}\)</span> only if <span class="math inline">\(x, y &gt; 0\)</span>.</p>
 </section>
-
-<section id="a-geometric-picture" class="title-slide slide level2 center" data-background-color="#782E57">
-<h2>A geometric picture</h2>
+<section id="a-geometric-picture" class="slide level3">
+<h3>A geometric picture</h3>
 <p>The idea of adding complex numbers by considering real and imaginary parts separately is reminiscent of adding two-dimensional vectors. For this reason, it is often helpful to think of complex numbers as points in <em>the complex plane</em>.</p>
 </section>
 <section id="complex-plane" class="slide level3">
 <h3>Complex plane</h3>
-<p>The complex plane is the two-dimensional space formed by considering the real and imaginary parts of a complex number as two different coordinate axes.</p>
-<div id="exm-plane" class="theorem example">
-<p><span class="theorem-title"><strong>Example 5</strong></span> &nbsp;</p>
-<div id="7f9a6bd5" class="cell" data-caption="Examples of complex numbers as points in the complex plane." data-execution_count="4">
+<div id="83b6ad85" class="cell" data-caption="Examples of complex numbers as points in the complex plane." data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lec05_files/figure-revealjs/cell-5-output-1.png" width="1286" height="725"></p>
+<p><img data-src="lec05_files/figure-revealjs/cell-10-output-1.png" width="1286" height="725"></p>
 </figure>
-</div>
 </div>
 </div>
 </div>
@@ -687,13 +723,14 @@ i^2 = (\sqrt{-1})^2 = \sqrt{-1} \sqrt{-1} \neq \sqrt{(-1) \times (-1)} = \sqrt{1
           display:block!important;
       }</style></aside>
 </section>
-<section id="complex-conjugate" class="slide level3">
+<section id="complex-conjugate" class="slide level3 write">
 <h3>Complex conjugate</h3>
 <p>The <em>complex conjugate</em> of a complex number <span class="math inline">\(z = a + bi\)</span> is given by <span class="math inline">\(\bar{z} =
-a - bi\)</span>. The complex conjugate is that number we used before when working out how to divide complex numbers.</p>
+a - bi\)</span>.</p>
 <div id="exm-conjugate" class="theorem example">
-<p><span class="theorem-title"><strong>Example 6</strong></span> Find the complex conjugate of (i) <span class="math inline">\(2 + 3i\)</span> and (ii) <span class="math inline">\(12 - 12i\)</span></p>
+<p><span class="theorem-title"><strong>Example 5</strong></span> Find the complex conjugate of (i) <span class="math inline">\(2 + 3i\)</span> and (ii) <span class="math inline">\(12 - 12i\)</span></p>
 </div>
+<div class="fragment">
 <div id="exr-conjugate" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 2</strong></span> Find the complex conjugates of (i) <span class="math inline">\(3 + 6i\)</span> and (ii) <span class="math inline">\(-3.5 + 2i\)</span>.</p>
 </div>
@@ -716,6 +753,7 @@ a - bi\)</span>. The complex conjugate is that number we used before when workin
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+</div>
 </section>
 <section id="modulus" class="slide level3">
 <h3>Modulus</h3>
@@ -726,11 +764,11 @@ a - bi\)</span>. The complex conjugate is that number we used before when workin
 </section>
 <section id="example-modulus" class="slide level3">
 <h3>Example modulus</h3>
-<div id="eb5e6942" class="cell" data-caption="Examples of moduli of complex numbers as points in the complex plane." data-execution_count="5">
+<div id="f61ae100" class="cell" data-caption="Examples of moduli of complex numbers as points in the complex plane." data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lec05_files/figure-revealjs/cell-6-output-1.png" width="1039" height="766"></p>
+<p><img data-src="lec05_files/figure-revealjs/cell-11-output-1.png" width="1039" height="766"></p>
 </figure>
 </div>
 </div>
@@ -780,7 +818,7 @@ z y
           display:block!important;
       }</style></aside>
 </section>
-<section id="polar-representation" class="slide level3">
+<section id="polar-representation" class="slide level3 smaller">
 <h3>Polar representation</h3>
 <aside class="notes">
 <p>This leads us to thinking <em>polar coordinates</em> for the complex plane. Polar coordinates are a different form of coordinates that replace the usual <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>-directions (up and across) by two values which represent the distance to the origin (that we call radius) and angle counted in the anti-clockwise direction to the positive <span class="math inline">\(x\)</span>-axis (that we call the angle).</p>
@@ -797,7 +835,7 @@ z y
       }</style></aside>
 <p>When talking about a complex number <span class="math inline">\(z\)</span> represented in the complex plane, we know that the modulus <span class="math inline">\(|z|\)</span> represents the radius. We can form an angle <span class="math inline">\(\theta\)</span> to represent the angle of a complex number that we know call the <strong>argument</strong>.</p>
 <p>It can be found by computing arctan2 (a quadrant aware version of arctan) of the real and imaginary parts of <span class="math inline">\(z\)</span>.</p>
-<div id="673c3aa3" class="cell" data-execution_count="6">
+<div id="ebec32ab" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="" aria-label="1"></a><span class="bu">print</span>(<span class="st">"angle of 1 + 0i:"</span>, np.arctan2(<span class="dv">1</span>, <span class="dv">0</span>))</span>
 <span id="cb1-2"><a href="" aria-label="2"></a><span class="bu">print</span>(<span class="st">"angle of 0 + 1i:"</span>, np.arctan2(<span class="dv">0</span>, <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -808,11 +846,11 @@ angle of 0 + 1i: 0.0</code></pre>
 </section>
 <section id="picture" class="slide level3">
 <h3>Picture</h3>
-<div id="117823c7" class="cell" data-caption="Examples of arguments of complex numbers as points in the complex plane." data-execution_count="7">
+<div id="ed557f3d" class="cell" data-caption="Examples of arguments of complex numbers as points in the complex plane." data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lec05_files/figure-revealjs/cell-8-output-1.png" width="1039" height="766"></p>
+<p><img data-src="lec05_files/figure-revealjs/cell-13-output-1.png" width="1039" height="766"></p>
 </figure>
 </div>
 </div>
@@ -825,7 +863,7 @@ angle of 0 + 1i: 0.0</code></pre>
 <p>The representation of the angle unique up to adding integer multiples of <span class="math inline">\(2
 \pi\)</span>, since rotating a point by <span class="math inline">\(2 \pi\)</span> about the origin leaves it unchanged.</p>
 </section>
-<section id="example" class="slide level3">
+<section id="example" class="slide level3 write">
 <h3>Example</h3>
 <p>Find the polar form of <span class="math inline">\(z = 12 - 12i\)</span>.</p>
 <aside class="notes">
@@ -856,28 +894,45 @@ angle of 0 + 1i: 0.0</code></pre>
 <h3>Exercise</h3>
 <p>Compute the modulus and argument of <span class="math inline">\(2\)</span>, <span class="math inline">\(3i\)</span> and <span class="math inline">\(4 + 4i\)</span>.</p>
 </section>
-<section id="geometric-view-of-complex-multiplication" class="slide level3">
+<section id="geometric-view-of-complex-multiplication" class="slide level3 write">
 <h3>Geometric view of complex multiplication</h3>
 <p>The polar representation of complex numbers then gives us a nice way to understand multiplication of complex numbers.</p>
+<aside class="notes">
 <p>If <span class="math inline">\(y \neq 0\)</span>, then we can check that <span class="math inline">\(\left| \frac{y}{|y|} \right| = 1\)</span> and <span class="math inline">\(\arg{y} = \arg{\frac{y}{|y|}}\)</span>.</p>
 <p>Then writing <span class="math inline">\(zy = z \frac{y}{|y|} |y|\)</span>, we can use our calculations above to infer that multiplying by <span class="math inline">\(y\)</span> corresponds to an anticlockwise rotation by <span class="math inline">\(\arg{y}\)</span> then scaling by <span class="math inline">\(|y|\)</span>.</p>
-</section>
-
-<section id="eulers-formula" class="title-slide slide level2 center" data-background-color="#782E57">
-<h2>Euler’s formula</h2>
-<p>Euler’s formula is relates the polar form of a complex number to complex exponentials: Let <span class="math inline">\(x\)</span> be a real number, then <span class="math display">\[
-\exp (i x) = \cos x + i \sin x.
-\]</span></p>
-</section>
-<section id="eulers-identity" class="slide level3">
-<h3>Euler’s identity</h3>
-<p>Euler’s formula is the key important step for showing Euler’s identity: <span class="math display">\[
-\exp(i \pi) = -1.
-\]</span> This is shown by applying Euler’s formula at <span class="math inline">\(x= \pi\)</span>. This is a formula which many mathematicians a surprising and beautiful result!</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 
 <section id="solving-polynomial-equations" class="title-slide slide level2 center" data-background-color="#782E57">
 <h2>Solving polynomial equations</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Module learning objective</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Determine complex roots of polynomial equations using factorisation and the quadratic formula.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level3">
+
 <div id="thm-fund-alg" class="theorem">
 <p><span class="theorem-title"><strong>Theorem 1 (The Fundamental Theorem of Algebra)</strong></span> For any complex numbers <span class="math inline">\(a_0, \ldots, a_n\)</span> not all zero, there is at least one complex number <span class="math inline">\(z\)</span> which satisfies: <span class="math display">\[\begin{equation*}
 a_n z^n + \cdots + a_1 z + a_0 = 0
@@ -897,11 +952,13 @@ a_n z^n + \cdots + a_1 z + a_0 = 0
           display:block!important;
       }</style></aside>
 </section>
-<section id="revisiting-the-rotation-example" class="slide level3">
+<section id="revisiting-the-rotation-example" class="slide level3 write">
 <h3>Revisiting the rotation example</h3>
-<p>Consider the polynomial equation <span class="math display">\[\begin{equation}
-x^2 + 1 = 0.
-\end{equation}\]</span></p>
+<p><span class="math display">\[
+\text{Matrix} \quad Q = \begin{pmatrix} 0 &amp; -1 \\ 1 &amp; 0 \end{pmatrix}
+\]</span> <span class="math display">\[
+\text{Characteristic equation} \quad\lambda^2 + 1 = 0.
+\]</span></p>
 <aside class="notes">
 <p>We saw before that this equation has no solution over the real numbers, but the Fundamental Theorem of Algebra tells us there must be at least one solution which is a complex number. In fact it has two solutions - <span class="math inline">\(i\)</span> and <span class="math inline">\(-i\)</span>: <span class="math display">\[\begin{align*}
 &amp; i^2 + 1 = 0 \\
@@ -921,11 +978,12 @@ x^2 + 1 = 0.
 </section>
 <section id="plot-of-z2-1" class="slide level3">
 <h3>Plot of <span class="math inline">\(z^2 + 1\)</span></h3>
-<div id="fe893b85" class="cell" data-execution_count="8">
+<div id="7c7e964f" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="lec05_files/figure-revealjs/cell-9-output-1.png" width="1420" height="686"></p>
+<p><img data-src="lec05_files/figure-revealjs/cell-14-output-1.png" width="1422" height="688"></p>
+<figcaption>Contour Plot of <span class="math inline">\(|z^2 + 1|\)</span> Over the Complex Plane</figcaption>
 </figure>
 </div>
 </div>
@@ -944,11 +1002,11 @@ x^2 + 1 = 0.
           display:block!important;
       }</style></aside>
 </section>
-<section id="quadratic-formula" class="slide level3">
+<section id="quadratic-formula" class="slide level3 write">
 <h3>Quadratic formula</h3>
 <p>In general, to find complex roots of other quadratic equations, we can apply the quadratic formula:</p>
 <div id="exm-polynomial1" class="theorem example">
-<p><span class="theorem-title"><strong>Example 7</strong></span> Find the values of <span class="math inline">\(z\)</span> which satisfy <span class="math inline">\(z^2 - 2z + 2 = 0\)</span></p>
+<p><span class="theorem-title"><strong>Example 6</strong></span> Find the values of <span class="math inline">\(z\)</span> which satisfy <span class="math inline">\(z^2 - 2z + 2 = 0\)</span></p>
 </div>
 <aside class="notes">
 <p><span class="math display">\[\begin{align*}
@@ -1046,7 +1104,7 @@ W10=
       // https://revealjs.com/config/
       Reveal.initialize({
 'controlsAuto': true,
-'previewLinksAuto': true,
+'previewLinksAuto': false,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
@@ -1234,6 +1292,38 @@ W10=
         ]
       });
     </script>
+    <script>
+    // On an iPad in full screen the slide is letterboxed and the bars show the
+    // page background (cream), which stands out on the coloured title/section
+    // slides. Make the page background follow the current slide's background,
+    // and tell Safari the matching tint and light/dark scheme so the text in its
+    // tab and status bars flips to stay readable.
+    document.addEventListener('DOMContentLoaded', () => {
+      let themeColor = document.querySelector('meta[name="theme-color"]');
+      if (!themeColor) {
+        themeColor = document.createElement('meta');
+        themeColor.name = 'theme-color';
+        document.head.appendChild(themeColor);
+      }
+
+      const sync = () => {
+        const slide = Reveal.getCurrentSlide();
+        const bg = Reveal.getSlideBackground(slide);
+        const color = bg && getComputedStyle(bg).backgroundColor;
+        const value = color && color !== 'rgba(0, 0, 0, 0)' ? color : '';
+        document.documentElement.style.backgroundColor = value;
+        document.body.style.backgroundColor = value;
+
+        // reveal marks slides whose background is dark with this class
+        const dark = slide.classList.contains('has-dark-background');
+        document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+        themeColor.content = value || getComputedStyle(document.body).backgroundColor;
+      };
+      Reveal.on('ready', sync);
+      Reveal.on('slidechanged', sync);
+      if (Reveal.isReady()) sync();
+    });
+    </script>
     <script type="ojs-module-contents">
     eyJjb250ZW50cyI6W119
     </script>
@@ -1329,6 +1419,11 @@ W10=
               if (link.dataset.originalHref !== undefined) {
                 link.href = link.dataset.originalHref;
               }
+                // target, if specified
+                link.setAttribute("target", "_blank");
+                if (link.getAttribute("rel") === null) {
+                  link.setAttribute("rel", "noopener");
+                }
             }
           }
         function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {

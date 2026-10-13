@@ -6,10 +6,10 @@
 <script src="lec01_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="lec01_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="lec01_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="lec01_files/libs/quarto-html/quarto-syntax-highlighting-8aca0b0a8b84f7107b5bd209819888f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="lec01_files/libs/quarto-html/quarto-syntax-highlighting-4e4c60b5dd7092195ce9752dcb315cb4.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="lec01_files/libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
 <link href="lec01_files/libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.10.18">
+  <meta name="generator" content="quarto-1.10.19">
 
   <meta name="author" content="Dr.&nbsp;Thomas Ranner (Tom)">
   <title>COMP2870 Theoretical Foundations of Computer Science II</title>
@@ -103,7 +103,7 @@
     code span.vs { color: #00543d; } /* VerbatimString */
     code span.wa { color: #782e57; font-weight: bold; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="lec01_files/libs/revealjs/dist/theme/quarto-6bd527c3678a3b2648203ef07dcaa767.css">
+  <link rel="stylesheet" href="lec01_files/libs/revealjs/dist/theme/quarto-4b9ef474e09cf9553ce6ee23e3821425.css">
   <link href="lec01_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="lec01_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="lec01_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -311,11 +311,9 @@ Dr.&nbsp;Thomas Ranner (Tom)
 </section>
 <section id="programming" class="slide level3">
 <h3>Programming</h3>
-<div>
 <p>We will make extensive use of <a href="https://www.python.org/"><code>Python</code></a> and <a href="https://numpy.org/"><code>numpy</code></a> during this section of the module. It may help you to revise some of your notes from last year on these topics.</p>
-</div>
-<div>
-<p>We will also be working with <em>floating-point numbers</em>. You will have met the definition of a floating point number last year (COMP1850) - we will see that doing maths with floating-point numbers has real consequences (see first lab!)</p>
+<div class="fragment">
+<p>We will also be working with <em>floating-point numbers</em>. You will have met the definition of a floating point number last year (COMP1850) - we will see that doing maths with floating-point numbers has real consequences (see first lab and the next few slides!)</p>
 </div>
 </section></section>
 <section>
@@ -425,11 +423,7 @@ Video
 <section id="reminder-of-matrices-and-vectors" class="title-slide slide level2 center" data-background-color="#782E57">
 <h2>Reminder of matrices and vectors</h2>
 <blockquote>
-
-<ul>
-<li>Recall basic definitions of matrices and vectors</li>
-</ul>
-
+<p>Recall basic definitions of matrices and vectors</p>
 </blockquote>
 </section>
 <section id="matrices" class="slide level3 write">
@@ -470,7 +464,6 @@ C = \begin{pmatrix} 4 &amp; 1 &amp; 8 &amp; -1 \\
 </section>
 <section id="quick-question" class="slide level3 vevox" data-vevox-label="Matrix sizes">
 <h3>Quick question</h3>
-<p>Which of the sums and products of <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span> and <span class="math inline">\(C\)</span> are defined? Vote on Vevox.</p>
 </section>
 <section id="vectors" class="slide level3 write">
 <h3>Vectors</h3>
@@ -532,10 +525,24 @@ R(\theta) = \begin{pmatrix}
 <section>
 <section id="systems-of-linear-equations" class="title-slide slide level2 center" data-background-color="#782E57">
 <h2>Systems of linear equations</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Module learning objective</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Formulate a sytem of linear equations in matrix form <span class="math inline">\(A \vec{x} = \vec{b}\)</span>.</li>
+</ul>
+</div>
+</div>
+</div>
 <blockquote>
 
 <ul>
-<li>Define key terms associated with systems of linear equations;</li>
 <li>Understand why a computer scientist should know about systems of linear equations.</li>
 </ul>
 
@@ -603,7 +610,7 @@ a_{n1} x_1 + a_{n2} x_2 + a_{n3} x_3 + \cdots + a_{nn} x_n &amp; = b_n.
 <section id="ex.-temperature-in-a-sealed-room" class="slide level3">
 <h3>Ex. Temperature in a sealed room</h3>
 <p>Suppose we wish to estimate the temperature distribution inside an object:</p>
-<div id="60b29eab" class="cell" data-execution_count="2">
+<div id="58daaea9" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -653,7 +660,7 @@ x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6 \\ x_7
 <section id="ex.-traffic-network" class="slide level3">
 <h3>Ex. Traffic network</h3>
 <p>Suppose we wish to monitor the flow of traffic in a city centre:</p>
-<div id="3e07fd19" class="cell" data-execution_count="3">
+<div id="2e5056fe" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -790,7 +797,7 @@ W10=
       // https://revealjs.com/config/
       Reveal.initialize({
 'controlsAuto': true,
-'previewLinksAuto': true,
+'previewLinksAuto': false,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
@@ -798,7 +805,7 @@ W10=
 'jumpToSlide': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
 'annotate': {"gridSize":50,"gridColor":"rgba(26, 26, 26, 0.05)","gridBackground":"#FBF8F0","colors":["auto","#004C77","#793600","#00543D","#782E57"],"autoLight":"#1A1A1A","autoDark":"#FBF8F0","widths":[2,3.5,6],"highlighterColor":"#F5C400","highlighterWidth":22,"eraserRadius":6,"scribbleReversals":4,"scribbleRatio":3,"scribbleCoverage":0.6,"palmDelay":400,"mouse":false,"toolbarPosition":"top"},
-'vevox': {"session":"","presenter":"https://universityofleeds.vevox.com/#/present/967253","presenterHome":"https://universityofleeds.vevox.com/"},
+'vevox': {"session":"180532136","presenter":"https://universityofleeds.vevox.com/#/present/967253","presenterHome":"https://universityofleeds.vevox.com/"},
 'smaller': false,
  
         // Display controls in the bottom right corner
@@ -978,6 +985,38 @@ W10=
         ]
       });
     </script>
+    <script>
+    // On an iPad in full screen the slide is letterboxed and the bars show the
+    // page background (cream), which stands out on the coloured title/section
+    // slides. Make the page background follow the current slide's background,
+    // and tell Safari the matching tint and light/dark scheme so the text in its
+    // tab and status bars flips to stay readable.
+    document.addEventListener('DOMContentLoaded', () => {
+      let themeColor = document.querySelector('meta[name="theme-color"]');
+      if (!themeColor) {
+        themeColor = document.createElement('meta');
+        themeColor.name = 'theme-color';
+        document.head.appendChild(themeColor);
+      }
+
+      const sync = () => {
+        const slide = Reveal.getCurrentSlide();
+        const bg = Reveal.getSlideBackground(slide);
+        const color = bg && getComputedStyle(bg).backgroundColor;
+        const value = color && color !== 'rgba(0, 0, 0, 0)' ? color : '';
+        document.documentElement.style.backgroundColor = value;
+        document.body.style.backgroundColor = value;
+
+        // reveal marks slides whose background is dark with this class
+        const dark = slide.classList.contains('has-dark-background');
+        document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+        themeColor.content = value || getComputedStyle(document.body).backgroundColor;
+      };
+      Reveal.on('ready', sync);
+      Reveal.on('slidechanged', sync);
+      if (Reveal.isReady()) sync();
+    });
+    </script>
     <script type="ojs-module-contents">
     eyJjb250ZW50cyI6W119
     </script>
@@ -1073,6 +1112,11 @@ W10=
               if (link.dataset.originalHref !== undefined) {
                 link.href = link.dataset.originalHref;
               }
+                // target, if specified
+                link.setAttribute("target", "_blank");
+                if (link.getAttribute("rel") === null) {
+                  link.setAttribute("rel", "noopener");
+                }
             }
           }
         function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.10.19">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -37,10 +37,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="index_files/libs/quarto-html/anchor.min.js"></script>
 <link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-2ea8c2d9b641f0f04ecbc42d4b1d3c4e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-1c7bcccfe7e8921d91b8f9efe7561847.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="index_files/libs/bootstrap/bootstrap-993a67ca09ce099ded8a85aa77bc1ffe.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="index_files/libs/bootstrap/bootstrap-b0b8d132a28ec42b3886c49f18ed202e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script>
   MathJax = {
     tex: {
@@ -60,6 +60,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
+<h1 class="title">Linear algebra slides</h1>
 </div>
 
 
@@ -89,10 +90,50 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-
+<ul>
+<li><a href="lec01.html"><code>lec01.html</code>: Introduction to Linear Algebra</a></li>
+<li><a href="lec02.html"><code>lec02.html</code>: Introduction to systems of linear equations</a></li>
+<li><a href="lec03.html"><code>lec03.html</code>: Direct solvers for systems of linear equations</a></li>
+<li><a href="lec04.html"><code>lec04.html</code>: Iterative solvers for systems of linear equations</a></li>
+<li><a href="lec05.html"><code>lec05.html</code>: Eigenvalues and complex numbers</a></li>
+<li><a href="lec06.html"><code>lec06.html</code>: Complex matrices and vectors</a></li>
+<li><a href="lec07.html"><code>lec07.html</code>: The QR algorithm</a></li>
+</ul>
 
 </main>
 <!-- /main column -->
+<script>
+// On an iPad in full screen the slide is letterboxed and the bars show the
+// page background (cream), which stands out on the coloured title/section
+// slides. Make the page background follow the current slide's background,
+// and tell Safari the matching tint and light/dark scheme so the text in its
+// tab and status bars flips to stay readable.
+document.addEventListener('DOMContentLoaded', () => {
+  let themeColor = document.querySelector('meta[name="theme-color"]');
+  if (!themeColor) {
+    themeColor = document.createElement('meta');
+    themeColor.name = 'theme-color';
+    document.head.appendChild(themeColor);
+  }
+
+  const sync = () => {
+    const slide = Reveal.getCurrentSlide();
+    const bg = Reveal.getSlideBackground(slide);
+    const color = bg && getComputedStyle(bg).backgroundColor;
+    const value = color && color !== 'rgba(0, 0, 0, 0)' ? color : '';
+    document.documentElement.style.backgroundColor = value;
+    document.body.style.backgroundColor = value;
+
+    // reveal marks slides whose background is dark with this class
+    const dark = slide.classList.contains('has-dark-background');
+    document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+    themeColor.content = value || getComputedStyle(document.body).backgroundColor;
+  };
+  Reveal.on('ready', sync);
+  Reveal.on('slidechanged', sync);
+  if (Reveal.isReady()) sync();
+});
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -180,6 +221,11 @@ ul.task-list li input[type="checkbox"] {
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
         }
       }
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.10.19">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -79,9 +79,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b626d73c4c936ccc3cb08be7d45d1df6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-a6f100b5d6e3d98030a58895675f20fd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -587,7 +587,7 @@ Figure&nbsp;8.1: Projection of <span class="math inline">\(\vec{a}\)</span> away
 \vec{a}^{(2)} = \begin{pmatrix} 2 \\ -1 \\ 0 \end{pmatrix},
 \vec{a}^{(3)} = \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix}.
 \end{equation*}\]</span> We will manipulate these vectors to form three orthonormal vectors.</p>
-<div id="8a3f2a39" class="cell" data-execution_count="3">
+<div id="e9458d1e" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -670,7 +670,7 @@ Figure&nbsp;8.1: Projection of <span class="math inline">\(\vec{a}\)</span> away
 <div id="exr-gram-schmit-ex" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 8.2</strong></span> Verify the orthonormality conditions for <span class="math inline">\(\vec{q}^{(1)}, \vec{q}^{(2)}\)</span> and <span class="math inline">\(\vec{q}^{(3)}\)</span>.</p>
 </div>
-<div id="df73cac4" class="cell" data-execution_count="4">
+<div id="f371d39a" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -796,7 +796,7 @@ A^{(1)}
 </section>
 <section id="python-qr-factorisation-using-gram-schmidt" class="level3" data-number="8.3.3">
 <h3 data-number="8.3.3" class="anchored" data-anchor-id="python-qr-factorisation-using-gram-schmidt"><span class="header-section-number">8.3.3</span> Python QR factorisation using Gram-Schmidt</h3>
-<div id="15e1e31a" class="cell" data-execution_count="5">
+<div id="4bb51ac5" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="kw">def</span> gram_schmidt_qr(A):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-label="2"></a>    <span class="co">"""</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="co">    Compute the QR factorisation of a square matrix using the classical</span></span>
@@ -839,7 +839,7 @@ A^{(1)}
 <span id="cb1-40"><a href="#cb1-40" aria-label="40"></a>    <span class="cf">return</span> Q, R</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Let’s test it with our example above:</p>
-<div id="b0ff328d" class="cell" data-execution_count="6">
+<div id="c44cfdb6" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-stdout">
 <pre><code>A = [  1.0,  2.0,  1.0 ]
     [  0.0, -1.0,  2.0 ]
@@ -861,7 +861,7 @@ Is Q orthogonal? (Q.T @ Q ~= np.eye(3)) True</code></pre>
 <section id="finding-eigenvalues-and-eigenvectors" class="level2" data-number="8.4">
 <h2 data-number="8.4" class="anchored" data-anchor-id="finding-eigenvalues-and-eigenvectors"><span class="header-section-number">8.4</span> Finding eigenvalues and eigenvectors</h2>
 <p>The algorithm given above says that we use the QR factorisation to iteratively find a sequence of matrices <span class="math inline">\(A^{(k)}\)</span> which <em>should</em> converge to an upper-triangular matrix.</p>
-<div id="4af59229" class="cell" data-execution_count="7">
+<div id="ab8c273a" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a><span class="kw">def</span> gram_schmidt_eigen(A, maxiter<span class="op">=</span><span class="dv">100</span>, verbose<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb3-2"><a href="#cb3-2" aria-label="2"></a>    <span class="co">"""</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-label="3"></a><span class="co">    Compute the eigenvalues and eigenvectors of a square matrix using the QR</span></span>
@@ -941,7 +941,7 @@ Is Q orthogonal? (Q.T @ Q ~= np.eye(3)) True</code></pre>
 <span id="cb3-77"><a href="#cb3-77" aria-label="77"></a>    <span class="cf">return</span> eigenvalues, V, it</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We test this out in code first for the same <span class="math inline">\(2 \times 2\)</span> matrix from <a href="lec07.html#exm-char" class="quarto-xref">Example&nbsp;<span>7.3</span></a> that we iterated by hand above:</p>
-<div id="c1ff6ce5" class="cell" data-execution_count="8">
+<div id="69cf0bbd" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a>A <span class="op">=</span> np.array([[<span class="fl">3.0</span>, <span class="fl">1.0</span>], [<span class="fl">1.0</span>, <span class="fl">3.0</span>]])</span>
 <span id="cb4-2"><a href="#cb4-2" aria-label="2"></a>print_array(A)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-label="3"></a></span>
@@ -964,7 +964,7 @@ iterations required: 27</code></pre>
 <section id="correctness-and-convergence" class="level2" data-number="8.5">
 <h2 data-number="8.5" class="anchored" data-anchor-id="correctness-and-convergence"><span class="header-section-number">8.5</span> Correctness and convergence</h2>
 <p>Let’s see what happens when we try this same approach for bigger symmetric matrices. Here we have a test that samples ten different random matrices and computes the average number of iterations, average run time and maximum error in the eigenvalue equation.</p>
-<div id="071d9544" class="cell" data-execution_count="9">
+<div id="1b66e666" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a><span class="co"># replicable random seed</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-label="2"></a>np.random.seed(<span class="dv">42</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-label="3"></a></span>
@@ -1039,20 +1039,20 @@ iterations required: 27</code></pre>
 <span id="cb6-72"><a href="#cb6-72" aria-label="72"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>n<span class="sc">:4d}</span><span class="ss">   </span><span class="sc">{</span>runtime<span class="sc">:.6e}</span><span class="ss">  </span><span class="sc">{</span>average_it<span class="sc">:5.1f}</span><span class="ss">  </span><span class="sc">{</span>max_error<span class="sc">:.6e}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>size  time (s)       iter  error
-   2   1.319053e-03   44.6  9.319110e-09
-   4   3.496804e-03   78.1  9.895223e-09
-   8   1.468760e-02  137.7  1.212740e-08
-  16   5.234465e-02  152.7  1.346641e-08
-  32   2.075015e-01  165.6  1.246268e-08
-  64   8.204726e-01  162.3  1.646201e-08
- 128   4.960128e+00  173.8  1.478504e-08</code></pre>
+   2   1.434005e-03   44.6  9.319110e-09
+   4   3.703214e-03   78.1  9.895223e-09
+   8   1.505672e-02  137.7  1.212740e-08
+  16   5.133594e-02  152.7  1.346641e-08
+  32   2.000792e-01  165.6  1.246268e-08
+  64   8.113572e-01  162.3  1.646201e-08
+ 128   5.902880e+00  173.8  1.478504e-08</code></pre>
 </div>
 </div>
-<div id="3669fe7b" class="cell" data-execution_count="10">
+<div id="a10b6187" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="lec08_files/figure-html/cell-11-output-1.png" width="661" height="468" class="figure-img"></p>
+<p><img src="lec08_files/figure-html/cell-11-output-1.png" width="661" height="467" class="figure-img"></p>
 </figure>
 </div>
 </div>

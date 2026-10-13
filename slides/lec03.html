@@ -6,10 +6,10 @@
 <script src="lec03_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="lec03_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="lec03_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="lec03_files/libs/quarto-html/quarto-syntax-highlighting-8aca0b0a8b84f7107b5bd209819888f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="lec03_files/libs/quarto-html/quarto-syntax-highlighting-4e4c60b5dd7092195ce9752dcb315cb4.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="lec03_files/libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
 <link href="lec03_files/libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.10.18">
+  <meta name="generator" content="quarto-1.10.19">
 
   <meta name="author" content="Dr.&nbsp;Thomas Ranner (Tom)">
   <title>COMP2870 Theoretical Foundations of Computer Science II</title>
@@ -103,7 +103,7 @@
     code span.vs { color: #00543d; } /* VerbatimString */
     code span.wa { color: #782e57; font-weight: bold; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="lec03_files/libs/revealjs/dist/theme/quarto-6bd527c3678a3b2648203ef07dcaa767.css">
+  <link rel="stylesheet" href="lec03_files/libs/revealjs/dist/theme/quarto-4b9ef474e09cf9553ce6ee23e3821425.css">
   <link href="lec03_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="lec03_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="lec03_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -231,25 +231,12 @@ Dr.&nbsp;Thomas Ranner (Tom)
 
 </section>
 <section>
-<section id="direct-solvers-for-systems-of-linear-equations" class="title-slide slide level1 center" data-background-color="#782E57">
-<h1>Direct solvers for systems of linear equations</h1>
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Module learning objective</strong></p>
-</div>
-<div class="callout-content">
-<p>Apply <strong>direct</strong> and iterative solvers to solve systems of linear equations; implement methods using floating point numbers and investigate computational cost using computer experiments.</p>
-</div>
-</div>
-</div>
+<section id="direct-solvers-for-systems-of-linear-equations" class="title-slide slide level2 center" data-background-color="#782E57">
+<h2>Direct solvers for systems of linear equations</h2>
 <p>Chapter 4</p>
 </section>
-<section id="reminder-of-the-problem" class="title-slide slide level2 center" data-background-color="#782E57">
-<h2>Reminder of the problem</h2>
+<section id="reminder-of-the-problem" class="slide level3 smaller">
+<h3>Reminder of the problem</h3>
 <p>Recall the problem is to solve a set of <span class="math inline">\(n\)</span> <strong>linear</strong> equations for <span class="math inline">\(n\)</span> unknown values <span class="math inline">\(x_j\)</span>, for <span class="math inline">\(j=1, 2, \ldots, n\)</span>.</p>
 <p><strong>Notation</strong>:</p>
 <p><span class="math display">\[\begin{align*}
@@ -283,36 +270,36 @@ x_1 \\ x_2 \\ x_3 \\ \vdots \\ x_n
 b_1 \\ b_2 \\ b_3 \\ \vdots \\ b_n
 \end{pmatrix}.
 \]</span></p>
-</section>
-
-<section id="special-types-of-matrices" class="title-slide slide level2 center" data-background-color="#782E57">
-<h2>Special types of matrices</h2>
-<p>The general matrix <span class="math inline">\(A\)</span> before the examples is known as a <strong>full</strong> matrix: any of its components <span class="math inline">\(a_{ij}\)</span> might be nonzero.</p>
+</section></section>
+<section>
+<section id="solving-triangular-systems-of-equations" class="title-slide slide level2 center" data-background-color="#782E57">
+<h2>Solving triangular systems of equations</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Module learning objective</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Apply Gaussian elimination and <strong>backward substitution</strong> to solve linear systems;</li>
+</ul>
+</div>
+</div>
+</div>
 </section>
 <section id="triangular-matrix" class="slide level3">
-<h3>Triangular matrix</h3>
-<p>One common (and important) structure takes the form</p>
-<p><span class="math display">\[
-A = \begin{pmatrix}
-a_{11} &amp; 0 &amp; 0 &amp; \cdots &amp; 0 \\ a_{21} &amp; a_{22} &amp; 0 &amp; \cdots &amp;
-0 \\ a_{31} &amp; a_{32} &amp; a_{33} &amp; \cdots &amp; 0 \\ \vdots &amp; \vdots &amp; \vdots &amp; \ddots
-&amp; \vdots \\ a_{n1} &amp; a_{n2} &amp; a_{n3} &amp; \cdots &amp; a_{nn} \end{pmatrix}.
-\]</span></p>
-</section>
-<section id="triangular-matrix-1" class="slide level3">
 <h3>Triangular matrix</h3>
 <ul>
 <li><p>A is a <strong>lower triangular</strong> matrix. Every entry above the leading diagonal is zero:</p>
 <p><span class="math display">\[ a_{ij} = 0 \quad \text{ for } \quad j &gt; i. \]</span></p></li>
 <li><p>The <em>transpose</em> of this matrix is an <strong>upper triangular</strong> matrix and can be treated in a very similar manner.</p></li>
-<li><p>Note that the determinant of a triangular matrix is simply the product of diagonal coefficients: <span class="math display">\[
-\det A = a_{11} a_{22} \cdots a_{nn} = \prod_{i=1}^n a_{ii}.
-\]</span></p></li>
 </ul>
 </section>
+<section class="slide level3">
 
-<section id="solving-triangular-systems-of-equations" class="title-slide slide level2 center" data-background-color="#782E57">
-<h2>Solving triangular systems of equations</h2>
 <p>A general <em>lower triangular</em> system of equations has <span class="math inline">\(a_{ij} = 0\)</span> for <span class="math inline">\(j &gt; i\)</span> and takes the form:</p>
 <p><span class="math display">\[
 \begin{pmatrix}
@@ -360,7 +347,7 @@ i.e.&nbsp;<span class="math inline">\(a_{ii} \neq 0\)</span> for <span class="ma
           display:block!important;
       }</style></aside>
 </section>
-<section id="example" class="slide level3">
+<section id="example" class="slide level3 smaller">
 <h3>Example</h3>
 <p>Solve the lower triangular system of equations given by</p>
 <p><span class="math display">\[
@@ -383,6 +370,16 @@ x_1 \\ x_2 \\ x_3
 \begin{pmatrix}
 2 \\ 7 \\ 26
 \end{pmatrix}.
+\]</span></p>
+</section>
+<section id="example-1" class="slide level3 write smaller">
+<h3>Example</h3>
+<p><span class="math display">\[
+\begin{aligned}
+2 x_1 &amp;&amp; &amp;&amp; &amp;= 2 \\
+x_1 &amp;+&amp; 2 x_2 &amp;&amp; &amp;= 7 \\
+2 x_1 &amp;+&amp; 4 x_2 &amp;+&amp; 6 x_3 &amp;= 26
+\end{aligned}
 \]</span></p>
 <aside class="notes">
 <p>The solution can be calculated systematically from</p>
@@ -435,7 +432,7 @@ x_3 &amp;= \frac{b_3 - a_{31} x_1 - a_{32} x_2}{a_33}
 
 </div>
 <script type="pyodide-1-contents">
-eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiaW5jbHVkZSI6ZmFsc2UsIm91dHB1dCI6ZmFsc2V9LCJjb2RlIjoiXG5pbXBvcnQgaW5zcGVjdFxuXG5pbXBvcnQgbnVtcHkgYXMgbnBcblxuZGVmIHN5c3RlbV9zaXplKEEsIGIpOlxuICAgIFwiXCJcIlxuICAgIFZhbGlkYXRlIHRoZSBkaW1lbnNpb25zIG9mIGEgbGluZWFyIHN5c3RlbSBhbmQgcmV0dXJuIGl0cyBzaXplLlxuXG4gICAgVGhpcyBmdW5jdGlvbiBjaGVja3Mgd2hldGhlciB0aGUgZ2l2ZW4gY29lZmZpY2llbnQgbWF0cml4IGBBYCBpcyBzcXVhcmVcbiAgICBhbmQgd2hldGhlciBpdHMgZGltZW5zaW9ucyBhcmUgY29tcGF0aWJsZSB3aXRoIHRoZSByaWdodC1oYW5kIHNpZGUgdmVjdG9yXG4gICAgYGJgLiBJZiB0aGUgZGltZW5zaW9ucyBhcmUgdmFsaWQsIGl0IHJldHVybnMgdGhlIHNpemUgb2YgdGhlIHN5c3RlbS5cblxuICAgIFBhcmFtZXRlcnNcbiAgICAtLS0tLS0tLS0tXG4gICAgQSA6IG51bXB5Lm5kYXJyYXlcbiAgICAgICAgQSAyRCBhcnJheSBvZiBzaGFwZSBgYChuLCBuKWBgIHJlcHJlc2VudGluZyB0aGUgY29lZmZpY2llbnQgbWF0cml4IG9mXG4gICAgICAgIHRoZSBsaW5lYXIgc3lzdGVtLlxuICAgIGIgOiBudW1weS5uZGFycmF5XG4gICAgICAgIEEgYXJyYXkgb2Ygc2hhcGUgYGAobiwgbylgYCByZXByZXNlbnRpbmcgdGhlIHJpZ2h0LWhhbmQgc2lkZSB2ZWN0b3IuXG5cbiAgICBSZXR1cm5zXG4gICAgLS0tLS0tLVxuICAgIGludFxuICAgICAgICBUaGUgc2l6ZSBvZiB0aGUgc3lzdGVtLCBpLmUuLCB0aGUgbnVtYmVyIG9mIHZhcmlhYmxlcyBgbmAuXG5cbiAgICBSYWlzZXNcbiAgICAtLS0tLS1cbiAgICBWYWx1ZUVycm9yXG4gICAgICAgIElmIGBBYCBpcyBub3Qgc3F1YXJlIG9yIGlmIHRoZSBzaXplIG9mIGBiYCBkb2VzIG5vdCBtYXRjaCB0aGUgbnVtYmVyIG9mXG4gICAgICAgIHJvd3MgaW4gYEFgLlxuICAgIFwiXCJcIlxuXG4gICAgIyBWYWxpZGF0ZSB0aGF0IEEgaXMgYSAyRCBzcXVhcmUgbWF0cml4XG4gICAgaWYgQS5uZGltICE9IDI6XG4gICAgICAgIHJhaXNlIFZhbHVlRXJyb3IoZlwiTWF0cml4IEEgbXVzdCBiZSAyRCwgYnV0IGdvdCB7QS5uZGltfUQgYXJyYXlcIilcblxuICAgIG4sIG0gPSBBLnNoYXBlXG4gICAgaWYgbiAhPSBtOlxuICAgICAgICByYWlzZSBWYWx1ZUVycm9yKGZcIk1hdHJpeCBBIG11c3QgYmUgc3F1YXJlLCBidXQgZ290IEEuc2hhcGU9e0Euc2hhcGV9XCIpXG5cbiAgICBpZiBiLnNoYXBlWzBdICE9IG46XG4gICAgICAgIHJhaXNlIFZhbHVlRXJyb3IoXG4gICAgICAgICAgICBmXCJTeXN0ZW0gc2hhcGVzIGFyZSBub3QgY29tcGF0aWJsZTogQS5zaGFwZT17QS5zaGFwZX0sIFwiXG4gICAgICAgICAgICBmXCJiLnNoYXBlPXtiLnNoYXBlfVwiXG4gICAgICAgIClcblxuICAgIHJldHVybiBuXG5cblxuZGVmIHByaW50X2FycmF5KGFycmF5LCBhcnJheV9uYW1lPU5vbmUsIGVuZD1Ob25lKTpcbiAgICBcIlwiXCJcbiAgICBOaWNlbHkgcHJpbnQgYSAyRCBOdW1QeSBhcnJheSB3aXRoIGR5bmFtaWMgcHJlY2lzaW9uIGZvcm1hdHRpbmcuXG5cbiAgICBUaGlzIGZ1bmN0aW9uIHByaW50cyBhIDJEIGFycmF5IGluIGEgcmVhZGFibGUsIGZvcm1hdHRlZCBzdHlsZS4gSXRcbiAgICBhdXRvbWF0aWNhbGx5IGRldGVybWluZXMgdGhlIHJlcXVpcmVkIHByZWNpc2lvbiB0byBhY2N1cmF0ZWx5IHJlcHJlc2VudCB0aGVcbiAgICBhcnJheSB2YWx1ZXMsIHVwIHRvIGEgbWF4aW11bSBvZiAxNSBkZWNpbWFsIHBsYWNlcy4gVGhlIHByaW50ZWQgb3V0cHV0XG4gICAgaW5jbHVkZXMgdGhlIGFycmF5IG5hbWUgaWYgcHJvdmlkZWQ7IG90aGVyd2lzZSwgdGhlIGZ1bmN0aW9uIGF0dGVtcHRzIHRvXG4gICAgaW5mZXIgdGhlIHZhcmlhYmxlIG5hbWUgZnJvbSB0aGUgY2FsbGluZyBzY29wZS5cblxuICAgIFBhcmFtZXRlcnNcbiAgICAtLS0tLS0tLS0tXG4gICAgYXJyYXkgOiBudW1weS5uZGFycmF5XG4gICAgICAgIEEgMkQgTnVtUHkgYXJyYXkgdG8gcHJpbnQuXG4gICAgYXJyYXlfbmFtZSA6IHN0ciwgb3B0aW9uYWxcbiAgICAgICAgVGhlIG5hbWUgdG8gZGlzcGxheSBmb3IgdGhlIGFycmF5IGluIHRoZSBvdXRwdXQuIElmIGBgTm9uZWBgIChkZWZhdWx0KSxcbiAgICAgICAgdGhlIGZ1bmN0aW9uIGF0dGVtcHRzIHRvIGluZmVyIHRoZSB2YXJpYWJsZSBuYW1lIGZyb20gdGhlIGNhbGxlcidzIGxvY2FsXG4gICAgICAgIHZhcmlhYmxlcy4gSWYgaXQgY2Fubm90IGJlIGluZmVycmVkLCBkZWZhdWx0cyB0byBgYFwiYXJyYXlcImBgLlxuICAgIGVuZCA6IHN0ciwgb3B0aW9uYWxcbiAgICAgICAgU3RyaW5nIGFwcGVuZGVkIGFmdGVyIHRoZSBsYXN0IHZhbHVlIGluIGVhY2ggcm93LCBzaW1pbGFyIHRvIHRoZSBgZW5kYFxuICAgICAgICBwYXJhbWV0ZXIgaW4gUHl0aG9uJ3MgYnVpbHQtaW4gYGBwcmludGBgIGZ1bmN0aW9uLiBEZWZhdWx0IGlzIGBgTm9uZWBgLFxuICAgICAgICB3aGljaCBhZGRzIGEgbmV3bGluZS5cbiAgICBcIlwiXCJcbiAgICAjIGZpbmQgYXJyYXlfbmFtZVxuICAgIGlmIGFycmF5X25hbWUgaXMgTm9uZTpcbiAgICAgICAgZnJhbWUgPSBpbnNwZWN0LmN1cnJlbnRmcmFtZSgpLmZfYmFja1xuICAgICAgICBmb3IgbmFtZSwgdmFsdWUgaW4gZnJhbWUuZl9sb2NhbHMuaXRlbXMoKTpcbiAgICAgICAgICAgIGlmIHZhbHVlIGlzIGFycmF5OlxuICAgICAgICAgICAgICAgIGFycmF5X25hbWUgPSBuYW1lXG4gICAgICAgICAgICAgICAgYnJlYWtcbiAgICBpZiBhcnJheV9uYW1lIGlzIE5vbmU6XG4gICAgICAgIGFycmF5X25hbWUgPSBcImFycmF5XCJcblxuICAgICMgZGV0ZXJtaW5lIHByZWNpc2lvblxuICAgIHByZWNpc2lvbiA9IDFcbiAgICB3aGlsZSBub3QgbnAuYWxsY2xvc2UoYXJyYXksIG5wLnJvdW5kKGFycmF5LCBwcmVjaXNpb24pKTpcbiAgICAgICAgcHJlY2lzaW9uID0gcHJlY2lzaW9uICsgMVxuICAgICAgICBpZiBwcmVjaXNpb24gPT0gMTY6XG4gICAgICAgICAgICBicmVha1xuICAgIGZvcm1hdF9zdHIgPSBmXCJ7ezp7cHJlY2lzaW9uICsgM30ue3ByZWNpc2lvbn1mfX1cIlxuXG4gICAgbiwgbSA9IGFycmF5LnNoYXBlXG5cbiAgICBmb3IgaSBpbiByYW5nZShuKTpcbiAgICAgICAgaWYgaSA9PSAwOlxuICAgICAgICAgICAgcHJpbnQoZlwie2FycmF5X25hbWV9ID0gWyBcIiwgZW5kPVwiXCIpXG4gICAgICAgIGVsc2U6XG4gICAgICAgICAgICBwcmludChcIiBcIiAqIGxlbihhcnJheV9uYW1lKSArIFwiICAgWyBcIiwgZW5kPVwiXCIpXG5cbiAgICAgICAgcHJpbnQoXCIsIFwiLmpvaW4oW2Zvcm1hdF9zdHIuZm9ybWF0KHYpIGZvciB2IGluIGFycmF5W2ldXSksIGVuZD1cIiBdXCIpXG4gICAgICAgIHByaW50KGVuZD1lbmQpXG4ifQ==
+eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiaW5jbHVkZSI6ZmFsc2UsIm91dHB1dCI6ZmFsc2V9LCJjb2RlIjoiXG5pbXBvcnQgaW5zcGVjdFxuXG5pbXBvcnQgbnVtcHkgYXMgbnBcblxuXG5kZWYgc3lzdGVtX3NpemUoQSwgYik6XG4gICAgXCJcIlwiXG4gICAgVmFsaWRhdGUgdGhlIGRpbWVuc2lvbnMgb2YgYSBsaW5lYXIgc3lzdGVtIGFuZCByZXR1cm4gaXRzIHNpemUuXG5cbiAgICBUaGlzIGZ1bmN0aW9uIGNoZWNrcyB3aGV0aGVyIHRoZSBnaXZlbiBjb2VmZmljaWVudCBtYXRyaXggYEFgIGlzIHNxdWFyZVxuICAgIGFuZCB3aGV0aGVyIGl0cyBkaW1lbnNpb25zIGFyZSBjb21wYXRpYmxlIHdpdGggdGhlIHJpZ2h0LWhhbmQgc2lkZSB2ZWN0b3JcbiAgICBgYmAuIElmIHRoZSBkaW1lbnNpb25zIGFyZSB2YWxpZCwgaXQgcmV0dXJucyB0aGUgc2l6ZSBvZiB0aGUgc3lzdGVtLlxuXG4gICAgUGFyYW1ldGVyc1xuICAgIC0tLS0tLS0tLS1cbiAgICBBIDogbnVtcHkubmRhcnJheVxuICAgICAgICBBIDJEIGFycmF5IG9mIHNoYXBlIGBgKG4sIG4pYGAgcmVwcmVzZW50aW5nIHRoZSBjb2VmZmljaWVudCBtYXRyaXggb2ZcbiAgICAgICAgdGhlIGxpbmVhciBzeXN0ZW0uXG4gICAgYiA6IG51bXB5Lm5kYXJyYXlcbiAgICAgICAgQSBhcnJheSBvZiBzaGFwZSBgYChuLCBvKWBgIHJlcHJlc2VudGluZyB0aGUgcmlnaHQtaGFuZCBzaWRlIHZlY3Rvci5cblxuICAgIFJldHVybnNcbiAgICAtLS0tLS0tXG4gICAgaW50XG4gICAgICAgIFRoZSBzaXplIG9mIHRoZSBzeXN0ZW0sIGkuZS4sIHRoZSBudW1iZXIgb2YgdmFyaWFibGVzIGBuYC5cblxuICAgIFJhaXNlc1xuICAgIC0tLS0tLVxuICAgIFZhbHVlRXJyb3JcbiAgICAgICAgSWYgYEFgIGlzIG5vdCBzcXVhcmUgb3IgaWYgdGhlIHNpemUgb2YgYGJgIGRvZXMgbm90IG1hdGNoIHRoZSBudW1iZXIgb2ZcbiAgICAgICAgcm93cyBpbiBgQWAuXG4gICAgXCJcIlwiXG5cbiAgICAjIFZhbGlkYXRlIHRoYXQgQSBpcyBhIDJEIHNxdWFyZSBtYXRyaXhcbiAgICBpZiBBLm5kaW0gIT0gMjpcbiAgICAgICAgcmFpc2UgVmFsdWVFcnJvcihcbiAgICAgICAgICAgIGZcIk1hdHJpeCBBIG11c3QgYmUgMkQsIGJ1dCBnb3Qge0EubmRpbX1EIGFycmF5XCJcbiAgICAgICAgKVxuXG4gICAgbiwgbSA9IEEuc2hhcGVcbiAgICBpZiBuICE9IG06XG4gICAgICAgIHJhaXNlIFZhbHVlRXJyb3IoXG4gICAgICAgICAgICBmXCJNYXRyaXggQSBtdXN0IGJlIHNxdWFyZSwgYnV0IGdvdCBBLnNoYXBlPXtBLnNoYXBlfVwiXG4gICAgICAgIClcblxuICAgIGlmIGIuc2hhcGVbMF0gIT0gbjpcbiAgICAgICAgcmFpc2UgVmFsdWVFcnJvcihcbiAgICAgICAgICAgIGZcIlN5c3RlbSBzaGFwZXMgYXJlIG5vdCBjb21wYXRpYmxlOiBBLnNoYXBlPXtBLnNoYXBlfSwgXCJcbiAgICAgICAgICAgIGZcImIuc2hhcGU9e2Iuc2hhcGV9XCJcbiAgICAgICAgKVxuXG4gICAgcmV0dXJuIG5cblxuXG5kZWYgcHJpbnRfYXJyYXkoYXJyYXksIGFycmF5X25hbWU9Tm9uZSwgZW5kPU5vbmUpOlxuICAgIFwiXCJcIlxuICAgIE5pY2VseSBwcmludCBhIDJEIE51bVB5IGFycmF5IHdpdGggZHluYW1pYyBwcmVjaXNpb24gZm9ybWF0dGluZy5cblxuICAgIFRoaXMgZnVuY3Rpb24gcHJpbnRzIGEgMkQgYXJyYXkgaW4gYSByZWFkYWJsZSwgZm9ybWF0dGVkIHN0eWxlLiBJdFxuICAgIGF1dG9tYXRpY2FsbHkgZGV0ZXJtaW5lcyB0aGUgcmVxdWlyZWQgcHJlY2lzaW9uIHRvIGFjY3VyYXRlbHkgcmVwcmVzZW50IHRoZVxuICAgIGFycmF5IHZhbHVlcywgdXAgdG8gYSBtYXhpbXVtIG9mIDE1IGRlY2ltYWwgcGxhY2VzLiBUaGUgcHJpbnRlZCBvdXRwdXRcbiAgICBpbmNsdWRlcyB0aGUgYXJyYXkgbmFtZSBpZiBwcm92aWRlZDsgb3RoZXJ3aXNlLCB0aGUgZnVuY3Rpb24gYXR0ZW1wdHMgdG9cbiAgICBpbmZlciB0aGUgdmFyaWFibGUgbmFtZSBmcm9tIHRoZSBjYWxsaW5nIHNjb3BlLlxuXG4gICAgUGFyYW1ldGVyc1xuICAgIC0tLS0tLS0tLS1cbiAgICBhcnJheSA6IG51bXB5Lm5kYXJyYXlcbiAgICAgICAgQSAyRCBOdW1QeSBhcnJheSB0byBwcmludC5cbiAgICBhcnJheV9uYW1lIDogc3RyLCBvcHRpb25hbFxuICAgICAgICBUaGUgbmFtZSB0byBkaXNwbGF5IGZvciB0aGUgYXJyYXkgaW4gdGhlIG91dHB1dC4gSWYgYGBOb25lYGAgKGRlZmF1bHQpLFxuICAgICAgICB0aGUgZnVuY3Rpb24gYXR0ZW1wdHMgdG8gaW5mZXIgdGhlIHZhcmlhYmxlIG5hbWUgZnJvbSB0aGUgY2FsbGVyJ3MgbG9jYWxcbiAgICAgICAgdmFyaWFibGVzLiBJZiBpdCBjYW5ub3QgYmUgaW5mZXJyZWQsIGRlZmF1bHRzIHRvIGBgXCJhcnJheVwiYGAuXG4gICAgZW5kIDogc3RyLCBvcHRpb25hbFxuICAgICAgICBTdHJpbmcgYXBwZW5kZWQgYWZ0ZXIgdGhlIGxhc3QgdmFsdWUgaW4gZWFjaCByb3csIHNpbWlsYXIgdG8gdGhlIGBlbmRgXG4gICAgICAgIHBhcmFtZXRlciBpbiBQeXRob24ncyBidWlsdC1pbiBgYHByaW50YGAgZnVuY3Rpb24uIERlZmF1bHQgaXMgYGBOb25lYGAsXG4gICAgICAgIHdoaWNoIGFkZHMgYSBuZXdsaW5lLlxuICAgIFwiXCJcIlxuICAgICMgZmluZCBhcnJheV9uYW1lXG4gICAgaWYgYXJyYXlfbmFtZSBpcyBOb25lOlxuICAgICAgICBmcmFtZSA9IGluc3BlY3QuY3VycmVudGZyYW1lKCkuZl9iYWNrXG4gICAgICAgIGZvciBuYW1lLCB2YWx1ZSBpbiBmcmFtZS5mX2xvY2Fscy5pdGVtcygpOlxuICAgICAgICAgICAgaWYgdmFsdWUgaXMgYXJyYXk6XG4gICAgICAgICAgICAgICAgYXJyYXlfbmFtZSA9IG5hbWVcbiAgICAgICAgICAgICAgICBicmVha1xuICAgIGlmIGFycmF5X25hbWUgaXMgTm9uZTpcbiAgICAgICAgYXJyYXlfbmFtZSA9IFwiYXJyYXlcIlxuXG4gICAgIyBkZXRlcm1pbmUgcHJlY2lzaW9uXG4gICAgcHJlY2lzaW9uID0gMVxuICAgIHdoaWxlIG5vdCBucC5hbGxjbG9zZShcbiAgICAgICAgYXJyYXksIG5wLnJvdW5kKGFycmF5LCBwcmVjaXNpb24pXG4gICAgKTpcbiAgICAgICAgcHJlY2lzaW9uID0gcHJlY2lzaW9uICsgMVxuICAgICAgICBpZiBwcmVjaXNpb24gPT0gMTY6XG4gICAgICAgICAgICBicmVha1xuICAgIGZvcm1hdF9zdHIgPSBmXCJ7ezp7cHJlY2lzaW9uICsgM30ue3ByZWNpc2lvbn1mfX1cIlxuXG4gICAgbiwgbSA9IGFycmF5LnNoYXBlXG5cbiAgICBmb3IgaSBpbiByYW5nZShuKTpcbiAgICAgICAgaWYgaSA9PSAwOlxuICAgICAgICAgICAgcHJpbnQoZlwie2FycmF5X25hbWV9ID0gWyBcIiwgZW5kPVwiXCIpXG4gICAgICAgIGVsc2U6XG4gICAgICAgICAgICBwcmludChcbiAgICAgICAgICAgICAgICBcIiBcIiAqIGxlbihhcnJheV9uYW1lKSArIFwiICAgWyBcIiwgZW5kPVwiXCJcbiAgICAgICAgICAgIClcblxuICAgICAgICBwcmludChcbiAgICAgICAgICAgIFwiLCBcIi5qb2luKFxuICAgICAgICAgICAgICAgIFtmb3JtYXRfc3RyLmZvcm1hdCh2KSBmb3IgdiBpbiBhcnJheVtpXV1cbiAgICAgICAgICAgICksXG4gICAgICAgICAgICBlbmQ9XCIgXVwiLFxuICAgICAgICApXG4gICAgICAgIHByaW50KGVuZD1lbmQpXG4ifQ==
 </script>
 </div>
 <div>
@@ -443,7 +440,7 @@ eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiaW5jbHVkZSI6ZmFs
 
 </div>
 <script type="pyodide-2-contents">
-eyJhdHRyIjp7ImF1dG9ydW4iOnRydWUsImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiXG5BID0gbnAuYXJyYXkoW1syLjAsIDMuMF0sIFstMy4wLCAyLjBdXSlcbmIgPSBucC5hcnJheShbWzQuMF0sIFs3LjBdXSlcblxucHJpbnRfYXJyYXkoQSlcbnByaW50X2FycmF5KGIpXG5wcmludChcInN5c3RlbSBzaXplIGlzIFwiLCBzeXN0ZW1fc2l6ZShBLCBiKSkifQ==
+eyJhdHRyIjp7ImF1dG9ydW4iOnRydWUsImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiXG5BID0gbnAuYXJyYXkoW1syLjAsIDMuMF0sIFstMy4wLCAyLjBdXSlcbmIgPSBucC5hcnJheShbWzQuMF0sIFs3LjBdXSlcblxucHJpbnRfYXJyYXkoQSlcbnByaW50X2FycmF5KGIpXG5wcmludChcInN5c3RlbSBzaXplIGlzIFwiLCBzeXN0ZW1fc2l6ZShBLCBiKSlcbiJ9
 </script>
 </div>
 </section>
@@ -455,7 +452,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOnRydWUsImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiXG5B
 
 </div>
 <script type="pyodide-3-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIGZvcndhcmRfc3Vic3RpdHV0aW9uKEEsIGIpOlxuICAgIFwiXCJcIlxuICAgIFNvbHZlIGEgbG93ZXIgdHJpYW5ndWxhciBzeXN0ZW0gb2YgbGluZWFyIGVxdWF0aW9ucyB1c2luZyBmb3J3YXJkXG4gICAgc3Vic3RpdHV0aW9uLlxuICAgIFwiXCJcIlxuICAgICMgZ2V0IHNpemUgb2Ygc3lzdGVtXG4gICAgbiA9IHN5c3RlbV9zaXplKEEsIGIpXG5cbiAgICAuLi4ifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIGZvcndhcmRfc3Vic3RpdHV0aW9uKEEsIGIpOlxuICAgIFwiXCJcIlxuICAgIFNvbHZlIGEgbG93ZXIgdHJpYW5ndWxhciBzeXN0ZW0gb2YgbGluZWFyXG4gICAgZXF1YXRpb25zIHVzaW5nIGZvcndhcmQgc3Vic3RpdHV0aW9uLlxuICAgIFwiXCJcIlxuICAgICMgZ2V0IHNpemUgb2Ygc3lzdGVtXG4gICAgbiA9IHN5c3RlbV9zaXplKEEsIGIpXG5cbiAgICAuLi5cbiJ9
 </script>
 </div>
 <aside class="notes">
@@ -491,7 +488,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIGZvcndhcmRfc3Vic3Rp
 
 </div>
 <script type="pyodide-4-contents">
-eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiaW5jbHVkZSI6ZmFsc2UsIm91dHB1dCI6ZmFsc2V9LCJjb2RlIjoiXG5kZWYgYmFja3dhcmRfc3Vic3RpdHV0aW9uKEEsIGIpOlxuICAgIFwiXCJcIlxuICAgIFNvbHZlIGFuIHVwcGVyIHRyaWFuZ3VsYXIgc3lzdGVtIG9mIGxpbmVhciBlcXVhdGlvbnMgdXNpbmcgYmFja3dhcmRcbiAgICBzdWJzdGl0dXRpb24uXG5cbiAgICBUaGlzIGZ1bmN0aW9uIHNvbHZlcyB0aGUgc3lzdGVtIG9mIGVxdWF0aW9uczpcblxuICAgIC4uIG1hdGg6OlxuICAgICAgICBBIHggPSBiXG5cbiAgICB3aGVyZSBgQWAgaXMgYW4gKip1cHBlciB0cmlhbmd1bGFyIG1hdHJpeCoqIChhbGwgZWxlbWVudHMgYmVsb3cgdGhlIG1haW5cbiAgICBkaWFnb25hbCBhcmUgemVybykuIFRoZSBzb2x1dGlvbiB2ZWN0b3IgYHhgIGlzIGNvbXB1dGVkIHN0YXJ0aW5nIGZyb20gdGhlXG4gICAgbGFzdCBlcXVhdGlvbiBhbmQgcHJvY2VlZGluZyBiYWNrd2FyZC5cblxuICAgIFBhcmFtZXRlcnNcbiAgICAtLS0tLS0tLS0tXG4gICAgQSA6IG51bXB5Lm5kYXJyYXlcbiAgICAgICAgQSAyRCBOdW1QeSBhcnJheSBvZiBzaGFwZSBgYChuLCBuKWBgIHJlcHJlc2VudGluZyB0aGUgdXBwZXIgdHJpYW5ndWxhclxuICAgICAgICBjb2VmZmljaWVudCBtYXRyaXggb2YgdGhlIHN5c3RlbS5cbiAgICBiIDogbnVtcHkubmRhcnJheVxuICAgICAgICBBIDFEIE51bVB5IGFycmF5IG9mIHNoYXBlIGBgKG4sKWBgIG9yIGEgMkQgTnVtUHkgYXJyYXkgb2Ygc2hhcGVcbiAgICAgICAgYGAobiwgMSlgYCByZXByZXNlbnRpbmcgdGhlIHJpZ2h0LWhhbmQgc2lkZSB2ZWN0b3IuXG5cbiAgICBSZXR1cm5zXG4gICAgLS0tLS0tLVxuICAgIHggOiBudW1weS5uZGFycmF5XG4gICAgICAgIEEgTnVtUHkgYXJyYXkgb2Ygc2hhcGUgYGAobiwpYGAgY29udGFpbmluZyB0aGUgc29sdXRpb24gdmVjdG9yLlxuICAgIFwiXCJcIlxuICAgICMgZ2V0IHNpemUgb2Ygc3lzdGVtXG4gICAgbiA9IHN5c3RlbV9zaXplKEEsIGIpXG5cbiAgICAjIGNoZWNrIGlzIHVwcGVyIHRyaWFuZ3VsYXJcbiAgICBhc3NlcnQgbnAuYWxsY2xvc2UoQSwgbnAudHJpdShBKSlcblxuICAgICMgY3JlYXRlIHNvbHV0aW9uIHZhcmlhYmxlXG4gICAgeCA9IG5wLmVtcHR5X2xpa2UoYilcblxuICAgICMgcGVyZm9ybSBiYWNrd2FyZHMgc29sdmVcbiAgICBmb3IgaSBpbiByYW5nZShuIC0gMSwgLTEsIC0xKTogICMgaXRlcmF0ZSBvdmVyIHJvd3MgYmFja3dhcmRzXG4gICAgICAgIHBhcnRpYWxfc3VtID0gMC4wXG4gICAgICAgIGZvciBqIGluIHJhbmdlKGkgKyAxLCBuKTpcbiAgICAgICAgICAgIHBhcnRpYWxfc3VtICs9IEFbaSwgal0gKiB4W2pdXG4gICAgICAgIHhbaV0gPSAxLjAgLyBBW2ksIGldICogKGJbaV0gLSBwYXJ0aWFsX3N1bSlcblxuICAgIHJldHVybiB4XG4ifQ==
+eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiaW5jbHVkZSI6ZmFsc2UsIm91dHB1dCI6ZmFsc2V9LCJjb2RlIjoiXG5cbmRlZiBiYWNrd2FyZF9zdWJzdGl0dXRpb24oQSwgYik6XG4gICAgXCJcIlwiXG4gICAgU29sdmUgYW4gdXBwZXIgdHJpYW5ndWxhciBzeXN0ZW0gb2YgbGluZWFyIGVxdWF0aW9ucyB1c2luZyBiYWNrd2FyZFxuICAgIHN1YnN0aXR1dGlvbi5cblxuICAgIFRoaXMgZnVuY3Rpb24gc29sdmVzIHRoZSBzeXN0ZW0gb2YgZXF1YXRpb25zOlxuXG4gICAgLi4gbWF0aDo6XG4gICAgICAgIEEgeCA9IGJcblxuICAgIHdoZXJlIGBBYCBpcyBhbiAqKnVwcGVyIHRyaWFuZ3VsYXIgbWF0cml4KiogKGFsbCBlbGVtZW50cyBiZWxvdyB0aGUgbWFpblxuICAgIGRpYWdvbmFsIGFyZSB6ZXJvKS4gVGhlIHNvbHV0aW9uIHZlY3RvciBgeGAgaXMgY29tcHV0ZWQgc3RhcnRpbmcgZnJvbSB0aGVcbiAgICBsYXN0IGVxdWF0aW9uIGFuZCBwcm9jZWVkaW5nIGJhY2t3YXJkLlxuXG4gICAgUGFyYW1ldGVyc1xuICAgIC0tLS0tLS0tLS1cbiAgICBBIDogbnVtcHkubmRhcnJheVxuICAgICAgICBBIDJEIE51bVB5IGFycmF5IG9mIHNoYXBlIGBgKG4sIG4pYGAgcmVwcmVzZW50aW5nIHRoZSB1cHBlciB0cmlhbmd1bGFyXG4gICAgICAgIGNvZWZmaWNpZW50IG1hdHJpeCBvZiB0aGUgc3lzdGVtLlxuICAgIGIgOiBudW1weS5uZGFycmF5XG4gICAgICAgIEEgMUQgTnVtUHkgYXJyYXkgb2Ygc2hhcGUgYGAobiwpYGAgb3IgYSAyRCBOdW1QeSBhcnJheSBvZiBzaGFwZVxuICAgICAgICBgYChuLCAxKWBgIHJlcHJlc2VudGluZyB0aGUgcmlnaHQtaGFuZCBzaWRlIHZlY3Rvci5cblxuICAgIFJldHVybnNcbiAgICAtLS0tLS0tXG4gICAgeCA6IG51bXB5Lm5kYXJyYXlcbiAgICAgICAgQSBOdW1QeSBhcnJheSBvZiBzaGFwZSBgYChuLClgYCBjb250YWluaW5nIHRoZSBzb2x1dGlvbiB2ZWN0b3IuXG4gICAgXCJcIlwiXG4gICAgIyBnZXQgc2l6ZSBvZiBzeXN0ZW1cbiAgICBuID0gc3lzdGVtX3NpemUoQSwgYilcblxuICAgICMgY2hlY2sgaXMgdXBwZXIgdHJpYW5ndWxhclxuICAgIGFzc2VydCBucC5hbGxjbG9zZShBLCBucC50cml1KEEpKVxuXG4gICAgIyBjcmVhdGUgc29sdXRpb24gdmFyaWFibGVcbiAgICB4ID0gbnAuZW1wdHlfbGlrZShiKVxuXG4gICAgIyBwZXJmb3JtIGJhY2t3YXJkcyBzb2x2ZVxuICAgIGZvciBpIGluIHJhbmdlKFxuICAgICAgICBuIC0gMSwgLTEsIC0xXG4gICAgKTogICMgaXRlcmF0ZSBvdmVyIHJvd3MgYmFja3dhcmRzXG4gICAgICAgIHBhcnRpYWxfc3VtID0gMC4wXG4gICAgICAgIGZvciBqIGluIHJhbmdlKGkgKyAxLCBuKTpcbiAgICAgICAgICAgIHBhcnRpYWxfc3VtICs9IEFbaSwgal0gKiB4W2pdXG4gICAgICAgIHhbaV0gPSAxLjAgLyBBW2ksIGldICogKGJbaV0gLSBwYXJ0aWFsX3N1bSlcblxuICAgIHJldHVybiB4XG4ifQ==
 </script>
 </div>
 </section>
@@ -502,7 +499,7 @@ eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiaW5jbHVkZSI6ZmFs
 
 </div>
 <script type="pyodide-5-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiQSA9IG5wLmFycmF5KFtbMi4wLCAwLjAsIDAuMF0sIFsxLjAsIDIuMCwgMC4wXSwgWzIuMCwgNC4wLCA2LjBdXSlcbmIgPSBucC5hcnJheShbWzIuMF0sIFs3LjBdLCBbMjYuMF1dKVxuXG5wcmludChcIlRoZSBzeXN0ZW0gaXMgZ2l2ZW4gYnk6XCIpXG5wcmludF9hcnJheShBKVxucHJpbnRfYXJyYXkoYilcbnByaW50KClcblxucHJpbnQoXCJTb2x2aW5nIHRoZSBzeXN0ZW0gdXNpbmcgZm9yd2FyZCBzdWJzdGl0dXRpb25cIilcbnggPSBmb3J3YXJkX3N1YnN0aXR1dGlvbihBLCBiKVxucHJpbnQoKVxuXG5wcmludChcIlRoZSBzb2x1dGlvbiB1c2luZyBmb3J3YXJkIHN1YnN0aXR1dGlvbiBpczpcIilcbnByaW50X2FycmF5KHgpXG5wcmludCgpXG5cbnByaW50KFwiRG9lcyB4IHJlYWxseSBzb2x2ZSB0aGUgc3lzdGVtP1wiLCBucC5hbGxjbG9zZShBIEAgeCwgYikpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiQSA9IG5wLmFycmF5KFxuICAgIFtbMi4wLCAwLjAsIDAuMF0sIFsxLjAsIDIuMCwgMC4wXSwgWzIuMCwgNC4wLCA2LjBdXVxuKVxuYiA9IG5wLmFycmF5KFtbMi4wXSwgWzcuMF0sIFsyNi4wXV0pXG5cbnByaW50KFwiVGhlIHN5c3RlbSBpcyBnaXZlbiBieTpcIilcbnByaW50X2FycmF5KEEpXG5wcmludF9hcnJheShiKVxucHJpbnQoKVxuXG5wcmludChcIlNvbHZpbmcgdGhlIHN5c3RlbSB1c2luZyBmb3J3YXJkIHN1YnN0aXR1dGlvblwiKVxueCA9IGZvcndhcmRfc3Vic3RpdHV0aW9uKEEsIGIpXG5wcmludCgpXG5cbnByaW50KFwiVGhlIHNvbHV0aW9uIHVzaW5nIGZvcndhcmQgc3Vic3RpdHV0aW9uIGlzOlwiKVxucHJpbnRfYXJyYXkoeClcbnByaW50KClcblxucHJpbnQoXG4gICAgXCJEb2VzIHggcmVhbGx5IHNvbHZlIHRoZSBzeXN0ZW0/XCIsXG4gICAgbnAuYWxsY2xvc2UoQSBAIHgsIGIpLFxuKVxuIn0=
 </script>
 </div>
 </section>
@@ -512,10 +509,20 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiQSA9IG5wLmFycmF5KFtbMi4w
 <blockquote>
 <p>Our strategy will be to reduce the system to a triangular system of matrices, which is then easy to solve!</p>
 </blockquote>
-</section>
-
+</section></section>
+<section>
 <section id="elementary-row-operations" class="title-slide slide level2 center" data-background-color="#782E57">
 <h2>Elementary row operations</h2>
+<blockquote>
+
+<ul>
+<li>Apply a sequence of elementary row operations to manipulate a system of linear equations.</li>
+</ul>
+
+</blockquote>
+</section>
+<section class="slide level3">
+
 <p>Consider equation <span class="math inline">\(p\)</span> of the above system:</p>
 <p><span class="math display">\[
 a_{p1} x_1 + a_{p2} x_2 + a_{p3} x_3 + \cdots + a_{pn} x_n = b_p,
@@ -526,9 +533,8 @@ a_{q1} x_1 + a_{q2} x_2 + a_{q3} x_3 + \cdots + a_{qn} x_n = b_q.
 \]</span></p>
 <p>Note three things…</p>
 </section>
+<section class="slide level3">
 
-<section id="elementary-row-operations-ii" class="title-slide slide level2 center" data-background-color="#782E57">
-<h2>Elementary row operations ii</h2>
 <p>Consider equation <span class="math inline">\(p\)</span> of the above system:</p>
 <p><span class="math display">\[
 a_{p1} x_1 + a_{p2} x_2 + a_{p3} x_3 + \cdots + a_{pn} x_n = b_p,
@@ -541,9 +547,8 @@ a_{q1} x_1 + a_{q2} x_2 + a_{q3} x_3 + \cdots + a_{qn} x_n = b_q.
 <li>The order in which we choose to write the <span class="math inline">\(n\)</span> equations is irrelevant</li>
 </ul>
 </section>
+<section class="slide level3">
 
-<section id="elementary-row-operations-iii" class="title-slide slide level2 center" data-background-color="#782E57">
-<h2>Elementary row operations iii</h2>
 <p>Consider equation <span class="math inline">\(p\)</span> of the above system:</p>
 <p><span class="math display">\[
 a_{p1} x_1 + a_{p2} x_2 + a_{p3} x_3 + \cdots + a_{pn} x_n = b_p,
@@ -559,9 +564,8 @@ k a_{p1} x_1 + k a_{p2} x_2 + k a_{p3} x_3 + \cdots + k a_{pn} x_n = k b_p.
 \]</span></p></li>
 </ul>
 </section>
+<section class="slide level3">
 
-<section id="elementary-row-operations-iv" class="title-slide slide level2 center" data-background-color="#782E57">
-<h2>Elementary row operations iv</h2>
 <p>Consider equation <span class="math inline">\(p\)</span> of the above system:</p>
 <p><span class="math display">\[
 a_{p1} x_1 + a_{p2} x_2 + a_{p3} x_3 + \cdots + a_{pn} x_n = b_p,
@@ -573,14 +577,15 @@ a_{q1} x_1 + a_{q2} x_2 + a_{q3} x_3 + \cdots + a_{qn} x_n = b_q.
 <ul>
 <li>We can add any two equations:</li>
 </ul>
-<p><span class="math display">\[
+<p><span class="math display">\[\begin{multline*}
 (a_{p1} + a_{q1}) x_1 + (a_{p2} + a_{q2}) x_2 + \cdots + (a_{pn} +
-a_{qn}) x_n = b_p + b_q.
-\]</span></p>
+a_{qn}) x_n \\
+= b_p + b_q.
+\end{multline*}\]</span></p>
 </section>
-<section id="example-1" class="slide level3">
+<section id="example-2" class="slide level3 write">
 <h3>Example</h3>
-<p>Consider the system <span class="math display">\[\begin{align}
+<p><span class="math display">\[\begin{align}
 2 x_1 + 3 x_2 &amp; = 4  \label{eq:eg1a} \\
 -3 x_1 + 2 x_2 &amp; = 7 \label{eq:eg1b}.
 \end{align}\]</span></p>
@@ -605,7 +610,7 @@ a_{qn}) x_n = b_p + b_q.
           display:block!important;
       }</style></aside>
 </section>
-<section id="exercise-1" class="slide level3">
+<section id="exercise-1" class="slide level3 smaller">
 <h3>Exercise</h3>
 <p>Consider the system <span class="math display">\[\begin{align}
 x_1 + 2 x_2 &amp; = 1 \label{eq:eg2a} \\
@@ -721,7 +726,7 @@ x_1 \\ x_2
           display:block!important;
       }</style></aside>
 </section>
-<section id="our-grand-plan---refined" class="slide level3">
+<section id="our-grand-plan---refined" class="slide level3 smaller">
 <h3>Our grand plan - refined</h3>
 <p>Our strategy for solving systems of linear equations using Gaussian elimination is based on the following ideas:</p>
 <ul>
@@ -729,10 +734,28 @@ x_1 \\ x_2
 <li><p>We will apply a sequence of ERO to reduce an arbitrary system to a triangular form, which, we will see, can be easily solved.</p></li>
 <li><p>The algorithm for reducing a general matrix to upper triangular form is known as <strong>forward elimination</strong> or (more commonly) as <strong>Gaussian elimination</strong>.</p></li>
 </ul>
-</section>
-
+</section></section>
+<section>
 <section id="gaussian-elimination" class="title-slide slide level2 center" data-background-color="#782E57">
 <h2>Gaussian elimination</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Module learning objective</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Apply Gaussian elimination and <strong>backward substitution</strong> to solve linear systems;</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="some-history" class="slide level3 smaller">
+<h3>Some history…</h3>
 <p>The method is so old, in fact we have evidence of Chinese mathematicians using Gaussian elimination in 179CE (From <a href="https://en.wikipedia.org/wiki/Gaussian_elimination">Wikipedia</a>):</p>
 <blockquote>
 <p>The method of Gaussian elimination appears in the Chinese mathematical text Chapter Eight: Rectangular Arrays of The Nine Chapters on the Mathematical Art. Its use is illustrated in eighteen problems, with two to five equations. The first reference to the book by this title is dated to 179 CE, but parts of it were written as early as approximately 150 BCE. It was commented on by Liu Hui in the 3rd century.</p>
@@ -746,11 +769,25 @@ x_1 \\ x_2
 <li>Subtract multiples of the new row 2 from the rows below it to eliminate non-zero entries in column 2.</li>
 <li>Repeat for row <span class="math inline">\(3, 4, \ldots, n-1\)</span>.</li>
 </ol>
-<p>After row <span class="math inline">\(n-1\)</span> all entities below the diagonal have been eliminated, so <span class="math inline">\(A\)</span> is now upper triangular and the resulting system can be solved by backward substitution.</p>
+<p>After row <span class="math inline">\(n-1\)</span>, all entities below the diagonal have been eliminated.</p>
 </section>
-<section id="example-2" class="slide level3">
+<section id="example-3" class="slide level3">
 <h3>Example</h3>
 <p>Use Gaussian elimination to reduce the following system of equations to upper triangular form:</p>
+<p><span class="math display">\[
+\begin{pmatrix}
+2 &amp; 1 &amp; 4 \\ 1 &amp; 2 &amp; 2 \\ 2 &amp; 4 &amp; 6
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\ x_2 \\ x_3
+\end{pmatrix} =
+\begin{pmatrix}
+12 \\ 9 \\ 22
+\end{pmatrix}.
+\]</span></p>
+</section>
+<section id="example-4" class="slide level3 smaller write">
+<h3>Example</h3>
 <p><span class="math display">\[
 \begin{pmatrix}
 2 &amp; 1 &amp; 4 \\ 1 &amp; 2 &amp; 2 \\ 2 &amp; 4 &amp; 6
@@ -873,7 +910,7 @@ x_1 \\ x_2 \\ x_3
 
 </div>
 <script type="pyodide-6-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIHJvd19zd2FwKEEsIGIsIHAsIHEpOlxuICAgIFwiXCJcIlxuICAgIFN3YXAgdHdvIHJvd3MgKHAgYW5kIHEpIGluIGEgbGluZWFyIHN5c3RlbSBvZiBlcXVhdGlvbnMgaW4gcGxhY2UuXG4gICAgXCJcIlwiXG4gICAgbiA9IHN5c3RlbV9zaXplKEEsIGIpXG4gICAgLi4uIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIHJvd19zd2FwKEEsIGIsIHAsIHEpOlxuICAgIFwiXCJcIlxuICAgIFN3YXAgdHdvIHJvd3MgKHAgYW5kIHEpIGluIGEgbGluZWFyIHN5c3RlbSBvZlxuICAgIGVxdWF0aW9ucyBpbiBwbGFjZS5cbiAgICBcIlwiXCJcbiAgICBuID0gc3lzdGVtX3NpemUoQSwgYilcbiAgICAuLi5cbiJ9
 </script>
 </div>
 <aside class="notes">
@@ -931,7 +968,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIHJvd19zd2FwKEEsIGIs
 
 </div>
 <script type="pyodide-7-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiQSA9IG5wLmFycmF5KFtbMi4wLCAzLjBdLCBbLTMuMCwgMi4wXV0pXG5iID0gbnAuYXJyYXkoW1s0LjBdLCBbNy4wXV0pXG5cbnByaW50KFwic3RhcnRpbmcgYXJyYXlzOlwiKVxucHJpbnRfYXJyYXkoQSlcbnByaW50X2FycmF5KGIpXG5wcmludCgpXG5cbnByaW50KFwic3dhcHBpbmcgcm93cyAwIGFuZCAxXCIpXG5yb3dfc3dhcChBLCBiLCAwLCAxKSAgIyByZW1lbWJlciBudW1weSBhcnJheXMgYXJlIGluZGV4ZWQgc3RhcnRpbmcgZnJvbSB6ZXJvIVxucHJpbnQoKVxuXG5wcmludChcIm5ldyBhcnJheXM6XCIpXG5wcmludF9hcnJheShBKVxucHJpbnRfYXJyYXkoYilcbnByaW50KCkifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiQSA9IG5wLmFycmF5KFtbMi4wLCAzLjBdLCBbLTMuMCwgMi4wXV0pXG5iID0gbnAuYXJyYXkoW1s0LjBdLCBbNy4wXV0pXG5cbnByaW50KFwic3RhcnRpbmcgYXJyYXlzOlwiKVxucHJpbnRfYXJyYXkoQSlcbnByaW50X2FycmF5KGIpXG5wcmludCgpXG5cbnByaW50KFwic3dhcHBpbmcgcm93cyAwIGFuZCAxXCIpXG4jIHJlbWVtYmVyIG51bXB5IGFycmF5cyBhcmUgaW5kZXhlZCBmcm9tIHplcm8hXG5yb3dfc3dhcChBLCBiLCAwLCAxKVxucHJpbnQoKVxuXG5wcmludChcIm5ldyBhcnJheXM6XCIpXG5wcmludF9hcnJheShBKVxucHJpbnRfYXJyYXkoYilcbnByaW50KClcbiJ9
 </script>
 </div>
 </section>
@@ -942,7 +979,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiQSA9IG5wLmFycmF5KFtbMi4w
 
 </div>
 <script type="pyodide-8-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIHJvd19zY2FsZShBLCBiLCBwLCBrKTpcbiAgICBcIlwiXCJcbiAgICBTY2FsZSBhIHJvdyAocCkgb2YgYSBsaW5lYXIgc3lzdGVtIGJ5IGEgY29uc3RhbnQgZmFjdG9yIChrKSBpbiBwbGFjZS5cbiAgICBcIlwiXCJcbiAgICBuID0gc3lzdGVtX3NpemUoQSwgYilcbiAgICAuLi4ifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIHJvd19zY2FsZShBLCBiLCBwLCBrKTpcbiAgICBcIlwiXCJcbiAgICBTY2FsZSBhIHJvdyAocCkgb2YgYSBsaW5lYXIgc3lzdGVtIGJ5IGEgY29uc3RhbnRcbiAgICBmYWN0b3IgKGspIGluIHBsYWNlLlxuICAgIFwiXCJcIlxuICAgIG4gPSBzeXN0ZW1fc2l6ZShBLCBiKVxuICAgIC4uLlxuIn0=
 </script>
 </div>
 <aside class="notes">
@@ -1000,7 +1037,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIHJvd19zY2FsZShBLCBi
 
 </div>
 <script type="pyodide-9-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiQSA9IG5wLmFycmF5KFtbMi4wLCAzLjBdLCBbLTMuMCwgMi4wXV0pXG5iID0gbnAuYXJyYXkoW1s0LjBdLCBbNy4wXV0pXG5cbnByaW50KFwic3RhcnRpbmcgYXJyYXlzOlwiKVxucHJpbnRfYXJyYXkoQSlcbnByaW50X2FycmF5KGIpXG5wcmludCgpXG5cbnByaW50KFwicm93IDAgfC0+IDAuNSAqIHJvdyAwXCIpXG5yb3dfc2NhbGUoQSwgYiwgMCwgMC41KSAgIyByZW1lbWJlciBudW1weSBhcnJheXMgYXJlIGluZGV4ZWQgc3RhcnRlZCBmcm9tIHplcm8hXG5wcmludCgpXG5cbnByaW50KFwibmV3IGFycmF5czpcIilcbnByaW50X2FycmF5KEEpXG5wcmludF9hcnJheShiKVxucHJpbnQoKSJ9
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiQSA9IG5wLmFycmF5KFtbMi4wLCAzLjBdLCBbLTMuMCwgMi4wXV0pXG5iID0gbnAuYXJyYXkoW1s0LjBdLCBbNy4wXV0pXG5cbnByaW50KFwic3RhcnRpbmcgYXJyYXlzOlwiKVxucHJpbnRfYXJyYXkoQSlcbnByaW50X2FycmF5KGIpXG5wcmludCgpXG5cbnByaW50KFwicm93IDAgfC0+IDAuNSAqIHJvdyAwXCIpXG4jIHJlbWVtYmVyIG51bXB5IGFycmF5cyBhcmUgaW5kZXhlZCBmcm9tIHplcm8hXG5yb3dfc2NhbGUoQSwgYiwgMCwgMC41KVxucHJpbnQoKVxuXG5wcmludChcIm5ldyBhcnJheXM6XCIpXG5wcmludF9hcnJheShBKVxucHJpbnRfYXJyYXkoYilcbnByaW50KClcbiJ9
 </script>
 </div>
 </section>
@@ -1011,7 +1048,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiQSA9IG5wLmFycmF5KFtbMi4w
 
 </div>
 <script type="pyodide-10-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIHJvd19hZGQoQSwgYiwgcCwgaywgcSk6XG4gICAgXCJcIlwiXG4gICAgUGVyZm9ybSBhbiBpbi1wbGFjZSByb3cgYWRkaXRpb24gb3BlcmF0aW9uIG9uIGEgbGluZWFyIHN5c3RlbS5cbiAgICByb3dfcCDihpAgcm93X3AgKyBrICogcm93X3FcbiAgICBcIlwiXCJcbiAgICBuID0gc3lzdGVtX3NpemUoQSwgYilcbiAgICAuLi4ifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIHJvd19hZGQoQSwgYiwgcCwgaywgcSk6XG4gICAgXCJcIlwiXG4gICAgUGVyZm9ybSBhbiBpbi1wbGFjZSByb3cgYWRkaXRpb24gb3BlcmF0aW9uIG9uIGFcbiAgICBsaW5lYXIgc3lzdGVtLlxuICAgIHJvd19wIOKGkCByb3dfcCArIGsgKiByb3dfcVxuICAgIFwiXCJcIlxuICAgIG4gPSBzeXN0ZW1fc2l6ZShBLCBiKVxuICAgIC4uLlxuIn0=
 </script>
 </div>
 <aside class="notes">
@@ -1072,19 +1109,20 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIHJvd19hZGQoQSwgYiwg
 
 </div>
 <script type="pyodide-11-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiQSA9IG5wLmFycmF5KFtbMi4wLCAzLjBdLCBbLTMuMCwgMi4wXV0pXG5iID0gbnAuYXJyYXkoW1s0LjBdLCBbNy4wXV0pXG5cbnByaW50KFwic3RhcnRpbmcgYXJyYXlzOlwiKVxucHJpbnRfYXJyYXkoQSlcbnByaW50X2FycmF5KGIpXG5wcmludCgpXG5cbnByaW50KFwicm93IDEgfC0+IHJvdyAxICsgMS41ICogcm93IDBcIilcbnJvd19hZGQoQSwgYiwgMSwgMS41LCAwKSAgIyByZW1lbWJlciBudW1weSBhcnJheXMgYXJlIGluZGV4ZWQgc3RhcnRlZCBmcm9tIHplcm8hXG5wcmludCgpXG5cbnByaW50KFwibmV3IGFycmF5czpcIilcbnByaW50X2FycmF5KEEpXG5wcmludF9hcnJheShiKVxucHJpbnQoKVxuIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiQSA9IG5wLmFycmF5KFtbMi4wLCAzLjBdLCBbLTMuMCwgMi4wXV0pXG5iID0gbnAuYXJyYXkoW1s0LjBdLCBbNy4wXV0pXG5cbnByaW50KFwic3RhcnRpbmcgYXJyYXlzOlwiKVxucHJpbnRfYXJyYXkoQSlcbnByaW50X2FycmF5KGIpXG5wcmludCgpXG5cbnByaW50KFwicm93IDEgfC0+IHJvdyAxICsgMS41ICogcm93IDBcIilcbiMgcmVtZW1iZXIgbnVtcHkgYXJyYXlzIGFyZSBpbmRleGVkIGZyb20gemVybyFcbnJvd19hZGQoQSwgYiwgMSwgMS41LCAwKVxucHJpbnQoKVxuXG5wcmludChcIm5ldyBhcnJheXM6XCIpXG5wcmludF9hcnJheShBKVxucHJpbnRfYXJyYXkoYilcbnByaW50KClcbiJ9
 </script>
 </div>
 </section>
 <section id="gaussian-elimination-definition" class="slide level3">
 <h3>Gaussian elimination definition</h3>
 <p>Now we can define our Gaussian elimination function. We update the values in-place to avoid extra memory allocations.</p>
+
 <div>
 <div id="pyodide-12" class="exercise-cell">
 
 </div>
 <script type="pyodide-12-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIGdhdXNzaWFuX2VsaW1pbmF0aW9uKEEsIGIsIHZlcmJvc2U9RmFsc2UpOlxuICAgIFwiXCJcIlxuICAgIFBlcmZvcm0gR2F1c3NpYW4gZWxpbWluYXRpb24gdG8gcmVkdWNlIGEgbGluZWFyIHN5c3RlbSB0byB1cHBlciB0cmlhbmd1bGFyXG4gICAgZm9ybS5cbiAgICBcIlwiXCJcbiAgICAuLi4ifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIGdhdXNzaWFuX2VsaW1pbmF0aW9uKEEsIGIsIHZlcmJvc2U9RmFsc2UpOlxuICAgIFwiXCJcIlxuICAgIFBlcmZvcm0gR2F1c3NpYW4gZWxpbWluYXRpb24gdG8gcmVkdWNlIGEgbGluZWFyXG4gICAgc3lzdGVtIHRvIHVwcGVyIHRyaWFuZ3VsYXIgZm9ybS5cbiAgICBcIlwiXCJcbiAgICAuLi5cbiJ9
 </script>
 </div>
 <aside class="notes">
@@ -1130,16 +1168,19 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIGdhdXNzaWFuX2VsaW1p
 <span id="cb5-40"><a href="" aria-label="40"></a>            <span class="co"># row j</span></span>
 <span id="cb5-41"><a href="" aria-label="41"></a>            factor <span class="op">=</span> A[j, i] <span class="op">/</span> A[i, i]</span>
 <span id="cb5-42"><a href="" aria-label="42"></a>            <span class="cf">if</span> verbose:</span>
-<span id="cb5-43"><a href="" aria-label="43"></a>                <span class="bu">print</span>(<span class="ss">f"  row </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss"> |-&gt; row </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>factor<span class="sc">}</span><span class="ss"> * row </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb5-44"><a href="" aria-label="44"></a>            row_add(A, b, j, <span class="op">-</span>factor, i)</span>
-<span id="cb5-45"><a href="" aria-label="45"></a></span>
-<span id="cb5-46"><a href="" aria-label="46"></a>        <span class="cf">if</span> verbose:</span>
-<span id="cb5-47"><a href="" aria-label="47"></a>            <span class="bu">print</span>()</span>
-<span id="cb5-48"><a href="" aria-label="48"></a>            <span class="bu">print</span>(<span class="st">"new system"</span>)</span>
-<span id="cb5-49"><a href="" aria-label="49"></a>            print_array(A)</span>
-<span id="cb5-50"><a href="" aria-label="50"></a>            print_array(b)</span>
-<span id="cb5-51"><a href="" aria-label="51"></a>            <span class="bu">print</span>()</span>
-<span id="cb5-52"><a href="" aria-label="52"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-43"><a href="" aria-label="43"></a>                <span class="bu">print</span>(</span>
+<span id="cb5-44"><a href="" aria-label="44"></a>                    <span class="ss">f"  row </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss"> |-&gt; row </span><span class="sc">{</span>j<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb5-45"><a href="" aria-label="45"></a>                    <span class="ss">f" - </span><span class="sc">{</span>factor<span class="sc">}</span><span class="ss"> * row </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb5-46"><a href="" aria-label="46"></a>                )</span>
+<span id="cb5-47"><a href="" aria-label="47"></a>            row_add(A, b, j, <span class="op">-</span>factor, i)</span>
+<span id="cb5-48"><a href="" aria-label="48"></a></span>
+<span id="cb5-49"><a href="" aria-label="49"></a>        <span class="cf">if</span> verbose:</span>
+<span id="cb5-50"><a href="" aria-label="50"></a>            <span class="bu">print</span>()</span>
+<span id="cb5-51"><a href="" aria-label="51"></a>            <span class="bu">print</span>(<span class="st">"new system"</span>)</span>
+<span id="cb5-52"><a href="" aria-label="52"></a>            print_array(A)</span>
+<span id="cb5-53"><a href="" aria-label="53"></a>            print_array(b)</span>
+<span id="cb5-54"><a href="" aria-label="54"></a>            <span class="bu">print</span>()</span>
+<span id="cb5-55"><a href="" aria-label="55"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -1151,8 +1192,13 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIGdhdXNzaWFuX2VsaW1p
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-</section>
-<section id="example-3" class="slide level3">
+<aside><div>
+<p><span class="math display">\[
+(\text{row } j) \leftarrow (\text{row } j) - \frac{a_{ji}}{a_{ii}}
+(\text{row } i).
+\]</span></p>
+</div></aside></section>
+<section id="example-5" class="slide level3">
 <h3>Example</h3>
 <p>We can try our code on Example 1:</p>
 <div>
@@ -1160,14 +1206,12 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIGdhdXNzaWFuX2VsaW1p
 
 </div>
 <script type="pyodide-13-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiQSA9IG5wLmFycmF5KFtbMi4wLCAxLjAsIDQuMF0sIFsxLjAsIDIuMCwgMi4wXSwgWzIuMCwgNC4wLCA2LjBdXSlcbmIgPSBucC5hcnJheShbWzEyLjBdLCBbOS4wXSwgWzIyLjBdXSlcblxucHJpbnQoXCJzdGFydGluZyBzeXN0ZW06XCIpXG5wcmludF9hcnJheShBKVxucHJpbnRfYXJyYXkoYilcbnByaW50KClcblxucHJpbnQoXCJwZXJmb3JtaW5nIEdhdXNzaWFuIEVsaW1pbmF0aW9uXCIpXG5nYXVzc2lhbl9lbGltaW5hdGlvbihBLCBiLCB2ZXJib3NlPVRydWUpXG5wcmludCgpXG5cbnByaW50KFwiZmluYWwgc3lzdGVtOlwiKVxucHJpbnRfYXJyYXkoQSlcbnByaW50X2FycmF5KGIpXG5wcmludCgpXG5cbiMgdGVzdCB0aGF0IEEgaXMgcmVhbGx5IHVwcGVyIHRyaWFuZ3VsYXJcbnByaW50KFwiSXMgQSByZWFsbHkgdXBwZXIgdHJpYW5ndWxhcj9cIiwgbnAuYWxsY2xvc2UoQSwgbnAudHJpdShBKSkpXG4ifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiQSA9IG5wLmFycmF5KFxuICAgIFtbMi4wLCAxLjAsIDQuMF0sIFsxLjAsIDIuMCwgMi4wXSwgWzIuMCwgNC4wLCA2LjBdXVxuKVxuYiA9IG5wLmFycmF5KFtbMTIuMF0sIFs5LjBdLCBbMjIuMF1dKVxuXG5wcmludChcInN0YXJ0aW5nIHN5c3RlbTpcIilcbnByaW50X2FycmF5KEEpXG5wcmludF9hcnJheShiKVxucHJpbnQoKVxuXG5wcmludChcInBlcmZvcm1pbmcgR2F1c3NpYW4gRWxpbWluYXRpb25cIilcbmdhdXNzaWFuX2VsaW1pbmF0aW9uKEEsIGIsIHZlcmJvc2U9VHJ1ZSlcbnByaW50KClcblxucHJpbnQoXCJmaW5hbCBzeXN0ZW06XCIpXG5wcmludF9hcnJheShBKVxucHJpbnRfYXJyYXkoYilcbnByaW50KClcblxuIyB0ZXN0IHRoYXQgQSBpcyByZWFsbHkgdXBwZXIgdHJpYW5ndWxhclxucHJpbnQoXG4gICAgXCJJcyBBIHJlYWxseSB1cHBlciB0cmlhbmd1bGFyP1wiLFxuICAgIG5wLmFsbGNsb3NlKEEsIG5wLnRyaXUoQSkpLFxuKVxuIn0=
 </script>
 </div>
 </section>
-
-<section id="combining-gaussian-elimination-and-backward-substitution" class="title-slide slide level2 center" data-background-color="#782E57">
-<h2>Combining Gaussian elimination and backward substitution</h2>
-<p>Our grand strategy can now come together so we have a method to solve systems of linear equations:</p>
+<section id="combining-gaussian-elimination-and-backward-substitution" class="slide level3">
+<h3>Combining Gaussian elimination and backward substitution</h3>
 <p>Given a system of linear equations <span class="math inline">\(A\vec{x} = \vec{b}\)</span>;</p>
 <ul>
 <li>First perform Gaussian elimination to give an equivalent system of equations in upper triangular form;</li>
@@ -1181,7 +1225,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiQSA9IG5wLmFycmF5KFtbMi4w
 
 </div>
 <script type="pyodide-14-contents">
-eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiaW5jbHVkZSI6ZmFsc2UsIm91dHB1dCI6ZmFsc2V9LCJjb2RlIjoiXG5kZWYgcm93X3N3YXAoQSwgYiwgcCwgcSk6XG4gICAgXCJcIlwiXG4gICAgU3dhcCB0d28gcm93cyBpbiBhIGxpbmVhciBzeXN0ZW0gb2YgZXF1YXRpb25zIGluIHBsYWNlLlxuXG4gICAgVGhpcyBmdW5jdGlvbiBzd2FwcyB0aGUgcm93cyBgcGAgYW5kIGBxYCBvZiB0aGUgY29lZmZpY2llbnQgbWF0cml4IGBBYFxuICAgIGFuZCB0aGUgcmlnaHQtaGFuZCBzaWRlIHZlY3RvciBgYmAgZm9yIGEgbGluZWFyIHN5c3RlbSBvZiBlcXVhdGlvbnNcbiAgICBvZiB0aGUgZm9ybSBgYEF4ID0gYmBgLiBUaGUgb3BlcmF0aW9uIGlzIHBlcmZvcm1lZCAqKmluIHBsYWNlKiosIG1vZGlmeWluZ1xuICAgIHRoZSBpbnB1dCBhcnJheXMgZGlyZWN0bHkuXG5cbiAgICBQYXJhbWV0ZXJzXG4gICAgLS0tLS0tLS0tLVxuICAgIEEgOiBudW1weS5uZGFycmF5XG4gICAgICAgIEEgMkQgTnVtUHkgYXJyYXkgb2Ygc2hhcGUgYGAobiwgbilgYCByZXByZXNlbnRpbmcgdGhlIGNvZWZmaWNpZW50IG1hdHJpeFxuICAgICAgICBvZiB0aGUgbGluZWFyIHN5c3RlbS5cbiAgICBiIDogbnVtcHkubmRhcnJheVxuICAgICAgICBBIDJEIE51bVB5IGFycmF5IG9mIHNoYXBlIGBgKG4sIDEpYGAgcmVwcmVzZW50aW5nIHRoZSByaWdodC1oYW5kIHNpZGVcbiAgICAgICAgdmVjdG9yIG9mIHRoZSBzeXN0ZW0uXG4gICAgcCA6IGludFxuICAgICAgICBUaGUgaW5kZXggb2YgdGhlIGZpcnN0IHJvdyB0byBzd2FwLiBNdXN0IHNhdGlzZnkgYGAwIDw9IHAgPCBuYGAuXG4gICAgcSA6IGludFxuICAgICAgICBUaGUgaW5kZXggb2YgdGhlIHNlY29uZCByb3cgdG8gc3dhcC4gTXVzdCBzYXRpc2Z5IGBgMCA8PSBxIDwgbmBgLlxuXG4gICAgUmV0dXJuc1xuICAgIC0tLS0tLS1cbiAgICBOb25lXG4gICAgICAgIFRoaXMgZnVuY3Rpb24gbW9kaWZpZXMgYEFgIGFuZCBgYmAgZGlyZWN0bHkgYW5kIGRvZXMgbm90IHJldHVyblxuICAgICAgICBhbnl0aGluZy5cbiAgICBcIlwiXCJcbiAgICAjIGdldCBzeXN0ZW0gc2l6ZVxuICAgIG4gPSBzeXN0ZW1fc2l6ZShBLCBiKVxuICAgICMgc3dhcCByb3dzIG9mIEFcbiAgICBmb3IgaiBpbiByYW5nZShuKTpcbiAgICAgICAgQVtwLCBqXSwgQVtxLCBqXSA9IEFbcSwgal0sIEFbcCwgal1cbiAgICAjIHN3YXAgcm93cyBvZiBiXG4gICAgYltwLCAwXSwgYltxLCAwXSA9IGJbcSwgMF0sIGJbcCwgMF1cblxuXG5kZWYgcm93X3NjYWxlKEEsIGIsIHAsIGspOlxuICAgIFwiXCJcIlxuICAgIFNjYWxlIGEgcm93IG9mIGEgbGluZWFyIHN5c3RlbSBieSBhIGNvbnN0YW50IGZhY3RvciBpbiBwbGFjZS5cblxuICAgIFRoaXMgZnVuY3Rpb24gbXVsdGlwbGllcyBhbGwgZW50cmllcyBpbiByb3cgYHBgIG9mIHRoZSBjb2VmZmljaWVudCBtYXRyaXhcbiAgICBgQWAgYW5kIHRoZSBjb3JyZXNwb25kaW5nIGVudHJ5IGluIHRoZSByaWdodC1oYW5kIHNpZGUgdmVjdG9yIGBiYCBieSBhXG4gICAgc2NhbGFyIGBrYC4gVGhlIG9wZXJhdGlvbiBpcyBwZXJmb3JtZWQgKippbiBwbGFjZSoqLCBtb2RpZnlpbmcgdGhlIGlucHV0XG4gICAgYXJyYXlzIGRpcmVjdGx5LlxuXG4gICAgUGFyYW1ldGVyc1xuICAgIC0tLS0tLS0tLS1cbiAgICBBIDogbnVtcHkubmRhcnJheVxuICAgICAgICBBIDJEIE51bVB5IGFycmF5IG9mIHNoYXBlIGBgKG4sIG4pYGAgcmVwcmVzZW50aW5nIHRoZSBjb2VmZmljaWVudCBtYXRyaXhcbiAgICAgICAgb2YgdGhlIGxpbmVhciBzeXN0ZW0uXG4gICAgYiA6IG51bXB5Lm5kYXJyYXlcbiAgICAgICAgQSAyRCBOdW1QeSBhcnJheSBvZiBzaGFwZSBgYChuLCAxKWBgIHJlcHJlc2VudGluZyB0aGUgcmlnaHQtaGFuZCBzaWRlXG4gICAgICAgIHZlY3RvciBvZiB0aGUgc3lzdGVtLlxuICAgIHAgOiBpbnRcbiAgICAgICAgVGhlIGluZGV4IG9mIHRoZSByb3cgdG8gc2NhbGUuIE11c3Qgc2F0aXNmeSBgYDAgPD0gcCA8IG5gYC5cbiAgICBrIDogZmxvYXRcbiAgICAgICAgVGhlIHNjYWxhciBtdWx0aXBsaWVyIGFwcGxpZWQgdG8gdGhlIGVudGlyZSByb3cuXG5cbiAgICBSZXR1cm5zXG4gICAgLS0tLS0tLVxuICAgIE5vbmVcbiAgICAgICAgVGhpcyBmdW5jdGlvbiBtb2RpZmllcyBgQWAgYW5kIGBiYCBkaXJlY3RseSBhbmQgZG9lcyBub3QgcmV0dXJuXG4gICAgICAgIGFueXRoaW5nLlxuICAgIFwiXCJcIlxuICAgIG4gPSBzeXN0ZW1fc2l6ZShBLCBiKVxuXG4gICAgIyBzY2FsZSByb3cgcCBvZiBBXG4gICAgZm9yIGogaW4gcmFuZ2Uobik6XG4gICAgICAgIEFbcCwgal0gPSBrICogQVtwLCBqXVxuICAgICMgc2NhbGUgcm93IHAgb2YgYlxuICAgIGJbcCwgMF0gPSBiW3AsIDBdICoga1xuXG5cbmRlZiByb3dfYWRkKEEsIGIsIHAsIGssIHEpOlxuICAgIFwiXCJcIlxuICAgIFBlcmZvcm0gYW4gaW4tcGxhY2Ugcm93IGFkZGl0aW9uIG9wZXJhdGlvbiBvbiBhIGxpbmVhciBzeXN0ZW0uXG5cbiAgICBUaGlzIGZ1bmN0aW9uIGFwcGxpZXMgdGhlIGVsZW1lbnRhcnkgcm93IG9wZXJhdGlvbjpcblxuICAgIGBgcm93X3Ag4oaQIHJvd19wICsgayAqIHJvd19xYGBcblxuICAgIHdoZXJlIGByb3dfcGAgYW5kIGByb3dfcWAgYXJlIHJvd3MgaW4gdGhlIGNvZWZmaWNpZW50IG1hdHJpeCBgQWAgYW5kIHRoZVxuICAgIHJpZ2h0LWhhbmQgc2lkZSB2ZWN0b3IgYGJgLiBJdCB1cGRhdGVzIHRoZSBlbnRyaWVzIG9mIGBBYCBhbmQgYGJgXG4gICAgKippbiBwbGFjZSoqLCBkaXJlY3RseSBtb2RpZnlpbmcgdGhlIG9yaWdpbmFsIGRhdGEuXG5cbiAgICBQYXJhbWV0ZXJzXG4gICAgLS0tLS0tLS0tLVxuICAgIEEgOiBudW1weS5uZGFycmF5XG4gICAgICAgIEEgMkQgTnVtUHkgYXJyYXkgb2Ygc2hhcGUgYGAobiwgbilgYCByZXByZXNlbnRpbmcgdGhlIGNvZWZmaWNpZW50IG1hdHJpeFxuICAgICAgICBvZiB0aGUgbGluZWFyIHN5c3RlbS5cbiAgICBiIDogbnVtcHkubmRhcnJheVxuICAgICAgICBBIDJEIE51bVB5IGFycmF5IG9mIHNoYXBlIGBgKG4sIDEpYGAgcmVwcmVzZW50aW5nIHRoZSByaWdodC1oYW5kIHNpZGVcbiAgICAgICAgdmVjdG9yIG9mIHRoZSBzeXN0ZW0uXG4gICAgcCA6IGludFxuICAgICAgICBUaGUgaW5kZXggb2YgdGhlIHJvdyB0byBiZSB1cGRhdGVkIChkZXN0aW5hdGlvbiByb3cpLiBNdXN0IHNhdGlzZnlcbiAgICAgICAgYGAwIDw9IHAgPCBuYGAuXG4gICAgayA6IGZsb2F0XG4gICAgICAgIFRoZSBzY2FsYXIgbXVsdGlwbGllciBhcHBsaWVkIHRvIGByb3dfcWAgYmVmb3JlIGFkZGluZyBpdCB0byBgcm93X3BgLlxuICAgIHEgOiBpbnRcbiAgICAgICAgVGhlIGluZGV4IG9mIHRoZSBzb3VyY2Ugcm93IHRvIGJlIHNjYWxlZCBhbmQgYWRkZWQuIE11c3Qgc2F0aXNmeVxuICAgICAgICBgYDAgPD0gcSA8IG5gYC5cbiAgICBcIlwiXCJcbiAgICBuID0gc3lzdGVtX3NpemUoQSwgYilcblxuICAgICMgUGVyZm9ybSB0aGUgcm93IG9wZXJhdGlvblxuICAgIGZvciBqIGluIHJhbmdlKG4pOlxuICAgICAgICBBW3AsIGpdID0gQVtwLCBqXSArIGsgKiBBW3EsIGpdXG5cbiAgICAjIFVwZGF0ZSB0aGUgY29ycmVzcG9uZGluZyB2YWx1ZSBpbiBiXG4gICAgYltwLCAwXSA9IGJbcCwgMF0gKyBrICogYltxLCAwXVxuXG5cbmRlZiBnYXVzc2lhbl9lbGltaW5hdGlvbihBLCBiLCB2ZXJib3NlPUZhbHNlKTpcbiAgICBcIlwiXCJcbiAgICBQZXJmb3JtIEdhdXNzaWFuIGVsaW1pbmF0aW9uIHRvIHJlZHVjZSBhIGxpbmVhciBzeXN0ZW0gdG8gdXBwZXIgdHJpYW5ndWxhclxuICAgIGZvcm0uXG5cbiAgICBUaGlzIGZ1bmN0aW9uIHBlcmZvcm1zICoqZm9yd2FyZCBlbGltaW5hdGlvbioqIHRvIHRyYW5zZm9ybSB0aGUgY29lZmZpY2llbnRcbiAgICBtYXRyaXggYEFgIGludG8gYW4gdXBwZXIgdHJpYW5ndWxhciBtYXRyaXgsIHdoaWxlIGFwcGx5aW5nIHRoZSBzYW1lXG4gICAgb3BlcmF0aW9ucyB0byB0aGUgcmlnaHQtaGFuZCBzaWRlIHZlY3RvciBgYmAuIFRoaXMgaXMgdGhlIGZpcnN0IHN0ZXAgaW5cbiAgICBzb2x2aW5nIGEgbGluZWFyIHN5c3RlbSBvZiBlcXVhdGlvbnMgb2YgdGhlIGZvcm0gYGBBeCA9IGJgYCB1c2luZyBHYXVzc2lhblxuICAgIGVsaW1pbmF0aW9uLlxuXG4gICAgUGFyYW1ldGVyc1xuICAgIC0tLS0tLS0tLS1cbiAgICBBIDogbnVtcHkubmRhcnJheVxuICAgICAgICBBIDJEIE51bVB5IGFycmF5IG9mIHNoYXBlIGBgKG4sIG4pYGAgcmVwcmVzZW50aW5nIHRoZSBjb2VmZmljaWVudCBtYXRyaXhcbiAgICAgICAgb2YgdGhlIHN5c3RlbS5cbiAgICBiIDogbnVtcHkubmRhcnJheVxuICAgICAgICBBIDJEIE51bVB5IGFycmF5IG9mIHNoYXBlIGBgKG4sIDEpYGAgcmVwcmVzZW50aW5nIHRoZSByaWdodC1oYW5kIHNpZGVcbiAgICAgICAgdmVjdG9yLlxuICAgIHZlcmJvc2UgOiBib29sLCBvcHRpb25hbFxuICAgICAgICBJZiBgYFRydWVgYCwgcHJpbnRzIGRldGFpbGVkIGluZm9ybWF0aW9uIGFib3V0IGVhY2ggZWxpbWluYXRpb24gc3RlcCxcbiAgICAgICAgaW5jbHVkaW5nIHRoZSByb3cgb3BlcmF0aW9ucyBwZXJmb3JtZWQgYW5kIHRoZSBpbnRlcm1lZGlhdGUgZm9ybXMgb2ZcbiAgICAgICAgYEFgIGFuZCBgYmAuIERlZmF1bHQgaXMgYGBGYWxzZWBgLlxuXG4gICAgUmV0dXJuc1xuICAgIC0tLS0tLS1cbiAgICBOb25lXG4gICAgICAgIFRoaXMgZnVuY3Rpb24gbW9kaWZpZXMgYEFgIGFuZCBgYmAgKippbiBwbGFjZSoqIGFuZCBkb2VzIG5vdCByZXR1cm5cbiAgICAgICAgYW55dGhpbmcuXG4gICAgXCJcIlwiXG4gICAgIyBmaW5kIHNoYXBlIG9mIHN5c3RlbVxuICAgIG4gPSBzeXN0ZW1fc2l6ZShBLCBiKVxuXG4gICAgIyBwZXJmb3JtIGZvcndhcmRzIGVsaW1pbmF0aW9uXG4gICAgZm9yIGkgaW4gcmFuZ2UobiAtIDEpOlxuICAgICAgICAjIGVsaW1pbmF0ZSBjb2x1bW4gaVxuICAgICAgICBpZiB2ZXJib3NlOlxuICAgICAgICAgICAgcHJpbnQoZlwiZWxpbWluYXRpbmcgY29sdW1uIHtpfVwiKVxuICAgICAgICBmb3IgaiBpbiByYW5nZShpICsgMSwgbik6XG4gICAgICAgICAgICAjIHJvdyBqXG4gICAgICAgICAgICBmYWN0b3IgPSBBW2osIGldIC8gQVtpLCBpXVxuICAgICAgICAgICAgaWYgdmVyYm9zZTpcbiAgICAgICAgICAgICAgICBwcmludChmXCIgIHJvdyB7an0gfC0+IHJvdyB7an0gLSB7ZmFjdG9yfSAqIHJvdyB7aX1cIilcbiAgICAgICAgICAgIHJvd19hZGQoQSwgYiwgaiwgLWZhY3RvciwgaSlcblxuICAgICAgICBpZiB2ZXJib3NlOlxuICAgICAgICAgICAgcHJpbnQoKVxuICAgICAgICAgICAgcHJpbnQoXCJuZXcgc3lzdGVtXCIpXG4gICAgICAgICAgICBwcmludF9hcnJheShBKVxuICAgICAgICAgICAgcHJpbnRfYXJyYXkoYilcbiAgICAgICAgICAgIHByaW50KClcblxuXG5kZWYgYmFja3dhcmRfc3Vic3RpdHV0aW9uKEEsIGIpOlxuICAgIFwiXCJcIlxuICAgIFNvbHZlIGFuIHVwcGVyIHRyaWFuZ3VsYXIgc3lzdGVtIG9mIGxpbmVhciBlcXVhdGlvbnMgdXNpbmcgYmFja3dhcmRcbiAgICBzdWJzdGl0dXRpb24uXG5cbiAgICBUaGlzIGZ1bmN0aW9uIHNvbHZlcyB0aGUgc3lzdGVtIG9mIGVxdWF0aW9uczpcblxuICAgIC4uIG1hdGg6OlxuICAgICAgICBBIHggPSBiXG5cbiAgICB3aGVyZSBgQWAgaXMgYW4gKip1cHBlciB0cmlhbmd1bGFyIG1hdHJpeCoqIChhbGwgZWxlbWVudHMgYmVsb3cgdGhlIG1haW5cbiAgICBkaWFnb25hbCBhcmUgemVybykuIFRoZSBzb2x1dGlvbiB2ZWN0b3IgYHhgIGlzIGNvbXB1dGVkIHN0YXJ0aW5nIGZyb20gdGhlXG4gICAgbGFzdCBlcXVhdGlvbiBhbmQgcHJvY2VlZGluZyBiYWNrd2FyZC5cblxuICAgIFBhcmFtZXRlcnNcbiAgICAtLS0tLS0tLS0tXG4gICAgQSA6IG51bXB5Lm5kYXJyYXlcbiAgICAgICAgQSAyRCBOdW1QeSBhcnJheSBvZiBzaGFwZSBgYChuLCBuKWBgIHJlcHJlc2VudGluZyB0aGUgdXBwZXIgdHJpYW5ndWxhclxuICAgICAgICBjb2VmZmljaWVudCBtYXRyaXggb2YgdGhlIHN5c3RlbS5cbiAgICBiIDogbnVtcHkubmRhcnJheVxuICAgICAgICBBIDFEIE51bVB5IGFycmF5IG9mIHNoYXBlIGBgKG4sKWBgIG9yIGEgMkQgTnVtUHkgYXJyYXkgb2Ygc2hhcGVcbiAgICAgICAgYGAobiwgMSlgYCByZXByZXNlbnRpbmcgdGhlIHJpZ2h0LWhhbmQgc2lkZSB2ZWN0b3IuXG5cbiAgICBSZXR1cm5zXG4gICAgLS0tLS0tLVxuICAgIHggOiBudW1weS5uZGFycmF5XG4gICAgICAgIEEgTnVtUHkgYXJyYXkgb2Ygc2hhcGUgYGAobiwpYGAgY29udGFpbmluZyB0aGUgc29sdXRpb24gdmVjdG9yLlxuICAgIFwiXCJcIlxuICAgICMgZ2V0IHNpemUgb2Ygc3lzdGVtXG4gICAgbiA9IHN5c3RlbV9zaXplKEEsIGIpXG5cbiAgICAjIGNoZWNrIGlzIHVwcGVyIHRyaWFuZ3VsYXJcbiAgICBhc3NlcnQgbnAuYWxsY2xvc2UoQSwgbnAudHJpdShBKSlcblxuICAgICMgY3JlYXRlIHNvbHV0aW9uIHZhcmlhYmxlXG4gICAgeCA9IG5wLmVtcHR5X2xpa2UoYilcblxuICAgICMgcGVyZm9ybSBiYWNrd2FyZHMgc29sdmVcbiAgICBmb3IgaSBpbiByYW5nZShuIC0gMSwgLTEsIC0xKTogICMgaXRlcmF0ZSBvdmVyIHJvd3MgYmFja3dhcmRzXG4gICAgICAgIHBhcnRpYWxfc3VtID0gMC4wXG4gICAgICAgIGZvciBqIGluIHJhbmdlKGkgKyAxLCBuKTpcbiAgICAgICAgICAgIHBhcnRpYWxfc3VtICs9IEFbaSwgal0gKiB4W2pdXG4gICAgICAgIHhbaV0gPSAxLjAgLyBBW2ksIGldICogKGJbaV0gLSBwYXJ0aWFsX3N1bSlcblxuICAgIHJldHVybiB4XG4ifQ==
+eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiaW5jbHVkZSI6ZmFsc2UsIm91dHB1dCI6ZmFsc2V9LCJjb2RlIjoiXG5cbmRlZiByb3dfc3dhcChBLCBiLCBwLCBxKTpcbiAgICBcIlwiXCJcbiAgICBTd2FwIHR3byByb3dzIGluIGEgbGluZWFyIHN5c3RlbSBvZiBlcXVhdGlvbnMgaW4gcGxhY2UuXG5cbiAgICBUaGlzIGZ1bmN0aW9uIHN3YXBzIHRoZSByb3dzIGBwYCBhbmQgYHFgIG9mIHRoZSBjb2VmZmljaWVudCBtYXRyaXggYEFgXG4gICAgYW5kIHRoZSByaWdodC1oYW5kIHNpZGUgdmVjdG9yIGBiYCBmb3IgYSBsaW5lYXIgc3lzdGVtIG9mIGVxdWF0aW9uc1xuICAgIG9mIHRoZSBmb3JtIGBgQXggPSBiYGAuIFRoZSBvcGVyYXRpb24gaXMgcGVyZm9ybWVkICoqaW4gcGxhY2UqKiwgbW9kaWZ5aW5nXG4gICAgdGhlIGlucHV0IGFycmF5cyBkaXJlY3RseS5cblxuICAgIFBhcmFtZXRlcnNcbiAgICAtLS0tLS0tLS0tXG4gICAgQSA6IG51bXB5Lm5kYXJyYXlcbiAgICAgICAgQSAyRCBOdW1QeSBhcnJheSBvZiBzaGFwZSBgYChuLCBuKWBgIHJlcHJlc2VudGluZyB0aGUgY29lZmZpY2llbnQgbWF0cml4XG4gICAgICAgIG9mIHRoZSBsaW5lYXIgc3lzdGVtLlxuICAgIGIgOiBudW1weS5uZGFycmF5XG4gICAgICAgIEEgMkQgTnVtUHkgYXJyYXkgb2Ygc2hhcGUgYGAobiwgMSlgYCByZXByZXNlbnRpbmcgdGhlIHJpZ2h0LWhhbmQgc2lkZVxuICAgICAgICB2ZWN0b3Igb2YgdGhlIHN5c3RlbS5cbiAgICBwIDogaW50XG4gICAgICAgIFRoZSBpbmRleCBvZiB0aGUgZmlyc3Qgcm93IHRvIHN3YXAuIE11c3Qgc2F0aXNmeSBgYDAgPD0gcCA8IG5gYC5cbiAgICBxIDogaW50XG4gICAgICAgIFRoZSBpbmRleCBvZiB0aGUgc2Vjb25kIHJvdyB0byBzd2FwLiBNdXN0IHNhdGlzZnkgYGAwIDw9IHEgPCBuYGAuXG5cbiAgICBSZXR1cm5zXG4gICAgLS0tLS0tLVxuICAgIE5vbmVcbiAgICAgICAgVGhpcyBmdW5jdGlvbiBtb2RpZmllcyBgQWAgYW5kIGBiYCBkaXJlY3RseSBhbmQgZG9lcyBub3QgcmV0dXJuXG4gICAgICAgIGFueXRoaW5nLlxuICAgIFwiXCJcIlxuICAgICMgZ2V0IHN5c3RlbSBzaXplXG4gICAgbiA9IHN5c3RlbV9zaXplKEEsIGIpXG4gICAgIyBzd2FwIHJvd3Mgb2YgQVxuICAgIGZvciBqIGluIHJhbmdlKG4pOlxuICAgICAgICBBW3AsIGpdLCBBW3EsIGpdID0gQVtxLCBqXSwgQVtwLCBqXVxuICAgICMgc3dhcCByb3dzIG9mIGJcbiAgICBiW3AsIDBdLCBiW3EsIDBdID0gYltxLCAwXSwgYltwLCAwXVxuXG5cbmRlZiByb3dfc2NhbGUoQSwgYiwgcCwgayk6XG4gICAgXCJcIlwiXG4gICAgU2NhbGUgYSByb3cgb2YgYSBsaW5lYXIgc3lzdGVtIGJ5IGEgY29uc3RhbnQgZmFjdG9yIGluIHBsYWNlLlxuXG4gICAgVGhpcyBmdW5jdGlvbiBtdWx0aXBsaWVzIGFsbCBlbnRyaWVzIGluIHJvdyBgcGAgb2YgdGhlIGNvZWZmaWNpZW50IG1hdHJpeFxuICAgIGBBYCBhbmQgdGhlIGNvcnJlc3BvbmRpbmcgZW50cnkgaW4gdGhlIHJpZ2h0LWhhbmQgc2lkZSB2ZWN0b3IgYGJgIGJ5IGFcbiAgICBzY2FsYXIgYGtgLiBUaGUgb3BlcmF0aW9uIGlzIHBlcmZvcm1lZCAqKmluIHBsYWNlKiosIG1vZGlmeWluZyB0aGUgaW5wdXRcbiAgICBhcnJheXMgZGlyZWN0bHkuXG5cbiAgICBQYXJhbWV0ZXJzXG4gICAgLS0tLS0tLS0tLVxuICAgIEEgOiBudW1weS5uZGFycmF5XG4gICAgICAgIEEgMkQgTnVtUHkgYXJyYXkgb2Ygc2hhcGUgYGAobiwgbilgYCByZXByZXNlbnRpbmcgdGhlIGNvZWZmaWNpZW50IG1hdHJpeFxuICAgICAgICBvZiB0aGUgbGluZWFyIHN5c3RlbS5cbiAgICBiIDogbnVtcHkubmRhcnJheVxuICAgICAgICBBIDJEIE51bVB5IGFycmF5IG9mIHNoYXBlIGBgKG4sIDEpYGAgcmVwcmVzZW50aW5nIHRoZSByaWdodC1oYW5kIHNpZGVcbiAgICAgICAgdmVjdG9yIG9mIHRoZSBzeXN0ZW0uXG4gICAgcCA6IGludFxuICAgICAgICBUaGUgaW5kZXggb2YgdGhlIHJvdyB0byBzY2FsZS4gTXVzdCBzYXRpc2Z5IGBgMCA8PSBwIDwgbmBgLlxuICAgIGsgOiBmbG9hdFxuICAgICAgICBUaGUgc2NhbGFyIG11bHRpcGxpZXIgYXBwbGllZCB0byB0aGUgZW50aXJlIHJvdy5cblxuICAgIFJldHVybnNcbiAgICAtLS0tLS0tXG4gICAgTm9uZVxuICAgICAgICBUaGlzIGZ1bmN0aW9uIG1vZGlmaWVzIGBBYCBhbmQgYGJgIGRpcmVjdGx5IGFuZCBkb2VzIG5vdCByZXR1cm5cbiAgICAgICAgYW55dGhpbmcuXG4gICAgXCJcIlwiXG4gICAgbiA9IHN5c3RlbV9zaXplKEEsIGIpXG5cbiAgICAjIHNjYWxlIHJvdyBwIG9mIEFcbiAgICBmb3IgaiBpbiByYW5nZShuKTpcbiAgICAgICAgQVtwLCBqXSA9IGsgKiBBW3AsIGpdXG4gICAgIyBzY2FsZSByb3cgcCBvZiBiXG4gICAgYltwLCAwXSA9IGJbcCwgMF0gKiBrXG5cblxuZGVmIHJvd19hZGQoQSwgYiwgcCwgaywgcSk6XG4gICAgXCJcIlwiXG4gICAgUGVyZm9ybSBhbiBpbi1wbGFjZSByb3cgYWRkaXRpb24gb3BlcmF0aW9uIG9uIGEgbGluZWFyIHN5c3RlbS5cblxuICAgIFRoaXMgZnVuY3Rpb24gYXBwbGllcyB0aGUgZWxlbWVudGFyeSByb3cgb3BlcmF0aW9uOlxuXG4gICAgYGByb3dfcCDihpAgcm93X3AgKyBrICogcm93X3FgYFxuXG4gICAgd2hlcmUgYHJvd19wYCBhbmQgYHJvd19xYCBhcmUgcm93cyBpbiB0aGUgY29lZmZpY2llbnQgbWF0cml4IGBBYCBhbmQgdGhlXG4gICAgcmlnaHQtaGFuZCBzaWRlIHZlY3RvciBgYmAuIEl0IHVwZGF0ZXMgdGhlIGVudHJpZXMgb2YgYEFgIGFuZCBgYmBcbiAgICAqKmluIHBsYWNlKiosIGRpcmVjdGx5IG1vZGlmeWluZyB0aGUgb3JpZ2luYWwgZGF0YS5cblxuICAgIFBhcmFtZXRlcnNcbiAgICAtLS0tLS0tLS0tXG4gICAgQSA6IG51bXB5Lm5kYXJyYXlcbiAgICAgICAgQSAyRCBOdW1QeSBhcnJheSBvZiBzaGFwZSBgYChuLCBuKWBgIHJlcHJlc2VudGluZyB0aGUgY29lZmZpY2llbnQgbWF0cml4XG4gICAgICAgIG9mIHRoZSBsaW5lYXIgc3lzdGVtLlxuICAgIGIgOiBudW1weS5uZGFycmF5XG4gICAgICAgIEEgMkQgTnVtUHkgYXJyYXkgb2Ygc2hhcGUgYGAobiwgMSlgYCByZXByZXNlbnRpbmcgdGhlIHJpZ2h0LWhhbmQgc2lkZVxuICAgICAgICB2ZWN0b3Igb2YgdGhlIHN5c3RlbS5cbiAgICBwIDogaW50XG4gICAgICAgIFRoZSBpbmRleCBvZiB0aGUgcm93IHRvIGJlIHVwZGF0ZWQgKGRlc3RpbmF0aW9uIHJvdykuIE11c3Qgc2F0aXNmeVxuICAgICAgICBgYDAgPD0gcCA8IG5gYC5cbiAgICBrIDogZmxvYXRcbiAgICAgICAgVGhlIHNjYWxhciBtdWx0aXBsaWVyIGFwcGxpZWQgdG8gYHJvd19xYCBiZWZvcmUgYWRkaW5nIGl0IHRvIGByb3dfcGAuXG4gICAgcSA6IGludFxuICAgICAgICBUaGUgaW5kZXggb2YgdGhlIHNvdXJjZSByb3cgdG8gYmUgc2NhbGVkIGFuZCBhZGRlZC4gTXVzdCBzYXRpc2Z5XG4gICAgICAgIGBgMCA8PSBxIDwgbmBgLlxuICAgIFwiXCJcIlxuICAgIG4gPSBzeXN0ZW1fc2l6ZShBLCBiKVxuXG4gICAgIyBQZXJmb3JtIHRoZSByb3cgb3BlcmF0aW9uXG4gICAgZm9yIGogaW4gcmFuZ2Uobik6XG4gICAgICAgIEFbcCwgal0gPSBBW3AsIGpdICsgayAqIEFbcSwgal1cblxuICAgICMgVXBkYXRlIHRoZSBjb3JyZXNwb25kaW5nIHZhbHVlIGluIGJcbiAgICBiW3AsIDBdID0gYltwLCAwXSArIGsgKiBiW3EsIDBdXG5cblxuZGVmIGdhdXNzaWFuX2VsaW1pbmF0aW9uKEEsIGIsIHZlcmJvc2U9RmFsc2UpOlxuICAgIFwiXCJcIlxuICAgIFBlcmZvcm0gR2F1c3NpYW4gZWxpbWluYXRpb24gdG8gcmVkdWNlIGEgbGluZWFyIHN5c3RlbSB0byB1cHBlciB0cmlhbmd1bGFyXG4gICAgZm9ybS5cblxuICAgIFRoaXMgZnVuY3Rpb24gcGVyZm9ybXMgKipmb3J3YXJkIGVsaW1pbmF0aW9uKiogdG8gdHJhbnNmb3JtIHRoZSBjb2VmZmljaWVudFxuICAgIG1hdHJpeCBgQWAgaW50byBhbiB1cHBlciB0cmlhbmd1bGFyIG1hdHJpeCwgd2hpbGUgYXBwbHlpbmcgdGhlIHNhbWVcbiAgICBvcGVyYXRpb25zIHRvIHRoZSByaWdodC1oYW5kIHNpZGUgdmVjdG9yIGBiYC4gVGhpcyBpcyB0aGUgZmlyc3Qgc3RlcCBpblxuICAgIHNvbHZpbmcgYSBsaW5lYXIgc3lzdGVtIG9mIGVxdWF0aW9ucyBvZiB0aGUgZm9ybSBgYEF4ID0gYmBgIHVzaW5nIEdhdXNzaWFuXG4gICAgZWxpbWluYXRpb24uXG5cbiAgICBQYXJhbWV0ZXJzXG4gICAgLS0tLS0tLS0tLVxuICAgIEEgOiBudW1weS5uZGFycmF5XG4gICAgICAgIEEgMkQgTnVtUHkgYXJyYXkgb2Ygc2hhcGUgYGAobiwgbilgYCByZXByZXNlbnRpbmcgdGhlIGNvZWZmaWNpZW50IG1hdHJpeFxuICAgICAgICBvZiB0aGUgc3lzdGVtLlxuICAgIGIgOiBudW1weS5uZGFycmF5XG4gICAgICAgIEEgMkQgTnVtUHkgYXJyYXkgb2Ygc2hhcGUgYGAobiwgMSlgYCByZXByZXNlbnRpbmcgdGhlIHJpZ2h0LWhhbmQgc2lkZVxuICAgICAgICB2ZWN0b3IuXG4gICAgdmVyYm9zZSA6IGJvb2wsIG9wdGlvbmFsXG4gICAgICAgIElmIGBgVHJ1ZWBgLCBwcmludHMgZGV0YWlsZWQgaW5mb3JtYXRpb24gYWJvdXQgZWFjaCBlbGltaW5hdGlvbiBzdGVwLFxuICAgICAgICBpbmNsdWRpbmcgdGhlIHJvdyBvcGVyYXRpb25zIHBlcmZvcm1lZCBhbmQgdGhlIGludGVybWVkaWF0ZSBmb3JtcyBvZlxuICAgICAgICBgQWAgYW5kIGBiYC4gRGVmYXVsdCBpcyBgYEZhbHNlYGAuXG5cbiAgICBSZXR1cm5zXG4gICAgLS0tLS0tLVxuICAgIE5vbmVcbiAgICAgICAgVGhpcyBmdW5jdGlvbiBtb2RpZmllcyBgQWAgYW5kIGBiYCAqKmluIHBsYWNlKiogYW5kIGRvZXMgbm90IHJldHVyblxuICAgICAgICBhbnl0aGluZy5cbiAgICBcIlwiXCJcbiAgICAjIGZpbmQgc2hhcGUgb2Ygc3lzdGVtXG4gICAgbiA9IHN5c3RlbV9zaXplKEEsIGIpXG5cbiAgICAjIHBlcmZvcm0gZm9yd2FyZHMgZWxpbWluYXRpb25cbiAgICBmb3IgaSBpbiByYW5nZShuIC0gMSk6XG4gICAgICAgICMgZWxpbWluYXRlIGNvbHVtbiBpXG4gICAgICAgIGlmIHZlcmJvc2U6XG4gICAgICAgICAgICBwcmludChmXCJlbGltaW5hdGluZyBjb2x1bW4ge2l9XCIpXG4gICAgICAgIGZvciBqIGluIHJhbmdlKGkgKyAxLCBuKTpcbiAgICAgICAgICAgICMgcm93IGpcbiAgICAgICAgICAgIGZhY3RvciA9IEFbaiwgaV0gLyBBW2ksIGldXG4gICAgICAgICAgICBpZiB2ZXJib3NlOlxuICAgICAgICAgICAgICAgIHByaW50KFxuICAgICAgICAgICAgICAgICAgICBmXCIgIHJvdyB7an0gfC0+IHJvdyB7an0gLSB7ZmFjdG9yfSAqIHJvdyB7aX1cIlxuICAgICAgICAgICAgICAgIClcbiAgICAgICAgICAgIHJvd19hZGQoQSwgYiwgaiwgLWZhY3RvciwgaSlcblxuICAgICAgICBpZiB2ZXJib3NlOlxuICAgICAgICAgICAgcHJpbnQoKVxuICAgICAgICAgICAgcHJpbnQoXCJuZXcgc3lzdGVtXCIpXG4gICAgICAgICAgICBwcmludF9hcnJheShBKVxuICAgICAgICAgICAgcHJpbnRfYXJyYXkoYilcbiAgICAgICAgICAgIHByaW50KClcblxuXG5kZWYgYmFja3dhcmRfc3Vic3RpdHV0aW9uKEEsIGIpOlxuICAgIFwiXCJcIlxuICAgIFNvbHZlIGFuIHVwcGVyIHRyaWFuZ3VsYXIgc3lzdGVtIG9mIGxpbmVhciBlcXVhdGlvbnMgdXNpbmcgYmFja3dhcmRcbiAgICBzdWJzdGl0dXRpb24uXG5cbiAgICBUaGlzIGZ1bmN0aW9uIHNvbHZlcyB0aGUgc3lzdGVtIG9mIGVxdWF0aW9uczpcblxuICAgIC4uIG1hdGg6OlxuICAgICAgICBBIHggPSBiXG5cbiAgICB3aGVyZSBgQWAgaXMgYW4gKip1cHBlciB0cmlhbmd1bGFyIG1hdHJpeCoqIChhbGwgZWxlbWVudHMgYmVsb3cgdGhlIG1haW5cbiAgICBkaWFnb25hbCBhcmUgemVybykuIFRoZSBzb2x1dGlvbiB2ZWN0b3IgYHhgIGlzIGNvbXB1dGVkIHN0YXJ0aW5nIGZyb20gdGhlXG4gICAgbGFzdCBlcXVhdGlvbiBhbmQgcHJvY2VlZGluZyBiYWNrd2FyZC5cblxuICAgIFBhcmFtZXRlcnNcbiAgICAtLS0tLS0tLS0tXG4gICAgQSA6IG51bXB5Lm5kYXJyYXlcbiAgICAgICAgQSAyRCBOdW1QeSBhcnJheSBvZiBzaGFwZSBgYChuLCBuKWBgIHJlcHJlc2VudGluZyB0aGUgdXBwZXIgdHJpYW5ndWxhclxuICAgICAgICBjb2VmZmljaWVudCBtYXRyaXggb2YgdGhlIHN5c3RlbS5cbiAgICBiIDogbnVtcHkubmRhcnJheVxuICAgICAgICBBIDFEIE51bVB5IGFycmF5IG9mIHNoYXBlIGBgKG4sKWBgIG9yIGEgMkQgTnVtUHkgYXJyYXkgb2Ygc2hhcGVcbiAgICAgICAgYGAobiwgMSlgYCByZXByZXNlbnRpbmcgdGhlIHJpZ2h0LWhhbmQgc2lkZSB2ZWN0b3IuXG5cbiAgICBSZXR1cm5zXG4gICAgLS0tLS0tLVxuICAgIHggOiBudW1weS5uZGFycmF5XG4gICAgICAgIEEgTnVtUHkgYXJyYXkgb2Ygc2hhcGUgYGAobiwpYGAgY29udGFpbmluZyB0aGUgc29sdXRpb24gdmVjdG9yLlxuICAgIFwiXCJcIlxuICAgICMgZ2V0IHNpemUgb2Ygc3lzdGVtXG4gICAgbiA9IHN5c3RlbV9zaXplKEEsIGIpXG5cbiAgICAjIGNoZWNrIGlzIHVwcGVyIHRyaWFuZ3VsYXJcbiAgICBhc3NlcnQgbnAuYWxsY2xvc2UoQSwgbnAudHJpdShBKSlcblxuICAgICMgY3JlYXRlIHNvbHV0aW9uIHZhcmlhYmxlXG4gICAgeCA9IG5wLmVtcHR5X2xpa2UoYilcblxuICAgICMgcGVyZm9ybSBiYWNrd2FyZHMgc29sdmVcbiAgICBmb3IgaSBpbiByYW5nZShcbiAgICAgICAgbiAtIDEsIC0xLCAtMVxuICAgICk6ICAjIGl0ZXJhdGUgb3ZlciByb3dzIGJhY2t3YXJkc1xuICAgICAgICBwYXJ0aWFsX3N1bSA9IDAuMFxuICAgICAgICBmb3IgaiBpbiByYW5nZShpICsgMSwgbik6XG4gICAgICAgICAgICBwYXJ0aWFsX3N1bSArPSBBW2ksIGpdICogeFtqXVxuICAgICAgICB4W2ldID0gMS4wIC8gQVtpLCBpXSAqIChiW2ldIC0gcGFydGlhbF9zdW0pXG5cbiAgICByZXR1cm4geFxuIn0=
 </script>
 </div>
 <p>We can use our code to test this:</p>
@@ -1190,7 +1234,7 @@ eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiaW5jbHVkZSI6ZmFs
 
 </div>
 <script type="pyodide-15-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiQSA9IG5wLmFycmF5KFtbMi4wLCAxLjAsIDQuMF0sIFsxLjAsIDIuMCwgMi4wXSwgWzIuMCwgNC4wLCA2LjBdXSlcbmIgPSBucC5hcnJheShbWzEyLjBdLCBbOS4wXSwgWzIyLjBdXSlcblxucHJpbnQoXCJzdGFydGluZyBzeXN0ZW06XCIpXG5wcmludF9hcnJheShBKVxucHJpbnRfYXJyYXkoYilcbnByaW50KClcblxucHJpbnQoXCJwZXJmb3JtaW5nIEdhdXNzaWFuIEVsaW1pbmF0aW9uXCIpXG5nYXVzc2lhbl9lbGltaW5hdGlvbihBLCBiLCB2ZXJib3NlPVRydWUpXG5wcmludCgpXG5cbnByaW50KFwidXBwZXIgdHJpYW5ndWxhciBzeXN0ZW06XCIpXG5wcmludF9hcnJheShBKVxucHJpbnRfYXJyYXkoYilcbnByaW50KClcblxucHJpbnQoXCJTb2x2aW5nIHRoZSBzeXN0ZW0gdXNpbmcgYmFja3dhcmQgc3Vic3RpdHV0aW9uXCIpXG54ID0gYmFja3dhcmRfc3Vic3RpdHV0aW9uKEEsIGIpXG5wcmludCgpXG5cbnByaW50KFwic29sdXRpb24gdXNpbmcgYmFja3dhcmQgc3Vic3RpdHV0aW9uOlwiKVxucHJpbnRfYXJyYXkoeClcbnByaW50KClcblxuQSA9IG5wLmFycmF5KFtbMi4wLCAxLjAsIDQuMF0sIFsxLjAsIDIuMCwgMi4wXSwgWzIuMCwgNC4wLCA2LjBdXSlcbmIgPSBucC5hcnJheShbWzEyLjBdLCBbOS4wXSwgWzIyLjBdXSlcbnByaW50KFwiRG9lcyB4IHJlYWxseSBzb2x2ZSB0aGUgb3JpZ2luYWwgc3lzdGVtP1wiLCBucC5hbGxjbG9zZShBIEAgeCwgYikpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiQSA9IG5wLmFycmF5KFxuICAgIFtbMi4wLCAxLjAsIDQuMF0sIFsxLjAsIDIuMCwgMi4wXSwgWzIuMCwgNC4wLCA2LjBdXVxuKVxuYiA9IG5wLmFycmF5KFtbMTIuMF0sIFs5LjBdLCBbMjIuMF1dKVxuXG5wcmludChcInN0YXJ0aW5nIHN5c3RlbTpcIilcbnByaW50X2FycmF5KEEpXG5wcmludF9hcnJheShiKVxucHJpbnQoKVxuXG5wcmludChcInBlcmZvcm1pbmcgR2F1c3NpYW4gRWxpbWluYXRpb25cIilcbmdhdXNzaWFuX2VsaW1pbmF0aW9uKEEsIGIsIHZlcmJvc2U9VHJ1ZSlcbnByaW50KClcblxucHJpbnQoXCJ1cHBlciB0cmlhbmd1bGFyIHN5c3RlbTpcIilcbnByaW50X2FycmF5KEEpXG5wcmludF9hcnJheShiKVxucHJpbnQoKVxuXG5wcmludChcIlNvbHZpbmcgdGhlIHN5c3RlbSB1c2luZyBiYWNrd2FyZCBzdWJzdGl0dXRpb25cIilcbnggPSBiYWNrd2FyZF9zdWJzdGl0dXRpb24oQSwgYilcbnByaW50KClcblxucHJpbnQoXCJzb2x1dGlvbiB1c2luZyBiYWNrd2FyZCBzdWJzdGl0dXRpb246XCIpXG5wcmludF9hcnJheSh4KVxucHJpbnQoKVxuXG5BID0gbnAuYXJyYXkoXG4gICAgW1syLjAsIDEuMCwgNC4wXSwgWzEuMCwgMi4wLCAyLjBdLCBbMi4wLCA0LjAsIDYuMF1dXG4pXG5iID0gbnAuYXJyYXkoW1sxMi4wXSwgWzkuMF0sIFsyMi4wXV0pXG5wcmludChcbiAgICBcIkRvZXMgeCByZWFsbHkgc29sdmUgdGhlIG9yaWdpbmFsIHN5c3RlbT9cIixcbiAgICBucC5hbGxjbG9zZShBIEAgeCwgYiksXG4pIn0=
 </script>
 </div>
 </section>
@@ -1209,10 +1253,28 @@ x_1 \\ x_2 \\ x_3
 6 \\ 30 \\ -22
 \end{pmatrix}.
 \end{equation*}\]</span></p>
-</section>
-
+</section></section>
+<section>
 <section id="the-cost-of-gaussian-elimination" class="title-slide slide level2 center" data-background-color="#782E57">
 <h2>The cost of Gaussian Elimination</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Module learning objective</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Evaluate the computational cost and numerical stability of direct linear solvers, including the role of pivoting in finite-precision arithmetic.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level3">
+
 <p>Gaussian elimination (GE) is unnecessarily expensive when it is applied to many systems of equations with the same matrix <span class="math inline">\(A\)</span> but different right-hand sides <span class="math inline">\(\vec{b}\)</span>.</p>
 <ul>
 <li>The forward elimination process is the most computationally expensive part at <span class="math inline">\(O(n^3)\)</span> but is exactly the same for any choice of <span class="math inline">\(\vec{b}\)</span>.</li>
@@ -1221,7 +1283,7 @@ x_1 \\ x_2 \\ x_3
 </section>
 <section id="timing-plot" class="slide level3">
 <h3>Timing plot</h3>
-<div id="fef7c003" class="cell" data-execution_count="3">
+<div id="b3e7a752" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -1231,10 +1293,28 @@ x_1 \\ x_2 \\ x_3
 </div>
 </div>
 </div>
-</section>
-
+</section></section>
+<section>
 <section id="sec-LU-factorisation" class="title-slide slide level2 center" data-background-color="#782E57">
 <h2>LU factorisation</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Module learning objective</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Apply LU factorisation to solve linear systems efficiently.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level3">
+
 <p>Recall the elementary row operations (EROs) from above. Note that the EROs can be produced by left multiplication with a suitable matrix:</p>
 <ul>
 <li><p>Row swap:</p>
@@ -1251,8 +1331,8 @@ a &amp; b &amp; c \\ g &amp; h &amp; i \\ d &amp; e &amp; f
 \]</span></p></li>
 </ul>
 </section>
-<section id="elementary-row-operations-visited" class="slide level3">
-<h3>Elementary row operations (visited)</h3>
+<section id="section" class="slide level3 smaller">
+<h3></h3>
 <ul>
 <li><p>Row swap:</p>
 <p><span class="math display">\[
@@ -1266,6 +1346,11 @@ a &amp; b &amp; c &amp; d \\ e &amp; f &amp; g &amp; h \\ i &amp; j &amp; k &amp
 a &amp; b &amp; c &amp; d \\ i &amp; j &amp; k &amp; l \\ e &amp; f &amp; g &amp; h \\ m &amp; n &amp; o &amp; p
 \end{pmatrix}
 \]</span></p></li>
+</ul>
+</section>
+<section class="slide level3">
+
+<ul>
 <li><p>Multiply row by <span class="math inline">\(\alpha\)</span>:</p>
 <p><span class="math display">\[
 \begin{pmatrix}
@@ -1278,6 +1363,11 @@ a &amp; b &amp; c \\ d &amp; e &amp; f \\ g &amp; h &amp; i
 \alpha a &amp; \alpha b &amp; \alpha c \\ d &amp; e &amp; f \\ g &amp; h &amp; i
 \end{pmatrix}
 \]</span></p></li>
+</ul>
+</section>
+<section id="section-1" class="slide level3 smaller">
+<h3></h3>
+<ul>
 <li><p><span class="math inline">\(\alpha \times \text{row } p + \text{row } q\)</span>:</p>
 <p><span class="math display">\[
 \begin{pmatrix}
@@ -1315,11 +1405,28 @@ L U \vec{x} = \vec{b}
 <li>Solve <span class="math inline">\(U \vec{x} = \vec{z}\)</span> in <span class="math inline">\(O(n^2)\)</span> operations.</li>
 </ul>
 <p><span class="math inline">\(L\)</span> and <span class="math inline">\(U\)</span> may be found in <span class="math inline">\(O(n^3)\)</span> operations by performing GE and saving the <span class="math inline">\(E_i\)</span> matrices: however, it is more convenient to find them directly (also <span class="math inline">\(O(n^3)\)</span> operations).</p>
-</section>
-
+</section></section>
+<section>
 <section id="effects-of-finite-precision-arithmetic" class="title-slide slide level2 center" data-background-color="#782E57">
 <h2>Effects of finite precision arithmetic</h2>
-<p>Consider the following linear system of equations</p>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Module learning objective</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Evaluate the computational cost and numerical stability of direct linear solvers, including the role of pivoting in finite-precision arithmetic.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="example-1-1" class="slide level3 smaller write">
+<h3>Example 1</h3>
 <p><span class="math display">\[
 \begin{pmatrix}
 0 &amp; 2 &amp; 1 \\
@@ -1389,9 +1496,8 @@ x_1 \\ x_2 \\ x_3
           display:block!important;
       }</style></aside>
 </section>
-<section id="example-2-1" class="slide level3">
+<section id="example-2-1" class="slide level3 smaller write">
 <h3>Example 2</h3>
-<p>Consider another system of equations</p>
 <p><span class="math display">\[
 \begin{pmatrix}
 2 &amp; 1 &amp; 1 \\
@@ -1467,9 +1573,8 @@ x_1 \\ x_2 \\ x_3
 <p><em>In general</em>, Gaussian elimination requires row swaps to avoid breaking down when there is a zero in the “pivot” position.</p>
 <p>Avoiding zero-division might be a familiar aspect of Gaussian elimination, but there is an additional reason to apply pivoting when working with floating point numbers:</p>
 </section>
-<section id="example-3-1" class="slide level3">
+<section id="example-3-1" class="slide level3 smaller write">
 <h3>Example 3</h3>
-<p>Consider using Gaussian elimination to solve the linear system of equations given by</p>
 <p><span class="math display">\[
 \begin{pmatrix}
 \varepsilon &amp; 1 \\
@@ -1513,9 +1618,8 @@ x_1 \\ x_2
           display:block!important;
       }</style></aside>
 </section>
-<section id="example-3-ii" class="slide level3">
+<section id="example-3-ii" class="slide level3 smaller write">
 <h3>Example 3 ii</h3>
-<p>Use Gaussian elimination to solve the linear system of equations given by</p>
 <p><span class="math display">\[
 \begin{pmatrix}
 1 &amp; 1 \\
@@ -1562,7 +1666,7 @@ x_1 \\ x_2
 <section id="how-bad-is-it" class="slide level3">
 <h3>How bad is it?</h3>
 <p>This is a genuine problem we see in the code versions too!</p>
-<div id="7cffebf9" class="cell" data-execution_count="4">
+<div id="051797dd" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-stdout">
 <pre><code>without row swapping:
 eps=1.0e-02, x.T = [  1.0,  2.0 ], Solution? True
@@ -1618,7 +1722,7 @@ eps=1.0e-14, x.T = [  1.0,  2.0 ], Solution? True
           display:block!important;
       }</style></aside>
 </section>
-<section id="example-4" class="slide level3">
+<section id="example-6" class="slide level3 smaller">
 <h3>Example</h3>
 <p>Consider the linear system of equations given by</p>
 <p><span class="math display">\[
@@ -1746,7 +1850,7 @@ x_1 = \frac{7 + 7 x_2}{10} = 0.
 
 </div>
 <script type="pyodide-16-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIGdhdXNzaWFuX2VsaW1pbmF0aW9uX3dpdGhfcGl2b3RpbmcoQSwgYiwgdmVyYm9zZT1GYWxzZSk6XG4gICAgXCJcIlwiXG4gICAgcGVyZm9ybSBHYXVzc2lhbiBlbGltbmF0aW9uIHdpdGggcGl2b3RpbmcgdG8gcmVkdWNlIHRoZSBzeXN0ZW0gb2YgbGluZWFyXG4gICAgZXF1YXRpb25zIEF4PWIgdG8gdXBwZXIgdHJpYW5ndWxhciBmb3JtLlxuICAgIHVzZSB2ZXJib3NlIHRvIHByaW50IG91dCBpbnRlcm1lZGlhdGUgcmVwcmVzZW50YXRpb25zXG4gICAgXCJcIlwiXG4gICAgIyBmaW5kIHNoYXBlIG9mIHN5c3RlbVxuICAgIG4gPSBzeXN0ZW1fc2l6ZShBLCBiKVxuXG4gICAgIyBwZXJmb3JtIGZvcndhcmRzIGVsaW1pbmF0aW9uXG4gICAgZm9yIGkgaW4gcmFuZ2UobiAtIDEpOlxuICAgICAgICAjIGVsaW1pbmF0ZSBjb2x1bW4gaVxuICAgICAgICBpZiB2ZXJib3NlOlxuICAgICAgICAgICAgcHJpbnQoZlwiZWxpbWluYXRpbmcgY29sdW1uIHtpfVwiKVxuICAgICAgICBmb3IgaiBpbiByYW5nZShpICsgMSwgbik6XG4gICAgICAgICAgICAjIHJvdyBqXG4gICAgICAgICAgICBmYWN0b3IgPSBBW2osIGldIC8gQVtpLCBpXVxuICAgICAgICAgICAgaWYgdmVyYm9zZTpcbiAgICAgICAgICAgICAgICBwcmludChmXCIgIHJvdyB7an0gfC0+IHJvdyB7an0gLSB7ZmFjdG9yfSAqIHJvdyB7aX1cIilcbiAgICAgICAgICAgIHJvd19hZGQoQSwgYiwgaiwgLWZhY3RvciwgaSlcblxuICAgICAgICBpZiB2ZXJib3NlOlxuICAgICAgICAgICAgcHJpbnQoKVxuICAgICAgICAgICAgcHJpbnQoXCJuZXcgc3lzdGVtXCIpXG4gICAgICAgICAgICBwcmludF9hcnJheShBKVxuICAgICAgICAgICAgcHJpbnRfYXJyYXkoYilcbiAgICAgICAgICAgIHByaW50KClcbiJ9
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIGdhdXNzaWFuX2VsaW1pbmF0aW9uX3dpdGhfcGl2b3RpbmcoXG4gICAgQSwgYiwgdmVyYm9zZT1GYWxzZVxuKTpcbiAgICBcIlwiXCJcbiAgICBwZXJmb3JtIEdhdXNzaWFuIGVsaW1pbmF0aW9uIHdpdGggcGl2b3RpbmcgdG9cbiAgICByZWR1Y2UgdGhlIHN5c3RlbSBvZiBsaW5lYXIgZXF1YXRpb25zIEF4PWIgdG9cbiAgICB1cHBlciB0cmlhbmd1bGFyIGZvcm0uXG4gICAgdXNlIHZlcmJvc2UgdG8gcHJpbnQgb3V0IGludGVybWVkaWF0ZVxuICAgIHJlcHJlc2VudGF0aW9uc1xuICAgIFwiXCJcIlxuICAgICMgZmluZCBzaGFwZSBvZiBzeXN0ZW1cbiAgICBuID0gc3lzdGVtX3NpemUoQSwgYilcblxuICAgICMgcGVyZm9ybSBmb3J3YXJkcyBlbGltaW5hdGlvblxuICAgIGZvciBpIGluIHJhbmdlKG4gLSAxKTpcbiAgICAgICAgIyBlbGltaW5hdGUgY29sdW1uIGlcbiAgICAgICAgaWYgdmVyYm9zZTpcbiAgICAgICAgICAgIHByaW50KGZcImVsaW1pbmF0aW5nIGNvbHVtbiB7aX1cIilcbiAgICAgICAgZm9yIGogaW4gcmFuZ2UoaSArIDEsIG4pOlxuICAgICAgICAgICAgIyByb3cgalxuICAgICAgICAgICAgZmFjdG9yID0gQVtqLCBpXSAvIEFbaSwgaV1cbiAgICAgICAgICAgIGlmIHZlcmJvc2U6XG4gICAgICAgICAgICAgICAgcHJpbnQoXG4gICAgICAgICAgICAgICAgICAgIGZcIiAgcm93IHtqfSB8LT4gcm93IHtqfVwiXG4gICAgICAgICAgICAgICAgICAgIGZcIiAtIHtmYWN0b3J9ICogcm93IHtpfVwiXG4gICAgICAgICAgICAgICAgKVxuICAgICAgICAgICAgcm93X2FkZChBLCBiLCBqLCAtZmFjdG9yLCBpKVxuXG4gICAgICAgIGlmIHZlcmJvc2U6XG4gICAgICAgICAgICBwcmludCgpXG4gICAgICAgICAgICBwcmludChcIm5ldyBzeXN0ZW1cIilcbiAgICAgICAgICAgIHByaW50X2FycmF5KEEpXG4gICAgICAgICAgICBwcmludF9hcnJheShiKVxuICAgICAgICAgICAgcHJpbnQoKVxuIn0=
 </script>
 </div>
 </section>
@@ -1758,7 +1862,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIGdhdXNzaWFuX2VsaW1p
 
 </div>
 <script type="pyodide-17-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZXBzID0gMS4wZS0xNFxuQSA9IG5wLmFycmF5KFtbMTAuMCwgLTcuMCwgMC4wXSwgWy0zLjAsIDIuMSAtIGVwcywgNi4wXSwgWzUuMCwgLTEuMCwgNS4wXV0pXG5iID0gbnAuYXJyYXkoW1s3LjBdLCBbOS45ICsgZXBzXSwgWzExLjBdXSlcblxucHJpbnQoXCJzdGFydGluZyBzeXN0ZW06XCIpXG5wcmludF9hcnJheShBKVxucHJpbnRfYXJyYXkoYilcbnByaW50KClcblxucHJpbnQoXCJwZXJmb3JtaW5nIEdhdXNzaWFuIGVsaW1pbmF0aW9uIHdpdGhvdXQgcGl2b3RpbmdcIilcbmdhdXNzaWFuX2VsaW1pbmF0aW9uKEEsIGIsIHZlcmJvc2U9VHJ1ZSlcbnByaW50KClcblxucHJpbnQoXCJ1cHBlciB0cmlhbmd1bGFyIHN5c3RlbTpcIilcbnByaW50X2FycmF5KEEpXG5wcmludF9hcnJheShiKVxucHJpbnQoKVxuXG5wcmludChcInBlcmZvcm1pbmcgYmFja3dhcmQgc3Vic3RpdHV0aW9uXCIpXG54ID0gYmFja3dhcmRfc3Vic3RpdHV0aW9uKEEsIGIpXG5wcmludCgpXG5cbnByaW50KFwic29sdXRpb24gdXNpbmcgYmFja3dhcmQgc3Vic3RpdHV0aW9uOlwiKVxucHJpbnRfYXJyYXkoeClcbnByaW50KClcblxuQSA9IG5wLmFycmF5KFtbMTAuMCwgLTcuMCwgMC4wXSwgWy0zLjAsIDIuMSAtIGVwcywgNi4wXSwgWzUuMCwgLTEuMCwgNS4wXV0pXG5iID0gbnAuYXJyYXkoW1s3LjBdLCBbOS45ICsgZXBzXSwgWzExLjBdXSlcbnByaW50KFwiRG9lcyB4IHNvbHZlIHRoZSBvcmlnaW5hbCBzeXN0ZW0/XCIsIG5wLmFsbGNsb3NlKEEgQCB4LCBiKSkifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZXBzID0gMS4wZS0xNFxuQSA9IG5wLmFycmF5KFxuICAgIFtcbiAgICAgICAgWzEwLjAsIC03LjAsIDAuMF0sXG4gICAgICAgIFstMy4wLCAyLjEgLSBlcHMsIDYuMF0sXG4gICAgICAgIFs1LjAsIC0xLjAsIDUuMF0sXG4gICAgXVxuKVxuYiA9IG5wLmFycmF5KFtbNy4wXSwgWzkuOSArIGVwc10sIFsxMS4wXV0pXG5cbnByaW50KFwic3RhcnRpbmcgc3lzdGVtOlwiKVxucHJpbnRfYXJyYXkoQSlcbnByaW50X2FycmF5KGIpXG5wcmludCgpXG5cbnByaW50KFxuICAgIFwicGVyZm9ybWluZyBHYXVzc2lhbiBlbGltaW5hdGlvbiB3aXRob3V0IHBpdm90aW5nXCJcbilcbmdhdXNzaWFuX2VsaW1pbmF0aW9uKEEsIGIsIHZlcmJvc2U9VHJ1ZSlcbnByaW50KClcblxucHJpbnQoXCJ1cHBlciB0cmlhbmd1bGFyIHN5c3RlbTpcIilcbnByaW50X2FycmF5KEEpXG5wcmludF9hcnJheShiKVxucHJpbnQoKVxuXG5wcmludChcInBlcmZvcm1pbmcgYmFja3dhcmQgc3Vic3RpdHV0aW9uXCIpXG54ID0gYmFja3dhcmRfc3Vic3RpdHV0aW9uKEEsIGIpXG5wcmludCgpXG5cbnByaW50KFwic29sdXRpb24gdXNpbmcgYmFja3dhcmQgc3Vic3RpdHV0aW9uOlwiKVxucHJpbnRfYXJyYXkoeClcbnByaW50KClcblxuQSA9IG5wLmFycmF5KFxuICAgIFtcbiAgICAgICAgWzEwLjAsIC03LjAsIDAuMF0sXG4gICAgICAgIFstMy4wLCAyLjEgLSBlcHMsIDYuMF0sXG4gICAgICAgIFs1LjAsIC0xLjAsIDUuMF0sXG4gICAgXVxuKVxuYiA9IG5wLmFycmF5KFtbNy4wXSwgWzkuOSArIGVwc10sIFsxMS4wXV0pXG5wcmludChcbiAgICBcIkRvZXMgeCBzb2x2ZSB0aGUgb3JpZ2luYWwgc3lzdGVtP1wiLFxuICAgIG5wLmFsbGNsb3NlKEEgQCB4LCBiKSxcbikifQ==
 </script>
 </div>
 <p>Gaussian elimination with pivoting following by back subsitution:</p>
@@ -1767,9 +1871,18 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZXBzID0gMS4wZS0xNFxuQSA9
 
 </div>
 <script type="pyodide-18-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZXBzID0gMS4wZS0xNFxuQSA9IG5wLmFycmF5KFtbMTAuMCwgLTcuMCwgMC4wXSwgWy0zLjAsIDIuMSAtIGVwcywgNi4wXSwgWzUuMCwgLTEuMCwgNS4wXV0pXG5iID0gbnAuYXJyYXkoW1s3LjBdLCBbOS45ICsgZXBzXSwgWzExLjBdXSlcblxucHJpbnQoXCJzdGFydGluZyBzeXN0ZW06XCIpXG5wcmludF9hcnJheShBKVxucHJpbnRfYXJyYXkoYilcbnByaW50KClcblxucHJpbnQoXCJwZXJmb3JtaW5nIEdhdXNzaWFuIGVsaW1pbmF0aW9uIHdpdGggcGl2b3RpbmdcIilcbmdhdXNzaWFuX2VsaW1pbmF0aW9uX3dpdGhfcGl2b3RpbmcoQSwgYiwgdmVyYm9zZT1UcnVlKVxucHJpbnQoKVxuXG5wcmludChcInVwcGVyIHRyaWFuZ3VsYXIgc3lzdGVtOlwiKVxucHJpbnRfYXJyYXkoQSlcbnByaW50X2FycmF5KGIpXG5wcmludCgpXG5cbnByaW50KFwicGVyZm9ybWluZyBiYWNrd2FyZCBzdWJzdGl0dXRpb25cIilcbnggPSBiYWNrd2FyZF9zdWJzdGl0dXRpb24oQSwgYilcbnByaW50KClcblxucHJpbnQoXCJzb2x1dGlvbiB1c2luZyBiYWNrd2FyZCBzdWJzdGl0dXRpb246XCIpXG5wcmludF9hcnJheSh4KVxucHJpbnQoKVxuXG5BID0gbnAuYXJyYXkoW1sxMC4wLCAtNy4wLCAwLjBdLCBbLTMuMCwgMi4xIC0gZXBzLCA2LjBdLCBbNS4wLCAtMS4wLCA1LjBdXSlcbmIgPSBucC5hcnJheShbWzcuMF0sIFs5LjkgKyBlcHNdLCBbMTEuMF1dKVxucHJpbnQoXCJEb2VzIHggc29sdmUgdGhlIG9yaWdpbmFsIHN5c3RlbT9cIiwgbnAuYWxsY2xvc2UoQSBAIHgsIGIpKSJ9
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZXBzID0gMS4wZS0xNFxuQSA9IG5wLmFycmF5KFxuICAgIFtcbiAgICAgICAgWzEwLjAsIC03LjAsIDAuMF0sXG4gICAgICAgIFstMy4wLCAyLjEgLSBlcHMsIDYuMF0sXG4gICAgICAgIFs1LjAsIC0xLjAsIDUuMF0sXG4gICAgXVxuKVxuYiA9IG5wLmFycmF5KFtbNy4wXSwgWzkuOSArIGVwc10sIFsxMS4wXV0pXG5cbnByaW50KFwic3RhcnRpbmcgc3lzdGVtOlwiKVxucHJpbnRfYXJyYXkoQSlcbnByaW50X2FycmF5KGIpXG5wcmludCgpXG5cbnByaW50KFwicGVyZm9ybWluZyBHYXVzc2lhbiBlbGltaW5hdGlvbiB3aXRoIHBpdm90aW5nXCIpXG5nYXVzc2lhbl9lbGltaW5hdGlvbl93aXRoX3Bpdm90aW5nKEEsIGIsIHZlcmJvc2U9VHJ1ZSlcbnByaW50KClcblxucHJpbnQoXCJ1cHBlciB0cmlhbmd1bGFyIHN5c3RlbTpcIilcbnByaW50X2FycmF5KEEpXG5wcmludF9hcnJheShiKVxucHJpbnQoKVxuXG5wcmludChcInBlcmZvcm1pbmcgYmFja3dhcmQgc3Vic3RpdHV0aW9uXCIpXG54ID0gYmFja3dhcmRfc3Vic3RpdHV0aW9uKEEsIGIpXG5wcmludCgpXG5cbnByaW50KFwic29sdXRpb24gdXNpbmcgYmFja3dhcmQgc3Vic3RpdHV0aW9uOlwiKVxucHJpbnRfYXJyYXkoeClcbnByaW50KClcblxuQSA9IG5wLmFycmF5KFxuICAgIFtcbiAgICAgICAgWzEwLjAsIC03LjAsIDAuMF0sXG4gICAgICAgIFstMy4wLCAyLjEgLSBlcHMsIDYuMF0sXG4gICAgICAgIFs1LjAsIC0xLjAsIDUuMF0sXG4gICAgXVxuKVxuYiA9IG5wLmFycmF5KFtbNy4wXSwgWzkuOSArIGVwc10sIFsxMS4wXV0pXG5wcmludChcbiAgICBcIkRvZXMgeCBzb2x2ZSB0aGUgb3JpZ2luYWwgc3lzdGVtP1wiLFxuICAgIG5wLmFsbGNsb3NlKEEgQCB4LCBiKSxcbikifQ==
 </script>
 </div>
+</section></section>
+<section id="summary" class="title-slide slide level2 smaller center" data-background-color="#782E57">
+<h2>Summary</h2>
+<ul>
+<li>We have introduced some methods for solving systems of linear equations based manipulating the system into an upper triangular form and then applying backwards substitution.</li>
+<li>The methods require a fixed amount of work but that amount will tend to be large for large systems.</li>
+<li>We have seen that care must be taken when working with floating point numbers to ensure accurate results.</li>
+<li>Next we will see an alternative approach which often works much more quickly in a range of different practical scenarios.</li>
+</ul>
 
 <script type="pyodide-data">
 eyJvcHRpb25zIjp7ImluZGV4VVJMIjoiaHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L3B5b2RpZGUvdjAuMjYuMS9mdWxsLyJ9LCJwYWNrYWdlcyI6eyJwa2dzIjpbInB5b2RpZGVfaHR0cCIsIm1pY3JvcGlwIiwiaXB5dGhvbiIsIm51bXB5Il19fQ==
@@ -1788,7 +1901,6 @@ eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJweW9kaWRlLTE4IiwiaW5saW5lIjpmYWxzZSwibWV0aG9k
 <script type="vfs-file">
 W10=
 </script>
-</section>
 </section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
@@ -1822,7 +1934,7 @@ W10=
       // https://revealjs.com/config/
       Reveal.initialize({
 'controlsAuto': true,
-'previewLinksAuto': true,
+'previewLinksAuto': false,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
@@ -2010,6 +2122,38 @@ W10=
         ]
       });
     </script>
+    <script>
+    // On an iPad in full screen the slide is letterboxed and the bars show the
+    // page background (cream), which stands out on the coloured title/section
+    // slides. Make the page background follow the current slide's background,
+    // and tell Safari the matching tint and light/dark scheme so the text in its
+    // tab and status bars flips to stay readable.
+    document.addEventListener('DOMContentLoaded', () => {
+      let themeColor = document.querySelector('meta[name="theme-color"]');
+      if (!themeColor) {
+        themeColor = document.createElement('meta');
+        themeColor.name = 'theme-color';
+        document.head.appendChild(themeColor);
+      }
+
+      const sync = () => {
+        const slide = Reveal.getCurrentSlide();
+        const bg = Reveal.getSlideBackground(slide);
+        const color = bg && getComputedStyle(bg).backgroundColor;
+        const value = color && color !== 'rgba(0, 0, 0, 0)' ? color : '';
+        document.documentElement.style.backgroundColor = value;
+        document.body.style.backgroundColor = value;
+
+        // reveal marks slides whose background is dark with this class
+        const dark = slide.classList.contains('has-dark-background');
+        document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+        themeColor.content = value || getComputedStyle(document.body).backgroundColor;
+      };
+      Reveal.on('ready', sync);
+      Reveal.on('slidechanged', sync);
+      if (Reveal.isReady()) sync();
+    });
+    </script>
     <script type="ojs-module-contents">
     eyJjb250ZW50cyI6W119
     </script>
@@ -2105,6 +2249,11 @@ W10=
               if (link.dataset.originalHref !== undefined) {
                 link.href = link.dataset.originalHref;
               }
+                // target, if specified
+                link.setAttribute("target", "_blank");
+                if (link.getAttribute("rel") === null) {
+                  link.setAttribute("rel", "noopener");
+                }
             }
           }
         function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {

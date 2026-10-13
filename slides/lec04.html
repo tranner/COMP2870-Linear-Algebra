@@ -6,10 +6,10 @@
 <script src="lec04_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="lec04_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="lec04_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="lec04_files/libs/quarto-html/quarto-syntax-highlighting-8aca0b0a8b84f7107b5bd209819888f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="lec04_files/libs/quarto-html/quarto-syntax-highlighting-4e4c60b5dd7092195ce9752dcb315cb4.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="lec04_files/libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
 <link href="lec04_files/libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.10.18">
+  <meta name="generator" content="quarto-1.10.19">
 
   <meta name="author" content="Dr.&nbsp;Thomas Ranner (Tom)">
   <title>COMP2870 Theoretical Foundations of Computer Science II</title>
@@ -103,7 +103,7 @@
     code span.vs { color: #00543d; } /* VerbatimString */
     code span.wa { color: #782e57; font-weight: bold; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="lec04_files/libs/revealjs/dist/theme/quarto-6bd527c3678a3b2648203ef07dcaa767.css">
+  <link rel="stylesheet" href="lec04_files/libs/revealjs/dist/theme/quarto-4b9ef474e09cf9553ce6ee23e3821425.css">
   <link href="lec04_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="lec04_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="lec04_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -242,7 +242,11 @@ Dr.&nbsp;Thomas Ranner (Tom)
 <p><strong>Module learning objective</strong></p>
 </div>
 <div class="callout-content">
-<p>Apply direct and iterative solvers to solve systems of linear equations; implement methods using floating point numbers and investigate computational cost using computer experiments.</p>
+<ul>
+<li>Derive and apply Jacobi and Gauss-Seidel iterative methods from a matrix splitting of a linear system;</li>
+<li>Implement iterative solvers for dense and sparse matrices and estimate their computational complexity;</li>
+<li>Evaluate convergence behaviour and justify the choice of stopping criteria for practical computations.</li>
+</ul>
 </div>
 </div>
 </div>
@@ -252,22 +256,58 @@ Dr.&nbsp;Thomas Ranner (Tom)
 
 </div>
 <script type="pyodide-1-contents">
-eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiaW5jbHVkZSI6ZmFsc2UsIm91dHB1dCI6ZmFsc2V9LCJjb2RlIjoiaW1wb3J0IGluc3BlY3RcbmltcG9ydCB0aW1lXG5cbmltcG9ydCBudW1weSBhcyBucFxuaW1wb3J0IHNjaXB5IGFzIHNwXG5mcm9tIG1hdHBsb3RsaWIgaW1wb3J0IHB5cGxvdCBhcyBwbHRcblxucGx0LnN0eWxlLnVzZShcInRoZW1lL2NvbXAyODcwLm1wbHN0eWxlXCIpXG5cblxuZGVmIHN5c3RlbV9zaXplKEEsIGIpOlxuICAgIFwiXCJcIlxuICAgIFZhbGlkYXRlIHRoZSBkaW1lbnNpb25zIG9mIGEgbGluZWFyIHN5c3RlbSBhbmQgcmV0dXJuIGl0cyBzaXplLlxuXG4gICAgVGhpcyBmdW5jdGlvbiBjaGVja3Mgd2hldGhlciB0aGUgZ2l2ZW4gY29lZmZpY2llbnQgbWF0cml4IGBBYCBpcyBzcXVhcmVcbiAgICBhbmQgd2hldGhlciBpdHMgZGltZW5zaW9ucyBhcmUgY29tcGF0aWJsZSB3aXRoIHRoZSByaWdodC1oYW5kIHNpZGUgdmVjdG9yXG4gICAgYGJgLiBJZiB0aGUgZGltZW5zaW9ucyBhcmUgdmFsaWQsIGl0IHJldHVybnMgdGhlIHNpemUgb2YgdGhlIHN5c3RlbS5cblxuICAgIFBhcmFtZXRlcnNcbiAgICAtLS0tLS0tLS0tXG4gICAgQSA6IG51bXB5Lm5kYXJyYXlcbiAgICAgICAgQSAyRCBhcnJheSBvZiBzaGFwZSBgYChuLCBuKWBgIHJlcHJlc2VudGluZyB0aGUgY29lZmZpY2llbnQgbWF0cml4IG9mXG4gICAgICAgIHRoZSBsaW5lYXIgc3lzdGVtLlxuICAgIGIgOiBudW1weS5uZGFycmF5XG4gICAgICAgIEEgYXJyYXkgb2Ygc2hhcGUgYGAobiwgbylgYCByZXByZXNlbnRpbmcgdGhlIHJpZ2h0LWhhbmQgc2lkZSB2ZWN0b3IuXG5cbiAgICBSZXR1cm5zXG4gICAgLS0tLS0tLVxuICAgIGludFxuICAgICAgICBUaGUgc2l6ZSBvZiB0aGUgc3lzdGVtLCBpLmUuLCB0aGUgbnVtYmVyIG9mIHZhcmlhYmxlcyBgbmAuXG5cbiAgICBSYWlzZXNcbiAgICAtLS0tLS1cbiAgICBWYWx1ZUVycm9yXG4gICAgICAgIElmIGBBYCBpcyBub3Qgc3F1YXJlIG9yIGlmIHRoZSBzaXplIG9mIGBiYCBkb2VzIG5vdCBtYXRjaCB0aGUgbnVtYmVyIG9mXG4gICAgICAgIHJvd3MgaW4gYEFgLlxuICAgIFwiXCJcIlxuXG4gICAgIyBWYWxpZGF0ZSB0aGF0IEEgaXMgYSAyRCBzcXVhcmUgbWF0cml4XG4gICAgaWYgQS5uZGltICE9IDI6XG4gICAgICAgIHJhaXNlIFZhbHVlRXJyb3IoZlwiTWF0cml4IEEgbXVzdCBiZSAyRCwgYnV0IGdvdCB7QS5uZGltfUQgYXJyYXlcIilcblxuICAgIG4sIG0gPSBBLnNoYXBlXG4gICAgaWYgbiAhPSBtOlxuICAgICAgICByYWlzZSBWYWx1ZUVycm9yKGZcIk1hdHJpeCBBIG11c3QgYmUgc3F1YXJlLCBidXQgZ290IEEuc2hhcGU9e0Euc2hhcGV9XCIpXG5cbiAgICBpZiBiLnNoYXBlWzBdICE9IG46XG4gICAgICAgIHJhaXNlIFZhbHVlRXJyb3IoXG4gICAgICAgICAgICBmXCJTeXN0ZW0gc2hhcGVzIGFyZSBub3QgY29tcGF0aWJsZTogQS5zaGFwZT17QS5zaGFwZX0sIFwiXG4gICAgICAgICAgICBmXCJiLnNoYXBlPXtiLnNoYXBlfVwiXG4gICAgICAgIClcblxuICAgIHJldHVybiBuXG5cblxuZGVmIHByaW50X2FycmF5KGFycmF5LCBhcnJheV9uYW1lPU5vbmUsIGVuZD1Ob25lKTpcbiAgICBcIlwiXCJcbiAgICBOaWNlbHkgcHJpbnQgYSAyRCBOdW1QeSBhcnJheSB3aXRoIGR5bmFtaWMgcHJlY2lzaW9uIGZvcm1hdHRpbmcuXG5cbiAgICBUaGlzIGZ1bmN0aW9uIHByaW50cyBhIDJEIGFycmF5IGluIGEgcmVhZGFibGUsIGZvcm1hdHRlZCBzdHlsZS4gSXRcbiAgICBhdXRvbWF0aWNhbGx5IGRldGVybWluZXMgdGhlIHJlcXVpcmVkIHByZWNpc2lvbiB0byBhY2N1cmF0ZWx5IHJlcHJlc2VudCB0aGVcbiAgICBhcnJheSB2YWx1ZXMsIHVwIHRvIGEgbWF4aW11bSBvZiAxNSBkZWNpbWFsIHBsYWNlcy4gVGhlIHByaW50ZWQgb3V0cHV0XG4gICAgaW5jbHVkZXMgdGhlIGFycmF5IG5hbWUgaWYgcHJvdmlkZWQ7IG90aGVyd2lzZSwgdGhlIGZ1bmN0aW9uIGF0dGVtcHRzIHRvXG4gICAgaW5mZXIgdGhlIHZhcmlhYmxlIG5hbWUgZnJvbSB0aGUgY2FsbGluZyBzY29wZS5cblxuICAgIFBhcmFtZXRlcnNcbiAgICAtLS0tLS0tLS0tXG4gICAgYXJyYXkgOiBudW1weS5uZGFycmF5XG4gICAgICAgIEEgMkQgTnVtUHkgYXJyYXkgdG8gcHJpbnQuXG4gICAgYXJyYXlfbmFtZSA6IHN0ciwgb3B0aW9uYWxcbiAgICAgICAgVGhlIG5hbWUgdG8gZGlzcGxheSBmb3IgdGhlIGFycmF5IGluIHRoZSBvdXRwdXQuIElmIGBgTm9uZWBgIChkZWZhdWx0KSxcbiAgICAgICAgdGhlIGZ1bmN0aW9uIGF0dGVtcHRzIHRvIGluZmVyIHRoZSB2YXJpYWJsZSBuYW1lIGZyb20gdGhlIGNhbGxlcidzIGxvY2FsXG4gICAgICAgIHZhcmlhYmxlcy4gSWYgaXQgY2Fubm90IGJlIGluZmVycmVkLCBkZWZhdWx0cyB0byBgYFwiYXJyYXlcImBgLlxuICAgIGVuZCA6IHN0ciwgb3B0aW9uYWxcbiAgICAgICAgU3RyaW5nIGFwcGVuZGVkIGFmdGVyIHRoZSBsYXN0IHZhbHVlIGluIGVhY2ggcm93LCBzaW1pbGFyIHRvIHRoZSBgZW5kYFxuICAgICAgICBwYXJhbWV0ZXIgaW4gUHl0aG9uJ3MgYnVpbHQtaW4gYGBwcmludGBgIGZ1bmN0aW9uLiBEZWZhdWx0IGlzIGBgTm9uZWBgLFxuICAgICAgICB3aGljaCBhZGRzIGEgbmV3bGluZS5cbiAgICBcIlwiXCJcbiAgICAjIGZpbmQgYXJyYXlfbmFtZVxuICAgIGlmIGFycmF5X25hbWUgaXMgTm9uZTpcbiAgICAgICAgZnJhbWUgPSBpbnNwZWN0LmN1cnJlbnRmcmFtZSgpLmZfYmFja1xuICAgICAgICBmb3IgbmFtZSwgdmFsdWUgaW4gZnJhbWUuZl9sb2NhbHMuaXRlbXMoKTpcbiAgICAgICAgICAgIGlmIHZhbHVlIGlzIGFycmF5OlxuICAgICAgICAgICAgICAgIGFycmF5X25hbWUgPSBuYW1lXG4gICAgICAgICAgICAgICAgYnJlYWtcbiAgICBpZiBhcnJheV9uYW1lIGlzIE5vbmU6XG4gICAgICAgIGFycmF5X25hbWUgPSBcImFycmF5XCJcblxuICAgICMgZGV0ZXJtaW5lIHByZWNpc2lvblxuICAgIHByZWNpc2lvbiA9IDFcbiAgICB3aGlsZSBub3QgbnAuYWxsY2xvc2UoYXJyYXksIG5wLnJvdW5kKGFycmF5LCBwcmVjaXNpb24pKTpcbiAgICAgICAgcHJlY2lzaW9uID0gcHJlY2lzaW9uICsgMVxuICAgICAgICBpZiBwcmVjaXNpb24gPT0gMTY6XG4gICAgICAgICAgICBicmVha1xuICAgIGZvcm1hdF9zdHIgPSBmXCJ7ezp7cHJlY2lzaW9uICsgM30ue3ByZWNpc2lvbn1mfX1cIlxuXG4gICAgbiwgbSA9IGFycmF5LnNoYXBlXG5cbiAgICBmb3IgaSBpbiByYW5nZShuKTpcbiAgICAgICAgaWYgaSA9PSAwOlxuICAgICAgICAgICAgcHJpbnQoZlwie2FycmF5X25hbWV9ID0gWyBcIiwgZW5kPVwiXCIpXG4gICAgICAgIGVsc2U6XG4gICAgICAgICAgICBwcmludChcIiBcIiAqIGxlbihhcnJheV9uYW1lKSArIFwiICAgWyBcIiwgZW5kPVwiXCIpXG5cbiAgICAgICAgcHJpbnQoXCIsIFwiLmpvaW4oW2Zvcm1hdF9zdHIuZm9ybWF0KHYpIGZvciB2IGluIGFycmF5W2ldXSksIGVuZD1cIiBdXCIpXG4gICAgICAgIHByaW50KGVuZD1lbmQpXG4ifQ==
+eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiaW5jbHVkZSI6ZmFsc2UsIm91dHB1dCI6ZmFsc2V9LCJjb2RlIjoiaW1wb3J0IGluc3BlY3RcbmltcG9ydCB0aW1lXG5cbmltcG9ydCBudW1weSBhcyBucFxuaW1wb3J0IHNjaXB5IGFzIHNwXG5mcm9tIG1hdHBsb3RsaWIgaW1wb3J0IHB5cGxvdCBhcyBwbHRcblxucGx0LnN0eWxlLnVzZShcInRoZW1lL2NvbXAyODcwLm1wbHN0eWxlXCIpXG5cblxuZGVmIHN5c3RlbV9zaXplKEEsIGIpOlxuICAgIFwiXCJcIlxuICAgIFZhbGlkYXRlIHRoZSBkaW1lbnNpb25zIG9mIGEgbGluZWFyIHN5c3RlbSBhbmQgcmV0dXJuIGl0cyBzaXplLlxuXG4gICAgVGhpcyBmdW5jdGlvbiBjaGVja3Mgd2hldGhlciB0aGUgZ2l2ZW4gY29lZmZpY2llbnQgbWF0cml4IGBBYCBpcyBzcXVhcmVcbiAgICBhbmQgd2hldGhlciBpdHMgZGltZW5zaW9ucyBhcmUgY29tcGF0aWJsZSB3aXRoIHRoZSByaWdodC1oYW5kIHNpZGUgdmVjdG9yXG4gICAgYGJgLiBJZiB0aGUgZGltZW5zaW9ucyBhcmUgdmFsaWQsIGl0IHJldHVybnMgdGhlIHNpemUgb2YgdGhlIHN5c3RlbS5cblxuICAgIFBhcmFtZXRlcnNcbiAgICAtLS0tLS0tLS0tXG4gICAgQSA6IG51bXB5Lm5kYXJyYXlcbiAgICAgICAgQSAyRCBhcnJheSBvZiBzaGFwZSBgYChuLCBuKWBgIHJlcHJlc2VudGluZyB0aGUgY29lZmZpY2llbnQgbWF0cml4IG9mXG4gICAgICAgIHRoZSBsaW5lYXIgc3lzdGVtLlxuICAgIGIgOiBudW1weS5uZGFycmF5XG4gICAgICAgIEEgYXJyYXkgb2Ygc2hhcGUgYGAobiwgbylgYCByZXByZXNlbnRpbmcgdGhlIHJpZ2h0LWhhbmQgc2lkZSB2ZWN0b3IuXG5cbiAgICBSZXR1cm5zXG4gICAgLS0tLS0tLVxuICAgIGludFxuICAgICAgICBUaGUgc2l6ZSBvZiB0aGUgc3lzdGVtLCBpLmUuLCB0aGUgbnVtYmVyIG9mIHZhcmlhYmxlcyBgbmAuXG5cbiAgICBSYWlzZXNcbiAgICAtLS0tLS1cbiAgICBWYWx1ZUVycm9yXG4gICAgICAgIElmIGBBYCBpcyBub3Qgc3F1YXJlIG9yIGlmIHRoZSBzaXplIG9mIGBiYCBkb2VzIG5vdCBtYXRjaCB0aGUgbnVtYmVyIG9mXG4gICAgICAgIHJvd3MgaW4gYEFgLlxuICAgIFwiXCJcIlxuXG4gICAgIyBWYWxpZGF0ZSB0aGF0IEEgaXMgYSAyRCBzcXVhcmUgbWF0cml4XG4gICAgaWYgQS5uZGltICE9IDI6XG4gICAgICAgIHJhaXNlIFZhbHVlRXJyb3IoXG4gICAgICAgICAgICBmXCJNYXRyaXggQSBtdXN0IGJlIDJELCBidXQgZ290IHtBLm5kaW19RCBhcnJheVwiXG4gICAgICAgIClcblxuICAgIG4sIG0gPSBBLnNoYXBlXG4gICAgaWYgbiAhPSBtOlxuICAgICAgICByYWlzZSBWYWx1ZUVycm9yKFxuICAgICAgICAgICAgZlwiTWF0cml4IEEgbXVzdCBiZSBzcXVhcmUsIGJ1dCBnb3QgQS5zaGFwZT17QS5zaGFwZX1cIlxuICAgICAgICApXG5cbiAgICBpZiBiLnNoYXBlWzBdICE9IG46XG4gICAgICAgIHJhaXNlIFZhbHVlRXJyb3IoXG4gICAgICAgICAgICBmXCJTeXN0ZW0gc2hhcGVzIGFyZSBub3QgY29tcGF0aWJsZTogQS5zaGFwZT17QS5zaGFwZX0sIFwiXG4gICAgICAgICAgICBmXCJiLnNoYXBlPXtiLnNoYXBlfVwiXG4gICAgICAgIClcblxuICAgIHJldHVybiBuXG5cblxuZGVmIHByaW50X2FycmF5KGFycmF5LCBhcnJheV9uYW1lPU5vbmUsIGVuZD1Ob25lKTpcbiAgICBcIlwiXCJcbiAgICBOaWNlbHkgcHJpbnQgYSAyRCBOdW1QeSBhcnJheSB3aXRoIGR5bmFtaWMgcHJlY2lzaW9uIGZvcm1hdHRpbmcuXG5cbiAgICBUaGlzIGZ1bmN0aW9uIHByaW50cyBhIDJEIGFycmF5IGluIGEgcmVhZGFibGUsIGZvcm1hdHRlZCBzdHlsZS4gSXRcbiAgICBhdXRvbWF0aWNhbGx5IGRldGVybWluZXMgdGhlIHJlcXVpcmVkIHByZWNpc2lvbiB0byBhY2N1cmF0ZWx5IHJlcHJlc2VudCB0aGVcbiAgICBhcnJheSB2YWx1ZXMsIHVwIHRvIGEgbWF4aW11bSBvZiAxNSBkZWNpbWFsIHBsYWNlcy4gVGhlIHByaW50ZWQgb3V0cHV0XG4gICAgaW5jbHVkZXMgdGhlIGFycmF5IG5hbWUgaWYgcHJvdmlkZWQ7IG90aGVyd2lzZSwgdGhlIGZ1bmN0aW9uIGF0dGVtcHRzIHRvXG4gICAgaW5mZXIgdGhlIHZhcmlhYmxlIG5hbWUgZnJvbSB0aGUgY2FsbGluZyBzY29wZS5cblxuICAgIFBhcmFtZXRlcnNcbiAgICAtLS0tLS0tLS0tXG4gICAgYXJyYXkgOiBudW1weS5uZGFycmF5XG4gICAgICAgIEEgMkQgTnVtUHkgYXJyYXkgdG8gcHJpbnQuXG4gICAgYXJyYXlfbmFtZSA6IHN0ciwgb3B0aW9uYWxcbiAgICAgICAgVGhlIG5hbWUgdG8gZGlzcGxheSBmb3IgdGhlIGFycmF5IGluIHRoZSBvdXRwdXQuIElmIGBgTm9uZWBgIChkZWZhdWx0KSxcbiAgICAgICAgdGhlIGZ1bmN0aW9uIGF0dGVtcHRzIHRvIGluZmVyIHRoZSB2YXJpYWJsZSBuYW1lIGZyb20gdGhlIGNhbGxlcidzIGxvY2FsXG4gICAgICAgIHZhcmlhYmxlcy4gSWYgaXQgY2Fubm90IGJlIGluZmVycmVkLCBkZWZhdWx0cyB0byBgYFwiYXJyYXlcImBgLlxuICAgIGVuZCA6IHN0ciwgb3B0aW9uYWxcbiAgICAgICAgU3RyaW5nIGFwcGVuZGVkIGFmdGVyIHRoZSBsYXN0IHZhbHVlIGluIGVhY2ggcm93LCBzaW1pbGFyIHRvIHRoZSBgZW5kYFxuICAgICAgICBwYXJhbWV0ZXIgaW4gUHl0aG9uJ3MgYnVpbHQtaW4gYGBwcmludGBgIGZ1bmN0aW9uLiBEZWZhdWx0IGlzIGBgTm9uZWBgLFxuICAgICAgICB3aGljaCBhZGRzIGEgbmV3bGluZS5cbiAgICBcIlwiXCJcbiAgICAjIGZpbmQgYXJyYXlfbmFtZVxuICAgIGlmIGFycmF5X25hbWUgaXMgTm9uZTpcbiAgICAgICAgZnJhbWUgPSBpbnNwZWN0LmN1cnJlbnRmcmFtZSgpLmZfYmFja1xuICAgICAgICBmb3IgbmFtZSwgdmFsdWUgaW4gZnJhbWUuZl9sb2NhbHMuaXRlbXMoKTpcbiAgICAgICAgICAgIGlmIHZhbHVlIGlzIGFycmF5OlxuICAgICAgICAgICAgICAgIGFycmF5X25hbWUgPSBuYW1lXG4gICAgICAgICAgICAgICAgYnJlYWtcbiAgICBpZiBhcnJheV9uYW1lIGlzIE5vbmU6XG4gICAgICAgIGFycmF5X25hbWUgPSBcImFycmF5XCJcblxuICAgICMgZGV0ZXJtaW5lIHByZWNpc2lvblxuICAgIHByZWNpc2lvbiA9IDFcbiAgICB3aGlsZSBub3QgbnAuYWxsY2xvc2UoXG4gICAgICAgIGFycmF5LCBucC5yb3VuZChhcnJheSwgcHJlY2lzaW9uKVxuICAgICk6XG4gICAgICAgIHByZWNpc2lvbiA9IHByZWNpc2lvbiArIDFcbiAgICAgICAgaWYgcHJlY2lzaW9uID09IDE2OlxuICAgICAgICAgICAgYnJlYWtcbiAgICBmb3JtYXRfc3RyID0gZlwie3s6e3ByZWNpc2lvbiArIDN9LntwcmVjaXNpb259Zn19XCJcblxuICAgIG4sIG0gPSBhcnJheS5zaGFwZVxuXG4gICAgZm9yIGkgaW4gcmFuZ2Uobik6XG4gICAgICAgIGlmIGkgPT0gMDpcbiAgICAgICAgICAgIHByaW50KGZcInthcnJheV9uYW1lfSA9IFsgXCIsIGVuZD1cIlwiKVxuICAgICAgICBlbHNlOlxuICAgICAgICAgICAgcHJpbnQoXG4gICAgICAgICAgICAgICAgXCIgXCIgKiBsZW4oYXJyYXlfbmFtZSkgKyBcIiAgIFsgXCIsIGVuZD1cIlwiXG4gICAgICAgICAgICApXG5cbiAgICAgICAgcHJpbnQoXG4gICAgICAgICAgICBcIiwgXCIuam9pbihcbiAgICAgICAgICAgICAgICBbZm9ybWF0X3N0ci5mb3JtYXQodikgZm9yIHYgaW4gYXJyYXlbaV1dXG4gICAgICAgICAgICApLFxuICAgICAgICAgICAgZW5kPVwiIF1cIixcbiAgICAgICAgKVxuICAgICAgICBwcmludChlbmQ9ZW5kKVxuIn0=
 </script>
 </div>
 </section>
-<section id="iterative-methods" class="title-slide slide level2 center" data-background-color="#782E57">
-<h2>Iterative methods</h2>
-<p>In the previous section we looked at what are known as <em>direct</em> methods for solving systems of linear equations. They are guaranteed to solve with a fixed amount of work (we can even prove this in exact arithmetic!), but this fixed amount of work may be <strong>very</strong> large.</p>
-<p>For a general <span class="math inline">\(n \times n\)</span> system of linear equations <span class="math inline">\(A \vec{x} = \vec{b}\)</span>, the computation expense of all direct methods if <span class="math inline">\(O(n^3)\)</span>. The amount of storage required for these approaches is <span class="math inline">\(O(n^2)\)</span> which is dominated by the cost of storing the matrix <span class="math inline">\(A\)</span>. As <span class="math inline">\(n\)</span> becomes larger the storage and computation work required limit the practicality of direct approaches.</p>
-</section>
-<section id="iterative-methods-1" class="slide level3">
+<section id="iterative-methods" class="slide level3">
 <h3>Iterative methods</h3>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>Direct methods</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Examples</td>
+<td>Gaussian elimination, LU factorisation</td>
+</tr>
+<tr class="even">
+<td>Cost</td>
+<td><span class="math inline">\(O(n^3)\)</span></td>
+</tr>
+<tr class="odd">
+<td>Storage</td>
+<td><span class="math inline">\(O(n^2)\)</span> (storing the matrix)</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
 <p>As an alternative, we will propose some <strong>iterative methods</strong>.</p>
-<p>Iterative methods produce a sequence <span class="math inline">\((\vec{x}^{(k)})\)</span> of approximations to the solution of the linear system of equations <span class="math inline">\(A \vec{x} = \vec{b}\)</span>.</p>
-<p>The iteration is defined recursively and is typically of the form: <span class="math display">\[
-\vec{x}^{(k+1)} = \vec{F}(\vec{x}^{(k)}),
-\]</span> where <span class="math inline">\(\vec{x}^{(k)}\)</span> is now a vector of values and <span class="math inline">\(\vec{F}\)</span> is some vector function</p>
+<p>Finds a sequence <span class="math inline">\(\vec{x}^{(k)}\)</span> with <span class="math inline">\(\vec{x}^{(k)} \to \vec{x}^*\)</span> for <span class="math inline">\(A \vec{x}^* = \vec{b}\)</span>.</p>
+<p>The iteration is defined recursively: <span class="math display">\[
+\vec{x}^{(k+1)} = \vec{F}(\vec{x}^{(k)}).
+\]</span></p>
+<aside class="notes">
+<div id="rem-iteration-notation" class="proof remark">
+<p><span class="proof-title"><em>Remark 1</em>. </span>We use a value in brackets in the superscript to denote the iteration number to avoid confusion between the iteration number and the component of the vector: <span class="math display">\[
+\vec{x}^{(k)} = (\vec{x}^{(k)}_1, \vec{x}^{(k)}_2, \ldots, \vec{x}^{(k)}_n).
+\]</span></p>
+</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</div>
 </section>
 <section id="iterative-method-choices" class="slide level3">
 <h3>Iterative method choices</h3>
@@ -277,11 +317,6 @@ eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiaW5jbHVkZSI6ZmFs
 <li>the function <span class="math inline">\(\vec{F}\)</span></li>
 <li>we still need to decide when we need to stop!</li>
 </ul>
-<div id="rem-iteration-notation" class="proof remark">
-<p><span class="proof-title"><em>Remark 1</em>. </span>We use a value in brackets in the superscript to denote the iteration number to avoid confusion between the iteration number and the component of the vector: <span class="math display">\[
-\vec{x}^{(k)} = (\vec{x}^{(k)}_1, \vec{x}^{(k)}_2, \ldots, \vec{x}^{(k)}_n).
-\]</span></p>
-</div>
 </section>
 <section id="some-terrible-examples" class="slide level3">
 <h3>Some terrible examples</h3>
@@ -304,10 +339,9 @@ eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiaW5jbHVkZSI6ZmFs
 <p>Each iteration is very expensive to compute – you have to invert <span class="math inline">\(A\)</span>! – but it converges in just one step since</p>
 <p><span class="math display">\[
 \begin{aligned}
-A \vec{x}^{(k+1)} &amp; = A \vec{x}^{(k)} + A A^{-1} (\vec{b} - A \vec{x}^{(k)})
+A \vec{x}^{(1)} &amp; = A \vec{x}^{(0)} + A A^{-1} (\vec{b} - A \vec{x}^{(0)})
 \\
-&amp; = A \vec{x}^{(k)} + \vec{b} - A \vec{x}^{(k)} \\
-&amp; = \vec{b}.
+&amp; = A \vec{x}^{(0)} + \vec{b} - A \vec{x}^{(0)} \vec{b}.
 \end{aligned}
 \]</span></p></li>
 </ol>
@@ -322,16 +356,43 @@ A \vec{x}^{(k+1)} &amp; = A \vec{x}^{(k)} + A A^{-1} (\vec{b} - A \vec{x}^{(k)})
 <p>for some matrix <span class="math inline">\(P\)</span> such that</p>
 <ul>
 <li><span class="math inline">\(P\)</span> is easy to compute, or the matrix-vector product <span class="math inline">\(\vec{r} \mapsto P
-\vec{r}\)</span> is easy to compute (we call <span class="math inline">\(\vec{b} - A \vec{x}^{(k)} = \vec{r}\)</span> the <strong>residual</strong>.),</li>
+\vec{r}\)</span> is easy to compute (we call <span class="math inline">\(\vec{b} - A \vec{x}^{(k)} = \vec{r}\)</span> the <strong>residual</strong>),</li>
 <li><span class="math inline">\(P\)</span> approximates <span class="math inline">\(A^{-1}\)</span> well enough that the algorithm converges in few iterations.</li>
 </ul>
-<div style="font-size:75%">
+<aside class="notes">
 <p>Note that the above bad examples could be written in the form of <span class="math inline">\(\eqref{eq:general-iteration}\)</span> with <span class="math inline">\(P = O\)</span> (the zero matrix) or <span class="math inline">\(P = A^{-1}\)</span>.</p>
-</div>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-
 <section id="jacobi-iteration" class="title-slide slide level2 center" data-background-color="#782E57">
 <h2>Jacobi iteration</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Module learning objective</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Derive and apply <strong>Jacobi</strong> and Gauss-Seidel iterative methods from a matrix splitting of a linear system.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level3">
+
 <p>One straightforward choice for <span class="math inline">\(P\)</span> in <span class="math inline">\(\eqref{eq:general-iteration}\)</span> is given by the Jacobi method where we take <span class="math inline">\(P = D^{-1}\)</span> where <span class="math inline">\(D\)</span> is the diagonal of <span class="math inline">\(A\)</span>: <span class="math display">\[
 D_{ii} = A_{ii} \quad \text{and} \quad D_{ij} = 0 \text{ for } i \neq j.
 \]</span></p>
@@ -339,7 +400,10 @@ D_{ii} = A_{ii} \quad \text{and} \quad D_{ij} = 0 \text{ for } i \neq j.
 <p><span class="math display">\[
 \vec{x}^{(k+1)} = \vec{x}^{(k)} + D^{-1}(\vec{b} - A \vec{x}^{(k)})
 \]</span></p>
-</section>
+
+<aside><div>
+<p><span class="math inline">\(\vec{F}(\vec{x}^{(k)}) = \vec{x}^{(k)} + P (\vec{b} - A \vec{x}^{(k)})\)</span> (1). <span class="math inline">\(P \approx A^{-1}\)</span>, <span class="math inline">\(\vec{r} \mapsto P\vec{r}\)</span> cheap.</p>
+</div></aside></section>
 <section id="jacobi-iteration-1" class="slide level3">
 <h3>Jacobi iteration</h3>
 <p><span class="math inline">\(D\)</span> is a <em>diagonal matrix</em>, so <span class="math inline">\(D^{-1}\)</span> is trivial to form (as long as the diagonal entries are all non-zero): <span class="math display">\[
@@ -416,6 +480,23 @@ x_1 \\ x_2
 3.5 \\ 0.5
 \end{pmatrix}
 \]</span></p>
+</section>
+<section id="example-1" class="slide level3 smaller write">
+<h3>Example</h3>
+<p><span class="math display">\[
+\begin{pmatrix}
+2 &amp; 1 \\ -1 &amp; 4
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\ x_2
+\end{pmatrix}
+=
+\begin{pmatrix}
+3.5 \\ 0.5
+\end{pmatrix},
+\qquad
+\vec{x}^{(0)} = \begin{pmatrix} 1 \\ 1 \end{pmatrix}.
+\]</span></p>
 <aside class="notes">
 <p>Starting from <span class="math inline">\(\vec{x}^{(0)} = (1, 1)^T\)</span>, the first iteration is <span class="math display">\[
 \begin{aligned}
@@ -463,8 +544,9 @@ A_{ij} &amp;\quad \text{if } i &gt; j \\
 \end{cases}
 \]</span></p>
 </section>
-<section id="rewriting-jacobi-iteration-ii" class="slide level3">
+<section id="rewriting-jacobi-iteration-ii" class="slide level3 write">
 <h3>Rewriting Jacobi iteration ii</h3>
+<aside class="notes">
 <p>Then we can calculate that: <span class="math display">\[
 \begin{aligned}
 \vec{x}^{(k+1)} &amp; = \vec{x}^{(k)} + D^{-1}(\vec{b} - A \vec{x}^{(k)}) \\
@@ -475,7 +557,6 @@ A_{ij} &amp;\quad \text{if } i &gt; j \\
 &amp; = D^{-1}(\vec{b} - (L + U) \vec{x}^{(k)}).
 \end{aligned}
 \]</span></p>
-<aside class="notes">
 <p>In this formulation, we do not explicitly form the residual as part of the computations. In practical situations, this may be a simpler formulation we can use if we have knowledge of the coefficients of <span class="math inline">\(A\)</span>, rather than just the matrix-vector product.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -492,6 +573,24 @@ A_{ij} &amp;\quad \text{if } i &gt; j \\
 
 <section id="gauss-seidel-iteration" class="title-slide slide level2 center" data-background-color="#782E57">
 <h2>Gauss-Seidel iteration</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Module learning objective</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Derive and apply Jacobi and <strong>Gauss-Seidel</strong> iterative methods from a matrix splitting of a linear system.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level3">
+
 <p>As an alternative to Jacobi iteration, the iteration might use <span class="math inline">\(x_i^{(k+1)}\)</span> as soon as it is calculated (rather than using the previous iteration):</p>
 </section>
 <section id="update-formula-gauss-seidel" class="slide level3">
@@ -518,12 +617,14 @@ b_n - \sum_{j=1}^{n-1} A_{nj} x_j^{(k+1)} - A_{nn} x_n^{(k)}
 </section>
 <section id="matrix-formulation" class="slide level3">
 <h3>Matrix formulation</h3>
-<p>Consider the system <span class="math inline">\(A \vec{x}= b\)</span> with the matrix <span class="math inline">\(A\)</span> split as <span class="math inline">\(A = L + D + U\)</span>, where <span class="math inline">\(D\)</span> is the diagonal of <span class="math inline">\(A\)</span>, <span class="math inline">\(L\)</span> contains the elements below the diagonal, and <span class="math inline">\(U\)</span> contains the elements above the diagonal. The componentwise iteration above can be written in matrix form as <span class="math display">\[
+<p>Consider the system <span class="math inline">\(A \vec{x}= b\)</span> with the matrix <span class="math inline">\(A\)</span> split as <span class="math inline">\(A = L + D + U\)</span>, where <span class="math inline">\(D\)</span> is the diagonal of <span class="math inline">\(A\)</span>, <span class="math inline">\(L\)</span> contains the elements below the diagonal, and <span class="math inline">\(U\)</span> contains the elements above the diagonal. Gauss-Seidel iteration is: <span class="math display">\[
 \vec{x}^{(k+1)} = \vec{x}^{(k)} + (D + L)^{-1} (\vec{b} - A \vec{x}^{(k)}).
-\]</span> That is, we use <span class="math inline">\(P = (D+L)^{-1}\)</span> in <span class="math inline">\(\eqref{eq:general-iteration}\)</span>.</p>
-<p>In general, we do not form the inverse of <span class="math inline">\(D + L\)</span> explicitly here since it is more complicated to do so than simply computing the inverse of <span class="math inline">\(D\)</span>.</p>
-</section>
-<section id="example-1" class="slide level3">
+\]</span></p>
+
+<aside><div>
+<p><span class="math inline">\(\vec{F}(\vec{x}^{(k)}) = \vec{x}^{(k)} + P (\vec{b} - A \vec{x}^{(k)})\)</span> (1). <span class="math inline">\(P \approx A^{-1}\)</span>, <span class="math inline">\(\vec{r} \mapsto P\vec{r}\)</span> cheap.</p>
+</div></aside></section>
+<section id="example-2" class="slide level3">
 <h3>Example</h3>
 <p>Take two iterations of Gauss-Seidel iteration to approximate the solution of the following system using the initial guess <span class="math inline">\(\vec{x}^{(0)} = (1, 1)^T\)</span>:</p>
 <p><span class="math display">\[
@@ -537,6 +638,22 @@ x_1 \\ x_2
 \begin{pmatrix}
 3.5 \\ 0.5
 \end{pmatrix}
+\]</span></p>
+</section>
+<section id="example-3" class="slide level3 smaller write">
+<h3>Example</h3>
+<p><span class="math display">\[
+\begin{pmatrix}
+2 &amp; 1 \\ -1 &amp; 4
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\ x_2
+\end{pmatrix}
+=
+\begin{pmatrix}
+3.5 \\ 0.5
+\end{pmatrix},
+\vec{x}^{(0)} = \begin{pmatrix} 1 \\ 1 \end{pmatrix}.
 \]</span></p>
 <aside class="notes">
 <p>Starting from <span class="math inline">\(\vec{x}^{(0)} = (1, 1)^T\)</span> we have</p>
@@ -609,14 +726,32 @@ x_1 \\ x_2 \\ x_3
 </ul>
 </section>
 
-<section id="python-version-of-jacobi-iteration" class="title-slide slide level2 center" data-background-color="#782E57">
-<h2>Python version of Jacobi iteration</h2>
+<section id="python-versions" class="title-slide slide level2 center" data-background-color="#782E57">
+<h2>Python versions</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Module learning objective</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Implement iterative solvers for dense and sparse matrices and estimate their computational complexity</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="jacobi-iteration-2" class="slide level3">
+<h3>Jacobi iteration</h3>
 <div>
 <div id="pyodide-2" class="exercise-cell">
 
 </div>
 <script type="pyodide-2-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIGphY29iaV9pdGVyYXRpb24oQSwgYiwgeDAsIG1heF9pdGVyLCB2ZXJib3NlPUZhbHNlKTpcbiAgICBcIlwiXCJcbiAgICBTb2x2ZSBhIGxpbmVhciBzeXN0ZW0gQXggPSBiIHVzaW5nIHRoZSBKYWNvYmkgaXRlcmF0aXZlIG1ldGhvZC5cbiAgICBcIlwiXCJcbiAgICBuID0gc3lzdGVtX3NpemUoQSwgYilcbiAgICAuLi4ifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIGphY29iaV9pdGVyYXRpb24oQSwgYiwgeDAsIG1heF9pdGVyLCB2ZXJib3NlPUZhbHNlKTpcbiAgICBcIlwiXCJcbiAgICBTb2x2ZSBhIGxpbmVhciBzeXN0ZW0gQXggPSBiIHVzaW5nIHRoZSBKYWNvYmlcbiAgICBpdGVyYXRpdmUgbWV0aG9kLlxuICAgIFwiXCJcIlxuICAgIG4gPSBzeXN0ZW1fc2l6ZShBLCBiKVxuICAgIC4uLlxuIn0=
 </script>
 </div>
 <aside class="notes">
@@ -633,15 +768,14 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIGphY29iaV9pdGVyYXRp
           display:block!important;
       }</style></aside>
 </section>
-
-<section id="python-version-of-gauss-seidel-iteration" class="title-slide slide level2 center" data-background-color="#782E57">
-<h2>Python version of Gauss-Seidel iteration</h2>
+<section id="gauss-seidel-iteration-1" class="slide level3">
+<h3>Gauss-Seidel iteration</h3>
 <div>
 <div id="pyodide-3" class="exercise-cell">
 
 </div>
 <script type="pyodide-3-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIGdhdXNzX3NlaWRlbF9pdGVyYXRpb24oQSwgYiwgeDAsIG1heF9pdGVyLCB2ZXJib3NlPUZhbHNlKTpcbiAgICBcIlwiXCJcbiAgICBTb2x2ZSBhIGxpbmVhciBzeXN0ZW0gQXggPSBiIHVzaW5nIHRoZSBHYXVzcy1TZWlkZWwgaXRlcmF0aXZlIG1ldGhvZC5cbiAgICBcIlwiXCJcbiAgICBuID0gc3lzdGVtX3NpemUoQSwgYilcbiAgICAuLi4ifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIGdhdXNzX3NlaWRlbF9pdGVyYXRpb24oXG4gICAgQSwgYiwgeDAsIG1heF9pdGVyLCB2ZXJib3NlPUZhbHNlXG4pOlxuICAgIFwiXCJcIlxuICAgIFNvbHZlIGEgbGluZWFyIHN5c3RlbSBBeCA9IGIgdXNpbmcgdGhlXG4gICAgR2F1c3MtU2VpZGVsIGl0ZXJhdGl2ZSBtZXRob2QuXG4gICAgXCJcIlwiXG4gICAgbiA9IHN5c3RlbV9zaXplKEEsIGIpXG4gICAgLi4uXG4ifQ==
 </script>
 </div>
 <aside class="notes">
@@ -669,10 +803,9 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiQSA9IG5wLmFycmF5KFtbMi4w
 </script>
 </div>
 </section>
-
-<section id="sparse-matrices" class="title-slide slide level2 center" data-background-color="#782E57">
-<h2>Sparse matrices</h2>
-<p><strong>Sparse matrices</strong> are prevalent in any application which relies on some form of <em>graph</em> structure (see both the <a href="https://comp2870-2526.github.io/linear-algebra-notes/#exm-temperature">temperature</a> and <a href="https://comp2870-2526.github.io/linear-algebra-notes/#exm-traffic">traffic network</a> examples).</p>
+<section id="sparse-matrices" class="slide level3">
+<h3>Sparse matrices</h3>
+<p><strong>Sparse matrices</strong> are prevalent in any application which relies on some form of <em>graph</em> structure (see both the <a href="https://comp2870-2627.github.io/linear-algebra-notes/#exm-temperature">temperature</a> and <a href="https://comp2870-2627.github.io/linear-algebra-notes/#exm-traffic">traffic network</a> examples).</p>
 <ul>
 <li><p>The <span class="math inline">\(a_{ij}\)</span> typically represents some form of “communication” between vertices <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> of the graph, so the element is only nonzero if the vertices are connected.</p></li>
 <li><p>There is no generic pattern for these entries, though there is usually one that is specific to the problem solved.</p></li>
@@ -691,14 +824,14 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiQSA9IG5wLmFycmF5KFtbMi4w
 </ul>
 </section>
 <section id="sparse-matrices-2" class="slide level3">
-<h3>Sparse Matrices</h3>
+<h3>Sparse matrices</h3>
 <p>There are two main ways in which sparse matrices can be exploited in order to obtain benefits within iterative methods.</p>
 <ul>
 <li><p>The storage can be reduced from <span class="math inline">\(O(n^2)\)</span>.</p></li>
 <li><p>The cost per iteration can be reduced from <span class="math inline">\(O(n^2)\)</span>.</p></li>
 </ul>
 </section>
-<section id="storing-a-spare-matrix" class="slide level3">
+<section id="storing-a-spare-matrix" class="slide level3 smaller">
 <h3>Storing a spare matrix</h3>
 <p>The simplest way in which a sparse matrix is stored is using three arrays:</p>
 <ul>
@@ -706,7 +839,9 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiQSA9IG5wLmFycmF5KFtbMi4w
 <li>an array of integers (<code>I_row</code> say) that stores the row number of the corresponding entry in the real array;</li>
 <li>an array of integers (<code>I_col</code> say) that stores the column numbers of the corresponding entry in the real array.</li>
 </ul>
+<div class="fragment">
 <p>This requires just <span class="math inline">\(3 \alpha n\)</span> units of storage - i.e.&nbsp;<span class="math inline">\(O(n)\)</span>. This is called the COO (coordinate) format.</p>
+</div>
 </section>
 <section id="working-with-a-sparse-matrix" class="slide level3">
 <h3>Working with a sparse matrix</h3>
@@ -735,7 +870,7 @@ eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiaW5jbHVkZSI6ZmFs
 
 </div>
 <script type="pyodide-6-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIGphY29iaV9pdGVyYXRpb25fc3BhcnNlKFxuICAgIEFfcmVhbCwgSV9yb3csIElfY29sLCBiLCB4MCwgbWF4X2l0ZXIsIHZlcmJvc2U9RmFsc2Vcbik6XG4gICAgXCJcIlwiXG4gICAgU29sdmUgYSBzcGFyc2UgbGluZWFyIHN5c3RlbSBBeCA9IGIgdXNpbmcgdGhlIEphY29iaSBpdGVyYXRpdmUgbWV0aG9kLlxuICAgIFwiXCJcIlxuICAgIG4sIG5vbnplcm8gPSBzeXN0ZW1fc2l6ZV9zcGFyc2UoQV9yZWFsLCBJX3JvdywgSV9jb2wsIGIpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIGphY29iaV9pdGVyYXRpb25fc3BhcnNlKFxuICAgIEFfcmVhbCwgSV9yb3csIElfY29sLCBiLCB4MCwgbWF4X2l0ZXIsIHZlcmJvc2U9RmFsc2Vcbik6XG4gICAgXCJcIlwiXG4gICAgU29sdmUgYSBzcGFyc2UgbGluZWFyIHN5c3RlbSBBeCA9IGIgdXNpbmcgdGhlXG4gICAgSmFjb2JpIGl0ZXJhdGl2ZSBtZXRob2QuXG4gICAgXCJcIlwiXG4gICAgbiwgbm9uemVybyA9IHN5c3RlbV9zaXplX3NwYXJzZShcbiAgICAgICAgQV9yZWFsLCBJX3JvdywgSV9jb2wsIGJcbiAgICApXG4ifQ==
 </script>
 </div>
 <div>
@@ -743,7 +878,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIGphY29iaV9pdGVyYXRp
 
 </div>
 <script type="pyodide-7-contents">
-eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiaW5jbHVkZSI6ZmFsc2UsIm91dHB1dCI6ZmFsc2V9LCJjb2RlIjoiXG5kZWYgZ2F1c3Nfc2VpZGVsX2l0ZXJhdGlvbl9zcGFyc2UoXG4gICBBX3JlYWwsIElfcm93LCBJX2NvbCwgYiwgeDAsIG1heF9pdGVyLCB2ZXJib3NlPUZhbHNlXG4pOlxuICAgXCJcIlwiXG4gICBTb2x2ZSBhIHNwYXJzZSBsaW5lYXIgc3lzdGVtIEF4ID0gYiB1c2luZyB0aGUgR2F1c3MtU2VpZGVsIGl0ZXJhdGl2ZSBtZXRob2QuXG5cbiAgIFRoZSBzeXN0ZW0gaXMgcmVwcmVzZW50ZWQgaW4gKipzcGFyc2UgQ09PIChjb29yZGluYXRlKSBmb3JtYXQqKiB3aXRoOlxuICAgLSBgQV9yZWFsYDogbm9uLXplcm8gdmFsdWVzXG4gICAtIGBJX3Jvd2A6IHJvdyBpbmRpY2VzIG9mIG5vbi16ZXJvIGVudHJpZXNcbiAgIC0gYElfY29sYDogY29sdW1uIGluZGljZXMgb2Ygbm9uLXplcm8gZW50cmllc1xuXG4gICBUaGUgR2F1c3MtU2VpZGVsIG1ldGhvZCB1cGRhdGVzIHRoZSBzb2x1dGlvbiBzZXF1ZW50aWFsbHkgdXNpbmcgdGhlIG1vc3RcbiAgIHJlY2VudGx5IGNvbXB1dGVkIHZhbHVlczpcblxuICAgLi4gbWF0aDo6XG4gICAgICAgeF9pXnsoaysxKX0gPSB4X2leeyhrKX0gKyBcXFxcZnJhY3sxfXtBX3tpaX19IFxcXFxsZWZ0KCBiX2kgLVxuICAgICAgIFxcXFxzdW1fe2o9MH1ee2ktMX0gQV97aWp9IHhfal57KGsrMSl9IC1cbiAgICAgICBcXFxcc3VtX3tqPWl9XntuLTF9IEFfe2lqfSB4X2peeyhrKX0gXFxcXHJpZ2h0KVxuXG4gICBQYXJhbWV0ZXJzXG4gICAtLS0tLS0tLS0tXG4gICBBX3JlYWwgOiBhcnJheS1saWtlXG4gICAgICAgQXJyYXkgb2Ygbm9uLXplcm8gZW50cmllcyBvZiB0aGUgc3BhcnNlIG1hdHJpeCBBLlxuICAgSV9yb3cgOiBhcnJheS1saWtlXG4gICAgICAgUm93IGluZGljZXMgY29ycmVzcG9uZGluZyB0byBlYWNoIGVudHJ5IGluIGBBX3JlYWxgLlxuICAgSV9jb2wgOiBhcnJheS1saWtlXG4gICAgICAgQ29sdW1uIGluZGljZXMgY29ycmVzcG9uZGluZyB0byBlYWNoIGVudHJ5IGluIGBBX3JlYWxgLlxuICAgYiA6IGFycmF5LWxpa2VcbiAgICAgICBSaWdodC1oYW5kIHNpZGUgdmVjdG9yIG9mIGxlbmd0aCBgbmAuXG4gICB4MCA6IG51bXB5Lm5kYXJyYXlcbiAgICAgICBJbml0aWFsIGd1ZXNzIGZvciB0aGUgc29sdXRpb24gdmVjdG9yLCBzYW1lIGxlbmd0aCBhcyBgYmAuXG4gICBtYXhfaXRlciA6IGludFxuICAgICAgIE1heGltdW0gbnVtYmVyIG9mIGl0ZXJhdGlvbnMgdG8gcGVyZm9ybS5cbiAgIHZlcmJvc2UgOiBib29sLCBvcHRpb25hbFxuICAgICAgIElmIGBgVHJ1ZWBgLCBwcmludHMgdGhlIHNvbHV0aW9uIHZlY3RvciBhZnRlciBlYWNoIGl0ZXJhdGlvbi4gRGVmYXVsdCBpc1xuICAgICAgIGBgRmFsc2VgYC5cblxuICAgUmV0dXJuc1xuICAgLS0tLS0tLVxuICAgeCA6IG51bXB5Lm5kYXJyYXlcbiAgICAgICBBcHByb3hpbWF0ZWQgc29sdXRpb24gdmVjdG9yIGFmdGVyIGBtYXhfaXRlcmAgaXRlcmF0aW9ucy5cbiAgIFwiXCJcIlxuICAgbiwgbm9uemVybyA9IHN5c3RlbV9zaXplX3NwYXJzZShBX3JlYWwsIElfcm93LCBJX2NvbCwgYilcblxuICAgeCA9IHgwLmNvcHkoKVxuICAgeG5ldyA9IG5wLmVtcHR5X2xpa2UoeClcblxuICAgaWYgdmVyYm9zZTpcbiAgICAgICBwcmludChcInN0YXJ0aW5nIHZhbHVlOiBcIiwgZW5kPVwiXCIpXG4gICAgICAgcHJpbnRfYXJyYXkoeC5ULCBcInguVFwiKVxuXG4gICBmb3IgaXRlciBpbiByYW5nZShtYXhfaXRlcik6XG4gICAgICAgIyBwcmVjb21wdXRlIEF4IHVzaW5nIHhuZXcgaWYgaSA8IGpcbiAgICAgICBBeCA9IG5wLnplcm9zX2xpa2UoeClcbiAgICAgICBmb3IgayBpbiByYW5nZShub256ZXJvKTpcbiAgICAgICAgICAgaWYgSV9yb3dba10gPCBJX2NvbFtrXTpcbiAgICAgICAgICAgICAgIEF4W0lfcm93W2tdXSA9IEF4W0lfcm93W2tdXSArIEFfcmVhbFtrXSAqIHhuZXdbSV9jb2xba11dXG4gICAgICAgICAgIGVsc2U6XG4gICAgICAgICAgICAgICBBeFtJX3Jvd1trXV0gPSBBeFtJX3Jvd1trXV0gKyBBX3JlYWxba10gKiB4W0lfY29sW2tdXVxuXG4gICAgICAgZm9yIGkgaW4gcmFuZ2Uobik6XG4gICAgICAgICAgIHhuZXdbaV0gPSB4W2ldICsgMS4wIC8gKEFbaSwgaV0pICogKGJbaV0gLSBBeFtpXSlcbiAgICAgICB4ID0geG5ldy5jb3B5KClcblxuICAgICAgIGlmIHZlcmJvc2U6XG4gICAgICAgICAgIHByaW50KGZcImFmdGVyIHtpdGVyPX06IFwiLCBlbmQ9XCJcIilcbiAgICAgICAgICAgcHJpbnRfYXJyYXkoeC5ULCBcInguVFwiKVxuXG4gICByZXR1cm4geFxuIn0=
+eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiaW5jbHVkZSI6ZmFsc2UsIm91dHB1dCI6ZmFsc2V9LCJjb2RlIjoiXG5cbmRlZiBnYXVzc19zZWlkZWxfaXRlcmF0aW9uX3NwYXJzZShcbiAgIEFfcmVhbCwgSV9yb3csIElfY29sLCBiLCB4MCwgbWF4X2l0ZXIsIHZlcmJvc2U9RmFsc2Vcbik6XG4gICBcIlwiXCJcbiAgIFNvbHZlIGEgc3BhcnNlIGxpbmVhciBzeXN0ZW0gQXggPSBiIHVzaW5nIHRoZSBHYXVzcy1TZWlkZWwgaXRlcmF0aXZlIG1ldGhvZC5cblxuICAgVGhlIHN5c3RlbSBpcyByZXByZXNlbnRlZCBpbiAqKnNwYXJzZSBDT08gKGNvb3JkaW5hdGUpIGZvcm1hdCoqIHdpdGg6XG4gICAtIGBBX3JlYWxgOiBub24temVybyB2YWx1ZXNcbiAgIC0gYElfcm93YDogcm93IGluZGljZXMgb2Ygbm9uLXplcm8gZW50cmllc1xuICAgLSBgSV9jb2xgOiBjb2x1bW4gaW5kaWNlcyBvZiBub24temVybyBlbnRyaWVzXG5cbiAgIFRoZSBHYXVzcy1TZWlkZWwgbWV0aG9kIHVwZGF0ZXMgdGhlIHNvbHV0aW9uIHNlcXVlbnRpYWxseSB1c2luZyB0aGUgbW9zdFxuICAgcmVjZW50bHkgY29tcHV0ZWQgdmFsdWVzOlxuXG4gICAuLiBtYXRoOjpcbiAgICAgICB4X2leeyhrKzEpfSA9IHhfaV57KGspfSArIFxcXFxmcmFjezF9e0Ffe2lpfX0gXFxcXGxlZnQoIGJfaSAtXG4gICAgICAgXFxcXHN1bV97aj0wfV57aS0xfSBBX3tpan0geF9qXnsoaysxKX0gLVxuICAgICAgIFxcXFxzdW1fe2o9aX1ee24tMX0gQV97aWp9IHhfal57KGspfSBcXFxccmlnaHQpXG5cbiAgIFBhcmFtZXRlcnNcbiAgIC0tLS0tLS0tLS1cbiAgIEFfcmVhbCA6IGFycmF5LWxpa2VcbiAgICAgICBBcnJheSBvZiBub24temVybyBlbnRyaWVzIG9mIHRoZSBzcGFyc2UgbWF0cml4IEEuXG4gICBJX3JvdyA6IGFycmF5LWxpa2VcbiAgICAgICBSb3cgaW5kaWNlcyBjb3JyZXNwb25kaW5nIHRvIGVhY2ggZW50cnkgaW4gYEFfcmVhbGAuXG4gICBJX2NvbCA6IGFycmF5LWxpa2VcbiAgICAgICBDb2x1bW4gaW5kaWNlcyBjb3JyZXNwb25kaW5nIHRvIGVhY2ggZW50cnkgaW4gYEFfcmVhbGAuXG4gICBiIDogYXJyYXktbGlrZVxuICAgICAgIFJpZ2h0LWhhbmQgc2lkZSB2ZWN0b3Igb2YgbGVuZ3RoIGBuYC5cbiAgIHgwIDogbnVtcHkubmRhcnJheVxuICAgICAgIEluaXRpYWwgZ3Vlc3MgZm9yIHRoZSBzb2x1dGlvbiB2ZWN0b3IsIHNhbWUgbGVuZ3RoIGFzIGBiYC5cbiAgIG1heF9pdGVyIDogaW50XG4gICAgICAgTWF4aW11bSBudW1iZXIgb2YgaXRlcmF0aW9ucyB0byBwZXJmb3JtLlxuICAgdmVyYm9zZSA6IGJvb2wsIG9wdGlvbmFsXG4gICAgICAgSWYgYGBUcnVlYGAsIHByaW50cyB0aGUgc29sdXRpb24gdmVjdG9yIGFmdGVyIGVhY2ggaXRlcmF0aW9uLiBEZWZhdWx0IGlzXG4gICAgICAgYGBGYWxzZWBgLlxuXG4gICBSZXR1cm5zXG4gICAtLS0tLS0tXG4gICB4IDogbnVtcHkubmRhcnJheVxuICAgICAgIEFwcHJveGltYXRlZCBzb2x1dGlvbiB2ZWN0b3IgYWZ0ZXIgYG1heF9pdGVyYCBpdGVyYXRpb25zLlxuICAgXCJcIlwiXG4gICBuLCBub256ZXJvID0gc3lzdGVtX3NpemVfc3BhcnNlKFxuICAgICAgIEFfcmVhbCwgSV9yb3csIElfY29sLCBiXG4gICApXG5cbiAgIHggPSB4MC5jb3B5KClcbiAgIHhuZXcgPSBucC5lbXB0eV9saWtlKHgpXG5cbiAgIGlmIHZlcmJvc2U6XG4gICAgICAgcHJpbnQoXCJzdGFydGluZyB2YWx1ZTogXCIsIGVuZD1cIlwiKVxuICAgICAgIHByaW50X2FycmF5KHguVCwgXCJ4LlRcIilcblxuICAgZm9yIGl0ZXIgaW4gcmFuZ2UobWF4X2l0ZXIpOlxuICAgICAgICMgcHJlY29tcHV0ZSBBeCB1c2luZyB4bmV3IGlmIGkgPCBqXG4gICAgICAgQXggPSBucC56ZXJvc19saWtlKHgpXG4gICAgICAgZm9yIGsgaW4gcmFuZ2Uobm9uemVybyk6XG4gICAgICAgICAgIGlmIElfcm93W2tdIDwgSV9jb2xba106XG4gICAgICAgICAgICAgICBBeFtJX3Jvd1trXV0gPSAoXG4gICAgICAgICAgICAgICAgICAgQXhbSV9yb3dba11dXG4gICAgICAgICAgICAgICAgICAgKyBBX3JlYWxba10gKiB4bmV3W0lfY29sW2tdXVxuICAgICAgICAgICAgICAgKVxuICAgICAgICAgICBlbHNlOlxuICAgICAgICAgICAgICAgQXhbSV9yb3dba11dID0gKFxuICAgICAgICAgICAgICAgICAgIEF4W0lfcm93W2tdXVxuICAgICAgICAgICAgICAgICAgICsgQV9yZWFsW2tdICogeFtJX2NvbFtrXV1cbiAgICAgICAgICAgICAgIClcblxuICAgICAgIGZvciBpIGluIHJhbmdlKG4pOlxuICAgICAgICAgICB4bmV3W2ldID0geFtpXSArIDEuMCAvIChBW2ksIGldKSAqIChcbiAgICAgICAgICAgICAgIGJbaV0gLSBBeFtpXVxuICAgICAgICAgICApXG4gICAgICAgeCA9IHhuZXcuY29weSgpXG5cbiAgICAgICBpZiB2ZXJib3NlOlxuICAgICAgICAgICBwcmludChmXCJhZnRlciB7aXRlcj19OiBcIiwgZW5kPVwiXCIpXG4gICAgICAgICAgIHByaW50X2FycmF5KHguVCwgXCJ4LlRcIilcblxuICAgcmV0dXJuIHhcbiJ9
 </script>
 </div>
 </section>
@@ -755,7 +890,7 @@ eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiaW5jbHVkZSI6ZmFs
 
 </div>
 <script type="pyodide-8-contents">
-eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiaW5jbHVkZSI6ZmFsc2UsIm91dHB1dCI6ZmFsc2V9LCJjb2RlIjoiXG5cbmRlZiByYW5kb21fc3BhcnNlX3N5c3RlbShuLCBub256ZXJvKTpcbiAgICBhc3NlcnQgbm9uemVybyA+IG5cbiAgICBhc3NlcnQgbm9uemVybyA8IG4qKjJcblxuICAgIEFfcmVhbCA9IFtdXG4gICAgSV9yb3cgPSBbXVxuICAgIElfY29sID0gW11cblxuICAgICMgZmlsbCBkaWFnb25hbCBmaXJzdFxuICAgIGZvciBpIGluIHJhbmdlKG4pOlxuICAgICAgICB2YWx1ZSA9IG5wLnJhbmRvbS5yYW5kaW50KGxvdz0xLjAsIGhpZ2g9MTAuMCkgLyAyXG4gICAgICAgIEFfcmVhbC5hcHBlbmQodmFsdWUpXG4gICAgICAgIElfcm93LmFwcGVuZChpKVxuICAgICAgICBJX2NvbC5hcHBlbmQoaSlcblxuICAgICMgZmlsbCBvZmYgZGlhZ29uYWxcbiAgICBmdXJ0aGVyX25ueiA9IChub256ZXJvIC0gbikgLy8gMlxuICAgIGZvciBfIGluIHJhbmdlKGZ1cnRoZXJfbm56KTpcbiAgICAgICAgdmFsdWUgPSBucC5yYW5kb20ucmFuZGludChsb3c9LTEwLCBoaWdoPTEwKSAvIDJcbiAgICAgICAgd2hpbGUgVHJ1ZTpcbiAgICAgICAgICAgIHJvdyA9IG5wLnJhbmRvbS5yYW5kaW50KG4pXG4gICAgICAgICAgICBjb2wgPSBucC5yYW5kb20ucmFuZGludChuKVxuICAgICAgICAgICAgaWYgcm93ICE9IGNvbDpcbiAgICAgICAgICAgICAgICBicmVha1xuXG4gICAgICAgIEFfcmVhbC5hcHBlbmQodmFsdWUpXG4gICAgICAgIElfcm93LmFwcGVuZChyb3cpXG4gICAgICAgIElfY29sLmFwcGVuZChjb2wpXG5cbiAgICAjIHNxdWFyZSBhbmQgZXh0cmFjdCBhcnJheXNcbiAgICBBID0gc3Auc3BhcnNlLmNvb19hcnJheSgoQV9yZWFsLCAoSV9yb3csIElfY29sKSkpXG4gICAgQSA9IChBLlQgQCBBKS50b2NvbygpXG4gICAgQV9yZWFsID0gQS5kYXRhXG4gICAgSV9yb3cgPSBBLmNvb3Jkc1swXVxuICAgIElfY29sID0gQS5jb29yZHNbMV1cbiAgICBub256ZXJvID0gbGVuKEEuZGF0YSlcblxuICAgICMgY29uc3RydWN0aW9uIHJocyB0byBtYXRjaCBzb2x1dGlvbiBvZiBhbGwgb25lc1xuICAgIHggPSBucC5vbmVzKChuLCAxKSlcbiAgICBiID0gbnAuemVyb3NfbGlrZSh4KVxuICAgIGZvciBrIGluIHJhbmdlKG5vbnplcm8pOlxuICAgICAgICBiW0lfcm93W2tdXSA9IGJbSV9yb3dba11dICsgQV9yZWFsW2tdICogeFtJX2NvbFtrXV1cblxuICAgIHJldHVybiBBX3JlYWwsIElfcm93LCBJX2NvbCwgYlxuXG5cbmRlZiB0b19kZW5zZShBX3JlYWwsIElfcm93LCBJX2NvbCk6XG4gICAgQSA9IHNwLnNwYXJzZS5jb29fYXJyYXkoKEFfcmVhbCwgKElfcm93LCBJX2NvbCkpKVxuICAgIHJldHVybiBBLnRvZGVuc2UoKVxuIn0=
+eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiaW5jbHVkZSI6ZmFsc2UsIm91dHB1dCI6ZmFsc2V9LCJjb2RlIjoiXG5cbmRlZiByYW5kb21fc3BhcnNlX3N5c3RlbShuLCBub256ZXJvKTpcbiAgICBhc3NlcnQgbm9uemVybyA+IG5cbiAgICBhc3NlcnQgbm9uemVybyA8IG4qKjJcblxuICAgIEFfcmVhbCA9IFtdXG4gICAgSV9yb3cgPSBbXVxuICAgIElfY29sID0gW11cblxuICAgICMgZmlsbCBkaWFnb25hbCBmaXJzdFxuICAgIGZvciBpIGluIHJhbmdlKG4pOlxuICAgICAgICB2YWx1ZSA9IChcbiAgICAgICAgICAgIG5wLnJhbmRvbS5yYW5kaW50KGxvdz0xLjAsIGhpZ2g9MTAuMCkgLyAyXG4gICAgICAgIClcbiAgICAgICAgQV9yZWFsLmFwcGVuZCh2YWx1ZSlcbiAgICAgICAgSV9yb3cuYXBwZW5kKGkpXG4gICAgICAgIElfY29sLmFwcGVuZChpKVxuXG4gICAgIyBmaWxsIG9mZiBkaWFnb25hbFxuICAgIGZ1cnRoZXJfbm56ID0gKG5vbnplcm8gLSBuKSAvLyAyXG4gICAgZm9yIF8gaW4gcmFuZ2UoZnVydGhlcl9ubnopOlxuICAgICAgICB2YWx1ZSA9IG5wLnJhbmRvbS5yYW5kaW50KGxvdz0tMTAsIGhpZ2g9MTApIC8gMlxuICAgICAgICB3aGlsZSBUcnVlOlxuICAgICAgICAgICAgcm93ID0gbnAucmFuZG9tLnJhbmRpbnQobilcbiAgICAgICAgICAgIGNvbCA9IG5wLnJhbmRvbS5yYW5kaW50KG4pXG4gICAgICAgICAgICBpZiByb3cgIT0gY29sOlxuICAgICAgICAgICAgICAgIGJyZWFrXG5cbiAgICAgICAgQV9yZWFsLmFwcGVuZCh2YWx1ZSlcbiAgICAgICAgSV9yb3cuYXBwZW5kKHJvdylcbiAgICAgICAgSV9jb2wuYXBwZW5kKGNvbClcblxuICAgICMgc3F1YXJlIGFuZCBleHRyYWN0IGFycmF5c1xuICAgIEEgPSBzcC5zcGFyc2UuY29vX2FycmF5KChBX3JlYWwsIChJX3JvdywgSV9jb2wpKSlcbiAgICBBID0gKEEuVCBAIEEpLnRvY29vKClcbiAgICBBX3JlYWwgPSBBLmRhdGFcbiAgICBJX3JvdyA9IEEuY29vcmRzWzBdXG4gICAgSV9jb2wgPSBBLmNvb3Jkc1sxXVxuICAgIG5vbnplcm8gPSBsZW4oQS5kYXRhKVxuXG4gICAgIyBjb25zdHJ1Y3Rpb24gcmhzIHRvIG1hdGNoIHNvbHV0aW9uIG9mIGFsbCBvbmVzXG4gICAgeCA9IG5wLm9uZXMoKG4sIDEpKVxuICAgIGIgPSBucC56ZXJvc19saWtlKHgpXG4gICAgZm9yIGsgaW4gcmFuZ2Uobm9uemVybyk6XG4gICAgICAgIGJbSV9yb3dba11dID0gKFxuICAgICAgICAgICAgYltJX3Jvd1trXV0gKyBBX3JlYWxba10gKiB4W0lfY29sW2tdXVxuICAgICAgICApXG5cbiAgICByZXR1cm4gQV9yZWFsLCBJX3JvdywgSV9jb2wsIGJcblxuXG5kZWYgdG9fZGVuc2UoQV9yZWFsLCBJX3JvdywgSV9jb2wpOlxuICAgIEEgPSBzcC5zcGFyc2UuY29vX2FycmF5KChBX3JlYWwsIChJX3JvdywgSV9jb2wpKSlcbiAgICByZXR1cm4gQS50b2RlbnNlKClcbiJ9
 </script>
 </div>
 <div>
@@ -763,7 +898,7 @@ eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiaW5jbHVkZSI6ZmFs
 
 </div>
 <script type="pyodide-9-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyByYW5kb20gbWF0cml4XG5uID0gNFxubm9uemVybyA9IDEwXG5BX3JlYWwsIElfcm93LCBJX2NvbCwgYiA9IHJhbmRvbV9zcGFyc2Vfc3lzdGVtKG4sIG5vbnplcm8pXG5wcmludChcInNwYXJzZSBtYXRyaXg6XCIpXG5wcmludChcIkFfcmVhbCA9XCIsIEFfcmVhbClcbnByaW50KFwiSV9yb3cgPSBcIiwgSV9yb3cpXG5wcmludChcIklfY29sID0gXCIsIElfY29sKVxucHJpbnQoKVxuXG4jIGNvbnZlcnQgdG8gZGVuc2UgZm9yIGNvbXBhcmlzb25cbkFfZGVuc2UgPSB0b19kZW5zZShBX3JlYWwsIElfcm93LCBJX2NvbClcbnByaW50KFwiZGVuc2UgbWF0cml4OlwiKVxucHJpbnRfYXJyYXkoQV9kZW5zZSlcbnByaW50KClcblxuIyBzdGFydGluZyBndWVzc1xueDAgPSBucC56ZXJvcygobiwgMSkpXG5cbnByaW50KFwiamFjb2JpIHdpdGggc3BhcnNlIG1hdHJpeFwiKVxueF9zcGFyc2UgPSBqYWNvYmlfaXRlcmF0aW9uX3NwYXJzZShcbiAgICBBX3JlYWwsIElfcm93LCBJX2NvbCwgYiwgeDAsIG1heF9pdGVyPTUsIHZlcmJvc2U9VHJ1ZVxuKVxucHJpbnQoKVxuXG5wcmludChcImphY29iaSB3aXRoIGRlbnNlIG1hdHJpeFwiKVxueF9kZW5zZSA9IGphY29iaV9pdGVyYXRpb24oQV9kZW5zZSwgYiwgeDAsIG1heF9pdGVyPTUsIHZlcmJvc2U9VHJ1ZSlcbnByaW50KCkifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyByYW5kb20gbWF0cml4XG5uID0gNFxubm9uemVybyA9IDEwXG5BX3JlYWwsIElfcm93LCBJX2NvbCwgYiA9IHJhbmRvbV9zcGFyc2Vfc3lzdGVtKFxuICAgIG4sIG5vbnplcm9cbilcbnByaW50KFwic3BhcnNlIG1hdHJpeDpcIilcbnByaW50KFwiQV9yZWFsID1cIiwgQV9yZWFsKVxucHJpbnQoXCJJX3JvdyA9IFwiLCBJX3JvdylcbnByaW50KFwiSV9jb2wgPSBcIiwgSV9jb2wpXG5wcmludCgpXG5cbiMgY29udmVydCB0byBkZW5zZSBmb3IgY29tcGFyaXNvblxuQV9kZW5zZSA9IHRvX2RlbnNlKEFfcmVhbCwgSV9yb3csIElfY29sKVxucHJpbnQoXCJkZW5zZSBtYXRyaXg6XCIpXG5wcmludF9hcnJheShBX2RlbnNlKVxucHJpbnQoKVxuXG4jIHN0YXJ0aW5nIGd1ZXNzXG54MCA9IG5wLnplcm9zKChuLCAxKSlcblxucHJpbnQoXCJqYWNvYmkgd2l0aCBzcGFyc2UgbWF0cml4XCIpXG54X3NwYXJzZSA9IGphY29iaV9pdGVyYXRpb25fc3BhcnNlKFxuICAgIEFfcmVhbCxcbiAgICBJX3JvdyxcbiAgICBJX2NvbCxcbiAgICBiLFxuICAgIHgwLFxuICAgIG1heF9pdGVyPTUsXG4gICAgdmVyYm9zZT1UcnVlLFxuKVxucHJpbnQoKVxuXG5wcmludChcImphY29iaSB3aXRoIGRlbnNlIG1hdHJpeFwiKVxueF9kZW5zZSA9IGphY29iaV9pdGVyYXRpb24oXG4gICAgQV9kZW5zZSwgYiwgeDAsIG1heF9pdGVyPTUsIHZlcmJvc2U9VHJ1ZVxuKVxucHJpbnQoKVxuIn0=
 </script>
 </div>
 <aside class="notes">
@@ -796,7 +931,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyByYW5kb20gbWF0cml4XG5u
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<div id="beb4623e" class="cell" data-execution_count="5">
+<div id="63d45782" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -809,6 +944,24 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyByYW5kb20gbWF0cml4XG5u
 
 <section id="convergence-of-an-iterative-method" class="title-slide slide level2 center" data-background-color="#782E57">
 <h2>Convergence of an iterative method</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Module learning objective</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Evaluate convergence behaviour and justify the choice of stopping criteria for practical computations.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level3">
+
 <p>In general the iteration takes the form <span class="math display">\[
 \vec{x}^{(k+1)} = \vec{F}(\vec{x}^{(k)})
 \]</span> here <span class="math inline">\(\vec{x}^{(k)}\)</span> is a vector of values and <span class="math inline">\(\vec{F}\)</span> is some vector-valued function which we have defined.</p>
@@ -829,7 +982,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyByYW5kb20gbWF0cml4XG5u
 \| \vec{r} \| = \sqrt{ \sum_{i=1}^n r_i^2 }.
 \]</span> where <span class="math inline">\(\vec{r}\)</span> is a vector with <span class="math inline">\(n\)</span> entries.</p>
 </section>
-<section id="examples" class="slide level3">
+<section id="examples" class="slide level3 smaller write">
 <h3>Examples</h3>
 <p>Consider the following sequence <span class="math inline">\(\vec{x}^{(k)}\)</span>:</p>
 <p><span class="math display">\[
@@ -856,12 +1009,37 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyByYW5kb20gbWF0cml4XG5u
 <ul>
 <li>What is <span class="math inline">\(\|\vec{x}^{(1)} - \vec{x}^{(0)}\|\)</span>? What is <span class="math inline">\(\|\vec{x}^{(5)} - \vec{x}^{(4)}\|\)</span>?</li>
 </ul>
+</section>
+<section id="examples-1" class="slide level3 smaller write">
+<h3>Examples</h3>
+<p>Consider the following sequence <span class="math inline">\(\vec{x}^{(k)}\)</span>:</p>
+<p><span class="math display">\[
+\begin{pmatrix}
+1 \\ -1
+\end{pmatrix},
+\begin{pmatrix}
+1.5 \\ 0.5
+\end{pmatrix},
+\begin{pmatrix}
+1.75 \\ 0.25
+\end{pmatrix},
+\begin{pmatrix}
+1.875 \\ 0.125
+\end{pmatrix},
+\begin{pmatrix}
+1.9375 \\ -0.0625
+\end{pmatrix},
+\begin{pmatrix}
+1.96875 \\ -0.03125
+\end{pmatrix},
+\ldots
+\]</span></p>
 <p>Let <span class="math inline">\(\vec{x} = \begin{pmatrix} 2 \\ 0 \end{pmatrix}\)</span>.</p>
 <ul>
 <li>What is <span class="math inline">\(\|\vec{x} - \vec{x}^{(3)}\|\)</span>? What is <span class="math inline">\(\|\vec{x} - \vec{x}^{(4)}\|\)</span>? What is <span class="math inline">\(\|\vec{x} - \vec{x}^{(5)}\|\)</span>?</li>
 </ul>
 </section>
-<section id="non-convergence" class="slide level3">
+<section id="non-convergence" class="slide level3 smaller">
 <h3>Non-convergence</h3>
 <p>In general there are two possible reasons that an iteration may fail to converge.</p>
 <ul>
@@ -910,6 +1088,9 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyByYW5kb20gbWF0cml4XG5u
 \ldots
 \]</span></p></li>
 </ul>
+</section>
+<section class="slide level3">
+
 <p>In addition to testing for convergence it is also necessary to include tests for failure to converge.</p>
 <ul>
 <li><p>Divergence may be detected by monitoring <span class="math inline">\(\|\vec{x}^{(k)}\|\)</span>.</p></li>
@@ -917,7 +1098,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyByYW5kb20gbWF0cml4XG5u
 </ul>
 </section>
 
-<section id="summary" class="title-slide slide level2 center" data-background-color="#782E57">
+<section id="summary" class="title-slide slide level2 smaller center" data-background-color="#782E57">
 <h2>Summary</h2>
 <ul>
 <li><p>Many real-world problems cannot be solved using direct methods. Iterative methods can often be used instead!</p></li>
@@ -980,7 +1161,7 @@ W10=
       // https://revealjs.com/config/
       Reveal.initialize({
 'controlsAuto': true,
-'previewLinksAuto': true,
+'previewLinksAuto': false,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
@@ -1168,6 +1349,38 @@ W10=
         ]
       });
     </script>
+    <script>
+    // On an iPad in full screen the slide is letterboxed and the bars show the
+    // page background (cream), which stands out on the coloured title/section
+    // slides. Make the page background follow the current slide's background,
+    // and tell Safari the matching tint and light/dark scheme so the text in its
+    // tab and status bars flips to stay readable.
+    document.addEventListener('DOMContentLoaded', () => {
+      let themeColor = document.querySelector('meta[name="theme-color"]');
+      if (!themeColor) {
+        themeColor = document.createElement('meta');
+        themeColor.name = 'theme-color';
+        document.head.appendChild(themeColor);
+      }
+
+      const sync = () => {
+        const slide = Reveal.getCurrentSlide();
+        const bg = Reveal.getSlideBackground(slide);
+        const color = bg && getComputedStyle(bg).backgroundColor;
+        const value = color && color !== 'rgba(0, 0, 0, 0)' ? color : '';
+        document.documentElement.style.backgroundColor = value;
+        document.body.style.backgroundColor = value;
+
+        // reveal marks slides whose background is dark with this class
+        const dark = slide.classList.contains('has-dark-background');
+        document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+        themeColor.content = value || getComputedStyle(document.body).backgroundColor;
+      };
+      Reveal.on('ready', sync);
+      Reveal.on('slidechanged', sync);
+      if (Reveal.isReady()) sync();
+    });
+    </script>
     <script type="ojs-module-contents">
     eyJjb250ZW50cyI6W119
     </script>
@@ -1263,6 +1476,11 @@ W10=
               if (link.dataset.originalHref !== undefined) {
                 link.href = link.dataset.originalHref;
               }
+                // target, if specified
+                link.setAttribute("target", "_blank");
+                if (link.getAttribute("rel") === null) {
+                  link.setAttribute("rel", "noopener");
+                }
             }
           }
         function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
