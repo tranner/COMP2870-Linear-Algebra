@@ -93,7 +93,7 @@ $$
 Find the inverse of the matrix $\begin{pmatrix} 3 & 1 \\ 1 & 3 \end{pmatrix}$.
 
 ::: {.aside}
-A^{-1} = \frac{1}{ad - bc} \begin{pmatrix} d & - b \\ -c & a \end{pmatrix}.
+$A^{-1} = \frac{1}{ad - bc} \begin{pmatrix} d & - b \\ -c & a \end{pmatrix}.$
 :::
 
 ### Exercise {.vevox vevox-label="Matrix inverse"}
@@ -217,15 +217,14 @@ One question we might ask when faced with a system of linear equations is: **doe
 
 This is equivalent to asking **does $A$ have an inverse?**
 
-### Definitions
+### Definitions {.write}
 
 Let $A$ be a square $n \times n$ matrix.
 
 If $n = 2$,
-\begin{equation}
+\begin{equation*}
 \det A = \det \begin{pmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{pmatrix}
-= a_{11} a_{22} - a_{21} a_{12}.
-\end{equation}
+\end{equation*}
 
 ---
 
@@ -235,9 +234,6 @@ If $n = 3$,
 a_{21} & a_{22} & a_{23} \\
 a_{31} & a_{32} & a_{33}
 \end{pmatrix} \\
-& = a_{11} (a_{22} a_{33} - a_{23} a_{32}) \\
-& \qquad - a_{12} (a_{21} a_{33} - a_{23} a_{31}) \\
-& \qquad + a_{13} (a_{21} a_{32} - a_{22} a_{31}).
 \end{align*}
 
 ---
@@ -249,6 +245,25 @@ $$
 where $a_{1,j}$ is the entry of the first row and $j$th column of $A$ and
 $M_{1,j}$ is the the determinant of the submatrix obtained by removing the first row
 and the $j$th column from $A$.
+
+::: {.notes}
+If $n = 2$,
+\begin{equation}
+\det A = \det \begin{pmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{pmatrix}
+= a_{11} a_{22} - a_{21} a_{12}.
+\end{equation}
+
+If $n = 3$,
+\begin{align*}
+\det A & = \det \begin{pmatrix} a_{11} & a_{12} & a_{13} \\
+a_{21} & a_{22} & a_{23} \\
+a_{31} & a_{32} & a_{33}
+\end{pmatrix} \\
+& = a_{11} (a_{22} a_{33} - a_{23} a_{32}) \\
+& \qquad - a_{12} (a_{21} a_{33} - a_{23} a_{31}) \\
+& \qquad + a_{13} (a_{21} a_{32} - a_{22} a_{31}).
+\end{align*}
+:::
 
 ### Example i {.smaller .write}
 
