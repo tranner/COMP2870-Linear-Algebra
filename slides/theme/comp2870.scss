@@ -242,8 +242,9 @@ $callout-color-tip: $blue;
   border-radius: 0;
 }
 
-.reveal div.callout.callout-tip .callout-title,
-.reveal div.callout.callout-tip .callout-header {
+// .callout-style-default matches the specificity of Quarto's (>= 1.5) tinted title bar
+.reveal div.callout.callout-tip.callout-style-default .callout-title,
+.reveal div.callout.callout-tip.callout-style-default .callout-header {
   color: $ink;
   background-color: transparent;
 }
@@ -360,7 +361,8 @@ $callout-color-tip: $blue;
 }
 
 .reveal .slides section.has-dark-background div.callout,
-.reveal .slides section.has-dark-background div.callout * {
+.reveal .slides section.has-dark-background div.callout *,
+.reveal .slides section.has-dark-background div.callout.callout-style-default .callout-title {
   color: $cream;
   background-color: transparent;
 }

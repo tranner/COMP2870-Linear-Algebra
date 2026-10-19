@@ -49,6 +49,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          # match the local version; newer Quarto changes the callout CSS
+          version: 1.4.553
           tinytex: true
 
       #  Install dependencies using uv
