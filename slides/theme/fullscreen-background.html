@@ -5,6 +5,9 @@
 // and tell Safari the matching tint and light/dark scheme so the text in its
 // tab and status bars flips to stay readable.
 document.addEventListener('DOMContentLoaded', () => {
+  // print view lays every slide out at once; leave the page background alone
+  if (/print-pdf/i.test(window.location.search)) return;
+
   let themeColor = document.querySelector('meta[name="theme-color"]');
   if (!themeColor) {
     themeColor = document.createElement('meta');
