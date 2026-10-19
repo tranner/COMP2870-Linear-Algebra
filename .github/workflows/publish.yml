@@ -53,6 +53,11 @@ jobs:
           version: 1.4.553
           tinytex: true
 
+      # Pre-install LaTeX packages TinyTeX lacks, rather than relying on
+      # quarto's on-the-fly tlmgr lookup (flaky)
+      - name: Install extra LaTeX packages
+        run: tlmgr install svg trimspaces catchfile transparent
+
       #  Install dependencies using uv
       - name: Install the project
         run: uv sync --all-extras --dev --locked
