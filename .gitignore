@@ -1,5 +1,6 @@
 /.quarto/
 /_freeze/
+/slides/_freeze/
 /_output/
 /src/*files/
 /src/.jupyter_cache/

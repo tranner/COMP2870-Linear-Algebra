@@ -16,12 +16,20 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      # Cache Quarto's Jupyter freeze directory to avoid re-executing notebooks
+      # Restore Quarto's freeze output (book and slides projects) and the
+      # jupyter-cache dirs so unchanged notebooks aren't re-executed. Freeze
+      # invalidates stale entries itself, so the key is per-run: restore the
+      # newest cache via restore-keys and always save a fresh one at the end.
       - name: Restore Quarto freeze cache
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
-          path: .quarto/_freeze
-          key: quarto-freeze-${{ hashFiles('**/*.qmd') }}
+          path: |
+            _freeze
+            slides/_freeze
+            .jupyter_cache
+            src/.jupyter_cache
+            slides/.jupyter_cache
+          key: quarto-freeze-${{ github.run_id }}
           restore-keys: |
             quarto-freeze-
 
@@ -89,10 +97,16 @@ jobs:
 
       # Save updated Quarto freeze cache
       - name: Save Quarto freeze cache
-        uses: actions/cache@v4
+        if: always()
+        uses: actions/cache/save@v4
         with:
-          path: .quarto/_freeze
-          key: quarto-freeze-${{ hashFiles('**/*.qmd') }}
+          path: |
+            _freeze
+            slides/_freeze
+            .jupyter_cache
+            src/.jupyter_cache
+            slides/.jupyter_cache
+          key: quarto-freeze-${{ github.run_id }}
 
       # Upload built site as artifact
       - name: Upload site as artifact
