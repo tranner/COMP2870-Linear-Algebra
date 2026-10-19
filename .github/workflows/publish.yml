@@ -65,6 +65,8 @@ jobs:
             exit 1
           fi
           echo "Using $tlmgr"
+          # CTAN refuses installs from an outdated tlmgr
+          "$tlmgr" update --self
           "$tlmgr" install svg trimspaces catchfile transparent
 
       #  Install dependencies using uv
