@@ -2,24 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.19">
+<meta name="generator" content="quarto-1.4.553">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Thomas Ranner">
 
-<title>8&nbsp; Eigenvectors and eigenvalues: practical solutions – COMP2870 Theoretical Foundations: Linear Algebra</title>
+<title>COMP2870 Theoretical Foundations: Linear Algebra - 8&nbsp; Eigenvectors and eigenvalues: practical solutions</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -28,9 +22,8 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -73,20 +66,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../src/lec07.html" rel="prev">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b626d73c4c936ccc3cb08be7d45d1df6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a6f100b5d6e3d98030a58895675f20fd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-1c8eb764f676b4e07be2fd759a77d777.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a6f100b5d6e3d98030a58895675f20fd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -122,8 +112,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   };
 </script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -136,7 +126,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+      if (mathElements[i].tagName == "SPAN") {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -154,190 +144,19 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
-    const toggleBodyColorMode = (bsSheetEl) => {
-      const mode = bsSheetEl.getAttribute("data-mode");
-      const bodyEl = window.document.querySelector("body");
-      if (mode === "dark") {
-        bodyEl.classList.add("quarto-dark");
-        bodyEl.classList.remove("quarto-light");
-      } else {
-        bodyEl.classList.add("quarto-light");
-        bodyEl.classList.remove("quarto-dark");
-      }
-    }
-    const toggleBodyColorPrimary = () => {
-      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
-      if (bsSheetEl) {
-        toggleBodyColorMode(bsSheetEl);
-      }
-    }
-    const setColorSchemeToggle = (alternate) => {
-      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
-      for (let i=0; i < toggles.length; i++) {
-        const toggle = toggles[i];
-        if (toggle) {
-          if (alternate) {
-            toggle.classList.add("alternate");
-          } else {
-            toggle.classList.remove("alternate");
-          }
-        }
-      }
-    };
-    const toggleColorMode = (alternate) => {
-      // Switch the stylesheets
-      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
-      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
-      manageTransitions('#quarto-margin-sidebar .nav-link', false);
-      if (alternate) {
-        // note: dark is layered on light, we don't disable primary!
-        enableStylesheet(alternateStylesheets);
-        for (const sheetNode of alternateStylesheets) {
-          if (sheetNode.id === "quarto-bootstrap") {
-            toggleBodyColorMode(sheetNode);
-          }
-        }
-      } else {
-        disableStylesheet(alternateStylesheets);
-        enableStylesheet(primaryStylesheets)
-        toggleBodyColorPrimary();
-      }
-      manageTransitions('#quarto-margin-sidebar .nav-link', true);
-      // Switch the toggles
-      setColorSchemeToggle(alternate)
-      // Hack to workaround the fact that safari doesn't
-      // properly recolor the scrollbar when toggling (#1455)
-      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
-        manageTransitions("body", false);
-        window.scrollTo(0, 1);
-        setTimeout(() => {
-          window.scrollTo(0, 0);
-          manageTransitions("body", true);
-        }, 40);
-      }
-    }
-    const disableStylesheet = (stylesheets) => {
-      for (let i=0; i < stylesheets.length; i++) {
-        const stylesheet = stylesheets[i];
-        stylesheet.rel = 'disabled-stylesheet';
-      }
-    }
-    const enableStylesheet = (stylesheets) => {
-      for (let i=0; i < stylesheets.length; i++) {
-        const stylesheet = stylesheets[i];
-        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
-          stylesheet.rel = 'stylesheet';
-        }
-      }
-    }
-    const manageTransitions = (selector, allowTransitions) => {
-      const els = window.document.querySelectorAll(selector);
-      for (let i=0; i < els.length; i++) {
-        const el = els[i];
-        if (allowTransitions) {
-          el.classList.remove('notransition');
-        } else {
-          el.classList.add('notransition');
-        }
-      }
-    }
-    const isFileUrl = () => {
-      return window.location.protocol === 'file:';
-    }
-    const hasAlternateSentinel = () => {
-      let styleSentinel = getColorSchemeSentinel();
-      if (styleSentinel !== null) {
-        return styleSentinel === "alternate";
-      } else {
-        return false;
-      }
-    }
-    const setStyleSentinel = (alternate) => {
-      const value = alternate ? "alternate" : "default";
-      if (!isFileUrl()) {
-        window.localStorage.setItem("quarto-color-scheme", value);
-      } else {
-        localAlternateSentinel = value;
-      }
-    }
-    const getColorSchemeSentinel = () => {
-      if (!isFileUrl()) {
-        const storageValue = window.localStorage.getItem("quarto-color-scheme");
-        return storageValue != null ? storageValue : localAlternateSentinel;
-      } else {
-        return localAlternateSentinel;
-      }
-    }
-    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
-      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
-      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
-      let newTheme = '';
-      if(authorPrefersDark) {
-        newTheme = isAlternate ? baseTheme : alternateTheme;
-      } else {
-        newTheme = isAlternate ? alternateTheme : baseTheme;
-      }
-      const changeGiscusTheme = () => {
-        // From: https://github.com/giscus/giscus/issues/336
-        const sendMessage = (message) => {
-          const iframe = document.querySelector('iframe.giscus-frame');
-          if (!iframe) return;
-          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
-        }
-        sendMessage({
-          setConfig: {
-            theme: newTheme
-          }
-        });
-      }
-      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
-      if (isGiscussLoaded) {
-        changeGiscusTheme();
-      }
-    };
-    const authorPrefersDark = false;
-    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-    const darkModeDefault = queryPrefersDark.matches;
-      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
-      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
-    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
-    // Dark / light mode switch
-    window.quartoToggleColorScheme = () => {
-      // Read the current dark / light value
-      let toAlternate = !hasAlternateSentinel();
-      toggleColorMode(toAlternate);
-      setStyleSentinel(toAlternate);
-      toggleGiscusIfUsed(toAlternate, darkModeDefault);
-      window.dispatchEvent(new Event('resize'));
-    };
-    queryPrefersDark.addEventListener("change", e => {
-      if(window.localStorage.getItem("quarto-color-scheme") !== null)
-        return;
-      const alternate = e.matches
-      toggleColorMode(alternate);
-      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
-      toggleGiscusIfUsed(alternate, darkModeDefault);
-    });
-    // Switch to dark mode if need be
-    if (hasAlternateSentinel()) {
-      toggleColorMode(true);
-    } else {
-      toggleColorMode(false);
-    }
-  </script>
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../src/lec08.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues: practical solutions</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -439,7 +258,6 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Eigenvectors and eigenvalues: practical solutions</span></h1>
@@ -478,7 +296,7 @@ window.Quarto = {
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Module learning objective
+Module learning objective
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -568,7 +386,7 @@ Q = Q^{(0)} Q^{(1)} Q^{(2)} \cdots Q^{(m)}
 \end{align*}\]</span> We see that we have found a vector <span class="math inline">\(\vec{u}\)</span> which is orthogonal to <span class="math inline">\(\vec{q}\)</span>.</p>
 <div id="cell-fig-projection-away" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
-<div id="fig-projection-away" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-projection-away" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-projection-away-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="lec08_files/figure-html/fig-projection-away-output-1.png" width="487" height="470" class="figure-img">
@@ -587,7 +405,7 @@ Figure&nbsp;8.1: Projection of <span class="math inline">\(\vec{a}\)</span> away
 \vec{a}^{(2)} = \begin{pmatrix} 2 \\ -1 \\ 0 \end{pmatrix},
 \vec{a}^{(3)} = \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix}.
 \end{equation*}\]</span> We will manipulate these vectors to form three orthonormal vectors.</p>
-<div id="e9458d1e" class="cell" data-execution_count="3">
+<div id="8d305fba" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -670,7 +488,7 @@ Figure&nbsp;8.1: Projection of <span class="math inline">\(\vec{a}\)</span> away
 <div id="exr-gram-schmit-ex" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 8.2</strong></span> Verify the orthonormality conditions for <span class="math inline">\(\vec{q}^{(1)}, \vec{q}^{(2)}\)</span> and <span class="math inline">\(\vec{q}^{(3)}\)</span>.</p>
 </div>
-<div id="f371d39a" class="cell" data-execution_count="4">
+<div id="5cc32b76" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -796,50 +614,50 @@ A^{(1)}
 </section>
 <section id="python-qr-factorisation-using-gram-schmidt" class="level3" data-number="8.3.3">
 <h3 data-number="8.3.3" class="anchored" data-anchor-id="python-qr-factorisation-using-gram-schmidt"><span class="header-section-number">8.3.3</span> Python QR factorisation using Gram-Schmidt</h3>
-<div id="4bb51ac5" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-label="1"></a><span class="kw">def</span> gram_schmidt_qr(A):</span>
-<span id="cb1-2"><a href="#cb1-2" aria-label="2"></a>    <span class="co">"""</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-label="3"></a><span class="co">    Compute the QR factorisation of a square matrix using the classical</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-label="4"></a><span class="co">    Gram-Schmidt process.</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-label="5"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-label="6"></a><span class="co">    Parameters</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-label="7"></a><span class="co">    ----------</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-label="8"></a><span class="co">    A : numpy.ndarray</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-label="9"></a><span class="co">        A square 2D NumPy array of shape ``(n, n)`` representing the input</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-label="10"></a><span class="co">        matrix.</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-label="11"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-label="12"></a><span class="co">    Returns</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-label="13"></a><span class="co">    -------</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-label="14"></a><span class="co">    Q : numpy.ndarray</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-label="15"></a><span class="co">        orthogonal matrix of shape ``(n, n)`` where the columns form an</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-label="16"></a><span class="co">        orthonormal basis for the column space of A.</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-label="17"></a><span class="co">    R : numpy.ndarray</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-label="18"></a><span class="co">        Upper triangular matrix of shape ``(n, n)``.</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-label="19"></a><span class="co">    """</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-label="20"></a>    n, m <span class="op">=</span> A.shape</span>
-<span id="cb1-21"><a href="#cb1-21" aria-label="21"></a>    <span class="cf">if</span> n <span class="op">!=</span> m:</span>
-<span id="cb1-22"><a href="#cb1-22" aria-label="22"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"the matrix A is not square, </span><span class="sc">{</span>A<span class="sc">.</span>shape<span class="op">=</span><span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb1-23"><a href="#cb1-23" aria-label="23"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-label="24"></a>    Q <span class="op">=</span> np.empty_like(A)</span>
-<span id="cb1-25"><a href="#cb1-25" aria-label="25"></a>    R <span class="op">=</span> np.zeros_like(A)</span>
-<span id="cb1-26"><a href="#cb1-26" aria-label="26"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-label="27"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n):</span>
-<span id="cb1-28"><a href="#cb1-28" aria-label="28"></a>        <span class="co"># Start with the j-th column of A</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-label="29"></a>        u <span class="op">=</span> A[:, j].copy()</span>
-<span id="cb1-30"><a href="#cb1-30" aria-label="30"></a></span>
-<span id="cb1-31"><a href="#cb1-31" aria-label="31"></a>        <span class="co"># Orthogonalize against previous q vectors</span></span>
-<span id="cb1-32"><a href="#cb1-32" aria-label="32"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(j):</span>
-<span id="cb1-33"><a href="#cb1-33" aria-label="33"></a>            R[i, j] <span class="op">=</span> np.dot(Q[:, i], A[:, j])  <span class="co"># projection coefficient</span></span>
-<span id="cb1-34"><a href="#cb1-34" aria-label="34"></a>            u <span class="op">-=</span> R[i, j] <span class="op">*</span> Q[:, i]  <span class="co"># subtract the projection</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-label="35"></a></span>
-<span id="cb1-36"><a href="#cb1-36" aria-label="36"></a>        <span class="co"># Normalize u to get q_j</span></span>
-<span id="cb1-37"><a href="#cb1-37" aria-label="37"></a>        R[j, j] <span class="op">=</span> np.linalg.norm(u)</span>
-<span id="cb1-38"><a href="#cb1-38" aria-label="38"></a>        Q[:, j] <span class="op">=</span> u <span class="op">/</span> R[j, j]</span>
-<span id="cb1-39"><a href="#cb1-39" aria-label="39"></a></span>
-<span id="cb1-40"><a href="#cb1-40" aria-label="40"></a>    <span class="cf">return</span> Q, R</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="82caa8b3" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">def</span> gram_schmidt_qr(A):</span>
+<span id="cb1-2"><a href="#cb1-2"></a>    <span class="co">"""</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="co">    Compute the QR factorisation of a square matrix using the classical</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co">    Gram-Schmidt process.</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co">    Parameters</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co">    ----------</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="co">    A : numpy.ndarray</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="co">        A square 2D NumPy array of shape ``(n, n)`` representing the input</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="co">        matrix.</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="co">    Returns</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="co">    -------</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="co">    Q : numpy.ndarray</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="co">        orthogonal matrix of shape ``(n, n)`` where the columns form an</span></span>
+<span id="cb1-16"><a href="#cb1-16"></a><span class="co">        orthonormal basis for the column space of A.</span></span>
+<span id="cb1-17"><a href="#cb1-17"></a><span class="co">    R : numpy.ndarray</span></span>
+<span id="cb1-18"><a href="#cb1-18"></a><span class="co">        Upper triangular matrix of shape ``(n, n)``.</span></span>
+<span id="cb1-19"><a href="#cb1-19"></a><span class="co">    """</span></span>
+<span id="cb1-20"><a href="#cb1-20"></a>    n, m <span class="op">=</span> A.shape</span>
+<span id="cb1-21"><a href="#cb1-21"></a>    <span class="cf">if</span> n <span class="op">!=</span> m:</span>
+<span id="cb1-22"><a href="#cb1-22"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"the matrix A is not square, </span><span class="sc">{</span>A<span class="sc">.</span>shape<span class="op">=</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-23"><a href="#cb1-23"></a></span>
+<span id="cb1-24"><a href="#cb1-24"></a>    Q <span class="op">=</span> np.empty_like(A)</span>
+<span id="cb1-25"><a href="#cb1-25"></a>    R <span class="op">=</span> np.zeros_like(A)</span>
+<span id="cb1-26"><a href="#cb1-26"></a></span>
+<span id="cb1-27"><a href="#cb1-27"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb1-28"><a href="#cb1-28"></a>        <span class="co"># Start with the j-th column of A</span></span>
+<span id="cb1-29"><a href="#cb1-29"></a>        u <span class="op">=</span> A[:, j].copy()</span>
+<span id="cb1-30"><a href="#cb1-30"></a></span>
+<span id="cb1-31"><a href="#cb1-31"></a>        <span class="co"># Orthogonalize against previous q vectors</span></span>
+<span id="cb1-32"><a href="#cb1-32"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(j):</span>
+<span id="cb1-33"><a href="#cb1-33"></a>            R[i, j] <span class="op">=</span> np.dot(Q[:, i], A[:, j])  <span class="co"># projection coefficient</span></span>
+<span id="cb1-34"><a href="#cb1-34"></a>            u <span class="op">-=</span> R[i, j] <span class="op">*</span> Q[:, i]  <span class="co"># subtract the projection</span></span>
+<span id="cb1-35"><a href="#cb1-35"></a></span>
+<span id="cb1-36"><a href="#cb1-36"></a>        <span class="co"># Normalize u to get q_j</span></span>
+<span id="cb1-37"><a href="#cb1-37"></a>        R[j, j] <span class="op">=</span> np.linalg.norm(u)</span>
+<span id="cb1-38"><a href="#cb1-38"></a>        Q[:, j] <span class="op">=</span> u <span class="op">/</span> R[j, j]</span>
+<span id="cb1-39"><a href="#cb1-39"></a></span>
+<span id="cb1-40"><a href="#cb1-40"></a>    <span class="cf">return</span> Q, R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s test it with our example above:</p>
-<div id="c44cfdb6" class="cell" data-execution_count="6">
+<div id="873a5268" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-stdout">
 <pre><code>A = [  1.0,  2.0,  1.0 ]
     [  0.0, -1.0,  2.0 ]
@@ -861,94 +679,94 @@ Is Q orthogonal? (Q.T @ Q ~= np.eye(3)) True</code></pre>
 <section id="finding-eigenvalues-and-eigenvectors" class="level2" data-number="8.4">
 <h2 data-number="8.4" class="anchored" data-anchor-id="finding-eigenvalues-and-eigenvectors"><span class="header-section-number">8.4</span> Finding eigenvalues and eigenvectors</h2>
 <p>The algorithm given above says that we use the QR factorisation to iteratively find a sequence of matrices <span class="math inline">\(A^{(k)}\)</span> which <em>should</em> converge to an upper-triangular matrix.</p>
-<div id="ab8c273a" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-label="1"></a><span class="kw">def</span> gram_schmidt_eigen(A, maxiter<span class="op">=</span><span class="dv">100</span>, verbose<span class="op">=</span><span class="va">False</span>):</span>
-<span id="cb3-2"><a href="#cb3-2" aria-label="2"></a>    <span class="co">"""</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-label="3"></a><span class="co">    Compute the eigenvalues and eigenvectors of a square matrix using the QR</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-label="4"></a><span class="co">    algorithm with classical Gram-Schmidt QR factorisation.</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-label="5"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-label="6"></a><span class="co">    This function implements the basic QR algorithm:</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-label="7"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-label="8"></a><span class="co">    1. Factorise the matrix `A` into `Q` and `R` using Gram-Schmidt QR</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-label="9"></a><span class="co">       factorisation.</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-label="10"></a><span class="co">    2. Update the matrix as:</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-label="11"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-label="12"></a><span class="co">       .. math::</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-label="13"></a><span class="co">           A_{k+1} = R_k Q_k</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-label="14"></a></span>
-<span id="cb3-15"><a href="#cb3-15" aria-label="15"></a><span class="co">    3. Accumulate the orthogonal transformations in `V` to compute the</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-label="16"></a><span class="co">       eigenvectors.</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-label="17"></a><span class="co">    4. Iterate until `A` becomes approximately upper triangular or until the</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-label="18"></a><span class="co">       maximum number of iterations is reached.</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-label="19"></a></span>
-<span id="cb3-20"><a href="#cb3-20" aria-label="20"></a><span class="co">    Once the iteration converges, the diagonal of `A` contains the</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-label="21"></a><span class="co">    eigenvalues, and the columns of `V` contain the corresponding</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-label="22"></a><span class="co">    eigenvectors.</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-label="23"></a></span>
-<span id="cb3-24"><a href="#cb3-24" aria-label="24"></a><span class="co">    Parameters</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-label="25"></a><span class="co">    ----------</span></span>
-<span id="cb3-26"><a href="#cb3-26" aria-label="26"></a><span class="co">    A : numpy.ndarray</span></span>
-<span id="cb3-27"><a href="#cb3-27" aria-label="27"></a><span class="co">        A square 2D NumPy array of shape ``(n, n)`` representing the input</span></span>
-<span id="cb3-28"><a href="#cb3-28" aria-label="28"></a><span class="co">        matrix.</span></span>
-<span id="cb3-29"><a href="#cb3-29" aria-label="29"></a><span class="co">    maxiter : int, optional</span></span>
-<span id="cb3-30"><a href="#cb3-30" aria-label="30"></a><span class="co">        Maximum number of QR iterations to perform. Default is 100.</span></span>
-<span id="cb3-31"><a href="#cb3-31" aria-label="31"></a><span class="co">    verbose : bool, optional</span></span>
-<span id="cb3-32"><a href="#cb3-32" aria-label="32"></a><span class="co">        If ``True``, prints intermediate matrices (`A`, `Q`, `R`, and `V`) at</span></span>
-<span id="cb3-33"><a href="#cb3-33" aria-label="33"></a><span class="co">        each iteration. Useful for debugging and understanding convergence.</span></span>
-<span id="cb3-34"><a href="#cb3-34" aria-label="34"></a><span class="co">        Default is ``False``.</span></span>
-<span id="cb3-35"><a href="#cb3-35" aria-label="35"></a></span>
-<span id="cb3-36"><a href="#cb3-36" aria-label="36"></a><span class="co">    Returns</span></span>
-<span id="cb3-37"><a href="#cb3-37" aria-label="37"></a><span class="co">    -------</span></span>
-<span id="cb3-38"><a href="#cb3-38" aria-label="38"></a><span class="co">    eigenvalues : numpy.ndarray</span></span>
-<span id="cb3-39"><a href="#cb3-39" aria-label="39"></a><span class="co">        A 1D NumPy array of length ``n`` containing the eigenvalues of `A`.</span></span>
-<span id="cb3-40"><a href="#cb3-40" aria-label="40"></a><span class="co">        These are the diagonal elements of the final upper triangular matrix.</span></span>
-<span id="cb3-41"><a href="#cb3-41" aria-label="41"></a><span class="co">    V : numpy.ndarray</span></span>
-<span id="cb3-42"><a href="#cb3-42" aria-label="42"></a><span class="co">        A 2D NumPy array of shape ``(n, n)`` whose columns are the normalized</span></span>
-<span id="cb3-43"><a href="#cb3-43" aria-label="43"></a><span class="co">        eigenvectors corresponding to the eigenvalues.</span></span>
-<span id="cb3-44"><a href="#cb3-44" aria-label="44"></a><span class="co">    it : int</span></span>
-<span id="cb3-45"><a href="#cb3-45" aria-label="45"></a><span class="co">        The number of iterations taken by the algorithm.</span></span>
-<span id="cb3-46"><a href="#cb3-46" aria-label="46"></a><span class="co">    """</span></span>
-<span id="cb3-47"><a href="#cb3-47" aria-label="47"></a>    <span class="co"># identity matrix to store eigenvectors</span></span>
-<span id="cb3-48"><a href="#cb3-48" aria-label="48"></a>    V <span class="op">=</span> np.eye(A.shape[<span class="dv">0</span>])</span>
-<span id="cb3-49"><a href="#cb3-49" aria-label="49"></a></span>
-<span id="cb3-50"><a href="#cb3-50" aria-label="50"></a>    <span class="cf">if</span> verbose:</span>
-<span id="cb3-51"><a href="#cb3-51" aria-label="51"></a>        print_array(A)</span>
-<span id="cb3-52"><a href="#cb3-52" aria-label="52"></a></span>
-<span id="cb3-53"><a href="#cb3-53" aria-label="53"></a>    it <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
-<span id="cb3-54"><a href="#cb3-54" aria-label="54"></a>    <span class="cf">for</span> it <span class="kw">in</span> <span class="bu">range</span>(maxiter):</span>
-<span id="cb3-55"><a href="#cb3-55" aria-label="55"></a>        <span class="cf">if</span> verbose:</span>
-<span id="cb3-56"><a href="#cb3-56" aria-label="56"></a>            <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n\n</span><span class="sc">{</span>it<span class="op">=</span><span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb3-57"><a href="#cb3-57" aria-label="57"></a></span>
-<span id="cb3-58"><a href="#cb3-58" aria-label="58"></a>        <span class="co"># perform factorisation</span></span>
-<span id="cb3-59"><a href="#cb3-59" aria-label="59"></a>        Q, R <span class="op">=</span> gram_schmidt_qr(A)</span>
-<span id="cb3-60"><a href="#cb3-60" aria-label="60"></a>        <span class="cf">if</span> verbose:</span>
-<span id="cb3-61"><a href="#cb3-61" aria-label="61"></a>            print_array(Q)</span>
-<span id="cb3-62"><a href="#cb3-62" aria-label="62"></a>            print_array(R)</span>
-<span id="cb3-63"><a href="#cb3-63" aria-label="63"></a></span>
-<span id="cb3-64"><a href="#cb3-64" aria-label="64"></a>        <span class="co"># update A and V in place</span></span>
-<span id="cb3-65"><a href="#cb3-65" aria-label="65"></a>        A <span class="op">=</span> R <span class="op">@</span> Q</span>
-<span id="cb3-66"><a href="#cb3-66" aria-label="66"></a>        V <span class="op">=</span> V <span class="op">@</span> Q</span>
-<span id="cb3-67"><a href="#cb3-67" aria-label="67"></a></span>
-<span id="cb3-68"><a href="#cb3-68" aria-label="68"></a>        <span class="cf">if</span> verbose:</span>
-<span id="cb3-69"><a href="#cb3-69" aria-label="69"></a>            print_array(A)</span>
-<span id="cb3-70"><a href="#cb3-70" aria-label="70"></a>            print_array(V)</span>
-<span id="cb3-71"><a href="#cb3-71" aria-label="71"></a></span>
-<span id="cb3-72"><a href="#cb3-72" aria-label="72"></a>        <span class="co"># test for convergence: is A upper triangular up to tolerance 1.0e-8?</span></span>
-<span id="cb3-73"><a href="#cb3-73" aria-label="73"></a>        <span class="cf">if</span> np.allclose(A, np.triu(A), atol<span class="op">=</span><span class="fl">1.0e-8</span>):</span>
-<span id="cb3-74"><a href="#cb3-74" aria-label="74"></a>            <span class="cf">break</span></span>
-<span id="cb3-75"><a href="#cb3-75" aria-label="75"></a></span>
-<span id="cb3-76"><a href="#cb3-76" aria-label="76"></a>    eigenvalues <span class="op">=</span> np.diag(A)</span>
-<span id="cb3-77"><a href="#cb3-77" aria-label="77"></a>    <span class="cf">return</span> eigenvalues, V, it</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="11990f93" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">def</span> gram_schmidt_eigen(A, maxiter<span class="op">=</span><span class="dv">100</span>, verbose<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb3-2"><a href="#cb3-2"></a>    <span class="co">"""</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co">    Compute the eigenvalues and eigenvectors of a square matrix using the QR</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co">    algorithm with classical Gram-Schmidt QR factorisation.</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="co">    This function implements the basic QR algorithm:</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="co">    1. Factorise the matrix `A` into `Q` and `R` using Gram-Schmidt QR</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="co">       factorisation.</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="co">    2. Update the matrix as:</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a></span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="co">       .. math::</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a><span class="co">           A_{k+1} = R_k Q_k</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a></span>
+<span id="cb3-15"><a href="#cb3-15"></a><span class="co">    3. Accumulate the orthogonal transformations in `V` to compute the</span></span>
+<span id="cb3-16"><a href="#cb3-16"></a><span class="co">       eigenvectors.</span></span>
+<span id="cb3-17"><a href="#cb3-17"></a><span class="co">    4. Iterate until `A` becomes approximately upper triangular or until the</span></span>
+<span id="cb3-18"><a href="#cb3-18"></a><span class="co">       maximum number of iterations is reached.</span></span>
+<span id="cb3-19"><a href="#cb3-19"></a></span>
+<span id="cb3-20"><a href="#cb3-20"></a><span class="co">    Once the iteration converges, the diagonal of `A` contains the</span></span>
+<span id="cb3-21"><a href="#cb3-21"></a><span class="co">    eigenvalues, and the columns of `V` contain the corresponding</span></span>
+<span id="cb3-22"><a href="#cb3-22"></a><span class="co">    eigenvectors.</span></span>
+<span id="cb3-23"><a href="#cb3-23"></a></span>
+<span id="cb3-24"><a href="#cb3-24"></a><span class="co">    Parameters</span></span>
+<span id="cb3-25"><a href="#cb3-25"></a><span class="co">    ----------</span></span>
+<span id="cb3-26"><a href="#cb3-26"></a><span class="co">    A : numpy.ndarray</span></span>
+<span id="cb3-27"><a href="#cb3-27"></a><span class="co">        A square 2D NumPy array of shape ``(n, n)`` representing the input</span></span>
+<span id="cb3-28"><a href="#cb3-28"></a><span class="co">        matrix.</span></span>
+<span id="cb3-29"><a href="#cb3-29"></a><span class="co">    maxiter : int, optional</span></span>
+<span id="cb3-30"><a href="#cb3-30"></a><span class="co">        Maximum number of QR iterations to perform. Default is 100.</span></span>
+<span id="cb3-31"><a href="#cb3-31"></a><span class="co">    verbose : bool, optional</span></span>
+<span id="cb3-32"><a href="#cb3-32"></a><span class="co">        If ``True``, prints intermediate matrices (`A`, `Q`, `R`, and `V`) at</span></span>
+<span id="cb3-33"><a href="#cb3-33"></a><span class="co">        each iteration. Useful for debugging and understanding convergence.</span></span>
+<span id="cb3-34"><a href="#cb3-34"></a><span class="co">        Default is ``False``.</span></span>
+<span id="cb3-35"><a href="#cb3-35"></a></span>
+<span id="cb3-36"><a href="#cb3-36"></a><span class="co">    Returns</span></span>
+<span id="cb3-37"><a href="#cb3-37"></a><span class="co">    -------</span></span>
+<span id="cb3-38"><a href="#cb3-38"></a><span class="co">    eigenvalues : numpy.ndarray</span></span>
+<span id="cb3-39"><a href="#cb3-39"></a><span class="co">        A 1D NumPy array of length ``n`` containing the eigenvalues of `A`.</span></span>
+<span id="cb3-40"><a href="#cb3-40"></a><span class="co">        These are the diagonal elements of the final upper triangular matrix.</span></span>
+<span id="cb3-41"><a href="#cb3-41"></a><span class="co">    V : numpy.ndarray</span></span>
+<span id="cb3-42"><a href="#cb3-42"></a><span class="co">        A 2D NumPy array of shape ``(n, n)`` whose columns are the normalized</span></span>
+<span id="cb3-43"><a href="#cb3-43"></a><span class="co">        eigenvectors corresponding to the eigenvalues.</span></span>
+<span id="cb3-44"><a href="#cb3-44"></a><span class="co">    it : int</span></span>
+<span id="cb3-45"><a href="#cb3-45"></a><span class="co">        The number of iterations taken by the algorithm.</span></span>
+<span id="cb3-46"><a href="#cb3-46"></a><span class="co">    """</span></span>
+<span id="cb3-47"><a href="#cb3-47"></a>    <span class="co"># identity matrix to store eigenvectors</span></span>
+<span id="cb3-48"><a href="#cb3-48"></a>    V <span class="op">=</span> np.eye(A.shape[<span class="dv">0</span>])</span>
+<span id="cb3-49"><a href="#cb3-49"></a></span>
+<span id="cb3-50"><a href="#cb3-50"></a>    <span class="cf">if</span> verbose:</span>
+<span id="cb3-51"><a href="#cb3-51"></a>        print_array(A)</span>
+<span id="cb3-52"><a href="#cb3-52"></a></span>
+<span id="cb3-53"><a href="#cb3-53"></a>    it <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb3-54"><a href="#cb3-54"></a>    <span class="cf">for</span> it <span class="kw">in</span> <span class="bu">range</span>(maxiter):</span>
+<span id="cb3-55"><a href="#cb3-55"></a>        <span class="cf">if</span> verbose:</span>
+<span id="cb3-56"><a href="#cb3-56"></a>            <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n\n</span><span class="sc">{</span>it<span class="op">=</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-57"><a href="#cb3-57"></a></span>
+<span id="cb3-58"><a href="#cb3-58"></a>        <span class="co"># perform factorisation</span></span>
+<span id="cb3-59"><a href="#cb3-59"></a>        Q, R <span class="op">=</span> gram_schmidt_qr(A)</span>
+<span id="cb3-60"><a href="#cb3-60"></a>        <span class="cf">if</span> verbose:</span>
+<span id="cb3-61"><a href="#cb3-61"></a>            print_array(Q)</span>
+<span id="cb3-62"><a href="#cb3-62"></a>            print_array(R)</span>
+<span id="cb3-63"><a href="#cb3-63"></a></span>
+<span id="cb3-64"><a href="#cb3-64"></a>        <span class="co"># update A and V in place</span></span>
+<span id="cb3-65"><a href="#cb3-65"></a>        A <span class="op">=</span> R <span class="op">@</span> Q</span>
+<span id="cb3-66"><a href="#cb3-66"></a>        V <span class="op">=</span> V <span class="op">@</span> Q</span>
+<span id="cb3-67"><a href="#cb3-67"></a></span>
+<span id="cb3-68"><a href="#cb3-68"></a>        <span class="cf">if</span> verbose:</span>
+<span id="cb3-69"><a href="#cb3-69"></a>            print_array(A)</span>
+<span id="cb3-70"><a href="#cb3-70"></a>            print_array(V)</span>
+<span id="cb3-71"><a href="#cb3-71"></a></span>
+<span id="cb3-72"><a href="#cb3-72"></a>        <span class="co"># test for convergence: is A upper triangular up to tolerance 1.0e-8?</span></span>
+<span id="cb3-73"><a href="#cb3-73"></a>        <span class="cf">if</span> np.allclose(A, np.triu(A), atol<span class="op">=</span><span class="fl">1.0e-8</span>):</span>
+<span id="cb3-74"><a href="#cb3-74"></a>            <span class="cf">break</span></span>
+<span id="cb3-75"><a href="#cb3-75"></a></span>
+<span id="cb3-76"><a href="#cb3-76"></a>    eigenvalues <span class="op">=</span> np.diag(A)</span>
+<span id="cb3-77"><a href="#cb3-77"></a>    <span class="cf">return</span> eigenvalues, V, it</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We test this out in code first for the same <span class="math inline">\(2 \times 2\)</span> matrix from <a href="lec07.html#exm-char" class="quarto-xref">Example&nbsp;<span>7.3</span></a> that we iterated by hand above:</p>
-<div id="69cf0bbd" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-label="1"></a>A <span class="op">=</span> np.array([[<span class="fl">3.0</span>, <span class="fl">1.0</span>], [<span class="fl">1.0</span>, <span class="fl">3.0</span>]])</span>
-<span id="cb4-2"><a href="#cb4-2" aria-label="2"></a>print_array(A)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-label="3"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-label="4"></a>eigenvalues, eigenvectors, it <span class="op">=</span> gram_schmidt_eigen(A)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-label="5"></a>print_array(eigenvalues)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-label="6"></a>print_array(eigenvectors)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-label="7"></a><span class="bu">print</span>(<span class="st">"iterations required:"</span>, it)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="052dac82" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>A <span class="op">=</span> np.array([[<span class="fl">3.0</span>, <span class="fl">1.0</span>], [<span class="fl">1.0</span>, <span class="fl">3.0</span>]])</span>
+<span id="cb4-2"><a href="#cb4-2"></a>print_array(A)</span>
+<span id="cb4-3"><a href="#cb4-3"></a></span>
+<span id="cb4-4"><a href="#cb4-4"></a>eigenvalues, eigenvectors, it <span class="op">=</span> gram_schmidt_eigen(A)</span>
+<span id="cb4-5"><a href="#cb4-5"></a>print_array(eigenvalues)</span>
+<span id="cb4-6"><a href="#cb4-6"></a>print_array(eigenvectors)</span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="bu">print</span>(<span class="st">"iterations required:"</span>, it)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>A = [  3.0,  1.0 ]
     [  1.0,  3.0 ]
@@ -964,95 +782,95 @@ iterations required: 27</code></pre>
 <section id="correctness-and-convergence" class="level2" data-number="8.5">
 <h2 data-number="8.5" class="anchored" data-anchor-id="correctness-and-convergence"><span class="header-section-number">8.5</span> Correctness and convergence</h2>
 <p>Let’s see what happens when we try this same approach for bigger symmetric matrices. Here we have a test that samples ten different random matrices and computes the average number of iterations, average run time and maximum error in the eigenvalue equation.</p>
-<div id="1b66e666" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-label="1"></a><span class="co"># replicable random seed</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-label="2"></a>np.random.seed(<span class="dv">42</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-label="3"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-label="4"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-label="5"></a><span class="kw">def</span> test_accuracy_of_eigensolve(A, eigenvalues, eigenvectors):</span>
-<span id="cb6-6"><a href="#cb6-6" aria-label="6"></a>    <span class="co">"""</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-label="7"></a><span class="co">    test accuracy of solution of eigenvalue problem</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-label="8"></a><span class="co">    """</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-label="9"></a>    residuals <span class="op">=</span> []</span>
-<span id="cb6-10"><a href="#cb6-10" aria-label="10"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(eigenvalues)):</span>
-<span id="cb6-11"><a href="#cb6-11" aria-label="11"></a>        residual <span class="op">=</span> np.linalg.norm(</span>
-<span id="cb6-12"><a href="#cb6-12" aria-label="12"></a>            A <span class="op">@</span> eigenvectors[:, i] <span class="op">-</span> eigenvalues[i] <span class="op">*</span> eigenvectors[:, i]</span>
-<span id="cb6-13"><a href="#cb6-13" aria-label="13"></a>        )</span>
-<span id="cb6-14"><a href="#cb6-14" aria-label="14"></a>        residuals.append(residual)</span>
-<span id="cb6-15"><a href="#cb6-15" aria-label="15"></a>    <span class="cf">return</span> <span class="bu">max</span>(residuals)</span>
-<span id="cb6-16"><a href="#cb6-16" aria-label="16"></a></span>
-<span id="cb6-17"><a href="#cb6-17" aria-label="17"></a></span>
-<span id="cb6-18"><a href="#cb6-18" aria-label="18"></a><span class="co"># replicable seed</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-label="19"></a>repeats <span class="op">=</span> <span class="dv">10</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-label="20"></a></span>
-<span id="cb6-21"><a href="#cb6-21" aria-label="21"></a><span class="co"># restart the seed</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-label="22"></a>np.random.seed(<span class="dv">42</span>)</span>
-<span id="cb6-23"><a href="#cb6-23" aria-label="23"></a></span>
-<span id="cb6-24"><a href="#cb6-24" aria-label="24"></a></span>
-<span id="cb6-25"><a href="#cb6-25" aria-label="25"></a><span class="kw">def</span> random_symmetric_matrix(n):</span>
-<span id="cb6-26"><a href="#cb6-26" aria-label="26"></a>    <span class="co"># generate a random matrix</span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-label="27"></a>    S <span class="op">=</span> special_ortho_group.rvs(n)</span>
-<span id="cb6-28"><a href="#cb6-28" aria-label="28"></a>    D <span class="op">=</span> np.diag(np.random.randint(<span class="dv">1</span>, <span class="dv">10</span>, (n,)) <span class="op">/</span> <span class="dv">2</span>)</span>
-<span id="cb6-29"><a href="#cb6-29" aria-label="29"></a>    A <span class="op">=</span> S.T <span class="op">@</span> D <span class="op">@</span> S</span>
-<span id="cb6-30"><a href="#cb6-30" aria-label="30"></a>    <span class="cf">return</span> A</span>
-<span id="cb6-31"><a href="#cb6-31" aria-label="31"></a></span>
-<span id="cb6-32"><a href="#cb6-32" aria-label="32"></a></span>
-<span id="cb6-33"><a href="#cb6-33" aria-label="33"></a><span class="bu">print</span>(<span class="st">"size  time (s)       iter  error"</span>)</span>
-<span id="cb6-34"><a href="#cb6-34" aria-label="34"></a></span>
-<span id="cb6-35"><a href="#cb6-35" aria-label="35"></a>n_values <span class="op">=</span> [<span class="dv">2</span><span class="op">**</span>j <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">8</span>)]</span>
-<span id="cb6-36"><a href="#cb6-36" aria-label="36"></a>it_values <span class="op">=</span> []</span>
-<span id="cb6-37"><a href="#cb6-37" aria-label="37"></a>runtime_values <span class="op">=</span> []</span>
-<span id="cb6-38"><a href="#cb6-38" aria-label="38"></a></span>
-<span id="cb6-39"><a href="#cb6-39" aria-label="39"></a><span class="cf">for</span> n <span class="kw">in</span> n_values:</span>
-<span id="cb6-40"><a href="#cb6-40" aria-label="40"></a>    runtime <span class="op">=</span> <span class="fl">0.0</span></span>
-<span id="cb6-41"><a href="#cb6-41" aria-label="41"></a>    total_its <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb6-42"><a href="#cb6-42" aria-label="42"></a>    max_error <span class="op">=</span> <span class="fl">0.0</span></span>
-<span id="cb6-43"><a href="#cb6-43" aria-label="43"></a></span>
-<span id="cb6-44"><a href="#cb6-44" aria-label="44"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(repeats):</span>
-<span id="cb6-45"><a href="#cb6-45" aria-label="45"></a>        <span class="co"># generate new random matrix</span></span>
-<span id="cb6-46"><a href="#cb6-46" aria-label="46"></a>        A <span class="op">=</span> random_symmetric_matrix(n)</span>
-<span id="cb6-47"><a href="#cb6-47" aria-label="47"></a></span>
-<span id="cb6-48"><a href="#cb6-48" aria-label="48"></a>        <span class="co"># do and time the solve, ensure converged</span></span>
-<span id="cb6-49"><a href="#cb6-49" aria-label="49"></a>        maxiter <span class="op">=</span> <span class="dv">1000_000</span></span>
-<span id="cb6-50"><a href="#cb6-50" aria-label="50"></a>        start <span class="op">=</span> time.perf_counter()</span>
-<span id="cb6-51"><a href="#cb6-51" aria-label="51"></a>        eigenvalues, eigenvectors, it <span class="op">=</span> gram_schmidt_eigen(A, maxiter<span class="op">=</span>maxiter)</span>
-<span id="cb6-52"><a href="#cb6-52" aria-label="52"></a>        end <span class="op">=</span> time.perf_counter()</span>
-<span id="cb6-53"><a href="#cb6-53" aria-label="53"></a></span>
-<span id="cb6-54"><a href="#cb6-54" aria-label="54"></a>        <span class="cf">if</span> it <span class="op">==</span> maxiter <span class="op">-</span> <span class="dv">1</span>:</span>
-<span id="cb6-55"><a href="#cb6-55" aria-label="55"></a>            <span class="co"># skip</span></span>
-<span id="cb6-56"><a href="#cb6-56" aria-label="56"></a>            <span class="cf">continue</span></span>
-<span id="cb6-57"><a href="#cb6-57" aria-label="57"></a></span>
-<span id="cb6-58"><a href="#cb6-58" aria-label="58"></a>        <span class="co"># store the data</span></span>
-<span id="cb6-59"><a href="#cb6-59" aria-label="59"></a>        runtime <span class="op">+=</span> end <span class="op">-</span> start</span>
-<span id="cb6-60"><a href="#cb6-60" aria-label="60"></a>        total_its <span class="op">+=</span> it</span>
-<span id="cb6-61"><a href="#cb6-61" aria-label="61"></a>        max_error <span class="op">=</span> <span class="bu">max</span>(</span>
-<span id="cb6-62"><a href="#cb6-62" aria-label="62"></a>            max_error,</span>
-<span id="cb6-63"><a href="#cb6-63" aria-label="63"></a>            test_accuracy_of_eigensolve(A, eigenvalues, eigenvectors),</span>
-<span id="cb6-64"><a href="#cb6-64" aria-label="64"></a>        )</span>
-<span id="cb6-65"><a href="#cb6-65" aria-label="65"></a></span>
-<span id="cb6-66"><a href="#cb6-66" aria-label="66"></a>    runtime <span class="op">/=</span> repeats</span>
-<span id="cb6-67"><a href="#cb6-67" aria-label="67"></a>    average_it <span class="op">=</span> total_its <span class="op">/</span> repeats</span>
-<span id="cb6-68"><a href="#cb6-68" aria-label="68"></a></span>
-<span id="cb6-69"><a href="#cb6-69" aria-label="69"></a>    it_values.append(average_it)</span>
-<span id="cb6-70"><a href="#cb6-70" aria-label="70"></a>    runtime_values.append(runtime)</span>
-<span id="cb6-71"><a href="#cb6-71" aria-label="71"></a></span>
-<span id="cb6-72"><a href="#cb6-72" aria-label="72"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>n<span class="sc">:4d}</span><span class="ss">   </span><span class="sc">{</span>runtime<span class="sc">:.6e}</span><span class="ss">  </span><span class="sc">{</span>average_it<span class="sc">:5.1f}</span><span class="ss">  </span><span class="sc">{</span>max_error<span class="sc">:.6e}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="773a8393" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># replicable random seed</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb6-3"><a href="#cb6-3"></a></span>
+<span id="cb6-4"><a href="#cb6-4"></a></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="kw">def</span> test_accuracy_of_eigensolve(A, eigenvalues, eigenvectors):</span>
+<span id="cb6-6"><a href="#cb6-6"></a>    <span class="co">"""</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="co">    test accuracy of solution of eigenvalue problem</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="co">    """</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a>    residuals <span class="op">=</span> []</span>
+<span id="cb6-10"><a href="#cb6-10"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(eigenvalues)):</span>
+<span id="cb6-11"><a href="#cb6-11"></a>        residual <span class="op">=</span> np.linalg.norm(</span>
+<span id="cb6-12"><a href="#cb6-12"></a>            A <span class="op">@</span> eigenvectors[:, i] <span class="op">-</span> eigenvalues[i] <span class="op">*</span> eigenvectors[:, i]</span>
+<span id="cb6-13"><a href="#cb6-13"></a>        )</span>
+<span id="cb6-14"><a href="#cb6-14"></a>        residuals.append(residual)</span>
+<span id="cb6-15"><a href="#cb6-15"></a>    <span class="cf">return</span> <span class="bu">max</span>(residuals)</span>
+<span id="cb6-16"><a href="#cb6-16"></a></span>
+<span id="cb6-17"><a href="#cb6-17"></a></span>
+<span id="cb6-18"><a href="#cb6-18"></a><span class="co"># replicable seed</span></span>
+<span id="cb6-19"><a href="#cb6-19"></a>repeats <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb6-20"><a href="#cb6-20"></a></span>
+<span id="cb6-21"><a href="#cb6-21"></a><span class="co"># restart the seed</span></span>
+<span id="cb6-22"><a href="#cb6-22"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb6-23"><a href="#cb6-23"></a></span>
+<span id="cb6-24"><a href="#cb6-24"></a></span>
+<span id="cb6-25"><a href="#cb6-25"></a><span class="kw">def</span> random_symmetric_matrix(n):</span>
+<span id="cb6-26"><a href="#cb6-26"></a>    <span class="co"># generate a random matrix</span></span>
+<span id="cb6-27"><a href="#cb6-27"></a>    S <span class="op">=</span> special_ortho_group.rvs(n)</span>
+<span id="cb6-28"><a href="#cb6-28"></a>    D <span class="op">=</span> np.diag(np.random.randint(<span class="dv">1</span>, <span class="dv">10</span>, (n,)) <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb6-29"><a href="#cb6-29"></a>    A <span class="op">=</span> S.T <span class="op">@</span> D <span class="op">@</span> S</span>
+<span id="cb6-30"><a href="#cb6-30"></a>    <span class="cf">return</span> A</span>
+<span id="cb6-31"><a href="#cb6-31"></a></span>
+<span id="cb6-32"><a href="#cb6-32"></a></span>
+<span id="cb6-33"><a href="#cb6-33"></a><span class="bu">print</span>(<span class="st">"size  time (s)       iter  error"</span>)</span>
+<span id="cb6-34"><a href="#cb6-34"></a></span>
+<span id="cb6-35"><a href="#cb6-35"></a>n_values <span class="op">=</span> [<span class="dv">2</span><span class="op">**</span>j <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">8</span>)]</span>
+<span id="cb6-36"><a href="#cb6-36"></a>it_values <span class="op">=</span> []</span>
+<span id="cb6-37"><a href="#cb6-37"></a>runtime_values <span class="op">=</span> []</span>
+<span id="cb6-38"><a href="#cb6-38"></a></span>
+<span id="cb6-39"><a href="#cb6-39"></a><span class="cf">for</span> n <span class="kw">in</span> n_values:</span>
+<span id="cb6-40"><a href="#cb6-40"></a>    runtime <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb6-41"><a href="#cb6-41"></a>    total_its <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb6-42"><a href="#cb6-42"></a>    max_error <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb6-43"><a href="#cb6-43"></a></span>
+<span id="cb6-44"><a href="#cb6-44"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(repeats):</span>
+<span id="cb6-45"><a href="#cb6-45"></a>        <span class="co"># generate new random matrix</span></span>
+<span id="cb6-46"><a href="#cb6-46"></a>        A <span class="op">=</span> random_symmetric_matrix(n)</span>
+<span id="cb6-47"><a href="#cb6-47"></a></span>
+<span id="cb6-48"><a href="#cb6-48"></a>        <span class="co"># do and time the solve, ensure converged</span></span>
+<span id="cb6-49"><a href="#cb6-49"></a>        maxiter <span class="op">=</span> <span class="dv">1000_000</span></span>
+<span id="cb6-50"><a href="#cb6-50"></a>        start <span class="op">=</span> time.perf_counter()</span>
+<span id="cb6-51"><a href="#cb6-51"></a>        eigenvalues, eigenvectors, it <span class="op">=</span> gram_schmidt_eigen(A, maxiter<span class="op">=</span>maxiter)</span>
+<span id="cb6-52"><a href="#cb6-52"></a>        end <span class="op">=</span> time.perf_counter()</span>
+<span id="cb6-53"><a href="#cb6-53"></a></span>
+<span id="cb6-54"><a href="#cb6-54"></a>        <span class="cf">if</span> it <span class="op">==</span> maxiter <span class="op">-</span> <span class="dv">1</span>:</span>
+<span id="cb6-55"><a href="#cb6-55"></a>            <span class="co"># skip</span></span>
+<span id="cb6-56"><a href="#cb6-56"></a>            <span class="cf">continue</span></span>
+<span id="cb6-57"><a href="#cb6-57"></a></span>
+<span id="cb6-58"><a href="#cb6-58"></a>        <span class="co"># store the data</span></span>
+<span id="cb6-59"><a href="#cb6-59"></a>        runtime <span class="op">+=</span> end <span class="op">-</span> start</span>
+<span id="cb6-60"><a href="#cb6-60"></a>        total_its <span class="op">+=</span> it</span>
+<span id="cb6-61"><a href="#cb6-61"></a>        max_error <span class="op">=</span> <span class="bu">max</span>(</span>
+<span id="cb6-62"><a href="#cb6-62"></a>            max_error,</span>
+<span id="cb6-63"><a href="#cb6-63"></a>            test_accuracy_of_eigensolve(A, eigenvalues, eigenvectors),</span>
+<span id="cb6-64"><a href="#cb6-64"></a>        )</span>
+<span id="cb6-65"><a href="#cb6-65"></a></span>
+<span id="cb6-66"><a href="#cb6-66"></a>    runtime <span class="op">/=</span> repeats</span>
+<span id="cb6-67"><a href="#cb6-67"></a>    average_it <span class="op">=</span> total_its <span class="op">/</span> repeats</span>
+<span id="cb6-68"><a href="#cb6-68"></a></span>
+<span id="cb6-69"><a href="#cb6-69"></a>    it_values.append(average_it)</span>
+<span id="cb6-70"><a href="#cb6-70"></a>    runtime_values.append(runtime)</span>
+<span id="cb6-71"><a href="#cb6-71"></a></span>
+<span id="cb6-72"><a href="#cb6-72"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>n<span class="sc">:4d}</span><span class="ss">   </span><span class="sc">{</span>runtime<span class="sc">:.6e}</span><span class="ss">  </span><span class="sc">{</span>average_it<span class="sc">:5.1f}</span><span class="ss">  </span><span class="sc">{</span>max_error<span class="sc">:.6e}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>size  time (s)       iter  error
-   2   1.434005e-03   44.6  9.319110e-09
-   4   3.703214e-03   78.1  9.895223e-09
-   8   1.505672e-02  137.7  1.212740e-08
-  16   5.133594e-02  152.7  1.346641e-08
-  32   2.000792e-01  165.6  1.246268e-08
-  64   8.113572e-01  162.3  1.646201e-08
- 128   5.902880e+00  173.8  1.478504e-08</code></pre>
+   2   1.803585e-03   44.6  9.319110e-09
+   4   3.483761e-03   78.1  9.895223e-09
+   8   1.494398e-02  137.7  1.212740e-08
+  16   5.320259e-02  152.7  1.346641e-08
+  32   2.125942e-01  165.6  1.246268e-08
+  64   8.399129e-01  162.3  1.646201e-08
+ 128   5.000576e+00  173.8  1.478504e-08</code></pre>
 </div>
 </div>
-<div id="a10b6187" class="cell" data-execution_count="10">
+<div id="b733e564" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="lec08_files/figure-html/cell-11-output-1.png" width="661" height="467" class="figure-img"></p>
+<p><img src="lec08_files/figure-html/cell-11-output-1.png" width="661" height="468" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1073,71 +891,187 @@ iterations required: 27</code></pre>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-  window.document.addEventListener("DOMContentLoaded", function (event) {
-    // Ensure there is a toggle, if there isn't float one in the top right
-    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
-      const a = window.document.createElement('a');
-      a.classList.add('top-right');
-      a.classList.add('quarto-color-scheme-toggle');
-      a.href = "";
-      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
-      const i = window.document.createElement("i");
-      i.classList.add('bi');
-      a.appendChild(i);
-      window.document.body.appendChild(a);
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
     }
-    setColorSchemeToggle(hasAlternateSentinel())
-    const icon = "";
-    const anchorJS = new window.AnchorJS();
-    anchorJS.options = {
-      placement: 'right',
-      icon: icon
-    };
-    anchorJS.add('.anchored');
-    const isCodeAnnotation = (el) => {
-      for (const clz of el.classList) {
-        if (clz.startsWith('code-annotation-')) {                     
-          return true;
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
         }
       }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
       return false;
     }
-    const onCopySuccess = function(e) {
-      // button target
-      const button = e.trigger;
-      // don't keep focus
-      button.blur();
-      // flash "checked"
-      button.classList.add('code-copy-button-checked');
-      var currentTitle = button.getAttribute("title");
-      button.setAttribute("title", "Copied!");
-      let tooltip;
-      if (window.bootstrap) {
-        button.setAttribute("data-bs-toggle", "tooltip");
-        button.setAttribute("data-bs-placement", "left");
-        button.setAttribute("data-bs-title", "Copied!");
-        tooltip = new bootstrap.Tooltip(button, 
-          { trigger: "manual", 
-            customClass: "code-copy-button-tooltip",
-            offset: [0, -8]});
-        tooltip.show();    
-      }
-      setTimeout(function() {
-        if (tooltip) {
-          tooltip.hide();
-          button.removeAttribute("data-bs-title");
-          button.removeAttribute("data-bs-toggle");
-          button.removeAttribute("data-bs-placement");
-        }
-        button.setAttribute("title", currentTitle);
-        button.classList.remove('code-copy-button-checked');
-      }, 1000);
-      // clear code selection
-      e.clearSelection();
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
     }
-    const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
       for (const childEl of codeEl.children) {
         if (isCodeAnnotation(childEl)) {
           childEl.remove();
@@ -1145,184 +1079,184 @@ iterations required: 27</code></pre>
       }
       return codeEl.innerText;
     }
-    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-      text: getTextToCopy
-    });
-    clipboard.on('success', onCopySuccess);
-    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-        text: getTextToCopy,
-        container: window.document.getElementById('quarto-embedded-source-code-modal')
-      });
-      clipboardModal.on('success', onCopySuccess);
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
     }
-      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-      var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/comp2870-2526\.github\.io\/linear-algebra-notes\/");
-      var isInternal = (href) => {
-          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
       }
-      // Inspect non-navigation links and adorn them if external
-     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-      for (var i=0; i<links.length; i++) {
-        const link = links[i];
-        if (!isInternal(link.href)) {
-          // undo the damage that might have been done by quarto-nav.js in the case of
-          // links that we want to consider external
-          if (link.dataset.originalHref !== undefined) {
-            link.href = link.dataset.originalHref;
-          }
-        }
-      }
-    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-      const config = {
-        allowHTML: true,
-        maxWidth: 500,
-        delay: 100,
-        arrow: false,
-        appendTo: function(el) {
-            return el.parentElement;
-        },
-        interactive: true,
-        interactiveBorder: 10,
-        theme: 'quarto',
-        placement: 'bottom-start',
-      };
-      if (contentFn) {
-        config.content = contentFn;
-      }
-      if (onTriggerFn) {
-        config.onTrigger = onTriggerFn;
-      }
-      if (onUntriggerFn) {
-        config.onUntrigger = onUntriggerFn;
-      }
-      window.tippy(el, config); 
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/comp2870-2526\.github\.io\/linear-algebra-notes\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
-    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-    for (var i=0; i<noterefs.length; i++) {
-      const ref = noterefs[i];
-      tippyHover(ref, function() {
-        // use id or data attribute instead here
-        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-        try { href = new URL(href).hash; } catch {}
-        const id = href.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note) {
-          return note.innerHTML;
-        } else {
-          return "";
-        }
-      });
-    }
-    const xrefs = window.document.querySelectorAll('a.quarto-xref');
-    const processXRef = (id, note) => {
-      // Strip column container classes
-      const stripColumnClz = (el) => {
-        el.classList.remove("page-full", "page-columns");
-        if (el.children) {
-          for (const child of el.children) {
-            stripColumnClz(child);
-          }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
         }
       }
-      stripColumnClz(note)
-      if (id === null || id.startsWith('sec-')) {
-        // Special case sections, only their first couple elements
-        const container = document.createElement("div");
-        if (note.children && note.children.length > 2) {
-          container.appendChild(note.children[0].cloneNode(true));
-          for (let i = 1; i < note.children.length; i++) {
-            const child = note.children[i];
-            if (child.tagName === "P" && child.innerText === "") {
-              continue;
-            } else {
-              container.appendChild(child.cloneNode(true));
-              break;
-            }
-          }
-          if (window.Quarto?.typesetMath) {
-            window.Quarto.typesetMath(container);
-          }
-          return container.innerHTML
-        } else {
-          if (window.Quarto?.typesetMath) {
-            window.Quarto.typesetMath(note);
-          }
-          return note.innerHTML;
-        }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
       } else {
-        // Remove any anchor links if they are present
-        const anchorLink = note.querySelector('a.anchorjs-link');
-        if (anchorLink) {
-          anchorLink.remove();
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
         }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        if (note.classList.contains("callout")) {
-          return note.outerHTML;
-        } else {
-          return note.innerHTML;
-        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
       }
     }
-    for (var i=0; i<xrefs.length; i++) {
-      const xref = xrefs[i];
-      tippyHover(xref, undefined, function(instance) {
-        instance.disable();
-        let url = xref.getAttribute('href');
-        let hash = undefined; 
-        if (url.startsWith('#')) {
-          hash = url;
-        } else {
-          try { hash = new URL(url).hash; } catch {}
-        }
-        if (hash) {
-          const id = hash.replace(/^#\/?/, "");
-          const note = window.document.getElementById(id);
-          if (note !== null) {
-            try {
-              const html = processXRef(id, note.cloneNode(true));
-              instance.setContent(html);
-            } finally {
-              instance.enable();
-              instance.show();
-            }
-          } else {
-            // See if we can fetch this
-            fetch(url.split('#')[0])
-            .then(res => res.text())
-            .then(html => {
-              const parser = new DOMParser();
-              const htmlDoc = parser.parseFromString(html, "text/html");
-              const note = htmlDoc.getElementById(id);
-              if (note !== null) {
-                const html = processXRef(id, note);
-                instance.setContent(html);
-              } 
-            }).finally(() => {
-              instance.enable();
-              instance.show();
-            });
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
           }
         } else {
-          // See if we can fetch a full url (with no hash to target)
-          // This is a special case and we should probably do some content thinning / targeting
-          fetch(url)
+          // See if we can fetch this
+          fetch(url.split('#')[0])
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.querySelector('main.content');
+            const note = htmlDoc.getElementById(id);
             if (note !== null) {
-              // This should only happen for chapter cross references
-              // (since there is no id in the URL)
-              // remove the first header
-              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-                note.children[0].remove();
-              }
-              const html = processXRef(null, note);
+              const html = processXRef(id, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -1330,161 +1264,185 @@ iterations required: 27</code></pre>
             instance.show();
           });
         }
-      }, function(instance) {
-      });
-    }
-        let selectedAnnoteEl;
-        const selectorForAnnotation = ( cell, annotation) => {
-          let cellAttr = 'data-code-cell="' + cell + '"';
-          let lineAttr = 'data-code-annotation="' +  annotation + '"';
-          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-          return selector;
-        }
-        const selectCodeLines = (annoteEl) => {
-          const doc = window.document;
-          const targetCell = annoteEl.getAttribute("data-target-cell");
-          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-          const lineIds = lines.map((line) => {
-            return targetCell + "-" + line;
-          })
-          let top = null;
-          let height = null;
-          let parent = null;
-          if (lineIds.length > 0) {
-              //compute the position of the single el (top and bottom and make a div)
-              const el = window.document.getElementById(lineIds[0]);
-              top = el.offsetTop;
-              height = el.offsetHeight;
-              parent = el.parentElement.parentElement;
-            if (lineIds.length > 1) {
-              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-              height = bottom - top;
-            }
-            if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it 
-              let div = window.document.getElementById("code-annotation-line-highlight");
-              if (div === null) {
-                div = window.document.createElement("div");
-                div.setAttribute("id", "code-annotation-line-highlight");
-                div.style.position = 'absolute';
-                parent.appendChild(div);
-              }
-              div.style.top = top - 2 + "px";
-              div.style.height = height + 4 + "px";
-              div.style.left = 0;
-              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-              if (gutterDiv === null) {
-                gutterDiv = window.document.createElement("div");
-                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-                gutterDiv.style.position = 'absolute';
-                const codeCell = window.document.getElementById(targetCell);
-                const gutter = codeCell.querySelector('.code-annotation-gutter');
-                gutter.appendChild(gutterDiv);
-              }
-              gutterDiv.style.top = top - 2 + "px";
-              gutterDiv.style.height = height + 4 + "px";
-            }
-            selectedAnnoteEl = annoteEl;
-          }
-        };
-        const unselectCodeLines = () => {
-          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-          elementsIds.forEach((elId) => {
-            const div = window.document.getElementById(elId);
-            if (div) {
-              div.remove();
-            }
-          });
-          selectedAnnoteEl = undefined;
-        };
-          // Handle positioning of the toggle
-      window.addEventListener(
-        "resize",
-        throttle(() => {
-          elRect = undefined;
-          if (selectedAnnoteEl) {
-            selectCodeLines(selectedAnnoteEl);
-          }
-        }, 10)
-      );
-      function throttle(fn, ms) {
-      let throttle = false;
-      let timer;
-        return (...args) => {
-          if(!throttle) { // first call gets through
-              fn.apply(this, args);
-              throttle = true;
-          } else { // all the others get throttled
-              if(timer) clearTimeout(timer); // cancel #2
-              timer = setTimeout(() => {
-                fn.apply(this, args);
-                timer = throttle = false;
-              }, ms);
-          }
-        };
-      }
-        // Attach click handler to the DT
-        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-        for (const annoteDlNode of annoteDls) {
-          annoteDlNode.addEventListener('click', (event) => {
-            const clickedEl = event.target;
-            if (clickedEl !== selectedAnnoteEl) {
-              unselectCodeLines();
-              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-              if (activeEl) {
-                activeEl.classList.remove('code-annotation-active');
-              }
-              selectCodeLines(clickedEl);
-              clickedEl.classList.add('code-annotation-active');
-            } else {
-              // Unselect the line
-              unselectCodeLines();
-              clickedEl.classList.remove('code-annotation-active');
-            }
-          });
-        }
-    const findCites = (el) => {
-      const parentEl = el.parentElement;
-      if (parentEl) {
-        const cites = parentEl.dataset.cites;
-        if (cites) {
-          return {
-            el,
-            cites: cites.split(' ')
-          };
-        } else {
-          return findCites(el.parentElement)
-        }
       } else {
-        return undefined;
-      }
-    };
-    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-    for (var i=0; i<bibliorefs.length; i++) {
-      const ref = bibliorefs[i];
-      const citeInfo = findCites(ref);
-      if (citeInfo) {
-        tippyHover(citeInfo.el, function() {
-          var popup = window.document.createElement('div');
-          citeInfo.cites.forEach(function(cite) {
-            var citeDiv = window.document.createElement('div');
-            citeDiv.classList.add('hanging-indent');
-            citeDiv.classList.add('csl-entry');
-            var biblioDiv = window.document.getElementById('ref-' + cite);
-            if (biblioDiv) {
-              citeDiv.innerHTML = biblioDiv.innerHTML;
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
             }
-            popup.appendChild(citeDiv);
-          });
-          return popup.innerHTML;
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
         });
       }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
     }
-  });
-  </script>
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../src/lec07.html" class="pagination-link" aria-label="Eigenvectors and eigenvalues">

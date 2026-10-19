@@ -37,88 +37,106 @@
   --quarto-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
-/* syntax highlight based on Pandoc's rules */
-/* Alert */
-code span.al {
-  color: #793600;
+code span.kw {
+  color: #004C77;
   font-weight: bold;
   font-style: inherit;
 }
 
-/* Annotation */
-code span.an {
-  color: #782E57;
-  font-style: italic;
-}
-
-/* Attribute */
-code span.at {
-  color: #1A1A1A;
-  font-style: inherit;
-}
-
-/* BaseN */
-code span.bn {
-  color: #793600;
-  font-style: inherit;
-}
-
-/* BuiltIn */
-code span.bu {
-  color: #1A1A1A;
-  font-style: inherit;
-}
-
-/* ControlFlow */
 code span.cf {
   color: #004C77;
   font-weight: bold;
   font-style: inherit;
 }
 
-/* Char */
+code span.im {
+  color: #004C77;
+  font-weight: bold;
+  font-style: inherit;
+}
+
+code span.st {
+  color: #00543D;
+  font-style: inherit;
+}
+
+code span.ss {
+  color: #00543D;
+  font-style: inherit;
+}
+
+code span.vs {
+  color: #00543D;
+  font-style: inherit;
+}
+
 code span.ch {
   color: #00543D;
   font-style: inherit;
 }
 
-/* Constant */
-code span.cn {
-  color: #793600;
+code span.sc {
+  color: #00543D;
   font-style: inherit;
 }
 
-/* Comment */
-code span.co {
-  color: #782E57;
-  font-style: italic;
-}
-
-/* CommentVar */
-code span.cv {
-  color: #782E57;
-  font-style: italic;
-}
-
-/* Documentation */
-code span.do {
-  color: #782E57;
-  font-style: italic;
-}
-
-/* DataType */
-code span.dt {
-  color: #1A1A1A;
-  font-style: inherit;
-}
-
-/* DecVal */
 code span.dv {
   color: #793600;
   font-style: inherit;
 }
 
-/* Error */
+code span.fl {
+  color: #793600;
+  font-style: inherit;
+}
+
+code span.bn {
+  color: #793600;
+  font-style: inherit;
+}
+
+code span.cn {
+  color: #793600;
+  font-style: inherit;
+}
+
+code span.co {
+  color: #782E57;
+  font-style: italic;
+}
+
+code span.cv {
+  color: #782E57;
+  font-style: italic;
+}
+
+code span.do {
+  color: #782E57;
+  font-style: italic;
+}
+
+code span.an {
+  color: #782E57;
+  font-style: italic;
+}
+
+code span.in {
+  color: #782E57;
+  font-style: italic;
+}
+
+code span.wa {
+  color: #782E57;
+  font-weight: bold;
+  font-style: italic;
+}
+
+code span.al {
+  color: #793600;
+  font-weight: bold;
+  font-style: inherit;
+}
+
 code span.er {
   color: #793600;
   font-weight: bold;
@@ -126,108 +144,59 @@ code span.er {
   text-decoration: underline;
 }
 
-/* Extension */
-code span.ex {
-  color: #1A1A1A;
-  font-style: inherit;
-}
-
-/* Float */
-code span.fl {
-  color: #793600;
-  font-style: inherit;
-}
-
-/* Function */
-code span.fu {
-  color: #1A1A1A;
-  font-style: inherit;
-}
-
-/* Import */
-code span.im {
-  color: #004C77;
-  font-weight: bold;
-  font-style: inherit;
-}
-
-/* Information */
-code span.in {
-  color: #782E57;
-  font-style: italic;
-}
-
-/* Keyword */
-code span.kw {
-  color: #004C77;
-  font-weight: bold;
-  font-style: inherit;
-}
-
-/* Operator */
-code span.op {
-  color: #1A1A1A;
-  font-style: inherit;
-}
-
-/* Other */
-code span.ot {
-  color: #1A1A1A;
-  font-style: inherit;
-}
-
-/* Preprocessor */
 code span.pp {
   color: #1A1A1A;
   font-weight: bold;
   font-style: inherit;
 }
 
-/* RegionMarker */
-code span.re {
+code span.bu {
   color: #1A1A1A;
   font-style: inherit;
 }
 
-/* SpecialChar */
-code span.sc {
-  color: #00543D;
+code span.fu {
+  color: #1A1A1A;
   font-style: inherit;
 }
 
-/* SpecialString */
-code span.ss {
-  color: #00543D;
+code span.dt {
+  color: #1A1A1A;
   font-style: inherit;
 }
 
-/* String */
-code span.st {
-  color: #00543D;
-  font-style: inherit;
-}
-
-/* Variable */
 code span.va {
   color: #1A1A1A;
   font-style: inherit;
 }
 
-/* VerbatimString */
-code span.vs {
-  color: #00543D;
+code span.at {
+  color: #1A1A1A;
   font-style: inherit;
 }
 
-/* Warning */
-code span.wa {
-  color: #782E57;
-  font-weight: bold;
-  font-style: italic;
+code span.op {
+  color: #1A1A1A;
+  font-style: inherit;
+}
+
+code span.ot {
+  color: #1A1A1A;
+  font-style: inherit;
+}
+
+code span.ex {
+  color: #1A1A1A;
+  font-style: inherit;
+}
+
+code span.re {
+  color: #1A1A1A;
+  font-style: inherit;
 }
 
 .prevent-inlining {
   content: "</";
 }
 
-/*# sourceMappingURL=347735f0da0fd867e3f204bd9bba4394.css.map */
+/*# sourceMappingURL=debc5d5d77c3f9108843748ff7464032.css.map */
