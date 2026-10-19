@@ -56,7 +56,16 @@ jobs:
       # Pre-install LaTeX packages TinyTeX lacks, rather than relying on
       # quarto's on-the-fly tlmgr lookup (flaky)
       - name: Install extra LaTeX packages
-        run: tlmgr install svg trimspaces catchfile transparent
+        run: |
+          # quarto installs TinyTeX without putting tlmgr on PATH, so find it
+          tlmgr=$(find "$HOME" -path '*TinyTeX*' -name tlmgr \( -type f -o -type l \) 2>/dev/null | head -n 1)
+          if [ -z "$tlmgr" ]; then
+            echo "tlmgr not found; TinyTeX-looking dirs under \$HOME:"
+            find "$HOME" -maxdepth 3 -iname '*tinytex*' 2>/dev/null
+            exit 1
+          fi
+          echo "Using $tlmgr"
+          "$tlmgr" install svg trimspaces catchfile transparent
 
       #  Install dependencies using uv
       - name: Install the project
