@@ -73,9 +73,20 @@ jobs:
             exit 1
           fi
           echo "Using $tlmgr"
-          # CTAN refuses installs from an outdated tlmgr
-          "$tlmgr" update --self
-          "$tlmgr" install svg trimspaces catchfile transparent
+          # CTAN refuses installs from an outdated tlmgr. mirror.ctan.org
+          # redirects to a random mirror, which may lag behind TinyTeX and be
+          # rejected ("Remote database ... seems to be older"), so retry: each
+          # attempt resolves to a fresh mirror.
+          repo=https://mirror.ctan.org/systems/texlive/tlnet
+          for attempt in 1 2 3 4 5; do
+            if "$tlmgr" --repository "$repo" update --self &&
+               "$tlmgr" --repository "$repo" install svg trimspaces catchfile transparent; then
+              exit 0
+            fi
+            echo "tlmgr attempt $attempt failed; retrying with another mirror"
+            sleep 5
+          done
+          exit 1
 
       #  Install dependencies using uv
       - name: Install the project
@@ -83,6 +94,7 @@ jobs:
 
       #  Build the Quarto site
       - name: Build site
+        id: build-site
         run: uv run quarto render
 
       #  Build Quarto slides separately
@@ -95,9 +107,11 @@ jobs:
             mv "${q/.qmd/_files}" "_output/${q/.qmd/_files}"
           done
 
-      # Save updated Quarto freeze cache
+      # Save updated Quarto freeze cache, even if rendering failed part-way,
+      # but not when we never got as far as rendering (it would save a cache
+      # no better than the one restored)
       - name: Save Quarto freeze cache
-        if: always()
+        if: always() && steps.build-site.outcome != 'skipped'
         uses: actions/cache/save@v4
         with:
           path: |
