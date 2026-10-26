@@ -8,17 +8,12 @@ pyodide:
         - scipy
 
 format: live-revealjs
+
+vevox:
+  session: "134980624"
 ---
 
 # Iterative solutions of linear equations
-
-::: {.callout-tip}
-## Module learning objective
-
-- Derive and apply Jacobi and Gauss-Seidel iterative methods from a matrix splitting of a linear system;
-- Implement iterative solvers for dense and sparse matrices and estimate their computational complexity;
-- Evaluate convergence behaviour and justify the choice of stopping criteria for practical computations.
-:::
 
 Chapter 5
 
@@ -508,6 +503,31 @@ iteration number, the superscript in brackets. The exact solution is given by
 $\vec{x} = (1.5, 0.5)^T$.
 :::
 
+### Exercise {.vevox .smaller}
+
+Take one iteration of Jacobi iteration to
+approximate the solution of the following system using the initial guess
+$\vec{x}^{(0)} = (0, 1, 1)^T$:
+
+$$
+\begin{pmatrix}
+1 & -2 & 4 \\
+-1 & -2 & -1 \\
+-1 & -5 & 1
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\ x_2 \\ x_3
+\end{pmatrix}
+ =
+\begin{pmatrix}
+-3 \\ 4 \\ 5
+\end{pmatrix}.
+$$
+
+::: {.aside}
+Jacobi iteration: $x_i^{(k+1)} = x_i^{(k)} + \frac{1}{A_{ii}} \left(b_i - \sum_{j=1}^n A_{ij} x_j^{(k)} \right)$
+:::
+
 ### Rewriting Jacobi iteration
 
 We note that we can also slightly simplify the way the Jacobi iteration is
@@ -666,9 +686,9 @@ equations, especially the differences against the Jacobi method.
 - What happens if the initial estimate is altered to $\vec{x}^{(0)} = (2, 1)^T$.
 :::
 
-### Exercise
+### Exercise {.vevox .smaller}
 
-Take one iteration of (a) Jacobi iteration; (b) Gauss-Seidel iteration to
+Take one iteration of Gauss-Seidel iteration to
 approximate the solution of the following system using the initial guess
 $\vec{x}^{(0)} = (0, 1, 1)^T$:
 
@@ -686,6 +706,10 @@ x_1 \\ x_2 \\ x_3
 -3 \\ 4 \\ 5
 \end{pmatrix}.
 $$
+
+::: {.aside}
+GS: $x_i^{(k+1)} = x_i^{(k)} + \frac{1}{A_{ii}} \left(b_i - \sum_{j=1}^{i-1} A_{ij} x_j^{(k+1)} - \sum_{j=i}^n A_{ij} x_j^{(k)} \right)$
+:::
 
 ### Remarks
 
@@ -1001,7 +1025,7 @@ The simplest way in which a sparse matrix is stored is using three arrays:
 This requires just $3 \alpha n$ units of storage - i.e. $O(n)$. This is called
 the COO (coordinate) format.
 
-### Working with a sparse matrix
+### Working with a sparse matrix {.smaller}
 
 Given the above storage pattern, the following algorithm will execute a sparse
 matrix-vector multiplication ($\vec{z} = A \vec{y}$) in $O(n)$ operations:
@@ -1185,59 +1209,88 @@ Then we can test the two different implementations of the methods:
 #| include: false
 
 
-def random_sparse_system(n, nonzero):
-    assert nonzero > n
-    assert nonzero < n**2
+def random_sparse_system(n, nnz, seed=None):
+    rng = np.random.default_rng(seed)
+
+    assert n < nnz < n * n
+
+    # unique off-diagonal locations
+    offdiag = nnz - n
+
+    positions = set()
+
+    while len(positions) < offdiag:
+        i = rng.integers(n)
+        j = rng.integers(n)
+
+        if i != j:
+            positions.add((i, j))
+
+    row_sum = np.zeros(n)
 
     A_real = []
     I_row = []
     I_col = []
 
-    # fill diagonal first
+    # store off-diagonals first
+    for i, j in positions:
+        a = rng.uniform(-1.0, 1.0)
+
+        A_real.append(a)
+        I_row.append(i)
+        I_col.append(j)
+
+        row_sum[i] += abs(a)
+
+    # diagonal dominance
     for i in range(n):
-        value = (
-            np.random.randint(low=1.0, high=10.0) / 2
-        )
-        A_real.append(value)
+        diag = row_sum[i] + rng.uniform(1.0, 2.0)
+
+        A_real.append(diag)
         I_row.append(i)
         I_col.append(i)
 
-    # fill off diagonal
-    further_nnz = (nonzero - n) // 2
-    for _ in range(further_nnz):
-        value = np.random.randint(low=-10, high=10) / 2
-        while True:
-            row = np.random.randint(n)
-            col = np.random.randint(n)
-            if row != col:
-                break
+    A_real = np.array(A_real)
+    I_row = np.array(I_row, dtype=np.int32)
+    I_col = np.array(I_col, dtype=np.int32)
 
-        A_real.append(value)
-        I_row.append(row)
-        I_col.append(col)
-
-    # square and extract arrays
-    A = sp.sparse.coo_array((A_real, (I_row, I_col)))
-    A = (A.T @ A).tocoo()
-    A_real = A.data
-    I_row = A.coords[0]
-    I_col = A.coords[1]
-    nonzero = len(A.data)
-
-    # construction rhs to match solution of all ones
-    x = np.ones((n, 1))
-    b = np.zeros_like(x)
-    for k in range(nonzero):
-        b[I_row[k]] = (
-            b[I_row[k]] + A_real[k] * x[I_col[k]]
-        )
+    # exact solution x = 1
+    b = np.bincount(I_row, weights=A_real, minlength=n)[
+        :, None
+    ]
 
     return A_real, I_row, I_col, b
 
 
-def to_dense(A_real, I_row, I_col):
-    A = sp.sparse.coo_array((A_real, (I_row, I_col)))
-    return A.todense()
+def to_dense(A_real, I_row, I_col, n=None):
+    """
+    Convert COO representation to a dense matrix.
+
+    Parameters
+    ----------
+    A_real : array_like
+        Non-zero values.
+    I_row : array_like
+        Row indices.
+    I_col : array_like
+        Column indices.
+    n : int, optional
+        Matrix size. If omitted, inferred.
+
+    Returns
+    -------
+    A : ndarray
+        Dense matrix.
+    """
+
+    if n is None:
+        n = max(np.max(I_row), np.max(I_col)) + 1
+
+    A = np.zeros((n, n), dtype=A_real.dtype)
+
+    A[I_row, I_col] = A_real
+
+    return A
 
 
 ```
