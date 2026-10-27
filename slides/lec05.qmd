@@ -3,6 +3,9 @@ title: COMP2870 Theoretical Foundations of Computer Science II
 subtitle: Eigenvalues and complex numbers
 
 format: live-revealjs
+
+vevox:
+  session: "186016186"
 ---
 # Eigenvalues and complex numbers
 
@@ -235,7 +238,7 @@ the eigenvectors of a related matrix (the covariance or correlation matrix). Thi
 principal component analysis (PCA) and you will learn more about this in a project
 later in this module.
 
-> **Key idea.** The new directions form a carefully chosen **coordinate system**.
+> **Key idea.** The new directions form a carefully chosen *coordinate system*.
 
 ### Our home
 
@@ -290,7 +293,7 @@ plt.show()
 
 ---
 
-Then we can reconstruct the image using the top $k$ components
+Then we can reconstruct the image using the top $k$ components of the new coordinate system formed from eigenvectors
 ```{python}
 # | echo: False
 def reconstruct_image(
@@ -487,12 +490,16 @@ Thus all eigenvectors have the form $(x, 0)^T$ and point in the same direction
 as $(1, 0)^T$.
 :::
 
-### Exercise
+### Exercise {.vevox}
 
-Find the eigenvalues and eigenvectors of the matrix
+Find the eigenvalues of the matrix
 $$
 \begin{pmatrix} 9 & -2 \\ -2 & 6 \end{pmatrix}.
 $$
+
+::: {.aside}
+Characteristic equation: $\det (A - \lambda I_n) = 0$
+:::
 
 ### Example 3 {.small .write}
 
@@ -639,7 +646,7 @@ i^2 && \text{(rearrange)} \\
 \end{align*}
 :::
 
-### Multiplication of complex numbers
+### Multiplication of complex numbers {.vevox}
 
 This leads us to a general formula:
 \begin{equation*}
@@ -985,8 +992,8 @@ so
 \end{equation*}
 :::
 
-### Exercise
-Compute the modulus and argument of $2$, $3i$ and $4 + 4i$.
+### Exercise {.vevox}
+Compute the modulus and argument of $4 + 4i$.
 
 ### Geometric view of complex multiplication {.write}
 
