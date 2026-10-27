@@ -530,7 +530,7 @@ A \vec{x} = \lambda \vec{x}.
 <h3>Why does a computer scientist need to know about eigenvalues</h3>
 <p>One way to reduce the dimensionality is through projecting the dataset onto a small number of directions which come from the eigenvectors of a related matrix (the covariance or correlation matrix). This is called principal component analysis (PCA) and you will learn more about this in a project later in this module.</p>
 <blockquote>
-<p><strong>Key idea.</strong> The new directions form a carefully chosen <strong>coordinate system</strong>.</p>
+<p><strong>Key idea.</strong> The new directions form a carefully chosen <em>coordinate system</em>.</p>
 </blockquote>
 </section>
 <section id="our-home" class="slide level3">
@@ -545,7 +545,7 @@ A \vec{x} = \lambda \vec{x}.
 <img data-src="lec05_files/figure-revealjs/cell-6-output-1.png" class="r-stretch"></section>
 <section class="slide level3">
 
-<p>Then we can reconstruct the image using the top <span class="math inline">\(k\)</span> components</p>
+<p>Then we can reconstruct the image using the top <span class="math inline">\(k\)</span> components of the new coordinate system formed from eigenvectors</p>
 
 <img data-src="lec05_files/figure-revealjs/cell-8-output-1.png" class="r-stretch"><p>We see that even with a very small number of values we can start to recognise our building!</p>
 </section>
@@ -688,12 +688,15 @@ y \\ 0
           display:block!important;
       }</style></aside>
 </section>
-<section id="exercise" class="slide level3">
+<section id="exercise" class="slide level3 vevox">
 <h3>Exercise</h3>
-<p>Find the eigenvalues and eigenvectors of the matrix <span class="math display">\[
+<p>Find the eigenvalues of the matrix <span class="math display">\[
 \begin{pmatrix} 9 &amp; -2 \\ -2 &amp; 6 \end{pmatrix}.
 \]</span></p>
-</section>
+
+<aside><div>
+<p>Characteristic equation: <span class="math inline">\(\det (A - \lambda I_n) = 0\)</span></p>
+</div></aside></section>
 <section id="example-3" class="slide level3 small write">
 <h3>Example 3</h3>
 <p>Let <span class="math inline">\(Q\)</span> denote the <span class="math inline">\(2 \times 2\)</span> matrix that rotates any vector by <span class="math inline">\(\pi/2\)</span> (<span class="math inline">\(=90^\circ\)</span>): <span class="math display">\[\begin{equation*}
@@ -836,7 +839,7 @@ i^2 &amp;&amp; \text{(rearrange)} \\
           display:block!important;
       }</style></aside>
 </section>
-<section id="multiplication-of-complex-numbers-1" class="slide level3">
+<section id="multiplication-of-complex-numbers-1" class="slide level3 vevox">
 <h3>Multiplication of complex numbers</h3>
 <p>This leads us to a general formula: <span class="math display">\[\begin{equation*}
 (a + bi) \times (c + di) = (ac - bd) + (ad + bc) i.
@@ -1027,9 +1030,9 @@ angle of 0 + 1i: 0.0</code></pre>
           display:block!important;
       }</style></aside>
 </section>
-<section id="exercise-3" class="slide level3">
+<section id="exercise-3" class="slide level3 vevox">
 <h3>Exercise</h3>
-<p>Compute the modulus and argument of <span class="math inline">\(2\)</span>, <span class="math inline">\(3i\)</span> and <span class="math inline">\(4 + 4i\)</span>.</p>
+<p>Compute the modulus and argument of <span class="math inline">\(4 + 4i\)</span>.</p>
 </section>
 <section id="geometric-view-of-complex-multiplication" class="slide level3 write">
 <h3>Geometric view of complex multiplication</h3>
@@ -1239,7 +1242,7 @@ W10=
 'autoAnimateUnmatched': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
 'annotate': {"gridSize":50,"gridColor":"rgba(26, 26, 26, 0.05)","gridBackground":"#FBF8F0","colors":["auto","#004C77","#793600","#00543D","#782E57"],"autoLight":"#1A1A1A","autoDark":"#FBF8F0","widths":[2,3.5,6],"highlighterColor":"#F5C400","highlighterWidth":22,"eraserRadius":6,"scribbleReversals":4,"scribbleRatio":3,"scribbleCoverage":0.6,"palmDelay":400,"mouse":false,"toolbarPosition":"top"},
-'vevox': {"session":"","presenter":"","presenterHome":"https://universityofleeds.vevox.com/"},
+'vevox': {"session":"186016186","presenter":"","presenterHome":"https://universityofleeds.vevox.com/"},
 'smaller': false,
  
         // Display controls in the bottom right corner
