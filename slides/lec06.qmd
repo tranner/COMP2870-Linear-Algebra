@@ -229,9 +229,20 @@ matrices, very much like we had when we computed the LU-factorisation matrix.
 This is an example of **similar matrices** - matrices that have the same eigenvalues
 :::
 
+### Exercise {.smaller}
+
+~~Find the eigenvalues and eigenvectors of $$B = \begin{pmatrix} 1.5 & -0.5 \\ 0.5 & 1.5 \end{pmatrix}.$$ Hence, find matrices $R$ and $\Lambda$ so that $BR = R\Lambda$.~~
+
+
 ### Exercise {.vevox .smaller}
 
-Find the eigenvalues and eigenvectors of $$B = \begin{pmatrix} 1.5 & -0.5 \\ 0.5 & 1.5 \end{pmatrix}.$$ Hence, find matrices $R$ and $\Lambda$ so that $BR = R\Lambda$.
+Check that $\begin{pmatrix}1\\1\end{pmatrix}$ and $\begin{pmatrix}1\\ -1\end{pmatrix}$ are eigenvectors of $B = \begin{pmatrix} 1.5 & -0.5 \\ -0.5 & 1.5\end{pmatrix}$.
+
+What are the associated eigenvalues?
+
+::: {.aside}
+Eigenvalue equation: $A \vec{x} = \lambda \vec{x}$
+:::
 
 ### Similar matrices
 
@@ -419,7 +430,7 @@ are similar.
 ### Exercise {.vevox}
 
 Are the following matrices similar?
-$$A = \begin{pmatrix} 1 & 0 \\ 0 & 2 \end{pmatrix} \qquad B = \begin{pmatrix} 1.5 & -0.5 \\ 0.5 & 1.5 \end{pmatrix}.$$
+$$A = \begin{pmatrix} 1 & 0 \\ 0 & 2 \end{pmatrix} \qquad B = \begin{pmatrix} 1.5 & -0.5 \\ -0.5 & 1.5 \end{pmatrix}.$$
 
 ## Symmetric matrices
 
