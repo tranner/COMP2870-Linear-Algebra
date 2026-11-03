@@ -360,55 +360,38 @@ Dr.&nbsp;Thomas Ranner (Tom)
 <section>
 <section id="eigenvectors-and-eigenvalues-practical-solutions" class="title-slide slide level1 center" data-background-color="#782E57">
 <h1>Eigenvectors and eigenvalues: practical solutions</h1>
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Module learning objective</strong></p>
-</div>
-<div class="callout-content">
-<ul>
-<li>Derive and apply the Gram-Schmidt process to compute a QR factorisation of a matrix by hand.</li>
-<li>Implement the QR algorithm in Python and evaluate its computational feasibility on large matrices.</li>
-<li>Understand how the QR algorithm preserves eigenvalues using similarity</li>
-</ul>
-</div>
-</div>
-</div>
 <div>
 <div id="pyodide-1" class="exercise-cell">
 
 </div>
 <script type="pyodide-1-contents">
-eyJjb2RlIjoiXG5pbXBvcnQgaW5zcGVjdFxuXG5pbXBvcnQgbnVtcHkgYXMgbnBcblxuXG5kZWYgcHJpbnRfYXJyYXkoYXJyYXksIGFycmF5X25hbWU9Tm9uZSwgZW5kPU5vbmUpOlxuICAgIFwiXCJcIlxuICAgIE5pY2VseSBwcmludCBhIDJEIE51bVB5IGFycmF5IHdpdGggZHluYW1pYyBwcmVjaXNpb24gZm9ybWF0dGluZy5cblxuICAgIFRoaXMgZnVuY3Rpb24gcHJpbnRzIGEgMkQgYXJyYXkgaW4gYSByZWFkYWJsZSwgZm9ybWF0dGVkIHN0eWxlLiBJdFxuICAgIGF1dG9tYXRpY2FsbHkgZGV0ZXJtaW5lcyB0aGUgcmVxdWlyZWQgcHJlY2lzaW9uIHRvIGFjY3VyYXRlbHkgcmVwcmVzZW50IHRoZVxuICAgIGFycmF5IHZhbHVlcywgdXAgdG8gYSBtYXhpbXVtIG9mIDE1IGRlY2ltYWwgcGxhY2VzLiBUaGUgcHJpbnRlZCBvdXRwdXRcbiAgICBpbmNsdWRlcyB0aGUgYXJyYXkgbmFtZSBpZiBwcm92aWRlZDsgb3RoZXJ3aXNlLCB0aGUgZnVuY3Rpb24gYXR0ZW1wdHMgdG9cbiAgICBpbmZlciB0aGUgdmFyaWFibGUgbmFtZSBmcm9tIHRoZSBjYWxsaW5nIHNjb3BlLlxuXG4gICAgUGFyYW1ldGVyc1xuICAgIC0tLS0tLS0tLS1cbiAgICBhcnJheSA6IG51bXB5Lm5kYXJyYXlcbiAgICAgICAgQSAyRCBOdW1QeSBhcnJheSB0byBwcmludC5cbiAgICBhcnJheV9uYW1lIDogc3RyLCBvcHRpb25hbFxuICAgICAgICBUaGUgbmFtZSB0byBkaXNwbGF5IGZvciB0aGUgYXJyYXkgaW4gdGhlIG91dHB1dC4gSWYgYGBOb25lYGAgKGRlZmF1bHQpLFxuICAgICAgICB0aGUgZnVuY3Rpb24gYXR0ZW1wdHMgdG8gaW5mZXIgdGhlIHZhcmlhYmxlIG5hbWUgZnJvbSB0aGUgY2FsbGVyJ3MgbG9jYWxcbiAgICAgICAgdmFyaWFibGVzLiBJZiBpdCBjYW5ub3QgYmUgaW5mZXJyZWQsIGRlZmF1bHRzIHRvIGBgXCJhcnJheVwiYGAuXG4gICAgZW5kIDogc3RyLCBvcHRpb25hbFxuICAgICAgICBTdHJpbmcgYXBwZW5kZWQgYWZ0ZXIgdGhlIGxhc3QgdmFsdWUgaW4gZWFjaCByb3csIHNpbWlsYXIgdG8gdGhlIGBlbmRgXG4gICAgICAgIHBhcmFtZXRlciBpbiBQeXRob24ncyBidWlsdC1pbiBgYHByaW50YGAgZnVuY3Rpb24uIERlZmF1bHQgaXMgYGBOb25lYGAsXG4gICAgICAgIHdoaWNoIGFkZHMgYSBuZXdsaW5lLlxuICAgIFwiXCJcIlxuICAgICMgZmluZCBhcnJheV9uYW1lXG4gICAgaWYgYXJyYXlfbmFtZSBpcyBOb25lOlxuICAgICAgICBmcmFtZSA9IGluc3BlY3QuY3VycmVudGZyYW1lKCkuZl9iYWNrXG4gICAgICAgIGZvciBuYW1lLCB2YWx1ZSBpbiBmcmFtZS5mX2xvY2Fscy5pdGVtcygpOlxuICAgICAgICAgICAgaWYgdmFsdWUgaXMgYXJyYXk6XG4gICAgICAgICAgICAgICAgYXJyYXlfbmFtZSA9IG5hbWVcbiAgICAgICAgICAgICAgICBicmVha1xuICAgIGlmIGFycmF5X25hbWUgaXMgTm9uZTpcbiAgICAgICAgYXJyYXlfbmFtZSA9IFwiYXJyYXlcIlxuXG4gICAgIyBkZXRlcm1pbmUgcHJlY2lzaW9uXG4gICAgcHJlY2lzaW9uID0gMVxuICAgIHdoaWxlIG5vdCBucC5hbGxjbG9zZShcbiAgICAgICAgYXJyYXksIG5wLnJvdW5kKGFycmF5LCBwcmVjaXNpb24pXG4gICAgKTpcbiAgICAgICAgcHJlY2lzaW9uID0gcHJlY2lzaW9uICsgMVxuICAgICAgICBpZiBwcmVjaXNpb24gPT0gMTY6XG4gICAgICAgICAgICBicmVha1xuICAgIGZvcm1hdF9zdHIgPSBmXCJ7ezp7cHJlY2lzaW9uICsgM30ue3ByZWNpc2lvbn1mfX1cIlxuXG4gICAgaWYgbGVuKGFycmF5LnNoYXBlKSA9PSAyOlxuICAgICAgICBuLCBtID0gYXJyYXkuc2hhcGVcbiAgICBlbHNlOlxuICAgICAgICBuID0gYXJyYXkuc2hhcGVbMF1cblxuICAgIGZvciBpIGluIHJhbmdlKG4pOlxuICAgICAgICBpZiBpID09IDA6XG4gICAgICAgICAgICBwcmludChmXCJ7YXJyYXlfbmFtZX0gPSBbIFwiLCBlbmQ9XCJcIilcbiAgICAgICAgZWxzZTpcbiAgICAgICAgICAgIHByaW50KFxuICAgICAgICAgICAgICAgIFwiIFwiICogbGVuKGFycmF5X25hbWUpICsgXCIgICBbIFwiLCBlbmQ9XCJcIlxuICAgICAgICAgICAgKVxuXG4gICAgICAgIHRyeTpcbiAgICAgICAgICAgIHByaW50KFxuICAgICAgICAgICAgICAgIFwiLCBcIi5qb2luKFxuICAgICAgICAgICAgICAgICAgICBbXG4gICAgICAgICAgICAgICAgICAgICAgICBmb3JtYXRfc3RyLmZvcm1hdCh2KVxuICAgICAgICAgICAgICAgICAgICAgICAgZm9yIHYgaW4gYXJyYXlbaV1cbiAgICAgICAgICAgICAgICAgICAgXVxuICAgICAgICAgICAgICAgICksXG4gICAgICAgICAgICAgICAgZW5kPVwiIF1cIixcbiAgICAgICAgICAgIClcbiAgICAgICAgZXhjZXB0IFR5cGVFcnJvcjpcbiAgICAgICAgICAgIHByaW50KGZvcm1hdF9zdHIuZm9ybWF0KGFycmF5W2ldKSwgZW5kPVwiIF1cIilcbiAgICAgICAgcHJpbnQoZW5kPWVuZClcbiIsImF0dHIiOnsiZWNobyI6ZmFsc2UsImV2YWwiOnRydWUsImluY2x1ZGUiOmZhbHNlLCJvdXRwdXQiOmZhbHNlLCJlZGl0IjpmYWxzZX19
+eyJhdHRyIjp7ImV2YWwiOnRydWUsImVjaG8iOmZhbHNlLCJpbmNsdWRlIjpmYWxzZSwiZWRpdCI6ZmFsc2UsIm91dHB1dCI6ZmFsc2V9LCJjb2RlIjoiXG5pbXBvcnQgaW5zcGVjdFxuXG5pbXBvcnQgbnVtcHkgYXMgbnBcblxuXG5kZWYgcHJpbnRfYXJyYXkoYXJyYXksIGFycmF5X25hbWU9Tm9uZSwgZW5kPU5vbmUpOlxuICAgIFwiXCJcIlxuICAgIE5pY2VseSBwcmludCBhIDJEIE51bVB5IGFycmF5IHdpdGggZHluYW1pYyBwcmVjaXNpb24gZm9ybWF0dGluZy5cblxuICAgIFRoaXMgZnVuY3Rpb24gcHJpbnRzIGEgMkQgYXJyYXkgaW4gYSByZWFkYWJsZSwgZm9ybWF0dGVkIHN0eWxlLiBJdFxuICAgIGF1dG9tYXRpY2FsbHkgZGV0ZXJtaW5lcyB0aGUgcmVxdWlyZWQgcHJlY2lzaW9uIHRvIGFjY3VyYXRlbHkgcmVwcmVzZW50IHRoZVxuICAgIGFycmF5IHZhbHVlcywgdXAgdG8gYSBtYXhpbXVtIG9mIDE1IGRlY2ltYWwgcGxhY2VzLiBUaGUgcHJpbnRlZCBvdXRwdXRcbiAgICBpbmNsdWRlcyB0aGUgYXJyYXkgbmFtZSBpZiBwcm92aWRlZDsgb3RoZXJ3aXNlLCB0aGUgZnVuY3Rpb24gYXR0ZW1wdHMgdG9cbiAgICBpbmZlciB0aGUgdmFyaWFibGUgbmFtZSBmcm9tIHRoZSBjYWxsaW5nIHNjb3BlLlxuXG4gICAgUGFyYW1ldGVyc1xuICAgIC0tLS0tLS0tLS1cbiAgICBhcnJheSA6IG51bXB5Lm5kYXJyYXlcbiAgICAgICAgQSAyRCBOdW1QeSBhcnJheSB0byBwcmludC5cbiAgICBhcnJheV9uYW1lIDogc3RyLCBvcHRpb25hbFxuICAgICAgICBUaGUgbmFtZSB0byBkaXNwbGF5IGZvciB0aGUgYXJyYXkgaW4gdGhlIG91dHB1dC4gSWYgYGBOb25lYGAgKGRlZmF1bHQpLFxuICAgICAgICB0aGUgZnVuY3Rpb24gYXR0ZW1wdHMgdG8gaW5mZXIgdGhlIHZhcmlhYmxlIG5hbWUgZnJvbSB0aGUgY2FsbGVyJ3MgbG9jYWxcbiAgICAgICAgdmFyaWFibGVzLiBJZiBpdCBjYW5ub3QgYmUgaW5mZXJyZWQsIGRlZmF1bHRzIHRvIGBgXCJhcnJheVwiYGAuXG4gICAgZW5kIDogc3RyLCBvcHRpb25hbFxuICAgICAgICBTdHJpbmcgYXBwZW5kZWQgYWZ0ZXIgdGhlIGxhc3QgdmFsdWUgaW4gZWFjaCByb3csIHNpbWlsYXIgdG8gdGhlIGBlbmRgXG4gICAgICAgIHBhcmFtZXRlciBpbiBQeXRob24ncyBidWlsdC1pbiBgYHByaW50YGAgZnVuY3Rpb24uIERlZmF1bHQgaXMgYGBOb25lYGAsXG4gICAgICAgIHdoaWNoIGFkZHMgYSBuZXdsaW5lLlxuICAgIFwiXCJcIlxuICAgICMgZmluZCBhcnJheV9uYW1lXG4gICAgaWYgYXJyYXlfbmFtZSBpcyBOb25lOlxuICAgICAgICBmcmFtZSA9IGluc3BlY3QuY3VycmVudGZyYW1lKCkuZl9iYWNrXG4gICAgICAgIGZvciBuYW1lLCB2YWx1ZSBpbiBmcmFtZS5mX2xvY2Fscy5pdGVtcygpOlxuICAgICAgICAgICAgaWYgdmFsdWUgaXMgYXJyYXk6XG4gICAgICAgICAgICAgICAgYXJyYXlfbmFtZSA9IG5hbWVcbiAgICAgICAgICAgICAgICBicmVha1xuICAgIGlmIGFycmF5X25hbWUgaXMgTm9uZTpcbiAgICAgICAgYXJyYXlfbmFtZSA9IFwiYXJyYXlcIlxuXG4gICAgIyBkZXRlcm1pbmUgcHJlY2lzaW9uXG4gICAgcHJlY2lzaW9uID0gMVxuICAgIHdoaWxlIG5vdCBucC5hbGxjbG9zZShcbiAgICAgICAgYXJyYXksIG5wLnJvdW5kKGFycmF5LCBwcmVjaXNpb24pXG4gICAgKTpcbiAgICAgICAgcHJlY2lzaW9uID0gcHJlY2lzaW9uICsgMVxuICAgICAgICBpZiBwcmVjaXNpb24gPT0gMTY6XG4gICAgICAgICAgICBicmVha1xuICAgIGZvcm1hdF9zdHIgPSBmXCJ7ezp7cHJlY2lzaW9uICsgM30ue3ByZWNpc2lvbn1mfX1cIlxuXG4gICAgaWYgbGVuKGFycmF5LnNoYXBlKSA9PSAyOlxuICAgICAgICBuLCBtID0gYXJyYXkuc2hhcGVcbiAgICBlbHNlOlxuICAgICAgICBuID0gYXJyYXkuc2hhcGVbMF1cblxuICAgIGZvciBpIGluIHJhbmdlKG4pOlxuICAgICAgICBpZiBpID09IDA6XG4gICAgICAgICAgICBwcmludChmXCJ7YXJyYXlfbmFtZX0gPSBbIFwiLCBlbmQ9XCJcIilcbiAgICAgICAgZWxzZTpcbiAgICAgICAgICAgIHByaW50KFxuICAgICAgICAgICAgICAgIFwiIFwiICogbGVuKGFycmF5X25hbWUpICsgXCIgICBbIFwiLCBlbmQ9XCJcIlxuICAgICAgICAgICAgKVxuXG4gICAgICAgIHRyeTpcbiAgICAgICAgICAgIHByaW50KFxuICAgICAgICAgICAgICAgIFwiLCBcIi5qb2luKFxuICAgICAgICAgICAgICAgICAgICBbXG4gICAgICAgICAgICAgICAgICAgICAgICBmb3JtYXRfc3RyLmZvcm1hdCh2KVxuICAgICAgICAgICAgICAgICAgICAgICAgZm9yIHYgaW4gYXJyYXlbaV1cbiAgICAgICAgICAgICAgICAgICAgXVxuICAgICAgICAgICAgICAgICksXG4gICAgICAgICAgICAgICAgZW5kPVwiIF1cIixcbiAgICAgICAgICAgIClcbiAgICAgICAgZXhjZXB0IFR5cGVFcnJvcjpcbiAgICAgICAgICAgIHByaW50KGZvcm1hdF9zdHIuZm9ybWF0KGFycmF5W2ldKSwgZW5kPVwiIF1cIilcbiAgICAgICAgcHJpbnQoZW5kPWVuZClcbiJ9
 </script>
 </div>
 <p>Chapter 8</p>
 </section>
-<section id="the-problem" class="slide level3">
-<h3>The problem</h3>
-<p>Finding numbers <span class="math inline">\(\lambda\)</span> (eigenvalues) and vectors <span class="math inline">\(\vec{x}\)</span> (eigenvectors) which satisfy the equation: <span class="math display">\[\begin{equation}
+<section id="recall-the-eigenvalue-problem" class="slide level3">
+<h3>Recall: the eigenvalue problem</h3>
+<p>Find numbers <span class="math inline">\(\lambda\)</span> (eigenvalues) and vectors <span class="math inline">\(\vec{x}\)</span> (eigenvectors) which satisfy the equation: <span class="math display">\[\begin{equation}
 A \vec{x} = \lambda \vec{x}.
 \end{equation}\]</span></p>
 </section>
-<section id="grand-strategy" class="slide level3">
-<h3>Grand strategy</h3>
-<p>To find eigenvalues and eigenvectors of <span class="math inline">\(A\)</span>, our “grand strategy” is to find a sequence of matrices <span class="math inline">\(P_1, P_2, \ldots\)</span> to form a sequence of matrices: <span class="math display">\[\begin{gather*}
-A \\
-P_1^{-1} A P \\
-P_2^{-1} P_1^{-1} A P_1 P_2 \\
-P_3^{-1} P_2^{-1} P_1^{-1} A P_1 P_2 P_3 \\
-\ldots
-\end{gather*}\]</span> We aim to get all the way to a simple matrix where we read off the eigenvalues and eigenvectors.</p>
+<section id="the-grand-strategy" class="slide level3">
+<h3>The grand strategy</h3>
+<p>In equations, we can say our “grand strategy” is to find a sequence of matrices <span class="math inline">\(P_1, P_2, \ldots\)</span> to form a sequence of matrices: <span class="math display">\[A\]</span></p>
+<div class="fragment">
+<p><span class="math display">\[P_1^{-1} A P_1\]</span></p>
+</div>
+<div class="fragment">
+<p><span class="math display">\[P_2^{-1} P_1^{-1} A P_1 P_2\]</span></p>
+</div>
+<div class="fragment">
+<p><span class="math display">\[P_3^{-1} P_2^{-1} P_1^{-1} A P_1 P_2 P_3\]</span></p>
+</div>
+</section>
+<section class="slide level3">
 
-<aside><div>
-<p>Thm. Similar matrices have the same eigenvalues.</p>
-</div></aside></section>
-<section id="example" class="slide level3">
-<h3>Example</h3>
-<p>For example, if at level <span class="math inline">\(m\)</span>, say, we have transformed <span class="math inline">\(A\)</span> into an upper triangular matrix the eigenvalues are the diagonal of the matrix <span class="math display">\[\begin{equation*}
+<p>For example, if at level <span class="math inline">\(m\)</span>, say, we have transformed <span class="math inline">\(A\)</span> into a diagonal matrix the eigenvalues are the diagonal of the matrix <span class="math display">\[\begin{equation*}
 P_m^{-1} P_{m-1}^{-1} \cdots P_2^{-1} P_1^{-1} A P_1 P_2 \cdots P_{m-1} P_m,
 \end{equation*}\]</span> and the eigenvectors are the columns of the matrix <span class="math display">\[\begin{equation*}
 S_m = P_1 P_2 \cdots P_{m-1} P_m.
@@ -416,91 +399,26 @@ S_m = P_1 P_2 \cdots P_{m-1} P_m.
 </section>
 <section id="orthogonal-matrices" class="slide level3">
 <h3>Orthogonal matrices</h3>
-<p>In the example below, and many others, we see that we typically want the matrices <span class="math inline">\(P_j\)</span> to be <strong>orthogonal</strong> or <strong>orthonormal</strong>.</p>
-<p>A (real-valued) matrix <span class="math inline">\(Q\)</span> is orthogonal if <span class="math inline">\(Q^T Q\)</span> is diagonal and a (real-valued) matrix <span class="math inline">\(Q\)</span> is orthonormal if <span class="math inline">\(Q^T Q = I_n\)</span>.</p>
-<aside class="notes">
-<p>If <span class="math inline">\(Q\)</span> is orthogonal, it’s inverse is <span class="math inline">\(Q^T\)</span>.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="orthogonal-matrices---column-view" class="slide level3">
-<h3>Orthogonal matrices - column view</h3>
-<p>In other words, if denote by <span class="math inline">\(\vec{q}^{(1)}, \ldots, \vec{q}^{(n)}\)</span> the columns of <span class="math inline">\(Q\)</span>, then <span class="math inline">\(Q\)</span> is <em>orthogonal</em> if <span class="math display">\[\begin{equation*}
-\vec{q}^{(i)} \cdot \vec{q}^{(j)} = 0 \quad \text{ if } i \neq j,
-\end{equation*}\]</span> and <span class="math inline">\(Q\)</span> is <em>orthonormal</em> if <span class="math display">\[\begin{equation*}
+<p>In the example below, and many others, we see that we typically want the matrices <span class="math inline">\(P_j\)</span> to be <strong>orthogonal</strong>.</p>
+<p>A (real-valued) matrix <span class="math inline">\(Q\)</span> is orthogonal if <span class="math inline">\(Q^T Q = I_n\)</span>.</p>
+<div class="fragment">
+<p>In other words, if we denote by <span class="math inline">\(\vec{q}^{(1)}, \ldots, \vec{q}^{(n)}\)</span> the columns of <span class="math inline">\(Q\)</span>, then <span class="math inline">\(Q\)</span> is orthogonal if the columns are <em>orthonormal</em>: <span class="math display">\[\begin{equation*}
 \vec{q}^{(i)} \cdot \vec{q}^{(j)} =
 \begin{cases}
 0 &amp; \text{ if } i \neq j \\
 1 &amp; \text{ if } i = j.
 \end{cases}
 \end{equation*}\]</span></p>
-<aside class="notes">
-<p>Orthonormal matrices have the nice property that <span class="math inline">\(Q^{-1} = Q^T\)</span> so we can very easily compute their inverse! They also always have a determinant of 1. Importantly, we can apply them (or their inverses) without worrying about adding extra problems from finite precision.</p>
-<p>Examples of orthonormal matrices include matrices which describe rotations.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+</div>
 </section>
-<section id="example-1" class="slide level3 small write">
+<section id="example" class="slide level3 smaller write">
 <h3>Example</h3>
-<p>Show that the rotation matrix <span class="math inline">\(R(\theta)\)</span> is orthonormal. <span class="math display">\[
-R(\theta) =
-\begin{pmatrix}
-\cos \theta &amp; - \sin \theta \\
+<p>Show that the rotation matrix <span class="math inline">\(R(\theta)\)</span> is orthogonal: <span class="math display">\[
+R(\theta) = \begin{pmatrix}
+\cos \theta &amp; -\sin \theta \\
 \sin \theta &amp; \cos \theta
-\end{pmatrix}.
+\end{pmatrix}
 \]</span></p>
-<aside class="notes">
-<p>We can think two ways:</p>
-<ol type="1">
-<li><p>First we know that <span class="math inline">\(R(\theta)\)</span> represents anticlockwise rotation by <span class="math inline">\(\theta\)</span>. We calculated earlier that <span class="math inline">\(R(\theta)^T\)</span> represents clockwise rotation by <span class="math inline">\(\theta\)</span> so <span class="math inline">\(R(\theta)^T R(\theta) = I_2\)</span>.</p></li>
-<li><p>We can also compute: <span class="math display">\[\begin{align*}
-R(\theta)^T = \begin{pmatrix} \cos\theta &amp; \sin\theta \\ -\sin\theta &amp;
-\cos\theta \end{pmatrix},
-\end{align*}\]</span> then <span class="math display">\[\begin{align*}
-R(\theta)^T R(\theta) &amp;=
-\begin{pmatrix} \cos\theta &amp; \sin\theta \\ -\sin\theta &amp;
-\cos\theta \end{pmatrix} \begin{pmatrix}
-\cos \theta &amp; - \sin \theta \\
-\sin \theta &amp; \cos \theta
-\end{pmatrix} \\
-&amp;= \begin{pmatrix}
-\cos^2\theta + \sin^2\theta &amp; -\cos\theta \sin\theta + \cos\theta \sin\theta \\
--\sin\theta \cos\theta + \cos\theta \sin\theta &amp; \cos^2\theta + \sin^2\theta
-\end{pmatrix} \\
-&amp;= \begin{pmatrix}
-1 &amp; 0 \\ 0 &amp; 1
-\end{pmatrix}.
-\end{align*}\]</span></p></li>
-</ol>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="qr-algorithm" class="title-slide slide level2 center" data-background-color="#782E57">
 <h2>QR algorithm</h2>
@@ -514,60 +432,50 @@ R(\theta)^T R(\theta) &amp;=
 </div>
 <div class="callout-content">
 <ul>
-<li>Understand how the QR algorithm preserves eigenvalues using similarity.</li>
+<li>Understand how the QR algorithm preserves eigenvalues using similarity</li>
 </ul>
 </div>
 </div>
 </div>
 </section>
-<section class="slide level3">
-
-<p>The QR algorithm is an <em>iterative method</em> for computing eigenvalues and eigenvectors.</p>
-<p>At each step a matrix is factored into a product in a similar fashion to LU factorisation.</p>
-<p>In this case, we factor a matrix, <span class="math inline">\(A\)</span> into a product of an orthonormal matrix, <span class="math inline">\(Q\)</span>, and an upper triangular matrix, <span class="math inline">\(R\)</span>: <span class="math display">\[
+<section id="the-qr-algorithm" class="slide level3">
+<h3>The QR algorithm</h3>
+<p>The QR algorithm is an iterative method for computing eigenvalues and eigenvectors.</p>
+<p>In this case, we factor a matrix, <span class="math inline">\(A\)</span> into a product of an orthogonal matrix, <span class="math inline">\(Q\)</span>, and an upper triangular matrix, <span class="math inline">\(R\)</span>: <span class="math display">\[
 A = Q R.
 \]</span> This is <em>QR factorisation</em>.</p>
+<p>At each step a matrix is factorised in a similar fashion to LU</p>
 </section>
-<section id="the-algorithm" class="slide level3">
-<h3>The algorithm</h3>
+<section class="slide level3">
+
 <p>Given a matrix <span class="math inline">\(A\)</span>, the algorithm repeatedly applies QR factorisation. First, we set <span class="math inline">\(A^{(0)} = A\)</span>, then we successively perform for <span class="math inline">\(k=0, 1, 2, \ldots\)</span>:</p>
 <ol type="1">
-<li><p>Compute the QR factorisation of <span class="math inline">\(A^{(k)}\)</span> into an orthonormal part and upper triangular part <span class="math display">\[
+<li><p>Compute the QR factorisation of <span class="math inline">\(A^{(k)}\)</span> into an orthogonal part and upper triangular part <span class="math display">\[
 A^{(k)} = Q^{(k)} R^{(k)};
 \]</span></p></li>
-<li><p>Update the matrix <span class="math inline">\(A^{(k+1)}\)</span> recombining <span class="math inline">\(Q\)</span> and <span class="math inline">\(R\)</span> in the reverse order: <span class="math display">\[
+<li><p>Update the matrix <span class="math inline">\(A^{(k+1)}\)</span> by recombining <span class="math inline">\(Q\)</span> and <span class="math inline">\(R\)</span> in the reverse order: <span class="math display">\[
 A^{(k+1)} = R^{(k)} Q^{(k)}.
 \]</span></p></li>
 </ol>
-<aside class="notes">
-<p>As we take more and more steps, we hope that <span class="math inline">\(A^{(k)}\)</span> converges to an upper triangular matrix whose diagonal entries are the eigenvalues of the original matrix.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
-<section id="how-does-it-work" class="slide level3">
-<h3>How does it work?</h3>
+<section id="convergence" class="slide level3">
+<h3>Convergence?</h3>
+<p>As we take more and more steps, we hope that <span class="math inline">\(A^{(k)}\)</span> converges to an upper triangular matrix whose diagonal entries are the eigenvalues of the original matrix.</p>
+<p>For a real symmetric matrix, the limit is in fact diagonal.</p>
+</section>
+<section id="why-does-it-work" class="slide level3 write smaller">
+<h3>Why does it work?</h3>
+<ol type="1">
+<li><span class="math inline">\(A^{(k)} = Q^{(k)} R^{(k)}\)</span>. 2. <span class="math inline">\(A^{(k+1)} = R^{(k)} Q^{(k)}.\)</span></li>
+</ol>
+<aside class="notes">
 <p>Rearranging the first step within each iteration, we see that <span class="math display">\[
 R^{(k)} = (Q^{(k)})^{-1} A^{(k)} = (Q^{(k)})^T A^{(k)}.
-\]</span> Substituting this value of <span class="math inline">\(R^{(k)}\)</span> into the second step and rearranging gives <span class="math display">\[
-Q^{(k)} A^{(k+1)} = A^{(k)} Q^{(k)}
-\]</span> and we see that at each step we are finding a sequence of similar matrices, all with the same eigenvalues.</p>
-</section>
-<section id="how-does-it-work-ii" class="slide level3">
-<h3>How does it work? ii</h3>
-<p>We can additionally find the eigenvectors of <span class="math inline">\(A\)</span> by forming the product <span class="math display">\[
-Q = Q^{(1)} Q^{(2)} \cdots Q^{(m)}.
-\]</span></p>
-<aside class="notes">
-<p>The hard part of the method is computing the QR factorisation. One classical way to get a QR factorisation is to use the Gram-Schmidt process. In general, the Gram-Schmidt process is used to take a sequence of vectors and form a new sequence which is orthonormal. We can apply this to the columns of <span class="math inline">\(A\)</span> to form an orthonormal matrix. If we track this process as a matrix-matrix product, we find that the other factor is upper triangular.</p>
+\]</span> Substituting this value of <span class="math inline">\(R^{(k)}\)</span> into the second step gives <span class="math display">\[
+A^{(k+1)} = (Q^{(k)})^{-1} A^{(k)} Q^{(k)},
+\]</span> and we see that at each step we are finding a sequence of similar matrices, all with the same eigenvalues (<strong>?@thm-similar</strong>). For a symmetric matrix, the accumulated product <span class="math display">\[
+Q = Q^{(0)} Q^{(1)} Q^{(2)} \cdots Q^{(m)}
+\]</span> converges to a matrix whose columns are eigenvectors of <span class="math inline">\(A\)</span>.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -593,14 +501,29 @@ Q = Q^{(1)} Q^{(2)} \cdots Q^{(m)}.
 </div>
 <div class="callout-content">
 <ul>
-<li>Derive and apply the Gram-Schmidt process to compute a QR factorisation of a</li>
+<li>Derive and apply the Gram-Schmidt process to compute a QR factorisation of a matrix by hand.</li>
 </ul>
 </div>
 </div>
 </div>
-<p>… a classical way to compute a QR factorisation…</p>
 <aside class="notes">
-<p>The key idea is shown in <a href="#/the-gram-schmidt-process" class="quarto-xref">Figure&nbsp;1</a>. Given a vector <span class="math inline">\(\vec{a}\)</span> (blue) and a vector <span class="math inline">\(\vec{q}\)</span> (green) with length 1. We can compute the projection of <span class="math inline">\(\vec{a}\)</span> onto the direction <span class="math inline">\(\vec{q}\)</span> (orange) by <span class="math display">\[\begin{align*}
+<p>The hard part of the method is computing the QR factorisation. One classical way to get a QR factorisation is to use the Gram-Schmidt process. In general, the Gram-Schmidt process is used to take a sequence of vectors and form a new sequence which is orthonormal. We can apply this to the columns of <span class="math inline">\(A\)</span> to form an orthogonal matrix. If we track this process as a matrix-matrix product, we find that the other factor is upper triangular.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="projection" class="slide level3 write">
+<h3>Projection</h3>
+<aside class="notes">
+<p>The key idea is shown in <a href="#/projection" class="quarto-xref">Figure&nbsp;1</a>. Given a vector <span class="math inline">\(\vec{a}\)</span> (blue) and a vector <span class="math inline">\(\vec{q}\)</span> (green) with length 1. We can compute the projection of <span class="math inline">\(\vec{a}\)</span> onto the line spanned by <span class="math inline">\(\vec{q}\)</span> (orange) by <span class="math display">\[\begin{align*}
 (\vec{a} \cdot \vec{q}) \vec{q}.
 \end{align*}\]</span> If we subtract this term from <span class="math inline">\(\vec{a}\)</span>. We end up with a vector <span class="math inline">\(\vec{u}\)</span> with <span class="math inline">\(\vec{u} \cdot \vec{q} = 0\)</span>. The difference <span class="math inline">\(\vec{u}\)</span> is given by <span class="math display">\[\begin{align*}
 \vec{u} = \vec{a} - (\vec{a} \cdot \vec{q}) \vec{q},
@@ -612,8 +535,8 @@ Q = Q^{(1)} Q^{(2)} \cdots Q^{(m)}.
 &amp; = (\vec{a} \cdot \vec{q}) - (\vec{a} \cdot \vec{q})
 &amp;&amp; \text{(since $\| \vec{q} \| = 1$)} \\
 &amp; = 0.
-\end{align*}\]</span></p>
-<div id="cell-fig-projection-away" class="cell" data-execution_count="3">
+\end{align*}\]</span> We see that we have found a vector <span class="math inline">\(\vec{u}\)</span> which is orthogonal to <span class="math inline">\(\vec{q}\)</span>.</p>
+<div id="cell-fig-projection-away" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div id="fig-projection-away" class="quarto-figure quarto-figure-center quarto-float">
 <figure class="quarto-float quarto-float-fig">
@@ -639,15 +562,23 @@ Figure&nbsp;1: Projection of <span class="math inline">\(\vec{a}\)</span> away f
           display:block!important;
       }</style></aside>
 </section>
-<section id="example-2" class="slide level3">
+<section id="example-1" class="slide level3">
 <h3>Example</h3>
-<p>Apply Gram-Schmidt to the sequence of vectors <span class="math display">\[\begin{equation*}
+<p>Consider the sequence of vectors <span class="math display">\[\begin{equation*}
 \vec{a}^{(1)} = \begin{pmatrix} 1 \\ 0 \\ 1 \end{pmatrix},
 \vec{a}^{(2)} = \begin{pmatrix} 2 \\ -1 \\ 0 \end{pmatrix},
 \vec{a}^{(3)} = \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix}.
-\end{equation*}\]</span></p>
-
-<img data-src="lec07_files/figure-revealjs/cell-4-output-1.png" class="r-stretch"><aside class="notes">
+\end{equation*}\]</span> We will manipulate these vectors to form three orthonormal vectors.</p>
+<aside class="notes">
+<div id="0b5e57e6" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07_files/figure-revealjs/cell-4-output-1.png"></p>
+</figure>
+</div>
+</div>
+</div>
 <p>First, we set <span class="math inline">\(\vec{q}^{(1)} = \vec{a}^{(1)} / \| \vec{a}^{(1)} \|\)</span>: <span class="math display">\[\begin{align*}
 \| \vec{a}^{(1)} \| = \sqrt{1^2 + 0^2 + 1^2} = \sqrt{2},
 \end{align*}\]</span> so <span class="math display">\[\begin{equation*}
@@ -674,13 +605,13 @@ Figure&nbsp;1: Projection of <span class="math inline">\(\vec{a}\)</span> away f
 = \begin{pmatrix}
 1 \\ -1 \\ -1
 \end{pmatrix}.
-\end{align*}\]</span> We then normalise <span class="math inline">\(\vec{u}^{(2)}\)</span> to get a unit-length vector <span class="math inline">\(q^{(2)}\)</span>: <span class="math display">\[\begin{align*}
+\end{align*}\]</span> We then normalise <span class="math inline">\(\vec{u}^{(2)}\)</span> to get a unit-length vector <span class="math inline">\(\vec{q}^{(2)}\)</span>: <span class="math display">\[\begin{align*}
 \vec{q}^{(2)} &amp; = \vec{u}^{(2)} / \| \vec{u}^{(2)} \|
 = \begin{pmatrix} \frac{1}{\sqrt{3}} \\ \frac{-1}{\sqrt{3}} \\
 \frac{-1}{\sqrt{3}}
 \end{pmatrix}.
 \end{align*}\]</span></p>
-<p>Third, we will find <span class="math inline">\(q^{(3)}\)</span> which we need to check satisfies <span class="math inline">\(\vec{q}^{(3)}
+<p>Third, we will find <span class="math inline">\(\vec{q}^{(3)}\)</span> which we need to check satisfies <span class="math inline">\(\vec{q}^{(3)}
 \cdot \vec{q}^{(2)} = 0\)</span> and <span class="math inline">\(\vec{q}^{(3)} \cdot \vec{q}^{(1)} = 0\)</span>. We can do this by subtracting from <span class="math inline">\(\vec{a}^{(3)}\)</span> the portion of <span class="math inline">\(\vec{a}^{(3)}\)</span> which points in the direction <span class="math inline">\(\vec{q}^{(1)}\)</span> and the portion of <span class="math inline">\(\vec{a}^{(3)}\)</span> which points in the direction <span class="math inline">\(\vec{q}^{(2)}\)</span>. We call this term <span class="math inline">\(\vec{u}^{(3)}\)</span> <span class="math display">\[\begin{align*}
 \vec{u}^{(3)}
 &amp; = \vec{a}^{(3)} - \left(\vec{a}^{(3)} \cdot \vec{q}^{(1)} \right)
@@ -709,7 +640,7 @@ Figure&nbsp;1: Projection of <span class="math inline">\(\vec{a}\)</span> away f
 \begin{pmatrix} 1 \\ 0 \\ 1 \end{pmatrix} -
 \begin{pmatrix} -2/3 \\ 2/3 \\ 2/3 \end{pmatrix}
 = \begin{pmatrix}
-2/3 \\ 4/3 \\ -2/3.
+2/3 \\ 4/3 \\ -2/3
 \end{pmatrix}.
 \end{align*}\]</span> Again, we normalise <span class="math inline">\(\vec{u}^{(3)}\)</span> to get <span class="math inline">\(\vec{q}^{(3)}\)</span>: <span class="math display">\[\begin{align*}
 \| \vec{u}^{(3)} \| &amp; = \sqrt{(2/3)^2 + (4/3)^2 + (-2/3)^2}
@@ -719,6 +650,61 @@ Figure&nbsp;1: Projection of <span class="math inline">\(\vec{a}\)</span> away f
 \vec{q}^{(3)} &amp; = \begin{pmatrix} \frac{1}{\sqrt{6}} \\
 \frac{2}{\sqrt{6}} \\ \frac{-1}{\sqrt{6}} \end{pmatrix}.
 \end{align*}\]</span></p>
+<div id="exr-gram-schmit-ex" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 1</strong></span> Verify the orthonormality conditions for <span class="math inline">\(\vec{q}^{(1)}, \vec{q}^{(2)}\)</span> and <span class="math inline">\(\vec{q}^{(3)}\)</span>.</p>
+</div>
+<div id="f1adf63b" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07_files/figure-revealjs/cell-5-output-1.png"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Now we have applied the Gram-Schmidt process to convert from the vectors <span class="math inline">\(\vec{a}^{(j)}\)</span> to the vectors <span class="math inline">\(\vec{q}^{(j)}\)</span>. We can consider the matrix <span class="math inline">\(Q\)</span> whose columns are the vectors <span class="math inline">\(\vec{q}^{(j)}\)</span> and the matrix <span class="math inline">\(A\)</span> whose columns are the vectors <span class="math inline">\(\vec{a}^{(j)}\)</span>: <span class="math display">\[\begin{equation*}
+Q = \begin{pmatrix}
+&amp;&amp; \\
+\vec{q}^{(1)} &amp; \vec{q}^{(2)} &amp; \vec{q}^{(3)} \\
+&amp;&amp;
+\end{pmatrix}
+\quad \text{and} \quad
+  A = \begin{pmatrix}
+&amp;&amp; \\
+\vec{a}^{(1)} &amp; \vec{a}^{(2)} &amp; \vec{a}^{(3)} \\
+&amp;&amp;
+\end{pmatrix}
+\end{equation*}\]</span> Then we can compute that <span class="math display">\[\begin{align*}
+(Q^T A)_{ij} = \vec{q}^{(i)} \cdot \vec{a}^{(j)}.
+\end{align*}\]</span> So <span class="math display">\[\begin{align*}
+(Q^T A)
+&amp; = \begin{pmatrix}
+(1, 0, 1)^T \cdot (\tfrac{1}{\sqrt{2}}, 0, \tfrac{1}{\sqrt{2}})^T
+&amp; (2, -1, 0)^T \cdot (\tfrac{1}{\sqrt{2}}, 0, \tfrac{1}{\sqrt{2}})^T
+&amp; (1, 2, 1)^T \cdot (\tfrac{1}{\sqrt{2}}, 0, \tfrac{1}{\sqrt{2}})^T
+\\
+(1, 0, 1)^T \cdot (\tfrac{1}{\sqrt{3}}, \tfrac{-1}{\sqrt{3}},
+\tfrac{-1}{\sqrt{3}})^T
+&amp; (2, -1, 0)^T \cdot (\tfrac{1}{\sqrt{3}}, \tfrac{-1}{\sqrt{3}},
+\tfrac{-1}{\sqrt{3}})^T
+&amp; (1, 2, 1)^T \cdot (\tfrac{1}{\sqrt{3}}, \tfrac{-1}{\sqrt{3}},
+\tfrac{-1}{\sqrt{3}})^T
+\\
+(1, 0, 1)^T \cdot (\tfrac{1}{\sqrt{6}}, \tfrac{2}{\sqrt{6}},
+\tfrac{-1}{\sqrt{6}})^T
+&amp; (2, -1, 0)^T \cdot (\tfrac{1}{\sqrt{6}}, \tfrac{2}{\sqrt{6}},
+\tfrac{-1}{\sqrt{6}})^T
+&amp; (1, 2, 1)^T \cdot (\tfrac{1}{\sqrt{6}}, \tfrac{2}{\sqrt{6}},
+\tfrac{-1}{\sqrt{6}})^T
+\end{pmatrix} \\
+&amp; = \begin{pmatrix}
+\tfrac{2}{\sqrt{2}} &amp; \tfrac{2}{\sqrt{2}} &amp; \tfrac{2}{\sqrt{2}} \\
+0 &amp; \tfrac{3}{\sqrt{3}} &amp; \tfrac{-2}{\sqrt{3}} \\
+0 &amp; 0 &amp; \tfrac{4}{\sqrt{6}}
+\end{pmatrix}.
+\end{align*}\]</span> Hence we have found an upper triangular matrix <span class="math inline">\(R = Q^T A\)</span>. Since <span class="math inline">\(Q\)</span> is orthogonal, we know <span class="math inline">\(Q^{-1} = Q^T\)</span> and we have a factorisation: <span class="math display">\[\begin{equation*}
+A = Q R.
+\end{equation*}\]</span></p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -733,12 +719,26 @@ Figure&nbsp;1: Projection of <span class="math inline">\(\vec{a}\)</span> away f
 </section>
 <section id="exercise" class="slide level3">
 <h3>Exercise</h3>
-<p>Verify the orthonormality conditions for <span class="math inline">\(\vec{q}^{(1)}, \vec{q}^{(2)}\)</span> and <span class="math inline">\(\vec{q}^{(3)}\)</span>.</p>
-
-<img data-src="lec07_files/figure-revealjs/cell-5-output-1.png" class="r-stretch"></section>
-<section id="how-does-this-help" class="slide level3">
-<h3>How does this help?</h3>
-<p>We can even do better than simply post computing <span class="math inline">\(R\)</span> through multiplying <span class="math inline">\(Q^T A\)</span>. Let’s revisit the update formula for column <span class="math inline">\(j\)</span>: <span class="math display">\[\begin{align*}
+<blockquote>
+<p>Check the orthogonality conditions on <span class="math inline">\(Q\)</span>:</p>
+</blockquote>
+<p>If we denote by <span class="math inline">\(\vec{q}^{(1)}, \ldots, \vec{q}^{(n)}\)</span> the columns of <span class="math inline">\(Q\)</span>, then <span class="math inline">\(Q\)</span> is orthogonal if the columns are <em>orthonormal</em>: <span class="math display">\[\begin{equation*}
+\vec{q}^{(i)} \cdot \vec{q}^{(j)} =
+\begin{cases}
+0 &amp; \text{ if } i \neq j \\
+1 &amp; \text{ if } i = j.
+\end{cases}
+\end{equation*}\]</span></p>
+</section>
+<section id="forming-r" class="slide level3 smaller write">
+<h3>Forming <span class="math inline">\(R\)</span></h3>
+<p>Let’s revisit the update formula for column <span class="math inline">\(j\)</span>: <span class="math display">\[\begin{align*}
+\vec{u}^{(j)} = \vec{a}^{(j)} - \sum_{i=1}^{j-1} (\vec{a}^{(j)} \cdot
+\vec{q}^{(i)} ) \vec{q}^{(i)}, \qquad
+\vec{q}^{(j)} = \frac{1}{\|\vec{u}^{(j)}\|} \vec{u}^{(j)}.
+\end{align*}\]</span></p>
+<aside class="notes">
+<p>We can even do better than simply computing <span class="math inline">\(R\)</span> afterwards through multiplying <span class="math inline">\(Q^T A\)</span>. Let’s revisit the update formula for column <span class="math inline">\(j\)</span>: <span class="math display">\[\begin{align*}
 \vec{u}^{(j)} &amp; = \vec{a}^{(j)} - \sum_{i=1}^{j-1} (\vec{a}^{(j)} \cdot
 \vec{q}^{(i)} ) \vec{q}^{(i)} \\
 \vec{q}^{(j)} &amp; = \frac{\vec{u}^{(j)}}{\|\vec{u}^{(j)}\|}.
@@ -748,15 +748,13 @@ R_{ij} = \begin{cases}
 \| \vec{u}^{(j)} \| &amp; \text{if}\quad i = j \\
 0 &amp; \text{if}\quad i &gt; j,
 \end{cases}
-\]</span> then …</p>
-<aside class="notes">
-<p><span class="math display">\[\begin{align*}
+\]</span> then we have <span class="math display">\[\begin{align*}
 \vec{u}^{(j)} &amp; = \vec{a}^{(j)} - \sum_{i=1}^{j-1} R_{ij} \vec{q}^{(i)} \\
 \vec{q}^{(j)} &amp; = \frac{\vec{u}^{(j)}}{R_{jj}}.
 \end{align*}\]</span> The equations can be rearranged to: <span class="math display">\[\begin{align*}
 \vec{a}^{(j)} &amp;= \vec{u}^{(j)} + \sum_{i=1}^{j-1} R_{ij} \vec{q}^{(i)} \\
 \vec{u}^{(j)} &amp; = R_{jj} \vec{q}^{(j)}.
-\end{align*}\]</span> Substituting the vaule of <span class="math inline">\(\vec{u}^{(j)}\)</span> into the first equation gives: <span class="math display">\[\begin{align*}
+\end{align*}\]</span> Substituting the value of <span class="math inline">\(\vec{u}^{(j)}\)</span> into the first equation gives: <span class="math display">\[\begin{align*}
 \vec{a}^{(j)} &amp;= R_{jj} \vec{q}^{(j)} + \sum_{i=1}^{j-1} R_{ij} \vec{q}^{(i)} \\
 &amp; = \sum_{i=1}^{j} R_{ij} \vec{q}^{(i)}  \\
 &amp; = \sum_{i=1}^{n} R_{ij} \vec{q}^{(i)}.
@@ -775,36 +773,53 @@ A = Q R.
           display:block!important;
       }</style></aside>
 </section>
-<section id="exercise-1" class="slide level3">
-<h3>Exercise</h3>
-<p>Continue the QR-factorisation process by computing <span class="math inline">\(B = R Q\)</span> and apply the Gram-Schmidt process to the columns of <span class="math inline">\(B\)</span>.</p>
-</section>
 <section id="remark" class="slide level3">
 <h3>Remark</h3>
 <p>The Gram-Schmidt algorithm relies on the fact that after each projection there should be something left - i.e.&nbsp;<span class="math inline">\(\vec{u}^{(j)}\)</span> should be non-zero.</p>
 <p>If <span class="math inline">\(\vec{a}^{(j)}\)</span> is in the span of <span class="math inline">\(\{ \vec{q}^{(1)}, \ldots, \vec{q}^{(j-1)}
-\}\)</span>, then the projection onto <span class="math inline">\(\vec{u}^{(j)}\)</span> will give <span class="math inline">\(\vec{0}\)</span>.</p>
+\}\)</span>, then the projection leaves <span class="math inline">\(\vec{u}^{(j)} = \vec{0}\)</span>.</p>
 <p>There are a few ways to test this, but the key idea is that if <span class="math inline">\(A\)</span> is non-singular then we will always have <span class="math inline">\(\vec{u}^{(j)} \neq \vec{0}\)</span> – at least in exact-precision calculations…</p>
 </section>
-<section id="python-qr-factorisation-using-gram-schmidt" class="slide level3">
-<h3>Python QR factorisation using Gram-Schmidt</h3>
-<div>
-<div id="pyodide-2" class="exercise-cell">
+<section id="applying-the-qr-algorithm-by-hand" class="slide level3">
+<h3>Applying the QR algorithm by hand</h3>
+<p>To see the QR algorithm actually converge, it helps to track a smaller matrix over several iterations. Let’s apply it to the <span class="math inline">\(2 \times 2\)</span> matrix from, <span class="math display">\[\begin{equation*}
+A^{(0)} = \begin{pmatrix} 3 &amp; 1 \\ 1 &amp; 3 \end{pmatrix},
+\end{equation*}\]</span> whose eigenvalues we already know, by direct calculation, are <span class="math inline">\(4\)</span> and <span class="math inline">\(2\)</span>.</p>
+</section>
+<section id="section" class="slide level3 write">
+<h3></h3>
+<p><span class="math inline">\(A^{(0)} = \begin{pmatrix} 3 &amp; 1 \\ 1 &amp; 3 \end{pmatrix}\)</span></p>
 
-</div>
-<script type="pyodide-2-contents">
-eyJjb2RlIjoiZGVmIGdyYW1fc2NobWlkdF9xcihBKTpcbiAgICBcIlwiXCJcbiAgICBDb21wdXRlIHRoZSBRUiBmYWN0b3Jpc2F0aW9uIG9mIGEgc3F1YXJlIG1hdHJpeFxuICAgIHVzaW5nIHRoZSBjbGFzc2ljYWwgR3JhbS1TY2htaWR0IHByb2Nlc3MuXG4gICAgXCJcIlwiXG4gICAgbiwgbSA9IEEuc2hhcGVcbiAgICAuLi5cbiIsImF0dHIiOnsiZXZhbCI6dHJ1ZSwiZWRpdCI6dHJ1ZX19
-</script>
-</div>
 <aside class="notes">
-<div>
-<div id="pyodide-3" class="exercise-cell">
-
-</div>
-<script type="pyodide-3-contents">
-eyJjb2RlIjoiZGVmIGdyYW1fc2NobWlkdF9xcihBKTpcbiAgICBcIlwiXCJcbiAgICBDb21wdXRlIHRoZSBRUiBmYWN0b3Jpc2F0aW9uIG9mIGEgc3F1YXJlIG1hdHJpeCB1c2luZyB0aGUgY2xhc3NpY2FsXG4gICAgR3JhbS1TY2htaWR0IHByb2Nlc3MuXG5cbiAgICBQYXJhbWV0ZXJzXG4gICAgLS0tLS0tLS0tLVxuICAgIEEgOiBudW1weS5uZGFycmF5XG4gICAgICAgIEEgc3F1YXJlIDJEIE51bVB5IGFycmF5IG9mIHNoYXBlIGBgKG4sIG4pYGAgcmVwcmVzZW50aW5nIHRoZSBpbnB1dFxuICAgICAgICBtYXRyaXguXG5cbiAgICBSZXR1cm5zXG4gICAgLS0tLS0tLVxuICAgIFEgOiBudW1weS5uZGFycmF5XG4gICAgICAgIE9ydGhvbm9ybWFsIG1hdHJpeCBvZiBzaGFwZSBgYChuLCBuKWBgIHdoZXJlIHRoZSBjb2x1bW5zIGZvcm0gYW5cbiAgICAgICAgb3J0aG9ub3JtYWwgYmFzaXMgZm9yIHRoZSBjb2x1bW4gc3BhY2Ugb2YgQS5cbiAgICBSIDogbnVtcHkubmRhcnJheVxuICAgICAgICBVcHBlciB0cmlhbmd1bGFyIG1hdHJpeCBvZiBzaGFwZSBgYChuLCBuKWBgLlxuICAgIFwiXCJcIlxuICAgIG4sIG0gPSBBLnNoYXBlXG4gICAgaWYgbiAhPSBtOlxuICAgICAgICByYWlzZSBWYWx1ZUVycm9yKFxuICAgICAgICAgICAgZlwidGhlIG1hdHJpeCBBIGlzIG5vdCBzcXVhcmUsIHtBLnNoYXBlPX1cIlxuICAgICAgICApXG5cbiAgICBRID0gbnAuZW1wdHlfbGlrZShBKVxuICAgIFIgPSBucC56ZXJvc19saWtlKEEpXG5cbiAgICBmb3IgaiBpbiByYW5nZShuKTpcbiAgICAgICAgIyBTdGFydCB3aXRoIHRoZSBqLXRoIGNvbHVtbiBvZiBBXG4gICAgICAgIHUgPSBBWzosIGpdLmNvcHkoKVxuXG4gICAgICAgICMgT3J0aG9nb25hbGl6ZSBhZ2FpbnN0IHByZXZpb3VzIHEgdmVjdG9yc1xuICAgICAgICBmb3IgaSBpbiByYW5nZShqKTpcbiAgICAgICAgICAgIFJbaSwgal0gPSBucC5kb3QoXG4gICAgICAgICAgICAgICAgUVs6LCBpXSwgQVs6LCBqXVxuICAgICAgICAgICAgKSAgIyBwcm9qZWN0aW9uIGNvZWZmaWNpZW50XG4gICAgICAgICAgICB1IC09IChcbiAgICAgICAgICAgICAgICBSW2ksIGpdICogUVs6LCBpXVxuICAgICAgICAgICAgKSAgIyBzdWJ0cmFjdCB0aGUgcHJvamVjdGlvblxuXG4gICAgICAgICMgTm9ybWFsaXplIHUgdG8gZ2V0IHFfalxuICAgICAgICBSW2osIGpdID0gbnAubGluYWxnLm5vcm0odSlcbiAgICAgICAgUVs6LCBqXSA9IHUgLyBSW2osIGpdXG5cbiAgICByZXR1cm4gUSwgUlxuIiwiYXR0ciI6eyJldmFsIjp0cnVlLCJlZGl0Ijp0cnVlfX0=
-</script>
-</div>
+<p><strong>Step 1: factorise <span class="math inline">\(A^{(0)} = Q^{(0)} R^{(0)}\)</span>.</strong> Applying the Gram-Schmidt process to the two columns <span class="math inline">\(\vec{a}^{(1)} = (3, 1)^T\)</span> and <span class="math inline">\(\vec{a}^{(2)} = (1, 3)^T\)</span>: <span class="math display">\[\begin{align*}
+\vec{q}^{(1)} &amp; = \frac{\vec{a}^{(1)}}{\|\vec{a}^{(1)}\|}
+= \frac{1}{\sqrt{10}} \begin{pmatrix} 3 \\ 1 \end{pmatrix}, \\
+\vec{u}^{(2)} &amp; = \vec{a}^{(2)} - \left(\vec{a}^{(2)} \cdot \vec{q}^{(1)}\right)
+\vec{q}^{(1)}
+= \begin{pmatrix} 1 \\ 3 \end{pmatrix} - \frac{6}{10}
+\begin{pmatrix} 3 \\ 1 \end{pmatrix}
+= \begin{pmatrix} -4/5 \\ 12/5 \end{pmatrix}, \\
+\vec{q}^{(2)} &amp; = \frac{\vec{u}^{(2)}}{\|\vec{u}^{(2)}\|}
+= \frac{1}{\sqrt{10}} \begin{pmatrix} -1 \\ 3 \end{pmatrix}.
+\end{align*}\]</span> So <span class="math display">\[\begin{equation*}
+Q^{(0)} = \frac{1}{\sqrt{10}} \begin{pmatrix} 3 &amp; -1 \\ 1 &amp; 3 \end{pmatrix},
+\qquad
+R^{(0)} = \frac{\sqrt{10}}{5} \begin{pmatrix} 5 &amp; 3 \\ 0 &amp; 4 \end{pmatrix}.
+\end{equation*}\]</span></p>
+<p><strong>Step 2: recombine <span class="math inline">\(A^{(1)} = R^{(0)} Q^{(0)}\)</span>.</strong> <span class="math display">\[\begin{align*}
+A^{(1)}
+&amp; = \frac{\sqrt{10}}{5} \begin{pmatrix} 5 &amp; 3 \\ 0 &amp; 4 \end{pmatrix}
+\cdot \frac{1}{\sqrt{10}} \begin{pmatrix} 3 &amp; -1 \\ 1 &amp; 3 \end{pmatrix}
+= \frac{1}{5} \begin{pmatrix} 5 &amp; 3 \\ 0 &amp; 4 \end{pmatrix}
+\begin{pmatrix} 3 &amp; -1 \\ 1 &amp; 3 \end{pmatrix} \\
+&amp; = \frac{1}{5} \begin{pmatrix} 18 &amp; 4 \\ 4 &amp; 12 \end{pmatrix}
+= \begin{pmatrix} 3.6 &amp; 0.8 \\ 0.8 &amp; 2.4 \end{pmatrix}.
+\end{align*}\]</span></p>
+<p>Two things are worth checking:</p>
+<ul>
+<li>The trace is preserved: <span class="math inline">\(\mathrm{trace}(A^{(0)}) = 3 + 3 = 6\)</span> and <span class="math inline">\(\mathrm{trace}(A^{(1)}) = 3.6 + 2.4 = 6\)</span>. This is a consequence of <span class="math inline">\(A^{(1)}\)</span> being similar to <span class="math inline">\(A^{(0)}\)</span> (<strong>?@thm-similar</strong>): similar matrices have the same eigenvalues, and the trace is the sum of the eigenvalues, so it cannot change under a similarity transformation.</li>
+<li>The off-diagonal entries have shrunk, from <span class="math inline">\(1\)</span> to <span class="math inline">\(0.8\)</span>: <span class="math inline">\(A^{(1)}\)</span> is closer to being diagonal than <span class="math inline">\(A^{(0)}\)</span> was.</li>
+</ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -816,42 +831,26 @@ eyJjb2RlIjoiZGVmIGdyYW1fc2NobWlkdF9xcihBKTpcbiAgICBcIlwiXCJcbiAgICBDb21wdXRlIHRo
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-</section>
-<section id="lets-try-it-out" class="slide level3">
-<h3>Let’s try it out!</h3>
-<p>Let’s test it without our example above:</p>
-<div>
-<div id="pyodide-4" class="exercise-cell">
+<aside><div>
+<p><span class="math inline">\(\vec{u}^{(j)} = \vec{a}^{(j)} - \sum_{i=1}^{j-1} (\vec{a}^{(j)} \cdot
+\vec{q}^{(i)} ) \vec{q}^{(i)}, \qquad
+\vec{q}^{(j)} = \frac{1}{\|\vec{u}^{(j)}\|} \vec{u}^{(j)},\)</span> <span class="math inline">\(R_{ij} = \vec{a}^{(j)} \cdot \vec{q}^{(i)} \text{ if } i &lt; j, \qquad
+R_{ii} = \| \vec{u}^{(j)} \| \text{ if } i = j.\)</span></p>
+</div></aside></section>
+<section id="exercise-1" class="slide level3 vevox smaller">
+<h3>Exercise</h3>
+<p>Find the <span class="math inline">\(QR\)</span> factorisation of <span class="math inline">\(B = \begin{pmatrix} 1.5 &amp; -0.5 \\ -0.5 &amp; 1.5 \end{pmatrix}\)</span>. Hence, find a similar matrix to <span class="math inline">\(B\)</span> by appropriately combining your factors <span class="math inline">\(Q\)</span> and <span class="math inline">\(R\)</span>.</p>
 
-</div>
-<script type="pyodide-4-contents">
-eyJjb2RlIjoiIyBtYXRyaXggd2l0aCBjb2x1bW5zIGVxdWFsIHRvIGExLCBhMiBhbmQgYTNcbkEgPSBucC5hcnJheShcbiAgICBbWzEuMCwgMi4wLCAxLjBdLCBbMC4wLCAtMS4wLCAyLjBdLCBbMS4wLCAwLjAsIDEuMF1dXG4pXG5cbnByaW50X2FycmF5KEEpXG5cblEsIFIgPSBncmFtX3NjaG1pZHRfcXIoQSlcblxucHJpbnQoXCJRUiBmYWN0b3Jpc2F0aW9uOlwiKVxucHJpbnRfYXJyYXkoUSlcbnByaW50X2FycmF5KFIpXG5cbnByaW50KFxuICAgIFwiSGF2ZSB3ZSBjb21wdXRlZCBhIGZhY3RvcmlzYXRpb24/IChBID09IFEgQCBSPylcIixcbiAgICBucC5hbGxjbG9zZShBLCBRIEAgUiksXG4pXG5wcmludChcbiAgICBcIklzIFEgb3J0aG9ub3JtYWw/IChRLlQgQCBRID09IG5wLmV5ZSgzKSlcIixcbiAgICBucC5hbGxjbG9zZShucC5leWUoMyksIFEuVCBAIFEpLFxuKVxuIiwiYXR0ciI6eyJldmFsIjp0cnVlLCJlZGl0Ijp0cnVlfX0=
-</script>
-</div>
-<aside class="notes">
-<div>
-<div id="pyodide-5" class="exercise-cell">
+<aside><div>
+<p><span class="math inline">\(\vec{u}^{(j)} = \vec{a}^{(j)} - \sum_{i=1}^{j-1} (\vec{a}^{(j)} \cdot
+\vec{q}^{(i)} ) \vec{q}^{(i)}, \qquad
+\vec{q}^{(j)} = \frac{1}{\|\vec{u}^{(j)}\|} \vec{u}^{(j)}, \qquad
+R_{ij} = \vec{a}^{(j)} \cdot \vec{q}^{(i)} \text{ if } i &lt; j, \qquad
+R_{ii} = \| \vec{u}^{(j)} \| \text{ if } i = j.\)</span></p>
+</div></aside></section>
 
-</div>
-<script type="pyodide-5-contents">
-eyJjb2RlIjoiIyBtYXRyaXggd2l0aCBjb2x1bW5zIGVxdWFsIHRvIGExLCBhMiBhbmQgYTNcbkEgPSBucC5hcnJheShcbiAgICBbWzEuMCwgMi4wLCAxLjBdLCBbMC4wLCAtMS4wLCAyLjBdLCBbMS4wLCAwLjAsIDEuMF1dXG4pXG5cbnByaW50X2FycmF5KEEpXG5cblEsIFIgPSBncmFtX3NjaG1pZHRfcXIoQSlcblxucHJpbnQoXCJRUiBmYWN0b3Jpc2F0aW9uOlwiKVxucHJpbnRfYXJyYXkoUSlcbnByaW50X2FycmF5KFIpXG5cbnByaW50KFxuICAgIFwiSGF2ZSB3ZSBjb21wdXRlZCBhIGZhY3RvcmlzYXRpb24/IChBID09IFEgQCBSPylcIixcbiAgICBucC5hbGxjbG9zZShBLCBRIEAgUiksXG4pXG5wcmludChcbiAgICBcIklzIFEgb3J0aG9ub3JtYWw/IChRLlQgQCBRID09IG5wLmV5ZSgzKSlcIixcbiAgICBucC5hbGxjbG9zZShucC5leWUoMyksIFEuVCBAIFEpLFxuKVxuIiwiYXR0ciI6eyJldmFsIjp0cnVlLCJlZGl0Ijp0cnVlfX0=
-</script>
-</div>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-
-<section id="finding-eigenvalues-and-eigenvectors" class="title-slide slide level2 center" data-background-color="#782E57">
-<h2>Finding eigenvalues and eigenvectors</h2>
+<section id="python-qr-factorisation-using-gram-schmidt" class="title-slide slide level2 center" data-background-color="#782E57">
+<h2>Python QR factorisation using Gram-Schmidt</h2>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -871,68 +870,73 @@ eyJjb2RlIjoiIyBtYXRyaXggd2l0aCBjb2x1bW5zIGVxdWFsIHRvIGExLCBhMiBhbmQgYTNcbkEgPSBu
 <section class="slide level3">
 
 <div>
-<div id="pyodide-6" class="exercise-cell">
+<div id="pyodide-2" class="exercise-cell">
 
 </div>
-<script type="pyodide-6-contents">
-eyJjb2RlIjoiZGVmIGdyYW1fc2NobWlkdF9laWdlbihBLCBtYXhpdGVyPTEwMCwgdmVyYm9zZT1GYWxzZSk6XG4gICAgXCJcIlwiXG4gICAgQ29tcHV0ZSB0aGUgZWlnZW52YWx1ZXMgYW5kIGVpZ2VudmVjdG9ycyBvZiBhXG4gICAgc3F1YXJlIG1hdHJpeCB1c2luZyB0aGUgUVIgYWxnb3JpdGhtIHdpdGhcbiAgICBjbGFzc2ljYWwgR3JhbS1TY2htaWR0IFFSIGZhY3RvcmlzYXRpb24uXG4gICAgXCJcIlwiXG4gICAgLi4uXG4iLCJhdHRyIjp7ImVkaXQiOnRydWUsIm1pbi1saW5lcyI6MTUsImV2YWwiOnRydWUsIm1heC1saW5lcyI6MTV9fQ==
+<script type="pyodide-2-contents">
+eyJhdHRyIjp7ImV2YWwiOnRydWUsImVkaXQiOnRydWV9LCJjb2RlIjoiZGVmIGdyYW1fc2NobWlkdF9xcihBKTpcbiAgICBcIlwiXCJcbiAgICBDb21wdXRlIHRoZSBRUiBmYWN0b3Jpc2F0aW9uIG9mIGEgc3F1YXJlIG1hdHJpeCB1c2luZyB0aGUgY2xhc3NpY2FsXG4gICAgR3JhbS1TY2htaWR0IHByb2Nlc3MuXG4gICAgXCJcIlwiXG4gICAgbiwgbSA9IEEuc2hhcGVcbiAgICBpZiBuICE9IG06XG4gICAgICAgIHJhaXNlIFZhbHVlRXJyb3IoXG4gICAgICAgICAgICBmXCJ0aGUgbWF0cml4IEEgaXMgbm90IHNxdWFyZSwge0Euc2hhcGU9fVwiXG4gICAgICAgIClcblxuICAgIFEgPSBucC5lbXB0eV9saWtlKEEpXG4gICAgUiA9IG5wLnplcm9zX2xpa2UoQSlcblxuICAgIC4uLlxuXG4gICAgcmV0dXJuIFEsIFJcbiJ9
 </script>
 </div>
-<aside class="notes">
-<div>
-<div id="pyodide-7" class="exercise-cell">
-
-</div>
-<script type="pyodide-7-contents">
-eyJjb2RlIjoiZGVmIGdyYW1fc2NobWlkdF9laWdlbihBLCBtYXhpdGVyPTEwMCwgdmVyYm9zZT1GYWxzZSk6XG4gICAgXCJcIlwiXG4gICAgQ29tcHV0ZSB0aGUgZWlnZW52YWx1ZXMgYW5kIGVpZ2VudmVjdG9ycyBvZiBhIHNxdWFyZSBtYXRyaXggdXNpbmcgdGhlIFFSXG4gICAgYWxnb3JpdGhtIHdpdGggY2xhc3NpY2FsIEdyYW0tU2NobWlkdCBRUiBmYWN0b3Jpc2F0aW9uLlxuXG4gICAgVGhpcyBmdW5jdGlvbiBpbXBsZW1lbnRzIHRoZSBiYXNpYyBRUiBhbGdvcml0aG06XG5cbiAgICAxLiBGYWN0b3Jpc2UgdGhlIG1hdHJpeCBgQWAgaW50byBgUWAgYW5kIGBSYCB1c2luZyBHcmFtLVNjaG1pZHQgUVJcbiAgICAgICBmYWN0b3Jpc2F0aW9uLlxuICAgIDIuIFVwZGF0ZSB0aGUgbWF0cml4IGFzOlxuXG4gICAgICAgLi4gbWF0aDo6XG4gICAgICAgICAgIEFfe2srMX0gPSBSX2sgUV9rXG5cbiAgICAzLiBBY2N1bXVsYXRlIHRoZSBvcnRob25vcm1hbCB0cmFuc2Zvcm1hdGlvbnMgaW4gYFZgIHRvIGNvbXB1dGUgdGhlXG4gICAgICAgZWlnZW52ZWN0b3JzLlxuICAgIDQuIEl0ZXJhdGUgdW50aWwgYEFgIGJlY29tZXMgYXBwcm94aW1hdGVseSB1cHBlciB0cmlhbmd1bGFyIG9yIHVudGlsIHRoZVxuICAgICAgIG1heGltdW0gbnVtYmVyIG9mIGl0ZXJhdGlvbnMgaXMgcmVhY2hlZC5cblxuICAgIE9uY2UgdGhlIGl0ZXJhdGlvbiBjb252ZXJnZXMsIHRoZSBkaWFnb25hbCBvZiBgQWAgY29udGFpbnMgdGhlIGVpZ2VudmFsdWVzLFxuICAgIGFuZCB0aGUgY29sdW1ucyBvZiBgVmAgY29udGFpbiB0aGUgY29ycmVzcG9uZGluZyBlaWdlbnZlY3RvcnMuXG5cbiAgICBQYXJhbWV0ZXJzXG4gICAgLS0tLS0tLS0tLVxuICAgIEEgOiBudW1weS5uZGFycmF5XG4gICAgICAgIEEgc3F1YXJlIDJEIE51bVB5IGFycmF5IG9mIHNoYXBlIGBgKG4sIG4pYGAgcmVwcmVzZW50aW5nIHRoZSBpbnB1dFxuICAgICAgICBtYXRyaXguIFRoaXMgbWF0cml4IHdpbGwgYmUgKiptb2RpZmllZCBpbiBwbGFjZSoqIGR1cmluZyB0aGVcbiAgICAgICAgY29tcHV0YXRpb24uXG4gICAgbWF4aXRlciA6IGludCwgb3B0aW9uYWxcbiAgICAgICAgTWF4aW11bSBudW1iZXIgb2YgUVIgaXRlcmF0aW9ucyB0byBwZXJmb3JtLiBEZWZhdWx0IGlzIDEwMC5cbiAgICB2ZXJib3NlIDogYm9vbCwgb3B0aW9uYWxcbiAgICAgICAgSWYgYGBUcnVlYGAsIHByaW50cyBpbnRlcm1lZGlhdGUgbWF0cmljZXMgKGBBYCwgYFFgLCBgUmAsIGFuZCBgVmApIGF0XG4gICAgICAgIGVhY2ggaXRlcmF0aW9uLiBVc2VmdWwgZm9yIGRlYnVnZ2luZyBhbmQgdW5kZXJzdGFuZGluZyBjb252ZXJnZW5jZS5cbiAgICAgICAgRGVmYXVsdCBpcyBgYEZhbHNlYGAuXG5cbiAgICBSZXR1cm5zXG4gICAgLS0tLS0tLVxuICAgIGVpZ2VudmFsdWVzIDogbnVtcHkubmRhcnJheVxuICAgICAgICBBIDFEIE51bVB5IGFycmF5IG9mIGxlbmd0aCBgYG5gYCBjb250YWluaW5nIHRoZSBlaWdlbnZhbHVlcyBvZiBgQWAuXG4gICAgICAgIFRoZXNlIGFyZSB0aGUgZGlhZ29uYWwgZWxlbWVudHMgb2YgdGhlIGZpbmFsIHVwcGVyIHRyaWFuZ3VsYXIgbWF0cml4LlxuICAgIFYgOiBudW1weS5uZGFycmF5XG4gICAgICAgIEEgMkQgTnVtUHkgYXJyYXkgb2Ygc2hhcGUgYGAobiwgbilgYCB3aG9zZSBjb2x1bW5zIGFyZSB0aGUgbm9ybWFsaXplZFxuICAgICAgICBlaWdlbnZlY3RvcnMgY29ycmVzcG9uZGluZyB0byB0aGUgZWlnZW52YWx1ZXMuXG4gICAgaXQgOiBpbnRcbiAgICAgICAgVGhlIG51bWJlciBvZiBpdGVyYXRpb25zIHRha2VuIGJ5IHRoZSBhbGdvcml0aG0uXG4gICAgXCJcIlwiXG4gICAgIyBpZGVudGl0eSBtYXRyaXggdG8gc3RvcmUgZWlnZW52ZWN0b3JzXG4gICAgViA9IG5wLmV5ZShBLnNoYXBlWzBdKVxuXG4gICAgaWYgdmVyYm9zZTpcbiAgICAgICAgcHJpbnRfYXJyYXkoQSlcblxuICAgIGl0ID0gLTFcbiAgICBmb3IgaXQgaW4gcmFuZ2UobWF4aXRlcik6XG4gICAgICAgIGlmIHZlcmJvc2U6XG4gICAgICAgICAgICBwcmludChmXCJcXG5cXG57aXQ9fVwiKVxuXG4gICAgICAgICMgcGVyZm9ybSBmYWN0b3Jpc2F0aW9uXG4gICAgICAgIFEsIFIgPSBncmFtX3NjaG1pZHRfcXIoQSlcbiAgICAgICAgaWYgdmVyYm9zZTpcbiAgICAgICAgICAgIHByaW50X2FycmF5KFEpXG4gICAgICAgICAgICBwcmludF9hcnJheShSKVxuXG4gICAgICAgICMgdXBkYXRlIEEgYW5kIFYgaW4gcGxhY2VcbiAgICAgICAgQSA9IFIgQCBRXG4gICAgICAgIFYgPSBWIEAgUVxuXG4gICAgICAgIGlmIHZlcmJvc2U6XG4gICAgICAgICAgICBwcmludF9hcnJheShBKVxuICAgICAgICAgICAgcHJpbnRfYXJyYXkoVilcblxuICAgICAgICAjIHRlc3QgZm9yIGNvbnZlcmdlbmNlOiBpcyBBIHVwcGVyIHRyaWFuZ3VsYXIgdXAgdG8gdG9sZXJhbmNlIDEuMGUtOD9cbiAgICAgICAgaWYgbnAuYWxsY2xvc2UoQSwgbnAudHJpdShBKSwgYXRvbD0xLjBlLTgpOlxuICAgICAgICAgICAgYnJlYWtcblxuICAgIGVpZ2VudmFsdWVzID0gbnAuZGlhZyhBKVxuICAgIHJldHVybiBlaWdlbnZhbHVlcywgViwgaXRcbiIsImF0dHIiOnsiZXZhbCI6dHJ1ZSwiZWRpdCI6dHJ1ZX19
-</script>
-</div>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
-<section id="lets-try-it-out-1" class="slide level3">
-<h3>Let’s try it out</h3>
-<p>We test this out in code first for the matrix from a previous example:</p>
+<section class="slide level3">
+
+<p>Let’s test it with our example above:</p>
 <div>
-<div id="pyodide-8" class="exercise-cell">
+<div id="pyodide-3" class="exercise-cell">
 
 </div>
-<script type="pyodide-8-contents">
-eyJjb2RlIjoiQSA9IG5wLmFycmF5KFtbMy4wLCAxLjBdLCBbMS4wLCAzLjBdXSlcbnByaW50X2FycmF5KEEpXG5cbmVpZ2VudmFsdWVzLCBlaWdlbnZlY3RvcnMsIGl0ID0gZ3JhbV9zY2htaWR0X2VpZ2VuKEEpXG5wcmludF9hcnJheShlaWdlbnZhbHVlcylcbnByaW50X2FycmF5KGVpZ2VudmVjdG9ycylcbnByaW50KFwiaXRlcmF0aW9ucyByZXF1aXJlZDpcIiwgaXQpXG4iLCJhdHRyIjp7ImV2YWwiOnRydWUsImVkaXQiOnRydWV9fQ==
+<script type="pyodide-3-contents">
+eyJhdHRyIjp7ImV2YWwiOnRydWUsImVkaXQiOnRydWV9LCJjb2RlIjoiIyBtYXRyaXggd2l0aCBjb2x1bW5zIGVxdWFsIHRvIGExLCBhMiBhbmQgYTNcbkEgPSBucC5hcnJheShcbiAgICBbWzEuMCwgMi4wLCAxLjBdLCBbMC4wLCAtMS4wLCAyLjBdLCBbMS4wLCAwLjAsIDEuMF1dXG4pXG5cbnByaW50X2FycmF5KEEpXG5cblEsIFIgPSBncmFtX3NjaG1pZHRfcXIoQSlcblxucHJpbnQoXCJRUiBmYWN0b3Jpc2F0aW9uOlwiKVxucHJpbnRfYXJyYXkoUSlcbnByaW50X2FycmF5KFIpXG5cbnByaW50KFxuICAgIFwiSGF2ZSB3ZSBjb21wdXRlZCBhIGZhY3RvcmlzYXRpb24/IChBIH49IFEgQCBSKVwiLFxuICAgIG5wLmFsbGNsb3NlKEEsIFEgQCBSKSxcbilcbnByaW50KFxuICAgIFwiSXMgUSBvcnRob2dvbmFsPyAoUS5UIEAgUSB+PSBucC5leWUoMykpXCIsXG4gICAgbnAuYWxsY2xvc2UobnAuZXllKDMpLCBRLlQgQCBRKSxcbilcbiJ9
 </script>
 </div>
-<aside class="notes">
-<p>These values agree with those from previous lecture. Note that this code normalises the eigenvectors to have length one, so we have slightly different values for the eigenvectors but still in the same directions.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+</section>
+<section id="finding-eigenvalues-and-eigenvectors" class="slide level3">
+<h3>Finding eigenvalues and eigenvectors</h3>
+<div>
+<div id="pyodide-4" class="exercise-cell">
+
+</div>
+<script type="pyodide-4-contents">
+eyJhdHRyIjp7ImV2YWwiOnRydWUsImVkaXQiOnRydWV9LCJjb2RlIjoiZGVmIGdyYW1fc2NobWlkdF9laWdlbihBLCBtYXhpdGVyPTEwMCwgdmVyYm9zZT1GYWxzZSk6XG4gICAgXCJcIlwiXG4gICAgQ29tcHV0ZSB0aGUgZWlnZW52YWx1ZXMgYW5kIGVpZ2VudmVjdG9ycyBvZiBhIHNxdWFyZSBtYXRyaXggdXNpbmcgdGhlIFFSXG4gICAgYWxnb3JpdGhtIHdpdGggY2xhc3NpY2FsIEdyYW0tU2NobWlkdCBRUiBmYWN0b3Jpc2F0aW9uLlxuICAgIFwiXCJcIlxuICAgICMgaWRlbnRpdHkgbWF0cml4IHRvIHN0b3JlIGVpZ2VudmVjdG9yc1xuICAgIFYgPSBucC5leWUoQS5zaGFwZVswXSlcblxuICAgIGlmIHZlcmJvc2U6XG4gICAgICAgIHByaW50X2FycmF5KEEpXG5cbiAgICAuLi5cbiJ9
+</script>
+</div>
+</section>
+<section class="slide level3">
+
+<div>
+<div id="pyodide-5" class="exercise-cell">
+
+</div>
+<script type="pyodide-5-contents">
+eyJhdHRyIjp7ImV2YWwiOnRydWUsImVkaXQiOnRydWV9LCJjb2RlIjoiQSA9IG5wLmFycmF5KFtbMy4wLCAxLjBdLCBbMS4wLCAzLjBdXSlcbnByaW50X2FycmF5KEEpXG5cbmVpZ2VudmFsdWVzLCBlaWdlbnZlY3RvcnMsIGl0ID0gZ3JhbV9zY2htaWR0X2VpZ2VuKEEpXG5wcmludF9hcnJheShlaWdlbnZhbHVlcylcbnByaW50X2FycmF5KGVpZ2VudmVjdG9ycylcbnByaW50KFwiaXRlcmF0aW9ucyByZXF1aXJlZDpcIiwgaXQpXG4ifQ==
+</script>
+</div>
 </section>
 <section id="correctness-and-convergence" class="slide level3">
 <h3>Correctness and convergence</h3>
-<p>Let’s see what happens when we try this same approach for a bigger symmetric matrices. Here we have a test that samples ten different random matrices and computes the average number of iterations, average run time and maximum error in the eigenvalue equation.</p>
+<p>Let’s see what happens when we try this same approach for bigger symmetric matrices.</p>
+<p>Here we have a test that samples ten different random matrices and computes the average number of iterations, average run time and maximum error in the eigenvalue equation.</p>
 </section>
-<section id="results" class="slide level3">
-<h3>Results</h3>
+<section class="slide level3">
+
+<div id="c88992c8" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-stdout">
+<pre><code>size  time (s)       iter  error
+   2   1.364411e-03   44.6  9.319110e-09
+   4   3.503400e-03   78.1  9.895223e-09
+   8   1.454857e-02  137.7  1.212740e-08
+  16   5.127225e-02  152.7  1.346641e-08
+  32   2.051342e-01  165.6  1.246268e-08
+  64   8.149085e-01  162.3  1.646201e-08
+ 128   4.944113e+00  173.8  1.478504e-08</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level3">
+
 
 <img data-src="lec07_files/figure-revealjs/cell-8-output-1.png" class="r-stretch"><aside class="notes">
-<p>We see that the method converges very well with a good low accuracy.</p>
+<p>We see that the method converges reliably and to a good level of accuracy, even as the matrix size <span class="math inline">\(n\)</span> grows – a very different picture to the characteristic-equation approach, which becomes infeasible once <span class="math inline">\(n\)</span> is more than a handful.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -949,9 +953,14 @@ eyJjb2RlIjoiQSA9IG5wLmFycmF5KFtbMy4wLCAxLjBdLCBbMS4wLCAzLjBdXSlcbnByaW50X2FycmF5
 <section id="summary" class="title-slide slide level2 center" data-background-color="#782E57">
 <h2>Summary</h2>
 <ul>
-<li><p>The “grand strategy” for finding eigenvalues of large matrices is to build a sequence of matrices similar to <span class="math inline">\(A\)</span>, aiming for a triangular (or diagonal) matrix whose eigenvalues can simply be read off the diagonal.</p></li>
-<li><p>The QR algorithm builds this sequence by repeatedly factorising <span class="math inline">\(A^{(k)} = Q^{(k)} R^{(k)}\)</span> into an orthogonal matrix <span class="math inline">\(Q^{(k)}\)</span> and an upper triangular matrix <span class="math inline">\(R^{(k)}\)</span>, then recombining them in the opposite order, <span class="math inline">\(A^{(k+1)} = R^{(k)} Q^{(k)}\)</span>. Because <span class="math inline">\(Q^{(k)}\)</span> is orthogonal, each <span class="math inline">\(A^{(k+1)}\)</span> is similar to <span class="math inline">\(A^{(k)}\)</span>, so every matrix in the sequence has the same eigenvalues as the original <span class="math inline">\(A\)</span>.</p></li>
-<li><p>The Gram-Schmidt process gives us a concrete, implementable way to compute a QR factorisation: it turns the columns of <span class="math inline">\(A\)</span> into an orthonormal set of vectors <span class="math inline">\(Q\)</span>, tracking the projection coefficients used along the way in an upper triangular matrix <span class="math inline">\(R\)</span>.</p></li>
+<li><p>The “grand strategy” for finding eigenvalues of large matrices is to build a sequence of matrices similar to <span class="math inline">\(A\)</span></p></li>
+<li><p>The QR algorithm builds this sequence by repeatedly factorising <span class="math inline">\(A^{(k)} = Q^{(k)} R^{(k)}\)</span> into an orthogonal matrix <span class="math inline">\(Q^{(k)}\)</span> and an upper triangular matrix <span class="math inline">\(R^{(k)}\)</span>, then recombining them in the opposite order, <span class="math inline">\(A^{(k+1)} = R^{(k)} Q^{(k)}\)</span>.</p></li>
+</ul>
+</section>
+<section class="slide level3">
+
+<ul>
+<li><p>The Gram-Schmidt process gives us a concrete, implementable way to compute a QR factorisation.</p></li>
 <li><p>Our Python implementation confirms, empirically, that the QR algorithm is both correct (it reproduces the eigenvalues and eigenvectors found by hand) and feasible: unlike solving the characteristic equation directly, we can apply our method to large matrices.</p></li>
 </ul>
 <div class="quarto-auto-generated-content">
@@ -960,10 +969,10 @@ eyJjb2RlIjoiQSA9IG5wLmFycmF5KFtbMy4wLCAxLjBdLCBbMS4wLCAzLjBdXSlcbnByaW50X2FycmF5
 </div>
 </div>
 <script type="pyodide-data">
-eyJwYWNrYWdlcyI6eyJwa2dzIjpbInB5b2RpZGVfaHR0cCIsIm1pY3JvcGlwIiwiaXB5dGhvbiJdfSwib3B0aW9ucyI6eyJpbmRleFVSTCI6Imh0dHBzOi8vY2RuLmpzZGVsaXZyLm5ldC9weW9kaWRlL3YwLjI2LjEvZnVsbC8ifX0=
+eyJvcHRpb25zIjp7ImluZGV4VVJMIjoiaHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L3B5b2RpZGUvdjAuMjYuMS9mdWxsLyJ9LCJwYWNrYWdlcyI6eyJwa2dzIjpbInB5b2RpZGVfaHR0cCIsIm1pY3JvcGlwIiwiaXB5dGhvbiJdfX0=
 </script>
 <script type="ojs-module-contents">
-eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJweW9kaWRlLTgiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl84ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS04LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtOC1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzggPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzgsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTciLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl83ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS03LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtNy1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzcgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzcsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTYiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl82ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS02LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtNi1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzYgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzYsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTUiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl81ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS01LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtNS1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzUgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzUsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTQiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl80ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS00LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtNC1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzQgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzQsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTMiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8zID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0zLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMy1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzMgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzMsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTIiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8yID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0yLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMi1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzIgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzIsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTEiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoiX3B5b2RpZGVfdmFsdWVfMSA9IHtcbiAgY29uc3QgeyBoaWdobGlnaHRQeXRob24sIGI2NERlY29kZX0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgLy8gRGVmYXVsdCBldmFsdWF0aW9uIGNvbmZpZ3VyYXRpb25cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oe1xuICAgIGlkOiBcInB5b2RpZGUtMS1jb250ZW50c1wiLFxuICAgIGVjaG86IHRydWUsXG4gICAgb3V0cHV0OiB0cnVlXG4gIH0sIGJsb2NrLmF0dHIpO1xuXG4gIC8vIEV2YWx1YXRlIHRoZSBwcm92aWRlZCBQeXRob24gY29kZVxuICBjb25zdCByZXN1bHQgPSBweW9kaWRlT2pzLnByb2Nlc3Moe2NvZGU6IGJsb2NrLmNvZGUsIG9wdGlvbnN9LCB7fSk7XG5cbiAgLy8gRWFybHkgeWllbGQgd2hpbGUgd2Ugd2FpdCBmb3IgdGhlIGZpcnN0IGV2YWx1YXRpb24gYW5kIHJlbmRlclxuICBpZiAob3B0aW9ucy5vdXRwdXQgJiYgIShcIjFcIiBpbiBweW9kaWRlT2pzLnJlbmRlcmVkT2pzKSkge1xuICAgIGNvbnN0IGNvbnRhaW5lciA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJkaXZcIik7XG4gICAgY29uc3Qgc3Bpbm5lciA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJkaXZcIik7XG5cbiAgICBpZiAob3B0aW9ucy5lY2hvKSB7XG4gICAgICAvLyBTaG93IG91dHB1dCBhcyBoaWdobGlnaHRlZCBzb3VyY2VcbiAgICAgIGNvbnN0IHByZUVsZW0gPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KFwicHJlXCIpO1xuICAgICAgY29udGFpbmVyLmNsYXNzTmFtZSA9IFwic291cmNlQ29kZVwiO1xuICAgICAgcHJlRWxlbS5jbGFzc05hbWUgPSBcInNvdXJjZUNvZGUgcHl0aG9uXCI7XG4gICAgICBwcmVFbGVtLmFwcGVuZENoaWxkKGhpZ2hsaWdodFB5dGhvbihibG9jay5jb2RlKSk7XG4gICAgICBzcGlubmVyLmNsYXNzTmFtZSA9IFwic3Bpbm5lci1ncm93IHNwaW5uZXItZ3Jvdy1zbSBtLTIgcG9zaXRpb24tYWJzb2x1dGUgdG9wLTAgZW5kLTBcIjtcbiAgICAgIHByZUVsZW0uYXBwZW5kQ2hpbGQoc3Bpbm5lcik7XG4gICAgICBjb250YWluZXIuYXBwZW5kQ2hpbGQocHJlRWxlbSk7XG4gICAgfSBlbHNlIHtcbiAgICAgIHNwaW5uZXIuY2xhc3NOYW1lID0gXCJzcGlubmVyLWJvcmRlciBzcGlubmVyLWJvcmRlci1zbVwiO1xuICAgICAgY29udGFpbmVyLmFwcGVuZENoaWxkKHNwaW5uZXIpO1xuICAgIH1cblxuICAgIHlpZWxkIGNvbnRhaW5lcjtcbiAgfVxuXG4gIHB5b2RpZGVPanMucmVuZGVyZWRPanNbXCIxXCJdID0gdHJ1ZTtcbiAgeWllbGQgYXdhaXQgcmVzdWx0O1xufVxuIn0seyJjZWxsTmFtZSI6InB5b2RpZGUtcHJlbHVkZSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InB5b2RpZGVPanMgPSB7XG4gIGNvbnN0IHtcbiAgICBQeW9kaWRlRXZhbHVhdG9yLFxuICAgIFB5b2RpZGVFbnZpcm9ubWVudE1hbmFnZXIsXG4gICAgc2V0dXBQeXRob24sXG4gICAgc3RhcnRQeW9kaWRlV29ya2VyLFxuICAgIGI2NERlY29kZSxcbiAgICBjb2xsYXBzZVBhdGgsXG4gIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHN0YXR1c0NvbnRhaW5lciA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKFwiZXhlcmNpc2UtbG9hZGluZy1zdGF0dXNcIik7XG4gIGNvbnN0IGluZGljYXRvckNvbnRhaW5lciA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKFwiZXhlcmNpc2UtbG9hZGluZy1pbmRpY2F0b3JcIik7XG4gIGluZGljYXRvckNvbnRhaW5lci5jbGFzc0xpc3QucmVtb3ZlKFwiZC1ub25lXCIpO1xuXG4gIGxldCBzdGF0dXNUZXh0ID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudChcImRpdlwiKVxuICBzdGF0dXNUZXh0LmNsYXNzTGlzdCA9IFwiZXhlcmNpc2UtbG9hZGluZy1kZXRhaWxzXCI7XG4gIHN0YXR1c1RleHQgPSBzdGF0dXNDb250YWluZXIuYXBwZW5kQ2hpbGQoc3RhdHVzVGV4dCk7XG4gIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgSW5pdGlhbGlzZWA7XG5cbiAgLy8gSG9pc3QgaW5kaWNhdG9yIG91dCBmcm9tIGZpbmFsIHNsaWRlIHdoZW4gcnVubmluZyB1bmRlciByZXZlYWxcbiAgY29uc3QgcmV2ZWFsU3RhdHVzID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvcihcIi5yZXZlYWwgLmV4ZXJjaXNlLWxvYWRpbmctaW5kaWNhdG9yXCIpO1xuICBpZiAocmV2ZWFsU3RhdHVzKSB7XG4gICAgcmV2ZWFsU3RhdHVzLnJlbW92ZSgpO1xuICAgIGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoXCIucmV2ZWFsID4gLnNsaWRlc1wiKS5hcHBlbmRDaGlsZChyZXZlYWxTdGF0dXMpO1xuICB9XG5cbiAgLy8gTWFrZSBhbnkgcmV2ZWFsIHNsaWRlcyB3aXRoIGxpdmUgY2VsbHMgc2Nyb2xsYWJsZVxuICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKFwiLnJldmVhbCAuZXhlcmNpc2UtY2VsbFwiKS5mb3JFYWNoKChlbCkgPT4ge1xuICAgIGVsLmNsb3Nlc3QoJ3NlY3Rpb24uc2xpZGUnKS5jbGFzc0xpc3QuYWRkKFwic2Nyb2xsYWJsZVwiKTtcbiAgfSlcblxuICAvLyBQeW9kaWRlIHN1cHBsZW1lbnRhbCBkYXRhIGFuZCBvcHRpb25zXG4gIGNvbnN0IGRhdGFDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtZGF0YVxcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGRhdGEgPSBKU09OLnBhcnNlKGI2NERlY29kZShkYXRhQ29udGVudCkpO1xuXG4gIC8vIEdyYWIgbGlzdCBvZiByZXNvdXJjZXMgdG8gYmUgZG93bmxvYWRlZFxuICBjb25zdCBmaWxlc0NvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwidmZzLWZpbGVcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBmaWxlcyA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKGZpbGVzQ29udGVudCkpO1xuXG4gIGxldCBweW9kaWRlUHJvbWlzZSA9IChhc3luYyAoKSA9PiB7XG4gICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBQeW9kaWRlYDtcbiAgICBjb25zdCBweW9kaWRlID0gYXdhaXQgc3RhcnRQeW9kaWRlV29ya2VyKGRhdGEub3B0aW9ucyk7XG5cbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYERvd25sb2FkaW5nIHBhY2thZ2U6IG1pY3JvcGlwYDtcbiAgICBhd2FpdCBweW9kaWRlLmxvYWRQYWNrYWdlKFwibWljcm9waXBcIik7XG4gICAgY29uc3QgbWljcm9waXAgPSBhd2FpdCBweW9kaWRlLnB5aW1wb3J0KFwibWljcm9waXBcIik7XG4gICAgYXdhaXQgZGF0YS5wYWNrYWdlcy5wa2dzLm1hcCgocGtnKSA9PiAoKSA9PiB7XG4gICAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYERvd25sb2FkaW5nIHBhY2thZ2U6ICR7cGtnfWA7XG4gICAgICByZXR1cm4gbWljcm9waXAuaW5zdGFsbChwa2cpO1xuICAgIH0pLnJlZHVjZSgoY3VyLCBuZXh0KSA9PiBjdXIudGhlbihuZXh0KSwgUHJvbWlzZS5yZXNvbHZlKCkpO1xuICAgIGF3YWl0IG1pY3JvcGlwLmRlc3Ryb3koKTtcblxuICAgIC8vIERvd25sb2FkIGFuZCBpbnN0YWxsIHJlc291cmNlc1xuICAgIGF3YWl0IGZpbGVzLm1hcCgoZmlsZSkgPT4gYXN5bmMgKCkgPT4ge1xuICAgICAgY29uc3QgbmFtZSA9IGZpbGUuc3Vic3RyaW5nKGZpbGUubGFzdEluZGV4T2YoJy8nKSArIDEpO1xuICAgICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyByZXNvdXJjZTogJHtuYW1lfWA7XG4gICAgICBjb25zdCByZXNwb25zZSA9IGF3YWl0IGZldGNoKGZpbGUpO1xuICAgICAgaWYgKCFyZXNwb25zZS5vaykge1xuICAgICAgICB0aHJvdyBuZXcgRXJyb3IoYENhbid0IGRvd25sb2FkIFxcYCR7ZmlsZX1cXGAuIEVycm9yICR7cmVzcG9uc2Uuc3RhdHVzfTogXCIke3Jlc3BvbnNlLnN0YXR1c1RleHR9XCIuYCk7XG4gICAgICB9XG4gICAgICBjb25zdCBkYXRhID0gYXdhaXQgcmVzcG9uc2UuYXJyYXlCdWZmZXIoKTtcblxuICAgICAgLy8gU3RvcmUgVVJMcyBpbiB0aGUgY3dkIHdpdGhvdXQgYW55IHN1YmRpcmVjdG9yeSBzdHJ1Y3R1cmVcbiAgICAgIGlmIChmaWxlLmluY2x1ZGVzKFwiOi8vXCIpKSB7XG4gICAgICAgIGZpbGUgPSBuYW1lO1xuICAgICAgfVxuXG4gICAgICAvLyBDb2xsYXBzZSBoaWdoZXIgZGlyZWN0b3J5IHN0cnVjdHVyZVxuICAgICAgZmlsZSA9IGNvbGxhcHNlUGF0aChmaWxlKTtcblxuICAgICAgLy8gQ3JlYXRlIGRpcmVjdG9yeSB0cmVlLCBpZ25vcmluZyBcImRpcmVjdG9yeSBleGlzdHNcIiBWRlMgZXJyb3JzXG4gICAgICBjb25zdCBwYXJ0cyA9IGZpbGUuc3BsaXQoJy8nKS5zbGljZSgwLCAtMSk7XG4gICAgICBsZXQgcGF0aCA9ICcnO1xuICAgICAgd2hpbGUgKHBhcnRzLmxlbmd0aCA+IDApIHtcbiAgICAgICAgcGF0aCArPSBwYXJ0cy5zaGlmdCgpICsgJy8nO1xuICAgICAgICB0cnkge1xuICAgICAgICAgIGF3YWl0IHB5b2RpZGUuRlMubWtkaXIocGF0aCk7XG4gICAgICAgIH0gY2F0Y2ggKGUpIHtcbiAgICAgICAgICBpZiAoZS5uYW1lICE9PSBcIkVycm5vRXJyb3JcIikgdGhyb3cgZTtcbiAgICAgICAgICBpZiAoZS5lcnJubyAhPT0gMjApIHtcbiAgICAgICAgICAgIGNvbnN0IGVycm9yVGV4dFB0ciA9IGF3YWl0IHB5b2RpZGUuX21vZHVsZS5fc3RyZXJyb3IoZS5lcnJubyk7XG4gICAgICAgICAgICBjb25zdCBlcnJvclRleHQgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuVVRGOFRvU3RyaW5nKGVycm9yVGV4dFB0cik7XG4gICAgICAgICAgICB0aHJvdyBuZXcgRXJyb3IoYEZpbGVzeXN0ZW0gRXJyb3IgJHtlLmVycm5vfSBcIiR7ZXJyb3JUZXh0fVwiLmApO1xuICAgICAgICAgIH1cbiAgICAgICAgfVxuICAgICAgfVxuXG4gICAgICAvLyBXcml0ZSB0aGlzIGZpbGUgdG8gdGhlIFZGU1xuICAgICAgdHJ5IHtcbiAgICAgICAgcmV0dXJuIGF3YWl0IHB5b2RpZGUuRlMud3JpdGVGaWxlKGZpbGUsIG5ldyBVaW50OEFycmF5KGRhdGEpKTtcbiAgICAgIH0gY2F0Y2ggKGUpIHtcbiAgICAgICAgaWYgKGUubmFtZSAhPT0gXCJFcnJub0Vycm9yXCIpIHRocm93IGU7XG4gICAgICAgIGNvbnN0IGVycm9yVGV4dFB0ciA9IGF3YWl0IHB5b2RpZGUuX21vZHVsZS5fc3RyZXJyb3IoZS5lcnJubyk7XG4gICAgICAgIGNvbnN0IGVycm9yVGV4dCA9IGF3YWl0IHB5b2RpZGUuX21vZHVsZS5VVEY4VG9TdHJpbmcoZXJyb3JUZXh0UHRyKTtcbiAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBGaWxlc3lzdGVtIEVycm9yICR7ZS5lcnJub30gXCIke2Vycm9yVGV4dH1cIi5gKTtcbiAgICAgIH1cbiAgICB9KS5yZWR1Y2UoKGN1ciwgbmV4dCkgPT4gY3VyLnRoZW4obmV4dCksIFByb21pc2UucmVzb2x2ZSgpKTtcblxuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgUHlvZGlkZSBlbnZpcm9ubWVudCBzZXR1cGA7XG4gICAgYXdhaXQgc2V0dXBQeXRob24ocHlvZGlkZSk7XG5cbiAgICBzdGF0dXNUZXh0LnJlbW92ZSgpO1xuICAgIGlmIChzdGF0dXNDb250YWluZXIuY2hpbGRyZW4ubGVuZ3RoID09IDApIHtcbiAgICAgIHN0YXR1c0NvbnRhaW5lci5wYXJlbnROb2RlLnJlbW92ZSgpO1xuICAgIH1cbiAgICByZXR1cm4gcHlvZGlkZTtcbiAgfSkoKS5jYXRjaCgoZXJyKSA9PiB7XG4gICAgc3RhdHVzVGV4dC5zdHlsZS5jb2xvciA9IFwidmFyKC0tZXhlcmNpc2UtZWRpdG9yLWhsLWVyLCAjQUQwMDAwKVwiO1xuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBlcnIubWVzc2FnZTtcbiAgICAvL2luZGljYXRvckNvbnRhaW5lci5xdWVyeVNlbGVjdG9yKFwiLnNwaW5uZXItZ3Jvd1wiKS5jbGFzc0xpc3QuYWRkKFwiZC1ub25lXCIpO1xuICAgIHRocm93IGVycjtcbiAgfSk7XG5cbiAgLy8gS2VlcCB0cmFjayBvZiBpbml0aWFsIE9KUyBibG9jayByZW5kZXJcbiAgY29uc3QgcmVuZGVyZWRPanMgPSB7fTtcblxuICBjb25zdCBwcm9jZXNzID0gYXN5bmMgKGNvbnRleHQsIGlucHV0cykgPT4ge1xuICAgIGNvbnN0IHB5b2RpZGUgPSBhd2FpdCBweW9kaWRlUHJvbWlzZTtcbiAgICBjb25zdCBldmFsdWF0b3IgPSBuZXcgUHlvZGlkZUV2YWx1YXRvcihweW9kaWRlLCBjb250ZXh0KTtcbiAgICBhd2FpdCBldmFsdWF0b3IucHJvY2VzcyhpbnB1dHMpO1xuICAgIHJldHVybiBldmFsdWF0b3IuY29udGFpbmVyO1xuICB9XG5cbiAgcmV0dXJuIHtcbiAgICBweW9kaWRlUHJvbWlzZSxcbiAgICByZW5kZXJlZE9qcyxcbiAgICBwcm9jZXNzLFxuICB9O1xufVxuIn1dfQ==
+eyJjb250ZW50cyI6W3siaW5saW5lIjpmYWxzZSwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl81ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS01LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtNS1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzUgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzUsIHt9KTtcbiIsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6InB5b2RpZGUtNSJ9LHsiaW5saW5lIjpmYWxzZSwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl80ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS00LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtNC1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzQgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzQsIHt9KTtcbiIsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6InB5b2RpZGUtNCJ9LHsiaW5saW5lIjpmYWxzZSwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8zID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0zLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMy1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzMgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzMsIHt9KTtcbiIsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6InB5b2RpZGUtMyJ9LHsiaW5saW5lIjpmYWxzZSwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8yID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0yLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMi1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzIgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzIsIHt9KTtcbiIsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6InB5b2RpZGUtMiJ9LHsiaW5saW5lIjpmYWxzZSwic291cmNlIjoiX3B5b2RpZGVfdmFsdWVfMSA9IHtcbiAgY29uc3QgeyBoaWdobGlnaHRQeXRob24sIGI2NERlY29kZX0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgLy8gRGVmYXVsdCBldmFsdWF0aW9uIGNvbmZpZ3VyYXRpb25cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oe1xuICAgIGlkOiBcInB5b2RpZGUtMS1jb250ZW50c1wiLFxuICAgIGVjaG86IHRydWUsXG4gICAgb3V0cHV0OiB0cnVlXG4gIH0sIGJsb2NrLmF0dHIpO1xuXG4gIC8vIEV2YWx1YXRlIHRoZSBwcm92aWRlZCBQeXRob24gY29kZVxuICBjb25zdCByZXN1bHQgPSBweW9kaWRlT2pzLnByb2Nlc3Moe2NvZGU6IGJsb2NrLmNvZGUsIG9wdGlvbnN9LCB7fSk7XG5cbiAgLy8gRWFybHkgeWllbGQgd2hpbGUgd2Ugd2FpdCBmb3IgdGhlIGZpcnN0IGV2YWx1YXRpb24gYW5kIHJlbmRlclxuICBpZiAob3B0aW9ucy5vdXRwdXQgJiYgIShcIjFcIiBpbiBweW9kaWRlT2pzLnJlbmRlcmVkT2pzKSkge1xuICAgIGNvbnN0IGNvbnRhaW5lciA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJkaXZcIik7XG4gICAgY29uc3Qgc3Bpbm5lciA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJkaXZcIik7XG5cbiAgICBpZiAob3B0aW9ucy5lY2hvKSB7XG4gICAgICAvLyBTaG93IG91dHB1dCBhcyBoaWdobGlnaHRlZCBzb3VyY2VcbiAgICAgIGNvbnN0IHByZUVsZW0gPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KFwicHJlXCIpO1xuICAgICAgY29udGFpbmVyLmNsYXNzTmFtZSA9IFwic291cmNlQ29kZVwiO1xuICAgICAgcHJlRWxlbS5jbGFzc05hbWUgPSBcInNvdXJjZUNvZGUgcHl0aG9uXCI7XG4gICAgICBwcmVFbGVtLmFwcGVuZENoaWxkKGhpZ2hsaWdodFB5dGhvbihibG9jay5jb2RlKSk7XG4gICAgICBzcGlubmVyLmNsYXNzTmFtZSA9IFwic3Bpbm5lci1ncm93IHNwaW5uZXItZ3Jvdy1zbSBtLTIgcG9zaXRpb24tYWJzb2x1dGUgdG9wLTAgZW5kLTBcIjtcbiAgICAgIHByZUVsZW0uYXBwZW5kQ2hpbGQoc3Bpbm5lcik7XG4gICAgICBjb250YWluZXIuYXBwZW5kQ2hpbGQocHJlRWxlbSk7XG4gICAgfSBlbHNlIHtcbiAgICAgIHNwaW5uZXIuY2xhc3NOYW1lID0gXCJzcGlubmVyLWJvcmRlciBzcGlubmVyLWJvcmRlci1zbVwiO1xuICAgICAgY29udGFpbmVyLmFwcGVuZENoaWxkKHNwaW5uZXIpO1xuICAgIH1cblxuICAgIHlpZWxkIGNvbnRhaW5lcjtcbiAgfVxuXG4gIHB5b2RpZGVPanMucmVuZGVyZWRPanNbXCIxXCJdID0gdHJ1ZTtcbiAgeWllbGQgYXdhaXQgcmVzdWx0O1xufVxuIiwibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoicHlvZGlkZS0xIn0seyJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJweW9kaWRlT2pzID0ge1xuICBjb25zdCB7XG4gICAgUHlvZGlkZUV2YWx1YXRvcixcbiAgICBQeW9kaWRlRW52aXJvbm1lbnRNYW5hZ2VyLFxuICAgIHNldHVwUHl0aG9uLFxuICAgIHN0YXJ0UHlvZGlkZVdvcmtlcixcbiAgICBiNjREZWNvZGUsXG4gICAgY29sbGFwc2VQYXRoLFxuICB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzdGF0dXNDb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChcImV4ZXJjaXNlLWxvYWRpbmctc3RhdHVzXCIpO1xuICBjb25zdCBpbmRpY2F0b3JDb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChcImV4ZXJjaXNlLWxvYWRpbmctaW5kaWNhdG9yXCIpO1xuICBpbmRpY2F0b3JDb250YWluZXIuY2xhc3NMaXN0LnJlbW92ZShcImQtbm9uZVwiKTtcblxuICBsZXQgc3RhdHVzVGV4dCA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJkaXZcIilcbiAgc3RhdHVzVGV4dC5jbGFzc0xpc3QgPSBcImV4ZXJjaXNlLWxvYWRpbmctZGV0YWlsc1wiO1xuICBzdGF0dXNUZXh0ID0gc3RhdHVzQ29udGFpbmVyLmFwcGVuZENoaWxkKHN0YXR1c1RleHQpO1xuICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYEluaXRpYWxpc2VgO1xuXG4gIC8vIEhvaXN0IGluZGljYXRvciBvdXQgZnJvbSBmaW5hbCBzbGlkZSB3aGVuIHJ1bm5pbmcgdW5kZXIgcmV2ZWFsXG4gIGNvbnN0IHJldmVhbFN0YXR1cyA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoXCIucmV2ZWFsIC5leGVyY2lzZS1sb2FkaW5nLWluZGljYXRvclwiKTtcbiAgaWYgKHJldmVhbFN0YXR1cykge1xuICAgIHJldmVhbFN0YXR1cy5yZW1vdmUoKTtcbiAgICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKFwiLnJldmVhbCA+IC5zbGlkZXNcIikuYXBwZW5kQ2hpbGQocmV2ZWFsU3RhdHVzKTtcbiAgfVxuXG4gIC8vIE1ha2UgYW55IHJldmVhbCBzbGlkZXMgd2l0aCBsaXZlIGNlbGxzIHNjcm9sbGFibGVcbiAgZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbChcIi5yZXZlYWwgLmV4ZXJjaXNlLWNlbGxcIikuZm9yRWFjaCgoZWwpID0+IHtcbiAgICBlbC5jbG9zZXN0KCdzZWN0aW9uLnNsaWRlJykuY2xhc3NMaXN0LmFkZChcInNjcm9sbGFibGVcIik7XG4gIH0pXG5cbiAgLy8gUHlvZGlkZSBzdXBwbGVtZW50YWwgZGF0YSBhbmQgb3B0aW9uc1xuICBjb25zdCBkYXRhQ29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLWRhdGFcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBkYXRhID0gSlNPTi5wYXJzZShiNjREZWNvZGUoZGF0YUNvbnRlbnQpKTtcblxuICAvLyBHcmFiIGxpc3Qgb2YgcmVzb3VyY2VzIHRvIGJlIGRvd25sb2FkZWRcbiAgY29uc3QgZmlsZXNDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInZmcy1maWxlXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgZmlsZXMgPSBKU09OLnBhcnNlKGI2NERlY29kZShmaWxlc0NvbnRlbnQpKTtcblxuICBsZXQgcHlvZGlkZVByb21pc2UgPSAoYXN5bmMgKCkgPT4ge1xuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgUHlvZGlkZWA7XG4gICAgY29uc3QgcHlvZGlkZSA9IGF3YWl0IHN0YXJ0UHlvZGlkZVdvcmtlcihkYXRhLm9wdGlvbnMpO1xuXG4gICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBwYWNrYWdlOiBtaWNyb3BpcGA7XG4gICAgYXdhaXQgcHlvZGlkZS5sb2FkUGFja2FnZShcIm1pY3JvcGlwXCIpO1xuICAgIGNvbnN0IG1pY3JvcGlwID0gYXdhaXQgcHlvZGlkZS5weWltcG9ydChcIm1pY3JvcGlwXCIpO1xuICAgIGF3YWl0IGRhdGEucGFja2FnZXMucGtncy5tYXAoKHBrZykgPT4gKCkgPT4ge1xuICAgICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBwYWNrYWdlOiAke3BrZ31gO1xuICAgICAgcmV0dXJuIG1pY3JvcGlwLmluc3RhbGwocGtnKTtcbiAgICB9KS5yZWR1Y2UoKGN1ciwgbmV4dCkgPT4gY3VyLnRoZW4obmV4dCksIFByb21pc2UucmVzb2x2ZSgpKTtcbiAgICBhd2FpdCBtaWNyb3BpcC5kZXN0cm95KCk7XG5cbiAgICAvLyBEb3dubG9hZCBhbmQgaW5zdGFsbCByZXNvdXJjZXNcbiAgICBhd2FpdCBmaWxlcy5tYXAoKGZpbGUpID0+IGFzeW5jICgpID0+IHtcbiAgICAgIGNvbnN0IG5hbWUgPSBmaWxlLnN1YnN0cmluZyhmaWxlLmxhc3RJbmRleE9mKCcvJykgKyAxKTtcbiAgICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgcmVzb3VyY2U6ICR7bmFtZX1gO1xuICAgICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBmZXRjaChmaWxlKTtcbiAgICAgIGlmICghcmVzcG9uc2Uub2spIHtcbiAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBDYW4ndCBkb3dubG9hZCBcXGAke2ZpbGV9XFxgLiBFcnJvciAke3Jlc3BvbnNlLnN0YXR1c306IFwiJHtyZXNwb25zZS5zdGF0dXNUZXh0fVwiLmApO1xuICAgICAgfVxuICAgICAgY29uc3QgZGF0YSA9IGF3YWl0IHJlc3BvbnNlLmFycmF5QnVmZmVyKCk7XG5cbiAgICAgIC8vIFN0b3JlIFVSTHMgaW4gdGhlIGN3ZCB3aXRob3V0IGFueSBzdWJkaXJlY3Rvcnkgc3RydWN0dXJlXG4gICAgICBpZiAoZmlsZS5pbmNsdWRlcyhcIjovL1wiKSkge1xuICAgICAgICBmaWxlID0gbmFtZTtcbiAgICAgIH1cblxuICAgICAgLy8gQ29sbGFwc2UgaGlnaGVyIGRpcmVjdG9yeSBzdHJ1Y3R1cmVcbiAgICAgIGZpbGUgPSBjb2xsYXBzZVBhdGgoZmlsZSk7XG5cbiAgICAgIC8vIENyZWF0ZSBkaXJlY3RvcnkgdHJlZSwgaWdub3JpbmcgXCJkaXJlY3RvcnkgZXhpc3RzXCIgVkZTIGVycm9yc1xuICAgICAgY29uc3QgcGFydHMgPSBmaWxlLnNwbGl0KCcvJykuc2xpY2UoMCwgLTEpO1xuICAgICAgbGV0IHBhdGggPSAnJztcbiAgICAgIHdoaWxlIChwYXJ0cy5sZW5ndGggPiAwKSB7XG4gICAgICAgIHBhdGggKz0gcGFydHMuc2hpZnQoKSArICcvJztcbiAgICAgICAgdHJ5IHtcbiAgICAgICAgICBhd2FpdCBweW9kaWRlLkZTLm1rZGlyKHBhdGgpO1xuICAgICAgICB9IGNhdGNoIChlKSB7XG4gICAgICAgICAgaWYgKGUubmFtZSAhPT0gXCJFcnJub0Vycm9yXCIpIHRocm93IGU7XG4gICAgICAgICAgaWYgKGUuZXJybm8gIT09IDIwKSB7XG4gICAgICAgICAgICBjb25zdCBlcnJvclRleHRQdHIgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuX3N0cmVycm9yKGUuZXJybm8pO1xuICAgICAgICAgICAgY29uc3QgZXJyb3JUZXh0ID0gYXdhaXQgcHlvZGlkZS5fbW9kdWxlLlVURjhUb1N0cmluZyhlcnJvclRleHRQdHIpO1xuICAgICAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBGaWxlc3lzdGVtIEVycm9yICR7ZS5lcnJub30gXCIke2Vycm9yVGV4dH1cIi5gKTtcbiAgICAgICAgICB9XG4gICAgICAgIH1cbiAgICAgIH1cblxuICAgICAgLy8gV3JpdGUgdGhpcyBmaWxlIHRvIHRoZSBWRlNcbiAgICAgIHRyeSB7XG4gICAgICAgIHJldHVybiBhd2FpdCBweW9kaWRlLkZTLndyaXRlRmlsZShmaWxlLCBuZXcgVWludDhBcnJheShkYXRhKSk7XG4gICAgICB9IGNhdGNoIChlKSB7XG4gICAgICAgIGlmIChlLm5hbWUgIT09IFwiRXJybm9FcnJvclwiKSB0aHJvdyBlO1xuICAgICAgICBjb25zdCBlcnJvclRleHRQdHIgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuX3N0cmVycm9yKGUuZXJybm8pO1xuICAgICAgICBjb25zdCBlcnJvclRleHQgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuVVRGOFRvU3RyaW5nKGVycm9yVGV4dFB0cik7XG4gICAgICAgIHRocm93IG5ldyBFcnJvcihgRmlsZXN5c3RlbSBFcnJvciAke2UuZXJybm99IFwiJHtlcnJvclRleHR9XCIuYCk7XG4gICAgICB9XG4gICAgfSkucmVkdWNlKChjdXIsIG5leHQpID0+IGN1ci50aGVuKG5leHQpLCBQcm9taXNlLnJlc29sdmUoKSk7XG5cbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYFB5b2RpZGUgZW52aXJvbm1lbnQgc2V0dXBgO1xuICAgIGF3YWl0IHNldHVwUHl0aG9uKHB5b2RpZGUpO1xuXG4gICAgc3RhdHVzVGV4dC5yZW1vdmUoKTtcbiAgICBpZiAoc3RhdHVzQ29udGFpbmVyLmNoaWxkcmVuLmxlbmd0aCA9PSAwKSB7XG4gICAgICBzdGF0dXNDb250YWluZXIucGFyZW50Tm9kZS5yZW1vdmUoKTtcbiAgICB9XG4gICAgcmV0dXJuIHB5b2RpZGU7XG4gIH0pKCkuY2F0Y2goKGVycikgPT4ge1xuICAgIHN0YXR1c1RleHQuc3R5bGUuY29sb3IgPSBcInZhcigtLWV4ZXJjaXNlLWVkaXRvci1obC1lciwgI0FEMDAwMClcIjtcbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gZXJyLm1lc3NhZ2U7XG4gICAgLy9pbmRpY2F0b3JDb250YWluZXIucXVlcnlTZWxlY3RvcihcIi5zcGlubmVyLWdyb3dcIikuY2xhc3NMaXN0LmFkZChcImQtbm9uZVwiKTtcbiAgICB0aHJvdyBlcnI7XG4gIH0pO1xuXG4gIC8vIEtlZXAgdHJhY2sgb2YgaW5pdGlhbCBPSlMgYmxvY2sgcmVuZGVyXG4gIGNvbnN0IHJlbmRlcmVkT2pzID0ge307XG5cbiAgY29uc3QgcHJvY2VzcyA9IGFzeW5jIChjb250ZXh0LCBpbnB1dHMpID0+IHtcbiAgICBjb25zdCBweW9kaWRlID0gYXdhaXQgcHlvZGlkZVByb21pc2U7XG4gICAgY29uc3QgZXZhbHVhdG9yID0gbmV3IFB5b2RpZGVFdmFsdWF0b3IocHlvZGlkZSwgY29udGV4dCk7XG4gICAgYXdhaXQgZXZhbHVhdG9yLnByb2Nlc3MoaW5wdXRzKTtcbiAgICByZXR1cm4gZXZhbHVhdG9yLmNvbnRhaW5lcjtcbiAgfVxuXG4gIHJldHVybiB7XG4gICAgcHlvZGlkZVByb21pc2UsXG4gICAgcmVuZGVyZWRPanMsXG4gICAgcHJvY2VzcyxcbiAgfTtcbn1cbiIsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsImNlbGxOYW1lIjoicHlvZGlkZS1wcmVsdWRlIn1dfQ==
 </script>
 <div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
 <div id="exercise-loading-status" class="d-flex gap-2">
@@ -1013,7 +1022,7 @@ W10=
 'autoAnimateUnmatched': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
 'annotate': {"gridSize":50,"gridColor":"rgba(26, 26, 26, 0.05)","gridBackground":"#FBF8F0","colors":["auto","#004C77","#793600","#00543D","#782E57"],"autoLight":"#1A1A1A","autoDark":"#FBF8F0","widths":[2,3.5,6],"highlighterColor":"#F5C400","highlighterWidth":22,"eraserRadius":6,"scribbleReversals":4,"scribbleRatio":3,"scribbleCoverage":0.6,"palmDelay":400,"mouse":false,"toolbarPosition":"top"},
-'vevox': {"session":"","presenter":"","presenterHome":"https://universityofleeds.vevox.com/"},
+'vevox': {"session":"150-602-076","presenter":"","presenterHome":"https://universityofleeds.vevox.com/"},
 'smaller': false,
  
         // Display controls in the bottom right corner
